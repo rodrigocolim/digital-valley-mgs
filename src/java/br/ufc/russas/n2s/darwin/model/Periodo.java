@@ -30,14 +30,14 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="codPeriodo")
     private long codPeriodo;
-    @Column
-    private LocalDateTime inicio;
-    @Column
-    private LocalDateTime termino;
-    //Default
-    private ZoneId zoneId = ZoneId.of("America/Sao_Paulo");
-    public Periodo(){
     
+    @Column(name="inicio")
+    private LocalDateTime inicio;
+    
+    @Column(name="termino")
+    private LocalDateTime termino;
+   
+    public Periodo(){
     }
 
     public Periodo(long codPeriodo, LocalDateTime inicio, LocalDateTime termino){
@@ -95,17 +95,6 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
         }else{
             throw new NullPointerException("Termino de periodo não pode ser nulo!");
         }
-    }
-
-    public ZoneId getZoneId() {
-        return zoneId;
-    }
-
-    public void setZoneId(ZoneId zoneId) {
-        if(zoneId != null)
-            this.zoneId = zoneId;
-        else
-            throw new NullPointerException("Id da zona não pode ser vazio!");
     }
 
     @Override

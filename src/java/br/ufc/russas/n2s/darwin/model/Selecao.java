@@ -5,6 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -198,5 +199,9 @@ public class Selecao {
     
     public boolean isFinalizado(){
         return false;
+    }
+
+    public void setResponsavel(UsuarioBeans responsavel) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

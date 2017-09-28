@@ -8,7 +8,7 @@ package br.ufc.russas.n2s.darwin.model;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Arrays.ArrayList;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.persistence.AttributeConverter;
@@ -109,7 +109,6 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
         return (dbData == null ? null : dbData.toLocalDateTime());
     }
     
-     
     
     public List<Periodo> detectaColisao(List<Periodo> lista){
         List<Periodo> PeriodosEmchoque = Collections.synchronizedList(new ArrayList<>());

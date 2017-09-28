@@ -5,6 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+<<<<<<< HEAD
 import java.util.List;
 import javax.persistence.*;
 
@@ -76,4 +77,12 @@ public class Documentacao {
     }
     
         
+=======
+/**
+ *
+ * @author Lavínia Matoso
+ */
+class Documentacao {
+    
+>>>>>>> db666bd541352b3e53091a8464fbfb3d6c6dfecb
 }

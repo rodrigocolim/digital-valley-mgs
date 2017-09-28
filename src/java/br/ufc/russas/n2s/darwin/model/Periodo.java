@@ -5,6 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+<<<<<<< HEAD
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -146,5 +147,12 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
     
 
     
+=======
+/**
+ *
+ * @author Lavínia Matoso
+ */
+class Periodo {
+>>>>>>> db666bd541352b3e53091a8464fbfb3d6c6dfecb
     
 }

@@ -5,7 +5,6 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
-<<<<<<< HEAD
 import java.util.List;
 import javax.persistence.*;
 
@@ -75,14 +74,5 @@ public class Documentacao {
         else
             throw new IllegalArgumentException("Lista de documentos não pode ser nula!");
     }
-    
-        
-=======
-/**
- *
- * @author Lavínia Matoso
- */
-class Documentacao {
-    
->>>>>>> db666bd541352b3e53091a8464fbfb3d6c6dfecb
+
 }

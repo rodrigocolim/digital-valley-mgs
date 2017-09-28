@@ -23,10 +23,15 @@
             </props>
         </property>
     </bean>
-
+    
+    
+    <mvc:annotation-driven />
+    <context:component-scan base-package="br.ufc.russsas.n2s.darwin" />
+    
+    
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          p:prefix="/WEB-INF/jsp/"
+          p:prefix="/WEB-INF/view/"
           p:suffix=".jsp" />
 
     <!--

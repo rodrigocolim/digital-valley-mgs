@@ -5,15 +5,17 @@
  */
 package br.ufc.russas.n2s.darwin.model.exception;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Wallison Carlos
  */
-public class IllegalCodeExcpetion extends IllegalArgumentException{
+public class IllegalCodeException extends IllegalArgumentException implements Serializable{
     
-    public IllegalCodeExcpetion(){}
+    public IllegalCodeException(){}
     
-    public IllegalCodeExcpetion(String message){
+    public IllegalCodeException(String message){
         super(message);
     }
 }

@@ -144,7 +144,10 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
         return false;
     }
     
+<<<<<<< HEAD
 
    
     
+=======
+>>>>>>> e0efd7066bc321ee1d619eeff604588ae54c2f4a
 }

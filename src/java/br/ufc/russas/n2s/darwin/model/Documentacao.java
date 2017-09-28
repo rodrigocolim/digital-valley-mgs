@@ -74,9 +74,4 @@ public class Documentacao {
         else
             throw new IllegalArgumentException("Lista de documentos não pode ser nula!");
     }
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> e0efd7066bc321ee1d619eeff604588ae54c2f4a
 }

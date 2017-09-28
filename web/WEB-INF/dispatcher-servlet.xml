@@ -23,11 +23,7 @@
             </props>
         </property>
     </bean>
-    
-    
-    <mvc:annotation-driven />
-    <context:component-scan base-package="br.ufc.russsas.n2s.darwin" />
-    
+
     
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"

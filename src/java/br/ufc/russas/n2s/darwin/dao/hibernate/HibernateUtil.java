@@ -6,6 +6,8 @@
 package br.ufc.russas.n2s.darwin.dao.hibernate;
 
 import br.ufc.russas.n2s.darwin.model.Arquivo;
+import br.ufc.russas.n2s.darwin.model.Documentacao;
+import br.ufc.russas.n2s.darwin.model.Periodo;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -28,6 +30,8 @@ public class HibernateUtil {
             conf.setProperty("hibernate.connection.password", "N2S@UFC");
             //Adicionar class nas anotações
             conf.addAnnotatedClass(Arquivo.class);
+            conf.addAnnotatedClass(Documentacao.class);
+            conf.addAnnotatedClass(Periodo.class);
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(conf.getProperties()).build();
             sessionFactory = conf.configure("br/ufc/russas/n2s/darwin/dao/hibernate/hibernate.cfg.xml").buildSessionFactory(serviceRegistry);
             return sessionFactory;

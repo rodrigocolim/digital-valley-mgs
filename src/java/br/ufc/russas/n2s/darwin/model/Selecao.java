@@ -5,7 +5,11 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+<<<<<<< HEAD
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
+=======
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+>>>>>>> 504b4d616af8210465a47cdab5a2de2e5a8bf016
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -336,5 +340,9 @@ public class Selecao {
         else{
             throw new IllegalArgumentException("Participante não pode ser nulo!");
         }
+    }
+
+    public void setResponsavel(UsuarioBeans responsavel) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

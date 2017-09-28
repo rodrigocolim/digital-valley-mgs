@@ -6,6 +6,7 @@
 package br.ufc.russas.n2s.darwin.model;
 
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -108,40 +109,45 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
     public LocalDateTime convertToEntityAttribute(Timestamp dbData) {
         return (dbData == null ? null : dbData.toLocalDateTime());
     }
-    
-    
-    public List<Periodo> detectaColisao(List<Periodo> lista){
-        List<Periodo> PeriodosEmchoque = Collections.synchronizedList(new ArrayList<>());
-        for (Periodo lista1 : lista) {
-            if(this.detectaColisao(lista1)){
-                PeriodosEmchoque.add(lista1);
-            }
-        }
-        return PeriodosEmchoque;
-    }
-    
-    public boolean contido(Periodo p){
-        return ((this.getInicio().isAfter(p.getInicio()) || this.getInicio().equals(p.getInicio())) && (this.getTermino().isBefore(p.getTermino()) || this.getTermino().equals(p.getTermino())));
-    }
 
-    public boolean detectaColisao(Periodo outroPeriodo){
+    public boolean isColide(Periodo periodo){
         //começa depois do inicio e termina antes do fim        
-        if((outroPeriodo.getInicio().isAfter(this.getInicio()) || outroPeriodo.getInicio().isEqual(this.getInicio())) && (outroPeriodo.getInicio().isBefore(this.getTermino()) || outroPeriodo.getInicio().isEqual(this.getTermino()))){
+        if((periodo.getInicio().isAfter(this.getInicio()) || periodo.getInicio().isEqual(this.getInicio())) && (periodo.getInicio().isBefore(this.getTermino()) || periodo.getInicio().isEqual(this.getTermino()))){
             return true;
         }
         //começa antes do inicio e termina depois do inicio
-        if((outroPeriodo.getTermino().isAfter(this.getInicio()) || outroPeriodo.getTermino().isEqual(this.getInicio())) && (outroPeriodo.getTermino().isBefore(this.getTermino()) || outroPeriodo.getTermino().isEqual(this.getTermino()))){
+        if((periodo.getTermino().isAfter(this.getInicio()) || periodo.getTermino().isEqual(this.getInicio())) && (periodo.getTermino().isBefore(this.getTermino()) || periodo.getTermino().isEqual(this.getTermino()))){
             return true;
         }
         //começa antes do fim e termina depois
-        if((outroPeriodo.getInicio().isBefore(this.getTermino()) || outroPeriodo.getInicio().isEqual(this.getTermino())) && (outroPeriodo.getTermino().isAfter(this.getTermino()) || outroPeriodo.getTermino().isEqual(this.getTermino()))){
+        if((periodo.getInicio().isBefore(this.getTermino()) || periodo.getInicio().isEqual(this.getTermino())) && (periodo.getTermino().isAfter(this.getTermino()) || periodo.getTermino().isEqual(this.getTermino()))){
             return true;
         }
         //começa antes do inicio e termina depois do fim
-        if((outroPeriodo.getInicio().isBefore(this.getInicio()) || outroPeriodo.getInicio().isEqual(this.getInicio())) && (outroPeriodo.getTermino().isAfter(this.getTermino()) || outroPeriodo.getTermino().isEqual(this.getTermino()))){
+        if((periodo.getInicio().isBefore(this.getInicio()) || periodo.getInicio().isEqual(this.getInicio())) && (periodo.getTermino().isAfter(this.getTermino()) || periodo.getTermino().isEqual(this.getTermino()))){
             return true;
         }
         return false;
+    }
+    
+    public boolean isAntes(Periodo periodo){
+        return this.getTermino().isBefore(periodo.getInicio());
+    }
+    
+    public boolean isBefore(Periodo periodo){
+        return this.getInicio().isAfter(periodo.getTermino());
+    }
+    
+    public Duration getDuracao(){
+        return Duration.between(inicio, termino);
+    }
+    
+    public Duration getTempoOcorrido(){
+        return Duration.between(inicio, LocalDateTime.now());
+    }
+    
+    public Duration getTempoRestante(){
+        return Duration.between(LocalDateTime.now(), termino);
     }
 
 }

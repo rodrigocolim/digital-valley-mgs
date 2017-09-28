@@ -5,9 +5,9 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 
 /**
  *
@@ -56,7 +57,11 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
     }
 
     public void setCodPeriodo(long codPeriodo) {
-        this.codPeriodo = codPeriodo;
+        if(codPeriodo > 0){
+            this.codPeriodo = codPeriodo;
+        }else{
+            throw new IllegalCodeException("Código do periodo deve ser maior que zero!");
+        }
     }
 
     public LocalDateTime getInicio() {
@@ -144,10 +149,4 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
         return false;
     }
     
-<<<<<<< HEAD
-
-   
-    
-=======
->>>>>>> e0efd7066bc321ee1d619eeff604588ae54c2f4a
 }

@@ -58,7 +58,7 @@ public class Arquivo implements AttributeConverter<LocalDateTime, Timestamp>{
         if(codArquivo>0)
             this.codArquivo = codArquivo;
         else
-            throw new IllegalCodeException("Código de arquivo deve ser maior que 0(zero)!");
+            throw new IllegalCodeException("Código de arquivo deve ser maior que zero!");
     }
 
     public String getTitulo() {

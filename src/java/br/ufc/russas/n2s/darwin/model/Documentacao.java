@@ -6,24 +6,40 @@
 package br.ufc.russas.n2s.darwin.model;
 
 import java.util.List;
+import javax.persistence.*;
+
 
 /**
  *
  * @author N2S-PC03
  */
+@Converter(autoApply = true)
+@Entity
+@Table(name="documentacao")
 public class Documentacao {
+    
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name="codDocumentacao")
     	private long codDocumentacao;
+        
+        @ManyToOne
+        @JoinColumn(name="usuario", referencedColumnName="codUsuario")
 	private Usuario candidato;
+        
+        @ManyToMany(targetEntity = Arquivo.class)
+        @JoinTable(name="arquivos_documentacao", joinColumns = {@JoinColumn(name = "documentacao", referencedColumnName = "codDocumentacao")},
+        inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})
 	private List<Arquivo> documentos;
         
         public Documentacao(){
         }
 
-    public Documentacao(long codDocumentacao, Usuario candidato, List<Arquivo> documentos) {
-        this.codDocumentacao = codDocumentacao;
-        this.candidato = candidato;
-        this.documentos = documentos;
-    }
+        public Documentacao(long codDocumentacao, Usuario candidato, List<Arquivo> documentos) {
+            setCodDocumentacao(codDocumentacao);
+            setCandidato(candidato);
+            setDocumentos(documentos);
+        }
 
     public long getCodDocumentacao() {
         return codDocumentacao;
@@ -58,7 +74,6 @@ public class Documentacao {
         else
             throw new IllegalArgumentException("Lista de documentos não pode ser nula!");
     }
-    
     
         
 }

@@ -6,10 +6,11 @@
 package br.ufc.russas.n2s.darwin.model;
 
 <<<<<<< HEAD
-import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
+
 =======
+>>>>>>> edef1eb94b98c6ae1ef394857bbc0f6e46b26681
+import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
->>>>>>> 504b4d616af8210465a47cdab5a2de2e5a8bf016
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -159,7 +160,7 @@ public class Selecao {
         return etapas;
     }
 
-    public void setEtapas(ArrayList<Etapa> etapas) {
+    public void setEtapas(List<Etapa> etapas) {
         if(etapas != null){
             this.etapas = etapas;
         }else{
@@ -235,7 +236,7 @@ public class Selecao {
         return aditivos;
     }
 
-    public void setAditivos(ArrayList<Arquivo> aditivos) {
+    public void setAditivos(List<Arquivo> aditivos) {
         this.aditivos = aditivos;
     }
 
@@ -243,7 +244,7 @@ public class Selecao {
         return anexos;
     }
 
-    public void setAnexos(ArrayList<Arquivo> anexos) {
+    public void setAnexos(List<Arquivo> anexos) {
         this.anexos = anexos;
     }
 

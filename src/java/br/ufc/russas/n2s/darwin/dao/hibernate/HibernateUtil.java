@@ -7,7 +7,10 @@ package br.ufc.russas.n2s.darwin.dao.hibernate;
 
 import br.ufc.russas.n2s.darwin.model.Arquivo;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
+import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.Periodo;
+import br.ufc.russas.n2s.darwin.model.Selecao;
+import br.ufc.russas.n2s.darwin.model.Usuario;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -32,6 +35,9 @@ public class HibernateUtil {
             conf.addAnnotatedClass(Arquivo.class);
             conf.addAnnotatedClass(Documentacao.class);
             conf.addAnnotatedClass(Periodo.class);
+            conf.addAnnotatedClass(Usuario.class);
+            conf.addAnnotatedClass(Etapa.class);
+            conf.addAnnotatedClass(Selecao.class);
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(conf.getProperties()).build();
             sessionFactory = conf.configure("br/ufc/russas/n2s/darwin/dao/hibernate/hibernate.cfg.xml").buildSessionFactory(serviceRegistry);
             return sessionFactory;

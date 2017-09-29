@@ -9,6 +9,16 @@ package br.ufc.russas.n2s.darwin.beans;
  *
  * @author Lavínia Matoso
  */
-public class ParticipanteBeans {
+public class ParticipanteBeans implements Beans{
+
+    @Override
+    public Object toBusiness() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Beans toBeans(Object object) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

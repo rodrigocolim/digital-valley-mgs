@@ -157,7 +157,7 @@ public class Selecao {
         return etapas;
     }
 
-    public void setEtapas(ArrayList<Etapa> etapas) {
+    public void setEtapas(List<Etapa> etapas) {
         if(etapas != null){
             this.etapas = etapas;
         }else{
@@ -233,7 +233,7 @@ public class Selecao {
         return aditivos;
     }
 
-    public void setAditivos(ArrayList<Arquivo> aditivos) {
+    public void setAditivos(List<Arquivo> aditivos) {
         this.aditivos = aditivos;
     }
 
@@ -241,7 +241,7 @@ public class Selecao {
         return anexos;
     }
 
-    public void setAnexos(ArrayList<Arquivo> anexos) {
+    public void setAnexos(List<Arquivo> anexos) {
         this.anexos = anexos;
     }
 

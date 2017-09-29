@@ -5,6 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.util.List;
 import javax.persistence.*;
 
@@ -49,7 +50,7 @@ public class Documentacao {
         if(codDocumentacao > 0)
             this.codDocumentacao = codDocumentacao;
         else
-            throw new IllegalArgumentException("Código da documentação deve ser maior que zero!");
+            throw new IllegalCodeException("Código da documentação deve ser maior que zero!");
         
     }
 
@@ -74,4 +75,8 @@ public class Documentacao {
         else
             throw new IllegalArgumentException("Lista de documentos não pode ser nula!");
     }
+<<<<<<< HEAD
+
+=======
+>>>>>>> 504b4d616af8210465a47cdab5a2de2e5a8bf016
 }

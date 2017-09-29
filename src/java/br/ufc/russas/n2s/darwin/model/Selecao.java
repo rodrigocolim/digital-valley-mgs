@@ -5,7 +5,10 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> edef1eb94b98c6ae1ef394857bbc0f6e46b26681
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import java.util.ArrayList;

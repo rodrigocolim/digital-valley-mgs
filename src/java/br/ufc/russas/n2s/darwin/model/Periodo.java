@@ -134,9 +134,7 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
         }
         return false;
     }
-    
-<<<<<<< HEAD
-=======
+
     public boolean isAntes(Periodo periodo){
         return this.getTermino().isBefore(periodo.getInicio());
     }
@@ -157,5 +155,4 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
         return Duration.between(LocalDateTime.now(), termino);
     }
 
->>>>>>> 504b4d616af8210465a47cdab5a2de2e5a8bf016
 }

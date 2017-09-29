@@ -5,23 +5,48 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
         <meta name="description" content="">
         <meta name="author" content="n2s">
         <link rel="icon" href="favicon.ico">
         <title>Darwin - Sistema de Gerenciamento de Seleções</title>
-
-        <!-- Bootstrap core CSS -->
+        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="../../css/adaptaBootstrap.css">
+        
+        <!-- Bootstrap core CSS -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>  
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link type="text/css" rel="stylesheet" href="css/adaptaBootstrap.css">
+        <script>
+function resizeSidebar() {
+    
+ var window_width = $(window).width();
+ 
+ if ( window_width < 800 ) {
+     $('.menu-selecoes').addClass('.nav-pills');
+    $('.menu-selecoes').removeClass('.nav-tabs');
+    
+    
+ } else {
+
+ }
+}
+ 
+jQuery(function(){
+    resizeSidebar();
+
+    $(window).resize(function(){
+    resizeSidebar();
+    });
+});            
+            </script>
     </head>
 
     <body>
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="menu-superior">
                       <span class="icon-bar"></span>
                       <span class="icon-bar"></span>
                       <span class="icon-bar"></span>                        
@@ -30,8 +55,7 @@
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav navbar-right">           
-                          <li><a href="#" title="configurações"><span class="glyphicon glyphicon-cog"></span> Configurações</a></li>
-                      <li><a href="#" title="sair do sistema"><span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
+                        <li><a href="logout.jsp" title="sair do sistema"><span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
                     </ul>
                 </div>
             </div>
@@ -39,12 +63,12 @@
       
         <div class="container-fluid text-center">    
             <div class="row content">
-                <div class="col-sm-2 sidenav">
-                    <ul class="nav nav-pills nav-stacked text-left">
+                <div class="col-sm-2 sidenav ">
+                    <ul class="nav nav-stracked text-left">
                         <li class="active"><a href="#"><span>Início</span></a></li>
                         <li><a href="#">Minhas seleções</a></li>
                         <li>
-                          <a data-toggle="collapse" href="#collapse1"><span class="col-sm-12" style="margin-left: -15px;">Assistência estudantil</span> <span class="glyphicon glyphicon-chevron-down text-right"></span></a>
+                          <a data-toggle="collapse" href="#collapse1"><span class="col-sm-12" style="margin-left: -15px;">Assistência estudantil</span> <span class="glyphicon glyphicon-chevron-down dropdown-chevron text-right"></span></a>
                           <ul id="collapse1" class="panel-collapse collapse">
                             <li><a href="#">Bolsa de Iniciação Acadêmica</a></li>
                             <li><a href="#">Auxílio Moradia</a></li>
@@ -53,7 +77,7 @@
                           </ul>
                         </li>
                         <li>
-                          <a data-toggle="collapse" href="#collapse2"><span class="col-sm-12" style="margin-left: -15px;">Concursos para servidores</span> <span class="glyphicon glyphicon-chevron-down text-right"></span></a>
+                          <a data-toggle="collapse" href="#collapse2"><span class="col-sm-12" style="margin-left: -15px;">Concursos para servidores</span> <span class="glyphicon glyphicon-chevron-down dropdown-chevron text-right"></span></a>
                           <ul id="collapse2" class="panel-collapse collapse">
                             <li><a href="#">Seleção para Professor Substituto</a></li>
                             <li><a href="#">Concurso para Professor Efetivo</a></li>
@@ -73,11 +97,11 @@
 
             <div class="container">
                 <h2>Início</h2>
-                <ul class="nav nav-tabs">
+                <ul class="nav nav-tabs menu-selecoes">
                   <li class="active"><a data-toggle="tab" href="#novasSelecoes">Novas seleções</a></li>
                   <li><a data-toggle="tab" href="#inscricoesAbertas">Inscrições abertas</a></li>
-                  <li><a data-toggle="tab" href="#emAndamento">Seleções em andamento</a></li>
-                  <li><a data-toggle="tab" href="#encerrados">Seleções encerradas</a></li>
+                  <li><a data-toggle="tab" href="#emAndamento">Em andamento</a></li>
+                  <li><a data-toggle="tab" href="#encerrados">Encerradas</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -94,12 +118,12 @@
                                         </div>
                                         <div class="text-right">
                                             <span class="glyphicon glyphicon-calendar"></span>
-                                            ${selecao.etapaAtual.titulo} - <b>${selecao.etapaAtual.dataInicio}</b> à <b>${selecao.etapaAtual.dataTermino}</b>
+                                            ${selecao} - <b>${selecao}</b> à <b>${selecao}</b>
                                         </div>
                                     </div>
                                     <div class="panel-body">
                                     <c:out value="${selecao.descricao}"></c:out>
-                                        <a href="selecao.html?id=${selecao.id}">Ver mais...</a>
+                                        <a href="selecao.html?id=${selecao.codSelecao}">Ver mais...</a>
                                     </div>
                                     <div class="panel-footer text-right">
                                         <button type="button" class="btn btn-link">
@@ -113,38 +137,13 @@
                 <!-- Inscrições Abertas -->
                 <div id="inscricoesAbertas" class="tab-pane fade">
                   <br>
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <div class="col-sm-4"><strong>Auxílio Moradia - 2017.1</strong></div>
-                      <div class="text-right">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                        Inscrições - <b>17/09/2017</b> à <b>28/09/2017</b></div>
-                    </div>
-                    <div class="panel-body"> O Programa Auxílio Moradia tem por objetivo viabilizar a permanência de estudantes matriculados nos Cursos de Graduação dos Campi da Universidade Federal do Ceará (UFC) em Sobral, Cariri e Quixadá, em comprovada situação de vulnerabilidade econômica, assegurando-lhes auxílio institucional para complementação de despesas com moradia e alimentação durante todo o período do curso ou enquanto persistir a mesma situação. <a href="#">Ver mais...</a></div>
-                    <div class="panel-footer text-right">
-                      <button type="button" class="btn btn-link"><span class="glyphicon glyphicon-save-file"></span> Ver edital</button>
-                      <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Inscrever-se</button>
-                    </div>
-                  </div>  
+  
                 </div>
                 <!-- Inscrições Abertas -->
 
                 <!-- Em andamento -->
                 <div id="emAndamento" class="tab-pane fade">
-                  <br>
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <div class="col-sm-4"><strong>Auxílio Moradia - 2017.1</strong></div>
-                      <div class="text-right">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                        Análise de documentação - <b>17/09/2017</b> à <b>28/09/2017</b></div>
-                    </div>
-                    <div class="panel-body"> O Programa Auxílio Moradia tem por objetivo viabilizar a permanência de estudantes matriculados nos Cursos de Graduação dos Campi da Universidade Federal do Ceará (UFC) em Sobral, Cariri e Quixadá, em comprovada situação de vulnerabilidade econômica, assegurando-lhes auxílio institucional para complementação de despesas com moradia e alimentação durante todo o período do curso ou enquanto persistir a mesma situação. <a href="#">Ver mais...</a></div>
-                    <div class="panel-footer text-right">
-                      <button type="button" class="btn btn-link"><span class="glyphicon glyphicon-save-file"></span> Ver edital</button>
-                      <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span> Acompanhar</button>
-                    </div>
-                  </div>
+
                 </div>
                 <!-- Em andamento -->
 

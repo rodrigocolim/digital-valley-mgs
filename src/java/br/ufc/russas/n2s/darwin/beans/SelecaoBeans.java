@@ -211,7 +211,7 @@ public class SelecaoBeans implements Beans {
                 responsaveis.add((Usuario) this.getResponsaveis().get(i).toBusiness());
             }
         }
-        selecao.setResponsaveis(responsaveis);
+        selecao.setResponsavel(responsaveis);
         
         List<Etapa> etapas = Collections.synchronizedList(new ArrayList<Etapa>()); 
         if(this.getEtapas()!=null){

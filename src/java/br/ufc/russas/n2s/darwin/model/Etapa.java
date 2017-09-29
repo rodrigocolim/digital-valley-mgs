@@ -28,7 +28,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="etapa")
-class Etapa implements Serializable, Atualizavel{
+public class Etapa implements Serializable, Atualizavel{
     @Id
     @Column(name="codArquivo")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -27,26 +27,22 @@ public class EtapaBeans implements Beans{
     private PeriodoBeans periodo;
     private String descricao;
     private List<UsuarioBeans> avaliadores;
-    private String documentacao;
+    private List<String> documentacaoExigida;
     private CriterioDeAvaliacaoBeans criterioDeAvaliacao;
     private List<AvaliacaoBeans> avaliacoes;
     private List<DocumentacaoBeans> documentacoes;
     private boolean status;
     private EtapaBeans prerequisito;
     
-    public long getCodEtapa() {
-        return codEtapa;
-    }
-    
     public EtapaBeans(){}
     
-    public EtapaBeans(long codEtapa, String titulo, PeriodoBeans periodo, String descricao, List<UsuarioBeans> avaliadores, String documentacao, CriterioDeAvaliacaoBeans criterioDeAvaliacao, List<AvaliacaoBeans> avaliacoes, List<DocumentacaoBeans> documentacoes, boolean status, EtapaBeans prerequisito) {
+    public EtapaBeans(long codEtapa, String titulo, PeriodoBeans periodo, String descricao, List<UsuarioBeans> avaliadores, List<String> documentacaoExigida, CriterioDeAvaliacaoBeans criterioDeAvaliacao, List<AvaliacaoBeans> avaliacoes, List<DocumentacaoBeans> documentacoes, boolean status, EtapaBeans prerequisito) {
         this.codEtapa = codEtapa;
         this.titulo = titulo;
         this.periodo = periodo;
         this.descricao = descricao;
         this.avaliadores = avaliadores;
-        this.documentacao = documentacao;
+        this.documentacaoExigida = documentacaoExigida;
         this.criterioDeAvaliacao = criterioDeAvaliacao;
         this.avaliacoes = avaliacoes;
         this.documentacoes = documentacoes;
@@ -54,7 +50,9 @@ public class EtapaBeans implements Beans{
         this.prerequisito = prerequisito;
     }
 
-
+    public long getCodEtapa() {
+        return codEtapa;
+    }
     public void setCodEtapa(long codEtapa) {
         this.codEtapa = codEtapa;
     }
@@ -91,12 +89,12 @@ public class EtapaBeans implements Beans{
         this.avaliadores = avaliadores;
     }
 
-    public String getDocumentacao() {
-        return documentacao;
+    public List<String> getDocumentacaoExigida() {
+        return documentacaoExigida;
     }
 
-    public void setDocumentacao(String documentacao) {
-        this.documentacao = documentacao;
+    public void setDocumentacaoExigida(List<String> documentacao) {
+        this.documentacaoExigida = documentacao;
     }
 
     public CriterioDeAvaliacaoBeans getCriterioDeAvaliacao() {
@@ -148,7 +146,7 @@ public class EtapaBeans implements Beans{
         }
         etapa.setTitulo(this.getTitulo());
         etapa.setDescricao(this.getDescricao());
-        etapa.setDocumentacao(this.getDocumentacao());
+        etapa.setDocumentacaoExigida(this.getDocumentacaoExigida());
         etapa.setCriterioDeAvaliacao((CriterioDeAvaliacao)this.getCriterioDeAvaliacao().toBusiness());
         etapa.setStatus(this.isStatus());
         etapa.setPrerequisito((Etapa) this.getPrerequisito().toBusiness());

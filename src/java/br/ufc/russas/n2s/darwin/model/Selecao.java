@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.model;
 
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -337,6 +338,18 @@ public class Selecao {
         else{
             throw new IllegalArgumentException("Participante não pode ser nulo!");
         }
+    }
+    public Etapa getEtapaAtual(){
+        if(this.etapas != null && !this.etapas.isEmpty()){
+            for(Etapa e: etapas){
+                if(e.getPeriodo().getInicio().isBefore(LocalDateTime.now()) && e.getPeriodo().getTermino().isAfter(LocalDateTime.now())){
+                    return e;
+                }
+            }
+        }else{
+            throw new RuntimeException("Lista de etapas está vazia!");
+        }
+        return null;
     }
 
 }

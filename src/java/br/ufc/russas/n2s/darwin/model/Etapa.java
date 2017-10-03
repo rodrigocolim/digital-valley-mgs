@@ -42,7 +42,9 @@ public class Etapa implements Serializable, Atualizavel{
     @JoinTable(name="avaliadores", joinColumns = {@JoinColumn(name="etapa", referencedColumnName = "codEtapa")},
             inverseJoinColumns = {@JoinColumn(name="avaliador", referencedColumnName = "codUsuario")})
     private List<Usuario> avaliadores;
-    private String documentacao;
+    @JoinTable(name="documentacaoExigida", joinColumns = {@JoinColumn(name="etapa", referencedColumnName = "codEtapa")},
+            inverseJoinColumns = {@JoinColumn(name="documentacoes", referencedColumnName = "codDocumentacao")})
+    private List<String> documentacaoExigida;
     @Column(name="criterio_de_avaliacao")
     private CriterioDeAvaliacao criterioDeAvaliacao;
     @ManyToMany(targetEntity = Etapa.class)
@@ -112,12 +114,12 @@ public class Etapa implements Serializable, Atualizavel{
         this.avaliadores = avaliadores;
     }
 
-    public String getDocumentacao() {
-        return documentacao;
+    public List<String> getDocumentacaoExigida() {
+        return documentacaoExigida;
     }
 
-    public void setDocumentacao(String documentacao) {
-        this.documentacao = documentacao;
+    public void setDocumentacaoExigida(List<String> documentacao) {
+        this.documentacaoExigida = documentacao;
     }
 
     public CriterioDeAvaliacao getCriterioDeAvaliacao() {
@@ -168,6 +170,11 @@ public class Etapa implements Serializable, Atualizavel{
         }
     }
     
+    public void adicionaDocumentacaoExigida(List<String> maisDocumentacao){
+        if(maisDocumentacao != null && !maisDocumentacao.isEmpty()){
+            this.documentacaoExigida.addAll(maisDocumentacao);
+        }
+    }
     
     public void adicionaAvaliador(Usuario usuario){
         if(this.getAvaliadores() != null){

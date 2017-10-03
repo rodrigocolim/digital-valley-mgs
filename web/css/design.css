@@ -3,9 +3,10 @@
 	text-align: justify;
 	text-indent: 1em;
 }
-
-.panel-body{
-    background-color: red;
+.navbar-inverse{
+    background-color: blue;
+    border: 0px solid white;
+    border-radius: 0em;
 }
 /* make sidebar nav vertical */ 
 @media only screen and (max-width: 768px) {

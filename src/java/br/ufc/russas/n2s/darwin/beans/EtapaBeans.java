@@ -187,7 +187,7 @@ public class EtapaBeans implements Beans{
                 this.setCodEtapa(etapa.getCodEtapa());
                 this.setTitulo(etapa.getTitulo());
                 this.setDescricao(etapa.getDescricao());
-                this.setDocumentacao(etapa.getDocumentacao());
+                this.setDocumentacaoExigida(etapa.getDocumentacaoExigida());
                 this.setStatus(etapa.isStatus());
                 
                 

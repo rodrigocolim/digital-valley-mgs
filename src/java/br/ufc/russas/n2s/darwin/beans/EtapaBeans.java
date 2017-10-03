@@ -36,13 +36,13 @@ public class EtapaBeans implements Beans{
     
     public EtapaBeans(){}
     
-    public EtapaBeans(long codEtapa, String titulo, PeriodoBeans periodo, String descricao, List<UsuarioBeans> avaliadores, String documentacao, CriterioDeAvaliacaoBeans criterioDeAvaliacao, List<AvaliacaoBeans> avaliacoes, List<DocumentacaoBeans> documentacoes, boolean status, EtapaBeans prerequisito) {
+    public EtapaBeans(long codEtapa, String titulo, PeriodoBeans periodo, String descricao, List<UsuarioBeans> avaliadores, List<String> documentacaoExigida, CriterioDeAvaliacaoBeans criterioDeAvaliacao, List<AvaliacaoBeans> avaliacoes, List<DocumentacaoBeans> documentacoes, boolean status, EtapaBeans prerequisito) {
         this.codEtapa = codEtapa;
         this.titulo = titulo;
         this.periodo = periodo;
         this.descricao = descricao;
         this.avaliadores = avaliadores;
-        this.documentacao = documentacao;
+        this.documentacaoExigida = documentacaoExigida;
         this.criterioDeAvaliacao = criterioDeAvaliacao;
         this.avaliacoes = avaliacoes;
         this.documentacoes = documentacoes;

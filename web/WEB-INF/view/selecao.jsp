@@ -12,9 +12,10 @@
 
         <!-- Bootstrap core CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="../../css/adaptaBootstrap.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>  
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link type="text/css" rel="stylesheet" href="css/design.css"/>
+        <link type="text/css" rel="stylesheet" href="css/timeline.css"/>
     </head>
 
     <body>
@@ -39,36 +40,53 @@
         <div class="container-fluid text-center">    
             <div class="row content">
                 <div class="col-sm-2 sidenav">
-                    <ul class="nav nav-pills nav-stacked text-left">
-                        <li class="active"><a href="#"><span>Início</span></a></li>
-                        <li><a href="#">Minhas seleções</a></li>
-                        <li>
-                          <a data-toggle="collapse" href="#collapse1"><span class="col-sm-12" style="margin-left: -15px;">Assistência estudantil</span> <span class="glyphicon glyphicon-chevron-down text-right"></span></a>
-                          <ul id="collapse1" class="panel-collapse collapse">
-                            <li><a href="#">Bolsa de Iniciação Acadêmica</a></li>
-                            <li><a href="#">Auxílio Moradia</a></li>
-                            <li><a href="#">Auxílio Emergêncial</a></li>
-                            <li><a href="#">Insenção do RU</a></li>
-                          </ul>
-                        </li>
-                        <li>
-                          <a data-toggle="collapse" href="#collapse2"><span class="col-sm-12" style="margin-left: -15px;">Concursos para servidores</span> <span class="glyphicon glyphicon-chevron-down text-right"></span></a>
-                          <ul id="collapse2" class="panel-collapse collapse">
-                            <li><a href="#">Seleção para Professor Substituto</a></li>
-                            <li><a href="#">Concurso para Professor Efetivo</a></li>
-                            <li><a href="#">Concurso para Técnicos-Administrativos</a></li>
-                          </ul>
-                        </li>
-                        <li><a href="http://www.jquery2dotnet.com">Bolsas</a></li>
-                        <li><a href="http://www.jquery2dotnet.com">Outras seleções</a></li>
-                        <li><a href="http://www.jquery2dotnet.com">Notícias</a></li>
-                    </ul>
                 </div>
                 <!-- Menu lateral esquerdo -->
 
                 <!-- Menu central -->
                 <div class="col-sm-8 text-left">
-
+                    <c:if test="${not empty selecao}">
+                        <h2>
+                            <c:out value="${selecao.titulo}"></c:out><br>
+                        </h2>
+                        <p>
+                            <c:out value="${selecao.descricao}"></c:out>
+                            </p>    
+                            <ul class="timeline">
+                                <li>
+                                    <div class="timeline-badge"><i class="glyphicon glyphicon-pencil"></i></div>
+                                    <div class="timeline-panel">
+                                        <div class="timeline-heading">
+                                            <h4 class="timeline-title">
+                                                <c:out value="${selecao.inscricao.titulo}"></c:out>
+                                            </h4>
+                                        </div>
+                                        <div class="timeline-body">
+                                            <p>
+                                                <c:out value="${selecao.inscricao.descricao}"></c:out>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <c:forEach var="etapa" varStatus="" items="${selecao.etapas}"> 
+                                    <li>
+                                        <div class="timeline-badge danger"><i class="glyphicon glyphicon-eye-open"></i></div>
+                                        <div class="timeline-panel">
+                                            <div class="timeline-heading">
+                                                <h4 class="timeline-title">
+                                                    <c:out value="${etapa.titulo}"></c:out>
+                                                </h4>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p>
+                                                    <c:out value="${etapa.descricao}"></c:out>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                    </c:if>
                 </div>
                 <!-- Menu central -->
 

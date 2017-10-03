@@ -39,36 +39,19 @@
         <div class="container-fluid text-center">    
             <div class="row content">
                 <div class="col-sm-2 sidenav">
-                    <ul class="nav nav-pills nav-stacked text-left">
-                        <li class="active"><a href="#"><span>Início</span></a></li>
-                        <li><a href="#">Minhas seleções</a></li>
-                        <li>
-                          <a data-toggle="collapse" href="#collapse1"><span class="col-sm-12" style="margin-left: -15px;">Assistência estudantil</span> <span class="glyphicon glyphicon-chevron-down text-right"></span></a>
-                          <ul id="collapse1" class="panel-collapse collapse">
-                            <li><a href="#">Bolsa de Iniciação Acadêmica</a></li>
-                            <li><a href="#">Auxílio Moradia</a></li>
-                            <li><a href="#">Auxílio Emergêncial</a></li>
-                            <li><a href="#">Insenção do RU</a></li>
-                          </ul>
-                        </li>
-                        <li>
-                          <a data-toggle="collapse" href="#collapse2"><span class="col-sm-12" style="margin-left: -15px;">Concursos para servidores</span> <span class="glyphicon glyphicon-chevron-down text-right"></span></a>
-                          <ul id="collapse2" class="panel-collapse collapse">
-                            <li><a href="#">Seleção para Professor Substituto</a></li>
-                            <li><a href="#">Concurso para Professor Efetivo</a></li>
-                            <li><a href="#">Concurso para Técnicos-Administrativos</a></li>
-                          </ul>
-                        </li>
-                        <li><a href="http://www.jquery2dotnet.com">Bolsas</a></li>
-                        <li><a href="http://www.jquery2dotnet.com">Outras seleções</a></li>
-                        <li><a href="http://www.jquery2dotnet.com">Notícias</a></li>
-                    </ul>
                 </div>
                 <!-- Menu lateral esquerdo -->
 
                 <!-- Menu central -->
                 <div class="col-sm-8 text-left">
-
+                    <c:if test="${not empty selecao}">
+                        <h2>
+                            <c:out value="${selecao.titulo}"></c:out><br>
+                        </h2>
+                        <p>
+                            <c:out value="${selecao.descricao}"></c:out>
+                        </p>
+                    </c:if>
                 </div>
                 <!-- Menu central -->
 

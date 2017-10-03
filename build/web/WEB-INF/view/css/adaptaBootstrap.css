@@ -4,7 +4,9 @@
 	text-indent: 1em;
 }
 
-
+.panel-body{
+    background-color: red;
+}
 /* make sidebar nav vertical */ 
 @media only screen and (max-width: 768px) {
     /* For mobile phones: */

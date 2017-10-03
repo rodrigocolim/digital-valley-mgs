@@ -26,7 +26,7 @@ public class EtapaBeans implements Beans{
     private PeriodoBeans periodo;
     private String descricao;
     private List<UsuarioBeans> avaliadores;
-    private String documentacao;
+    private List<String> documentacaoExigida;
     private CriterioDeAvaliacaoBeans criterioDeAvaliacao;
     private List<AvaliacaoBeans> avaliacoes;
     private List<DocumentacaoBeans> documentacoes;
@@ -73,12 +73,12 @@ public class EtapaBeans implements Beans{
         this.avaliadores = avaliadores;
     }
 
-    public String getDocumentacao() {
-        return documentacao;
+    public List<String> getDocumentacaoExigida() {
+        return documentacaoExigida;
     }
 
-    public void setDocumentacao(String documentacao) {
-        this.documentacao = documentacao;
+    public void setDocumentacaoExigida(List<String> documentacao) {
+        this.documentacaoExigida = documentacao;
     }
 
     public CriterioDeAvaliacaoBeans getCriterioDeAvaliacao() {
@@ -130,7 +130,7 @@ public class EtapaBeans implements Beans{
         }
         etapa.setTitulo(this.getTitulo());
         etapa.setDescricao(this.getDescricao());
-        etapa.setDocumentacao(this.getDocumentacao());
+        etapa.setDocumentacaoExigida(this.getDocumentacaoExigida());
         etapa.setCriterioDeAvaliacao((CriterioDeAvaliacao)this.getCriterioDeAvaliacao().toBusiness());
         etapa.setStatus(this.isStatus());
         etapa.setPrerequisito((Etapa) this.getPrerequisito().toBusiness());

@@ -139,7 +139,7 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
         return this.getTermino().isBefore(periodo.getInicio());
     }
     
-    public boolean isBefore(Periodo periodo){
+    public boolean isDepois(Periodo periodo){
         return this.getInicio().isAfter(periodo.getTermino());
     }
     

@@ -3,7 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Lavínia%20Matoso/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/beans/SelecaoBeans.java</file>
+            <file>file:/C:/Users/N2S-PC03/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/SelecaoDAOImpl.java</file>
+            <file>file:/C:/Users/N2S-PC03/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/model/Documentacao.java</file>
+            <file>file:/C:/Users/N2S-PC03/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/SelecaoDAO.java</file>
+            <file>file:/C:/Users/N2S-PC03/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/model/Selecao.java</file>
+            <file>file:/C:/Users/N2S-PC03/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/model/Periodo.java</file>
         </group>
     </open-files>
 </project-private>

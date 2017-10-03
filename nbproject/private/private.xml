@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/redirect.jsp</file>
             <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/WEB-INF/view/js/responsividade.js</file>
             <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/META-INF/context.xml</file>
@@ -11,6 +12,31 @@
             <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/WEB-INF/view/index.jsp</file>
             <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/WEB-INF/web.xml</file>
             <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/WEB-INF/view/css/adaptaBootstrap.css</file>
+=======
+<<<<<<< HEAD
+            <file>file:/C:/Users/Lavínia%20Matoso/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/beans/SelecaoBeans.java</file>
+            <file>file:/C:/Users/Lavínia%20Matoso/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/beans/DocumentacaoBeans.java</file>
+            <file>file:/C:/Users/Lavínia%20Matoso/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/beans/EtapaBeans.java</file>
+=======
+<<<<<<< HEAD
+            <file>file:/C:/Users/N2S-PC03/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/SelecaoDAOImpl.java</file>
+            <file>file:/C:/Users/N2S-PC03/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/model/Documentacao.java</file>
+            <file>file:/C:/Users/N2S-PC03/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/SelecaoDAO.java</file>
+            <file>file:/C:/Users/N2S-PC03/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/model/Selecao.java</file>
+            <file>file:/C:/Users/N2S-PC03/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/model/Periodo.java</file>
+=======
+            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/DAO.java</file>
+            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/test/br/ufc/russas/n2s/darwin/model/EnumPermissoesTest.java</file>
+            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/PeriodoDAOImpl.java</file>
+            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/DocumentacaoDAO.java</file>
+            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/model/EnumPermissoes.java</file>
+            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/PeriodoDAO.java</file>
+            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/hibernate/HibernateUtil.java</file>
+            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/model/Usuario.java</file>
+            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/DocumentacaoDAOImpl.java</file>
+>>>>>>> 9763aecc4e475544f1cab2129fce3302a83fb660
+>>>>>>> 399de5be09c0bcf73d47ce64b0832c95ddd9df13
+>>>>>>> f7916334661ab4803b29fde0ec81fb2a56ab159a
         </group>
     </open-files>
 </project-private>

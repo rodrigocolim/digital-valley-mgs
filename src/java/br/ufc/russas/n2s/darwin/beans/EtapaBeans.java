@@ -21,6 +21,7 @@ import java.util.List;
  */
 public class EtapaBeans implements Beans{
 
+
     private long codEtapa;
     private String titulo;
     private PeriodoBeans periodo;
@@ -36,6 +37,23 @@ public class EtapaBeans implements Beans{
     public long getCodEtapa() {
         return codEtapa;
     }
+    
+    public EtapaBeans(){}
+    
+    public EtapaBeans(long codEtapa, String titulo, PeriodoBeans periodo, String descricao, List<UsuarioBeans> avaliadores, String documentacao, CriterioDeAvaliacaoBeans criterioDeAvaliacao, List<AvaliacaoBeans> avaliacoes, List<DocumentacaoBeans> documentacoes, boolean status, EtapaBeans prerequisito) {
+        this.codEtapa = codEtapa;
+        this.titulo = titulo;
+        this.periodo = periodo;
+        this.descricao = descricao;
+        this.avaliadores = avaliadores;
+        this.documentacao = documentacao;
+        this.criterioDeAvaliacao = criterioDeAvaliacao;
+        this.avaliacoes = avaliacoes;
+        this.documentacoes = documentacoes;
+        this.status = status;
+        this.prerequisito = prerequisito;
+    }
+
 
     public void setCodEtapa(long codEtapa) {
         this.codEtapa = codEtapa;
@@ -134,6 +152,7 @@ public class EtapaBeans implements Beans{
         etapa.setCriterioDeAvaliacao((CriterioDeAvaliacao)this.getCriterioDeAvaliacao().toBusiness());
         etapa.setStatus(this.isStatus());
         etapa.setPrerequisito((Etapa) this.getPrerequisito().toBusiness());
+        etapa.setPeriodo((Periodo) this.getPeriodo().toBusiness());
         
         List<Usuario> avaliadores = Collections.synchronizedList(new ArrayList<Usuario>());
         if(this.getAvaliadores()!=null){
@@ -168,14 +187,66 @@ public class EtapaBeans implements Beans{
             if(object instanceof Etapa){
                 Etapa etapa = (Etapa) object;
                 this.setCodEtapa(etapa.getCodEtapa());
+                this.setTitulo(etapa.getTitulo());
+                this.setDescricao(etapa.getDescricao());
+                this.setDocumentacao(etapa.getDocumentacao());
+                this.setStatus(etapa.isStatus());
                 
+                
+                PeriodoBeans pb = null;
+                if(etapa.getPeriodo()!=null){
+                   pb = (PeriodoBeans) (new PeriodoBeans().toBeans(etapa.getPeriodo()));
+                }
+                this.setPeriodo(pb);
+                
+                CriterioDeAvaliacaoBeans cab = null;
+                if(etapa.getCriterioDeAvaliacao()!=null){
+                   cab = (CriterioDeAvaliacaoBeans) (new CriterioDeAvaliacaoBeans().toBeans(etapa.getCriterioDeAvaliacao()));
+                }
+                this.setCriterioDeAvaliacao(cab);
+                
+                EtapaBeans eb = null;
+                if(etapa.getPrerequisito()!=null){
+                   eb = (EtapaBeans) (new EtapaBeans().toBeans(etapa.getPrerequisito()));
+                }
+                this.setPrerequisito(eb);
+                
+                List<UsuarioBeans> avaliadores = Collections.synchronizedList(new ArrayList<>());
+                UsuarioBeans ubs = null;
+                if(etapa.getAvaliadores()!= null){
+                    for(int i=0;i<etapa.getAvaliadores().size();i++){
+                        ubs = (UsuarioBeans) (new UsuarioBeans().toBeans(etapa.getAvaliadores().get(i)));
+                        avaliadores.add(ubs);
+                    }
+                }
+                this.setAvaliadores(avaliadores);
+                
+                List<AvaliacaoBeans> avaliacoes = Collections.synchronizedList(new ArrayList<>());
+                AvaliacaoBeans ab = null;
+                if(etapa.getAvaliacoes()!= null){
+                    for(int i=0;i<etapa.getAvaliacoes().size();i++){
+                        ab = (AvaliacaoBeans) (new AvaliacaoBeans().toBeans(etapa.getAvaliacoes().get(i)));
+                        avaliacoes.add(ab);
+                    }
+                }
+                this.setAvaliacoes(avaliacoes);
+                
+                List<DocumentacaoBeans> documentacoes = Collections.synchronizedList(new ArrayList<>());
+                DocumentacaoBeans db = null;
+                if(etapa.getDocumentacoes()!= null){
+                    for(int i=0;i<etapa.getDocumentacoes().size();i++){
+                        db = (DocumentacaoBeans) (new DocumentacaoBeans().toBeans(etapa.getDocumentacoes().get(i)));
+                        documentacoes.add(db);
+                    }
+                }
+                this.setDocumentacoes(documentacoes);
                 
                 return this;
             }else{
-                throw new IllegalArgumentException("O objeto a ser adicionado não é uma Seleção!");
+                throw new IllegalArgumentException("O objeto a ser adicionado não é uma Etapa!");
             }
         }else{
-            throw new NullPointerException("Seleção não pode ser nula!");
+            throw new NullPointerException("Etapa não pode ser nula!");
         }
             
     }

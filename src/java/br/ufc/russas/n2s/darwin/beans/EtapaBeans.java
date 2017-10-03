@@ -34,10 +34,6 @@ public class EtapaBeans implements Beans{
     private boolean status;
     private EtapaBeans prerequisito;
     
-    public long getCodEtapa() {
-        return codEtapa;
-    }
-    
     public EtapaBeans(){}
     
     public EtapaBeans(long codEtapa, String titulo, PeriodoBeans periodo, String descricao, List<UsuarioBeans> avaliadores, String documentacao, CriterioDeAvaliacaoBeans criterioDeAvaliacao, List<AvaliacaoBeans> avaliacoes, List<DocumentacaoBeans> documentacoes, boolean status, EtapaBeans prerequisito) {
@@ -54,7 +50,9 @@ public class EtapaBeans implements Beans{
         this.prerequisito = prerequisito;
     }
 
-
+    public long getCodEtapa() {
+        return codEtapa;
+    }
     public void setCodEtapa(long codEtapa) {
         this.codEtapa = codEtapa;
     }

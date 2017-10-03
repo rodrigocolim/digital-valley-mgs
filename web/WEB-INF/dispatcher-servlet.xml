@@ -22,6 +22,7 @@
             <props>
                 <prop key="index.html">IndexController</prop>
                 <prop key="selecao.html">SelecaoController</prop>
+                <prop key="inscricao.html">InscricaoController</prop>
             </props>
         </property>
     </bean>
@@ -40,6 +41,8 @@
     <bean name="SelecaoController"
       class="org.springframework.web.servlet.mvc.ParameterizableViewController"
       p:viewName="selecao" />
-    
+    <bean name="InscricaoController"
+      class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+      p:viewName="inscricao" />    
 </beans>
 

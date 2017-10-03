@@ -103,6 +103,35 @@
                         <h3>Inscrições abertas</h3>
                         <p>Não existem seleções com inscrições abertas no momento!</p>                            
                     </c:if>
+                        
+                    <c:if test="${not empty sessionScope.novasSelecoes}">
+                        <c:forEach var="selecao" varStatus="" items="${sessionScope.novasSelecoes}">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="col-sm-6">
+                                        <strong>
+                                            <c:out value="${selecao.titulo}"></c:out>
+                                        </strong>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                        ${selecao.etapas} - <b>${selecao.etapas}</b> à <b>${selecao.etapas}</b>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <c:out value="${selecao.descricao}"></c:out>
+                                </div>
+                                <div class="panel-footer text-right">
+                                    <a href="selecao.html?cod=${selecao.codSelecao}" type="button" class="btn btn-link" >
+                                        <span class="glyphicon glyphicon-info-sign"></span> Mais informações
+                                    </a>
+                                    <a href="inscricao.html?cod=${selecao.codSelecao}" type="button" class="btn btn-link" >
+                                        <span class="glyphicon glyphicon-pencil"></span> Inscrever-se
+                                    </a>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </c:if>                        
                 </div>
                 <!-- Inscrições Abertas -->
 

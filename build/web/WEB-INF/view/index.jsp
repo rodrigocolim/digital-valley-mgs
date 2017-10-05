@@ -62,14 +62,14 @@
                 <div class="tab-content">
                     <div id="novasSelecoes" class="tab-pane fade in active">
                         <br>
-                        <c:if test="${empty sessionScope.novasSelecoes}">
+                        <c:if test="${empty novasSelecoes}">
                             <h3>Novas Seleções</h3>
                             <p>Não existem novas seleções no momento!</p>                            
                         </c:if>
                         
 
-                        <c:if test="${not empty sessionScope.novasSelecoes}">
-                            <c:forEach var="selecao" varStatus="" items="${sessionScope.novasSelecoes}">
+                        <c:if test="${not empty novasSelecoes}">
+                            <c:forEach var="selecao" varStatus="" items="${novasSelecoes}">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <div class="col-sm-6">

@@ -39,7 +39,7 @@ public class AdicionaSelecaoController {
     @RequestMapping("listaSelecoes")
     public String lista(Model model){
         DAO dao = DAO.getInstancia();
-        List<Selecao> selecoes = dao.lista(new Selecao());
+        List<Selecao> selecoes = dao.lista(Selecao.class);
         model.addAttribute("selecoes", selecoes);
         return ("forward:listaSelecoes");
     }

@@ -86,7 +86,7 @@ public class DAO<T>{
         }
     }
     
-    public List<T> lista(T object) {
+    public List<T> lista(Class object) {
         Session session = SESSION_FACTORY.openSession();
         Transaction t = session.beginTransaction();
         try{

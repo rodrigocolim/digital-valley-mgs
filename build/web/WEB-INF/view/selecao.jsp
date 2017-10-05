@@ -51,41 +51,64 @@
                         </h2>
                         <p>
                             <c:out value="${selecao.descricao}"></c:out>
-                            </p>    
-                            <ul class="timeline">
+                        </p>
+                        <p>
+                            Vagas Remuneradas: <c:out value="${selecao.vagasRemuneradas}"></c:out>
+                        </p>
+                        <p>
+                            Vagas Voluntarias: <c:out value="${selecao.vagasVoluntarias}"></c:out>
+                        </p>
+                        <p>
+                            Pré-Requisitos: <c:out value="${selecao.descricaoPreRequisitos}"></c:out>
+                        </p>
+                        <p>
+                            Área de Concentração: <c:out value="${selecao.areaDeConcentracao}"></c:out>
+                        </p>
+                        <p>
+                            Categoria: <c:out value="${selecao.categoria}"></c:out>
+                        </p>
+                        
+                        <!-- Fases da Seleção-->
+                        <ul class="timeline">
+                            <!-- Fase inscrição na timeline -->
+                            <li>
+                                <div class="timeline-badge"><i class="glyphicon glyphicon-pencil"></i></div>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <h4 class="timeline-title">
+                                            <c:out value="${selecao.inscricao.titulo}"></c:out>
+                                        </h4>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p>
+                                            <c:out value="${selecao.inscricao.descricao}"></c:out>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- Fase inscrição na timeline -->
+
+                            <!-- Outras fases na timeline -->
+                            <c:forEach var="etapa" varStatus="" items="${selecao.etapas}"> 
                                 <li>
-                                    <div class="timeline-badge"><i class="glyphicon glyphicon-pencil"></i></div>
+                                    <div class="timeline-badge danger"><i class="glyphicon glyphicon-eye-open"></i></div>
                                     <div class="timeline-panel">
                                         <div class="timeline-heading">
                                             <h4 class="timeline-title">
-                                                <c:out value="${selecao.inscricao.titulo}"></c:out>
+                                                <c:out value="${etapa.titulo}"></c:out>
                                             </h4>
                                         </div>
                                         <div class="timeline-body">
                                             <p>
-                                                <c:out value="${selecao.inscricao.descricao}"></c:out>
+                                                <c:out value="${etapa.descricao}"></c:out>
                                             </p>
                                         </div>
                                     </div>
                                 </li>
-                                <c:forEach var="etapa" varStatus="" items="${selecao.etapas}"> 
-                                    <li>
-                                        <div class="timeline-badge danger"><i class="glyphicon glyphicon-eye-open"></i></div>
-                                        <div class="timeline-panel">
-                                            <div class="timeline-heading">
-                                                <h4 class="timeline-title">
-                                                    <c:out value="${etapa.titulo}"></c:out>
-                                                </h4>
-                                            </div>
-                                            <div class="timeline-body">
-                                                <p>
-                                                    <c:out value="${etapa.descricao}"></c:out>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </c:forEach>
-                            </ul>
+                            </c:forEach>
+                            <!-- Outras fases na timeline -->
+                        </ul>
+                        <!-- Fases da Seleção-->
                     </c:if>
                 </div>
                 <!-- Menu central -->

@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.beans;
 
 import br.ufc.russas.n2s.darwin.model.Periodo;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -49,6 +50,12 @@ public class PeriodoBeans implements Beans{
         this.termino = termino;
     }
     
+    public String getDataInicio(){
+        return inicio.format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
+    }
+    public String getDataTermino(){
+        return termino.format(DateTimeFormatter.ofPattern("dd/MM/YYYY"));
+    }    
     @Override
     public Object toBusiness() {
         Periodo periodo = new Periodo();
@@ -80,5 +87,6 @@ public class PeriodoBeans implements Beans{
         }
         
     }
+    
     
 }

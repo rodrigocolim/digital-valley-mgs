@@ -29,12 +29,16 @@
     
     <!-- Use @Component annotations for bean definitions -->
     <context:component-scan base-package="br.ufc.russas.n2s.darwin" />
- 
+    <mvc:annotation-driven/>
+    <mvc:default-servlet-handler />
+    <mvc:resources location="/recursos/" mapping="/recursos/**"/>    
     <!-- Use @Controller annotations for MVC controller definitions -->
     <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
-                <prop key="index.html">indexController</prop>
+                <prop key="index.jsp">IndexController</prop>
+                <prop key="selecao.jsp">SelecaoController</prop>
+                <prop key="menu-lateral.jsp">MenuLateralController</prop>
             </props>
         </property>
     </bean>
@@ -50,5 +54,5 @@
     -->
     <bean name="indexController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="index" />
+          p:viewName="index" />    
 </beans>

@@ -16,7 +16,7 @@
         <!-- Bootstrap core CSS -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <link type="text/css" rel="stylesheet" href="css/design.css">
+        <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/recursos/css/design.css" />
     </head>
 
     <body>
@@ -24,11 +24,11 @@
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="menu-superior">
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>                        
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>                        
                     </button>
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="index.jsp">
                         Darwin
                     </a>
                 </div>
@@ -42,134 +42,191 @@
       
         <div class="container-fluid text-center">    
             <div class="row content">
+                <!-- Menu lateral esquerdo -->
                 <div class="col-sm-2 sidenav ">
-                    
+                    <c:import charEncoding="UTF-8" url="menu-lateral.jsp"></c:import>
                 </div>
                 <!-- Menu lateral esquerdo -->
 
                 <!-- Menu central -->
-            <div class="col-sm-8 text-left">
+                <div class="col-sm-8 text-left">
+                    <div class="container">
+                        <h2>Início</h2>
+                        <ul class="nav nav-tabs menu-selecoes">
+                            <li class="active"><a href="#novasSelecoes" data-toggle="tab" title="novas seleções">Novas seleções</a></li>
+                            <li><a href="#inscricoesAbertas" data-toggle="tab" title="seleções com inscrições abertas">Inscrições abertas</a></li>
+                            <li><a href="#emAndamento" data-toggle="tab" title="seleções em andamento">Em andamento</a></li>
+                            <li><a href="#encerradas" data-toggle="tab" title="seleções encerradas">Encerradas</a></li>
+                        </ul>
 
-                <div class="container">
-                <h2>Início</h2>
-                <ul class="nav nav-tabs menu-selecoes">
-                  <li class="active"><a data-toggle="tab" href="#novasSelecoes">Novas seleções</a></li>
-                  <li><a data-toggle="tab" href="#inscricoesAbertas">Inscrições abertas</a></li>
-                  <li><a data-toggle="tab" href="#emAndamento">Em andamento</a></li>
-                  <li><a data-toggle="tab" href="#encerrados">Encerradas</a></li>
-                </ul>
-
-                <div class="tab-content">
-                    <div id="novasSelecoes" class="tab-pane fade in active">
-                        <br>
-                        <c:if test="${empty novasSelecoes}">
-                            <h3>Novas Seleções</h3>
-                            <p>Não existem novas seleções no momento!</p>                            
-                        </c:if>
-                        
-
-                        <c:if test="${not empty novasSelecoes}">
-                            <c:forEach var="selecao" varStatus="" items="${novasSelecoes}">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <div class="col-sm-6">
-                                            <strong>
-                                                <c:out value="${selecao.titulo}"></c:out>
-                                            </strong>
+                        <div class="tab-content">
+                            <!-- Novas seleções -->
+                            <div id="novasSelecoes" class="tab-pane fade in active">
+                                <br>
+                                <c:if test="${empty novasSelecoes}">
+                                    <h3>Novas Seleções</h3>
+                                    <p>Não existem novas seleções no momento!</p>                            
+                                </c:if>
+                                    
+                                <c:if test="${not empty novasSelecoes}">
+                                    <c:forEach var="selecao" items="${novasSelecoes}">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="col-sm-6" style="text-transform: uppercase;">
+                                                    <strong>
+                                                        <c:out value="${selecao.titulo}"></c:out>
+                                                    </strong>
+                                                </div>
+                                                <div class="text-right" style="text-transform: uppercase;">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                    ${selecao.inscricao.titulo} - <b> ${selecao.inscricao.periodo.dataInicio}</b> à <b>${selecao.inscricao.periodo.dataTermino}</b>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+                                                <c:out value="${selecao.descricao}"></c:out>
+                                            </div>
+                                            <div class="panel-footer text-right">
+                                                <a href="selecao?codSelecao=${selecao.codSelecao}" type="button" class="btn btn-link" >
+                                                    <span class="glyphicon glyphicon-info-sign"></span> Mais informações
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="text-right">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                            ${selecao.etapas} - <b>${selecao.etapas}</b> à <b>${selecao.etapas}</b>
-                                        </div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <c:out value="${selecao.descricao}"></c:out>
-                                    </div>
-                                    <div class="panel-footer text-right">
-                                        <a href="selecao.html?cod=${selecao.codSelecao}" type="button" class="btn btn-link" >
-                                            <span class="glyphicon glyphicon-info-sign"></span> Mais informações
-                                        </a>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </c:if>
-                            
-                    </div>
-
-                <!-- Inscrições Abertas -->
-                <div id="inscricoesAbertas" class="tab-pane fade">
-                    <br>
-                    <c:if test="${empty sessionScope.inscricoesAbertas}">
-                        <h3>Inscrições abertas</h3>
-                        <p>Não existem seleções com inscrições abertas no momento!</p>                            
-                    </c:if>
-                        
-                    <c:if test="${not empty sessionScope.novasSelecoes}">
-                        <c:forEach var="selecao" varStatus="" items="${sessionScope.novasSelecoes}">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <div class="col-sm-6">
-                                        <strong>
-                                            <c:out value="${selecao.titulo}"></c:out>
-                                        </strong>
-                                    </div>
-                                    <div class="text-right">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                        ${selecao.etapas} - <b>${selecao.etapas}</b> à <b>${selecao.etapas}</b>
-                                    </div>
-                                </div>
-                                <div class="panel-body">
-                                    <c:out value="${selecao.descricao}"></c:out>
-                                </div>
-                                <div class="panel-footer text-right">
-                                    <a href="selecao.html?cod=${selecao.codSelecao}" type="button" class="btn btn-link" >
-                                        <span class="glyphicon glyphicon-info-sign"></span> Mais informações
-                                    </a>
-                                    <a href="inscricao.html?cod=${selecao.codSelecao}" type="button" class="btn btn-link" >
-                                        <span class="glyphicon glyphicon-pencil"></span> Inscrever-se
-                                    </a>
-                                </div>
+                                    </c:forEach>
+                                </c:if>
                             </div>
-                        </c:forEach>
-                    </c:if>                        
-                </div>
-                <!-- Inscrições Abertas -->
+                            <!-- Novas seleções -->
+                            
+                            <!-- Inscrições abertas -->
+                            <div id="inscricoesAbertas" class="tab-pane fade">
+                                <br>
+                                <c:if test="${empty inscricoesAbertas}">
+                                    <h3>Inscrições abertas</h3>
+                                    <p>Não existem seleções com inscrições abertas no momento!</p>                            
+                                </c:if>
 
-                <!-- Em andamento -->
-                <div id="emAndamento" class="tab-pane fade">
-                    <br>
-                    <c:if test="${empty sessionScope.emAndamento}">
-                        <h3>Seleções em andamento</h3>
-                        <p>Não existem seleções em andamento!</p>                            
-                    </c:if>
-                </div>
-                <!-- Em andamento -->
+                                <c:if test="${not empty inscricoesAbertas}">
+                                    <c:forEach var="selecao" varStatus="" items="${inscricoesAbertas}">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="col-sm-6">
+                                                    <strong>
+                                                        <c:out value="${selecao.titulo}"></c:out>
+                                                    </strong>
+                                                </div>
+                                                <div class="text-right">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                    ${selecao.etapas} - <b>${selecao.etapas}</b> à <b>${selecao.etapas}</b>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+                                                <c:out value="${selecao.descricao}"></c:out>
+                                            </div>
+                                            <div class="panel-footer text-right">
+                                                <a href="selecao.html?cod=${selecao.codSelecao}" type="button" class="btn btn-link" >
+                                                    <span class="glyphicon glyphicon-info-sign"></span> Mais informações
+                                                </a>
+                                                <a href="inscricao.html?cod=${selecao.codSelecao}" type="button" class="btn btn-link" >
+                                                    <span class="glyphicon glyphicon-pencil"></span> Inscrever-se
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </c:if>                        
+                            </div>
+                            <!-- Inscrições abertas -->
 
-                <!-- Encerrados -->
-                <div id="encerrados" class="tab-pane fade">
-                    <br>
-                    <c:if test="${empty sessionScope.encerradas}">
-                        <h3>Seleções encerradas</h3>
-                        <p>Não possuem seleções encerradas!</p>
-                    </c:if>
+                            <!-- Em andamento -->
+                            <div id="emAndamento" class="tab-pane fade">
+                                <br>
+                                <c:if test="${empty emAndamento}">
+                                    <h3>Seleções em andamento</h3>
+                                    <p>Não existem seleções em andamento!</p>                            
+                                </c:if>
+                                    <c:if test="${not empty emAndamento}">
+                                        <c:forEach var="selecao" varStatus="" items="${emAndamento}">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <div class="col-sm-6">
+                                                        <strong>
+                                                            <c:out value="${selecao.titulo}"></c:out>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        ${selecao.etapas} - <b>${selecao.etapas}</b> à <b>${selecao.etapas}</b>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <c:out value="${selecao.descricao}"></c:out>
+                                                    </div>
+                                                    <div class="panel-footer text-right">
+                                                        <a href="selecao.html?cod=${selecao.codSelecao}" type="button" class="btn btn-link" >
+                                                        <span class="glyphicon glyphicon-info-sign"></span> Mais informações
+                                                    </a>
+                                                    <a href="inscricao.html?cod=${selecao.codSelecao}" type="button" class="btn btn-link" >
+                                                        <span class="glyphicon glyphicon-pencil"></span> Inscrever-se
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </c:if>
+
+
+                            </div>
+                            <!-- Em andamento -->
+
+                            <!-- Encerradas -->
+                            <div id="encerradas" class="tab-pane fade">
+                                <br>
+                                <c:if test="${empty encerradas}">
+                                    <h3>Seleções encerradas</h3>
+                                    <p>Não possuem seleções encerradas!</p>
+                                </c:if>
+                                <c:if test="${not empty encerradas}">
+                                    <c:forEach var="selecao" varStatus="" items="${encerradas}">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="col-sm-6">
+                                                    <strong>
+                                                        <c:out value="${selecao.titulo}"></c:out>
+                                                        </strong>
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    ${selecao.etapas} - <b>${selecao.etapas}</b> à <b>${selecao.etapas}</b>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+                                                <c:out value="${selecao.descricao}"></c:out>
+                                                </div>
+                                                <div class="panel-footer text-right">
+                                                    <a href="selecao.html?cod=${selecao.codSelecao}" type="button" class="btn btn-link" >
+                                                    <span class="glyphicon glyphicon-info-sign"></span> Mais informações
+                                                </a>
+                                                <a href="inscricao.html?cod=${selecao.codSelecao}" type="button" class="btn btn-link" >
+                                                    <span class="glyphicon glyphicon-pencil"></span> Inscrever-se
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </c:if>                         
+                            </div>
+                            <!-- Encerrados -->
+                        </div>
+                    </div>
                 </div>
-                <!-- Encerrados -->
-              </div>
+                <!-- Menu central -->
             </div>
-            </div>
-        <!-- Menu central -->
-
-      </div>
-    </div>
+        </div>
     
 
-    <!-- Rodapé -->
-    <footer class="text-muted">
-        <div class="container">
-            
-        </div>
-    </footer>
-    <!-- Rodapé -->
+        <!-- Rodapé -->
+        <footer class="text-muted">
+            <div class="container">
 
-  </body>
+            </div>
+        </footer>
+        <!-- Rodapé -->
+
+    </body>
 </html>

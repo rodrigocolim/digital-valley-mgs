@@ -11,6 +11,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
+<<<<<<< HEAD
+ * @author Wallison Carlos
+ */
+@Controller("indexController")
+@RequestMapping("/")
+public class IndexController {
+    
+    @RequestMapping(value="/", method = RequestMethod.GET)
+    public String getIndex(){
+        return "redirect:index";
+    }
+=======
  * @author Alex Felipe
  */
 @Controller
@@ -19,4 +31,5 @@ public class IndexController {
     public void teste(){
         System.out.println("kaslhdakslhda");
     }     
+>>>>>>> 515a014c3d4826ce66a3141f2eaf445b983cbb9e
 }

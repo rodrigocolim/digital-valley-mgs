@@ -3,39 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/beans/SelecaoBeans.java</file>
-            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/model/Documentacao.java</file>
-            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/model/Etapa.java</file>
-            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/css/timeline.css</file>
-            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/static/menu-lateral.html</file>
-            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/WEB-INF/dispatcher-servlet.xml</file>
-            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/css/design.css</file>
-            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/WEB-INF/view/index.jsp</file>
-            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/WEB-INF/view/inscricao.jsp</file>
-            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/beans/DocumentacaoBeans.java</file>
-            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/beans/EtapaBeans.java</file>
-=======
-            <file>file:/C:/Users/Lavínia%20Matoso/Desktop/digital-valley-mgs/web/redirect.jsp</file>
+            <file>file:/C:/Users/Lavínia%20Matoso/Desktop/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/beans/ArquivoBeans.java</file>
             <file>file:/C:/Users/Lavínia%20Matoso/Desktop/digital-valley-mgs/web/WEB-INF/view/selecao.jsp</file>
->>>>>>> d4cc45a3a16c4f8a9d0b0e50e2de0b975b3890d3
-=======
-            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/test/br/ufc/russas/n2s/darwin/model/EnumPermissoesTest.java</file>
-            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/web/WEB-INF/view/hello.jsp</file>
-            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/PeriodoDAOImpl.java</file>
-            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/DocumentacaoDAO.java</file>
-            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/model/EnumPermissoes.java</file>
-            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/PeriodoDAO.java</file>
-            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/model/Usuario.java</file>
-            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/DocumentacaoDAOImpl.java</file>
-            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/DAO.java</file>
-            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/web/WEB-INF/spring-context.xml</file>
-            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/controller/IndexController.java</file>
-            <file>file:/C:/Users/Wallison%20Carlos/Documents/NetBeansProjects/digital-valley-mgs/src/java/br/ufc/russas/n2s/darwin/dao/hibernate/HibernateUtil.java</file>
->>>>>>> ed115a29977f559708038c41b42154b19d0c0387
+            <file>file:/C:/Users/Lavínia%20Matoso/Desktop/digital-valley-mgs/web/WEB-INF/view/index.jsp</file>
         </group>
     </open-files>
 </project-private>

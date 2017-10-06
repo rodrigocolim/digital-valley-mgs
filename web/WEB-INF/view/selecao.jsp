@@ -53,78 +53,105 @@
                         <p>
                             <c:out value="${selecao.descricao}"></c:out>
                         </p>
-                        <p>
-                            Vagas Remuneradas: <c:out value="${selecao.vagasRemuneradas}"></c:out>
-                        </p>
-                        <p>
-                            Vagas Voluntarias: <c:out value="${selecao.vagasVoluntarias}"></c:out>
-                        </p>
-                        <p>
-                            Pré-Requisitos: <c:out value="${selecao.descricaoPreRequisitos}"></c:out>
-                        </p>
-                        <p>
-                            Área de Concentração: <c:out value="${selecao.areaDeConcentracao}"></c:out>
-                        </p>
-                        <p>
-                            Categoria: <c:out value="${selecao.categoria}"></c:out>
-                        </p>
                         
-                        <!-- Fases da Seleção-->
-                        <ul class="timeline">
-                            <!-- Fase inscrição na timeline -->
-                            <li>
-                                <div class="timeline-badge"><i class="glyphicon glyphicon-pencil"></i></div>
-                                <div class="timeline-panel">
-                                    <div class="timeline-heading">
-                                        <h4 class="timeline-title">
-                                            <c:out value="${selecao.inscricao.titulo}"></c:out>
-                                        </h4>
-                                    </div>
-                                    <div class="timeline-body">
-                                        <p>
-                                            <c:out value="${selecao.inscricao.descricao}"></c:out>
-                                        </p>
-                                    </div>
+                    <div class="col-sm-8 text-left">
+                        <div class="container">
+                            <ul class="nav nav-tabs menu-selecoes">
+                                <li class="active"><a href="#cronograma" data-toggle="tab" title="cronograma">Cronograma</a></li>
+                                <li><a href="#preRequisitos" data-toggle="tab" title="pré-requisitos para inscrição">Pré-Requisitos</a></li>
+                                <li><a href="#maisInformacoes" data-toggle="tab" title="mais informações">Mais informações</a></li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <!-- Cronograma -->
+                                <div id="cronograma" class="tab-pane fade in active">
+                                    <br>
+                                    <c:if test="${empty cronograma}">
+                                        <h3>Cronograma</h3>
+                                        <p>Não existe um cronograma no momento!</p>                            
+                                    </c:if>
+                                    <ul class="timeline">
+                                    <!-- Fase inscrição na timeline -->
+                                        <li>
+                                            <div class="timeline-badge"><i class="glyphicon glyphicon-pencil"></i></div>
+                                            <div class="timeline-panel">
+                                                <div class="timeline-heading">
+                                                    <h4 class="timeline-title">
+                                                        <c:out value="${selecao.inscricao.titulo}"></c:out>
+                                                    </h4>
+                                                </div>
+                                                <div class="timeline-body">
+                                                    <p>
+                                                        <c:out value="${selecao.inscricao.descricao}"></c:out>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <!-- Fase inscrição na timeline -->
+
+                                        <!-- Outras fases na timeline -->
+                                        <c:forEach var="etapa" varStatus="" items="${selecao.etapas}"> 
+                                            <li>
+                                                <div class="timeline-badge danger"><i class="glyphicon glyphicon-eye-open"></i></div>
+                                                <div class="timeline-panel">
+                                                    <div class="timeline-heading">
+                                                        <h4 class="timeline-title">
+                                                            <c:out value="${etapa.titulo}"></c:out>
+                                                        </h4>
+                                                    </div>
+                                                    <div class="timeline-body">
+                                                        <p>
+                                                            <c:out value="${etapa.descricao}"></c:out>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </c:forEach>
+                                        <!-- Outras fases na timeline -->
+                                    </ul>    
                                 </div>
-                            </li>
-                            <!-- Fase inscrição na timeline -->
+                                <div id="preRequisitos" class="tab-pane fade">
+                                    <br>
+                                    <c:if test="${empty preRequisitos}">
+                                        <h3>Pré-Requisitos</h3>
+                                        <p>Sem pré-requisitos!</p>                            
+                                    </c:if>
+                                     <c:if test="${not empty preRequisitos}">
+                                        <p><c:out value="${selecao.descricaoPreRequisitos}"></c:out></p>
+                                    </c:if>                        
+                                </div>
+                                <div id="maisInformacoes" class="tab-pane fade">
+                                    <br>
+                                    <c:if test="${empty maisInformacoes}">
+                                        <h3>Mais Informações</h3>
+                                        <p>Sem mais informações!</p>                            
+                                    </c:if>
+                                     <c:if test="${not empty maisInformacoes}">
+                                        <p>Vagas Remuneradas: <c:out value="${selecao.vagasRemuneradas}"></c:out></p>
+                                        <p>Vagas Voluntárias: <c:out value="${selecao.vagasVoluntarias}"></c:out></p>
+                                        <p>Área de Concentração: <c:out value="${selecao.areaDeConcentracao}"></c:out></p>
+                                        <p>Categoria: <c:out value="${selecao.categoria}"></c:out></p>
+                                    </c:if>                        
+                                </div>
+                            <!-- Fases da Seleção-->
+                                </c:if>
+                            </div>
+                    <!-- Menu central -->
 
-                            <!-- Outras fases na timeline -->
-                            <c:forEach var="etapa" varStatus="" items="${selecao.etapas}"> 
-                                <li>
-                                    <div class="timeline-badge danger"><i class="glyphicon glyphicon-eye-open"></i></div>
-                                    <div class="timeline-panel">
-                                        <div class="timeline-heading">
-                                            <h4 class="timeline-title">
-                                                <c:out value="${etapa.titulo}"></c:out>
-                                            </h4>
-                                        </div>
-                                        <div class="timeline-body">
-                                            <p>
-                                                <c:out value="${etapa.descricao}"></c:out>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
-                            </c:forEach>
-                            <!-- Outras fases na timeline -->
-                        </ul>
-                        <!-- Fases da Seleção-->
-                    </c:if>
+                        </div>
+                    </div>
                 </div>
-                <!-- Menu central -->
-
+            </div>
         </div>
-    </div>
     
 
-    <!-- Rodapé -->
-    <footer class="text-muted">
-      <div class="container">
+        <!-- Rodapé -->
+        <footer class="text-muted">
+          <div class="container">
 
-      </div>
-    </footer>
-    <!-- Rodapé -->
+          </div>
+        </footer>
+        <!-- Rodapé -->
 
   </body>
 </html>

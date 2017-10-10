@@ -62,6 +62,7 @@
                                         <p>Não existe um cronograma no momento!</p>                            
                                     </c:if>
                                     <c:if test="${not empty selecao.inscricao}">
+                                        <h3>Cronograma</h3>
                                         <ul class="timeline">
                                         <!-- Fase inscrição na timeline -->
                                             <li>
@@ -113,6 +114,7 @@
                                         <p>Sem pré-requisitos!</p>                            
                                     </c:if>
                                      <c:if test="${not empty preRequisitos}">
+                                        <h3>Pré-Requisitos</h3>
                                         <p><c:out value="${selecao.descricaoPreRequisitos}"></c:out></p>
                                     </c:if>                        
                                 </div>
@@ -126,6 +128,8 @@
                                         <p>Sem mais informações!</p>                            
                                     </c:if>
                                      <c:if test="${not empty selecao}">
+                                        <h3>Mais Informações</h3>
+                                        
                                         <p>Vagas Remuneradas: <c:out value="${selecao.vagasRemuneradas}"></c:out></p>
                                         <p>Vagas Voluntárias: <c:out value="${selecao.vagasVoluntarias}"></c:out></p>
                                         <p>Área de Concentração: <c:out value="${selecao.areaDeConcentracao}"></c:out></p>
@@ -144,6 +148,7 @@
                 </div>
             </div>
         </div>
+
     
 
         <!-- Rodapé -->

@@ -13,32 +13,32 @@
         <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet>
-        <servlet-name>IndexController</servlet-name>
-        <servlet-class>br.ufc.russas.n2s.darwin.controller.IndexController</servlet-class>
+        <servlet-name>SelecaoController</servlet-name>
+        <servlet-class>br.ufc.russas.n2s.darwin.controller.SelecaoController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-       <servlet-name>default</servlet-name>
-       <url-pattern>*.js</url-pattern>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.js</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-       <servlet-name>default</servlet-name>
-       <url-pattern>*.css</url-pattern>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.css</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-       <servlet-name>default</servlet-name>
-       <url-pattern>*.html</url-pattern>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.html</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-       <servlet-name>default</servlet-name>
-       <url-pattern>*.png</url-pattern>
-    </servlet-mapping>                  
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.png</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>IndexController</servlet-name>
-        <url-pattern>/IndexController</url-pattern>
+        <servlet-name>SelecaoController</servlet-name>
+        <url-pattern>/SelecaoController</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>view/index.jsp</welcome-file>

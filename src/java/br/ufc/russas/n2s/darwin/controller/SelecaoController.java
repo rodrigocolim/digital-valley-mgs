@@ -23,12 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author Wallison Carlos
  */
-@Controller("indexController")
+@Controller("SelecaoController")
 @RequestMapping("/")
-public class IndexController {
+public class SelecaoController {
     ArrayList<SelecaoBeans> novasSelecoes = new ArrayList<>();
 
-    public IndexController() {
+    public SelecaoController() {
         ArrayList<EtapaBeans> etapas = new ArrayList<>();
         etapas.add(new EtapaBeans(2, "Provas", null, "Querias estares in cahsah, mahs estois aquis con fomis y sonis", null, null, null, null, null, false, null));
         etapas.add(new EtapaBeans(3, "Entrevista", null, "Querias estares in cahsah, mahs estois aquis con fomis", null, null, null, null, null, false, null));

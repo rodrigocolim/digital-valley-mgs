@@ -21,26 +21,15 @@
 
     <body>
         <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>                        
-                    </button>
-                    <a class="navbar-brand" href="#">Darwin</a>
-                </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav navbar-right">           
-                      <li><a href="logout.jsp" title="sair do sistema"><span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
-                    </ul>
-                </div>
-            </div>
+            <c:import charEncoding="UTF-8" url="elements/menu-superior.jsp"></c:import>
         </nav>
       
         <div class="container-fluid text-center">    
             <div class="row content">
-                <div class="col-sm-2 sidenav">
+                
+                <!-- Menu lateral esquerdo -->
+                <div class="col-sm-2 sidenav ">
+                    <c:import charEncoding="UTF-8" url="elements/menu-lateral.jsp"></c:import>
                 </div>
                 <!-- Menu lateral esquerdo -->
 
@@ -50,9 +39,11 @@
                         <h2>
                             <c:out value="${selecao.titulo}"></c:out><br>
                         </h2>
+                        <br/>
                         <p>
                             <c:out value="${selecao.descricao}"></c:out>
                         </p>
+                        <br/>
                         
                     <div class="col-sm-8 text-left">
                         <div class="container">
@@ -66,50 +57,55 @@
                                 <!-- Cronograma -->
                                 <div id="cronograma" class="tab-pane fade in active">
                                     <br>
-                                    <c:if test="${empty cronograma}">
+                                    <c:if test="${empty selecao.inscricao}"> <!-- Caso não exista uma inscrição, as etapas não foram cadastradas -->
                                         <h3>Cronograma</h3>
                                         <p>Não existe um cronograma no momento!</p>                            
                                     </c:if>
-                                    <ul class="timeline">
-                                    <!-- Fase inscrição na timeline -->
-                                        <li>
-                                            <div class="timeline-badge"><i class="glyphicon glyphicon-pencil"></i></div>
-                                            <div class="timeline-panel">
-                                                <div class="timeline-heading">
-                                                    <h4 class="timeline-title">
-                                                        <c:out value="${selecao.inscricao.titulo}"></c:out>
-                                                    </h4>
-                                                </div>
-                                                <div class="timeline-body">
-                                                    <p>
-                                                        <c:out value="${selecao.inscricao.descricao}"></c:out>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
+                                    <c:if test="${not empty selecao.inscricao}">
+                                        <ul class="timeline">
                                         <!-- Fase inscrição na timeline -->
-
-                                        <!-- Outras fases na timeline -->
-                                        <c:forEach var="etapa" varStatus="" items="${selecao.etapas}"> 
                                             <li>
-                                                <div class="timeline-badge danger"><i class="glyphicon glyphicon-eye-open"></i></div>
+                                                <div class="timeline-badge"><i class="glyphicon glyphicon-pencil"></i></div>
                                                 <div class="timeline-panel">
                                                     <div class="timeline-heading">
                                                         <h4 class="timeline-title">
-                                                            <c:out value="${etapa.titulo}"></c:out>
+                                                            <c:out value="${selecao.inscricao.titulo}"></c:out>
                                                         </h4>
                                                     </div>
                                                     <div class="timeline-body">
                                                         <p>
-                                                            <c:out value="${etapa.descricao}"></c:out>
+                                                            <c:out value="${selecao.inscricao.descricao}"></c:out>
                                                         </p>
                                                     </div>
                                                 </div>
                                             </li>
-                                        </c:forEach>
-                                        <!-- Outras fases na timeline -->
-                                    </ul>    
+                                            <!-- Fase inscrição na timeline -->
+
+                                            <!-- Outras fases na timeline -->
+                                            <c:forEach var="etapa" varStatus="" items="${selecao.etapas}"> 
+                                                <li>
+                                                    <div class="timeline-badge danger"><i class="glyphicon glyphicon-eye-open"></i></div>
+                                                    <div class="timeline-panel">
+                                                        <div class="timeline-heading">
+                                                            <h4 class="timeline-title">
+                                                                <c:out value="${etapa.titulo}"></c:out>
+                                                            </h4>
+                                                        </div>
+                                                        <div class="timeline-body">
+                                                            <p>
+                                                                <c:out value="${etapa.descricao}"></c:out>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </c:forEach>
+                                            <!-- Outras fases na timeline -->
+                                        </ul>
+                                    </c:if>
                                 </div>
+                                <!-- Cronograma -->
+                                
+                                <!-- Pré-Requisitos -->
                                 <div id="preRequisitos" class="tab-pane fade">
                                     <br>
                                     <c:if test="${empty preRequisitos}">
@@ -120,19 +116,24 @@
                                         <p><c:out value="${selecao.descricaoPreRequisitos}"></c:out></p>
                                     </c:if>                        
                                 </div>
+                                <!-- Pré-Requisitos -->
+                                
+                                <!-- Mais informações -->
                                 <div id="maisInformacoes" class="tab-pane fade">
                                     <br>
-                                    <c:if test="${empty maisInformacoes}">
+                                    <c:if test="${empty selecao}">
                                         <h3>Mais Informações</h3>
                                         <p>Sem mais informações!</p>                            
                                     </c:if>
-                                     <c:if test="${not empty maisInformacoes}">
+                                     <c:if test="${not empty selecao}">
                                         <p>Vagas Remuneradas: <c:out value="${selecao.vagasRemuneradas}"></c:out></p>
                                         <p>Vagas Voluntárias: <c:out value="${selecao.vagasVoluntarias}"></c:out></p>
                                         <p>Área de Concentração: <c:out value="${selecao.areaDeConcentracao}"></c:out></p>
                                         <p>Categoria: <c:out value="${selecao.categoria}"></c:out></p>
                                     </c:if>                        
                                 </div>
+                                <!-- Mais informações -->
+                                
                             <!-- Fases da Seleção-->
                                 </c:if>
                             </div>
@@ -146,10 +147,8 @@
     
 
         <!-- Rodapé -->
-        <footer class="text-muted">
-          <div class="container">
-
-          </div>
+        <footer class="container-fluid text-center">
+            <c:import charEncoding="UTF-8" url="elements/rodape.jsp"></c:import>
         </footer>
         <!-- Rodapé -->
 

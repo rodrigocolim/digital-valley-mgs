@@ -11,10 +11,9 @@
         <title>Darwin - Sistema de Gerenciamento de Seleções</title>
 
         <!-- Bootstrap core CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/recursos/css/timeline.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/recursos/css/design.css" />
     </head>
@@ -45,7 +44,7 @@
                         </p>
                         <br/>
                         
-                    <div class="col-sm-8 text-left">
+                    <div class="col-sm-6 text-left">
                         <div class="container">
                             <ul class="nav nav-tabs menu-selecoes">
                                 <li class="active"><a href="#cronograma" data-toggle="tab" title="cronograma">Cronograma</a></li>
@@ -143,6 +142,12 @@
                             </div>
                     <!-- Menu central -->
 
+                        </div>
+                    </div>
+                    <div class="col-sm-2 text-left">
+                        <div class="container">
+                            <h3>DOCUMENTOS</h3>
+                            
                         </div>
                     </div>
                 </div>

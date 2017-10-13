@@ -13,6 +13,16 @@
         <link rel="icon" href="favicon.ico">
         <title>Darwin - Sistema de Gerenciamento de Seleções</title>
 
+<<<<<<< HEAD
+=======
+        <!-- Bootstrap core CSS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/recursos/css/timeline.css" />
+        <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/recursos/css/design.css" />
+    </head>
+>>>>>>> b37df41211b6f2e7b6b2dd71e72d14110768479b
 
 
         <!-- Bootstrap CSS -->
@@ -36,29 +46,22 @@
                         <p class="text-justify">
                             ${selecao.descricao}
                         </p>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="page-header">
-                                    <h1>Etapas</h1>
-                                </div>
-                                <ul class="timeline timeline-horizontal" >
-                                    
-                                <c:forEach var="etapa" items="${selecao.etapas}">
-                                    <li class="timeline-item">
-                                        <button type="button" class="btn btn-secondary timeline-badge" data-toggle="tooltip" data-placement="top" title="${etapa.titulo}">
-                                            
-                                        </button>
-                                    </li>
-                                </c:forEach>
-                                    
-                                </ul>
-                            </div>
-                        </div>
-                        <br>
+                        <br/>
+                        
                     </div>
-                <c:import url="elements/menu-lateral-direito.jsp" charEncoding="UTF-8"></c:import>
+                    <ul class="timeline timeline-horizontal" >      
+                        <c:forEach var="etapa" items="${selecao.etapas}">
+                            <li class="timeline-item">
+                                <button type="button" class="btn btn-secondary timeline-badge" data-toggle="tooltip" data-placement="top" title="${etapa.titulo}">
+
+                                </button>
+                            </li>
+                        </c:forEach>
+                    </ul>
                 </div>
             </div>
+            <br>
+        <c:import url="elements/menu-lateral-direito.jsp" charEncoding="UTF-8"></c:import>
         <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>

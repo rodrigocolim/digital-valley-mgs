@@ -1,62 +1,29 @@
 *{
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
+}
+body{
+    font-family: arial, sans-serif;
+    font-size: 12px;
+}
+h1{
+    font-size: 26px;
+}
+h2{
+    font-size: 16px;
+}
+h3{
+    font-size: 12px;
+}
+.card{
+    margin-top: 5px;
+}
+.breadcrumb{
+    margin-top: 6px;
 }
 nav{
+    font-size: 14px;
 }
-.card-text{
-	font-size: 14px;
-	text-align: justify;
-	text-indent: 1em;
-}
-/* make sidebar nav vertical */ 
-@media only screen and (max-width: 768px) {
-    /* For mobile phones: */
-
-}
-
-@media (min-width: 769px){
-  .dropdown-chevron{
-  	left: 80px;
-  } 
-}
-
-@media (min-width: 992px){     
-}
-
-@media (min-width: 1220px){
-  .dropdown-chevron{
-  	left: 250px;
-        top: -20px
-  }  
-}
-footer{
-    bottom: 0;
-    background-color: #555;
-    color: white;
-    padding: 15px;
-    position: absolute;
-    width: 100%;
-    
-}
-.navbar{
-    top: 0;
-    width: 100%;
-    padding: 8px;
-    border-radius: 0em;    
-}
-.tab-content{
-    background-color: #fefefe;
-    height: 700px;
-    padding: 20px;
-    
-}
-.pagination{
-    display: block;
-    position: absolute;
-    align-self: center; 
-    bottom: 0;
-}
-.panel-default > .panel-heading{
-    background-color: #f9f9f9;
+.dropdown-item{
+    font-size: 12px;
 }

@@ -22,7 +22,6 @@
     </head>
     <body>
         <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
-       
         <div class="container-fluid">
             <div class="row row-offcanvas row-offcanvas-right">
                 <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
@@ -33,7 +32,8 @@
                     </nav>
                     
                     <h1>Início</h1>
-                <c:forEach var="selecao" items="${novasSelecoes}">
+                <c:set var="cod" value="${param.pag}"></c:set>
+                <c:forEach var="selecao" begin="0" end="4" items="${novasSelecoes}">
                     <div class="card">
                         <div class="card-body">
                             <h2 class="card-title text-uppercase font-weight-bold">
@@ -51,7 +51,7 @@
                                     [...]
                                 </c:if>
                             </p>
-                            <a href="#" class="card-link">Inscrever-se</a>
+                            <a href="selecao?codSelecao=${selecao.codSelecao}" class="card-link">Inscrever-se</a>
                         </div>
                     </div>
                 </c:forEach>

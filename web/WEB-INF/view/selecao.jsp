@@ -1,15 +1,20 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="n2s">
         <link rel="icon" href="favicon.ico">
         <title>Darwin - Sistema de Gerenciamento de Seleções</title>
 
+<<<<<<< HEAD
+=======
         <!-- Bootstrap core CSS -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -17,150 +22,54 @@
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/recursos/css/timeline.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/recursos/css/design.css" />
     </head>
+>>>>>>> b37df41211b6f2e7b6b2dd71e72d14110768479b
 
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/design.css" />
+        <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/timeline.css" />
+    </head>
     <body>
-        <nav class="navbar navbar-inverse">
-            <c:import charEncoding="UTF-8" url="elements/menu-superior.jsp"></c:import>
-        </nav>
-      
-        <div class="container-fluid text-center">    
-            <div class="row content">
-                
-                <!-- Menu lateral esquerdo -->
-                <div class="col-sm-2 sidenav ">
-                    <c:import charEncoding="UTF-8" url="elements/menu-lateral.jsp"></c:import>
-                </div>
-                <!-- Menu lateral esquerdo -->
-
-                <!-- Menu central -->
-                <div class="col-sm-8 text-left">
-                    <c:if test="${not empty selecao}">
-                        <h2>
-                            <c:out value="${selecao.titulo}"></c:out><br>
-                        </h2>
-                        <br/>
-                        <p>
-                            <c:out value="${selecao.descricao}"></c:out>
+        <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
+            <div class="container-fluid">
+                <div class="row row-offcanvas row-offcanvas-right">
+                <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
+                    <div class="col-sm-8">
+                        <nav class="breadcrumb">
+                            <span class="breadcrumb-item">Você está em:</span> 
+                            <a class="breadcrumb-item" href="/Darwin">Início</a>
+                            <a class="breadcrumb-item active" href="${selecao.codSelecao}">${selecao.titulo}</a>
+                        </nav>
+                        <h1>${selecao.titulo}</h1>
+                        <p class="text-justify">
+                            ${selecao.descricao}
                         </p>
                         <br/>
                         
-                    <div class="col-sm-6 text-left">
-                        <div class="container">
-                            <ul class="nav nav-tabs menu-selecoes">
-                                <li class="active"><a href="#cronograma" data-toggle="tab" title="cronograma">Cronograma</a></li>
-                                <li><a href="#preRequisitos" data-toggle="tab" title="pré-requisitos para inscrição">Pré-Requisitos</a></li>
-                                <li><a href="#maisInformacoes" data-toggle="tab" title="mais informações">Mais informações</a></li>
-                            </ul>
-
-                            <div class="tab-content">
-                                <!-- Cronograma -->
-                                <div id="cronograma" class="tab-pane fade in active">
-                                    <br>
-                                    <c:if test="${empty selecao.inscricao}"> <!-- Caso não exista uma inscrição, as etapas não foram cadastradas -->
-                                        <h3>Cronograma</h3>
-                                        <p>Não existe um cronograma no momento!</p>                            
-                                    </c:if>
-                                    <c:if test="${not empty selecao.inscricao}">
-                                        <h3>Cronograma</h3>
-                                        <ul class="timeline">
-                                        <!-- Fase inscrição na timeline -->
-                                            <li>
-                                                <div class="timeline-badge"><i class="glyphicon glyphicon-pencil"></i></div>
-                                                <div class="timeline-panel">
-                                                    <div class="timeline-heading">
-                                                        <h4 class="timeline-title">
-                                                            <c:out value="${selecao.inscricao.titulo}"></c:out>
-                                                        </h4>
-                                                    </div>
-                                                    <div class="timeline-body">
-                                                        <p>
-                                                            <c:out value="${selecao.inscricao.descricao}"></c:out>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <!-- Fase inscrição na timeline -->
-
-                                            <!-- Outras fases na timeline -->
-                                            <c:forEach var="etapa" varStatus="" items="${selecao.etapas}"> 
-                                                <li>
-                                                    <div class="timeline-badge danger"><i class="glyphicon glyphicon-eye-open"></i></div>
-                                                    <div class="timeline-panel">
-                                                        <div class="timeline-heading">
-                                                            <h4 class="timeline-title">
-                                                                <c:out value="${etapa.titulo}"></c:out>
-                                                            </h4>
-                                                        </div>
-                                                        <div class="timeline-body">
-                                                            <p>
-                                                                <c:out value="${etapa.descricao}"></c:out>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </c:forEach>
-                                            <!-- Outras fases na timeline -->
-                                        </ul>
-                                    </c:if>
-                                </div>
-                                <!-- Cronograma -->
-                                
-                                <!-- Pré-Requisitos -->
-                                <div id="preRequisitos" class="tab-pane fade">
-                                    <br>
-                                    <c:if test="${empty preRequisitos}">
-                                        <h3>Pré-Requisitos</h3>
-                                        <p>Sem pré-requisitos!</p>                            
-                                    </c:if>
-                                     <c:if test="${not empty preRequisitos}">
-                                        <h3>Pré-Requisitos</h3>
-                                        <p><c:out value="${selecao.descricaoPreRequisitos}"></c:out></p>
-                                    </c:if>                        
-                                </div>
-                                <!-- Pré-Requisitos -->
-                                
-                                <!-- Mais informações -->
-                                <div id="maisInformacoes" class="tab-pane fade">
-                                    <br>
-                                    <c:if test="${empty selecao}">
-                                        <h3>Mais Informações</h3>
-                                        <p>Sem mais informações!</p>                            
-                                    </c:if>
-                                     <c:if test="${not empty selecao}">
-                                        <h3>Mais Informações</h3>
-                                        
-                                        <p>Vagas Remuneradas: <c:out value="${selecao.vagasRemuneradas}"></c:out></p>
-                                        <p>Vagas Voluntárias: <c:out value="${selecao.vagasVoluntarias}"></c:out></p>
-                                        <p>Área de Concentração: <c:out value="${selecao.areaDeConcentracao}"></c:out></p>
-                                        <p>Categoria: <c:out value="${selecao.categoria}"></c:out></p>
-                                    </c:if>                        
-                                </div>
-                                <!-- Mais informações -->
-                                
-                            <!-- Fases da Seleção-->
-                                </c:if>
-                            </div>
-                    <!-- Menu central -->
-
-                        </div>
                     </div>
-                    <div class="col-sm-2 text-left">
-                        <div class="container">
-                            <h3>DOCUMENTOS</h3>
-                            
-                        </div>
-                    </div>
+                    <ul class="timeline timeline-horizontal" >      
+                        <c:forEach var="etapa" items="${selecao.etapas}">
+                            <li class="timeline-item">
+                                <button type="button" class="btn btn-secondary timeline-badge" data-toggle="tooltip" data-placement="top" title="${etapa.titulo}">
+
+                                </button>
+                            </li>
+                        </c:forEach>
+                    </ul>
                 </div>
             </div>
-        </div>
-
-    
-
-        <!-- Rodapé -->
-        <footer class="container-fluid text-center">
-            <c:import charEncoding="UTF-8" url="elements/rodape.jsp"></c:import>
-        </footer>
-        <!-- Rodapé -->
-
-  </body>
+            <br>
+        <c:import url="elements/menu-lateral-direito.jsp" charEncoding="UTF-8"></c:import>
+        <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>      
+        <script>
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            });
+        </script>
+    </body>
 </html>

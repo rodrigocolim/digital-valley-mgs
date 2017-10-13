@@ -39,6 +39,7 @@
                 <prop key="index.jsp">IndexController</prop>
                 <prop key="selecao.jsp">SelecaoController</prop>
                 <prop key="menu-lateral.jsp">MenuLateralController</prop>
+                <prop key="error404.jsp">Error404</prop>
             </props>
         </property>
     </bean>

@@ -3,8 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Lavínia%20Matoso/Desktop/digital-valley-mgs/web/WEB-INF/view/selecao.jsp</file>
             <file>file:/C:/Users/Lavínia%20Matoso/Desktop/digital-valley-mgs/web/WEB-INF/view/index.jsp</file>
+=======
+            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/WEB-INF/view/elements/rodape.jsp</file>
+            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/WEB-INF/spring-context.xml</file>
+            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/resources/css/design.css</file>
+            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/WEB-INF/view/elements/menu-superior.jsp</file>
+            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/WEB-INF/view/index.jsp</file>
+            <file>file:/C:/Users/Alex%20Felipe/Desktop/digital-valley-mgs/web/WEB-INF/web.xml</file>
+>>>>>>> d42172abc6bb8a3e1adb5c0f043d11a8e46bf94a
         </group>
     </open-files>
 </project-private>

@@ -3,27 +3,22 @@
     Created on : 06/10/2017, 10:29:03
     Author     : Alex Felipe
 --%>
-<div class="container-fluid">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>                        
-        </button>
-        <div class="col-sm-4">
-           <img src="https://png.icons8.com/natural-food/color/1600" class="img-responsive" style="position: absolute;"/> 
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark ">
+    <a class="navbar-brand" href="#">
+        <img src="https://png.icons8.com/natural-food/color/1600" width="30" height="30" class="d-inline-block align-top" alt="">
+        Darwin
+    </a>  
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="#">Início <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="#">Minhas Seleções</a>
+            <a class="nav-item nav-link" href="#">Sair</a>
         </div>
-        <div class="col-sm-6">
-            <a class="navbar-brand" href="index.jsp">
-                &nbsp;Darwin
-            </a>            
-        </div>
+    </div>
+</nav>
 
-    </div>
-    <div class="collapse navbar-collapse">       
-        <ul class="nav navbar-nav navbar-right">           
-            <li><a href="logout.jsp" title="sair do sistema"><span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
-        </ul>
-    </div>
-</div>
+ 
 

@@ -11,7 +11,7 @@
             </button>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="#">Auxílio Moradia</a>
-                <a class="dropdown-item" href="#">Auxílio Emergêncial</a>
+                <a class="dropdown-item" href="#">Auxílio Emergencial</a>
                 <a class="dropdown-item" href="#">Bolsa de Iniciação Acadêmica</a>
                 <a class="dropdown-item" href="#">Isenção do RU</a>
             </div>

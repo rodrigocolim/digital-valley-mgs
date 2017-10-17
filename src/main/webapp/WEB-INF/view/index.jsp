@@ -32,8 +32,11 @@
                     </nav>
                     
                     <h1>Início</h1>
-                <c:set var="cod" value="${param.pag}"></c:set>
-                <c:forEach var="selecao" begin="0" end="4" items="${novasSelecoes}">
+                <c:set var="pag" value="${(param.pag)}"></c:set>
+                <c:if test="${pag <= 0}">
+                    <c:set var="pag" value="1"></c:set>
+                </c:if>
+                <c:forEach var="selecao" begin="${(pag * 5)}" end="${(pag * 5) + 4}" items="${listaSelecoes}">
                     <div class="card">
                         <div class="card-body">
                             <h2 class="card-title text-uppercase font-weight-bold">
@@ -51,21 +54,22 @@
                                     [...]
                                 </c:if>
                             </p>
+                            
                             <a href="selecao?codSelecao=${selecao.codSelecao}" class="card-link">Inscrever-se</a>
                         </div>
                     </div>
                 </c:forEach>
                     <br>
-                    <nav aria-label="Page navigation example">
+                    <nav>
                         <ul class="pagination justify-content-center">
                             <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                <a class="page-link" href="pag" tabindex="-1">Anterior</a>
                             </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <c:forEach var="pag" begin="1" end="${fn:length(listaSelecoes)/5}">
+                            <li class="page-item"><a class="page-link" href="?pag=${pag}">${pag}</a></li>
+                        </c:forEach>    
                             <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
+                                <a class="page-link" href="#">Próximo</a>
                             </li>
                         </ul>
                     </nav>

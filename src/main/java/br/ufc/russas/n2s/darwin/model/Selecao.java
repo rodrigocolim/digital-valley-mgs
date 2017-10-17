@@ -71,8 +71,6 @@ public class Selecao {
     @ManyToOne
     @JoinColumn(name="arquivo", referencedColumnName="codArquivo")
     private Arquivo edital;
-    @ManyToOne
-    @JoinColumn(name="estadoSelecao", referencedColumnName="codEstadoSelecao")
     private EstadoSelecao estado;
     
     

@@ -41,6 +41,11 @@
             <list>
                 <value>br.ufc.russas.n2s.darwin.model.Arquivo</value>
                 <value>br.ufc.russas.n2s.darwin.model.Periodo</value>
+                <value>br.ufc.russas.n2s.darwin.model.Usuario</value>
+                <value>br.ufc.russas.n2s.darwin.model.Documentacao</value>
+                <value>br.ufc.russas.n2s.darwin.model.Participante</value>
+                <value>br.ufc.russas.n2s.darwin.model.Avaliacao</value>
+                <value>br.ufc.russas.n2s.darwin.model.Etapa</value>
             </list>
         </property>
         <!-- <property name="hibernateProperties">

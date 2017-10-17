@@ -34,10 +34,9 @@ public class Usuario {
     @Column(name = "codUsuario")
     private long codUsuario;
     //Usuário do Jar do controle de acesso(talvez, o mais correto seria extender);
-    @ElementCollection(targetClass = EnumPermissoes.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "niveis_de_acesso", joinColumns = @JoinColumn(name = "nivel"))
-    @Column(name = "nivel", nullable = false) 
-    @Enumerated(EnumType.ORDINAL) 
+    @Column
+    @Enumerated
+    @ElementCollection(targetClass = EnumPermissoes.class)
     private List<EnumPermissoes> permissoes;
 
     public long getCodUsuario() {

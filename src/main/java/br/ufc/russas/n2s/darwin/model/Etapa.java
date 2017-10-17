@@ -48,6 +48,7 @@ public class Etapa implements Serializable, Atualizavel{
     @CollectionTable(name="documentacoes_exigidas", joinColumns=@JoinColumn(name="codEtapa"))
     @Column(name="documentacao_exigida")
     private List<String> documentacaoExigida;
+    @Column(name="criterio_de_avaliacao")
     private CriterioDeAvaliacao criterioDeAvaliacao;
     @ManyToMany(targetEntity = Avaliacao.class)
     @JoinTable(name="avaliacoes", joinColumns = {@JoinColumn(name="etapa", referencedColumnName = "codEtapa")},

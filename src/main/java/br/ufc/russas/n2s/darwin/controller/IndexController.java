@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  *
  * @author Wallison Carlos
  */
-@Controller("IndexController")
+@Controller("indexController")
 @RequestMapping("/")
 public class IndexController{ 
 
@@ -34,7 +34,7 @@ public class IndexController{
     
     @RequestMapping(method = RequestMethod.GET)
     public String getIndex(Model model){
-        model.addAttribute("listaSelecoes", this.getSelecaoServiceIfc().listaTodasSelecoes());        
+        model.addAttribute("novasSelecoes", this.getSelecaoServiceIfc().listaTodasSelecoes());        
         return "index";
     }
 }

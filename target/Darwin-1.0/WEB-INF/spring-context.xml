@@ -53,7 +53,7 @@
     <!--
     The index controller.
     -->
-    <bean name="IndexController"
+    <bean name="indexController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="index" />    
 </beans>

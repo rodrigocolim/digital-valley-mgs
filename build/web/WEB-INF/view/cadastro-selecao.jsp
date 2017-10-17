@@ -4,6 +4,7 @@
     Author     : Lavínia Matoso
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -56,30 +57,32 @@
                             <textarea class="form-control" id="descricao" rows="3"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1">Example select</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
+                            <label for="descricaoPreRequisitos">Pré-Requisitos</label>
+                            <textarea class="form-control" id="descricaoPreRequisitos" rows="5"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlSelect2">Example multiple select</label>
-                            <select multiple class="form-control" id="exampleFormControlSelect2">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
+                            <label for="areaDeConcentracao">Área de Concentração</label>
+                            <input type="areaDeConcentracao" class="form-control" id="areaDeConcentracao" placeholder="Ex: Computação">
                         </div>
+                        <select class="custom-select">
+                            <option selected>Categoria</option>
+                            <option value="Auxilio Moradia">Auxílio Moradia</option>
+                            <option value="Auxilio Emergenicial">Auxílio Emergencial</option>
+                            <option value="Bolsa de Iniciacao Academica">Bolsa de Iniciação Acadêmica</option>
+                            <option value="Isencao do RU">Isenção do RU</option>
+                            <option value="Bolsa de Extensao">Bolsa de Extensão</option>
+                            <option value="Iniciacao a Docencia">Iniciação à Docência</option>
+                            <option value="PACCE">PACCE</option>
+                            <option value="Cargos de Docente">Cargos de Docente</option>
+                            <option value="Cargos de Técnicos Admin">Cargos de Técnicos Admin</option>
+                            <option value="Professores Substitutos">Professores Substitutos</option>
+                        </select>
                     </form>
                     <!-- Formulário de cadastro -->
                     
                 </div>
             </div>    
         </div>
+        <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
     </body>
 </html>

@@ -39,13 +39,9 @@ public class IndexController{
     
     @RequestMapping(method = RequestMethod.GET)
     public String getIndex(Model model){
-<<<<<<< HEAD
-        ArrayList<SelecaoBeans> lista = new ArrayList<>();
-        lista.add(new SelecaoBeans(0,"Bolsa de Iniciação a Docência","asdlkasdjaslkdashdaskldashdlsadhaslkdahdsajdas awdash  ahdlashaczx,cn sdahlsalskhjd aslkdasjk asdkwjdala alex alidsudlkajh3i felipe  askldasldhaslkdhd", null, new EtapaBeans(0,"Inscrição", new PeriodoBeans(0, LocalDateTime.MIN, LocalDateTime.MAX), "asdasdasasdas", null, null, null, null, null, true, null), null, 0, 0, null, null, null, null, null, null, null, null));
-        model.addAttribute("listaSelecoes", /*this.getSelecaoServiceIfc().listaTodasSelecoes()*/ lista);        
-=======
+        
         model.addAttribute("novasSelecoes", this.getSelecaoServiceIfc().listaTodasSelecoes());        
->>>>>>> 64ae7b4e0b679f0978a32ecc2058de5a9813fa45
+
         return "index";
     }
 }

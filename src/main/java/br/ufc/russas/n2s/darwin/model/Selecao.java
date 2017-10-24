@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Converter;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -55,7 +56,7 @@ public class Selecao {
     private int vagasVoluntarias;
     private String descricaoPreRequisitos;
     private String areaDeConcentracao;
-    @ManyToMany(targetEntity = Usuario.class)
+    @ManyToMany(targetEntity = Participante.class)
     @JoinTable(name="candidatos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "participante", referencedColumnName = "codParticipante")})
     private List<Participante> candidatos;
@@ -71,6 +72,7 @@ public class Selecao {
     @ManyToOne
     @JoinColumn(name="arquivo", referencedColumnName="codArquivo")
     private Arquivo edital;
+    @Embedded
     private EstadoSelecao estado;
     
     

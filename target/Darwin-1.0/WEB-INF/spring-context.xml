@@ -36,7 +36,7 @@
     <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
-                <prop key="index.jsp">IndexController</prop>
+                <prop key="index.jsp">indexController</prop>
                 <prop key="selecao.jsp">SelecaoController</prop>
                 <prop key="menu-lateral.jsp">MenuLateralController</prop>
                 <prop key="error404.jsp">Error404</prop>
@@ -53,7 +53,7 @@
     <!--
     The index controller.
     -->
-    <bean name="IndexController"
+    <bean name="indexController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="index" />    
 </beans>

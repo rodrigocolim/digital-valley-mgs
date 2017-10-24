@@ -15,6 +15,9 @@ import br.ufc.russas.n2s.darwin.model.EstadoSelecao;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -23,16 +26,23 @@ import java.util.List;
 public class SelecaoBeans implements Beans {
 
     private long codSelecao;
+    @NotNull @Size(min = 5)
     private String titulo;
     private String descricao;
     private List<UsuarioBeans> responsaveis;
+    @NotNull
     private EtapaBeans inscricao;
     private List<EtapaBeans> etapas;
+    @Min(0)
     private int vagasRemuneradas;
+    @Min(0)
     private int vagasVoluntarias;
+    @NotNull
     private String descricaoPreRequisitos;
+    @NotNull
     private String areaDeConcentracao;
     private List<ParticipanteBeans> candidatos;
+    @NotNull
     private String categoria;
     private List<ArquivoBeans> aditivos;
     private List<ArquivoBeans> anexos;

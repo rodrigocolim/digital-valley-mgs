@@ -15,8 +15,8 @@ import java.util.List;
  * @author N2S-PC03
  */
 public interface SelecaoDAOIfc {
-    public void adicionaSelecao(Selecao  selecao);
-    public void atualizaSelecao(Selecao  selecao);
+    public Selecao adicionaSelecao(Selecao  selecao);
+    public Selecao atualizaSelecao(Selecao  selecao);
     public void removeSelecao(Selecao  selecao);
     public List<Selecao> listaSelecoes();
     public Selecao getSelecao(long codigo);

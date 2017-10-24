@@ -5,7 +5,6 @@
  */
 package br.ufc.russas.n2s.darwin.service;
 
-import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
  * @author Wallison Carlos
  */
 public interface SelecaoServiceIfc {
-    public void adicionaSelecao(SelecaoBeans selecao);
+    public SelecaoBeans adicionaSelecao(SelecaoBeans selecao);
     public void removeSelecao(SelecaoBeans selecao);
     public List<SelecaoBeans> listaNovasSelecoes();
     public List<SelecaoBeans> listaTodasSelecoes();

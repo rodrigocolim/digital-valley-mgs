@@ -5,7 +5,6 @@
  */
 package br.ufc.russas.n2s.darwin.dao;
 
-import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import java.util.List;
@@ -31,13 +30,13 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc{
     }
     
     @Override
-    public void adicionaSelecao(Selecao selecao) {
-        this.daoImpl.adiciona(selecao);
+    public Selecao adicionaSelecao(Selecao selecao) {
+        return this.daoImpl.adiciona(selecao);
     }
 
     @Override
-    public void atualizaSelecao(Selecao selecao) {
-        this.daoImpl.atualiza(selecao);
+    public Selecao atualizaSelecao(Selecao selecao) {
+        return this.daoImpl.atualiza(selecao);
     }
 
     @Override

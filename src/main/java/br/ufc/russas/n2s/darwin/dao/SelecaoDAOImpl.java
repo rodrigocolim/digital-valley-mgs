@@ -31,13 +31,13 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc{
     }
     
     @Override
-    public void adicionaSelecao(Selecao selecao) {
-        this.daoImpl.adiciona(selecao);
+    public Selecao adicionaSelecao(Selecao selecao) {
+        return this.daoImpl.adiciona(selecao);
     }
 
     @Override
-    public void atualizaSelecao(Selecao selecao) {
-        this.daoImpl.atualiza(selecao);
+    public Selecao atualizaSelecao(Selecao selecao) {
+        return this.daoImpl.atualiza(selecao);
     }
 
     @Override

@@ -5,16 +5,13 @@
  */
 package br.ufc.russas.n2s.darwin.controller;
 
-import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
-import br.ufc.russas.n2s.darwin.beans.PeriodoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -38,9 +35,16 @@ public class CadastrarSelecaoController{
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public String getIndex(Model model){        
-        model.addAttribute("novasSelecoes", this.getSelecaoServiceIfc().listaTodasSelecoes());        
-
+    public String getIndex(){             
         return "cadastrar-selecao";
+    }
+    
+    @RequestMapping(method = RequestMethod.POST)
+    public String adiciona(@Valid SelecaoBeans selecao, BindingResult result){           
+        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
+        if(result.hasErrors()){
+            return "cadastrar-selecao";
+        }
+        return "forward:/selecao?codSelecao="+selecao.getCodSelecao();
     }
 }

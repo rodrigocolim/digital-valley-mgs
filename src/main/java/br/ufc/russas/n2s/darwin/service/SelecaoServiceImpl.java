@@ -43,8 +43,8 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc{
     }
     
     @Override
-    public void adicionaSelecao(SelecaoBeans selecao){
-        this.getSelecaoDAOIfc().adicionaSelecao((Selecao) selecao.toBusiness());
+    public SelecaoBeans adicionaSelecao(SelecaoBeans selecao){
+        return (SelecaoBeans) new SelecaoBeans().toBeans(this.getSelecaoDAOIfc().adicionaSelecao((Selecao) selecao.toBusiness()));
     }
     
     @Override

@@ -10,7 +10,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +33,7 @@ import javax.persistence.Table;
 @Table(name="etapa")
 public class Etapa implements Serializable, Atualizavel{
     @Id
-    @Column(name="codArquivo")
+    @Column(name="codEtapa")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long codEtapa;
     private String titulo;
@@ -38,22 +41,24 @@ public class Etapa implements Serializable, Atualizavel{
     @JoinColumn(name="periodo", referencedColumnName="codPeriodo")
     private Periodo periodo;
     private String descricao;
-    @ManyToMany(targetEntity = Etapa.class)
+    @ManyToMany(targetEntity = Usuario.class)
     @JoinTable(name="avaliadores", joinColumns = {@JoinColumn(name="etapa", referencedColumnName = "codEtapa")},
             inverseJoinColumns = {@JoinColumn(name="avaliador", referencedColumnName = "codUsuario")})
     private List<Usuario> avaliadores;
-    @JoinTable(name="documentacaoExigida", joinColumns = {@JoinColumn(name="etapa", referencedColumnName = "codEtapa")},
-            inverseJoinColumns = {@JoinColumn(name="documentacoes", referencedColumnName = "codDocumentacao")})
+    @ElementCollection
+    @CollectionTable(name="documentacoes_exigidas", joinColumns=@JoinColumn(name="codEtapa"))
+    @Column(name="documentacao_exigida")
     private List<String> documentacaoExigida;
     @Column(name="criterio_de_avaliacao")
+    @Embedded
     private CriterioDeAvaliacao criterioDeAvaliacao;
-    @ManyToMany(targetEntity = Etapa.class)
+    @ManyToMany(targetEntity = Avaliacao.class)
     @JoinTable(name="avaliacoes", joinColumns = {@JoinColumn(name="etapa", referencedColumnName = "codEtapa")},
             inverseJoinColumns = {@JoinColumn(name="avaliacao", referencedColumnName = "codAvaliacao")})
     private List<Avaliacao> avaliacoes;
-    @ManyToMany(targetEntity = Etapa.class)
+    @ManyToMany(targetEntity = Documentacao.class)
     @JoinTable(name="documentacoes", joinColumns = {@JoinColumn(name="etapa", referencedColumnName = "codEtapa")},
-            inverseJoinColumns = {@JoinColumn(name="documentacoes", referencedColumnName = "codDocumentacao")})
+            inverseJoinColumns = {@JoinColumn(name="documentacao", referencedColumnName = "codDocumentacao")})
     private List<Documentacao> documentacoes;
     private boolean status;
     @ManyToOne

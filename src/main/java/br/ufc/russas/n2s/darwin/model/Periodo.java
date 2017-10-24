@@ -34,10 +34,8 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="codPeriodo")
     private long codPeriodo;
-    
     @Column(name="inicio")
     private LocalDateTime inicio;
-    
     @Column(name="termino")
     private LocalDateTime termino;
    

@@ -19,28 +19,28 @@ import javax.persistence.*;
 @Table(name="documentacao")
 public class Documentacao {
     
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name="codDocumentacao")
-    	private long codDocumentacao;
-        
-        @ManyToOne
-        @JoinColumn(name="usuario", referencedColumnName="codUsuario")
-	private Usuario candidato;
-        
-        @ManyToMany(targetEntity = Arquivo.class)
-        @JoinTable(name="arquivos_documentacao", joinColumns = {@JoinColumn(name = "documentacao", referencedColumnName = "codDocumentacao")},
-        inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})
-	private List<Arquivo> documentos;
-        
-        public Documentacao(){
-        }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="codDocumentacao")
+    private long codDocumentacao;
 
-        public Documentacao(long codDocumentacao, Usuario candidato, List<Arquivo> documentos) {
-            setCodDocumentacao(codDocumentacao);
-            setCandidato(candidato);
-            setDocumentos(documentos);
-        }
+    @ManyToOne
+    @JoinColumn(name="usuario", referencedColumnName="codUsuario")
+    private Usuario candidato;
+
+    @ManyToMany(targetEntity = Arquivo.class)
+    @JoinTable(name="arquivos_documentacao", joinColumns = {@JoinColumn(name = "documentacao", referencedColumnName = "codDocumentacao")},
+    inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})
+    private List<Arquivo> documentos;
+
+    public Documentacao(){
+    }
+
+    public Documentacao(long codDocumentacao, Usuario candidato, List<Arquivo> documentos) {
+        setCodDocumentacao(codDocumentacao);
+        setCandidato(candidato);
+        setDocumentos(documentos);
+    }
 
     public long getCodDocumentacao() {
         return codDocumentacao;

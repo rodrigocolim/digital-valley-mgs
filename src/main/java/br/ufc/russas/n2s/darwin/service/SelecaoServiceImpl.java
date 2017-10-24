@@ -7,9 +7,11 @@ package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
+import br.ufc.russas.n2s.darwin.model.Etapa;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,6 +46,11 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc{
     public void adicionaSelecao(SelecaoBeans selecao){
         this.getSelecaoDAOIfc().adicionaSelecao((Selecao) selecao.toBusiness());
     }
+    
+    @Override
+    public void removeSelecao(SelecaoBeans selecao){
+        this.getSelecaoDAOIfc().adicionaSelecao((Selecao) selecao.toBusiness());
+    }
 
     @Override
     public List<SelecaoBeans> listaNovasSelecoes() {
@@ -75,5 +82,9 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc{
         }
         return participantes;
     }
-    
+    @Override
+    public SelecaoBeans getSelecao(long codSelecao){
+       return (SelecaoBeans) new SelecaoBeans().toBeans(this.getSelecaoDAOIfc().getSelecao(codSelecao));
+    }
+ 
 }

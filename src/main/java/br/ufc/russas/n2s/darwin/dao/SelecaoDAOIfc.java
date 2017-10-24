@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.dao;
 
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
+import br.ufc.russas.n2s.darwin.model.Etapa;
 import java.util.List;
 
 /**
@@ -20,5 +21,4 @@ public interface SelecaoDAOIfc {
     public List<Selecao> listaSelecoes();
     public Selecao getSelecao(long codigo);
     public List<Participante> getParticipantes();
-    
 }

@@ -46,7 +46,7 @@ public class Selecao {
     @JoinColumn(name="periodo", referencedColumnName="codPeriodo")
     private Periodo periodo;
     @ManyToOne
-    @JoinColumn(name="etapa", referencedColumnName="codEtapa")
+    @JoinColumn(name="etapa_inscricao", referencedColumnName="codEtapa")
     private Etapa inscricao;
     @ManyToMany(targetEntity = Etapa.class)
     @JoinTable(name="etapas_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
@@ -70,7 +70,7 @@ public class Selecao {
     inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})
     private List<Arquivo> anexos;
     @ManyToOne
-    @JoinColumn(name="arquivo", referencedColumnName="codArquivo")
+    @JoinColumn(name="edital", referencedColumnName="codArquivo")
     private Arquivo edital;
     @Embedded
     private EstadoSelecao estado;

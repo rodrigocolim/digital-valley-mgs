@@ -25,8 +25,8 @@ public class Documentacao {
     private long codDocumentacao;
 
     @ManyToOne
-    @JoinColumn(name="usuario", referencedColumnName="codUsuario")
-    private Usuario candidato;
+    @JoinColumn(name="candidato", referencedColumnName="codParticipante")
+    private Participante candidato;
 
     @ManyToMany(targetEntity = Arquivo.class)
     @JoinTable(name="arquivos_documentacao", joinColumns = {@JoinColumn(name = "documentacao", referencedColumnName = "codDocumentacao")},
@@ -36,7 +36,7 @@ public class Documentacao {
     public Documentacao(){
     }
 
-    public Documentacao(long codDocumentacao, Usuario candidato, List<Arquivo> documentos) {
+    public Documentacao(long codDocumentacao, Participante candidato, List<Arquivo> documentos) {
         setCodDocumentacao(codDocumentacao);
         setCandidato(candidato);
         setDocumentos(documentos);
@@ -54,11 +54,11 @@ public class Documentacao {
         
     }
 
-    public Usuario getCandidato() {
+    public Participante getCandidato() {
         return candidato;
     }
 
-    public void setCandidato(Usuario candidato) {
+    public void setCandidato(Participante candidato) {
         if(candidato != null)
             this.candidato = candidato;
         else

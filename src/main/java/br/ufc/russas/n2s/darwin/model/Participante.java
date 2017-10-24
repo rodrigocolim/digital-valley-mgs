@@ -7,8 +7,8 @@ package br.ufc.russas.n2s.darwin.model;
 
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.io.Serializable;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Column;
@@ -30,7 +30,7 @@ import javax.persistence.Table;
 @Entity
 @Table("participante")
 @Converter(autoApply = true)
-public class Participante implements AttributeConverter<LocalDate, Date>, Serializable{
+public class Participante implements AttributeConverter<LocalDateTime, Timestamp>, Serializable{
     @Id
     @Column(name = "codParticipante")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,8 +43,8 @@ public class Participante implements AttributeConverter<LocalDate, Date>, Serial
             inverseJoinColumns = {@JoinColumn(name="documentacao", referencedColumnName = "codDocumentacao")})
     private List<Documentacao> documentacao;
     private boolean deferido;
-    @Column(name = "data")
-    private LocalDate data;
+    @Column(name = "dataInscricao")
+    private LocalDateTime data;
     private boolean notificado;
 
     public long getCodParticipante() {
@@ -87,11 +87,11 @@ public class Participante implements AttributeConverter<LocalDate, Date>, Serial
         this.deferido = deferido;
     }
 
-    public LocalDate getData() {
+    public LocalDateTime getData() {
         return data;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(LocalDateTime data) {
         if(data !=null){
             this.data = data;
         }else{
@@ -108,13 +108,13 @@ public class Participante implements AttributeConverter<LocalDate, Date>, Serial
     }
 
     @Override
-    public Date convertToDatabaseColumn(LocalDate x) {
-        return ((x == null ) ? null : Date.valueOf(x));
+    public Timestamp convertToDatabaseColumn(LocalDateTime attribute) {
+        return (attribute == null ? null : Timestamp.valueOf(attribute));
     }
 
     @Override
-    public LocalDate convertToEntityAttribute(Date y) {
-        return ((y == null) ? null : y.toLocalDate());
+    public LocalDateTime convertToEntityAttribute(Timestamp dbDate) {
+         return (dbDate == null ? null : dbDate.toLocalDateTime());
     }
-    
+
 }

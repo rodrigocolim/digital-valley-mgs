@@ -28,11 +28,10 @@
                 <div class="col-sm-8">
                     <nav class="breadcrumb">
                         <span class="breadcrumb-item">Você está em:</span> 
-                        <a class="breadcrumb-item active" href="index.jsp">Início</a>
+                        <a class="breadcrumb-item active" href="/index.jsp">Início</a>
                     </nav>
                     
                     <h1>Início</h1>
-                <c:set var="cod" value="${param.pag}"></c:set>
                 <c:forEach var="selecao" begin="0" end="4" items="${novasSelecoes}">
                     <div class="card">
                         <div class="card-body">
@@ -51,26 +50,11 @@
                                     [...]
                                 </c:if>
                             </p>
-                            <a href="selecao?codSelecao=${selecao.codSelecao}" class="card-link">Inscrever-se</a>
+                            <a href="selecao?codSelecao=${selecao.codSelecao}" class="card-link">Acessar</a>
                         </div>
                     </div>
                 </c:forEach>
-                    <br>
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">Previous</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
-                <c:import url="elements/menu-lateral-direito.jsp" charEncoding="UTF-8"></c:import>
             </div>
         </div>
         <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  

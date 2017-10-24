@@ -45,7 +45,11 @@
                 <value>br.ufc.russas.n2s.darwin.model.Documentacao</value>
                 <value>br.ufc.russas.n2s.darwin.model.Participante</value>
                 <value>br.ufc.russas.n2s.darwin.model.Avaliacao</value>
+<<<<<<< HEAD
+=======
                 <value>br.ufc.russas.n2s.darwin.model.Etapa</value>
+                <value>br.ufc.russas.n2s.darwin.model.Selecao</value>
+>>>>>>> 64ae7b4e0b679f0978a32ecc2058de5a9813fa45
             </list>
         </property>
         <!-- <property name="hibernateProperties">

@@ -13,18 +13,6 @@
         <link rel="icon" href="favicon.ico">
         <title>Darwin - Sistema de Gerenciamento de Seleções</title>
 
-<<<<<<< HEAD
-=======
-        <!-- Bootstrap core CSS -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/recursos/css/timeline.css" />
-        <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/recursos/css/design.css" />
-    </head>
->>>>>>> b37df41211b6f2e7b6b2dd71e72d14110768479b
-
-
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

@@ -13,6 +13,7 @@ import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -49,6 +50,7 @@ public class Etapa implements Serializable, Atualizavel{
     @Column(name="documentacao_exigida")
     private List<String> documentacaoExigida;
     @Column(name="criterio_de_avaliacao")
+    @Embedded
     private CriterioDeAvaliacao criterioDeAvaliacao;
     @ManyToMany(targetEntity = Avaliacao.class)
     @JoinTable(name="avaliacoes", joinColumns = {@JoinColumn(name="etapa", referencedColumnName = "codEtapa")},

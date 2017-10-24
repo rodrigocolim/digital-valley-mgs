@@ -36,10 +36,11 @@
     <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
-                <prop key="index.jsp">IndexController</prop>
-                <prop key="selecao.jsp">SelecaoController</prop>
+                <prop key="index.jsp">indexController</prop>
+                <prop key="selecao.jsp">selecaoController</prop>
                 <prop key="menu-lateral.jsp">MenuLateralController</prop>
                 <prop key="error404.jsp">Error404</prop>
+                <prop key="minhas-selecoes.jsp">MinhasSelecoes</prop>
             </props>
         </property>
     </bean>

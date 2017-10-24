@@ -11,11 +11,12 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="#">Início <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="#">Minhas Seleções</a>
-            <a class="nav-item nav-link" href="#">Sair</a>
+    <div class="collapse navbar-collapse d-block" id="navbarNavAltMarkup">
+        <div class="navbar-nav d-flex flex-nowrap">
+            <a class="nav-item nav-link order-1 p-2" href="#">Início <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link order-2 p-2" href="minhas-selecoes">Minhas Seleções</a>
+            <a class="nav-item nav-link order-3 p-2 text-right" href="#">Acessar módulos</a>
+            <a class="nav-item nav-link order-4 p-2" href="#">Sair <span class="sr-only">(current)</span></a>
         </div>
     </div>
 </nav>

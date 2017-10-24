@@ -28,7 +28,8 @@
                 <div class="col-sm-8">
                     <nav class="breadcrumb">
                         <span class="breadcrumb-item">Você está em:</span> 
-                        <a class="breadcrumb-item active" href="/index.jsp">Início</a>
+                        <a class="breadcrumb-item" href="index.jsp">Início</a>
+                        <a class="breadcrumb-item active" href="index.jsp">Minhas Seleções</a>
                     </nav>
                     
                     <h1>Início</h1>
@@ -50,10 +51,24 @@
                                     [...]
                                 </c:if>
                             </p>
-                            <a href="selecao?codSelecao=${selecao.codSelecao}" class="card-link">Acessar</a>
+                            <a href="selecao?codSelecao=${selecao.codSelecao}" class="card-link">Inscrever-se</a>
                         </div>
                     </div>
                 </c:forEach>
+                    <br>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>

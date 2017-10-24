@@ -5,9 +5,12 @@
  */
 package br.ufc.russas.n2s.darwin.service;
 
+import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
+import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,7 +47,14 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc{
 
     @Override
     public List<SelecaoBeans> listaNovasSelecoes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());        
+        List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes();
+        for(Selecao s : resultado){
+            if(s.getInscricao().getPeriodo().getInicio().isAfter(LocalDateTime.now())){
+                selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+            }
+        }
+        return selecoes;
     }
 
     @Override
@@ -56,4 +66,14 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc{
         }
         return selecoes;
     }
+    @Override
+    public List<ParticipanteBeans> listaParticipantesDaSelecao(){
+        List<ParticipanteBeans> participantes = Collections.synchronizedList(new ArrayList<ParticipanteBeans>());
+        List<Participante> resultado = this.getSelecaoDAOIfc().getParticipantes();
+        for(Participante p : resultado){
+            participantes.add((ParticipanteBeans) new ParticipanteBeans().toBeans(p));
+        }
+        return participantes;
+    }
+    
 }

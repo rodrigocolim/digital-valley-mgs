@@ -6,6 +6,7 @@
 package br.ufc.russas.n2s.darwin.dao;
 
 import java.util.List;
+import org.hibernate.SessionFactory;
 
 /**
  *
@@ -13,9 +14,10 @@ import java.util.List;
  * @param <T>
  */
 public interface DAOIfc<T> {
-     public T adiciona(T object);
-     public T atualiza(T object);
-     public void remove(T object);
-     public List<T> lista(Class object);
-     public T getObject(Class<T> classe, long codObject);
+    public SessionFactory getSessionFactory();
+    public T adiciona(T object);
+    public T atualiza(T object);
+    public void remove(T object);
+    public List<T> lista(Class object);
+    public T getObject(Class<T> classe, long codObject);
 }

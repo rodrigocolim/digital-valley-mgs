@@ -40,6 +40,7 @@
                 <prop key="selecao.jsp">SelecaoController</prop>
                 <prop key="menu-lateral.jsp">MenuLateralController</prop>
                 <prop key="error404.jsp">Error404</prop>
+                <prop key="minhas-selecoes.jsp">MinhasSelecoes</prop>
             </props>
         </property>
     </bean>

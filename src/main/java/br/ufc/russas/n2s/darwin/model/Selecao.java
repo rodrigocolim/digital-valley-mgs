@@ -27,8 +27,8 @@ import javax.persistence.Table;
  *
  * @author N2S-PC03
  */
-@Converter(autoApply = true)
 @Entity
+@Converter(autoApply = true)
 @Table(name="selecao")
 public class Selecao {
 
@@ -74,6 +74,9 @@ public class Selecao {
     private Arquivo edital;
     @Embedded
     private EstadoSelecao estado;
+
+    public Selecao() {
+    }
     
     
     

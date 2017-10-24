@@ -58,12 +58,8 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc{
     @Override
     public List<Participante> getParticipantes(){
         Session session = this.daoImpl.getSessionFactory().openSession();
-        try{
-            return session.createCriteria(Participante.class).createCriteria("candidatos").list();
-	}
-        finally{
-            session.close();
-        }
+        return session.createCriteria(Participante.class).createCriteria("candidatos").list();
+	
     }
       
 }

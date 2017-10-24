@@ -5,8 +5,10 @@
  */
 package br.ufc.russas.n2s.darwin.dao;
 
+import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import java.util.List;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -50,6 +52,17 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc{
     @Override
     public Selecao getSelecao(long codigo) {
         return this.daoImpl.getObject(Selecao.class, codigo);
+    }
+    
+    @Override
+    public List<Participante> getParticipantes(){
+        Session session = this.daoImpl.getSessionFactory().openSession();
+        try{
+            return session.createCriteria(Participante.class).createCriteria("candidatos").list();
+	}
+        finally{
+            session.close();
+        }
     }
       
 }

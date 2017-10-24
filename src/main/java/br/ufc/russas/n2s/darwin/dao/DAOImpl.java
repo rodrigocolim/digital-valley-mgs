@@ -25,6 +25,7 @@ public class DAOImpl<T> implements DAOIfc<T>{
     
     public DAOImpl(){}
     
+    @Override
     public SessionFactory getSessionFactory(){
         return sessionFactory;
     }

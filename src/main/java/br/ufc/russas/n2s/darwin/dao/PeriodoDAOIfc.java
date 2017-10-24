@@ -14,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Wallison Carlos
  */
-public interface PeriodoDAO{
-    
+public interface PeriodoDAOIfc{
+    public void adicionaPeriodo(Periodo  periodo);
+    public void atualizaPeriodo(Periodo  periodo);
+    public void removePeriodo(Periodo  periodo);
+    public List<Periodo> listaPeriodos();
+    public Periodo getPeriodo(long codPeriodo);
 }

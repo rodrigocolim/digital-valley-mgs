@@ -19,8 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository("etapaDAOIfc")
 @Transactional
 public class EtapaDAOImpl implements EtapaDAOIfc{
+
     private DAOIfc<Etapa> daoImpl;
-     
+
     @Autowired
     public void setDAOIfc(@Qualifier("daoImpl")DAOIfc<Etapa> dao){
         this.daoImpl = dao;
@@ -43,7 +44,7 @@ public class EtapaDAOImpl implements EtapaDAOIfc{
 
     @Override
     public List<Etapa> listaEtapas() {
-        return this.daoImpl.lista(Etapa.class);
+        return this.daoImpl.lista(Etapa.class).list();
     }
 
     @Override

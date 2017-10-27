@@ -12,10 +12,12 @@ import java.io.Serializable;
  * @author Wallison Carlos
  */
 public class IllegalCodeException extends IllegalArgumentException implements Serializable{
-    
-    public IllegalCodeException(){}
-    
-    public IllegalCodeException(String message){
+
+    public IllegalCodeException() {
+
+    }
+
+    public IllegalCodeException(String message) {
         super(message);
     }
 }

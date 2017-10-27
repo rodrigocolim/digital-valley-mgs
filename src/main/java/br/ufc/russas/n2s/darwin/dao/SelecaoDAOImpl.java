@@ -5,10 +5,8 @@
  */
 package br.ufc.russas.n2s.darwin.dao;
 
-import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import java.util.List;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -20,15 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository("selecaoDAOIfc")
 @Transactional
-public class SelecaoDAOImpl implements SelecaoDAOIfc{
+public class SelecaoDAOImpl implements SelecaoDAOIfc {
 
     private DAOIfc<Selecao> daoImpl;
-    
+
     @Autowired
     public void setDAOIfc(@Qualifier("daoImpl")DAOIfc<Selecao> dao){
         this.daoImpl = dao;
     }
-    
+
     @Override
     public Selecao adicionaSelecao(Selecao selecao) {
         return this.daoImpl.adiciona(selecao);
@@ -46,7 +44,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc{
 
     @Override
     public List<Selecao> listaSelecoes() {
-        return this.daoImpl.lista(Selecao.class);
+        return this.daoImpl.lista(Selecao.class).list();
     }
 
     @Override
@@ -54,9 +52,12 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc{
         return this.daoImpl.getObject(Selecao.class, codigo);
     }
 
+<<<<<<< HEAD
     @Override
     public List<Participante> getParticipantes(){
         Session session = this.daoImpl.getSessionFactory().openSession();
         return session.createCriteria(Participante.class).createCriteria("candidatos").list();
     }
+=======
+>>>>>>> 4c84b0ade336201c2cdb388c17db622af4804969
 }

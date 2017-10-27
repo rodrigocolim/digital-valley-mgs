@@ -18,9 +18,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 public class DocumentacaoDAOImpl implements DocumentacaoDAOIfc{
 
     private DAOIfc<Documentacao> daoImpl;
-     
+
     @Autowired
-    public void setDAOIfc(@Qualifier("daoImpl")DAOIfc<Documentacao> dao){
+    public void setDAOIfc(@Qualifier("daoImpl")DAOIfc<Documentacao> dao) {
         this.daoImpl = dao;
     }
     
@@ -41,7 +41,7 @@ public class DocumentacaoDAOImpl implements DocumentacaoDAOIfc{
 
     @Override
     public List<Documentacao> listaDocumentacoes() {
-        return this.daoImpl.lista(Documentacao.class);
+        return this.daoImpl.lista(Documentacao.class).list();
     }
 
     @Override

@@ -13,9 +13,38 @@ import java.util.List;
  * @author Wallison Carlos
  */
 public interface DocumentacaoDAOIfc {
-    public Documentacao adicionaDocumentacao(Documentacao documentacao);
-    public Documentacao atualizaDocumentacao(Documentacao documentacao);
-    public void removeDocumentacao(Documentacao documentacao);
-    public List<Documentacao> listaDocumentacoes();
-    public Documentacao getDocumentacao(long codDocumentacao);
+
+    /**
+     * Método resposável por fazer a persistência de uma documentacao.
+     * @param documentacao
+     * @return
+     */
+    Documentacao adicionaDocumentacao(Documentacao documentacao);
+
+    /**
+     * Método resposável por fazer a atualização de uma documentacao.
+     * @param documentacao
+     * @return
+     */
+    Documentacao atualizaDocumentacao(Documentacao documentacao);
+
+    /**
+     * Método resposável por fazer a remoção de uma documentacao.
+     * @param documentacao
+     */
+    void removeDocumentacao(Documentacao documentacao);
+
+    /**
+     * Método resposável por fazer a listagem de todas as documentações.
+     * @return List<Documentacao>
+     */
+    List<Documentacao> listaDocumentacoes();
+
+    /**
+     * Método resposável por pegar do banco de dados uma documentacao a
+     * partir do código informado.
+     * @param codDocumentacao
+     * @return Documentacao
+     */
+    Documentacao getDocumentacao(long codDocumentacao);
 }

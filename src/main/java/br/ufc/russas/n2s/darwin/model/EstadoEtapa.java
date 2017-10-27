@@ -5,14 +5,13 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import javax.persistence.Embeddable;
+
 /**
  *
  * @author Wallison Carlos
  */
-public interface Atualizavel {
+@Embeddable
+public interface EstadoEtapa {
 
-    /**
-     * Operação resposável por atualizar uma entidade no banco de dados.
-     */
-    void atualiza();
 }

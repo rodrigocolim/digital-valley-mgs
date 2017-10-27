@@ -13,21 +13,12 @@ import java.time.LocalDateTime;
  *
  * @author Lavínia Matoso
  */
-public class ArquivoBeans implements Beans{
+public class ArquivoBeans implements Beans {
 
     private long codArquivo;
     private String titulo;
     private File arquivo;
     private LocalDateTime data;
-
-    public ArquivoBeans(){}
-    
-    public ArquivoBeans(long codArquivo, String titulo, File arquivo, LocalDateTime data) {
-        this.codArquivo = codArquivo;
-        this.titulo = titulo;
-        this.arquivo = arquivo;
-        this.data = data;
-    }
 
     public long getCodArquivo() {
         return codArquivo;
@@ -60,39 +51,35 @@ public class ArquivoBeans implements Beans{
     public void setData(LocalDateTime data) {
         this.data = data;
     }
-    
+
     @Override
     public Object toBusiness() {
-        Arquivo arquivo = new Arquivo();
-        
-        if(this.getCodArquivo() > 0){
-            arquivo.setCodArquivo(this.getCodArquivo());
+        Arquivo arq = new Arquivo();
+        if (this.getCodArquivo() > 0) {
+            arq.setCodArquivo(this.getCodArquivo());
         }
-        
-        arquivo.setTitulo(this.getTitulo());
-        arquivo.setData(this.getData());
-        arquivo.setArquivo(this.getArquivo());
-        
-        return arquivo;
+        arq.setTitulo(this.getTitulo());
+        arq.setData(this.getData());
+        arq.setArquivo(this.getArquivo());
+        return arq;
     }
 
     @Override
     public Beans toBeans(Object object) {
-        if(object != null){
-            if(object instanceof Arquivo){
-               Arquivo arquivo = (Arquivo) object;
-                this.setCodArquivo(arquivo.getCodArquivo());
-                this.setTitulo(arquivo.getTitulo());
-                this.setData(arquivo.getData());
-                this.setArquivo(arquivo.getArquivo());
-                
+        if (object != null) {
+            if (object instanceof Arquivo) {
+                Arquivo arq = (Arquivo) object;
+                this.setCodArquivo(arq.getCodArquivo());
+                this.setTitulo(arq.getTitulo());
+                this.setData(arq.getData());
+                this.setArquivo(arq.getArquivo());
                 return this;
-            }else{
+            } else {
                 throw new IllegalArgumentException("O objeto a ser adicionado não é um Período!");
             }
-        }else{
+        } else {
             throw new NullPointerException("Período não pode ser nula!");
         }
     }
-    
+
 }

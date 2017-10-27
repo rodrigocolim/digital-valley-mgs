@@ -25,5 +25,5 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 @Embeddable
 public interface CriterioDeAvaliacao {
-    public String processo();
+    void avalia(Avaliacao avaliacao);
 }

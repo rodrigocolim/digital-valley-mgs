@@ -13,9 +13,36 @@ import java.util.List;
  * @author N2S-PC03
  */
 public interface ParticipanteDAOIfc {
-    public void adicionaParticipante(Participante participante);
-    public void atualizaParticipante(Participante participante);
-    public void removeParticipante(Participante participante);
-    public List<Participante> listaParticipantes();
-    public Participante getParticipante(long codigo);
+
+    /**
+     * Método resposável por fazer a persistência de um participante.
+     * @param participante
+     */
+    void adicionaParticipante(Participante participante);
+
+    /**
+     * Método resposável por fazer a atualização de um participante.
+     * @param participante
+     */
+    void atualizaParticipante(Participante participante);
+
+    /**
+     * Método resposável por fazer a remoção de um participante.
+     * @param participante
+     */
+    void removeParticipante(Participante participante);
+
+    /**
+     * Método resposável por fazer a listagem de todos os participantes.
+     * @return
+     */
+    List<Participante> listaParticipantes();
+
+    /**
+     * Método resposável por pegar do banco de dados um
+     * participante a partir do código informadao.
+     * @param codigo
+     * @return
+     */
+    Participante getParticipante(long codigo);
 }

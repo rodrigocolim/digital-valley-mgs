@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.model;
 
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.io.File;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import javax.persistence.AttributeConverter;
@@ -25,7 +26,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "arquivo")
 @Converter(autoApply = true)
+<<<<<<< HEAD
 public class Arquivo implements AttributeConverter<LocalDateTime, Timestamp> {
+=======
+public class Arquivo implements AttributeConverter<LocalDateTime, Timestamp>, Serializable{
+>>>>>>> 4c84b0ade336201c2cdb388c17db622af4804969
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codArquivo")

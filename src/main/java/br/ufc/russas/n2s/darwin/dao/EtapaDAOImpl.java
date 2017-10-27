@@ -44,7 +44,7 @@ public class EtapaDAOImpl implements EtapaDAOIfc{
 
     @Override
     public List<Etapa> listaEtapas() {
-        return this.daoImpl.lista(Etapa.class).list();
+        return this.daoImpl.lista(Etapa.class);
     }
 
     @Override

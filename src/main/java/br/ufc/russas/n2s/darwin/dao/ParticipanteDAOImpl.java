@@ -41,7 +41,7 @@ public class ParticipanteDAOImpl implements ParticipanteDAOIfc{
 
     @Override
     public List<Participante> listaParticipantes() {
-        return this.daoImpl.lista(Participante.class).list();
+        return this.daoImpl.lista(Participante.class);
     }
 
     @Override

@@ -105,13 +105,13 @@ public class DAOImpl<T> implements DAOIfc<T> {
     }
 
     @Override
-    public Criteria lista(Class object) {
+    public List<T> lista(Class object) {
         Session session = getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         try {
             Criteria criteria = session.createCriteria(object.getClass());
             t.commit();
-            return criteria;
+            return criteria.list();
         } catch (RuntimeException e) {
             t.rollback();
             throw e;

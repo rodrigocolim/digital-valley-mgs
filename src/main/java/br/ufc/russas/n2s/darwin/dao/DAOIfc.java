@@ -5,6 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.dao;
 
+import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 
@@ -57,10 +58,10 @@ public interface DAOIfc<T> {
      * @param object
      * obejct - do tipo Class, recebe uma classe que seja anotada com Hibernate
      * @return Criteria
-     * Criteria -  criteria básico, somente com a classe que se deseja obter as
+     * List<T> -  lista com os objetos da classe que se deseja obter as
      * instâncias.
      */
-    Criteria lista(Class object);
+    List<T> lista(Class object);
 
     /**
      * Método resposável por pegar do banco de dados uma objeto que contém

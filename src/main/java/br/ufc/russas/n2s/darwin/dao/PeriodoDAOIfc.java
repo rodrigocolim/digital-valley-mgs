@@ -15,9 +15,36 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Wallison Carlos
  */
 public interface PeriodoDAOIfc{
-    public void adicionaPeriodo(Periodo  periodo);
-    public void atualizaPeriodo(Periodo  periodo);
-    public void removePeriodo(Periodo  periodo);
-    public List<Periodo> listaPeriodos();
-    public Periodo getPeriodo(long codPeriodo);
+
+    /**
+     * Método resposável por fazer a persistência de um período.
+     * @param periodo
+     */
+    void adicionaPeriodo(Periodo  periodo);
+
+    /**
+     * Método resposável por fazer a atualização de um período.
+     * @param periodo
+     */
+    void atualizaPeriodo(Periodo  periodo);
+
+    /**
+     * Método resposável por fazer a remoção de um período.
+     * @param periodo
+     */
+    void removePeriodo(Periodo  periodo);
+
+    /**
+     * Método resposável por fazer a listagem de todos os períodos.
+     * @return List<Periodo>
+     */
+    List<Periodo> listaPeriodos();
+
+    /**
+     * Método resposável por pegar do banco de dados um
+     * período a partir do código informadao.
+     * @param codPeriodo
+     * @return Periodo
+     */
+    Periodo getPeriodo(long codPeriodo);
 }

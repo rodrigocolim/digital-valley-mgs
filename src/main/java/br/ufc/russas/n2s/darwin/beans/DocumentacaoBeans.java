@@ -45,42 +45,50 @@ public class DocumentacaoBeans implements Beans {
     public void setDocumentos(List<ArquivoBeans> documentos) {
         this.documentos = documentos;
     }
-    
-    
+
     @Override
     public Object toBusiness() {
         Documentacao documentacao = new Documentacao();
-        if(this.getCodDocumentacao()>0){
+        if (this.getCodDocumentacao() > 0) {
             documentacao.setCodDocumentacao(this.getCodDocumentacao());
         }
-        documentacao.setCandidato((Participante) this.getCandidato().toBusiness());
-        List<Arquivo> documentos = Collections.synchronizedList(new ArrayList<Arquivo>());
-        for(ArquivoBeans documento : this.getDocumentos()){
-            documentos.add((Arquivo) documento.toBusiness());
+        Participante p = (Participante) this.getCandidato().toBusiness();
+        documentacao.setCandidato(p);
+        ArrayList<Arquivo> arquivos = new ArrayList<>();
+        List<Arquivo> syncDocs;
+        syncDocs = Collections.synchronizedList(arquivos);
+        for (ArquivoBeans documento : this.getDocumentos()) {
+            syncDocs.add((Arquivo) documento.toBusiness());
         }
-        documentacao.setDocumentos(documentos);
+        documentacao.setDocumentos(syncDocs);
         return documentacao;
     }
 
     @Override
     public Beans toBeans(Object object) {
-        if(object != null){
-            if(object instanceof Documentacao){
+        if (object != null) {
+            if (object instanceof Documentacao) {
                 Documentacao documentacao = (Documentacao) object;
                 this.setCodDocumentacao(this.getCodDocumentacao());
-                this.setCandidato((ParticipanteBeans) new ParticipanteBeans().toBeans(this.getCandidato()));
-                List<ArquivoBeans> documentos = Collections.synchronizedList(new ArrayList<ArquivoBeans>());
-                for(Arquivo documento : documentacao.getDocumentos()){
-                    documentos.add((ArquivoBeans) new ArquivoBeans().toBeans(documento));
+                ParticipanteBeans participanteBeans = new ParticipanteBeans();
+                participanteBeans.toBeans(this.getCandidato());
+                this.setCandidato(participanteBeans);
+                ArrayList<ArquivoBeans> docs = new ArrayList<>();
+                List<ArquivoBeans> syncDocs;
+                syncDocs = Collections.synchronizedList(docs);
+                for (Arquivo documento : documentacao.getDocumentos()) {
+                    ArquivoBeans a = new ArquivoBeans();
+                    a.toBeans(documento);
+                    syncDocs.add(a);
                 }
-                this.setDocumentos(documentos);
+                this.setDocumentos(syncDocs);
                 return this;
-            }else{
+            } else {
                 throw new IllegalArgumentException("Isso não é uma Documentação!");
             }
-        }else{
+        } else {
             throw new NullPointerException("Documentação não pode ser nula!");
         }
     }
-    
+
 }

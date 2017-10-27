@@ -30,39 +30,41 @@ import javax.persistence.Table;
  * @author Lavínia Matoso
  */
 @Entity
-@Table(name="etapa")
-public class Etapa implements Serializable, Atualizavel{
+@Table(name = "etapa")
+public class Etapa implements Serializable, Atualizavel {
     @Id
-    @Column(name="codEtapa")
+    @Column(name = "codEtapa")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long codEtapa;
     private String titulo;
     @ManyToOne
-    @JoinColumn(name="periodo", referencedColumnName="codPeriodo")
+    @JoinColumn(name = "periodo", referencedColumnName = "codPeriodo")
     private Periodo periodo;
     private String descricao;
     @ManyToMany(targetEntity = Usuario.class)
-    @JoinTable(name="avaliadores", joinColumns = {@JoinColumn(name="etapa", referencedColumnName = "codEtapa")},
-            inverseJoinColumns = {@JoinColumn(name="avaliador", referencedColumnName = "codUsuario")})
+    @JoinTable(name = "avaliadores", joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
+            inverseJoinColumns = {@JoinColumn(name = "avaliador", referencedColumnName = "codUsuario")})
     private List<Usuario> avaliadores;
     @ElementCollection
-    @CollectionTable(name="documentacoes_exigidas", joinColumns=@JoinColumn(name="codEtapa"))
-    @Column(name="documentacao_exigida")
+    @CollectionTable(name = "documentacoes_exigidas", joinColumns = @JoinColumn(name = "codEtapa"))
+    @Column(name = "documentacao_exigida")
     private List<String> documentacaoExigida;
-    @Column(name="criterio_de_avaliacao")
+    @Column(name = "criterio_de_avaliacao")
     @Embedded
     private CriterioDeAvaliacao criterioDeAvaliacao;
     @ManyToMany(targetEntity = Avaliacao.class)
-    @JoinTable(name="avaliacoes", joinColumns = {@JoinColumn(name="etapa", referencedColumnName = "codEtapa")},
-            inverseJoinColumns = {@JoinColumn(name="avaliacao", referencedColumnName = "codAvaliacao")})
+    @JoinTable(name = "avaliacoes", 
+            joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
+            inverseJoinColumns = {@JoinColumn(name = "avaliacao", referencedColumnName = "codAvaliacao")})
     private List<Avaliacao> avaliacoes;
     @ManyToMany(targetEntity = Documentacao.class)
-    @JoinTable(name="documentacoes", joinColumns = {@JoinColumn(name="etapa", referencedColumnName = "codEtapa")},
-            inverseJoinColumns = {@JoinColumn(name="documentacao", referencedColumnName = "codDocumentacao")})
+    @JoinTable(name = "documentacoes", joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
+            inverseJoinColumns = {@JoinColumn(name = "documentacao", referencedColumnName = "codDocumentacao")})
     private List<Documentacao> documentacoes;
-    private boolean status;
+    @Embedded
+    private EstadoEtapa estado;
     @ManyToOne
-        @JoinColumn(name="prerequisito", referencedColumnName="codEtapa")
+        @JoinColumn(name = "prerequisito", referencedColumnName = "codEtapa")
     private Etapa prerequisito;
 
     public long getCodEtapa() {
@@ -70,9 +72,9 @@ public class Etapa implements Serializable, Atualizavel{
     }
 
     public void setCodEtapa(long codEtapa) {
-        if(codEtapa >0){
+        if (codEtapa > 0) {
             this.codEtapa = codEtapa;
-        }else{
+        } else {
             throw new IllegalCodeException("Código de etapa deve ser maior que zero!");
         }
     }
@@ -82,11 +84,11 @@ public class Etapa implements Serializable, Atualizavel{
     }
 
     public void setTitulo(String titulo) {
-        if(titulo == null){
+        if (titulo == null) {
             throw new NullPointerException("Título não pode ser nulo!");
-        }else if(titulo.isEmpty()){
+        } else if (titulo.isEmpty()) {
             throw new NullPointerException("Título não pode ser vazio!");
-        }else{
+        } else {
             this.titulo = titulo;
         }
     }
@@ -96,9 +98,9 @@ public class Etapa implements Serializable, Atualizavel{
     }
 
     public void setPeriodo(Periodo periodo) {
-        if(periodo !=null){
+        if (periodo != null) {
             this.periodo = periodo;
-        }else{
+        } else {
             throw new NullPointerException("Período não pode ser nulo!");
         }
     }
@@ -132,9 +134,9 @@ public class Etapa implements Serializable, Atualizavel{
     }
 
     public void setCriterioDeAvaliacao(CriterioDeAvaliacao criterioDeAvaliacao) {
-        if(criterioDeAvaliacao != null){
+        if (criterioDeAvaliacao != null) {
             this.criterioDeAvaliacao = criterioDeAvaliacao;
-        }else{
+        } else {
             throw new NullPointerException("Deve ser selecionado um critério de avaliação!");
         }
     }
@@ -155,59 +157,82 @@ public class Etapa implements Serializable, Atualizavel{
         this.documentacoes = documentacoes;
     }
 
-    public boolean isStatus() {
-        return status;
+    public EstadoEtapa getEstado () {
+        return estado;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setEstado (EstadoEtapa estado) {
+        this.estado = estado;
     }
 
     public Etapa getPrerequisito() {
         return prerequisito;
     }
 
+    /**
+     *
+     * @param prerequisito
+     */
     public void setPrerequisito(Etapa prerequisito) {
-        if(prerequisito.getPeriodo().isAntes(this.getPeriodo())){
+        if (prerequisito.getPeriodo().isAntes(this.getPeriodo())) {
             this.prerequisito = prerequisito;
-        }else{
+        } else {
             throw new IllegalArgumentException("Essa é tapa não pode ser pré-requisito da etapa "+this.getTitulo()+" pois não ocorre antes!");
         }
     }
-    
-    public void adicionaDocumentacaoExigida(List<String> maisDocumentacao){
-        if(maisDocumentacao != null && !maisDocumentacao.isEmpty()){
+
+    /**
+     *
+     * @param maisDocumentacao
+     */
+    public void adicionaDocumentacaoExigida(List<String> maisDocumentacao) {
+        if (maisDocumentacao != null && !maisDocumentacao.isEmpty()) {
             this.documentacaoExigida.addAll(maisDocumentacao);
         }
     }
-    
-    public void adicionaAvaliador(Usuario usuario){
-        if(this.getAvaliadores() != null){
-            this.setAvaliadores(Collections.synchronizedList(new ArrayList<Usuario>()));
+
+    /**
+     * Adiciona um novo avaliador a etapa.
+     * @param usuario
+     */
+    public void adicionaAvaliador(Usuario usuario) {
+        if (this.getAvaliadores() != null) {
+            ArrayList<Usuario> usuarios = new ArrayList<>();
+            List<Usuario> sync = Collections.synchronizedList(usuarios);
+            this.setAvaliadores(sync);
         }
-        if(!this.getAvaliadores().contains(usuario)){
-            //Falta adicionar uma verificação para saber se o usuário está inscrito ou não na seleção 
+        if (!this.getAvaliadores().contains(usuario)) {
+            //Falta adicionar uma verificação para saber se o usuário está inscrito ou não na seleção
             this.getAvaliadores().add(usuario);
-            //Chama o dao para atualizar a etapa
-        }else{
+            atualiza();
+        } else {
             throw new IllegalArgumentException("Esse usuário já é avaliador desssa etapa!");
         }
     }
 
-    public void removeAvaliador(Usuario usuario){
-        if(this.getAvaliadores() != null){
-            if(this.getAvaliadores().contains(usuario)){
+    /**
+     * Método resposável por remover um avaliador desta etapa.
+     * @param usuario
+     */
+    public void removeAvaliador(Usuario usuario) {
+        if (this.getAvaliadores() != null) {
+            if (this.getAvaliadores().contains(usuario)) {
                 this.getAvaliadores().remove(usuario);
-                //Chama o método do dao para atualizar a etapa
-            }else{
+                atualiza();
+            } else {
                 throw new IllegalArgumentException("Usuário não é avaliador dessa etapa!");
             }
-        }else{
+        } else {
             throw new NullPointerException("Não existe avaliadores cadastrados para esta etapa!");
         }
     }
-    
-    public boolean isAvaliador(Usuario usuario){
+
+    /**
+     * Verifica se o usuário passado é um avaliador.
+     * @param usuario
+     * @return
+     */
+    public boolean isAvaliador(Usuario usuario) {
         return this.getAvaliadores().contains(usuario);
     }
     
@@ -217,10 +242,9 @@ public class Etapa implements Serializable, Atualizavel{
         hash = 37 * hash + (int) (this.codEtapa ^ (this.codEtapa >>> 32));
         return hash;
     }
-    
-    
+
     @Override
-    public boolean equals(Object o){
+    public boolean equals(final Object o) {
         return (this.getCodEtapa() == ((Etapa) o).getCodEtapa());
     }
 

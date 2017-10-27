@@ -13,10 +13,37 @@ import java.util.List;
  * @author Wallison Carlos
  */
 public interface EtapaDAOIfc {
-    public void adicionaEtapa(Etapa etapa);
-    public void atualizaEtapa(Etapa etapa);
-    public void removeEtapa(Etapa etapa);
-    public List<Etapa> listaEtapas();
-    public Etapa getEtapa(long codEtapa);
+
+    /**
+     * Método resposável por fazer a persistência de uma etapa.
+     * @param etapa
+     */
+    void adicionaEtapa(Etapa etapa);
+
+    /**
+     * Método resposável por fazer a atualização de uma etapa.
+     * @param etapa
+     */
+    void atualizaEtapa(Etapa etapa);
+
+    /**
+     * Método resposável por fazer a remoção de uma etapa.
+     * @param etapa
+     */
+    void removeEtapa(Etapa etapa);
+
+    /**
+     * Método resposável por fazer a listagem de todas as etapas.
+     * @return List<Etapa>
+     */
+    List<Etapa> listaEtapas();
+
+    /**
+     * Método resposável por pegar do banco de dados uma etapa a partir do
+     * código informado.
+     * @param codEtapa
+     * @return Etapa
+     */
+    Etapa getEtapa(long codEtapa);
 
 }

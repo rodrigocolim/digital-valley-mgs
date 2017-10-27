@@ -9,10 +9,11 @@ package br.ufc.russas.n2s.darwin.model;
  *
  * @author Wallison Carlos
  */
-public interface Atualizavel {
+public class CriterioDeAvaliacaoPorCriterio implements CriterioDeAvaliacao {
 
-    /**
-     * Operação resposável por atualizar uma entidade no banco de dados.
-     */
-    void atualiza();
+    @Override
+    public void avalia(Avaliacao avaliacao) {
+        
+    }
+    
 }

@@ -109,12 +109,20 @@ public class Participante implements AttributeConverter<LocalDateTime, Timestamp
 
     @Override
     public Timestamp convertToDatabaseColumn(LocalDateTime attribute) {
-        return (attribute == null ? null : Timestamp.valueOf(attribute));
+        if (attribute == null) {
+            return null;
+        } else {
+            return Timestamp.valueOf(attribute);
+        }
     }
 
     @Override
     public LocalDateTime convertToEntityAttribute(Timestamp dbDate) {
-         return (dbDate == null ? null : dbDate.toLocalDateTime());
+        if (dbDate == null) {
+            return null;
+        } else {
+            return dbDate.toLocalDateTime();
+        }
     }
 
 }

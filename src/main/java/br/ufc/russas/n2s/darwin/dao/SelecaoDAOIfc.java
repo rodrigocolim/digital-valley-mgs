@@ -15,10 +15,39 @@ import java.util.List;
  * @author N2S-PC03
  */
 public interface SelecaoDAOIfc {
-    public Selecao adicionaSelecao(Selecao  selecao);
-    public Selecao atualizaSelecao(Selecao  selecao);
-    public void removeSelecao(Selecao  selecao);
-    public List<Selecao> listaSelecoes();
-    public Selecao getSelecao(long codigo);
-    public List<Participante> getParticipantes();
+
+    /**
+     * Método resposável por fazer a persistência de uma seleção.
+     * @param selecao
+     * @return Selecao
+     */
+    Selecao adicionaSelecao(Selecao selecao);
+
+    /**
+     * Método resposável por fazer a atualização de uma seleção.
+     * @param selecao
+     * @return Selecao
+     */
+    Selecao atualizaSelecao(Selecao selecao);
+
+    /**
+     * Método resposável por fazer a remoção de uma seleção.
+     * @param selecao
+     */
+    void removeSelecao(Selecao selecao);
+
+    /**
+     * Método resposável por fazer a listagem de todos as as seleções.
+     * @return List<Selecao>
+     */
+    List<Selecao> listaSelecoes();
+
+    /**
+     * Método resposável por pegar do banco de dados uma
+     * seleção a partir do código informadao.
+     * @param codigo
+     * @return
+     */
+    Selecao getSelecao(long codigo);
+
 }

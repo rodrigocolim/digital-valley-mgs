@@ -13,7 +13,7 @@ import br.ufc.russas.n2s.darwin.model.Usuario;
  *
  * @author Lavínia Matoso
  */
-public class AvaliacaoBeans implements Beans{
+public class AvaliacaoBeans implements Beans {
 
     private long codAvaliacao;
     private ParticipanteBeans participante;
@@ -69,14 +69,15 @@ public class AvaliacaoBeans implements Beans{
     public void setAvaliador(UsuarioBeans avaliador) {
         this.avaliador = avaliador;
     }
-    
+
     @Override
     public Object toBusiness() {
         Avaliacao avaliacao = new Avaliacao();
-        if(this.getCodAvaliacao() > 0){
+        if (this.getCodAvaliacao() > 0) {
             avaliacao.setCodAvaliacao(this.getCodAvaliacao());
         }
-        avaliacao.setParticipante((Participante) this.getParticipante().toBusiness());
+        Participante p = (Participante) this.getParticipante().toBusiness();
+        avaliacao.setParticipante(p);
         avaliacao.setAvaliador((Usuario) this.getAvaliador().toBusiness());
         avaliacao.setAprovado(this.isAprovado());
         avaliacao.setObservacao(this.getObservacao());
@@ -86,22 +87,26 @@ public class AvaliacaoBeans implements Beans{
 
     @Override
     public Beans toBeans(Object object) {
-        if(object != null){
-            if(object instanceof Avaliacao){
+        if (object != null) {
+            if (object instanceof Avaliacao) {
                 Avaliacao avaliacao = (Avaliacao) object;
                 this.setCodAvaliacao(avaliacao.getCodAvaliacao());
-                this.setParticipante((ParticipanteBeans) new ParticipanteBeans().toBeans(avaliacao.getParticipante()));
-                this.setAvaliador((UsuarioBeans) new UsuarioBeans().toBeans(avaliacao.getAvaliador()));
+                ParticipanteBeans pb =  new ParticipanteBeans();
+                pb.toBeans(avaliacao.getParticipante());
+                this.setParticipante(pb);
+                UsuarioBeans ub =  new UsuarioBeans();
+                ub.toBeans(avaliacao.getAvaliador());
+                this.setAvaliador(ub);
                 this.setAprovado(avaliacao.isAprovado());
                 this.setObservacao(avaliacao.getObservacao());
                 this.setNota(avaliacao.getNota());
                 return this;
-            }else{
+            } else {
                 throw new IllegalArgumentException("Isso não é uma avaliação!");
             }
-        }else{
+        } else {
             throw new NullPointerException("Avaliação informada não pode ser nula!");
         }
     }
-    
+
 }

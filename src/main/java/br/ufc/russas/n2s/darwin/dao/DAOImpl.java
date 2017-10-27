@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.dao;
 
 import java.util.Collections;
 import java.util.List;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -19,110 +20,118 @@ import org.springframework.stereotype.Repository;
  * @param <T>
  */
 @Repository("daoImpl")
-public class DAOImpl<T> implements DAOIfc<T>{
-   
+public class DAOImpl<T> implements DAOIfc<T> {
+
     private SessionFactory sessionFactory;
-    
-    public DAOImpl(){}
-    
+
+    /**
+     * Método Construtor padrão da classe DAOImpl.
+     */
+    public DAOImpl() {
+
+    }
+
     @Override
-    public SessionFactory getSessionFactory(){
+    public SessionFactory getSessionFactory()  {
         return sessionFactory;
     }
-    
+
+    /**
+     *
+     * @param sf
+     */
     @Autowired
-    public void setSessionFactory(SessionFactory sessionFactory){
-        this.sessionFactory = sessionFactory;
+    public void setSessionFactory(SessionFactory sf) {
+        this.sessionFactory = sf;
     }
-    
+
     @Override
     public T adiciona(T object) {
         Session session = getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        try{
-            if(object != null){
+        try {
+            if (object != null) {
                 session.persist(object);
                 t.commit();
                 return object;
-            }else{
+            } else {
                 throw new NullPointerException("Objeto não pode ser nulo!");
             }
-        }catch(RuntimeException e){
+        } catch (RuntimeException e) {
             t.rollback();
             throw e;
-        }finally{
+        } finally {
             session.close();
         }
     }
-    
+
     @Override
     public T atualiza(T object) {
         Session session = getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        try{
-            if(object != null){
+        try {
+            if (object != null) {
                 session.update(object);
                 t.commit();
                 return object;
-            }else{
+            } else {
                 throw new NullPointerException("Objeto não pode ser nulo!");
             }
-        }catch(RuntimeException e){
+        } catch (RuntimeException e) {
             t.rollback();
             throw e;
-        }finally{
+        } finally {
             session.close();
         }
     }
-    
+
     @Override
     public void remove(T object) {
         Session session = getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        try{
-            if(object != null){
+        try {
+            if (object != null) {
                 session.delete(object);
                 t.commit();
-            }else{
+            } else {
                 throw new NullPointerException("Objeto não pode ser nulo!");
             }
-        }catch(RuntimeException e){
+        } catch (RuntimeException e) {
             t.rollback();
             throw e;
-        }finally{
+        } finally {
             session.close();
         }
     }
-    
 
     @Override
-    public List<T> lista(Class object) {
+    public Criteria lista(Class object) {
         Session session = getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        try{
-            List<T> objects = Collections.synchronizedList(session.createCriteria(object.getClass()).list());
+        try {
+            Criteria criteria = session.createCriteria(object.getClass());
             t.commit();
-            return objects;
-        }catch(RuntimeException e){
+            return criteria;
+        } catch (RuntimeException e) {
             t.rollback();
             throw e;
-        }finally{
+        } finally {
             session.close();
         }
     }
-    
+
     @Override
     public T getObject(Class<T> classe, long codObject) {
         Session session = getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        try{
+        try {
             T object = (T) session.get(classe, codObject);
             t.commit();
             return object;
-        }catch(RuntimeException e){
+        } catch (RuntimeException e) {
             t.rollback();
             throw e;
-        }finally{
+        } finally {
             session.close();
         }
     }

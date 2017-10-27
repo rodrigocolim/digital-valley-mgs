@@ -50,7 +50,7 @@ public class PeriodoDAOImpl implements PeriodoDAOIfc{
 
     @Override
     public List<Periodo> listaPeriodos() {
-        return this.daoImpl.lista(Periodo.class).list();
+        return this.daoImpl.lista(Periodo.class);
     }
 
     @Override

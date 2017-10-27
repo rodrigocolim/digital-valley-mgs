@@ -44,7 +44,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
 
     @Override
     public List<Selecao> listaSelecoes() {
-        return this.daoImpl.lista(Selecao.class).list();
+        return this.daoImpl.lista(Selecao.class);
     }
 
     @Override

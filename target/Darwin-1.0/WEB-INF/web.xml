@@ -40,6 +40,8 @@
         <servlet-name>SelecaoController</servlet-name>
         <url-pattern>/SelecaoController</url-pattern>
     </servlet-mapping>
+  
+    
     <welcome-file-list>
         <welcome-file>view/index.jsp</welcome-file>
     </welcome-file-list>  

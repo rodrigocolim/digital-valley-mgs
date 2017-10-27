@@ -28,7 +28,7 @@ import javax.persistence.Table;
  * @author Lavínia Matoso
  */
 @Entity
-@Table("participante")
+@Table(name = "participante")
 @Converter(autoApply = true)
 public class Participante implements AttributeConverter<LocalDateTime, Timestamp>, Serializable{
     @Id

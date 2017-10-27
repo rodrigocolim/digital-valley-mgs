@@ -18,23 +18,23 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Lavínia Matoso
+ * @author N2S-PC03
  */
 @Entity
 @Table(name = "avaliacao")
 public class Avaliacao implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="codAvaliacao")
+    @Column(name = "codAvaliacao")
     private long codAvaliacao;
     @ManyToOne
-    @JoinColumn(name="participante", referencedColumnName="codParticipante")
+    @JoinColumn(name = "participante", referencedColumnName = "codParticipante")
     private Participante participante;
     private float nota;
     private boolean aprovado;
     private String observacao;
     @ManyToOne
-    @JoinColumn(name="avaliador", referencedColumnName="codUsuario")
+    @JoinColumn(name = "avaliador", referencedColumnName = "codUsuario")
     private Usuario avaliador;
 
     public long getCodAvaliacao() {
@@ -42,9 +42,9 @@ public class Avaliacao implements Serializable {
     }
 
     public void setCodAvaliacao(long codAvaliacao) {
-        if(codAvaliacao > 0){
+        if (codAvaliacao > 0) {
             this.codAvaliacao = codAvaliacao;
-        }else{
+        } else {
             throw new IllegalCodeException("Código de avaliação deve ser maior que zero!");
         }
     }
@@ -53,10 +53,10 @@ public class Avaliacao implements Serializable {
         return participante;
     }
 
-    public void setParticipante(Participante participante) {
-        if(participante != null){
+    public void setParticipante(final Participante participante) {
+        if (participante != null) {
             this.participante = participante;
-        }else{
+        } else {
             throw new NullPointerException("Participante deve ser informado!");
         }
     }
@@ -66,9 +66,9 @@ public class Avaliacao implements Serializable {
     }
 
     public void setNota(float nota) {
-        if(nota>=0 && nota<=10){
+        if (nota >= 0 && nota <= 10) {
             this.nota = nota;
-        }else{
+        } else {
             throw new IllegalArgumentException("Nota inválida! A nota deve ser maior ou igual a zero e menor ou igual a dez!");
         }
     }
@@ -77,7 +77,7 @@ public class Avaliacao implements Serializable {
         return aprovado;
     }
 
-    public void setAprovado(boolean aprovado) {
+    public void setAprovado(final boolean aprovado) {
         this.aprovado = aprovado;
     }
 
@@ -85,7 +85,7 @@ public class Avaliacao implements Serializable {
         return observacao;
     }
 
-    public void setObservacao(String observacao) {
+    public void setObservacao(final String observacao) {
         this.observacao = observacao;
     }
 
@@ -94,13 +94,10 @@ public class Avaliacao implements Serializable {
     }
 
     public void setAvaliador(Usuario avaliador) {
-        if(avaliador != null){
+        if (avaliador != null) {
             this.avaliador = avaliador;
-        }else{
+        } else {
             throw new NullPointerException("Avaliador deve ser informado!");
         }
     }
-    
-    
-
 }

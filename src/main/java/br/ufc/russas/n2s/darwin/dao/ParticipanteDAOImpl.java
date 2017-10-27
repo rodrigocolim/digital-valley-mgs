@@ -23,8 +23,7 @@ public class ParticipanteDAOImpl implements ParticipanteDAOIfc{
     public void setDAOIfc(@Qualifier("daoImpl")DAOIfc<Participante> dao){
         this.daoImpl = dao;
     }
-    
-    
+
     @Override
     public void adicionaParticipante(Participante participante) {
         this.daoImpl.adiciona(participante);
@@ -49,5 +48,5 @@ public class ParticipanteDAOImpl implements ParticipanteDAOIfc{
     public Participante getParticipante(long codigo) {
         return this.daoImpl.getObject(Participante.class, codigo);
     }
-    
+
 }

@@ -16,27 +16,27 @@ import javax.persistence.*;
  */
 @Converter(autoApply = true)
 @Entity
-@Table(name="documentacao")
+@Table(name = "documentacao")
 public class Documentacao {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="codDocumentacao")
+    @Column(name = "codDocumentacao")
     private long codDocumentacao;
 
     @ManyToOne
-    @JoinColumn(name="candidato", referencedColumnName="codParticipante")
+    @JoinColumn(name = "candidato", referencedColumnName = "codParticipante")
     private Participante candidato;
 
     @ManyToMany(targetEntity = Arquivo.class)
-    @JoinTable(name="arquivos_documentacao", joinColumns = {@JoinColumn(name = "documentacao", referencedColumnName = "codDocumentacao")},
+    @JoinTable(name = "arquivos_documentacao", joinColumns = {@JoinColumn(name = "documentacao", referencedColumnName = "codDocumentacao")},
     inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})
     private List<Arquivo> documentos;
 
-    public Documentacao(){
+    public Documentacao() {
     }
 
-    public Documentacao(long codDocumentacao, Participante candidato, List<Arquivo> documentos) {
+    public Documentacao(long codDocumentacao,  Participante candidato,  List<Arquivo> documentos) {
         setCodDocumentacao(codDocumentacao);
         setCandidato(candidato);
         setDocumentos(documentos);
@@ -47,11 +47,11 @@ public class Documentacao {
     }
 
     public void setCodDocumentacao(long codDocumentacao) {
-        if(codDocumentacao > 0)
+        if (codDocumentacao > 0) {
             this.codDocumentacao = codDocumentacao;
-        else
+        } else {
             throw new IllegalCodeException("Código da documentação deve ser maior que zero!");
-        
+        }
     }
 
     public Participante getCandidato() {
@@ -59,10 +59,11 @@ public class Documentacao {
     }
 
     public void setCandidato(Participante candidato) {
-        if(candidato != null)
+        if (candidato != null) {
             this.candidato = candidato;
-        else
+        } else {
             throw new IllegalArgumentException("Candidato não pode ser nulo!");
+        }
     }
 
     public List<Arquivo> getDocumentos() {
@@ -70,9 +71,10 @@ public class Documentacao {
     }
 
     public void setDocumentos(List<Arquivo> documentos) {
-        if(documentos != null)
+        if (documentos != null) {
             this.documentos = documentos;
-        else
+        } else {
             throw new IllegalArgumentException("Lista de documentos não pode ser nula!");
+        }
     }
 }

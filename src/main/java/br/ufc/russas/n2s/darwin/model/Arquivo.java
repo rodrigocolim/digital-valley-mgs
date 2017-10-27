@@ -23,21 +23,20 @@ import javax.persistence.Table;
  * @author Wallison Carlos
  */
 @Entity
-@Table(name="arquivo")
+@Table(name = "arquivo")
 @Converter(autoApply = true)
-public class Arquivo implements AttributeConverter<LocalDateTime, Timestamp>{
+public class Arquivo implements AttributeConverter<LocalDateTime, Timestamp> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="codArquivo")
+    @Column(name = "codArquivo")
     private long codArquivo;
     private String titulo;
-    @Column(name="arquivo")
+    @Column(name = "arquivo")
     private File arquivo;
-    @Column(name="data")
+    @Column(name = "data")
     private LocalDateTime data;
-    
-    public Arquivo(){
-    
+
+    public Arquivo() {
     }
 
     @Override
@@ -55,10 +54,11 @@ public class Arquivo implements AttributeConverter<LocalDateTime, Timestamp>{
     }
 
     public void setCodArquivo(long codArquivo) {
-        if(codArquivo>0)
+        if (codArquivo > 0) {
             this.codArquivo = codArquivo;
-        else
+        } else {
             throw new IllegalCodeException("Código de arquivo deve ser maior que zero!");
+        }
     }
 
     public String getTitulo() {
@@ -66,24 +66,25 @@ public class Arquivo implements AttributeConverter<LocalDateTime, Timestamp>{
     }
 
     public void setTitulo(String titulo) {
-        if(titulo == null)
+        if (titulo == null) {
             throw new NullPointerException("Titulo de arquivo não pode ser nulo!");
-        else if(titulo.isEmpty())
+        } else if (titulo.isEmpty()) {
             throw new NullPointerException("Titulo de arquivo não pode ser vazio!");
-        else
+        } else {
             this.titulo = titulo;
-            
+        }
     }
 
     public File getArquivo() {
         return arquivo;
     }
 
-    public void setArquivo(File arquivo) {;
-        if(arquivo != null)
+    public void setArquivo(File arquivo) {
+        if (arquivo != null) {
             this.arquivo = arquivo;
-        else
+        } else {
             throw new NullPointerException("Arquivo não pode ser nulo!");
+        }
     }
 
     public LocalDateTime getData() {
@@ -91,11 +92,10 @@ public class Arquivo implements AttributeConverter<LocalDateTime, Timestamp>{
     }
 
     public void setData(LocalDateTime data) {
-        if(data != null)
+        if (data != null) {
             this.data = data;
-        else
+        } else {
             throw new NullPointerException("Data não pode ser nula!");
+        }
     }
-    
-    
 }

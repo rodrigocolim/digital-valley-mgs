@@ -18,49 +18,50 @@ import org.springframework.beans.factory.annotation.Qualifier;
  *
  * @author N2S-PC03
  */
-public class ParticipanteServiceImpl implements ParticipanteServiceIfc{
+public class ParticipanteServiceImpl implements ParticipanteServiceIfc {
 
      private ParticipanteDAOIfc participanteDAOIfc;
-    
-    public ParticipanteServiceImpl(){}
-    
-    public ParticipanteDAOIfc getParticipanteDAOIfc(){
+
+    public ParticipanteServiceImpl() {
+    }
+
+    public final ParticipanteDAOIfc getParticipanteDAOIfc() {
         return participanteDAOIfc;
     }
-    
+
     @Autowired(required = true)
-    public void setParticipanteDAOIfc(@Qualifier("participanteDAOIfc")ParticipanteDAOIfc participanteDAOIfc){
+    public void setParticipanteDAOIfc(@Qualifier("participanteDAOIfc") ParticipanteDAOIfc participanteDAOIfc) {
         this.participanteDAOIfc = participanteDAOIfc;
     }
-    
+
     @Override
-    public void adicionaParticipante(ParticipanteBeans participante) {
+    public final void adicionaParticipante(final ParticipanteBeans participante) {
         this.participanteDAOIfc.adicionaParticipante((Participante) participante.toBusiness());
     }
 
     @Override
-    public void atualizaParticipante(ParticipanteBeans participante) {
+    public final void atualizaParticipante(final ParticipanteBeans participante) {
         this.participanteDAOIfc.atualizaParticipante((Participante) participante.toBusiness());
     }
 
     @Override
-    public void removeParticipante(ParticipanteBeans participante) {
+    public final void removeParticipante(final ParticipanteBeans participante) {
         this.participanteDAOIfc.removeParticipante((Participante) participante.toBusiness());
     }
 
     @Override
-    public List<ParticipanteBeans> listaTodosParticipantes() {
+    public final List<ParticipanteBeans> listaTodosParticipantes() {
         List<ParticipanteBeans> participantes = Collections.synchronizedList(new ArrayList<ParticipanteBeans>());
         List<Participante> resultados = this.participanteDAOIfc.listaParticipantes();
-        for(Participante p : resultados){
+        for (Participante p : resultados) {
             participantes.add((ParticipanteBeans) new ParticipanteBeans().toBeans(p));
         }
         return participantes;
     }
 
     @Override
-    public ParticipanteBeans getParticipante(long codParticipante) {
+    public final ParticipanteBeans getParticipante(final long codParticipante) {
         return (ParticipanteBeans) new ParticipanteBeans().toBeans(this.participanteDAOIfc.getParticipante(codParticipante));
     }
-    
+
 }

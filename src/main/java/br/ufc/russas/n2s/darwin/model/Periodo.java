@@ -9,9 +9,6 @@ import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Column;
 import javax.persistence.Converter;
@@ -28,26 +25,26 @@ import javax.persistence.Table;
  */
 @Converter(autoApply = true)
 @Entity
-@Table(name="periodo")
-public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
+@Table(name = "periodo")
+public class Periodo implements AttributeConverter<LocalDateTime, Timestamp> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="codPeriodo")
+    @Column(name = "codPeriodo")
     private long codPeriodo;
-    @Column(name="inicio")
+    @Column(name = "inicio")
     private LocalDateTime inicio;
-    @Column(name="termino")
+    @Column(name = "termino")
     private LocalDateTime termino;
-   
-    public Periodo(){
+
+    public Periodo() {
     }
 
-    public Periodo(long codPeriodo, LocalDateTime inicio, LocalDateTime termino){
+    public Periodo(long codPeriodo, LocalDateTime inicio, LocalDateTime termino) {
         setCodPeriodo(codPeriodo);
         setInicio(inicio);
         setTermino(termino);
     }
-    public Periodo(LocalDateTime inicio, LocalDateTime termino){
+    public Periodo(LocalDateTime inicio, LocalDateTime termino) {
         setInicio(inicio);
         setTermino(termino);
     }
@@ -56,9 +53,9 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
     }
 
     public void setCodPeriodo(long codPeriodo) {
-        if(codPeriodo > 0){
+        if (codPeriodo > 0) {
             this.codPeriodo = codPeriodo;
-        }else{
+        } else {
             throw new IllegalCodeException("Código do periodo deve ser maior que zero!");
         }
     }
@@ -68,17 +65,17 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
     }
 
     public void setInicio(LocalDateTime inicio) {
-        if(inicio != null){
-            if(this.getTermino()!= null){
-                if((inicio.isBefore(this.getTermino()) || inicio.equals(this.getTermino()))){
+        if (inicio != null) {
+            if (this.getTermino()!= null) {
+                if ((inicio.isBefore(this.getTermino()) || inicio.equals(this.getTermino()))) {
                     this.inicio = inicio;
-                }else{
+                } else {
                     throw new IllegalArgumentException("Inicio não pode ser maior que o termino!");
                 }
-            }else{
+            } else {
                 this.inicio = inicio;
             }
-        }else{
+        } else {
             throw new NullPointerException("Inicio de periodo não pode ser nulo!");
         }
     }
@@ -88,17 +85,17 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
     }
 
     public void setTermino(LocalDateTime termino) {
-        if(termino != null){
-            if(this.getInicio()!= null){
-                if((termino.isAfter(this.getInicio()) || termino.equals(this.getInicio()))){
+        if (termino != null) {
+            if (this.getInicio()!= null) {
+                if ((termino.isAfter(this.getInicio()) || termino.equals(this.getInicio()))) {
                     this.termino = termino;
-                }else{
+                } else {
                     throw new IllegalArgumentException("Termino não pode ser menor que o inicio!");
                 }
-            }else{
+            } else {
                 this.termino = termino;
             }
-        }else{
+        } else {
             throw new NullPointerException("Termino de periodo não pode ser nulo!");
         }
     }
@@ -113,43 +110,43 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp>{
         return (dbData == null ? null : dbData.toLocalDateTime());
     }
 
-    public boolean isColide(Periodo periodo){
-        //começa depois do inicio e termina antes do fim        
-        if((periodo.getInicio().isAfter(this.getInicio()) || periodo.getInicio().isEqual(this.getInicio())) && (periodo.getInicio().isBefore(this.getTermino()) || periodo.getInicio().isEqual(this.getTermino()))){
+    public final boolean isColide(final Periodo periodo){
+        //começa depois do inicio e termina antes do fim
+        if ((periodo.getInicio().isAfter(this.getInicio()) || periodo.getInicio().isEqual(this.getInicio())) && (periodo.getInicio().isBefore(this.getTermino()) || periodo.getInicio().isEqual(this.getTermino()))) {
             return true;
         }
         //começa antes do inicio e termina depois do inicio
-        if((periodo.getTermino().isAfter(this.getInicio()) || periodo.getTermino().isEqual(this.getInicio())) && (periodo.getTermino().isBefore(this.getTermino()) || periodo.getTermino().isEqual(this.getTermino()))){
+        if ((periodo.getTermino().isAfter(this.getInicio()) || periodo.getTermino().isEqual(this.getInicio())) && (periodo.getTermino().isBefore(this.getTermino()) || periodo.getTermino().isEqual(this.getTermino()))) {
             return true;
         }
         //começa antes do fim e termina depois
-        if((periodo.getInicio().isBefore(this.getTermino()) || periodo.getInicio().isEqual(this.getTermino())) && (periodo.getTermino().isAfter(this.getTermino()) || periodo.getTermino().isEqual(this.getTermino()))){
+        if ((periodo.getInicio().isBefore(this.getTermino()) || periodo.getInicio().isEqual(this.getTermino())) && (periodo.getTermino().isAfter(this.getTermino()) || periodo.getTermino().isEqual(this.getTermino()))) {
             return true;
         }
         //começa antes do inicio e termina depois do fim
-        if((periodo.getInicio().isBefore(this.getInicio()) || periodo.getInicio().isEqual(this.getInicio())) && (periodo.getTermino().isAfter(this.getTermino()) || periodo.getTermino().isEqual(this.getTermino()))){
+        if ((periodo.getInicio().isBefore(this.getInicio()) || periodo.getInicio().isEqual(this.getInicio())) && (periodo.getTermino().isAfter(this.getTermino()) || periodo.getTermino().isEqual(this.getTermino()))) {
             return true;
         }
         return false;
     }
 
-    public boolean isAntes(Periodo periodo){
+    public boolean isAntes(Periodo periodo) {
         return this.getTermino().isBefore(periodo.getInicio());
     }
-    
-    public boolean isDepois(Periodo periodo){
+
+    public boolean isDepois(Periodo periodo) {
         return this.getInicio().isAfter(periodo.getTermino());
     }
-    
-    public Duration getDuracao(){
+
+    public Duration getDuracao() {
         return Duration.between(inicio, termino);
     }
-    
-    public Duration getTempoOcorrido(){
+
+    public Duration getTempoOcorrido() {
         return Duration.between(inicio, LocalDateTime.now());
     }
-    
-    public Duration getTempoRestante(){
+
+    public Duration getTempoRestante() {
         return Duration.between(LocalDateTime.now(), termino);
     }
 

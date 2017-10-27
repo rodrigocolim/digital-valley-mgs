@@ -53,12 +53,10 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc{
     public Selecao getSelecao(long codigo) {
         return this.daoImpl.getObject(Selecao.class, codigo);
     }
-    
+
     @Override
     public List<Participante> getParticipantes(){
         Session session = this.daoImpl.getSessionFactory().openSession();
         return session.createCriteria(Participante.class).createCriteria("candidatos").list();
-	
     }
-      
 }

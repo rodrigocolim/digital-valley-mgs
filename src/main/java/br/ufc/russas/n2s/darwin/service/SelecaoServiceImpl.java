@@ -27,28 +27,34 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("selecaoServiceIfc")
 @Transactional
-public class SelecaoServiceImpl implements SelecaoServiceIfc{
-    
+public class SelecaoServiceImpl implements SelecaoServiceIfc {
+
     private SelecaoDAOIfc selecaoDAOIfc;
-    
-    public SelecaoServiceImpl(){}
-    
-    public SelecaoDAOIfc getSelecaoDAOIfc(){
+
+    public SelecaoServiceImpl(){
+    }
+
+    public SelecaoDAOIfc getSelecaoDAOIfc() {
         return selecaoDAOIfc;
     }
-    
+
     @Autowired(required = true)
-    public void setSelecaoDAOIfc(@Qualifier("selecaoDAOIfc")SelecaoDAOIfc selecaoDAOIfc){
+    public void setSelecaoDAOIfc(@Qualifier("selecaoDAOIfc")SelecaoDAOIfc selecaoDAOIfc) {
         this.selecaoDAOIfc = selecaoDAOIfc;
     }
-    
+
     @Override
-    public SelecaoBeans adicionaSelecao(SelecaoBeans selecao){
+    public SelecaoBeans adicionaSelecao(SelecaoBeans selecao) {
         return (SelecaoBeans) new SelecaoBeans().toBeans(this.getSelecaoDAOIfc().adicionaSelecao((Selecao) selecao.toBusiness()));
     }
-    
+
     @Override
-    public void removeSelecao(SelecaoBeans selecao){
+    public SelecaoBeans atualizaSelecao(SelecaoBeans selecao){
+        return (SelecaoBeans) new SelecaoBeans().toBeans(this.getSelecaoDAOIfc().atualizaSelecao((Selecao) selecao.toBusiness()));
+    }
+
+    @Override
+    public void removeSelecao(SelecaoBeans selecao) {
         this.getSelecaoDAOIfc().adicionaSelecao((Selecao) selecao.toBusiness());
     }
 
@@ -56,8 +62,8 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc{
     public List<SelecaoBeans> listaNovasSelecoes() {
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());        
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes();
-        for(Selecao s : resultado){
-            if(s.getInscricao().getPeriodo().getInicio().isAfter(LocalDateTime.now())){
+        for (Selecao s : resultado) {
+            if (s.getInscricao().getPeriodo().getInicio().isAfter(LocalDateTime.now())) {
                 selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
             }
         }
@@ -68,23 +74,15 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc{
     public List<SelecaoBeans> listaTodasSelecoes() {
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());        
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes();
-        for(Selecao s : resultado){
+        for (Selecao s : resultado) {
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
         return selecoes;
     }
+
     @Override
-    public List<ParticipanteBeans> listaParticipantesDaSelecao(){
-        List<ParticipanteBeans> participantes = Collections.synchronizedList(new ArrayList<ParticipanteBeans>());
-        List<Participante> resultado = this.getSelecaoDAOIfc().getParticipantes();
-        for(Participante p : resultado){
-            participantes.add((ParticipanteBeans) new ParticipanteBeans().toBeans(p));
-        }
-        return participantes;
-    }
-    @Override
-    public SelecaoBeans getSelecao(long codSelecao){
+    public SelecaoBeans getSelecao(long codSelecao) {
        return (SelecaoBeans) new SelecaoBeans().toBeans(this.getSelecaoDAOIfc().getSelecao(codSelecao));
     }
- 
+
 }

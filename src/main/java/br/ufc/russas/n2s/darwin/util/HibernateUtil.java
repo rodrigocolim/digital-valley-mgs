@@ -29,8 +29,8 @@ import org.hibernate.service.ServiceRegistry;
 public class HibernateUtil {
     private static SessionFactory sessionFactory;
     
-    public static SessionFactory getSessionFactory(){
-        if(sessionFactory == null){
+    public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
             Configuration conf = new Configuration();
             conf.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
             conf.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/darwin");
@@ -47,7 +47,7 @@ public class HibernateUtil {
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(conf.getProperties()).build();
             sessionFactory = conf.configure("/WEB-INF/hibernate.cfg.xml").buildSessionFactory(serviceRegistry);
             return sessionFactory;
-        }else{
+        } else {
             return sessionFactory;
         }
     }

@@ -18,19 +18,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
  *
  * @author Wallison Carlos
  */
-public class DocumentacaoServiceImpl implements DocumentacaoServiceIfc{
+public class DocumentacaoServiceImpl implements DocumentacaoServiceIfc {
 
     private DocumentacaoDAOIfc documentacaoDAOIfc;
-    
-    public DocumentacaoDAOIfc getDocumentacaoDAOIfc(){
+
+    public DocumentacaoDAOIfc getDocumentacaoDAOIfc() {
         return documentacaoDAOIfc;
     }
-    
+
     @Autowired(required = true)
-    public void setEtapaDAOIfc(@Qualifier("documentacaoDAOIfc")DocumentacaoDAOIfc documentacaoDAOIfc){
+    public void setEtapaDAOIfc(@Qualifier("documentacaoDAOIfc")DocumentacaoDAOIfc documentacaoDAOIfc) {
         this.documentacaoDAOIfc = documentacaoDAOIfc;
     }
-    
+
     @Override
     public DocumentacaoBeans adicionaDocumentacao(DocumentacaoBeans documentacao) {
         Documentacao doc = (Documentacao) documentacao.toBusiness();
@@ -52,7 +52,7 @@ public class DocumentacaoServiceImpl implements DocumentacaoServiceIfc{
     public List<DocumentacaoBeans> listaTodasDocumentacoes() {
         List<DocumentacaoBeans> documentacoes = Collections.synchronizedList(new ArrayList<DocumentacaoBeans>());
         List<Documentacao> result = this.getDocumentacaoDAOIfc().listaDocumentacoes();
-        for(Documentacao documentacao : result){
+        for (Documentacao documentacao : result) {
             documentacoes.add((DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
         }
         return documentacoes;
@@ -62,5 +62,5 @@ public class DocumentacaoServiceImpl implements DocumentacaoServiceIfc{
     public DocumentacaoBeans getDocumentacao(long codDocumentacao) {
         return (DocumentacaoBeans) new DocumentacaoBeans().toBeans(this.getDocumentacaoDAOIfc().getDocumentacao(codDocumentacao));
     }
-    
+
 }

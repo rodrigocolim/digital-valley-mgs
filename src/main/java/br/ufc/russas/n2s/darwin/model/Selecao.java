@@ -29,27 +29,27 @@ import javax.persistence.Table;
  */
 @Entity
 @Converter(autoApply = true)
-@Table(name="selecao")
+@Table(name = "selecao")
 public class Selecao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="codSelecao")
+    @Column(name = "codSelecao")
     private long codSelecao;
     private String titulo;
     private String descricao;
     @ManyToMany(targetEntity = Usuario.class)
-    @JoinTable(name="responsaveis_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
+    @JoinTable(name = "responsaveis_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "usuario", referencedColumnName = "codUsuario")})
     private List<Usuario> responsaveis;
     @ManyToOne
-    @JoinColumn(name="periodo", referencedColumnName="codPeriodo")
+    @JoinColumn(name = "periodo", referencedColumnName = "codPeriodo")
     private Periodo periodo;
     @ManyToOne
-    @JoinColumn(name="etapa_inscricao", referencedColumnName="codEtapa")
+    @JoinColumn(name = "etapa_inscricao", referencedColumnName = "codEtapa")
     private Etapa inscricao;
     @ManyToMany(targetEntity = Etapa.class)
-    @JoinTable(name="etapas_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
+    @JoinTable(name = "etapas_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")})
     private List<Etapa> etapas;
     private int vagasRemuneradas;
@@ -57,7 +57,7 @@ public class Selecao {
     private String descricaoPreRequisitos;
     private String areaDeConcentracao;
     @ManyToMany(targetEntity = Participante.class)
-    @JoinTable(name="candidatos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
+    @JoinTable(name = "candidatos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "participante", referencedColumnName = "codParticipante")})
     private List<Participante> candidatos;
     private String categoria;
@@ -70,36 +70,34 @@ public class Selecao {
     inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})
     private List<Arquivo> anexos;
     @ManyToOne
-    @JoinColumn(name="edital", referencedColumnName="codArquivo")
+    @JoinColumn(name = "edital", referencedColumnName = "codArquivo")
     private Arquivo edital;
     @Embedded
     private EstadoSelecao estado;
 
     public Selecao() {
     }
-    
-    
-    
+
     public long getCodSelecao() {
         return codSelecao;
     }
 
     public void setCodSelecao(long codSelecao) {
-        if(codSelecao > 0){
+        if (codSelecao > 0) {
             this.codSelecao = codSelecao;
-        }else{
+        } else {
             throw new IllegalCodeException("Código da seleção deve ser maior que zero!");
         }
     }
 
-    public String getTitulo() {
+    public final String getTitulo() {
         return titulo;
     }
 
     public void setTitulo(String titulo) {
-        if(titulo != null){
+        if (titulo != null) {
             this.titulo = titulo;
-        }else{
+        } else {
             throw new IllegalArgumentException("Titulo da seleção não pode ser vazio!");
         }
     }
@@ -109,9 +107,9 @@ public class Selecao {
     }
 
     public void setDescricao(String descricao) {
-        if(descricao != null){
+        if (descricao != null) {
             this.descricao = descricao;
-        }else{
+        } else {
             throw new IllegalArgumentException("Descrição da seleção não deve ser vazia!");
         }
     }
@@ -121,15 +119,15 @@ public class Selecao {
     }
 
     public void setResponsavel(List<Usuario> responsaveis) {
-        if(responsaveis != null){
-            if(!responsaveis.isEmpty()){
+        if (responsaveis != null) {
+            if (!responsaveis.isEmpty()) {
                 this.responsaveis = responsaveis;
-            }else{
+            } else {
                 throw new IllegalArgumentException("Lista de responsaveis está vazia!");
             }
-        }else{
-                throw new IllegalArgumentException("Lista de responsaveis não pode ser nula!");
-            }
+        } else {
+            throw new IllegalArgumentException("Lista de responsaveis não pode ser nula!");
+        }
     }
 
     public Periodo getPeriodo() {
@@ -137,9 +135,9 @@ public class Selecao {
     }
 
     public void setPeriodo(Periodo periodo) {
-        if(periodo != null){
+        if (periodo != null) {
             this.periodo = periodo;
-        }else{
+        } else {
             throw new IllegalArgumentException("Deve ser selecionado um periodo para a seleção!");
         }
     }
@@ -149,9 +147,9 @@ public class Selecao {
     }
 
     public void setInscricao(Etapa inscricao) {
-        if(inscricao != null){
+        if (inscricao != null) {
             this.inscricao = inscricao;
-        }else{
+        } else {
             throw new IllegalArgumentException("Etapa de inscrição não pode ser nula!");
         }
     }
@@ -161,9 +159,9 @@ public class Selecao {
     }
 
     public void setEtapas(List<Etapa> etapas) {
-        if(etapas != null){
+        if (etapas != null) {
             this.etapas = etapas;
-        }else{
+        } else {
             throw new IllegalArgumentException("Lista de etapas não pode ser nula!");
         }
     }
@@ -173,9 +171,9 @@ public class Selecao {
     }
 
     public void setVagasRemuneradas(int vagasRemuneradas) {
-        if(vagasRemuneradas >= 0){
+        if (vagasRemuneradas >= 0) {
             this.vagasRemuneradas = vagasRemuneradas;
-        }else{
+        } else {
             throw new IllegalArgumentException("O número de vagas remuneradas não pode ser menor que zero!");
         }
     }
@@ -185,9 +183,9 @@ public class Selecao {
     }
 
     public void setVagasVoluntarias(int vagasVoluntarias) {
-        if(vagasVoluntarias >= 0){
+        if (vagasVoluntarias >= 0){
             this.vagasVoluntarias = vagasVoluntarias;
-        }else{
+        } else {
             throw new IllegalArgumentException("O número de vagas voluntarias não pode ser menor que zero!");
         }
     }
@@ -204,10 +202,10 @@ public class Selecao {
         return areaDeConcentracao;
     }
 
-    public void setAreaDeConcentracao(String areaDeConcentracao) {
-        if(areaDeConcentracao != null){
+    public void setAreaDeConcentracao(final String areaDeConcentracao) {
+        if (areaDeConcentracao != null) {
             this.areaDeConcentracao = areaDeConcentracao;
-        }else{
+        } else {
             throw new IllegalArgumentException("Área de concentração não pode ser vazia!");
         }
     }
@@ -225,9 +223,9 @@ public class Selecao {
     }
 
     public void setCategoria(String categoria) {
-        if(categoria != null){
+        if (categoria != null) {
             this.categoria = categoria;
-        }else{
+        } else {
             throw new IllegalArgumentException("Categoria da seleção não pode ser nula!");
         }
     }
@@ -261,95 +259,90 @@ public class Selecao {
     }
 
     public void setEstado(EstadoSelecao estado) {
-        if(estado != null){
+        if (estado != null) {
             this.estado = estado;
-        }else{
+        } else {
             throw new IllegalArgumentException("Estado da seleção não pode ser nulo!");
         }
     }
     
-    public void adicionaEtapa(Etapa etapa){
-        if(etapa != null){
+    public void adicionaEtapa(Etapa etapa) {
+        if (etapa != null) {
             etapas.add(etapa);
-        }else{
+        } else {
             throw new IllegalArgumentException("Etapa adicionada não pode ser nula!");
         }
     }
     
-    public void adicionaResponsavel(Usuario responsavel){
-        if(responsaveis.isEmpty()){
-            if(responsavel != null){
+    public void adicionaResponsavel(Usuario responsavel) {
+        if (responsaveis.isEmpty()) {
+            if (responsavel != null) {
                 this.responsaveis.add(responsavel);
-            }else{
+            } else {
                 throw new IllegalArgumentException("Deve ser selecionado um responsável para a seleção!");
             }
-        }else{
-            if(responsavel != null){
+        } else {
+            if (responsavel != null) {
                 this.responsaveis.add(responsavel);
-            }else{
+            } else {
                 throw new IllegalArgumentException("Responsável não pode ser nulo!");
             }
         }
     }
     
-    public boolean isResponsavel(Usuario responsavel){
-        if(responsavel != null){
-            if(this.responsaveis.contains(responsavel)){
+    public boolean isResponsavel(Usuario responsavel) {
+        if (responsavel != null) {
+            if (this.responsaveis.contains(responsavel)) {
                 return true;
             }
-        }
-        else{
+        } else {
             throw new IllegalArgumentException("Responsavel não pode ser nulo!");
         }
         return false;
     }
     
-    public boolean isParticipante(Usuario participante){
-        if(participante != null){
-            if(this.candidatos.contains(participante)){
+    public boolean isParticipante(Usuario participante) {
+        if (participante != null) {
+            if (this.candidatos.contains(participante)) {
                 return true;
             }
-        }
-        else{
+        } else {
             throw new IllegalArgumentException("Participante não pode ser nulo!");
         }
         return false;
     }
-    
-    public void removeResponsavel(Usuario responsavel){
-        if(responsavel != null){
+
+    public void removeResponsavel(Usuario responsavel) {
+        if (responsavel != null) {
             this.responsaveis.remove(responsavel);
-        }
-        else{
+        } else {
             throw new IllegalArgumentException("Responsavel não pode ser nulo!");
         }
     }
-    
+
     public void removeEtapa(Etapa etapa){
-        if(etapa != null){
+        if (etapa != null) {
             this.etapas.remove(etapa);
-        }
-        else{
+        } else {
             throw new IllegalArgumentException("Etapa não pode ser nula!");
         }
     }
-    
-    public void inscreve(Participante participante){
-        if(participante != null){
+
+    public void inscreve(Participante participante) {
+        if (participante != null) {
             this.candidatos.add(participante);
-        }
-        else{
+        } else {
             throw new IllegalArgumentException("Participante não pode ser nulo!");
         }
     }
-    public Etapa getEtapaAtual(){
-        if(this.etapas != null && !this.etapas.isEmpty()){
-            for(Etapa e: etapas){
-                if(e.getPeriodo().getInicio().isBefore(LocalDateTime.now()) && e.getPeriodo().getTermino().isAfter(LocalDateTime.now())){
+    public Etapa getEtapaAtual() {
+        if (this.etapas != null && !this.etapas.isEmpty()) {
+            for (Etapa e: etapas) {
+                if (e.getPeriodo().getInicio().isBefore(LocalDateTime.now()) && e.getPeriodo().getTermino().isAfter(LocalDateTime.now())) {
                     return e;
                 }
             }
-        }else{
+        } else {
             throw new RuntimeException("Lista de etapas está vazia!");
         }
         return null;

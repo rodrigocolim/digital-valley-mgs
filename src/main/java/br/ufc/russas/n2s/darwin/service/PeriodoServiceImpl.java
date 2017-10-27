@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  *
  * @author Wallison Carlos
  */
-public class PeriodoServiceImpl implements PeriodoServiceIfc{
+public class PeriodoServiceImpl implements PeriodoServiceIfc {
 
     private PeriodoDAOIfc periodoDAOIfc;
 
@@ -29,7 +29,7 @@ public class PeriodoServiceImpl implements PeriodoServiceIfc{
     public void setPeriodoDAOIfc(@Qualifier("periodoDAOIfc")PeriodoDAOIfc periodoDAOIfc) {
         this.periodoDAOIfc = periodoDAOIfc;
     }
-    
+
     @Override
     public void adicionaPeriodo(PeriodoBeans periodo) {
         this.getPeriodoDAOIfc().adicionaPeriodo((Periodo) periodo.toBusiness());
@@ -49,7 +49,7 @@ public class PeriodoServiceImpl implements PeriodoServiceIfc{
     public List<PeriodoBeans> listaTodosPeriodos() {
         List<PeriodoBeans> periodos = Collections.synchronizedList(new ArrayList<PeriodoBeans>());
         List<Periodo> result = this.getPeriodoDAOIfc().listaPeriodos();
-        for(Periodo periodo : result){
+        for (Periodo periodo : result) {
             periodos.add((PeriodoBeans) new PeriodoBeans().toBeans(periodo));
         }
         return periodos;
@@ -59,5 +59,5 @@ public class PeriodoServiceImpl implements PeriodoServiceIfc{
     public PeriodoBeans getPeriodo(long codPeriodo) {
         return (PeriodoBeans) new PeriodoBeans().toBeans(this.getPeriodoDAOIfc().getPeriodo(codPeriodo));
     }
-    
+
 }

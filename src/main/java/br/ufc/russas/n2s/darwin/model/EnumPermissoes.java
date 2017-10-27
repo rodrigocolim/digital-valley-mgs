@@ -12,19 +12,18 @@ package br.ufc.russas.n2s.darwin.model;
 public enum EnumPermissoes {
     PARTICIPANTE(1),
     AVALIADOR(2),
-    RESPONSAVEL(3), 
+    RESPONSAVEL(3),
     ADMINISTRADOR(4);
-    
+
     private int nivel;
-    EnumPermissoes(){
-    
+    EnumPermissoes() {
     }
-    
-    EnumPermissoes(int nivel){
+
+    EnumPermissoes(int nivel) {
         this.nivel = nivel;
     }
-    
-    public int getNivel(){
+
+    public int getNivel() {
         return nivel;
     }
 }

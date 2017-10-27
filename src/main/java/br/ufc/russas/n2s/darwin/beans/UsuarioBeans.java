@@ -5,6 +5,8 @@
  */
 package br.ufc.russas.n2s.darwin.beans;
 
+import br.ufc.russas.n2s.darwin.model.Usuario;
+
 /**
  *
  * @author Lavínia Matoso
@@ -15,12 +17,12 @@ public class UsuarioBeans implements Beans{
     
     @Override
     public Object toBusiness() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Usuario();
     }
 
     @Override
     public Beans toBeans(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new UsuarioBeans();
     }
     
 }

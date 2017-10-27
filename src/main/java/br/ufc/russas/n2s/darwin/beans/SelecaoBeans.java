@@ -29,7 +29,7 @@ public class SelecaoBeans implements Beans {
     @NotNull @Size(min = 5)
     private String titulo;
     private String descricao;
-    private List<UsuarioBeans> responsaveis;
+    private List<UsuarioBeans> responsaveis = Collections.synchronizedList(new ArrayList<UsuarioBeans>());;
     @NotNull
     private EtapaBeans inscricao;
     private List<EtapaBeans> etapas;
@@ -47,27 +47,9 @@ public class SelecaoBeans implements Beans {
     private List<ArquivoBeans> aditivos;
     private List<ArquivoBeans> anexos;
     private ArquivoBeans edital;
-    private EstadoSelecaoBeans estado;
+    private EstadoSelecao estado = new EstadoSelecao();
     
     public SelecaoBeans(){}
-    public SelecaoBeans(long codSelecao, String titulo, String descricao, List<UsuarioBeans> responsaveis, EtapaBeans inscricao, List<EtapaBeans> etapas, int vagasRemuneradas, int vagasVoluntarias, String descricaoPreRequisitos, String areaDeConcentracao, List<ParticipanteBeans> candidatos, String categoria, List<ArquivoBeans> aditivos, List<ArquivoBeans> anexos, ArquivoBeans edital, EstadoSelecaoBeans estado) {
-        this.codSelecao = codSelecao;
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.responsaveis = responsaveis;
-        this.inscricao = inscricao;
-        this.etapas = etapas;
-        this.vagasRemuneradas = vagasRemuneradas;
-        this.vagasVoluntarias = vagasVoluntarias;
-        this.descricaoPreRequisitos = descricaoPreRequisitos;
-        this.areaDeConcentracao = areaDeConcentracao;
-        this.candidatos = candidatos;
-        this.categoria = categoria;
-        this.aditivos = aditivos;
-        this.anexos = anexos;
-        this.edital = edital;
-        this.estado = estado;
-    }
 
     public long getCodSelecao() {
         return codSelecao;
@@ -189,11 +171,11 @@ public class SelecaoBeans implements Beans {
         this.edital = edital;
     }
 
-    public EstadoSelecaoBeans getEstado() {
+    public EstadoSelecao getEstado() {
         return estado;
     }
 
-    public void setEstado(EstadoSelecaoBeans estado) {
+    public void setEstado(EstadoSelecao estado) {
         this.estado = estado;
     }
     
@@ -206,14 +188,18 @@ public class SelecaoBeans implements Beans {
         }
         selecao.setTitulo(this.getTitulo());
         selecao.setDescricao(this.getDescricao());
-        selecao.setInscricao((Etapa) this.getInscricao().toBusiness());
+        if (this.getInscricao() != null) {
+            selecao.setInscricao((Etapa) this.getInscricao().toBusiness());
+        }
         if(this.vagasRemuneradas >= 0) selecao.setVagasRemuneradas(this.getVagasRemuneradas());
         if(this.vagasVoluntarias >= 0) selecao.setVagasVoluntarias(this.getVagasVoluntarias());
         selecao.setDescricaoPreRequisitos(this.getDescricaoPreRequisitos());
         selecao.setAreaDeConcentracao(this.getAreaDeConcentracao());
         selecao.setCategoria(this.getCategoria());
-        selecao.setEdital((Arquivo) this.getEdital().toBusiness());
-        selecao.setEstado((EstadoSelecao)this.getEstado().toBusiness());
+        if (this.getEdital() != null) {
+            selecao.setEdital((Arquivo) this.getEdital().toBusiness());
+        }
+        selecao.setEstado(this.getEstado());
         
         List<Usuario> responsaveis = Collections.synchronizedList(new ArrayList<Usuario>());
         if(this.getResponsaveis()!=null){

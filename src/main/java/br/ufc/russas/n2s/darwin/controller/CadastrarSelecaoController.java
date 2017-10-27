@@ -41,10 +41,10 @@ public class CadastrarSelecaoController{
     
     @RequestMapping(method = RequestMethod.POST)
     public String adiciona(@Valid SelecaoBeans selecao, BindingResult result){           
-        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         if(result.hasErrors()){
             return "cadastrar-selecao";
         }
+        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         return "forward:/selecao?codSelecao="+selecao.getCodSelecao();
     }
 }

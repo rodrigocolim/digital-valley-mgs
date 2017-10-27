@@ -13,7 +13,7 @@
     </button>
     <div class="collapse navbar-collapse d-block" id="navbarNavAltMarkup">
         <div class="navbar-nav d-flex flex-nowrap">
-            <a class="nav-item nav-link order-1 p-2" href="#">Início <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link order-1 p-2" href="/Darwin">Início <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link order-2 p-2" href="cadastrarSelecao">Cadastrar Seleção</a>
             <a class="nav-item nav-link order-3 p-2 text-right" href="#">Acessar módulos</a>
             <a class="nav-item nav-link order-4 p-2" href="#">Sair <span class="sr-only">(current)</span></a>

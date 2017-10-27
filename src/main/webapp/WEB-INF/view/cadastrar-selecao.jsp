@@ -36,46 +36,78 @@
                 <br>
                 <nav class="nav nav-pills" id="myTab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Informações da Seleção</a>
-                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Etapas da Seleção</a>
-                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Edital e Anexos</a>
                 </nav>
                 <br>
                 
-                <form>
                     <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                             <br>
-                            <div class="form-group">
-                                <label for="tituloInput">Titulo</label>
-                                <input type="text" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" required>
-                                <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>
-                                <div class="invalid-feedback">
-                                    Please provide a valid city.
+                            <form method="POST" action="index">
+                                <div class="form-group">
+                                    <label for="tituloInput">Titulo*</label>
+                                    <input type="text" value="${selecao.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" required>
+                                    <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>
+                                    <div class="invalid-feedback">
+                                        O titulo da seleção é inválido
+                                    </div>
+                                    <br>
+
+                                    <label for="descricaoInput">Descrição*</label>
+                                    <textarea class="form-control" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" required>${selecao.descricao}</textarea>
+                                    <div class="invalid-feedback">
+                                        A descrição da seleção está inválida
+                                    </div>
+                                    <br>
+
+                                    <label for="categoriaInput">Categoria*</label>
+                                    <select type="text" value="${selecao.categoria}"class="form-control" id="categoriaInput" required>
+                                        <option selected="selected">- Selecione a categoria da seleção -</option>
+                                        <option>Assistência Estudantil</option>
+                                    </select>
+                                    <br>
+                                    
+                                    <label for="preRequisitosInput">Pré Requisitos</label>
+                                    <textarea class="form-control" id="preRequisitosInput" placeholder="Digite uma breve descrição sobre os pré requisitos para participar da seleção">${selecao.descricaoPreRequisitos}</textarea>
+                                    <br>
+                                    
+                                    <label for="areaDeConcentracaoInput">Área de Concentração</label>
+                                    <input type="text" value="${selecao.areaDeConcentracao}"class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração" required>
+                                    <small id="tituloHelp" class="form-text text-muted">Exemplo: Computação, Engenharia Mecânica, LINCE</small>
+                                    <div class="invalid-feedback">
+                                        A área de concentração da seleção é inválida
+                                    </div>
+                                    <br>
                                 </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="descricaoInput">Descrição</label>
-                                <textarea class="form-control" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" required></textarea>
-                                <div class="invalid-feedback">
-                                    Please provide a valid zip.
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="descricaoInput">Descrição</label>
-                                <textarea class="form-control" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" required></textarea>
-                                <div class="invalid-feedback">
-                                    Please provide a valid zip.
-                                </div>
-                            </div>                            
-                            
-                            <button type="button" class="btn btn-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">
-                                Voltar
-                            </button>
-                            <button type="submit" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
-                                Continuar
-                            </button>
+
+
+                                <div class="form-group">
+                                    <label for="isVagasLimitadasInput">
+                                        <input type="checkbox" class="" id="isVagasLimitadasInput">
+                                        Definir o número de vagas
+                                    </label>
+                                    <br>
+
+                                    <label for="vagasRemuneradasInput">Número de vagas remuneradas</label>
+                                    <input type="number" class="form-control col-sm-2 disabled" id="descricaoInput" value="0">
+                                    <div class="invalid-feedback">
+                                        O número de vagas remuneradas é inválido
+                                    </div>
+                                    <br>
+                                    <label for="vagasVoluntariasInput">Número de vagas voluntárias</label>
+                                    <input type="number" class="form-control col-sm-2 disabled" id="descricaoInput" value="0" required>
+                                    <div class="invalid-feedback">
+                                        O número de vagas voluntárias é inválido
+                                    </div>
+                                </div>                            
+
+                                <button type="button" class="btn btn-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">
+                                    Cancelar
+                                </button>
+                                <button type="submit" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+                                    Salvar e Continuar
+                                </button>
+                            </form>
                         </div>
                         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 
@@ -95,7 +127,6 @@
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function() {
       'use strict';
-
       window.addEventListener('load', function() {
         var form = document.getElementById('needs-validation');
         form.addEventListener('submit', function(event) {

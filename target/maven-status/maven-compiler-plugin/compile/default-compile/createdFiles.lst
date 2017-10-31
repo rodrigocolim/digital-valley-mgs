@@ -19,7 +19,6 @@ br\ufc\russas\n2s\darwin\service\SelecaoServiceImpl.class
 br\ufc\russas\n2s\darwin\service\DocumentacaoServiceIfc.class
 br\ufc\russas\n2s\darwin\service\EtapaServiceIfc.class
 br\ufc\russas\n2s\darwin\model\Selecao.class
-br\ufc\russas\n2s\darwin\controller\AdicionaSelecaoController.class
 br\ufc\russas\n2s\darwin\model\Periodo.class
 br\ufc\russas\n2s\darwin\dao\DocumentacaoDAOIfc.class
 br\ufc\russas\n2s\darwin\service\PeriodoServiceImpl.class
@@ -40,6 +39,7 @@ br\ufc\russas\n2s\darwin\beans\EstadoSelecaoBeans.class
 br\ufc\russas\n2s\darwin\beans\EtapaBeans.class
 br\ufc\russas\n2s\darwin\beans\Beans.class
 br\ufc\russas\n2s\darwin\controller\CadastrarSelecaoController.class
+br\ufc\russas\n2s\darwin\controller\filter\HibernateSessionRequestFilter.class
 br\ufc\russas\n2s\darwin\beans\UsuarioBeans.class
 br\ufc\russas\n2s\darwin\dao\PeriodoDAOImpl.class
 br\ufc\russas\n2s\darwin\dao\DAOIfc.class

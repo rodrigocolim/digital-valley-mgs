@@ -19,7 +19,6 @@ C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russa
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\Beans.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\DocumentacaoDAOIfc.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\HelloController.java
-C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\AdicionaSelecaoController.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\exception\IllegalCodeException.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\CriterioDeAvaliacaoPorCriterio.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Documentacao.java
@@ -40,6 +39,7 @@ C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russa
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\ArquivoBeans.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Atualizavel.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Usuario.java
+C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\filter\HibernateSessionRequestFilter.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\ParticipanteDAOIfc.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\EtapaBeans.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\PeriodoDAOImpl.java

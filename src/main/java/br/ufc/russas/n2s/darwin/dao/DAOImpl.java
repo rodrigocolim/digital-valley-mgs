@@ -13,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -109,7 +110,7 @@ public class DAOImpl<T> implements DAOIfc<T> {
         Session session = getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         try {
-            Criteria criteria = session.createCriteria(object.getClass());
+            Criteria criteria = session.createCriteria(object);
             t.commit();
             return criteria.list();
         } catch (RuntimeException e) {

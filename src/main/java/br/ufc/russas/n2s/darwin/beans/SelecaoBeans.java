@@ -29,10 +29,10 @@ public class SelecaoBeans implements Beans {
     @NotNull @Size(min = 5)
     private String titulo;
     private String descricao;
-    private List<UsuarioBeans> responsaveis = Collections.synchronizedList(new ArrayList<UsuarioBeans>());;
+    private List responsaveis = Collections.synchronizedList(new ArrayList<UsuarioBeans>());;
     @NotNull
     private EtapaBeans inscricao;
-    private List<EtapaBeans> etapas;
+    private List etapas;
     @Min(0)
     private int vagasRemuneradas;
     @Min(0)
@@ -44,8 +44,8 @@ public class SelecaoBeans implements Beans {
     private List<ParticipanteBeans> candidatos;
     @NotNull
     private String categoria;
-    private List<ArquivoBeans> aditivos;
-    private List<ArquivoBeans> anexos;
+    private List aditivos;
+    private List anexos;
     private ArquivoBeans edital;
     private EstadoSelecao estado = new EstadoSelecao();
     
@@ -79,7 +79,7 @@ public class SelecaoBeans implements Beans {
         return responsaveis;
     }
 
-    public void setResponsaveis(List<UsuarioBeans> usuario) {
+    public void setResponsaveis(List usuario) {
         this.responsaveis = usuario;
     }
 
@@ -95,7 +95,7 @@ public class SelecaoBeans implements Beans {
         return etapas;
     }
 
-    public void setEtapas(List<EtapaBeans> etapas) {
+    public void setEtapas(List etapas) {
         this.etapas = etapas;
     }
 
@@ -135,7 +135,7 @@ public class SelecaoBeans implements Beans {
         return candidatos;
     }
 
-    public void setCandidatos(List<ParticipanteBeans> candidatos) {
+    public void setCandidatos(List candidatos) {
         this.candidatos = candidatos;
     }
 
@@ -151,7 +151,7 @@ public class SelecaoBeans implements Beans {
         return aditivos;
     }
 
-    public void setAditivos(List<ArquivoBeans> aditivos) {
+    public void setAditivos(List aditivos) {
         this.aditivos = aditivos;
     }
 
@@ -159,7 +159,7 @@ public class SelecaoBeans implements Beans {
         return anexos;
     }
 
-    public void setAnexos(List<ArquivoBeans> anexos) {
+    public void setAnexos(List anexos) {
         this.anexos = anexos;
     }
 
@@ -270,57 +270,11 @@ public class SelecaoBeans implements Beans {
                    ab = (ArquivoBeans) (new ArquivoBeans().toBeans(selecao.getEdital()));
                 }
                 this.setEdital(ab);
-                
-                List<UsuarioBeans> responsaveis = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
-                UsuarioBeans ubs = null;
-                if(selecao.getResponsaveis()!= null){
-                    for(int i=0;i<selecao.getResponsaveis().size();i++){
-                        ubs = (UsuarioBeans) (new UsuarioBeans().toBeans(selecao.getResponsaveis().get(i)));
-                        responsaveis.add(ubs);
-                    }
-                }
-                this.setResponsaveis(responsaveis);
-                
-                List<EtapaBeans> etapas = Collections.synchronizedList(new ArrayList<EtapaBeans>());
-                EtapaBeans ebs = null;
-                if(selecao.getEtapas()!= null){
-                    for(int i=0;i<selecao.getEtapas().size();i++){
-                        ebs = (EtapaBeans) (new EtapaBeans().toBeans(selecao.getEtapas().get(i)));
-                        etapas.add(ebs);
-                    }
-                }
-                this.setEtapas(etapas);
-                
-                List<ArquivoBeans> aditivos = Collections.synchronizedList(new ArrayList<ArquivoBeans>());
-                ArquivoBeans abs = null;
-                if(selecao.getAditivos()!= null){
-                    for(int i=0;i<selecao.getAditivos().size();i++){
-                        abs = (ArquivoBeans) (new ArquivoBeans().toBeans(selecao.getAditivos().get(i)));
-                        aditivos.add(abs);
-                    }
-                }
-                this.setAditivos(aditivos);
-                
-                List<ArquivoBeans> anexos = Collections.synchronizedList(new ArrayList<ArquivoBeans>());
-                abs = null;
-                if(selecao.getAnexos()!= null){
-                    for(int i=0;i<selecao.getAnexos().size();i++){
-                        abs = (ArquivoBeans) (new ArquivoBeans().toBeans(selecao.getAnexos().get(i)));
-                        anexos.add(abs);
-                    }
-                }
-                this.setAnexos(anexos);
-                
-                List<ParticipanteBeans> candidatos = Collections.synchronizedList(new ArrayList<ParticipanteBeans>());
-                ParticipanteBeans pbs = null;
-                if(selecao.getCandidatos()!= null){
-                    for(int i=0;i<selecao.getCandidatos().size();i++){
-                        pbs = (ParticipanteBeans) (new ParticipanteBeans().toBeans(selecao.getCandidatos().get(i)));
-                        candidatos.add(pbs);
-                    }
-                }
-                this.setCandidatos(candidatos);
-                
+                this.setResponsaveis(selecao.getResponsaveis());
+                this.setAditivos(selecao.getAditivos());
+                this.setAnexos(selecao.getAnexos());
+                this.setCandidatos(selecao.getCandidatos());
+                this.setEtapas(selecao.getEtapas());
                 return this;
             }else{
                 throw new IllegalArgumentException("O objeto a ser adicionado não é uma Seleção!");

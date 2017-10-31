@@ -23,10 +23,12 @@
             <div class="row row-offcanvas row-offcanvas-right">
                 <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
                 <div class="col-sm-8">
-                    <nav class="breadcrumb">
-                        <span class="breadcrumb-item">Você está em:</span> 
-                        <a class="breadcrumb-item active" href="/index.jsp">Início</a>
-                    </nav>
+                <nav aria-label="breadcrumb" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">Você está em: </li>
+                        <li class="breadcrumb-item active" aria-current="page">Início</li>
+                    </ol>
+                </nav>
                     
                     <h1>Início</h1>
                 <c:forEach var="selecao" begin="0" end="4" items="${novasSelecoes}">

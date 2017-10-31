@@ -26,101 +26,93 @@
         <div class="row row-offcanvas row-offcanvas-right">
             <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
             <div class="col-sm-8">
-                <nav class="breadcrumb">
-                    <span class="breadcrumb-item">Você está em:</span> 
-                    <a class="breadcrumb-item active" href="indexController">Início</a>
-                    <a class="breadcrumb-item active" href="cadastrarSelecao">Cadastrar Seleção</a>
+                <nav aria-label="breadcrumb" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">Você está em: </li>
+                        <li class="breadcrumb-item" aria-current="page"><a href="/Darwin">Início</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Cadastrar Seleção</li>
+                    </ol>
                 </nav>
 
                 <h1>Cadastrar Seleção</h1>
                 <br>
-                <nav class="nav nav-pills" id="myTab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Informações da Seleção</a>
-                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Edital e Anexos</a>
-                </nav>
-                <br>
-                
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <div class="form-group">
-                            <form method="POST" action="cadastrarSelecao" accept-charset="UTF-8">
-                                <label for="tituloInput">Titulo*</label>
-                                <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" required>
-                                <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>
-                                <div class="invalid-feedback">
-                                    O titulo da seleção é inválido
-                                </div>
-                                <br>
-
-                                <label for="descricaoInput">Descrição*</label>
-                                <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" required></textarea>
-                                <div class="invalid-feedback">
-                                    A descrição da seleção está inválida
-                                </div>
-                                <br>
-                                
-                                <label for="preRequisitosInput">Pré Requisitos</label>
-                                <textarea name="descricaoPreRequisitos" class="form-control" id="preRequisitosInput" placeholder="Digite uma breve descrição sobre os pré requisitos para participar da seleção">${selecao.descricaoPreRequisitos}</textarea>
-                                <br>
-                                
-                                <label for="categoriaInput">Categoria*</label>
-                                <select type="text" name="categoria" class="form-control" id="categoriaInput" required>
-                                    <option selected="selected" disabled="disabled">Selecione a categoria da seleção</option>
-                                    <option>Assistência Estudantil</option>
-                                </select>
-                                <br>
-
-                                <label for="areaDeConcentracaoInput">Área de Concentração*</label>
-                                <input type="text" name="areaDeConcentracao" class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração" required>
-                                <small id="tituloHelp" class="form-text text-muted">Exemplo: Computação, Engenharia Mecânica, LINCE</small>
-                                <div class="invalid-feedback">
-                                    A área de concentração da seleção é inválida
-                                </div>
-                                <br>
-
-                                <div class="card">
-                                    <label for="isVagasLimitadasInput" class="card-header">
-                                        <input type="checkbox" class="" id="isVagasLimitadasInput" onclick="habilitaCampoVagas()">
-                                        &nbsp; Definir o número de vagas
-                                    </label>
-                                    <div class="card-body">
-                                        <label for="vagasRemuneradasInput">Número de vagas remuneradas</label>
-                                        <input type="number" name="vagasRemuneradas" class="form-control col-sm-2 disabled" id="vagasRemuneradasInput" value="0" min="0" max="100" disabled>
-                                        <div class="invalid-feedback" >
-                                            O número de vagas remuneradas é inválido
-                                        </div>
-                                        <br>
-
-                                        <label for="vagasVoluntariasInput">Número de vagas voluntárias</label>
-                                        <input type="number" name="vagasVoluntarias" class="form-control col-sm-2 disabled" id="vagasVoluntariasInput" value="0" min="0" max="100" disabled>
-                                        <div class="invalid-feedback">
-                                            O número de vagas voluntárias é inválido
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <br>
-
-
-                                
-                                <br>
-                                <a href="/Darwin" type="button" class="btn btn-secondary">
-                                    Cancelar
-                                </a>
-                                <button type="submit"  class="btn btn-primary">
-                                    Salvar e Continuar
-                                </button>
-                            </form>
+                <div class="form-group">
+                    <form method="POST" action="cadastrarSelecao" accept-charset="UTF-8">
+                        <label for="tituloInput">Titulo*</label>
+                        <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" required>
+                        <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>
+                        <div class="invalid-feedback">
+                            O titulo da seleção é inválido
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                        <label class="custom-file">
-                            <input type="file" accept="application/pdf" placeholder="Anexe o edital da seleção" id="file" class="custom-file-input">
-                            <span class="custom-file-control"> @ </span>
-                        </label>
+                        <br>
 
-                    </div>
-                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+                        <label for="descricaoInput">Descrição*</label>
+                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" required></textarea>
+                        <div class="invalid-feedback">
+                            A descrição da seleção está inválida
+                        </div>
+                        <br>
+
+                        <label for="preRequisitosInput">Pré Requisitos</label>
+                        <textarea name="descricaoPreRequisitos" class="form-control" id="preRequisitosInput" placeholder="Digite uma breve descrição sobre os pré requisitos para participar da seleção">${selecao.descricaoPreRequisitos}</textarea>
+                        <br>
+
+                        <label for="categoriaInput">Categoria*</label>
+                        <select type="text" name="categoria" class="form-control custom-select" id="categoriaInput" required>
+                            <option selected="selected" disabled="disabled">Selecione a categoria da seleção</option>
+                            <option>Assistência Estudantil</option>
+                        </select>
+                        <br>
+
+                        <br>
+                        <label for="areaDeConcentracaoInput">Área de Concentração*</label>
+                        <input type="text" name="areaDeConcentracao" class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração" required>
+                        <small id="tituloHelp" class="form-text text-muted">Exemplo: Computação, Engenharia Mecânica, LINCE</small>
+                        <div class="invalid-feedback">
+                            A área de concentração da seleção é inválida
+                        </div>
+                        <br>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <label class="custom-control custom-checkbox" for="isVagasLimitadasInput">
+                                    <input type="checkbox" class="custom-control-input" id="isVagasLimitadasInput" onclick="habilitaCampoVagas()">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description align-bottom">Definir o número de vagas</span>
+                                </label>
+                            </div>
+                            
+                            <div class="card-body">
+                                <label for="vagasRemuneradasInput">Número de vagas remuneradas</label>
+                                <input type="number" name="vagasRemuneradas" class="form-control col-sm-2 disabled" id="vagasRemuneradasInput" value="0" min="0" max="100" disabled>
+                                <div class="invalid-feedback" >
+                                    O número de vagas remuneradas é inválido
+                                </div>
+                                <br>
+
+                                <label for="vagasVoluntariasInput">Número de vagas voluntárias</label>
+                                <input type="number" name="vagasVoluntarias" class="form-control col-sm-2 disabled" id="vagasVoluntariasInput" value="0" min="0" max="100" disabled>
+                                <div class="invalid-feedback">
+                                    O número de vagas voluntárias é inválido
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <label for="editalInput">Edital*</label>
+                        <input type="file" name="edital" class="form-control" id="editalInput" aria-describedby="editalHelp" placeholder="Anexe o edital da seleção" required>
+                        <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
+                        <div class="invalid-feedback">
+                            
+                        </div>
+                        <br>
+                        <a href="/Darwin" type="button" class="btn btn-secondary">
+                            Cancelar
+                        </a>
+                        <button type="submit"  class="btn btn-primary">
+                            Salvar e Continuar
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -144,20 +136,7 @@
         }, false);
       }, false);
     })();
-    
-    $(document).ready(function() {
 
-        $('input:file').change(function() {
-            var arq = this.files[0];
-            alert(arq.type);
-            if(arq.type === "application/pdf"){
-                alert("OK");
-            }else{
-                alert("Erro");
-            }
-        });
-
-    });
     function habilitaCampoVagas(){
 	if(! document.getElementById('isVagasLimitadasInput').checked){
 		document.getElementById('vagasRemuneradasInput').disabled = true;

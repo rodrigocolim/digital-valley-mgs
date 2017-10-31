@@ -22,36 +22,33 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller("cadastrarSelecaoController")
 @RequestMapping("/cadastrarSelecao")
-public class CadastrarSelecaoController{ 
+public class CadastrarSelecaoController { 
 
     private SelecaoServiceIfc selecaoServiceIfc;
-    
-    public SelecaoServiceIfc getSelecaoServiceIfc(){
+
+    public SelecaoServiceIfc getSelecaoServiceIfc() {
         return selecaoServiceIfc;
     }
-    
+
     @Autowired(required = true)
     public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc")SelecaoServiceIfc selecaoServiceIfc){
         this.selecaoServiceIfc = selecaoServiceIfc;
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public String getIndex(){             
+    public String getIndex() {             
         return "cadastrar-selecao";
     }
-    
-    @RequestMapping(method = RequestMethod.POST)
-    public String adiciona(@Valid SelecaoBeans selecao, BindingResult result){           
-<<<<<<< HEAD
 
-=======
->>>>>>> da7c49a0f631dd2cb187fee97e84752f9be635fb
+    @RequestMapping(method = RequestMethod.POST)
+    public String adiciona(@Valid SelecaoBeans selecao, BindingResult result) {           
+
         selecao.getResponsaveis().add(new UsuarioBeans());
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return "cadastrar-selecao";
         }
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-        return "forward:/selecao?codSelecao="+selecao.getCodSelecao();
+        return "forward:/selecao?codSelecao=" + selecao.getCodSelecao();
     }
 }

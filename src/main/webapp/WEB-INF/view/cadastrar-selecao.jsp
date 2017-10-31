@@ -6,12 +6,15 @@
     "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
-        <meta charset="UTF-8" />
+        <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="n2s">
         <link rel="icon" href="favicon.ico">
         <title>Darwin - Sistema de Gerenciamento de Seleções</title>
+
+
+
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -40,9 +43,9 @@
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div class="form-group">
-                            <form method="POST" action="cadastrarSelecao">
+                            <form method="POST" action="cadastrarSelecao" accept-charset="UTF-8">
                                 <label for="tituloInput">Titulo*</label>
-                                <input type="text" name="titulo" value="${selecao.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" required>
+                                <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" required>
                                 <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>
                                 <div class="invalid-feedback">
                                     O titulo da seleção é inválido
@@ -50,54 +53,63 @@
                                 <br>
 
                                 <label for="descricaoInput">Descrição*</label>
-                                <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" required>${selecao.descricao}</textarea>
+                                <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" required></textarea>
                                 <div class="invalid-feedback">
                                     A descrição da seleção está inválida
                                 </div>
                                 <br>
-
+                                
+                                <label for="preRequisitosInput">Pré Requisitos</label>
+                                <textarea name="descricaoPreRequisitos" class="form-control" id="preRequisitosInput" placeholder="Digite uma breve descrição sobre os pré requisitos para participar da seleção">${selecao.descricaoPreRequisitos}</textarea>
+                                <br>
+                                
                                 <label for="categoriaInput">Categoria*</label>
-                                <select type="text" name="categoria" value="${selecao.categoria}"class="form-control" id="categoriaInput" required>
-                                    <option selected="selected">- Selecione a categoria da seleção -</option>
+                                <select type="text" name="categoria" class="form-control" id="categoriaInput" required>
+                                    <option selected="selected" disabled="disabled">Selecione a categoria da seleção</option>
                                     <option>Assistência Estudantil</option>
                                 </select>
                                 <br>
 
-                                <label for="preRequisitosInput">Pré Requisitos</label>
-                                <textarea name="descricaoPreRequisitos" class="form-control" id="preRequisitosInput" placeholder="Digite uma breve descrição sobre os pré requisitos para participar da seleção">${selecao.descricaoPreRequisitos}</textarea>
-                                <br>
-
-                                <label for="areaDeConcentracaoInput">Área de Concentração</label>
-                                <input type="text" name="areaDeConcentracao" value="${selecao.areaDeConcentracao}"class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração" required>
+                                <label for="areaDeConcentracaoInput">Área de Concentração*</label>
+                                <input type="text" name="areaDeConcentracao" class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração" required>
                                 <small id="tituloHelp" class="form-text text-muted">Exemplo: Computação, Engenharia Mecânica, LINCE</small>
                                 <div class="invalid-feedback">
                                     A área de concentração da seleção é inválida
                                 </div>
                                 <br>
 
-                                <label for="isVagasLimitadasInput">
-                                    <input type="checkbox" class="" id="isVagasLimitadasInput">
-                                    Definir o número de vagas
-                                </label>
+                                <div class="card">
+                                    <label for="isVagasLimitadasInput" class="card-header">
+                                        <input type="checkbox" class="" id="isVagasLimitadasInput" onclick="habilitaCampoVagas()">
+                                        &nbsp; Definir o número de vagas
+                                    </label>
+                                    <div class="card-body">
+                                        <label for="vagasRemuneradasInput">Número de vagas remuneradas</label>
+                                        <input type="number" name="vagasRemuneradas" class="form-control col-sm-2 disabled" id="vagasRemuneradasInput" value="0" min="0" max="100" disabled>
+                                        <div class="invalid-feedback" >
+                                            O número de vagas remuneradas é inválido
+                                        </div>
+                                        <br>
+
+                                        <label for="vagasVoluntariasInput">Número de vagas voluntárias</label>
+                                        <input type="number" name="vagasVoluntarias" class="form-control col-sm-2 disabled" id="vagasVoluntariasInput" value="0" min="0" max="100" disabled>
+                                        <div class="invalid-feedback">
+                                            O número de vagas voluntárias é inválido
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <br>
 
-                                <label for="vagasRemuneradasInput">Número de vagas remuneradas</label>
-                                <input type="number" name="vagasRemuneradas" class="form-control col-sm-2 disabled" id="descricaoInput" value="0">
-                                <div class="invalid-feedback">
-                                    O número de vagas remuneradas é inválido
-                                </div>
-                                <br>
+
                                 
-                                <label for="vagasVoluntariasInput">Número de vagas voluntárias</label>
-                                <input type="number" name="vagasVoluntarias" class="form-control col-sm-2 disabled" id="descricaoInput" value="0" required>
-                                <div class="invalid-feedback">
-                                    O número de vagas voluntárias é inválido
-                                </div>
-
-                                <button type="button" class="btn btn-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">
+                                <br>
+                                <a href="/Darwin" type="button" class="btn btn-secondary">
                                     Cancelar
+                                </a>
+                                <button type="submit"  class="btn btn-primary">
+                                    Salvar e Continuar
                                 </button>
-                                <input type="submit" value="Salvar e Continuar" class="btn btn-primary">
                             </form>
                         </div>
                     </div>
@@ -146,6 +158,15 @@
         });
 
     });
+    function habilitaCampoVagas(){
+	if(! document.getElementById('isVagasLimitadasInput').checked){
+		document.getElementById('vagasRemuneradasInput').disabled = true;
+                document.getElementById('vagasVoluntariasInput').disabled = true;
+	} else {
+		document.getElementById('vagasRemuneradasInput').disabled = false;
+                document.getElementById('vagasVoluntariasInput').disabled = false;
+	}
+    }
     </script>
 </body>
 </html>

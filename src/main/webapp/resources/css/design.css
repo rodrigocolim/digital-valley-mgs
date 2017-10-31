@@ -35,6 +35,15 @@ nav{
     height: min-content;
 }
 
+form > label{
+    font-size: 15px;
+}
+form > .btn{
+    font-size: 15px;
+}
+.form-control{
+    font-size: 12px;
+}
 
 
 /* Extra small devices (portrait phones, less than 576px) */

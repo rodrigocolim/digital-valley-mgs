@@ -14,6 +14,7 @@ br\ufc\russas\n2s\darwin\dao\DAOImpl.class
 br\ufc\russas\n2s\darwin\model\Usuario.class
 br\ufc\russas\n2s\darwin\model\CriterioDeAvaliacao.class
 br\ufc\russas\n2s\darwin\dao\ExecuteHibernateCreate.class
+br\ufc\russas\n2s\darwin\controller\CadastrarEtapaController.class
 br\ufc\russas\n2s\darwin\beans\CriterioDeAvaliacaoBeans.class
 br\ufc\russas\n2s\darwin\service\SelecaoServiceImpl.class
 br\ufc\russas\n2s\darwin\service\DocumentacaoServiceIfc.class
@@ -47,6 +48,7 @@ br\ufc\russas\n2s\darwin\dao\EtapaDAOIfc.class
 br\ufc\russas\n2s\darwin\model\exception\IllegalCodeException.class
 br\ufc\russas\n2s\darwin\dao\EtapaDAOImpl.class
 br\ufc\russas\n2s\darwin\model\CriterioDeAvaliacaoPorNota.class
+br\ufc\russas\n2s\darwin\controller\SelecaoController.class
 br\ufc\russas\n2s\darwin\service\SelecaoServiceIfc.class
 br\ufc\russas\n2s\darwin\controller\config\WebConfig.class
 br\ufc\russas\n2s\darwin\model\Atualizavel.class

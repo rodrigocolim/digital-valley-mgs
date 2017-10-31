@@ -11,6 +11,7 @@ C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russa
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\EstadoEtapa.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\PeriodoBeans.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\ParticipanteServiceIfc.java
+C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\SelecaoController.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\CriterioDeAvaliacaoBeans.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Avaliacao.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\PeriodoServiceIfc.java
@@ -19,6 +20,7 @@ C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russa
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\Beans.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\DocumentacaoDAOIfc.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\HelloController.java
+C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\CadastrarEtapaController.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\exception\IllegalCodeException.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\CriterioDeAvaliacaoPorCriterio.java
 C:\Users\Wallison Carlos\Documents\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Documentacao.java

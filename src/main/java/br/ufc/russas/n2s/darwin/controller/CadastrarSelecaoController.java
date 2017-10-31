@@ -48,6 +48,6 @@ public class CadastrarSelecaoController{
             return "cadastrar-selecao";
         }
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-        return "forward:/selecao?codSelecao="+selecao.getCodSelecao();
+        return "forward:/selecao/"+selecao.getCodSelecao();
     }
 }

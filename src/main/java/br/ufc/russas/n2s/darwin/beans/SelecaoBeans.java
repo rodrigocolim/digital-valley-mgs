@@ -202,9 +202,11 @@ public class SelecaoBeans implements Beans {
         selecao.setEstado(this.getEstado());
         
         List<Usuario> responsaveis = Collections.synchronizedList(new ArrayList<Usuario>());
+        //Ajeitar
         if(this.getResponsaveis()!=null){
-            for(int i=0;i<this.getResponsaveis().size();i++){
-                responsaveis.add((Usuario) this.getResponsaveis().get(i).toBusiness());
+            List<UsuarioBeans> resp = this.getResponsaveis();
+            for(int i=0;i<resp.size();i++){
+                responsaveis.add((Usuario) new UsuarioBeans().toBusiness());
             }
         }
         selecao.setResponsavel(responsaveis);
@@ -212,7 +214,7 @@ public class SelecaoBeans implements Beans {
         List<Etapa> etapas = Collections.synchronizedList(new ArrayList<Etapa>()); 
         if(this.getEtapas()!=null){
             for(int i=0;i<this.getEtapas().size();i++){
-                etapas.add((Etapa) this.getEtapas().get(i).toBusiness());
+                etapas.add((Etapa) ((EtapaBeans) this.getEtapas().get(i)).toBusiness());
             }
         }
         selecao.setEtapas(etapas);
@@ -220,7 +222,7 @@ public class SelecaoBeans implements Beans {
         List<Arquivo> aditivos = Collections.synchronizedList(new ArrayList<Arquivo>());
         if(this.getAditivos()!=null){
             for(int i=0;i<this.getAditivos().size();i++){
-                aditivos.add((Arquivo) this.getAditivos().get(i).toBusiness());
+                aditivos.add((Arquivo) ((ArquivoBeans)this.getAditivos().get(i)).toBusiness());
             }
         }
         selecao.setAditivos(aditivos);
@@ -228,7 +230,7 @@ public class SelecaoBeans implements Beans {
         List<Arquivo> anexos = Collections.synchronizedList(new ArrayList<Arquivo>());
         if(this.getAnexos()!=null){
             for(int i=0;i<this.getAnexos().size();i++){
-                anexos.add((Arquivo) this.getAnexos().get(i).toBusiness());
+                anexos.add((Arquivo) ((ArquivoBeans)this.getAnexos().get(i)).toBusiness());
             }
         }
         selecao.setAnexos(anexos);
@@ -236,7 +238,7 @@ public class SelecaoBeans implements Beans {
         List<Participante> candidatos = Collections.synchronizedList(new ArrayList<Participante>());
         if(this.getCandidatos()!=null){
             for(int i=0;i<this.getCandidatos().size();i++){
-                candidatos.add((Participante) this.getCandidatos().get(i).toBusiness());
+                candidatos.add((Participante) ((ParticipanteBeans)this.getCandidatos().get(i)).toBusiness());
             }
         }
         selecao.setCandidatos(candidatos);

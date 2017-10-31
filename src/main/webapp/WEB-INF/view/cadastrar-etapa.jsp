@@ -29,10 +29,10 @@
                     <span class="breadcrumb-item">Você está em:</span> 
                     <a class="breadcrumb-item active" href="indexController">Início</a>
                     <a class="breadcrumb-item active" href="cadastrarSelecao">Cadastrar Seleção</a>
-                    <a class="breadcrumb-item active" href="cadastrarEtapas">Cadastrar Etapas</a>
+                    <a class="breadcrumb-item active" href="cadastrarEtapas">Cadastrar Etapa</a>
                 </nav>
 
-                <h1>Cadastrar Etapas</h1>
+                <h1>Cadastrar Etapa</h1>
                 <br>
                 <nav class="nav nav-pills" id="myTab" role="tablist">
                     <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Informações Básicas</a>
@@ -50,7 +50,6 @@
                                     O titulo da etapa é inválido
                                 </div>
                                 <br>
-
                                 <label for="descricaoInput">Descrição*</label>
                                 <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" required>${etapa.descricao}</textarea>
                                 <div class="invalid-feedback">
@@ -59,25 +58,31 @@
                                 <br>
                                 
                                 <div class="container">
-                                    <div class='col-md-5'>
+                                    <div class='col-md-4'>
                                         <label for="dataInicioInput">Data Início*</label>
                                         <div class="form-group">
                                             <div class='input-group date' id='datetimepicker6'>
-                                                <input type='text' name="dataInicio" value="${etapa.periodo.dataInicio}" class="form-control" id="dataInicioInput"/>
+                                                <input type='text/javascript' name="dataInicio" value="${etapa.periodo.dataInicio}" class="form-control" id="dataInicioInput"/>
                                                 <span class="input-group-addon">
                                                     <i class="material-icons">date_range</i>
                                                 </span>
+                                                <div class="invalid-feedback">
+                                                    Insira uma data de Início válida
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class='col-md-5'>
+                                    <div class='col-md-4'>
                                         <label for="dataTerminoInput">Data Término*</label>
                                         <div class="form-group">
                                             <div class='input-group date' id='datetimepicker7'>
-                                                <input type='text' name="dataTermino" value="${etapa.periodo.dataTermino}" class="form-control" id="dataTerminoInput"/>
+                                                <input type='text/javascript' name="dataTermino" value="${etapa.periodo.dataTermino}" class="form-control" id="dataTerminoInput"/>
                                                 <span class="input-group-addon">
                                                     <i class="material-icons">date_range</i>
                                                 </span>
+                                                <div class="invalid-feedback">
+                                                    Insira uma data de Término válida
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -119,9 +124,9 @@
                                     Cancelar
                                 </button>
                                 <button type="button" class="btn btn-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">
-                                    Salvar e Adicionar Nova Etapa
+                                    Adicionar nova etapa
                                 </button>
-                                <input type="submit" value="Salvar e Finalizar" class="btn btn-primary">
+                                <input type="submit" value="Salvar e Continuar" class="btn btn-primary">
                             </form>
                         </div>
                     </div>

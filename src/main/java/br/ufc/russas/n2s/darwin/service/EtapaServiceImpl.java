@@ -13,11 +13,13 @@ import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Wallison Carlos
  */
+@Service("etapaServiceIfc")
 public class EtapaServiceImpl implements EtapaServiceIfc {
 
     private EtapaDAOIfc etapaDAOIfc;

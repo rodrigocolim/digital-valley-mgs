@@ -28,13 +28,13 @@ public class EtapaDAOImpl implements EtapaDAOIfc{
     }
 
     @Override
-    public void adicionaEtapa(Etapa etapa) {
-        this.daoImpl.adiciona(etapa);
+    public Etapa adicionaEtapa(Etapa etapa) {
+        return this.daoImpl.adiciona(etapa);
     }
 
     @Override
-    public void atualizaEtapa(Etapa etapa) {
-        this.daoImpl.atualiza(etapa);
+    public Etapa atualizaEtapa(Etapa etapa) {
+        return this.daoImpl.atualiza(etapa);
     }
 
     @Override

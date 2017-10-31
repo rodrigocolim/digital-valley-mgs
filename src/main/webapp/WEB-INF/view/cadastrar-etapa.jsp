@@ -58,7 +58,7 @@
                                 <br>
                                 
                                 <div class="container">
-                                    <div class='col-md-4'>
+                                    <div class='sm-md-5'>
                                         <label for="dataInicioInput">Data Início*</label>
                                         <div class="form-group">
                                             <div class='input-group date' id='datetimepicker6'>
@@ -67,12 +67,12 @@
                                                     <i class="material-icons">date_range</i>
                                                 </span>
                                                 <div class="invalid-feedback">
-                                                    Insira uma data de Início válida
+                                                    Insira uma Data de Início válida
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class='col-md-4'>
+                                    <div class='sm-md-5'>
                                         <label for="dataTerminoInput">Data Término*</label>
                                         <div class="form-group">
                                             <div class='input-group date' id='datetimepicker7'>
@@ -81,7 +81,7 @@
                                                     <i class="material-icons">date_range</i>
                                                 </span>
                                                 <div class="invalid-feedback">
-                                                    Insira uma data de Término válida
+                                                    Insira uma Data de Término válida
                                                 </div>
                                             </div>
                                         </div>
@@ -103,11 +103,23 @@
                                 </script>
                                 
                                 <br>
-                                <!-- Tem que colocar os avaliadores -->
-                                <br>
                                 
                                 <label for="documentacaoExigidaInput">Documentação Exigida</label>
                                 <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre os documentos que são exigidos para esta etapa" required>${etapa.documentacaoExigida}</textarea>
+                                
+                                <br>
+                                <label for="AvaliadoresInput">Avaliadores*</label>
+                                <small id="avaliadoresHelp" class="form-text text-muted">Selecione os avaliadores dessa etapa</small>
+                                <div class="col-xs-6">
+                                    <div class="well" style="max-height: 300px;overflow: auto;">
+                                        <ul class="list-group checked-list-box">
+                                            <li class="list-group-item">Alex</li>
+                                            <li class="list-group-item">Wallison</li>
+                                            <li class="list-group-item">Gilberto</li>
+                                            <li class="list-group-item">Lavínia</li>
+                                        </ul>
+                                    </div>
+                                </div>
                                 
                                 <br>
                                 

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Lavínia Matoso
  */
 @Controller("cadastrarEtapaController")
-@RequestMapping("/cadastrarEtapas")
+@RequestMapping("/cadastrarEtapa")
 public class CadastrarEtapaController {
     
     private EtapaServiceIfc etapaServiceIfc;

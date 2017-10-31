@@ -18,13 +18,13 @@ public interface EtapaDAOIfc {
      * Método resposável por fazer a persistência de uma etapa.
      * @param etapa
      */
-    void adicionaEtapa(Etapa etapa);
+    Etapa adicionaEtapa(Etapa etapa);
 
     /**
      * Método resposável por fazer a atualização de uma etapa.
      * @param etapa
      */
-    void atualizaEtapa(Etapa etapa);
+    Etapa atualizaEtapa(Etapa etapa);
 
     /**
      * Método resposável por fazer a remoção de uma etapa.

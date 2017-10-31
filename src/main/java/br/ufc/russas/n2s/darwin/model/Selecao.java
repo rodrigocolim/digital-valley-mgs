@@ -10,6 +10,7 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Converter;
 import javax.persistence.Embedded;
@@ -38,7 +39,7 @@ public class Selecao {
     private long codSelecao;
     private String titulo;
     private String descricao;
-    @ManyToMany(targetEntity = Usuario.class)
+    @ManyToMany(targetEntity = Usuario.class, cascade = CascadeType.ALL)
     @JoinTable(name = "responsaveis_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "usuario", referencedColumnName = "codUsuario")})
     private List<Usuario> responsaveis;

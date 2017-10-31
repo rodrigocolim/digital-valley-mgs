@@ -5,7 +5,6 @@
  */
 package br.ufc.russas.n2s.darwin.dao;
 
-import java.util.Collections;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -109,7 +108,7 @@ public class DAOImpl<T> implements DAOIfc<T> {
         Session session = getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         try {
-            Criteria criteria = session.createCriteria(object.getClass());
+            Criteria criteria = session.createCriteria(object);
             t.commit();
             return criteria.list();
         } catch (RuntimeException e) {

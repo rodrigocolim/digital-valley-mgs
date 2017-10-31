@@ -13,8 +13,7 @@ import br.ufc.russas.n2s.darwin.model.Usuario;
  */
 public class UsuarioBeans implements Beans{
     
-    
-    
+
     @Override
     public Object toBusiness() {
         return new Usuario();

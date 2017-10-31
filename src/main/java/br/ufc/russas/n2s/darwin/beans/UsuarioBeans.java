@@ -22,7 +22,7 @@ public class UsuarioBeans implements Beans{
 
     @Override
     public Beans toBeans(Object object) {
-        return new UsuarioBeans();
+        return new UsuarioBeans();  
     }
     
 }

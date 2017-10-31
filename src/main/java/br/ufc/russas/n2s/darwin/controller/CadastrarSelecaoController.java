@@ -41,8 +41,12 @@ public class CadastrarSelecaoController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
+<<<<<<< HEAD
     public String adiciona(@Valid SelecaoBeans selecao, BindingResult result) {           
 
+=======
+    public String adiciona(@Valid SelecaoBeans selecao, BindingResult result){           
+>>>>>>> fb04a6d5c77d9e885e2e22e2122c3bb7e1c0e25b
         selecao.getResponsaveis().add(new UsuarioBeans());
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         if (result.hasErrors()) {

@@ -26,56 +26,11 @@
     -->
     
     <mvc:annotation-driven />
+    
     <context:component-scan base-package="br.ufc.russas.n2s.darwin"/>
+        
     
-    <context:property-placeholder location="classpath:jdbc.properties" />
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-        p:driverClassName="org.postgresql.Driver" p:url="${jdbc.url}"
-        p:username="${jdbc.username}" p:password="${jdbc.password}">
-    </bean>
     
-    <bean id="sessionFactory"
-        class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="annotatedClasses">
-            <list>
-                <value>br.ufc.russas.n2s.darwin.model.Arquivo</value>
-                <value>br.ufc.russas.n2s.darwin.model.Periodo</value>
-                <value>br.ufc.russas.n2s.darwin.model.Usuario</value>
-                <value>br.ufc.russas.n2s.darwin.model.Documentacao</value>
-                <value>br.ufc.russas.n2s.darwin.model.Participante</value>
-                <value>br.ufc.russas.n2s.darwin.model.Avaliacao</value>
-                <value>br.ufc.russas.n2s.darwin.model.Etapa</value>
-                <value>br.ufc.russas.n2s.darwin.model.Selecao</value>
-            </list>
-        </property>
-        <!-- <property name="hibernateProperties">
-
-            <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
-                <prop key="hibernate.current_session_context_class">thread</prop>
-                <prop key="hibernate.connection.driver_class">org.postgresql.Driver</prop>
-                <prop key="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</prop>
-                <prop key="hibernate.connection.url">jdbc:postgresql://localhost:5432/darwin</prop>
-                <prop key="hibernate.connection.username">n2s</prop>
-                <prop key="hibernate.connection.password">N2S@UFC</prop>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
-            </props>
-        </property>-->
-        <property name="configLocation">
-            <value> /WEB-INF/hibernate.cfg.xml</value>
-        </property>
-    </bean>
-    
-    <bean id="transactionManager"
-        class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-    
-    <bean id="persistenceExceptionTranslationPostProcessor"
-        class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
-    <tx:annotation-driven transaction-manager="transactionManager"/>
     <!--
     <bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

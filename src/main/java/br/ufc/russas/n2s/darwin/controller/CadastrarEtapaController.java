@@ -39,11 +39,7 @@ public class CadastrarEtapaController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-<<<<<<< HEAD
-    public String getIndex() {
-=======
-    public String getIndex(){             
->>>>>>> 31b7e0e0346529d3b7731f8051140c5554cc5abd
+    public String getIndex(){            
         return "cadastrar-etapa";
     }
 

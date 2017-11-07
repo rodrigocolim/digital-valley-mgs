@@ -60,8 +60,9 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 
     @Override
     public List<SelecaoBeans> listaNovasSelecoes() {
-        List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());        
-        List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes();
+        List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
+        Selecao selecao = new Selecao();
+        List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         for (Selecao s : resultado) {
             if (s.getInscricao().getPeriodo().getInicio().isAfter(LocalDateTime.now())) {
                 selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
@@ -73,8 +74,9 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Override
     @Transactional
     public List<SelecaoBeans> listaTodasSelecoes() {
-        List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>()); 
-        List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes();
+        List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
+        Selecao selecao = new Selecao();
+        List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         System.out.println(resultado.size());
         for (Selecao s : resultado) {
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
@@ -84,7 +86,9 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 
     @Override
     public SelecaoBeans getSelecao(long codSelecao) {
-       return (SelecaoBeans) new SelecaoBeans().toBeans(this.getSelecaoDAOIfc().getSelecao(codSelecao));
+        Selecao selecao = new Selecao();
+        selecao.setCodSelecao(codSelecao);
+       return (SelecaoBeans) new SelecaoBeans().toBeans(this.getSelecaoDAOIfc().getSelecao(selecao));
     }
 
 }

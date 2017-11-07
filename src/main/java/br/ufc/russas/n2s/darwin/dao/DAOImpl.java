@@ -10,6 +10,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -104,13 +106,14 @@ public class DAOImpl<T> implements DAOIfc<T> {
     }
 
     @Override
-    public List<T> lista(Class object) {
+    public List<T> lista(T object) {
         Session session = getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         try {
-            Criteria criteria = session.createCriteria(object);
+            Example example = Example.create(object);
+            List<T> objetos = session.createCriteria(object.getClass()).add(example).list();
             t.commit();
-            return criteria.list();
+            return objetos;
         } catch (RuntimeException e) {
             t.rollback();
             throw e;
@@ -120,13 +123,14 @@ public class DAOImpl<T> implements DAOIfc<T> {
     }
 
     @Override
-    public T getObject(Class<T> classe, long codObject) {
+    public T getObject(T object, long codObject) {
         Session session = getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         try {
-            T object = (T) session.get(classe, codObject);
+            Example example = Example.create(object);
+            T o = (T) session.createCriteria(object.getClass()).add(example).uniqueResult();
             t.commit();
-            return object;
+            return o;
         } catch (RuntimeException e) {
             t.rollback();
             throw e;

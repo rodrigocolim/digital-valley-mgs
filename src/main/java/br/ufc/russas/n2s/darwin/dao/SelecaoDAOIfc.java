@@ -40,7 +40,7 @@ public interface SelecaoDAOIfc {
      * Método resposável por fazer a listagem de todos as as seleções.
      * @return List<Selecao>
      */
-    List<Selecao> listaSelecoes();
+    List<Selecao> listaSelecoes(Selecao selecao);
 
     /**
      * Método resposável por pegar do banco de dados uma
@@ -48,6 +48,6 @@ public interface SelecaoDAOIfc {
      * @param codigo
      * @return
      */
-    Selecao getSelecao(long codigo);
+    Selecao getSelecao(Selecao selecao);
 
 }

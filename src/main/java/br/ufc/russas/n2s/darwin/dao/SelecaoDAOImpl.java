@@ -43,13 +43,13 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     }
 
     @Override
-    public List<Selecao> listaSelecoes() {
-        return this.daoImpl.lista(Selecao.class);
+    public List<Selecao> listaSelecoes(Selecao selecao) {
+        return this.daoImpl.lista(selecao);
     }
 
     @Override
-    public Selecao getSelecao(long codigo) {
-        return this.daoImpl.getObject(Selecao.class, codigo);
+    public Selecao getSelecao(Selecao selecao) {
+        return this.daoImpl.getObject(selecao, selecao.getCodSelecao());
     }
 
 }

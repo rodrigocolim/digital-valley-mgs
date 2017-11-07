@@ -61,7 +61,7 @@ public interface DAOIfc<T> {
      * List<T> -  lista com os objetos da classe que se deseja obter as
      * instâncias.
      */
-    List<T> lista(Class object);
+    List<T> lista(T object);
 
     /**
      * Método resposável por pegar do banco de dados uma objeto que contém
@@ -75,5 +75,5 @@ public interface DAOIfc<T> {
      * T - objeto genérico que pode assumir a forma de uma classe anotada com
      * Hibernate
      */
-    T getObject(Class<T> classe, long codObject);
+    T getObject(T object, long codObject);
 }

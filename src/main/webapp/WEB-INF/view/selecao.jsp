@@ -21,33 +21,33 @@
     </head>
     <body>
         <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
-            <div class="container-fluid">
-                <div class="row row-offcanvas row-offcanvas-right">
-                <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
-                    <div class="col-sm-8">
-                        <nav class="breadcrumb">
-                            <span class="breadcrumb-item">Você está em:</span> 
-                            <a class="breadcrumb-item" href="/Darwin">Início</a>
-                            <a class="breadcrumb-item active" href="${selecao.codSelecao}">${selecao.titulo}</a>
-                        </nav>
-                        <h1>${selecao.titulo}</h1>
-                        <p class="text-justify">
-                            ${selecao.descricao}
-                        </p>
-                        <br/>
-                        
+        <div class="container-fluid">
+            <div class="row row-offcanvas row-offcanvas-right">
+            <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
+                <div class="col-sm-8">
+                    <nav class="breadcrumb">
+                        <span class="breadcrumb-item">Você está em:</span> 
+                        <a class="breadcrumb-item" href="/Darwin">Início</a>
+                        <a class="breadcrumb-item active" href="${selecao.codSelecao}">${selecao.titulo}</a>
+                    </nav>
+                    <h1>${selecao.titulo}</h1>
+                    <p class="text-justify">
+                        ${selecao.descricao}
+                    </p>
+                    <br/>
+                    <nav class="nav nav-pills flex-column flex-sm-row">
+                        <a class="flex-sm-fill text-sm-center nav-link active" href="#etapa-inscricao">Inscrição</a>
+                        <a class="flex-sm-fill text-sm-center nav-link" href="#">Link</a>
+                    </nav>
+                    <div class="tab-content" id="myTabContent">
+                    
+                        <div class="tab-pane fade" id="#etapa-${etapa.titulo}" role="tabpanel">...</div>
+                    
                     </div>
-                    <ul class="timeline timeline-horizontal" >      
-                        <c:forEach var="etapa" items="${selecao.etapas}">
-                            <li class="timeline-item">
-                                <button type="button" class="btn btn-secondary timeline-badge" data-toggle="tooltip" data-placement="top" title="${etapa.titulo}">
-
-                                </button>
-                            </li>
-                        </c:forEach>
-                    </ul>
                 </div>
+
             </div>
+        </div>
             <br>
         <c:import url="elements/menu-lateral-direito.jsp" charEncoding="UTF-8"></c:import>
         <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  

@@ -57,9 +57,14 @@
         <url-pattern>*.png</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.properties</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>SelecaoController</servlet-name>
         <url-pattern>/SelecaoController</url-pattern>
-    </servlet-mapping> 
+    </servlet-mapping>
+     
     
     <filter> 
         <filter-name>encodingFilter</filter-name>  

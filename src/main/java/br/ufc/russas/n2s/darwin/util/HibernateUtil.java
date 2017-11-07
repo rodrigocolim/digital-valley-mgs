@@ -7,10 +7,12 @@ package br.ufc.russas.n2s.darwin.util;
 
 import br.ufc.russas.n2s.darwin.model.Arquivo;
 import br.ufc.russas.n2s.darwin.model.Arquivo;
+import br.ufc.russas.n2s.darwin.model.Avaliacao;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.Etapa;
+import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Periodo;
 import br.ufc.russas.n2s.darwin.model.Periodo;
 import br.ufc.russas.n2s.darwin.model.Selecao;
@@ -27,6 +29,7 @@ import org.hibernate.service.ServiceRegistry;
  * @author Wallison Carlos
  */
 public class HibernateUtil {
+    
     private static SessionFactory sessionFactory;
     
     public static SessionFactory getSessionFactory() {
@@ -42,10 +45,12 @@ public class HibernateUtil {
             conf.addAnnotatedClass(Documentacao.class);
             conf.addAnnotatedClass(Periodo.class);
             conf.addAnnotatedClass(Usuario.class);
+            conf.addAnnotatedClass(Participante.class);       
+            conf.addAnnotatedClass(Avaliacao.class);       
             conf.addAnnotatedClass(Etapa.class);
             conf.addAnnotatedClass(Selecao.class);
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(conf.getProperties()).build();
-            sessionFactory = conf.configure("/WEB-INF/hibernate.cfg.xml").buildSessionFactory(serviceRegistry);
+            sessionFactory = conf.configure("/hibernate.cfg.xml").buildSessionFactory(serviceRegistry);
             return sessionFactory;
         } else {
             return sessionFactory;

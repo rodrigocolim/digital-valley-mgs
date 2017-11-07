@@ -35,15 +35,10 @@
                         ${selecao.descricao}
                     </p>
                     <br/>
-                    <nav class="nav nav-pills flex-column flex-sm-row">
-                        <a class="flex-sm-fill text-sm-center nav-link active" href="#etapa-inscricao">Inscrição</a>
-                        <a class="flex-sm-fill text-sm-center nav-link" href="#">Link</a>
+                    <nav class="nav nav-pills" id="myTab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Inscrição</a>
+                        <a class="nav-link" href="/Darwin/cadastrarEtapa" target="blank_">Adicionar etapa</a>
                     </nav>
-                    <div class="tab-content" id="myTabContent">
-                    
-                        <div class="tab-pane fade" id="#etapa-${etapa.titulo}" role="tabpanel">...</div>
-                    
-                    </div>
                 </div>
 
             </div>
@@ -55,9 +50,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>      
         <script>
-            $(function () {
-                $('[data-toggle="tooltip"]').tooltip()
-            });
+
         </script>
     </body>
 </html>

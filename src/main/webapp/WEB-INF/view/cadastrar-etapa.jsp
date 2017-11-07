@@ -18,6 +18,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/design.css" />
+        <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.css" />
+        <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.standalone.css" />
     </head>
     <body>
     <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
@@ -27,7 +29,7 @@
             <div class="col-sm-8">
                 <nav class="breadcrumb">
                     <span class="breadcrumb-item">Você está em:</span> 
-                    <a class="breadcrumb-item active" href="indexController">Início</a>
+                    <a class="breadcrumb-item active" href="/Darwin">Início</a>
                     <a class="breadcrumb-item active" href="cadastrarSelecao">Cadastrar Seleção</a>
                     <a class="breadcrumb-item active" href="cadastrarEtapas">Cadastrar Etapa</a>
                 </nav>
@@ -59,36 +61,17 @@
                                 <br>
                                 <div class="card">
                                     <div class="card-header">
-                                        <label class="custom-control" for="periodoInput">Período </label>
+                                        Período
                                     </div>
                                     <div class="card-body">
-                                        <div class="container">
-                                            <div class='sm-md-5'>
-                                                <label for="dataInicioInput">Data Início*</label>
-                                                <div class="form-group">
-                                                    <div class='input-group date' id='datetimepicker6'>
-                                                        <input type='text' name="dataInicio" value="${etapa.periodo.dataInicio}" class="form-control" id="dataInicioInput"/>
-                                                        <span class="input-group-addon">
-                                                            <i class="material-icons">date_range</i>
-                                                        </span>
-                                                        <div class="invalid-feedback">
-                                                            Insira uma Data de Início válida
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class='sm-md-5'>
-                                                <label for="dataTerminoInput">Data Término*</label>
-                                                <div class="form-group">
-                                                    <div class='input-group date' id='datetimepicker7'>
-                                                        <input type='text' name="dataTermino" value="${etapa.periodo.dataTermino}" class="form-control" id="dataTerminoInput"/>
-                                                        <span class="input-group-addon">
-                                                            <i class="material-icons">date_range</i>
-                                                        </span>
-                                                        <div class="invalid-feedback">
-                                                            Insira uma Data de Término válida
-                                                        </div>
-                                                    </div>
+                                        <div class="container" id="sandbox-container">
+                                        <small id="periodoHelp" class="form-text text-muted">Selecione uma data para Início e Término</small>
+                                            <div class="input-daterange input-group" id="datepicker">
+                                                <input type="text" class="input-sm form-control" name="dataInicio" required/>
+                                                <span class="input-group-addon">até</span>
+                                                <input type="text" class="input-sm form-control" name="dataTermino" required/>
+                                                <div class="invalid-feedback">
+                                                    Selecione uma data para Início e Término
                                                 </div>
                                             </div>
                                         </div>
@@ -97,7 +80,7 @@
                                 <br>
                                 
                                 <label for="documentacaoExigidaInput">Documentação Exigida</label>
-                                <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre os documentos que são exigidos para esta etapa" required>${etapa.documentacaoExigida}</textarea>
+                                <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre os documentos que são exigidos para esta etapa">${etapa.documentacaoExigida}</textarea>
                                 
                                 <br>
                                 <!-- Colocar avaliadores quando a ligação com o Guardião for realizada -->
@@ -107,11 +90,14 @@
                                     <div class="well" style="max-height: 300px;overflow: auto;">
                                         <ul class="list-group checked-list-box">
                                             <li class="list-group-item">
-                                                <label class="custom-control custom-checkbox" for="avaliadoresInput">
+                                                <label class="custom-control custom-checkbox" for="avaliadoresInput" required>
                                                     <input type="checkbox" class="custom-control-input" id="avaliadoresInput">
                                                     <span class="custom-control-indicator"></span>
                                                     <span class="custom-control-description align-bottom">Alex</span>
                                                 </label>
+                                                <div class="invalid-feedback">
+                                                    Selecione no mínimo um avaliador
+                                                </div>
                                             </li>
                                             
                                         </ul>
@@ -127,15 +113,16 @@
                                     <option>Deferido ou Indeferido</option>
                                     <option>Manual</option>
                                 </select>
+                                <div class="invalid-feedback">
+                                	Escolha um critério de avaliação
+                            	</div>
+
                                 <br>
                                 
                                 <button type="button" class="btn btn-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">
                                     Cancelar
                                 </button>
-                                <button type="button" class="btn btn-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">
-                                    Adicionar nova etapa
-                                </button>
-                                <input type="submit" value="Salvar e Continuar" class="btn btn-primary">
+                                <input type="submit" value="Salvar" class="btn btn-primary">
                             </form>
                         </div>
                     </div>
@@ -145,10 +132,13 @@
     </div>
     <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-    <script>
+    <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js" ></script>
+    <script type="text/javascript">
     // Example starter JavaScript for disabling form submissions if there are invalid fields
+     $('#sandbox-container .input-daterange').datepicker({
+        todayHighlight: true
+        
+     });
     (function() {
       'use strict';
       window.addEventListener('load', function() {
@@ -163,23 +153,8 @@
       }, false);
     })();
     
-    });
+
     </script>
-    <script type="text/javascript">
-    $(function () {
-        $('#dataInicioInput').datetimepicker();
-        $('#dataTerminoInput').datetimepicker({
-            useCurrent: false //Important! See issue #1075
-        });
-        $("#datetimepicker6").on("dp.change", function (e) {
-            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-        });
-        $("#datetimepicker7").on("dp.change", function (e) {
-            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
-        });
-    });
-</script>
 </body>
 </html>
-
 

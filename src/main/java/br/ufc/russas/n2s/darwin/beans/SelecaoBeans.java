@@ -30,7 +30,6 @@ public class SelecaoBeans implements Beans {
     private String titulo;
     private String descricao;
     private List responsaveis = Collections.synchronizedList(new ArrayList<UsuarioBeans>());;
-    @NotNull
     private EtapaBeans inscricao;
     private List etapas;
     @Min(0)

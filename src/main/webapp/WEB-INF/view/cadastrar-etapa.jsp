@@ -34,6 +34,7 @@
 
                 <h1>Cadastrar Etapa</h1>
                 <br>
+                <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <nav class="nav nav-pills" id="myTab" role="tablist">
                     <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Informações Básicas</a>
                 </nav>
@@ -43,9 +44,6 @@
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div class="form-group">
                             <form method="POST" action="cadastrarEtapa">
-                                <p align="center">Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
-                                <br>
-                                
                                 <label for="tituloInput">Titulo*</label>
                                 <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
                                 <small id="tituloHelp" class="form-text text-muted">Exemplo: Inscrição</small>
@@ -61,36 +59,35 @@
                                 <br>
                                 <div class="card">
                                     <div class="card-header">
-                                        <label class="custom-control" for="periodoInput">
-                                            <span class="custom-control-description align-bottom">Período</span>
-                                        </label>
+                                        <label class="custom-control" for="periodoInput">Período </label>
                                     </div>
-                                
-                                    <div class="container">
-                                        <div class='sm-md-5'>
-                                            <label for="dataInicioInput">Data Início*</label>
-                                            <div class="form-group">
-                                                <div class='input-group date' id='datetimepicker4'>
-                                                    <input type='text' name="dataInicio" value="${etapa.periodo.dataInicio}" class="form-control" id="dataInicioInput"/>
-                                                    <span class="input-group-addon">
-                                                        <i class="material-icons">date_range</i>
-                                                    </span>
-                                                    <div class="invalid-feedback">
-                                                        Insira uma Data de Início válida
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div class='sm-md-5'>
+                                                <label for="dataInicioInput">Data Início*</label>
+                                                <div class="form-group">
+                                                    <div class='input-group date' id='datetimepicker6'>
+                                                        <input type='text' name="dataInicio" value="${etapa.periodo.dataInicio}" class="form-control" id="dataInicioInput"/>
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">date_range</i>
+                                                        </span>
+                                                        <div class="invalid-feedback">
+                                                            Insira uma Data de Início válida
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class='sm-md-5'>
-                                            <label for="dataTerminoInput">Data Término*</label>
-                                            <div class="form-group">
-                                                <div class='input-group date' id='datetimepicker4'>
-                                                    <input type='text' name="dataTermino" value="${etapa.periodo.dataTermino}" class="form-control" id="dataTerminoInput"/>
-                                                    <span class="input-group-addon">
-                                                        <i class="material-icons">date_range</i>
-                                                    </span>
-                                                    <div class="invalid-feedback">
-                                                        Insira uma Data de Término válida
+                                            <div class='sm-md-5'>
+                                                <label for="dataTerminoInput">Data Término*</label>
+                                                <div class="form-group">
+                                                    <div class='input-group date' id='datetimepicker7'>
+                                                        <input type='text' name="dataTermino" value="${etapa.periodo.dataTermino}" class="form-control" id="dataTerminoInput"/>
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">date_range</i>
+                                                        </span>
+                                                        <div class="invalid-feedback">
+                                                            Insira uma Data de Término válida
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -166,25 +163,22 @@
       }, false);
     })();
     
-    $(document).ready(function() {
-
-        $('input:file').change(function() {
-            var arq = this.files[0];
-            alert(arq.type);
-            if(arq.type === "application/pdf"){
-                alert("OK");
-            }else{
-                alert("Erro");
-            }
-        });
-
     });
     </script>
     <script type="text/javascript">
-        $(function () {
-            $('#datetimepicker4').datetimepicker();
+    $(function () {
+        $('#dataInicioInput').datetimepicker();
+        $('#dataTerminoInput').datetimepicker({
+            useCurrent: false //Important! See issue #1075
         });
-    </script>
+        $("#datetimepicker6").on("dp.change", function (e) {
+            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker7").on("dp.change", function (e) {
+            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+        });
+    });
+</script>
 </body>
 </html>
 

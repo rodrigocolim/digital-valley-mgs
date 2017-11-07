@@ -67,5 +67,17 @@
             <value> /WEB-INF/hibernate.cfg.xml</value>
         </property>
     </bean>
-    
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <!--
+    <mvc:interceptors>
+        <bean class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor">
+            <property name="sessionFactory" ref="sessionFactory"></property>
+        </bean>
+    </mvc:interceptors>-->
+    <bean id="persistenceExceptionTranslationPostProcessor"
+        class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>

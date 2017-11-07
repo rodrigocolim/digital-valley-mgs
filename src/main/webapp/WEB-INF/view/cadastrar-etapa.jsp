@@ -14,7 +14,6 @@
         <title>Darwin - Sistema de Gerenciamento de Seleções</title>
 
 
-
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -30,29 +29,27 @@
                     <span class="breadcrumb-item">Você está em:</span> 
                     <a class="breadcrumb-item active" href="indexController">Início</a>
                     <a class="breadcrumb-item active" href="cadastrarSelecao">Cadastrar Seleção</a>
-                    <a class="breadcrumb-item active" href="cadastrarEtapas">Cadastrar Etapas</a>
+                    <a class="breadcrumb-item active" href="cadastrarEtapas">Cadastrar Etapa</a>
                 </nav>
 
-                <h1>Cadastrar Etapas</h1>
+                <h1>Cadastrar Etapa</h1>
                 <br>
                 <nav class="nav nav-pills" id="myTab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Informações da Seleção</a>
-                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Edital e Anexos</a>
+                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Informações Básicas</a>
                 </nav>
                 <br>
                 
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div class="form-group">
-                            <form method="POST" action="cadastrarEtapas">
+                            <form method="POST" action="cadastrarEtapa">
                                 <label for="tituloInput">Titulo*</label>
-                                <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a etapa" required>
+                                <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
                                 <small id="tituloHelp" class="form-text text-muted">Exemplo: Inscrição</small>
                                 <div class="invalid-feedback">
                                     O titulo da etapa é inválido
                                 </div>
                                 <br>
-
                                 <label for="descricaoInput">Descrição*</label>
                                 <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" required>${etapa.descricao}</textarea>
                                 <div class="invalid-feedback">
@@ -61,25 +58,31 @@
                                 <br>
                                 
                                 <div class="container">
-                                    <div class='col-md-5'>
+                                    <div class='sm-md-5'>
                                         <label for="dataInicioInput">Data Início*</label>
                                         <div class="form-group">
                                             <div class='input-group date' id='datetimepicker6'>
-                                                <input type='text' class="form-control" />
+                                                <input type='text/javascript' name="dataInicio" value="${etapa.periodo.dataInicio}" class="form-control" id="dataInicioInput"/>
                                                 <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                    <i class="material-icons">date_range</i>
                                                 </span>
+                                                <div class="invalid-feedback">
+                                                    Insira uma Data de Início válida
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class='col-md-5'>
+                                    <div class='sm-md-5'>
                                         <label for="dataTerminoInput">Data Término*</label>
                                         <div class="form-group">
                                             <div class='input-group date' id='datetimepicker7'>
-                                                <input type='text' class="form-control" />
+                                                <input type='text/javascript' name="dataTermino" value="${etapa.periodo.dataTermino}" class="form-control" id="dataTerminoInput"/>
                                                 <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                    <i class="material-icons">date_range</i>
                                                 </span>
+                                                <div class="invalid-feedback">
+                                                    Insira uma Data de Término válida
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -100,21 +103,45 @@
                                 </script>
                                 
                                 <br>
-                                <!-- Tem que colocar os avaliadores -->
-                                <br>
+                                
                                 <label for="documentacaoExigidaInput">Documentação Exigida</label>
                                 <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre os documentos que são exigidos para esta etapa" required>${etapa.documentacaoExigida}</textarea>
+                                
                                 <br>
-
+                                <label for="AvaliadoresInput">Avaliadores*</label>
+                                <small id="avaliadoresHelp" class="form-text text-muted">Selecione os avaliadores dessa etapa</small>
+                                <div class="col-xs-6">
+                                    <div class="well" style="max-height: 300px;overflow: auto;">
+                                        <ul class="list-group checked-list-box">
+                                            <li class="list-group-item">Alex</li>
+                                            <li class="list-group-item">Wallison</li>
+                                            <li class="list-group-item">Gilberto</li>
+                                            <li class="list-group-item">Lavínia</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <br>
+                                
+                                <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
+                                <select type="text" name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"class="form-control" id="categoriaInput" required>
+                                    <option selected="selected">- Selecione o critério de avaliação dessa etapa -</option>
+                                    <option>Nota</option>
+                                    <option>Deferido ou Indeferido</option>
+                                    <option>Manual</option>
+                                </select>
+                                <br>
+                                
                                 <button type="button" class="btn btn-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">
                                     Cancelar
                                 </button>
-                                <input type="submit" value="Salvar" class="btn btn-primary">
+                                <button type="button" class="btn btn-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">
+                                    Adicionar nova etapa
+                                </button>
+                                <input type="submit" value="Salvar e Continuar" class="btn btn-primary">
                             </form>
                         </div>
-                    </div
-                    
-                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">+</div>
+                    </div>
                 </div>
             </div>
         </div>

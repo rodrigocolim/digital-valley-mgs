@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.controller.filter;
 
 import br.ufc.russas.n2s.darwin.util.HibernateUtil;
 import java.io.IOException;
+import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
@@ -21,11 +22,13 @@ import org.hibernate.StaleObjectStateException;
  *
  * @author Wallison Carlos
  */
-public class HibernateSessionRequestFilter {
+public class HibernateSessionRequestFilter implements Filter {  
+  
     private static Log log = LogFactory.getLog(HibernateSessionRequestFilter.class);  
   
     private SessionFactory sf;  
   
+    @Override
     public void doFilter(ServletRequest request,  
                          ServletResponse response,  
                          FilterChain chain)  
@@ -73,5 +76,6 @@ public class HibernateSessionRequestFilter {
         sf = HibernateUtil.getSessionFactory();  
     }  
   
-    public void destroy() {} 
-}
+    public void destroy() {}  
+  
+}  

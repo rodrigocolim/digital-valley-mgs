@@ -35,8 +35,19 @@ nav{
     height: min-content;
 }
 
+form > label{
+    font-size: 15px;
+}
+form > .btn{
+    font-size: 15px;
+}
+.form-control{
+    font-size: 12px;
+}
 
-
+.btn-group-vertical > button{
+    padding: 10px;
+}
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575px) { 
     

@@ -34,13 +34,13 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     }
 
     @Override
-    public void adicionaEtapa(EtapaBeans etapa) {
-        this.getEtapaDAOIfc().adicionaEtapa((Etapa) etapa.toBusiness());
+    public EtapaBeans adicionaEtapa(EtapaBeans etapa) {
+        return (EtapaBeans) new EtapaBeans().toBeans(this.getEtapaDAOIfc().adicionaEtapa((Etapa) etapa.toBusiness()));
     }
 
     @Override
-    public void atualizaEtapa(EtapaBeans etapa) {
-        this.getEtapaDAOIfc().atualizaEtapa((Etapa) etapa.toBusiness());
+    public EtapaBeans atualizaEtapa(EtapaBeans etapa) {
+        return (EtapaBeans) new EtapaBeans().toBeans(this.getEtapaDAOIfc().atualizaEtapa((Etapa) etapa.toBusiness()));
     }
 
     @Override

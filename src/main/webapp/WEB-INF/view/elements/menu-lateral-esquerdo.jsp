@@ -3,7 +3,7 @@
     Created on : 05/10/2017, 11:50:30
     Author     : Alex Felipe
 --%>
-<div class="col-12 col-md-3 col-xl-2 bd-sidebar">
+<div class="col-12 col-md-3 col-xl-2 bd-sidebar" style="margin-top: 8px;">
     <div class="btn-group-vertical d-flex flex-column border" role="group" aria-label="Button group with nested dropdown">
         <div class="btn-group" role="group">
             <button type="button" class="btn btn-light btn-sm btn-block dropdown-toggle text-left" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -33,4 +33,3 @@
     </div>
     <br>
 </div>
-

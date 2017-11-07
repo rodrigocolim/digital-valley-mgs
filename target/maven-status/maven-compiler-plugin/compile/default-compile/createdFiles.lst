@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 br\ufc\russas\n2s\darwin\beans\AvaliacaoBeans.class
 br\ufc\russas\n2s\darwin\model\CriterioDeAvaliacaoPorCriterio.class
 br\ufc\russas\n2s\darwin\model\Documentacao.class
@@ -57,3 +58,5 @@ br\ufc\russas\n2s\darwin\dao\ParticipanteDAOImpl.class
 br\ufc\russas\n2s\darwin\controller\filter\HibernateFilter.class
 br\ufc\russas\n2s\darwin\service\EtapaServiceImpl.class
 br\ufc\russas\n2s\darwin\util\HibernateUtil.class
+=======
+>>>>>>> b90bac131323c7108426a720bc3e5ddec450ef16

@@ -49,7 +49,7 @@
                                     [...]
                                 </c:if>
                             </p>
-                            <a href="selecao?codSelecao=${selecao.codSelecao}" class="card-link">Acessar</a>
+                            <a href="selecao/${selecao.codSelecao}" class="card-link">Acessar</a>
                         </div>
                     </div>
                 </c:forEach>

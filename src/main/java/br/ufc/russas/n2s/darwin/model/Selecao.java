@@ -22,6 +22,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -38,7 +40,8 @@ public class Selecao {
     private long codSelecao;
     private String titulo;
     private String descricao;
-    @ManyToMany(targetEntity = Usuario.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Usuario.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "responsaveis_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "usuario", referencedColumnName = "codUsuario")})
     private List<Usuario> responsaveis;
@@ -48,7 +51,8 @@ public class Selecao {
     @ManyToOne
     @JoinColumn(name = "etapa_inscricao", referencedColumnName = "codEtapa")
     private Etapa inscricao;
-    @ManyToMany(targetEntity = Etapa.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Etapa.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "etapas_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")})
     private List<Etapa> etapas;
@@ -56,16 +60,19 @@ public class Selecao {
     private int vagasVoluntarias;
     private String descricaoPreRequisitos;
     private String areaDeConcentracao;
-    @ManyToMany(targetEntity = Participante.class, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Participante.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "candidatos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "participante", referencedColumnName = "codParticipante")})
     private List<Participante> candidatos;
     private String categoria;
-    @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Arquivo.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name="aditivos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})
     private List<Arquivo> aditivos;
-    @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Arquivo.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name="anexos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})
     private List<Arquivo> anexos;
@@ -149,6 +156,7 @@ public class Selecao {
     public void setInscricao(Etapa inscricao) {
         if (inscricao != null) {
             this.inscricao = inscricao;
+            adicionaEtapa(inscricao);
         } else {
             throw new IllegalArgumentException("Etapa de inscrição não pode ser nula!");
         }

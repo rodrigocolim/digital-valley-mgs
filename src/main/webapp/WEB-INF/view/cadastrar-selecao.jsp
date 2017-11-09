@@ -146,6 +146,7 @@
                 document.getElementById('vagasVoluntariasInput').disabled = false;
 	}
     }
+
     </script>
 </body>
 </html>

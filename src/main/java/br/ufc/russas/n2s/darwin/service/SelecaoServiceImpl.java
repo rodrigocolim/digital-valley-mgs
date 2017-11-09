@@ -87,8 +87,8 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Override
     @Transactional(readOnly = true)
     public SelecaoBeans getSelecao(long codSelecao) {
-        Selecao selecao = new Selecao();
-        selecao.setCodSelecao(codSelecao);
+       Selecao selecao = new Selecao();
+       selecao.setCodSelecao(codSelecao);
        return (SelecaoBeans) new SelecaoBeans().toBeans(this.getSelecaoDAOIfc().getSelecao(selecao));
     }
 

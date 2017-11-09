@@ -56,5 +56,7 @@ public interface SelecaoServiceIfc {
      * @return SelecaoBeans
      */
     SelecaoBeans getSelecao(long codSelecao);
+    
+    
 
 }

@@ -156,6 +156,7 @@ public class Selecao {
     public void setInscricao(Etapa inscricao) {
         if (inscricao != null) {
             this.inscricao = inscricao;
+            adicionaEtapa(inscricao);
         } else {
             throw new IllegalArgumentException("Etapa de inscrição não pode ser nula!");
         }

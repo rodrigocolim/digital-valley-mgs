@@ -35,8 +35,8 @@
                 </nav>
 
                 <h1>Cadastrar Etapa</h1>
-                <br>
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
+                <br>
                 <nav class="nav nav-pills" id="myTab" role="tablist">
                     <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Informações Básicas</a>
                 </nav>

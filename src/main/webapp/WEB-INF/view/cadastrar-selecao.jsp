@@ -33,7 +33,9 @@
                 </nav>
 
                 <h1>Cadastrar Seleção</h1>
+                <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
+                
                 <div class="form-group">
                     <form method="POST" action="cadastrarSelecao" accept-charset="UTF-8">
                         <label for="tituloInput">Titulo*</label>

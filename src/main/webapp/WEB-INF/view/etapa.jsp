@@ -21,28 +21,37 @@
     </head>
     <body>
         <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
-        <div class="container-fluid">
-            <div class="row row-offcanvas row-offcanvas-right">
-            <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
-                <div class="col-sm-8">
-                    <nav class="breadcrumb">
-                        <span class="breadcrumb-item">Você está em:</span> 
-                        <a class="breadcrumb-item" href="/Darwin">Início</a>
-                        <a class="breadcrumb-item active" href="${selecao.codSelecao}">${selecao.titulo}</a>
-                    </nav>
-                    <h1>${selecao.titulo}</h1>
-                    <p class="text-justify">
-                        ${selecao.descricao}
-                    </p>
-                    <br/>
-                    <nav class="nav nav-pills" id="myTab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Inscrição</a>
-                        <a class="nav-link" href="/Darwin/cadastrarEtapa" target="blank_">Adicionar etapa</a>
-                    </nav>
-                </div>
-
+            <div class="container-fluid">
+                <div class="row row-offcanvas row-offcanvas-right">
+                <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
+                    <div class="col-sm-8">
+                        <nav class="breadcrumb">
+                            <span class="breadcrumb-item">Você está em:</span> 
+                            <a class="breadcrumb-item" href="/Darwin">Início</a>
+                            <a class="breadcrumb-item active" href="${selecao.codSelecao}">${selecao.titulo}</a>
+                            <a class="breadcrumb-item active" href="${etapa.codEtapa}">${etapa.titulo}</a>
+                        </nav>
+                        <h1>${etapa.titulo}</h1>
+                        <p class="text-justify">
+                            ${etapa.descricao}
+                        </p>
+                        <br/>
+                        <p class="text-justify">
+                            <b>Período:</b> de ${etapa.periodo.dataInicio} até ${etapa.periodo.dataTermino}
+                        </p>
+                        <br/>
+                        <p class="text-justify">
+                            <b>Documentação exigida:</b> ${etapa.documentacaoExigida}
+                        </p>
+                        <br/>
+                        <p class="text-justify">
+                            <b>Avaliadores:</b> -
+                        </p>
+                        <p class="text-justify">
+                            <b>Critério de Avaliação:</b> ${etapa.criterioDeAvaliacao}
+                        </p>
+                        
             </div>
-        </div>
             <br>
         <c:import url="elements/menu-lateral-direito.jsp" charEncoding="UTF-8"></c:import>
         <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
@@ -50,7 +59,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>      
         <script>
-
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            });
         </script>
     </body>
 </html>

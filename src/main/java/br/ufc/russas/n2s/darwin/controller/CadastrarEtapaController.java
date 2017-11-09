@@ -40,7 +40,6 @@ public class CadastrarEtapaController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String getIndex() {
-
         return "cadastrar-etapa";
     }
 

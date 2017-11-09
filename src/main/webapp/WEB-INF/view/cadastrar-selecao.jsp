@@ -12,9 +12,7 @@
         <meta name="author" content="n2s">
         <link rel="icon" href="favicon.ico">
         <title>Darwin - Sistema de Gerenciamento de Seleções</title>
-
-
-
+        
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -100,7 +98,7 @@
                         <br>
 
                         <label for="editalInput">Edital*</label>
-                        <input type="file" name="edital" class="form-control" id="editalInput" aria-describedby="editalHelp" placeholder="Anexe o edital da seleção" required>
+                        <input type="file" name="edital" class="form-control" id="editalInput" aria-describedby="editalHelp" placeholder="Anexe o edital da seleção"  required>
                         <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
                         <div class="invalid-feedback">
                             

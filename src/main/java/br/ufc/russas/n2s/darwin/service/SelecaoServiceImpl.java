@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -84,10 +85,16 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public SelecaoBeans getSelecao(long codSelecao) {
+<<<<<<< HEAD
         Selecao selecao = new Selecao();
         selecao.setCodSelecao(codSelecao);
        return (SelecaoBeans) new SelecaoBeans().toBeans(this.getSelecaoDAOIfc().getSelecao(selecao));
+=======
+       Selecao selecao = this.getSelecaoDAOIfc().getSelecao(codSelecao);
+       return (SelecaoBeans) new SelecaoBeans().toBeans(selecao);
+>>>>>>> b7b6a5a500dd02507394c94ded36395de7c416f9
     }
 
 }

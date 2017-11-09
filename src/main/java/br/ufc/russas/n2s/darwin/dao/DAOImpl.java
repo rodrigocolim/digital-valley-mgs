@@ -49,17 +49,14 @@ public class DAOImpl<T> implements DAOIfc<T> {
     @Override
     public T adiciona(T object) {
         Session session = getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
         try {
             if (object != null) {
                 session.persist(object);
-                t.commit();
                 return object;
             } else {
                 throw new NullPointerException("Objeto não pode ser nulo!");
             }
         } catch (RuntimeException e) {
-            t.rollback();
             throw e;
         } finally {
             session.close();
@@ -69,17 +66,14 @@ public class DAOImpl<T> implements DAOIfc<T> {
     @Override
     public T atualiza(T object) {
         Session session = getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
         try {
             if (object != null) {
                 session.update(object);
-                t.commit();
                 return object;
             } else {
                 throw new NullPointerException("Objeto não pode ser nulo!");
             }
         } catch (RuntimeException e) {
-            t.rollback();
             throw e;
         } finally {
             session.close();
@@ -89,16 +83,13 @@ public class DAOImpl<T> implements DAOIfc<T> {
     @Override
     public void remove(T object) {
         Session session = getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
         try {
             if (object != null) {
                 session.delete(object);
-                t.commit();
             } else {
                 throw new NullPointerException("Objeto não pode ser nulo!");
             }
         } catch (RuntimeException e) {
-            t.rollback();
             throw e;
         } finally {
             session.close();
@@ -108,14 +99,17 @@ public class DAOImpl<T> implements DAOIfc<T> {
     @Override
     public List<T> lista(T object) {
         Session session = getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
         try {
+<<<<<<< HEAD
             Example example = Example.create(object).excludeZeroes();
             List<T> objetos = session.createCriteria(object.getClass()).add(example).list();
             t.commit();
             return objetos;
+=======
+            Criteria criteria = session.createCriteria(object);
+            return criteria.list();
+>>>>>>> b7b6a5a500dd02507394c94ded36395de7c416f9
         } catch (RuntimeException e) {
-            t.rollback();
             throw e;
         } finally {
             session.close();
@@ -125,15 +119,18 @@ public class DAOImpl<T> implements DAOIfc<T> {
     @Override
     public T getObject(T object, long codObject) {
         Session session = getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
         try {
+<<<<<<< HEAD
             //Example example = Example.create(object).excludeZeroes();
            T o = (T) session.get(object.getClass(), codObject);;
            // T o = (T) session.createCriteria(object.getClass()).add(Restrictions.eq("codSelecao", codObject));
             t.commit();
             return o;
+=======
+            T object = (T) session.get(classe, codObject);
+            return object;
+>>>>>>> b7b6a5a500dd02507394c94ded36395de7c416f9
         } catch (RuntimeException e) {
-            t.rollback();
             throw e;
         } finally {
             session.close();

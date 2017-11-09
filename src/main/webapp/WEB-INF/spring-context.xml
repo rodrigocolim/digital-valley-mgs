@@ -44,8 +44,7 @@
             </props>
         </property>
     </bean>
-    
-    
+        
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/view/"
@@ -56,5 +55,9 @@
     -->
     <bean name="indexController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="index" />    
+          p:viewName="index" />   
+    
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="/WEB-INF/mensagens" />
+    </bean>
 </beans>

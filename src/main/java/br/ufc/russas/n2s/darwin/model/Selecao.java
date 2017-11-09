@@ -40,7 +40,8 @@ public class Selecao {
     private long codSelecao;
     private String titulo;
     private String descricao;
-    @ManyToMany(targetEntity = Usuario.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Usuario.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "responsaveis_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "usuario", referencedColumnName = "codUsuario")})
     private List<Usuario> responsaveis;
@@ -50,7 +51,10 @@ public class Selecao {
     @ManyToOne
     @JoinColumn(name = "etapa_inscricao", referencedColumnName = "codEtapa")
     private Etapa inscricao;
+<<<<<<< HEAD
     //@ManyToMany(targetEntity = Etapa.class)
+=======
+>>>>>>> b7b6a5a500dd02507394c94ded36395de7c416f9
     @ManyToMany(targetEntity = Etapa.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "etapas_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
@@ -60,16 +64,19 @@ public class Selecao {
     private int vagasVoluntarias;
     private String descricaoPreRequisitos;
     private String areaDeConcentracao;
-    @ManyToMany(targetEntity = Participante.class)
+    @ManyToMany(targetEntity = Participante.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "candidatos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "participante", referencedColumnName = "codParticipante")})
     private List<Participante> candidatos;
     private String categoria;
-    @ManyToMany(targetEntity = Arquivo.class)
+    @ManyToMany(targetEntity = Arquivo.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name="aditivos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})
     private List<Arquivo> aditivos;
-    @ManyToMany(targetEntity = Arquivo.class)
+    @ManyToMany(targetEntity = Arquivo.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name="anexos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})
     private List<Arquivo> anexos;

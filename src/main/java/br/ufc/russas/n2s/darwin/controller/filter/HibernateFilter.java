@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufc.russas.n2s.darwin.controller.filter;
+package br.ufc.russas.n2s.darwin.filter;
 
 import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;

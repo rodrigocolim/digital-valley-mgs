@@ -2,9 +2,12 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/applicationContext.xml</param-value>
+        <param-value>
+            /WEB-INF/applicationContext.xml,
+            /WEB-INF/dispatcher-servlet.xml
+        </param-value>
     </context-param>
-    <!-- 
+    
     <filter>  
         <filter-name>HibernateSessionRequestFilter</filter-name>  
         <filter-class>br.ufc.russas.n2s.darwin.controller.filter.HibernateSessionRequestFilter</filter-class>  
@@ -14,7 +17,7 @@
         <filter-name>HibernateSessionRequestFilter</filter-name>  
         <url-pattern>/*</url-pattern>  
     </filter-mapping>  
-   -->
+   <!--
     <filter>
         <filter-name>openSessionInView</filter-name>
         <filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
@@ -24,13 +27,18 @@
         <filter-name>openSessionInView</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value></param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet>
         <servlet-name>SelecaoController</servlet-name>
@@ -60,7 +68,36 @@
         <servlet-name>SelecaoController</servlet-name>
         <url-pattern>/SelecaoController</url-pattern>
     </servlet-mapping> 
+    <filter>
+        <filter-name>MultipartFilter</filter-name>
+        <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>MultipartFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     
+    <servlet>
+        <servlet-name>Autenticacao</servlet-name>
+        <servlet-class>br.ufc.russas.n2s.darwin.controller.Autenticacao</servlet-class>
+    </servlet>
+   
+    <servlet-mapping>
+        <servlet-name>Autenticacao</servlet-name>
+        <url-pattern>/autentica</url-pattern>
+    </servlet-mapping>
+     <!--
+    <filter>
+        <filter-name>FiltroAutenticado</filter-name>
+        <filter-class>br.ufc.russas.n2s.darwin.filter.AutenticadoFiltro</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>FiltroAutenticado</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    -->
     <filter> 
         <filter-name>encodingFilter</filter-name>  
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  

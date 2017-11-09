@@ -52,5 +52,6 @@ Contributor(s):
     <property name="hibernate.event.merge.entity_copy_observer">allow</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
     <mapping/>
+    <mapping resource="../java/br/ufc/russas/n2s/darwin/util/hibernate.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

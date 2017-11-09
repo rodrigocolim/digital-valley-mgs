@@ -35,10 +35,23 @@
                         ${selecao.descricao}
                     </p>
                     <br/>
-                    <nav class="nav nav-pills" id="myTab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Inscrição</a>
-                        <a class="nav-link" href="/Darwin/cadastrarEtapa" target="blank_">Adicionar etapa</a>
+                    <nav class="nav flex-column nav-pills" id="myTab" role="tablist" >
+                        <a class="nav-item nav-link active" id="navtab-etapa-${etapa.inscricao.codEtapa}" data-toggle="tab" href="#nav-etapa-${etapa.inscricao.codEtapa}" role="tab" aria-controls="${etapa.inscricao.codEtapa}" aria-selected="true">Inscrição</a>  
+                        
+                        <c:forEach var="etapa" items="${selecao.etapas}">
+                        <a class="nav-item nav-link" id="navtab-etapa-${etapa.codEtapa}" data-toggle="tab" href="#nav-etapa-${etapa.codEtapa}" role="tab" aria-controls="nav-etapa-${etapa.codEtapa}" aria-selected="false">${etapa.titulo}</a>  
+                        </c:forEach>
+                        
+                        <a class="nav-link" href="/Darwin/cadastrarEtapa/${selecao.codSelecao}" target="_blank">Adicionar etapa</a>
                     </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-etapa-${etapa.inscricao.codEtapa}" role="tabpanel" aria-labelledby="nav-etapa-${etapa.inscricao.codEtapa}">${etapa.inscricao.titulo}</div>
+                        <c:forEach var="etapa" items="${selecao.etapas}">
+                        <div class="tab-pane fade" id="nav-etapa-${etapa.codEtapa}" role="tabpanel" aria-labelledby="nav-etapa-${etapa.codEtapa}">
+                            <h2>${etapa.codEtapa} - ${etapa.titulo}</h2>
+                        </div>
+                        </c:forEach>
+                    </div>
                 </div>
 
             </div>

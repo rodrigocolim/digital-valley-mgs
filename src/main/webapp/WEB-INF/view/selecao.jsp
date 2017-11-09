@@ -35,21 +35,33 @@
                         ${selecao.descricao}
                     </p>
                     <br/>
-                    <nav class="nav flex-column nav-pills" id="myTab" role="tablist" >
-                        <a class="nav-item nav-link active" id="navtab-etapa-${etapa.inscricao.codEtapa}" data-toggle="tab" href="#nav-etapa-${etapa.inscricao.codEtapa}" role="tab" aria-controls="${etapa.inscricao.codEtapa}" aria-selected="true">Inscrição</a>  
-                        
+                    <nav class="nav nav-pills" id="navEtapas" role="tablist" > 
                         <c:forEach var="etapa" items="${selecao.etapas}">
                         <a class="nav-item nav-link" id="navtab-etapa-${etapa.codEtapa}" data-toggle="tab" href="#nav-etapa-${etapa.codEtapa}" role="tab" aria-controls="nav-etapa-${etapa.codEtapa}" aria-selected="false">${etapa.titulo}</a>  
                         </c:forEach>
                         
-                        <a class="nav-link" href="/Darwin/cadastrarEtapa/${selecao.codSelecao}" target="_blank">Adicionar etapa</a>
+                        <a class="nav-link  btn-outline-secondary" href="/Darwin/cadastrarEtapa/${selecao.codSelecao}">Adicionar etapa</a>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-etapa-${etapa.inscricao.codEtapa}" role="tabpanel" aria-labelledby="nav-etapa-${etapa.inscricao.codEtapa}">${etapa.inscricao.titulo}</div>
                         <c:forEach var="etapa" items="${selecao.etapas}">
-                        <div class="tab-pane fade" id="nav-etapa-${etapa.codEtapa}" role="tabpanel" aria-labelledby="nav-etapa-${etapa.codEtapa}">
-                            <h2>${etapa.codEtapa} - ${etapa.titulo}</h2>
+                        <div class="tab-pane fade card" id="nav-etapa-${etapa.codEtapa}" role="tabpanel" aria-labelledby="nav-etapa-${etapa.codEtapa}">
+                            <div class="card-body">
+                                <h2 class="card-title">
+                                    ${etapa.titulo} - 
+                                    <b>${etapa.periodo.dataInicio}</b> 
+                                    até 
+                                    <b>${etapa.periodo.dataTermino}</b>
+                                </h2>
+                                <p class="card-text text-justify">
+                                    ${etapa.descricao}
+                                </p>
+                                <br/>
+                                <p><b>Avaliadores:</b> -
+                                <p><b>Documentação Exigida:</b> ${etapa.documentacaoExigida}</p>
+                                <p><b>Critério de Avaliação:</b> ${etapa.criterioDeAvaliacao}</p> 
+                            </div>
                         </div>
+
                         </c:forEach>
                     </div>
                 </div>
@@ -63,7 +75,15 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>      
         <script>
+            $("#navEtapas").addClass(function( index, currentClass ) {
+                var addedClass;
 
+                if (screen.width <= 575) {
+                  addedClass = "flex-column";
+                }
+
+                return addedClass;
+            });
         </script>
     </body>
 </html>

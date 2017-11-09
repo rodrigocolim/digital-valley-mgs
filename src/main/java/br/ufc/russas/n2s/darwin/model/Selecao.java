@@ -51,10 +51,6 @@ public class Selecao {
     @ManyToOne
     @JoinColumn(name = "etapa_inscricao", referencedColumnName = "codEtapa")
     private Etapa inscricao;
-<<<<<<< HEAD
-    //@ManyToMany(targetEntity = Etapa.class)
-=======
->>>>>>> b7b6a5a500dd02507394c94ded36395de7c416f9
     @ManyToMany(targetEntity = Etapa.class, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "etapas_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},

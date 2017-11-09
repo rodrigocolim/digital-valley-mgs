@@ -29,10 +29,7 @@ public class SelecaoController {
     public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc")SelecaoServiceIfc selecaoServiceIfc){
         this.selecaoServiceIfc = selecaoServiceIfc;
     }
-<<<<<<< HEAD
-    
-=======
->>>>>>> b7b6a5a500dd02507394c94ded36395de7c416f9
+
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model){
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);

@@ -40,13 +40,13 @@ public class DocumentacaoDAOImpl implements DocumentacaoDAOIfc{
     }
 
     @Override
-    public List<Documentacao> listaDocumentacoes() {
-        return this.daoImpl.lista(Documentacao.class);
+    public List<Documentacao> listaDocumentacoes(Documentacao documentacao) {
+        return this.daoImpl.lista(documentacao);
     }
 
     @Override
-    public Documentacao getDocumentacao(long codDocumentacao) {
-        return this.daoImpl.getObject(Documentacao.class, codDocumentacao);
+    public Documentacao getDocumentacao(Documentacao documentacao) {
+        return this.daoImpl.getObject(documentacao, documentacao.getCodDocumentacao());
     }
    
 }

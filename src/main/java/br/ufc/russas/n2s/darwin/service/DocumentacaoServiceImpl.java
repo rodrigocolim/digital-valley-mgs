@@ -50,8 +50,9 @@ public class DocumentacaoServiceImpl implements DocumentacaoServiceIfc {
 
     @Override
     public List<DocumentacaoBeans> listaTodasDocumentacoes() {
+        Documentacao doc = new Documentacao();
         List<DocumentacaoBeans> documentacoes = Collections.synchronizedList(new ArrayList<DocumentacaoBeans>());
-        List<Documentacao> result = this.getDocumentacaoDAOIfc().listaDocumentacoes();
+        List<Documentacao> result = this.getDocumentacaoDAOIfc().listaDocumentacoes(doc);
         for (Documentacao documentacao : result) {
             documentacoes.add((DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
         }
@@ -60,7 +61,9 @@ public class DocumentacaoServiceImpl implements DocumentacaoServiceIfc {
 
     @Override
     public DocumentacaoBeans getDocumentacao(long codDocumentacao) {
-        return (DocumentacaoBeans) new DocumentacaoBeans().toBeans(this.getDocumentacaoDAOIfc().getDocumentacao(codDocumentacao));
+        Documentacao doc = new Documentacao();
+        doc.setCodDocumentacao(codDocumentacao);
+        return (DocumentacaoBeans) new DocumentacaoBeans().toBeans(this.getDocumentacaoDAOIfc().getDocumentacao(doc));
     }
 
 }

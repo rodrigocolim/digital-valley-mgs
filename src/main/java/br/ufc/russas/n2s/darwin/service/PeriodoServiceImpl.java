@@ -47,8 +47,9 @@ public class PeriodoServiceImpl implements PeriodoServiceIfc {
 
     @Override
     public List<PeriodoBeans> listaTodosPeriodos() {
+        Periodo p = new Periodo();
         List<PeriodoBeans> periodos = Collections.synchronizedList(new ArrayList<PeriodoBeans>());
-        List<Periodo> result = this.getPeriodoDAOIfc().listaPeriodos();
+        List<Periodo> result = this.getPeriodoDAOIfc().listaPeriodos(p);
         for (Periodo periodo : result) {
             periodos.add((PeriodoBeans) new PeriodoBeans().toBeans(periodo));
         }
@@ -57,7 +58,9 @@ public class PeriodoServiceImpl implements PeriodoServiceIfc {
 
     @Override
     public PeriodoBeans getPeriodo(long codPeriodo) {
-        return (PeriodoBeans) new PeriodoBeans().toBeans(this.getPeriodoDAOIfc().getPeriodo(codPeriodo));
+        Periodo p = new Periodo();
+        p.setCodPeriodo(codPeriodo);
+        return (PeriodoBeans) new PeriodoBeans().toBeans(this.getPeriodoDAOIfc().getPeriodo(p));
     }
 
 }

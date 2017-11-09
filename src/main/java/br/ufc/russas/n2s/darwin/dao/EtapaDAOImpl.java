@@ -43,12 +43,12 @@ public class EtapaDAOImpl implements EtapaDAOIfc{
     }
 
     @Override
-    public List<Etapa> listaEtapas() {
-        return this.daoImpl.lista(Etapa.class);
+    public List<Etapa> listaEtapas(Etapa etapa) {
+        return this.daoImpl.lista(etapa);
     }
 
     @Override
-    public Etapa getEtapa(long codEtapa) {
-        return this.daoImpl.getObject(Etapa.class, codEtapa);
+    public Etapa getEtapa(Etapa etapa) {
+        return this.daoImpl.getObject(etapa, etapa.getCodEtapa());
     }
 }

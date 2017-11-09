@@ -36,7 +36,7 @@ public interface EtapaDAOIfc {
      * Método resposável por fazer a listagem de todas as etapas.
      * @return List<Etapa>
      */
-    List<Etapa> listaEtapas();
+    List<Etapa> listaEtapas(Etapa etapa);
 
     /**
      * Método resposável por pegar do banco de dados uma etapa a partir do
@@ -44,6 +44,6 @@ public interface EtapaDAOIfc {
      * @param codEtapa
      * @return Etapa
      */
-    Etapa getEtapa(long codEtapa);
+    Etapa getEtapa(Etapa etapa);
 
 }

@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class EtapaServiceImpl implements EtapaServiceIfc {
 
     private EtapaDAOIfc etapaDAOIfc;
-    
+
     public EtapaDAOIfc getEtapaDAOIfc() {
         return etapaDAOIfc;
     }
@@ -50,8 +50,9 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
 
     @Override
     public List<EtapaBeans> listaTodasEtapas() {
+        Etapa etp  = new Etapa();
         List<EtapaBeans> etapas = Collections.synchronizedList(new ArrayList<EtapaBeans>());
-        List<Etapa> result = this.getEtapaDAOIfc().listaEtapas();
+        List<Etapa> result = this.getEtapaDAOIfc().listaEtapas(etp);
         for (Etapa etapa : result) {
             etapas.add((EtapaBeans) new EtapaBeans().toBeans(etapa));
         }
@@ -60,7 +61,9 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
 
     @Override
     public EtapaBeans getEtapa(long codEtapa) {
-        return (EtapaBeans) new EtapaBeans().toBeans(this.getEtapaDAOIfc().getEtapa(codEtapa));
+        Etapa etp = new Etapa();
+        etp.setCodEtapa(codEtapa);
+        return (EtapaBeans) new EtapaBeans().toBeans(this.getEtapaDAOIfc().getEtapa(etp));
     }
 
 }

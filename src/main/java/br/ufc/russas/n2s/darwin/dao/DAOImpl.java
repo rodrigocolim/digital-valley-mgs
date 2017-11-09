@@ -110,7 +110,7 @@ public class DAOImpl<T> implements DAOIfc<T> {
         Session session = getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         try {
-            Example example = Example.create(object);
+            Example example = Example.create(object).excludeZeroes();
             List<T> objetos = session.createCriteria(object.getClass()).add(example).list();
             t.commit();
             return objetos;
@@ -127,8 +127,9 @@ public class DAOImpl<T> implements DAOIfc<T> {
         Session session = getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         try {
-            Example example = Example.create(object);
-            T o = (T) session.createCriteria(object.getClass()).add(example).uniqueResult();
+            //Example example = Example.create(object).excludeZeroes();
+           T o = (T) session.get(object.getClass(), codObject);;
+           // T o = (T) session.createCriteria(object.getClass()).add(Restrictions.eq("codSelecao", codObject));
             t.commit();
             return o;
         } catch (RuntimeException e) {

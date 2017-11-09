@@ -26,7 +26,7 @@
     -->
     
     <mvc:annotation-driven />
-    <context:component-scan base-package="br.ufc.russas.n2s.darwin"/>
+    <context:component-scan base-package="br.ufc.russas.n2s.darwin.controller"/>
     
     <context:property-placeholder location="classpath:jdbc.properties" />
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"

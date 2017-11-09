@@ -49,13 +49,13 @@ public class PeriodoDAOImpl implements PeriodoDAOIfc{
     }
 
     @Override
-    public List<Periodo> listaPeriodos() {
-        return this.daoImpl.lista(Periodo.class);
+    public List<Periodo> listaPeriodos(Periodo  periodo) {
+        return this.daoImpl.lista(periodo);
     }
 
     @Override
-    public Periodo getPeriodo(long codPeriodo) {
-       return this.daoImpl.getObject(Periodo.class, codPeriodo);
+    public Periodo getPeriodo(Periodo  periodo) {
+       return this.daoImpl.getObject(periodo, periodo.getCodPeriodo());
     }
 
 

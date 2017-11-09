@@ -38,7 +38,7 @@ public interface PeriodoDAOIfc{
      * Método resposável por fazer a listagem de todos os períodos.
      * @return List<Periodo>
      */
-    List<Periodo> listaPeriodos();
+    List<Periodo> listaPeriodos(Periodo  periodo);
 
     /**
      * Método resposável por pegar do banco de dados um
@@ -46,5 +46,5 @@ public interface PeriodoDAOIfc{
      * @param codPeriodo
      * @return Periodo
      */
-    Periodo getPeriodo(long codPeriodo);
+    Periodo getPeriodo(Periodo  periodo);
 }

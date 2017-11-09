@@ -5,13 +5,9 @@
  */
 package br.ufc.russas.n2s.darwin.service;
 
-import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
-import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
-import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
-import br.ufc.russas.n2s.darwin.model.Etapa;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,8 +60,10 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         Selecao selecao = new Selecao();
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         for (Selecao s : resultado) {
-            if (s.getInscricao().getPeriodo().getInicio().isAfter(LocalDateTime.now())) {
-                selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+            if (s.getInscricao() != null) {
+                if (s.getInscricao().getPeriodo().getInicio().isAfter(LocalDateTime.now())) {
+                    selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+                }
             }
         }
         return selecoes;
@@ -79,6 +77,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         System.out.println(resultado.size());
         for (Selecao s : resultado) {
+            System.out.println(s.getTitulo());
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
         return selecoes;

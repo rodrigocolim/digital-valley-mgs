@@ -38,7 +38,7 @@ public interface DocumentacaoDAOIfc {
      * Método resposável por fazer a listagem de todas as documentações.
      * @return List<Documentacao>
      */
-    List<Documentacao> listaDocumentacoes();
+    List<Documentacao> listaDocumentacoes(Documentacao documentacao);
 
     /**
      * Método resposável por pegar do banco de dados uma documentacao a
@@ -46,5 +46,5 @@ public interface DocumentacaoDAOIfc {
      * @param codDocumentacao
      * @return Documentacao
      */
-    Documentacao getDocumentacao(long codDocumentacao);
+    Documentacao getDocumentacao(Documentacao documentacao);
 }

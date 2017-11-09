@@ -36,7 +36,7 @@ public interface ParticipanteDAOIfc {
      * Método resposável por fazer a listagem de todos os participantes.
      * @return
      */
-    List<Participante> listaParticipantes();
+    List<Participante> listaParticipantes(Participante participante);
 
     /**
      * Método resposável por pegar do banco de dados um
@@ -44,5 +44,5 @@ public interface ParticipanteDAOIfc {
      * @param codigo
      * @return
      */
-    Participante getParticipante(long codigo);
+    Participante getParticipante(Participante participante);
 }

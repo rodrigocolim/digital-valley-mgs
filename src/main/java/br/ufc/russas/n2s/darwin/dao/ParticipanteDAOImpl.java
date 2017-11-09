@@ -40,13 +40,13 @@ public class ParticipanteDAOImpl implements ParticipanteDAOIfc{
     }
 
     @Override
-    public List<Participante> listaParticipantes() {
-        return this.daoImpl.lista(Participante.class);
+    public List<Participante> listaParticipantes(Participante participante) {
+        return this.daoImpl.lista(participante);
     }
 
     @Override
-    public Participante getParticipante(long codigo) {
-        return this.daoImpl.getObject(Participante.class, codigo);
+    public Participante getParticipante(Participante participante) {
+        return this.daoImpl.getObject(participante, participante.getCodParticipante());
     }
 
 }

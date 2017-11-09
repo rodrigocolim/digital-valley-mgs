@@ -51,8 +51,9 @@ public class ParticipanteServiceImpl implements ParticipanteServiceIfc {
 
     @Override
     public final List<ParticipanteBeans> listaTodosParticipantes() {
+        Participante participante = new Participante();
         List<ParticipanteBeans> participantes = Collections.synchronizedList(new ArrayList<ParticipanteBeans>());
-        List<Participante> resultados = this.participanteDAOIfc.listaParticipantes();
+        List<Participante> resultados = this.participanteDAOIfc.listaParticipantes(participante);
         for (Participante p : resultados) {
             participantes.add((ParticipanteBeans) new ParticipanteBeans().toBeans(p));
         }
@@ -61,7 +62,9 @@ public class ParticipanteServiceImpl implements ParticipanteServiceIfc {
 
     @Override
     public final ParticipanteBeans getParticipante(final long codParticipante) {
-        return (ParticipanteBeans) new ParticipanteBeans().toBeans(this.participanteDAOIfc.getParticipante(codParticipante));
+        Participante participante = new Participante();
+        participante.setCodParticipante(codParticipante);
+        return (ParticipanteBeans) new ParticipanteBeans().toBeans(this.participanteDAOIfc.getParticipante(participante));
     }
 
 }

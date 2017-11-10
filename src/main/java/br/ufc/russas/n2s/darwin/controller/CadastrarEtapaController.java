@@ -42,11 +42,6 @@ public class CadastrarEtapaController {
         this.etapaServiceIfc = etapaServiceIfc;
     }
 
-<<<<<<< HEAD
-    @RequestMapping(method = RequestMethod.GET)
-    public String getIndex(@Valid SelecaoBeans selecao, BindingResult result) {
-        System.out.println(selecao.getCodSelecao());
-=======
     public SelecaoServiceIfc getSelecaoServiceIfc() {
         return selecaoServiceIfc;
     }
@@ -60,7 +55,6 @@ public class CadastrarEtapaController {
     public String getIndex(@PathVariable long codSelecao, Model model) {
         SelecaoBeans selecaoBeans = this.selecaoServiceIfc.getSelecao(codSelecao);
         model.addAttribute("selecao", selecaoBeans);
->>>>>>> 7ec6cc535351291465098c0d0d2f0b0b48108035
         return "cadastrar-etapa";
     }
 

@@ -14,6 +14,7 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -97,6 +98,7 @@ public class DAOImpl<T> implements DAOIfc<T> {
     }
 
     @Override
+    //@Transactional
     public List<T> lista(T object) {
         Session session = getSessionFactory().openSession();
         try {
@@ -111,6 +113,7 @@ public class DAOImpl<T> implements DAOIfc<T> {
     }
 
     @Override
+    //@Transactional
     public T getObject(T object, long codObject) {
         Session session = getSessionFactory().openSession();
         try {

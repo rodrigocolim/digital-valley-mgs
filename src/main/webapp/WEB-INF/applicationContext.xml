@@ -27,6 +27,9 @@
     p:url="${jdbc.url}"
     p:username="${jdbc.username}"
     p:password="${jdbc.password}" /-->
+    
+  
+    
 
    <!-- ADD PERSISTENCE SUPPORT HERE (jpa, hibernate, etc) -->
     <context:property-placeholder location="classpath:jdbc.properties" />
@@ -63,6 +66,7 @@
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>
         </property>-->
+        
         <property name="configLocation">
             <value> /WEB-INF/hibernate.cfg.xml</value>
         </property>
@@ -85,13 +89,5 @@
     </bean>
     <tx:annotation-driven transaction-manager="transactionManager"/>
     
-   <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**/*" />
-            <bean
-                class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor">
-                <property name="sessionFactory" ref="sessionFactory" />
-            </bean>
-        </mvc:interceptor>
-    </mvc:interceptors>
+
 </beans>

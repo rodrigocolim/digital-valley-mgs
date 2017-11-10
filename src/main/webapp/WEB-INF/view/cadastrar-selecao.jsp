@@ -37,7 +37,7 @@
                 <br>
                 
                 <div class="form-group">
-                    <form method="POST" action="cadastrarSelecao" accept-charset="UTF-8">
+                    <form method="post" action="cadastrarSelecao" accept-charset="UTF-8" enctype="multipart/form-data">
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>
@@ -61,6 +61,10 @@
                         <select type="text" name="categoria" class="form-control custom-select" id="categoriaInput" required>
                             <option selected="selected" disabled="disabled">Selecione a categoria da seleção</option>
                             <option>Assistência Estudantil</option>
+                            <option>Bolsas para Discentes</option>
+                            <option>Cargos de Docente</option>
+                            <option>Cargos de Técnicos Admin</option>
+                            <option>Professores Substitutos</option>
                         </select>
                         <br>
 

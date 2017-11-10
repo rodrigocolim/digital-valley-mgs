@@ -61,6 +61,10 @@
                         <select type="text" name="categoria" class="form-control custom-select" id="categoriaInput" required>
                             <option selected="selected" disabled="disabled">Selecione a categoria da seleção</option>
                             <option>Assistência Estudantil</option>
+                            <option>Bolsas para Discentes</option>
+                            <option>Cargos de Docente</option>
+                            <option>Cargos de Técnicos Admin</option>
+                            <option>Professores Substitutos</option>
                         </select>
                         <br>
 

@@ -6,6 +6,7 @@
 package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
+import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,7 +40,8 @@ public class CadastrarEtapaController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getIndex() {
+    public String getIndex(@Valid SelecaoBeans selecao, BindingResult result) {
+        System.out.println(selecao.getCodSelecao());
         return "cadastrar-etapa";
     }
 

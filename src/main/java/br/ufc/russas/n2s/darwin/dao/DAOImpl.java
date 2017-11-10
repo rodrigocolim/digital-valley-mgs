@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author Wallison Carlos
+ * @author Wallison Carlos, Gilberto Lima
  * @param <T>
  */
 @Repository("daoImpl")

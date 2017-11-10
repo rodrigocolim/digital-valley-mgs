@@ -5,9 +5,13 @@
  */
 package br.ufc.russas.n2s.darwin.controller;
 
+import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +19,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 /**
  *
@@ -41,10 +47,16 @@ public class CadastrarSelecaoController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String adiciona(@Valid SelecaoBeans selecao, BindingResult result) { 
+    public String adiciona(@Valid SelecaoBeans selecao, @RequestParam CommonsMultipartFile file, BindingResult result) throws IOException { 
 
         selecao.getResponsaveis().add(new UsuarioBeans());
-        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
+        if (!file.isEmpty()) {
+            ArquivoBeans edital = new ArquivoBeans();
+            edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
+            edital.setData(LocalDateTime.now());
+            edital.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
+            selecao.setEdital(edital);
+        }
         if (result.hasErrors()) {
             return "cadastrar-selecao";
         }

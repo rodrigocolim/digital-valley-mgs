@@ -42,7 +42,6 @@ public class CadastrarEtapaController {
         this.etapaServiceIfc = etapaServiceIfc;
     }
 
-
     public SelecaoServiceIfc getSelecaoServiceIfc() {
         return selecaoServiceIfc;
     }

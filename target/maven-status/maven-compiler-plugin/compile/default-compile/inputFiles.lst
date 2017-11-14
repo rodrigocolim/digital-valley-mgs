@@ -1,121 +1,67 @@
-<<<<<<< HEAD
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\SelecaoBeans.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\PeriodoDAOImpl.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\ParticipanteServiceImpl.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\SelecaoDAOImpl.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Avaliacao.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\ParticipanteBeans.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\SelecaoServiceIfc.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\AvaliacaoBeans.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Periodo.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\EtapaDAOIfc.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\CriterioDeAvaliacaoPorCriterio.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\exception\IllegalCodeException.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Documentacao.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\SelecaoController.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Arquivo.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\ParticipanteDAOIfc.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\SelecaoDAOIfc.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\EtapaServiceImpl.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\util\HibernateUtil.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\EtapaBeans.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\DAOImpl.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\ExecuteHibernateCreate.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Usuario.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\PeriodoDAOIfc.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\HelloController.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\EstadoSelecao.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\EnumPermissoes.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\IndexController.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\DocumentacaoDAOImpl.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\CriterioDeAvaliacaoPorNota.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\CriterioDeAvaliacao.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\ParticipanteServiceIfc.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\PeriodoServiceIfc.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\EtapaServiceIfc.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\UsuarioBeans.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\CriterioDeAvaliacaoBeans.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\CadastrarSelecaoController.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\EtapaDAOImpl.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\DocumentacaoServiceIfc.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Atualizavel.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\filter\HibernateFilter.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\ParticipanteDAOImpl.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\DAOIfc.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\DocumentacaoDAOIfc.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\filter\HibernateSessionRequestFilter.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\DocumentacaoServiceImpl.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\SelecaoServiceImpl.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\EstadoSelecaoBeans.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\config\WebConfig.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\DocumentacaoBeans.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Participante.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\PeriodoServiceImpl.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Etapa.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\PeriodoBeans.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Selecao.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\ArquivoBeans.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\CadastrarEtapaController.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\EstadoEtapa.java
-C:\Users\N2S-PC03\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\Beans.java
-=======
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Participante.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\DAOImpl.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Periodo.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Arquivo.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Avaliacao.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Documentacao.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\EtapaBeans.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\PeriodoDAOIfc.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\CriterioDeAvaliacaoPorNota.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\filter\HibernateSessionRequestFilter.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\ParticipanteServiceIfc.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\SelecaoController.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\DocumentacaoDAOIfc.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\EtapaServiceIfc.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\SelecaoBeans.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\DAOIfc.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\DocumentacaoServiceIfc.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\SelecaoServiceIfc.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Selecao.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\PeriodoBeans.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\CriterioDeAvaliacao.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\CadastrarEtapaController.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\ParticipanteBeans.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\config\WebConfig.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\filter\HibernateFilter.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\DocumentacaoServiceImpl.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\ArquivoBeans.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\SelecaoDAOImpl.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\PeriodoServiceIfc.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\util\HibernateUtil.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Usuario.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\EstadoSelecao.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Etapa.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\AvaliacaoBeans.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\DocumentacaoDAOImpl.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\CadastrarSelecaoController.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\SelecaoDAOIfc.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\ParticipanteDAOIfc.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Atualizavel.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\EstadoSelecaoBeans.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\IndexController.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\EnumPermissoes.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\DocumentacaoBeans.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\ExecuteHibernateCreate.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\PeriodoServiceImpl.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\Beans.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\PeriodoDAOImpl.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\SelecaoServiceImpl.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\HelloController.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\UsuarioBeans.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\ParticipanteDAOImpl.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\ParticipanteServiceImpl.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\exception\IllegalCodeException.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\EtapaServiceImpl.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\EstadoEtapa.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\CriterioDeAvaliacaoBeans.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\CriterioDeAvaliacaoPorCriterio.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\EtapaDAOIfc.java
-C:\Users\Alex Felipe\Desktop\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\EtapaDAOImpl.java
->>>>>>> b7b6a5a500dd02507394c94ded36395de7c416f9
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\SelecaoDAOIfc.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\ParticipanteDAOImpl.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\SelecaoDAOImpl.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\CadastrarSelecaoController.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\EtapaDAOIfc.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\EtapaBeans.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\ParticipanteDAOIfc.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Selecao.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\FileManipulation.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\PeriodoDAOImpl.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\PeriodoServiceIfc.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\DocumentacaoDAOImpl.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\UsuarioServiceIfc.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\CriterioDeAvaliacao.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\DAOImpl.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\util\HibernateUtil.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\SelecaoController.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\CriterioDeAvaliacaoBeans.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\ParticipanteServiceImpl.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Documentacao.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\EstadoSelecaoBeans.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\filter\HibernateFilter.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\Beans.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\Autenticacao.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\DocumentacaoBeans.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Etapa.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\filter\HibernateSessionRequestFilter.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\UsuarioDAOIfc.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\exception\IllegalCodeException.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\AvaliacaoBeans.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\ParticipanteServiceIfc.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\PeriodoServiceImpl.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\UsuarioServiceImpl.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\ExecuteHibernateCreate.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\EtapaServiceIfc.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\PeriodoDAOIfc.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\DocumentacaoDAOIfc.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\HelloController.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\DAOIfc.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\EnumPermissoes.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\SelecaoServiceIfc.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\UsuarioBeans.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\UsuarioDAOImpl.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\ParticipanteBeans.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\filter\AutenticadoFiltro.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\IndexController.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\EstadoSelecao.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\DocumentacaoServiceIfc.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\CriterioDeAvaliacaoPorCriterio.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Atualizavel.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\dao\EtapaDAOImpl.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\PeriodoBeans.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\UploadedFile.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\CriterioDeAvaliacaoPorNota.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Avaliacao.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Usuario.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\ArquivoBeans.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\beans\SelecaoBeans.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\config\WebConfig.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Periodo.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\SelecaoServiceImpl.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Arquivo.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\EstadoEtapa.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\EtapaServiceImpl.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\model\Participante.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\service\DocumentacaoServiceImpl.java
+C:\Users\Wallison Carlos\Documents\Darwin\digital-valley-mgs\src\main\java\br\ufc\russas\n2s\darwin\controller\CadastrarEtapaController.java

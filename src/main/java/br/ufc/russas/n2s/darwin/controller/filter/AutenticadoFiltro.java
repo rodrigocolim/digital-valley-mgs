@@ -7,6 +7,8 @@ package br.ufc.russas.n2s.darwin.controller.filter;
  */
 
 
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -21,13 +23,27 @@ import dao.UsuarioDAO;
 import model.Pessoa;
 import model.Usuario;
 import dao.DAOFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import util.Facade;
 /**
  *
  * @author Wallison Carlos
  */
 public class AutenticadoFiltro implements Filter {
+        
+        private UsuarioServiceIfc usuarioServiceIfc;
 
+        public UsuarioServiceIfc getUsuarioServiceIfc() {
+            return usuarioServiceIfc;
+        }
+
+        @Autowired(required = true)
+        public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc){
+            this.usuarioServiceIfc = usuarioServiceIfc;
+        }
+        
+    
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
@@ -49,6 +65,10 @@ public class AutenticadoFiltro implements Filter {
                             if (token.equals(user.getUsuario().getTokenUsuario()) && id == user.getId() && !token.equals("null")) {
                                     UsuarioDAO userDAO = DAOFactory.criarUsuarioDAO();
                                     session.setAttribute("usuario", user.getUsuario());
+                                    UsuarioBeans u = new UsuarioBeans();
+                                    if(this.getUsuarioServiceIfc().getUsuario(user.getId()) == null){
+                                        this.getUsuarioServiceIfc().adicionaUsuario(u);
+                                    }
                                     chain.doFilter(request, response);
                             }else {
                                     ((HttpServletResponse) response).sendRedirect("/Controle_de_Acesso/");

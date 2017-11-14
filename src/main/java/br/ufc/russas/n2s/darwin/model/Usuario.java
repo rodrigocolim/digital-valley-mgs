@@ -43,6 +43,14 @@ public class Usuario {
         else
             throw new IllegalCodeException("Código de usuário deve ser maior de zero!");
     }
+
+    public List<EnumPermissoes> getPermissoes() {
+        return permissoes;
+    }
+
+    public void setPermissoes(List<EnumPermissoes> permissoes) {
+        this.permissoes = permissoes;
+    }
     
     
     

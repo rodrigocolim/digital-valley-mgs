@@ -50,5 +50,6 @@ Contributor(s):
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.event.merge.entity_copy_observer">allow</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
+    <property name="hibernate.current_session_context_class">thread</property>
   </session-factory>
 </hibernate-configuration>

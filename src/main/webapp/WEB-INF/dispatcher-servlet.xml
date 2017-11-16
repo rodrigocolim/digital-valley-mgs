@@ -29,7 +29,7 @@
 
     <context:component-scan base-package="br.ufc.russas.n2s.darwin"/>
 
-    
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
     
 
     <bean id="viewResolver"

@@ -7,7 +7,6 @@ package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
-import br.ufc.russas.n2s.darwin.beans.UploadedFile;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
@@ -52,42 +51,18 @@ public class CadastrarSelecaoController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-
-    public @ResponseBody String adiciona(@Valid SelecaoBeans selecao, BindingResult result, @RequestParam("edital") MultipartFile file) throws IOException {
-
-        if (result.hasErrors()  && !result.hasFieldErrors("edital")) {
-
-            System.out.println("\n\nde novo!!!\n\n");
-
-            return "cadastrar-selecao";
-        }
-
-        if (result.hasErrors() && !result.hasFieldErrors("file")) {
+    public @ResponseBody String adiciona(@RequestParam("edital") MultipartFile file, @Valid SelecaoBeans selecao, BindingResult result) throws IOException {
+    
+        if(result.hasErrors()){
+            System.out.println("Erro: ");
             return "cadastrar-selecao";
         }
         
-        selecao.getResponsaveis().add(new UsuarioBeans());
-        System.out.println(file);
-        if (!file.isEmpty()) {
-
-            ArquivoBeans edital = new ArquivoBeans();
-            edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
-            edital.setData(LocalDateTime.now());
-            edital.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
-
-            //System.out.println("\n\neu aqui1!!!\n\n");
-
-            selecao.setEdital(edital);
-            System.out.println(selecao.getCodSelecao());
-            System.out.println(selecao.getDescricao());
-            System.out.println(selecao.getTitulo());
-            System.out.println(selecao.getCategoria());
+        if(file.isEmpty()){
+            System.out.println("File null");
         }
-
         
-        
-        System.out.println("\n\neu aqui!!!\n\n");
-        
+        selecao.getResponsaveis().add(new UsuarioBeans());               
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
 
         return "forward:/selecao/"+selecao.getCodSelecao();

@@ -7,10 +7,12 @@ package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
-import br.ufc.russas.n2s.darwin.beans.UploadedFile;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.dao.DocumentacaoDAOImpl;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import javax.validation.Valid;
@@ -51,11 +53,10 @@ public class CadastrarSelecaoController {
         return "cadastrar-selecao";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    public @ResponseBody String adiciona(@Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file) throws IOException {
 
-    public @ResponseBody String adiciona(@Valid SelecaoBeans selecao, BindingResult result, @RequestParam("edital") MultipartFile file) throws IOException {
 
-        if (result.hasErrors()  && !result.hasFieldErrors("edital")) {
+        if (result.hasErrors() ) {
 
             System.out.println("\n\nde novo!!!\n\n");
 
@@ -71,18 +72,31 @@ public class CadastrarSelecaoController {
         if (!file.isEmpty()) {
 
             ArquivoBeans edital = new ArquivoBeans();
+            
+            File convFile = new File(file.getOriginalFilename());
+            convFile.createNewFile(); 
+            FileOutputStream fos = new FileOutputStream(convFile); 
+            fos.write(file.getBytes());
+            fos.close(); 
+            
             edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
             edital.setData(LocalDateTime.now());
-            edital.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
+            edital.setArquivo(convFile);
+            
+            //edital.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
 
             //System.out.println("\n\neu aqui1!!!\n\n");
 
             selecao.setEdital(edital);
+            System.out.println(selecao.getEdital().getTitulo());
+            System.out.println(selecao.getEdital().getArquivo());
+
             System.out.println(selecao.getCodSelecao());
             System.out.println(selecao.getDescricao());
             System.out.println(selecao.getTitulo());
             System.out.println(selecao.getCategoria());
         }
+<<<<<<< HEAD
 
         
         
@@ -91,5 +105,12 @@ public class CadastrarSelecaoController {
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
 
         return "forward:/selecao/"+selecao.getCodSelecao();
+=======
+        
+
+
+        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
+        return "selecao/"+selecao.getCodSelecao();
+>>>>>>> 6abed7d0cae1afc687f53983ea0c2bbcc0a7ae3c
     }
 }

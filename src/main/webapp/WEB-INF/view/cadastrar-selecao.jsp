@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -37,7 +38,7 @@
                 <br>
                 
                 <div class="form-group">
-                    <form method="post" action="cadastrarSelecao" accept-charset="UTF-8" enctype="multipart/form-data">
+                    <form method="post" action="cadastrarSelecao"  enctype="multipart/form-data">
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>
@@ -105,7 +106,7 @@
                         <br>
 
                         <label for="editalInput">Edital*</label>
-                        <input type="file" name="edital" class="form-control" id="editalInput" aria-describedby="editalHelp" placeholder="Anexe o edital da seleção"  required>
+                        <input type="file" name="file" class="form-control" id="editalInput" aria-describedby="editalHelp" placeholder="Anexe o edital da seleção"  required>
                         <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
                         <div class="invalid-feedback">
                             

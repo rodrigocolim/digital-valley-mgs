@@ -87,13 +87,9 @@ public class CadastrarSelecaoController {
         
         
         System.out.println("\n\neu aqui!!!\n\n");
-        
-<<<<<<< HEAD
-        return "/Darwin";
-=======
+
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
 
         return "forward:/selecao/"+selecao.getCodSelecao();
->>>>>>> f169ad262d6bded94db2d4fc51530596e5c8eb87
     }
 }

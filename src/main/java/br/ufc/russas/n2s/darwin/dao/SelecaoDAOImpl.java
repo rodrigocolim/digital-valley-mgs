@@ -29,7 +29,9 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
 
     @Override
     public Selecao adicionaSelecao(Selecao selecao) {
-        return this.daoImpl.adiciona(selecao);
+        Selecao s = this.daoImpl.adiciona(selecao);
+        System.out.println("codigo: "+s.getCodSelecao());
+        return s;
     }
 
     @Override

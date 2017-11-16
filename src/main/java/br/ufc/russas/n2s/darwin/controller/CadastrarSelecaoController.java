@@ -62,6 +62,6 @@ public class CadastrarSelecaoController {
         }
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         
-        return "forward:/selecao/"+selecao.getCodSelecao();
+        return "/Darwin";
     }
 }

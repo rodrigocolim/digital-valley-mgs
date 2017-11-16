@@ -35,15 +35,24 @@
                         ${selecao.descricao}
                     </p>
                     <br/>
-                    <nav class="nav nav-pills" id="navEtapas" role="tablist" > 
-                        <c:forEach var="etapa" items="${selecao.etapas}">
+                    <p><b>Descrição dos Pré-Requisitos:</b> ${selecao.descricaoPreRequisitos}</p>
+                    <p><b>Vagas:</b> ${selecao.vagasRemuneradas} remuneradas e ${selecao.vagasVoluntarias} voluntárias.</p>
+                    <p><b>Categoria:</b> ${selecao.categoria}</p>
+                    <p><b>Área de Concentração:</b> ${selecao.areaDeConcentracao}</p>      
+                    <p><b>Edital:</b></p>
+                    <br/>
+                    
+                    <!-- 
+                    <nav class="timeline timeline-horizontal" id="navEtapas" role="tablist" > 
+                    <c:forEach var="etapa" items="${selecao.etapas}">
                         <a class="nav-item nav-link" id="navtab-etapa-${etapa.codEtapa}" data-toggle="tab" href="#nav-etapa-${etapa.codEtapa}" role="tab" aria-controls="nav-etapa-${etapa.codEtapa}" aria-selected="false">${etapa.titulo}</a>  
-                        </c:forEach>
+                    </c:forEach>
                         
-                        <a class="nav-link  btn-outline-secondary" href="/Darwin/cadastrarEtapa/${selecao.codSelecao}">Adicionar etapa</a>
+                        <a class="nav-link  btn-outline-dark" href="/Darwin/cadastrarEtapa/${selecao.codSelecao}">Adicionar etapa</a>
                     </nav>
+                    
                     <div class="tab-content" id="nav-tabContent">
-                        <c:forEach var="etapa" items="${selecao.etapas}">
+                    <c:forEach var="etapa" items="${selecao.etapas}">
                         <div class="tab-pane fade card" id="nav-etapa-${etapa.codEtapa}" role="tabpanel" aria-labelledby="nav-etapa-${etapa.codEtapa}">
                             <div class="card-body">
                                 <h2 class="card-title">
@@ -62,10 +71,49 @@
                             </div>
                         </div>
 
-                        </c:forEach>
+                    </c:forEach>
                     </div>
+                    -->
+                    
+                    <ul class="timeline timeline-vertical" id="timeline">
+                    <c:forEach var="etapa" items="${selecao.etapas}">
+                        <li class="timeline-item">
+                            <div class="timeline-badge">
+
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h2 class="timeline-title">${etapa.titulo}</h2>
+                                    <p>
+                                        <small class="text-muted">
+                                            <i class="material-icons">event</i> 
+                                            <b>${etapa.periodo.dataInicio}</b> 
+                                            até 
+                                            <b>${etapa.periodo.dataTermino}</b>
+                                        </small></p>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-justify">${etapa.descricao}</p><br>
+                                    <input type="button" value="Acessar" class="btn btn-primary btn-sm">
+                                </div>
+                            </div>
+                        </li>
+                    </c:forEach>
+                        <li class="timeline-item">
+                            <a href="/Darwin/cadastrarEtapa/${selecao.codSelecao}" class="timeline-badge">
+                                <i class="material-icons">add</i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
 
+                    
+                    
+                    
+                    
+                    
+                    
+                    
             </div>
         </div>
             <br>
@@ -80,6 +128,15 @@
 
                 if (screen.width <= 575) {
                   addedClass = "flex-column";
+                }
+
+                return addedClass;
+            });
+            $("#timeline").removeClass(function( index, currentClass ) {
+                var addedClass;
+
+                if (screen.width <= 575) {
+                  addedClass = "timeline";
                 }
 
                 return addedClass;

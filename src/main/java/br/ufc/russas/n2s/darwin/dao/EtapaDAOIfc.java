@@ -17,6 +17,7 @@ public interface EtapaDAOIfc {
     /**
      * Método resposável por fazer a persistência de uma etapa.
      * @param etapa
+     * @return Etapa
      */
     Etapa adicionaEtapa(Etapa etapa);
 

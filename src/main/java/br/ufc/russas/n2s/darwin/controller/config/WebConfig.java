@@ -10,10 +10,12 @@ import br.ufc.russas.n2s.darwin.dao.DAOImpl;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOImpl;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceImpl;
+import java.io.IOException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 /**
  *
  * @author Wallison Carlos

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -37,7 +38,7 @@
                 <br>
                 
                 <div class="form-group">
-                    <form method="post" action="cadastrarSelecao" accept-charset="UTF-8" enctype="multipart/form-data">
+                    <form method="post" action="cadastrarSelecao"  enctype="multipart/form-data">
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>
@@ -78,11 +79,12 @@
                         <br>
 
                         <div class="card">
-                            <div class="card-header">
-                                <label class="custom-control custom-checkbox" for="isVagasLimitadasInput">
-                                    <input type="checkbox" class="custom-control-input" id="isVagasLimitadasInput" onclick="habilitaCampoVagas()">
+                            <div class="card-header col-auto">
+                                
+                                <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0" for="isVagasLimitadasInput">
+                                    <input type="checkbox" class="custom-control-input" id="isVagasLimitadasInput" onclick="habilitaCampoVagas()"/>
                                     <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description align-bottom">Definir o número de vagas</span>
+                                    <span class="custom-control-description" style="margin-top: 4px;">Definir o número de vagas</span>
                                 </label>
                             </div>
                             
@@ -113,9 +115,7 @@
                         <a href="/Darwin" type="button" class="btn btn-secondary">
                             Cancelar
                         </a>
-                        <button type="submit"  class="btn btn-primary">
-                            Salvar e Continuar
-                        </button>
+                        <input type="submit"  class="btn btn-primary" value="Salvar e Continuar">
                     </form>
                 </div>
             </div>

@@ -79,11 +79,12 @@
                         <br>
 
                         <div class="card">
-                            <div class="card-header">
-                                <label class="custom-control custom-checkbox" for="isVagasLimitadasInput">
-                                    <input type="checkbox" class="custom-control-input" id="isVagasLimitadasInput" onclick="habilitaCampoVagas()">
+                            <div class="card-header col-auto">
+                                
+                                <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0" for="isVagasLimitadasInput">
+                                    <input type="checkbox" class="custom-control-input" id="isVagasLimitadasInput" onclick="habilitaCampoVagas()"/>
                                     <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description align-bottom">Definir o número de vagas</span>
+                                    <span class="custom-control-description" style="margin-top: 4px;">Definir o número de vagas</span>
                                 </label>
                             </div>
                             
@@ -114,9 +115,7 @@
                         <a href="/Darwin" type="button" class="btn btn-secondary">
                             Cancelar
                         </a>
-                        <button type="submit"  class="btn btn-primary">
-                            Salvar e Continuar
-                        </button>
+                        <input type="submit"  class="btn btn-primary" value="Salvar e Continuar">
                     </form>
                 </div>
             </div>

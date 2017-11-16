@@ -45,59 +45,33 @@
                         <div class="invalid-feedback">
                             O titulo da etapa é inválido
                         </div>
+                        
                         <br>
                         <label for="descricaoInput">Descrição*</label>
                         <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" required>${etapa.descricao}</textarea>
                         <div class="invalid-feedback">
                             A descrição da etapa é inválida
                         </div>
-                        <br>
-                        <div class="card">
-                            <div class="card-header">
-                                Período
-                            </div>
-                            <div class="card-body">
-                                <div class="container" id="sandbox-container">
-                                <small id="periodoHelp" class="form-text text-muted">Selecione uma data para Início e Término</small>
-                                    <div class="input-daterange input-group" id="datepicker">
-                                        <input type="text" class="input-sm form-control" name="dataInicio" required/>
-                                        <span class="input-group-addon">até</span>
-                                        <input type="text" class="input-sm form-control" name="dataTermino" required/>
-                                        <div class="invalid-feedback">
-                                            Selecione uma data para Início e Término
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
 
+                        <br>
                         <label for="documentacaoExigidaInput">Documentação Exigida</label>
                         <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre os documentos que são exigidos para esta etapa">${etapa.documentacaoExigida}</textarea>
 
                         <br>
-                        <!-- Colocar avaliadores quando a ligação com o Guardião for realizada -->
-                        <label for="AvaliadoresInput">Avaliadores*</label>
-                        <small id="avaliadoresHelp" class="form-text text-muted">Selecione os avaliadores dessa etapa</small>
-                        <div class="col-xs-6">
-                            <div class="well" style="max-height: 300px;overflow: auto;">
-                                <ul class="list-group checked-list-box">
-                                    <li class="list-group-item">
-                                        <label class="custom-control custom-checkbox" for="avaliadoresInput" required>
-                                            <input type="checkbox" class="custom-control-input" id="avaliadoresInput">
-                                            <span class="custom-control-indicator"></span>
-                                            <span class="custom-control-description align-bottom">Alex</span>
-                                        </label>
-                                        <div class="invalid-feedback">
-                                            Selecione no mínimo um avaliador
-                                        </div>
-                                    </li>
-                                </ul>
+                        <label for="descricaoInput">Período*</label>
+                        <div id="sandbox-container">
+                            <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
+                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" required/>
+                                <span class="input-group-addon">até</span>
+                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" name="dataTermino" required/>
+                                <div class="invalid-feedback">
+                                    Selecione uma data para Início e Término
+                                </div>
                             </div>
+                            <small id="periodoHelp" class="form-text text-muted">Selecione uma data para início e término</small>
                         </div>
 
                         <br>
-
                         <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
                         <select type="text" name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"class="form-control" id="categoriaInput" required>
                             <option selected="selected" disabled="disabled">- Selecione o critério de avaliação dessa etapa -</option>
@@ -108,11 +82,24 @@
                         <div class="invalid-feedback">
                             Escolha um critério de avaliação
                         </div>
+
+                        <br>
+                        <label for="AvaliadoresInput">Avaliadores*</label>
+                        <input type="text" id="nomeAvaliador" class="form-control" onkeyup="getListaAvaliadores()" placeholder="Digite o nome do avaliador" title="Digite o nome do avaliador">
+                        <ul id="listaAvaliadores" class="list-group">
+                        <c:forEach var="avaliador" items="${avaliadores}">
+                            <li class="list-group-item" style="display: none;">
+                                <input type="checkbox" value="${avaliador.codUsuario}">
+                                <span>${avaliador.codUsuario}</span>
+                            </li>
+                        </c:forEach>
+                        </ul>
+                        <small id="avaliadoresHelp" class="form-text text-muted">Selecione os avaliadores dessa etapa</small>
                         <br>
 
-                        <button type="button" class="btn btn-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">
+                        <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
                             Cancelar
-                        </button>
+                        </a>
                         <input type="submit" value="Salvar" class="btn btn-primary">
                     </form>
                 </div>
@@ -144,6 +131,52 @@
     })();
     
 
+    </script>
+    <script>
+    function getListaAvaliadores() {
+        ordenaLista();
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("nomeAvaliador");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("listaAvaliadores");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("span")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].getElementsByTagName("span")[0].style.display = "";
+                li[i].getElementsByTagName("input")[0].style.display = "";
+                li[i].style.display = "";
+            } else {
+                if(li[i].getElementsByTagName("input")[0].checked === false){
+                    li[i].getElementsByTagName("span")[0].style.display = "none";
+                    li[i].getElementsByTagName("input")[0].style.display = "none";
+                    li[i].style.display = "none";                    
+                }
+
+            }
+        }
+    }
+    
+    function ordenaLista() {
+        var list, i, switching, b, shouldSwitch;
+        list = document.getElementById("listaAvaliadores");
+        switching = true;
+        while (switching) {
+          switching = false;
+          b = list.getElementsByTagName("li");
+          for (i = 0; i < (b.length - 1); i++) {
+            shouldSwitch = false;
+            if ((b[i + 1].getElementsByTagName("input")[0].checked === true) && (b[i].getElementsByTagName("input")[0].checked === false)) {
+              shouldSwitch= true;
+              break;
+            }
+          }
+          if (shouldSwitch) {
+            b[i].parentNode.insertBefore(b[i + 1], b[i]);
+            switching = true;
+          }
+        }
+      }
     </script>
 </body>
 </html>

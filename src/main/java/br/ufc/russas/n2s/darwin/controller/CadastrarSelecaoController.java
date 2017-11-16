@@ -7,7 +7,6 @@ package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
-import br.ufc.russas.n2s.darwin.beans.UploadedFile;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.DocumentacaoDAOImpl;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
@@ -54,7 +53,6 @@ public class CadastrarSelecaoController {
         return "cadastrar-selecao";
     }
 
-
     public @ResponseBody String adiciona(@Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file) throws IOException {
 
 
@@ -98,13 +96,21 @@ public class CadastrarSelecaoController {
             System.out.println(selecao.getTitulo());
             System.out.println(selecao.getCategoria());
         }
+<<<<<<< HEAD
 
         
         
         System.out.println("\n\neu aqui!!!\n\n");
+
+        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
+
+        return "forward:/selecao/"+selecao.getCodSelecao();
+=======
         
+
 
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         return "selecao/"+selecao.getCodSelecao();
+>>>>>>> 6abed7d0cae1afc687f53983ea0c2bbcc0a7ae3c
     }
 }

@@ -5,13 +5,16 @@
  */
 package br.ufc.russas.n2s.darwin.controller;
 
+import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +27,8 @@ import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  *
@@ -32,6 +37,17 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 @WebServlet(name = "CadastraSelecaoServletController", urlPatterns = {"/adicionaSelecao"})
 public class CadastraSelecaoServletController extends HttpServlet {
 
+    private SelecaoServiceIfc selecaoServiceIfc;
+
+    public SelecaoServiceIfc getSelecaoServiceIfc() {
+        return selecaoServiceIfc;
+    }
+
+    @Autowired(required = true)
+    public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc")SelecaoServiceIfc selecaoServiceIfc){
+        this.selecaoServiceIfc = selecaoServiceIfc;
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -86,6 +102,14 @@ public class CadastraSelecaoServletController extends HttpServlet {
                             valorCampo = item.getString();
                             selecao.setAreaDeConcentracao(valorCampo);
                         }
+                        if(nomeCampo.equals("vagasRemuneradas")){
+                            valorCampo = item.getString();
+                            selecao.setVagasRemuneradas(Integer.parseInt(valorCampo));
+                        }
+                        if(nomeCampo.equals("vagasVoluntarias")){
+                            valorCampo = item.getString();
+                            selecao.setVagasRemuneradas(Integer.parseInt(valorCampo));
+                        }
                     }else{
                         //Escolhe o que vai fazer com os campos files
                         if(item.get().length>0){
@@ -106,8 +130,13 @@ public class CadastraSelecaoServletController extends HttpServlet {
                     }
                 }
                 if(file != null){
-                
+                    ArquivoBeans arquivo = new ArquivoBeans();
+                    arquivo.setTitulo("Edital "+selecao.getTitulo());
+                    arquivo.setData(LocalDateTime.now());
+                    arquivo.setArquivo(file);
+                    selecao.setEdital(arquivo);
                 }
+                this.selecaoServiceIfc.adicionaSelecao(selecao);
                 System.err.println("Obriado Deus!");
                 request.setAttribute("msg", "Imagem adicionada com sucesso!");
                

@@ -54,13 +54,9 @@ public class CadastrarSelecaoController {
         return "cadastrar-selecao";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-<<<<<<< HEAD
-    public @ResponseBody String adiciona(@Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file) throws IOException {
-=======
 
-    public @ResponseBody String adiciona(@Valid SelecaoBeans selecao, BindingResult result, @RequestParam("edital") MultipartFile file) throws IOException {
->>>>>>> 12f9d2c8ec95f21c02c1174afc93cb0e2c4cf026
+    public @ResponseBody String adiciona(@Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file) throws IOException {
+
 
         if (result.hasErrors() ) {
 
@@ -107,16 +103,8 @@ public class CadastrarSelecaoController {
         
         System.out.println("\n\neu aqui!!!\n\n");
         
-<<<<<<< HEAD
-        return "/Darwin";
-=======
-        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
 
-<<<<<<< HEAD
+        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         return "selecao/"+selecao.getCodSelecao();
-=======
-        return "forward:/selecao/"+selecao.getCodSelecao();
->>>>>>> f169ad262d6bded94db2d4fc51530596e5c8eb87
->>>>>>> 12f9d2c8ec95f21c02c1174afc93cb0e2c4cf026
     }
 }

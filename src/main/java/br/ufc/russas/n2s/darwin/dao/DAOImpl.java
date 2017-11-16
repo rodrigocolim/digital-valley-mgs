@@ -52,7 +52,7 @@ public class DAOImpl<T> implements DAOIfc<T> {
         Session session = getSessionFactory().openSession();
         try {
             if (object != null) {
-                session.persist(object);
+                session.save(object);//persist(object);
                 return object;
             } else {
                 throw new NullPointerException("Objeto não pode ser nulo!");

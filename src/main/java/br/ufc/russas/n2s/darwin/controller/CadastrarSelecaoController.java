@@ -8,8 +8,11 @@ package br.ufc.russas.n2s.darwin.controller;
 import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.dao.DocumentacaoDAOImpl;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import javax.validation.Valid;
@@ -50,21 +53,53 @@ public class CadastrarSelecaoController {
         return "cadastrar-selecao";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody String adiciona(@RequestParam("edital") MultipartFile file, @Valid SelecaoBeans selecao, BindingResult result) throws IOException {
-    
-        if(result.hasErrors()){
-            System.out.println("Erro: ");
+    public @ResponseBody String adiciona(@Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file) throws IOException {
+
+
+        if (result.hasErrors() ) {
+
+            System.out.println("\n\nde novo!!!\n\n");
+
+            return "cadastrar-selecao";
+        }
+
+        if (result.hasErrors() && !result.hasFieldErrors("file")) {
             return "cadastrar-selecao";
         }
         
-        if(file.isEmpty()){
-            System.out.println("File null");
+        selecao.getResponsaveis().add(new UsuarioBeans());
+        System.out.println(file);
+        if (!file.isEmpty()) {
+
+            ArquivoBeans edital = new ArquivoBeans();
+            
+            File convFile = new File(file.getOriginalFilename());
+            convFile.createNewFile(); 
+            FileOutputStream fos = new FileOutputStream(convFile); 
+            fos.write(file.getBytes());
+            fos.close(); 
+            
+            edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
+            edital.setData(LocalDateTime.now());
+            edital.setArquivo(convFile);
+            
+            //edital.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
+
+            //System.out.println("\n\neu aqui1!!!\n\n");
+
+            selecao.setEdital(edital);
+            System.out.println(selecao.getEdital().getTitulo());
+            System.out.println(selecao.getEdital().getArquivo());
+
+            System.out.println(selecao.getCodSelecao());
+            System.out.println(selecao.getDescricao());
+            System.out.println(selecao.getTitulo());
+            System.out.println(selecao.getCategoria());
         }
         
-        selecao.getResponsaveis().add(new UsuarioBeans());               
-        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
 
-        return "forward:/selecao/"+selecao.getCodSelecao();
+
+        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
+        return "selecao/"+selecao.getCodSelecao();
     }
 }

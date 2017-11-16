@@ -37,7 +37,7 @@
                 <br>
                 
                 <div class="form-group">
-                    <form method="POST" action="cadastrarSelecao" accept-charset="UTF-8">
+                    <form method="POST" action="editarSelecao" accept-charset="UTF-8">
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" value="${selecao.titulo}" required>
                         <div class="invalid-feedback">
@@ -80,7 +80,7 @@
                                 <label class="custom-control custom-checkbox" for="isVagasLimitadasInput">
                                     <input type="checkbox" class="custom-control-input" id="isVagasLimitadasInput" onclick="habilitaCampoVagas()">
                                     <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description align-bottom">Definir o número de vagas</span>
+                                    <span class="custom-control-description align-bottom">Redefinir o número de vagas</span>
                                 </label>
                             </div>
                             
@@ -112,7 +112,7 @@
                             Cancelar
                         </a>
                         <button type="submit"  class="btn btn-primary">
-                            Salvar e Continuar
+                            Salvar
                         </button>
                     </form>
                 </div>

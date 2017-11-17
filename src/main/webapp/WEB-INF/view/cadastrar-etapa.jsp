@@ -38,7 +38,7 @@
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
-                    <form method="POST" action="cadastrarEtapa">
+                    <form method="POST" action="${selecao.codSelecao}">
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Inscrição</small>
@@ -74,10 +74,10 @@
                         <br>
                         <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
                         <select type="text" name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"class="form-control" id="categoriaInput" required>
-                            <option selected="selected" disabled="disabled">- Selecione o critério de avaliação dessa etapa -</option>
-                            <option>Nota</option>
-                            <option>Deferido ou Indeferido</option>
-                            <option>Manual</option>
+                            <option value="0" selected="selected" disabled="disabled">- Selecione o critério de avaliação dessa etapa -</option>
+                            <option value="1">Nota</option>
+                            <option value="2">Aprovação</option>
+                            <option value="3">Deferimento</option>
                         </select>
                         <div class="invalid-feedback">
                             Escolha um critério de avaliação
@@ -89,7 +89,7 @@
                         <ul id="listaAvaliadores" class="list-group">
                         <c:forEach var="avaliador" items="${avaliadores}">
                             <li class="list-group-item" style="display: none;">
-                                <input type="checkbox" value="${avaliador.codUsuario}">
+                                <input type="checkbox" value="${avaliador.codUsuario}" name="codAvaliadores">
                                 <span>${avaliador.codUsuario}</span>
                             </li>
                         </c:forEach>

@@ -17,5 +17,5 @@ public interface UsuarioServiceIfc {
     public UsuarioBeans atualizaUsuario(UsuarioBeans usuario);
     public void removeUsuario(UsuarioBeans usuario);
     public List<UsuarioBeans> listaTodosUsuarios();
-    public UsuarioBeans getUsuario(long codUsuario);
+    public UsuarioBeans getUsuario(long codUsuario, long codUsuarioControleDeAcesso);
 }

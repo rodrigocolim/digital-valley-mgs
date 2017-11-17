@@ -6,6 +6,7 @@
 package br.ufc.russas.n2s.darwin.beans;
 
 import br.ufc.russas.n2s.darwin.model.Periodo;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -17,11 +18,11 @@ import java.util.Locale;
 public class PeriodoBeans implements Beans{
 
     private long codPeriodo;
-    private LocalDateTime inicio;
-    private LocalDateTime termino;
+    private LocalDate inicio;
+    private LocalDate termino;
     
     public PeriodoBeans(){}
-    public PeriodoBeans(long codPeriodo, LocalDateTime inicio, LocalDateTime termino) {
+    public PeriodoBeans(long codPeriodo, LocalDate inicio, LocalDate termino) {
         this.codPeriodo = codPeriodo;
         this.inicio = inicio;
         this.termino = termino;
@@ -35,19 +36,19 @@ public class PeriodoBeans implements Beans{
         this.codPeriodo = codPeriodo;
     }
 
-    public LocalDateTime getInicio() {
+    public LocalDate getInicio() {
         return inicio;
     }
 
-    public void setInicio(LocalDateTime inicio) {
+    public void setInicio(LocalDate inicio) {
         this.inicio = inicio;
     }
 
-    public LocalDateTime getTermino() {
+    public LocalDate getTermino() {
         return termino;
     }
 
-    public void setTermino(LocalDateTime termino) {
+    public void setTermino(LocalDate termino) {
         this.termino = termino;
     }
     

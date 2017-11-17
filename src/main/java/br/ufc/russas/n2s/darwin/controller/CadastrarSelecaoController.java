@@ -56,18 +56,12 @@ public class CadastrarSelecaoController {
         return "cadastrar-selecao";
     }
 
-<<<<<<< HEAD
+
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody String adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file) throws IOException {
 
         if (result.hasErrors()) {
-=======
-    public @ResponseBody String adiciona(@Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file) throws IOException {
 
-
-        if (result.hasErrors() ) {
-
->>>>>>> 7732332fcbb97d74092b09f8ce1e7aa29ce650cc
             System.out.println("\n\nde novo!!!\n\n");
             //response.sendRedirect("");
             return "cadastrar-selecao";
@@ -102,65 +96,13 @@ public class CadastrarSelecaoController {
             System.out.println(selecao.getTitulo());
             System.out.println(selecao.getCategoria());
         }
-<<<<<<< HEAD
-
-        
         
         System.out.println("\n\neu aqui!!!\n\n");
 
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
 
         return "forward:/selecao/"+selecao.getCodSelecao();
-=======
-        
 
-
-        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-<<<<<<< HEAD
-        
-        return "forward:/selecao/"+selecao.getCodSelecao();
-=======
-        return "selecao/"+selecao.getCodSelecao();
->>>>>>> 6abed7d0cae1afc687f53983ea0c2bbcc0a7ae3c
->>>>>>> 7732332fcbb97d74092b09f8ce1e7aa29ce650cc
     }
-    
-   /* 
-    @PostMapping("/uploadAction")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-            RedirectAttributes redirectAttributes) {
-
-        File out = new File("outputfile.pdf");
-        FileOutputStream fos = null;
-
-        try {
-            fos = new FileOutputStream(out);
-
-            // Writes bytes from the specified byte array to this file output stream 
-            fos.write(file.getBytes());
-            System.out.println("Upload and writing output file ok");
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found" + e);
-        } catch (IOException ioe) {
-            System.out.println("Exception while writing file " + ioe);
-        } finally {
-            // close the streams using close method
-            try {
-                if (fos != null) {
-                    fos.close();
-                }
-            } catch (IOException ioe) {
-                System.out.println("Error while closing stream: " + ioe);
-            }
-
-            //storageService.store(file);
-            redirectAttributes.addFlashAttribute("message",
-                    "You successfully uploaded " + file.getOriginalFilename() + "!");
-
-            return "redirect:/Darwin";
-        }
-    }
-    */
-    
     
 }

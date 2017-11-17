@@ -6,6 +6,7 @@ import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumPermissoes;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class SelecaoController {
         e1.setTitulo("Entrevista");
         e1.setDescricao("Poderíamos criar um novo JSP com uma mensagem de confirmação da remoção, mas usualmente isso não costuma ser bom, porque precisaríamos navegar até a lista das tarefas novamente caso tenhamos que remover outra tarefa.");
         e1.setCodEtapa(11);
-        e1.setPeriodo(new PeriodoBeans(codSelecao, LocalDateTime.now(), LocalDateTime.now()));
+        e1.setPeriodo(new PeriodoBeans(codSelecao, LocalDate.now(), LocalDate.now()));
         selecao.getEtapas().add(inscricao);
         selecao.getEtapas().add(e1);
         UsuarioBeans u = new UsuarioBeans();

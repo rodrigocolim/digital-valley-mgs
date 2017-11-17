@@ -27,7 +27,8 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codUsuario")
     private long codUsuario;
-    //Usuário do Jar do controle de acesso(talvez, o mais correto seria extender);
+    @Column(name = "codUsuarioControleDeAcesso")
+    private long codUsuarioControleDeAcesso;
     @Column
     @Enumerated
     @ElementCollection(targetClass = EnumPermissoes.class)
@@ -51,7 +52,13 @@ public class Usuario {
     public void setPermissoes(List<EnumPermissoes> permissoes) {
         this.permissoes = permissoes;
     }
-    
-    
+
+    public long getCodUsuarioControleDeAcesso() {
+        return codUsuarioControleDeAcesso;
+    }
+
+    public void setCodUsuarioControleDeAcesso(long codUsuarioControleDeAcesso) {
+        this.codUsuarioControleDeAcesso = codUsuarioControleDeAcesso;
+    }
     
 }

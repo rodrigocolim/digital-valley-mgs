@@ -16,6 +16,7 @@ import java.util.List;
 public class UsuarioBeans implements Beans{
     
     private long codUsuario;
+    private long codUsuarioControleDeAcesso;
     private List<EnumPermissoes> permissoes;
 
     public long getCodUsuario() {
@@ -33,12 +34,24 @@ public class UsuarioBeans implements Beans{
     public void setPermissoes(List<EnumPermissoes> permissoes) {
         this.permissoes = permissoes;
     }
+
+    public long getCodUsuarioControleDeAcesso() {
+        return codUsuarioControleDeAcesso;
+    }
+
+    public void setCodUsuarioControleDeAcesso(long codUsuarioControleDeAcesso) {
+        this.codUsuarioControleDeAcesso = codUsuarioControleDeAcesso;
+    }
         
+    
     @Override
     public Object toBusiness() {
         Usuario usuario = new Usuario();
         if (this.getCodUsuario() > 0) {
-            usuario.setCodUsuario(codUsuario);
+            usuario.setCodUsuario(this.getCodUsuario());
+        }
+        if (this.getCodUsuarioControleDeAcesso()> 0) {
+            usuario.setCodUsuarioControleDeAcesso(this.getCodUsuarioControleDeAcesso());
         }
         usuario.setPermissoes(this.getPermissoes());
         return usuario;
@@ -51,6 +64,7 @@ public class UsuarioBeans implements Beans{
                 Usuario usuario = (Usuario) object;
                 this.setCodUsuario(usuario.getCodUsuario());
                 this.setPermissoes(usuario.getPermissoes());
+                this.setCodUsuarioControleDeAcesso(usuario.getCodUsuarioControleDeAcesso());
                 return this;
             }else{
                 throw new IllegalArgumentException("Isso não é um usuário!");

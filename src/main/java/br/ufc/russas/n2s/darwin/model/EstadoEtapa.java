@@ -13,5 +13,5 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public interface EstadoEtapa {
-
+    EnumEstadoEtapa execute(Etapa etapa);
 }

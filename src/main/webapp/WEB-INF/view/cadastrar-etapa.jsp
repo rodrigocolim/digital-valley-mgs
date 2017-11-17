@@ -38,9 +38,9 @@
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
-                    <form method="POST" action="cadastrarEtapa">
+                    <form method="POST" action="${selecao.codSelecao}">
                         <label for="tituloInput">Titulo*</label>
-                        <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
+                        <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Inscrição</small>
                         <div class="invalid-feedback">
                             O titulo da etapa é inválido
@@ -52,11 +52,27 @@
                         <div class="invalid-feedback">
                             A descrição da etapa é inválida
                         </div>
-
                         <br>
-                        <label for="documentacaoExigidaInput">Documentação Exigida</label>
-                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre os documentos que são exigidos para esta etapa">${etapa.documentacaoExigida}</textarea>
+                        <div class="card">
+                            <div class="card-header col-auto">
+                                <label for="documentacaoExigidaInput">Documentação Exigida</label>
+                            </div>
 
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <input type="text" name="documento" class="form-control col-md-8" id="documentoInput" placeholder="Digite o nome do documento exigido para esta etapa">&nbsp;&nbsp;
+                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaDocumento()" value="Adicionar">                            
+                                </div>
+
+                                <br>
+                                <ul class="list-group col-md-8 " id="listaDocumentos">
+                                </ul>
+                            </div>
+                        </div>
+                        <br>
+                        
+
+                        <!--<textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre os documentos que são exigidos para esta etapa" style="visibility: none;"></textarea>-->
                         <br>
                         <label for="descricaoInput">Período*</label>
                         <div id="sandbox-container">
@@ -74,10 +90,10 @@
                         <br>
                         <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
                         <select type="text" name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"class="form-control" id="categoriaInput" required>
-                            <option selected="selected" disabled="disabled">- Selecione o critério de avaliação dessa etapa -</option>
-                            <option>Nota</option>
-                            <option>Deferido ou Indeferido</option>
-                            <option>Manual</option>
+                            <option value="0" selected="selected" disabled="disabled">- Selecione o critério de avaliação dessa etapa -</option>
+                            <option value="1">Nota</option>
+                            <option value="2">Aprovação</option>
+                            <option value="3">Deferimento</option>
                         </select>
                         <div class="invalid-feedback">
                             Escolha um critério de avaliação
@@ -89,7 +105,7 @@
                         <ul id="listaAvaliadores" class="list-group">
                         <c:forEach var="avaliador" items="${avaliadores}">
                             <li class="list-group-item" style="display: none;">
-                                <input type="checkbox" value="${avaliador.codUsuario}">
+                                <input type="checkbox" value="${avaliador.codUsuario}" name="codAvaliadores">
                                 <span>${avaliador.codUsuario}</span>
                             </li>
                         </c:forEach>
@@ -176,6 +192,36 @@
             switching = true;
           }
         }
+      }
+      
+      var listaDocumentos = [];
+      var j = 0;
+      function adicionaDocumento(){
+        var nomeDocumento = document.getElementById("documentoInput").value;
+        if(nomeDocumento !== ""){
+            listaDocumentos[j] = nomeDocumento;
+            j++;
+        }
+        document.getElementById("documentoInput").value = "";
+        atualizaDocumentos();
+        
+      }
+      function atualizaDocumentos(){
+          var list = document.getElementById("listaDocumentos");
+          list.innerHTML = "";
+          for(i = 0;i < listaDocumentos.length;i++){
+            if(listaDocumentos[i] !== ""){
+                list.innerHTML += '<li class="list-group-item" >'+ listaDocumentos[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumento(\''+listaDocumentos[i]+'\')">clear</button></li>';
+            }
+          }
+      }
+      function removeDocumento(nome){
+          for(i = 0;i < listaDocumentos.length;i++){
+              if(listaDocumentos[i] === nome){
+                  listaDocumentos[i] = "";
+              }
+          }
+          atualizaDocumentos();
       }
     </script>
 </body>

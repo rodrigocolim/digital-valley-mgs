@@ -6,16 +6,26 @@
 package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
+import br.ufc.russas.n2s.darwin.beans.PeriodoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
+import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
 import br.ufc.russas.n2s.darwin.model.Usuario;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,7 +43,8 @@ public class CadastrarEtapaController {
 
     private EtapaServiceIfc etapaServiceIfc;
     private SelecaoServiceIfc selecaoServiceIfc;
-
+    private UsuarioServiceIfc usuarioServiceIfc;
+    
     public EtapaServiceIfc getEtapaServiceIfc() {
         return etapaServiceIfc;
     }
@@ -50,7 +61,15 @@ public class CadastrarEtapaController {
     public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc") SelecaoServiceIfc selecaoServiceIfc) {
         this.selecaoServiceIfc = selecaoServiceIfc;
     }
-    
+
+    public UsuarioServiceIfc getUsuarioServiceIfc() {
+        return usuarioServiceIfc;
+    }
+    @Autowired(required = true)
+    public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc) {
+        this.usuarioServiceIfc = usuarioServiceIfc;
+    }
+           
     
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model) {
@@ -74,11 +93,35 @@ public class CadastrarEtapaController {
     }
 
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
-    public String adiciona(@PathVariable long codSelecao, @Valid EtapaBeans etapa, BindingResult result, Model model) {
-        SelecaoBeans selecaoBeans = this.selecaoServiceIfc.getSelecao(codSelecao);
-        model.addAttribute("selecao", selecaoBeans);
-        selecaoBeans.getEtapas().add(etapa);
-        this.selecaoServiceIfc.atualizaSelecao(selecaoBeans);
+    public String adiciona(@PathVariable long codSelecao, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
+        SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
+        model.addAttribute("selecao", selecao);
+        String[] codAvaliadores = request.getParameterValues("codAvaliadores");
+        int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
+        if (criterio == 1) {
+            etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
+        } else if(criterio == 2) {
+            etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
+        } else if(criterio == 3) {
+            etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
+        }
+        etapa.setEstado(EnumEstadoEtapa.ESPERA);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+        ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
+        if(codAvaliadores != null){
+            for(String cod : codAvaliadores){
+                UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+                if(u != null){
+                    avaliadores.add(u);
+                }
+            }
+        }
+        etapa.setAvaliadores(avaliadores);
+        etapa = getEtapaServiceIfc().adicionaEtapa(etapa);
+        selecao.getEtapas().add(etapa);
+        selecao.getResponsaveis().add(new UsuarioBeans());
+        this.selecaoServiceIfc.atualizaSelecao(selecao);
         /*if (!result.hasErrors()) {
         etapas.add(this.getEtapaServiceIfc().adicionaEtapa(etapa));
         model.addAttribute("etapas", etapas);

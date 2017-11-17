@@ -8,6 +8,7 @@ package br.ufc.russas.n2s.darwin.service;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Selecao;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,7 +63,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         for (Selecao s : resultado) {
             if (s.getInscricao() != null) {
-                if (s.getInscricao().getPeriodo().getInicio().isAfter(LocalDateTime.now())) {
+                if (s.getInscricao().getPeriodo().getInicio().isAfter(LocalDate.now())) {
                     selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
                 }
             }

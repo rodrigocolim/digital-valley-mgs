@@ -16,14 +16,24 @@ public enum EnumPermissoes {
     ADMINISTRADOR(4);
 
     private int nivel;
+    
     EnumPermissoes() {
+        
     }
 
     EnumPermissoes(int nivel) {
-        this.nivel = nivel;
+        setNivel(nivel);
     }
 
     public int getNivel() {
         return nivel;
+    }
+    
+    public void setNivel(int nivel){
+        if (nivel>=1 && nivel<=4) { 
+            this.nivel = nivel;
+        } else {
+            throw new IllegalArgumentException("Critério de avaliação deve ser maior igual a um e menor igual a quatro!");
+        }            
     }
 }

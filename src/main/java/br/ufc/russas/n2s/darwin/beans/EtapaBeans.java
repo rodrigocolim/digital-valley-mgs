@@ -6,8 +6,9 @@
 package br.ufc.russas.n2s.darwin.beans;
 
 import br.ufc.russas.n2s.darwin.model.Avaliacao;
-import br.ufc.russas.n2s.darwin.model.CriterioDeAvaliacao;
+import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
+import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
 import br.ufc.russas.n2s.darwin.model.EstadoEtapa;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.Periodo;
@@ -29,10 +30,10 @@ public class EtapaBeans implements Beans {
     private String descricao;
     private List<UsuarioBeans> avaliadores;
     private List<String> documentacaoExigida;
-    private CriterioDeAvaliacao criterioDeAvaliacao;
+    private EnumCriterioDeAvaliacao criterioDeAvaliacao;
     private List<AvaliacaoBeans> avaliacoes;
     private List<DocumentacaoBeans> documentacoes;
-    private EstadoEtapa estado;
+    private EnumEstadoEtapa estado;
     private EtapaBeans prerequisito;
 
     public EtapaBeans(){}
@@ -85,11 +86,11 @@ public class EtapaBeans implements Beans {
         this.documentacaoExigida = documentacao;
     }
 
-    public CriterioDeAvaliacao getCriterioDeAvaliacao() {
+    public EnumCriterioDeAvaliacao getCriterioDeAvaliacao() {
         return criterioDeAvaliacao;
     }
 
-    public void setCriterioDeAvaliacao(CriterioDeAvaliacao criterioDeAvaliacao) {
+    public void setCriterioDeAvaliacao(EnumCriterioDeAvaliacao criterioDeAvaliacao) {
         this.criterioDeAvaliacao = criterioDeAvaliacao;
     }
 
@@ -109,11 +110,11 @@ public class EtapaBeans implements Beans {
         this.documentacoes = documentacoes;
     }
 
-    public EstadoEtapa getEstado() {
+    public EnumEstadoEtapa getEstado() {
         return estado;
     }
 
-    public void setEstado(EstadoEtapa estado) {
+    public void setEstado(EnumEstadoEtapa estado) {
         this.estado = estado;
     }
 
@@ -137,7 +138,9 @@ public class EtapaBeans implements Beans {
         etapa.setDocumentacaoExigida(this.getDocumentacaoExigida());
         etapa.setCriterioDeAvaliacao(this.getCriterioDeAvaliacao());
         etapa.setEstado(this.getEstado());
-        etapa.setPrerequisito((Etapa) this.getPrerequisito().toBusiness());
+        if(this.getPrerequisito() != null){
+            etapa.setPrerequisito((Etapa) this.getPrerequisito().toBusiness());
+        }
         etapa.setPeriodo((Periodo) this.getPeriodo().toBusiness());
 
         List<Usuario> avaliadores = Collections.synchronizedList(new ArrayList<Usuario>());

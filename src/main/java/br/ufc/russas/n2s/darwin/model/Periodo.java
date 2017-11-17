@@ -6,8 +6,10 @@
 package br.ufc.russas.n2s.darwin.model;
 
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Column;
@@ -26,25 +28,25 @@ import javax.persistence.Table;
 @Converter(autoApply = true)
 @Entity
 @Table(name = "periodo")
-public class Periodo implements AttributeConverter<LocalDateTime, Timestamp> {
+public class Periodo implements AttributeConverter<LocalDate, Date> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codPeriodo")
     private long codPeriodo;
     @Column(name = "inicio")
-    private LocalDateTime inicio;
+    private LocalDate inicio;
     @Column(name = "termino")
-    private LocalDateTime termino;
+    private LocalDate termino;
 
     public Periodo() {
     }
 
-    public Periodo(long codPeriodo, LocalDateTime inicio, LocalDateTime termino) {
+    public Periodo(long codPeriodo, LocalDate inicio, LocalDate termino) {
         setCodPeriodo(codPeriodo);
         setInicio(inicio);
         setTermino(termino);
     }
-    public Periodo(LocalDateTime inicio, LocalDateTime termino) {
+    public Periodo(LocalDate inicio, LocalDate termino) {
         setInicio(inicio);
         setTermino(termino);
     }
@@ -60,11 +62,11 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp> {
         }
     }
 
-    public LocalDateTime getInicio() {
+    public LocalDate getInicio() {
         return inicio;
     }
 
-    public void setInicio(LocalDateTime inicio) {
+    public void setInicio(LocalDate inicio) {
         if (inicio != null) {
             if (this.getTermino()!= null) {
                 if ((inicio.isBefore(this.getTermino()) || inicio.equals(this.getTermino()))) {
@@ -80,11 +82,11 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp> {
         }
     }
 
-    public LocalDateTime getTermino() {
+    public LocalDate getTermino() {
         return termino;
     }
 
-    public void setTermino(LocalDateTime termino) {
+    public void setTermino(LocalDate termino) {
         if (termino != null) {
             if (this.getInicio()!= null) {
                 if ((termino.isAfter(this.getInicio()) || termino.equals(this.getInicio()))) {
@@ -101,13 +103,13 @@ public class Periodo implements AttributeConverter<LocalDateTime, Timestamp> {
     }
 
     @Override
-    public Timestamp convertToDatabaseColumn(LocalDateTime attribute) {
-        return (attribute == null ? null : Timestamp.valueOf(attribute));
+    public Date convertToDatabaseColumn(LocalDate attribute) {
+        return (attribute == null ? null : Date.valueOf(attribute));
     }
 
     @Override
-    public LocalDateTime convertToEntityAttribute(Timestamp dbData) {
-        return (dbData == null ? null : dbData.toLocalDateTime());
+    public LocalDate convertToEntityAttribute(Date dbData) {
+        return (dbData == null ? null : dbData.toLocalDate());
     }
 
     public final boolean isColide(final Periodo periodo){

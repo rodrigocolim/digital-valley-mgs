@@ -107,7 +107,7 @@
                                             <input type="button" class="btn btn-sm btn-primary" value="Avaliar">
                                         </c:if>
                                         <c:if test="${not empty PARTICIPANTE}">
-                                            <input type="button" class="btn btn-sm btn-primary" value="Participar">
+                                            <a href="/Darwin/participarEtapa/${etapa.codEtapa}" class="btn btn-sm btn-primary">Participar</a>
                                         </c:if>
                                 </div>
                             </div>

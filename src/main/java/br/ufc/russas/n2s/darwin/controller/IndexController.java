@@ -37,7 +37,7 @@ public class IndexController{
     @RequestMapping(method = RequestMethod.GET)
     public String getIndex(Model model){  
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaTodasSelecoes();
-        model.addAttribute("novasSelecoes", selecoes);        
+        model.addAttribute("selecoes", selecoes);        
         return "index";
     }
 }

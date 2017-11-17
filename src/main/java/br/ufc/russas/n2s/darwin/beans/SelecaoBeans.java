@@ -241,8 +241,7 @@ public class SelecaoBeans implements Beans {
             }
         }
         selecao.setCandidatos(candidatos);
-        
-        
+
         return selecao;
     }
 

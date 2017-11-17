@@ -12,9 +12,11 @@ import br.ufc.russas.n2s.darwin.dao.DocumentacaoDAOImpl;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -53,20 +56,17 @@ public class CadastrarSelecaoController {
         return "cadastrar-selecao";
     }
 
-    public @ResponseBody String adiciona(@Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file) throws IOException {
 
+    @RequestMapping(method = RequestMethod.POST)
+    public @ResponseBody String adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file) throws IOException {
 
-        if (result.hasErrors() ) {
+        if (result.hasErrors()) {
 
             System.out.println("\n\nde novo!!!\n\n");
-
+            //response.sendRedirect("");
             return "cadastrar-selecao";
         }
 
-        if (result.hasErrors() && !result.hasFieldErrors("file")) {
-            return "cadastrar-selecao";
-        }
-        
         selecao.getResponsaveis().add(new UsuarioBeans());
         System.out.println(file);
         if (!file.isEmpty()) {
@@ -97,9 +97,12 @@ public class CadastrarSelecaoController {
             System.out.println(selecao.getCategoria());
         }
         
-
+        System.out.println("\n\neu aqui!!!\n\n");
 
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-        return "selecao/"+selecao.getCodSelecao();
+
+        return "forward:/selecao/"+selecao.getCodSelecao();
+
     }
+    
 }

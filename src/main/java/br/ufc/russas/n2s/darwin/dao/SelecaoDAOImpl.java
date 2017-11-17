@@ -30,7 +30,8 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     @Override
     public Selecao adicionaSelecao(Selecao selecao) {
         Selecao s = this.daoImpl.adiciona(selecao);
-        System.out.println("codigo: "+s.getCodSelecao());
+        daoImpl.adiciona(selecao.getEdital());
+        System.out.println("TITULO: "+s.getEdital().getArquivo().getAbsolutePath());
         return s;
     }
 

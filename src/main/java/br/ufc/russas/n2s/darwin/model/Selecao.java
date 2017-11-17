@@ -21,6 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -40,12 +41,12 @@ public class Selecao {
     private long codSelecao;
     private String titulo;
     private String descricao;
-    @ManyToMany(targetEntity = Usuario.class, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Usuario.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     //@Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "responsaveis_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "usuario", referencedColumnName = "codUsuario")})
     private List<Usuario> responsaveis;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "periodo", referencedColumnName = "codPeriodo")
     private Periodo periodo;
     @ManyToOne
@@ -60,7 +61,7 @@ public class Selecao {
     private int vagasVoluntarias;
     private String descricaoPreRequisitos;
     private String areaDeConcentracao;
-    @ManyToMany(targetEntity = Participante.class, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Participante.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    // @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "candidatos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "participante", referencedColumnName = "codParticipante")})
@@ -76,7 +77,7 @@ public class Selecao {
     @JoinTable(name="anexos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})
     private List<Arquivo> anexos;
-    @ManyToOne
+    @ManyToOne(targetEntity = Arquivo.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "edital", referencedColumnName = "codArquivo")
     private Arquivo edital;
     @Embedded

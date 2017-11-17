@@ -85,11 +85,9 @@
         class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
     <bean id="multipartResolver"
             class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-<<<<<<< HEAD
-            <property name="maxUploadSize" value="100000000" />
-=======
+
             <property name="maxUploadSize" value="90000000" />
->>>>>>> f169ad262d6bded94db2d4fc51530596e5c8eb87
+
     </bean>
     <tx:annotation-driven transaction-manager="transactionManager"/>
     

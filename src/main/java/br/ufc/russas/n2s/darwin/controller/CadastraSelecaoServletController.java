@@ -5,7 +5,11 @@
  */
 package br.ufc.russas.n2s.darwin.controller;
 
+import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import br.ufc.russas.n2s.darwin.service.SelecaoServiceImpl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,6 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.List;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +29,9 @@ import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 /**
  *
@@ -41,6 +49,25 @@ public class CadastraSelecaoServletController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    
+    private SelecaoServiceIfc selecaoServiceIfc;
+
+    public SelecaoServiceIfc getSelecaoServiceIfc() {
+        return selecaoServiceIfc;
+    }
+
+    @Autowired(required = true)
+    public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc")SelecaoServiceIfc selecaoServiceIfc){
+        this.selecaoServiceIfc = selecaoServiceIfc;
+    }
+    
+    @Override
+    public void init(ServletConfig config) {
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
+          config.getServletContext());
+      }
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -51,42 +78,58 @@ public class CadastraSelecaoServletController extends HttpServlet {
             try{
                 DiskFileItemFactory factory = new DiskFileItemFactory();
                 ServletFileUpload upload = new ServletFileUpload(factory);
-                upload.setFileItemFactory(factory);
+                //upload.setFileItemFactory(factory);
                 List itens = upload.parseRequest(request);
                 SelecaoBeans selecao = new SelecaoBeans();
+                selecao.setTitulo(request.getParameter("titulo"));
+                selecao.setDescricao(request.getParameter("descricao"));
+                selecao.setDescricaoPreRequisitos(request.getParameter("descricaoPreRequisitos"));
+                selecao.setCategoria(request.getParameter("categoria"));
+                selecao.setAreaDeConcentracao(request.getParameter("areaDeConcentracao"));
+                selecao.getResponsaveis().add(new UsuarioBeans());
                 File file = null;
                 String nomeCampo = "";
                 String valorCampo = "";
                 int k=0;
+            
                 for(int i=0;i<itens.size();i++){
                     FileItem item = (FileItem) itens.get(i);
                     String campo = item.getFieldName();
                     String valor = item.getString();
-                    
+                    System.out.println(campo+": \n "+valor);
                     if(item.isFormField()){
                         //Escolhe o que vai fazer com os campos normais
                         nomeCampo = item.getFieldName();
-                        if(nomeCampo.equals("titulo")){
+                        if(campo.equals("titulo")){
                             valorCampo = item.getString();
-                            selecao.setTitulo(valorCampo);
+                            selecao.setTitulo(valor);
                         }
-                        if(nomeCampo.equals("descricao")){
+                        if(campo.equals("descricao")){
                             valorCampo = item.getString();
                             selecao.setDescricao(valorCampo);
                         }
-                        if(nomeCampo.equals("descricaoPreRequisitos")){
+                        if(campo.equals("descricaoPreRequisitos")){
                             valorCampo = item.getString();
                             selecao.setDescricaoPreRequisitos(valorCampo);
                         }
-                        if(nomeCampo.equals("categoria")){
+                        if(campo.equals("categoria")){
                             valorCampo = item.getString();
                             selecao.setCategoria(valorCampo);
                         }
-                        if(nomeCampo.equals("areaDeConcentracao")){
+                        if(campo.equals("areaDeConcentracao")){
                             valorCampo = item.getString();
                             selecao.setAreaDeConcentracao(valorCampo);
                         }
+                        if(campo.equals("vagasVoluntarias")){
+                            valorCampo = item.getString();
+                             selecao.setVagasVoluntarias(Integer.parseInt(valorCampo));
+                        }
+                        if(campo.equals("vagasRemuneradas")){
+                            valorCampo = item.getString();
+                            selecao.setVagasRemuneradas(Integer.parseInt(valorCampo));
+                        }
                     }else{
+                        System.out.println("br.ufc.russas.n2s.darwin.controller.CadastraSelecaoServletContrfffffffffffffffffffffff");
                         //Escolhe o que vai fazer com os campos files
                         if(item.get().length>0){
                             File temp = File.createTempFile("temp", ".pdf");
@@ -102,19 +145,23 @@ public class CadastraSelecaoServletController extends HttpServlet {
                             output.flush();
                             output.close();
                             input.close();
+                            ArquivoBeans ab = (ArquivoBeans) new ArquivoBeans().toBeans(file);
+                            selecao.setEdital(ab);
                         }
                     }
                 }
-                if(file != null){
-                
-                }
+               
+             
+                System.err.println("Obriado Deus! 1");
+                selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
                 System.err.println("Obriado Deus!");
+                response.sendRedirect("selecao/"+selecao.getCodSelecao());
                 request.setAttribute("msg", "Imagem adicionada com sucesso!");
                
             }catch(FileUploadException e){
                 e.printStackTrace();
             }catch(Exception e){
-                request.setAttribute("msg", e.getMessage());
+                e.printStackTrace();
             }
         }else{
             System.out.println("Não foi enviado um multipart!");

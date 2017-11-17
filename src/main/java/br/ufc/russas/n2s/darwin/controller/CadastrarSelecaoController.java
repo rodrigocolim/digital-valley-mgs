@@ -13,9 +13,11 @@ import br.ufc.russas.n2s.darwin.dao.DocumentacaoDAOImpl;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -54,21 +57,15 @@ public class CadastrarSelecaoController {
         return "cadastrar-selecao";
     }
 
+    @RequestMapping(method = RequestMethod.POST)
+    public @ResponseBody String adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file) throws IOException {
 
-    public @ResponseBody String adiciona(@Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file) throws IOException {
-
-
-        if (result.hasErrors() ) {
-
+        if (result.hasErrors()) {
             System.out.println("\n\nde novo!!!\n\n");
-
+            //response.sendRedirect("");
             return "cadastrar-selecao";
         }
 
-        if (result.hasErrors() && !result.hasFieldErrors("file")) {
-            return "cadastrar-selecao";
-        }
-        
         selecao.getResponsaveis().add(new UsuarioBeans());
         System.out.println(file);
         if (!file.isEmpty()) {
@@ -105,6 +102,46 @@ public class CadastrarSelecaoController {
         
 
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-        return "selecao/"+selecao.getCodSelecao();
+        
+        return "forward:/selecao/"+selecao.getCodSelecao();
     }
+    
+   /* 
+    @PostMapping("/uploadAction")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+            RedirectAttributes redirectAttributes) {
+
+        File out = new File("outputfile.pdf");
+        FileOutputStream fos = null;
+
+        try {
+            fos = new FileOutputStream(out);
+
+            // Writes bytes from the specified byte array to this file output stream 
+            fos.write(file.getBytes());
+            System.out.println("Upload and writing output file ok");
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found" + e);
+        } catch (IOException ioe) {
+            System.out.println("Exception while writing file " + ioe);
+        } finally {
+            // close the streams using close method
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException ioe) {
+                System.out.println("Error while closing stream: " + ioe);
+            }
+
+            //storageService.store(file);
+            redirectAttributes.addFlashAttribute("message",
+                    "You successfully uploaded " + file.getOriginalFilename() + "!");
+
+            return "redirect:/Darwin";
+        }
+    }
+    */
+    
+    
 }

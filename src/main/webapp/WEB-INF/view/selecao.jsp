@@ -74,46 +74,55 @@
                     </c:forEach>
                     </div>
                     -->
-                    
                     <ul class="timeline timeline-vertical" id="timeline">
                     <c:forEach var="etapa" items="${selecao.etapas}">
                         <li class="timeline-item">
-                            <div class="timeline-badge">
-
+                        <c:if test="${not empty PARTICIPANTE}">
+                            <div class="timeline-badge success">
+                                <i class="material-icons">check</i>
                             </div>
+                        </c:if>
+                        <c:if test="${(not empty RESPONSAVEL) or (not empty AVALIADOR) }">
+                            <div class="timeline-badge">
+                                <i class="material-icons"></i>
+                            </div>
+                        </c:if>
                             <div class="timeline-panel">
                                 <div class="timeline-heading">
                                     <h2 class="timeline-title">${etapa.titulo}</h2>
                                     <p>
                                         <small class="text-muted">
-                                            <i class="material-icons">event</i> 
                                             <b>${etapa.periodo.dataInicio}</b> 
                                             até 
                                             <b>${etapa.periodo.dataTermino}</b>
-                                        </small></p>
+                                        </small>
+                                    </p>
                                 </div>
                                 <div class="timeline-body">
                                     <p class="text-justify">${etapa.descricao}</p><br>
-                                    <input type="button" value="Acessar" class="btn btn-primary btn-sm">
+                                        <c:if test="${not empty RESPONSAVEL}">
+                                            <input type="button" class="btn btn-sm btn-primary" value="Editar">
+                                        </c:if>
+                                        <c:if test="${not empty AVALIADOR}">
+                                            <input type="button" class="btn btn-sm btn-primary" value="Avaliar">
+                                        </c:if>
+                                        <c:if test="${not empty PARTICIPANTE}">
+                                            <input type="button" class="btn btn-sm btn-primary" value="Participar">
+                                        </c:if>
                                 </div>
                             </div>
                         </li>
                     </c:forEach>
+                    <c:if test="${not empty RESPONSAVEL}">
                         <li class="timeline-item">
-                            <a href="/Darwin/cadastrarEtapa/${selecao.codSelecao}" class="timeline-badge">
+                            <a href="/Darwin/cadastrarEtapa/${selecao.codSelecao}" class="timeline-badge" style="background-color: #007bff;">
                                 <i class="material-icons">add</i>
                             </a>
-                        </li>
-                    </ul>
-                </div>
+                        </li>                        
+                    </c:if>
 
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+                    </ul>
+                </div>            
             </div>
         </div>
             <br>

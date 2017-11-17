@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufc.russas.n2s.darwin.beans;
+package br.ufc.russas.n2s.darwin.controller;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -12,7 +12,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
  *
  * @author Wallison Carlos
  */
-public class UploadedFile {
+public class File {
 
     private CommonsMultipartFile file;
 

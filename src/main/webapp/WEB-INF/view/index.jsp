@@ -30,8 +30,9 @@
                     </ol>
                 </nav>
                     
-                    <h1>Início</h1>
-                <c:forEach var="selecao" begin="0" end="4" items="${novasSelecoes}">
+                <h1>Início</h1>
+                <c:set var="pagina" value="${(((not empty param.pag) and (param.pag >= 1)) ? param.pag : 1)}"></c:set>
+                <c:forEach var="selecao" begin="${((pagina - 1) * 5)}" end="${((pagina - 1) * 5) + 4}" items="${selecoes}">
                     <div class="card">
                         <div class="card-body">
                             <h2 class="card-title text-uppercase font-weight-bold">
@@ -53,6 +54,20 @@
                         </div>
                     </div>
                 </c:forEach>
+                <br/>
+                <nav aria-label="">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item ${(pagina <= 1 ? "disabled" : "")}">
+                            <a class="page-link" href="/Darwin?pag=${pagina - 1}" tabindex="-1">Anterior</a>
+                        </li>
+                    <c:forEach var="i" begin="1" end="${(fn:length(selecoes)/5) + (fn:length(selecoes)%5 == 0 ? 0 : 1)}">
+                        <li class="page-item ${(pagina == i ? "active": "")}"><a class="page-link" href="/Darwin?pag=${i}">${i}</a></li>
+                    </c:forEach>
+                        <li class="page-item  ${(pagina > ((fn:length(selecoes))/5) ? "disabled" : "")}">
+                            <a class="page-link" href="/Darwin?pag=${pagina + 1}">Próximo</a>
+                        </li>
+                    </ul>
+                </nav>
                 </div>
             </div>
         </div>

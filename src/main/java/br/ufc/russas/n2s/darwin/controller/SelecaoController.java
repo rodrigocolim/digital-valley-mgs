@@ -1,8 +1,3 @@
-    /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
@@ -57,7 +52,9 @@ public class SelecaoController {
         UsuarioBeans u = new UsuarioBeans();
         u.setCodUsuario(12);
         ArrayList<EnumPermissoes> as = new ArrayList<>();
+        as.add(EnumPermissoes.PARTICIPANTE);
         as.add(EnumPermissoes.RESPONSAVEL);
+        as.add(EnumPermissoes.AVALIADOR);
         u.setPermissoes(as);
         for(EnumPermissoes permissao: as){
             model.addAttribute(permissao.name(), u);

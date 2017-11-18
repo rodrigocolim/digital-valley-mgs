@@ -96,20 +96,10 @@ public class CadastrarSelecaoController {
             System.out.println(selecao.getTitulo());
             System.out.println(selecao.getCategoria());
         }
-<<<<<<< HEAD
 
-       
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         return "selecao/"+selecao.getCodSelecao();
-=======
-        
-        System.out.println("\n\neu aqui!!!\n\n");
 
-        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-
-        return "forward:/selecao/"+selecao.getCodSelecao();
-
->>>>>>> ed12273b2e35311f844416715967374f58e8a06b
     }
     
 }

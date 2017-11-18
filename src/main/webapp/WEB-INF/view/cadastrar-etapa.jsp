@@ -53,9 +53,24 @@
                             A descrição da etapa é inválida
                         </div>
                         <br>
+
+                        <label for="periodoInput">Período*</label>
+                        <div id="sandbox-container">
+                            <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
+                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" required/>
+                                <span class="input-group-addon">até</span>
+                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" name="dataTermino" required/>
+                                <div class="invalid-feedback">
+                                    Selecione uma data para Início e Término
+                                </div>
+                            </div>
+                            <small id="periodoHelp" class="form-text text-muted">Selecione uma data para início e término</small>
+                        </div>
+                        <br>
+                        
                         <div class="card">
                             <div class="card-header col-auto">
-                                <label for="documentacaoExigidaInput">Documentação Exigida</label>
+                                <label for="documentoInput">Documentação Exigida</label>
                             </div>
 
                             <div class="card-body">
@@ -71,53 +86,45 @@
                         </div>
                         <br>
                         
-
-                        <!--<textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre os documentos que são exigidos para esta etapa" style="visibility: none;"></textarea>-->
-                        <br>
-                        <label for="descricaoInput">Período*</label>
-                        <div id="sandbox-container">
-                            <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
-                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" required/>
-                                <span class="input-group-addon">até</span>
-                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" name="dataTermino" required/>
-                                <div class="invalid-feedback">
-                                    Selecione uma data para Início e Término
-                                </div>
+                        <div class="card">
+                            <div class="card-header col-auto">
+                                <label for="documentacaoExigidaInput">Dados sobre a avaliação</label>
                             </div>
-                            <small id="periodoHelp" class="form-text text-muted">Selecione uma data para início e término</small>
+
+                            <div class="card-body">
+                                <br>
+                                <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
+                                <select type="text" name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}" class="form-control" id="categoriaInput" required>
+                                    <option value="" selected="selected" disabled="disabled">- Selecione o critério de avaliação dessa etapa -</option>
+                                    <option value="1">Nota</option>
+                                    <option value="2">Aprovação</option>
+                                    <option value="3">Deferimento</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Escolha um critério de avaliação
+                                </div>
+
+                                <br>
+                                <label for="AvaliadoresInput">Avaliadores*</label>
+                                <input type="text" id="nomeAvaliador" class="form-control" onkeyup="getListaAvaliadores()" placeholder="Digite o nome do avaliador" title="Digite o nome do avaliador">
+                                <ul id="listaAvaliadores" class="list-group">
+                                    <c:forEach var="avaliador" items="${avaliadores}">
+                                        <li class="list-group-item" style="display: none;">
+                                            <input type="checkbox" value="${avaliador.codUsuario}" name="codAvaliadores">
+                                            <span>${avaliador.codUsuario}</span>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                                <small id="avaliadoresHelp" class="form-text text-muted">Selecione os avaliadores dessa etapa</small>
+                                <br>
+                            </div>
                         </div>
-
-                        <br>
-                        <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
-                        <select type="text" name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"class="form-control" id="categoriaInput" required>
-                            <option value="0" selected="selected" disabled="disabled">- Selecione o critério de avaliação dessa etapa -</option>
-                            <option value="1">Nota</option>
-                            <option value="2">Aprovação</option>
-                            <option value="3">Deferimento</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Escolha um critério de avaliação
-                        </div>
-
-                        <br>
-                        <label for="AvaliadoresInput">Avaliadores*</label>
-                        <input type="text" id="nomeAvaliador" class="form-control" onkeyup="getListaAvaliadores()" placeholder="Digite o nome do avaliador" title="Digite o nome do avaliador">
-                        <ul id="listaAvaliadores" class="list-group">
-                        <c:forEach var="avaliador" items="${avaliadores}">
-                            <li class="list-group-item" style="display: none;">
-                                <input type="checkbox" value="${avaliador.codUsuario}" name="codAvaliadores">
-                                <span>${avaliador.codUsuario}</span>
-                            </li>
-                        </c:forEach>
-                        </ul>
-                        <small id="avaliadoresHelp" class="form-text text-muted">Selecione os avaliadores dessa etapa</small>
-                        <br>
-
                         <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
                             Cancelar
                         </a>
                         <input type="submit" value="Salvar" class="btn btn-primary">
                     </form>
+                            
                 </div>
             </div>
         </div>
@@ -126,27 +133,12 @@
     <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js" ></script>
+    <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
     <script type="text/javascript">
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
      $('#sandbox-container .input-daterange').datepicker({
         todayHighlight: true
         
      });
-    (function() {
-      'use strict';
-      window.addEventListener('load', function() {
-        var form = document.getElementById('needs-validation');
-        form.addEventListener('submit', function(event) {
-          if ((form.checkValidity() === false)) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          form.classList.add('was-validated');
-        }, false);
-      }, false);
-    })();
-    
-
     </script>
     <script>
     function getListaAvaliadores() {
@@ -211,7 +203,7 @@
           list.innerHTML = "";
           for(i = 0;i < listaDocumentos.length;i++){
             if(listaDocumentos[i] !== ""){
-                list.innerHTML += '<li class="list-group-item" >'+ listaDocumentos[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumento(\''+listaDocumentos[i]+'\')">clear</button></li>';
+                list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="documentosExigidos" value="'+listaDocumentos[i]+'" style="display: none;"> '+ listaDocumentos[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumento(\''+listaDocumentos[i]+'\')">clear</button></li>';
             }
           }
       }

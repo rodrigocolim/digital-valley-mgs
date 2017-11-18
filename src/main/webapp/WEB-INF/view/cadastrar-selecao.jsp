@@ -38,9 +38,7 @@
                 <br>
                 
                 <div class="form-group">
-                    
-                  <!--    <form method="post" action="adicionaSelecao"  enctype="multipart/form-data"> -->
-                  <form method="post" action="cadastrarSelecao"  enctype="multipart/form-data"> 
+                  <form method="post" action="cadastrarSelecao"  enctype="multipart/form-data" id="needs-validation" novalidate> 
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>
@@ -127,21 +125,9 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
     <script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-      'use strict';
-      window.addEventListener('load', function() {
-        var form = document.getElementById('needs-validation');
-        form.addEventListener('submit', function(event) {
-          if ((form.checkValidity() === false)) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          form.classList.add('was-validated');
-        }, false);
-      }, false);
-    })();
+
 
     function habilitaCampoVagas(){
 	if(! document.getElementById('isVagasLimitadasInput').checked){

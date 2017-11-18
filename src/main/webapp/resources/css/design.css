@@ -48,7 +48,9 @@ form > .btn{
 .btn-group-vertical > button{
     padding: 10px;
 }
-
+.nao-validado{
+    color: red;
+}
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575px) { 
 

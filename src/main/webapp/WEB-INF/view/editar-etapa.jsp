@@ -108,27 +108,12 @@
     <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js" ></script>
+    <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
     <script type="text/javascript">
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
      $('#sandbox-container .input-daterange').datepicker({
         todayHighlight: true
         
      });
-    (function() {
-      'use strict';
-      window.addEventListener('load', function() {
-        var form = document.getElementById('needs-validation');
-        form.addEventListener('submit', function(event) {
-          if ((form.checkValidity() === false)) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          form.classList.add('was-validated');
-        }, false);
-      }, false);
-    })();
-    
-
     </script>
     <script>
     function getListaAvaliadores() {

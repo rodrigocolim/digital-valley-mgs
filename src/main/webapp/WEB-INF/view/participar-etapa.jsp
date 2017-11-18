@@ -32,16 +32,15 @@
                     <a class="breadcrumb-item" href="/Darwin">Início</a>
                     <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
                 	<a class="breadcrumb-item active" href="/Darwin/selecao/${selecao.codSelecao}">${etapa.titulo}</a>
-                </nav>
-
+                </nav>                
                 <h1>Inscrição na etapa</h1>
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
-                    <form method="POST" action="participa">
+                    <form method="POST" action="participa" id="needs-validation" novalidate>
                     <c:forEach var="documento" items="${etapa.documentacaoExigida}">
                         <label for="${documento}Input">${documento}*</label>
-                        <input type="file" name="${documento}" class="form-control" id="${documento}Input" aria-describedby="${documento}Help" placeholder="Anexe o ${fn:toLowerCase(documento)}" onsubmit= "return Validate(this.form)" required>
+                        <input type="file" name="${documento}" class="form-control" id="arquivoInput" aria-describedby="${documento}Help" placeholder="Anexe o ${fn:toLowerCase(documento)}" accept="application/pdf" required>
                         <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
                         <div class="invalid-feedback">Envie o documento exigido em formato .PDF</div>
                         <br>
@@ -49,7 +48,7 @@
                         <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
                             Cancelar
                         </a>
-                        <input type="submit" value="Confirmar Inscrição" class="btn btn-primary" >
+                        <input type="submit" value="Confirmar Inscrição" id="enviar" class="btn btn-primary" >
                     </form>
                 </div>
             </div>
@@ -59,52 +58,24 @@
     <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js" ></script>
+    <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
     <script type="text/javascript">
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-     $('#sandbox-container .input-daterange').datepicker({
-        todayHighlight: true
-        
-     });
-    (function() {
-      'use strict';
-      window.addEventListener('load', function() {
-        var form = document.getElementById('needs-validation');
-        form.addEventListener('submit', function(event) {
-          if ((form.checkValidity() === false)) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          form.classList.add('was-validated');
-        }, false);
-      }, false);
-    })();
-    (  function Validate(oForm) {
-		var _validFileExtensions = [".pdf"];  
-		var arrInputs = oForm.getElementsByTagName("input");
-		for (var i = 0; i < arrInputs.length; i++) {
-		    var oInput = arrInputs[i];
-		    if (oInput.type == "file") {
-		        var sFileName = oInput.value;
-		        if (sFileName.length > 0) {
-		            var blnValid = false;
-		            for (var j = 0; j < _validFileExtensions.length; j++) {
-		                var sCurExtension = _validFileExtensions[j];
-		                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
-		                    blnValid = true;
-		                    break;
-		                }
-		            }
-		            
-		            if (!blnValid) {
-		                alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions.join(", "));
-		                return false;
-		            }
-		        }
-		    }
-		}
 
-		return true;
-})();
+    
+    var arquivoInput = document.getElementById("arquivoInput");
+    var enviar = document.getElementById("enviar");
+    enviar.addEventListener("click", function (event) {
+      if (arquivoInput.files.length == 0) {
+        alert("Nenhum Arquivo Selecionado");
+        return;
+      }
+
+      if (arquivoInput.files[0].type.indexOf("pdf") != 0) {
+        alert("Este arquivo não é um PDF");
+        $(".invalid-feedback").addClass("active");
+        return;
+      }
+    });
 
     </script>
 </body>

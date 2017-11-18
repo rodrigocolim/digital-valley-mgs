@@ -41,7 +41,7 @@
                     <form method="POST" action="participa">
                     <c:forEach var="documento" items="${etapa.documentacaoExigida}">
                         <label for="${documento}Input">${documento}*</label>
-                        <input type="file" name="${documento}" class="form-control" id="${documento}Input" aria-describedby="${documento}Help" placeholder="Anexe o ${fn:toLowerCase(documento)}" onblur="Validate(this.form)" required>
+                        <input type="file" name="${documento}" class="form-control" id="${documento}Input" aria-describedby="${documento}Help" placeholder="Anexe o ${fn:toLowerCase(documento)}" onsubmit= "return Validate(this.form)" required>
                         <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
                         <div class="invalid-feedback">Envie o documento exigido em formato .PDF</div>
                         <br>

@@ -8,6 +8,7 @@ package br.ufc.russas.n2s.darwin.controller.filter;
 
 
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.EnumPermissoes;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -23,6 +24,8 @@ import dao.UsuarioDAO;
 import model.Pessoa;
 import model.Usuario;
 import dao.DAOFactory;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -67,11 +70,19 @@ public class AutenticadoFiltro implements Filter {
                                     UsuarioDAO userDAO = DAOFactory.criarUsuarioDAO();
                                     session.setAttribute("usuarioControle", user.getUsuario());
                                     UsuarioBeans u = new UsuarioBeans();
-                                    if(this.getUsuarioServiceIfc().getUsuario(0, user.getId()) == null){
+                                    if(this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(user.getId()) == null){
                                         u.setCodUsuarioControleDeAcesso(user.getId());
-                                        session.setAttribute("usuarioControle", this.getUsuarioServiceIfc().adicionaUsuario(u));
+                                        u.setNome(user.getNome());
+                                        ArrayList<EnumPermissoes> permissoes = new ArrayList<>();
+                                        permissoes.add(EnumPermissoes.AVALIADOR);
+                                        permissoes.add(EnumPermissoes.PARTICIPANTE);
+                                        permissoes.add(EnumPermissoes.RESPONSAVEL);
+                                        permissoes.add(EnumPermissoes.ADMINISTRADOR);
+                                        u.setPermissoes(permissoes);
+                                        this.getUsuarioServiceIfc().adicionaUsuario(u);
+                                        session.setAttribute("usuarioControle", user);
                                     }else{
-                                        session.setAttribute("usuarioDarwin", this.getUsuarioServiceIfc().getUsuario(0, user.getId()));
+                                        session.setAttribute("usuarioDarwin", this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(user.getId()));
                                     }                                    
                                     chain.doFilter(request, response);
                             }else {

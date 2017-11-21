@@ -29,6 +29,7 @@ public class EtapaDAOImpl implements EtapaDAOIfc{
 
     @Override
     public Etapa adicionaEtapa(Etapa etapa) {
+        System.out.println(etapa.getPeriodo());
         return this.daoImpl.adiciona(etapa);
     }
 

@@ -11,6 +11,7 @@ import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.model.Usuario;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,7 +62,7 @@ public class ParticiparEtapaController {
         e1.setTitulo("Entrevista");
         e1.setDescricao("Poderíamos criar um novo JSP com uma mensagem de confirmação da remoção, mas usualmente isso não costuma ser bom, porque precisaríamos navegar até a lista das tarefas novamente caso tenhamos que remover outra tarefa.");
         e1.setCodEtapa(11);
-        e1.setPeriodo(new PeriodoBeans(codEtapa, LocalDateTime.now(), LocalDateTime.now()));
+        e1.setPeriodo(new PeriodoBeans(123, LocalDate.MIN, LocalDate.MIN));
         ArrayList<String> documentacao = new ArrayList<>();
         documentacao.add("Histórico acadêmico");
         documentacao.add("Atestado de matrícula");

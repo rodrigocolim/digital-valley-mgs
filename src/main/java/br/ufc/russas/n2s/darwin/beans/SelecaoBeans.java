@@ -204,8 +204,8 @@ public class SelecaoBeans implements Beans {
         //Ajeitar
         if(this.getResponsaveis()!=null && this.getResponsaveis().size()>0 ){
             List<UsuarioBeans> resp = this.getResponsaveis();
-            for(int i=0;i<resp.size();i++){
-                responsaveis.add((Usuario) resp.get(i).toBusiness());
+            for(UsuarioBeans u : resp){
+                responsaveis.add((Usuario) u.toBusiness());
             }
         }
         selecao.setResponsavel(responsaveis);
@@ -216,7 +216,6 @@ public class SelecaoBeans implements Beans {
                 etapas.add((Etapa) ((EtapaBeans) this.getEtapas().get(i)).toBusiness());
             }
         }
-        System.out.println("Etapas tamanho: "+etapas.size());
         selecao.setEtapas(etapas);
         
         List<Arquivo> aditivos = Collections.synchronizedList(new ArrayList<Arquivo>());

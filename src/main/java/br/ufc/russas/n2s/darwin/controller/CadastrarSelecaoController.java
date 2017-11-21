@@ -8,21 +8,21 @@ package br.ufc.russas.n2s.darwin.controller;
 import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.dao.DocumentacaoDAOImpl;
 import br.ufc.russas.n2s.darwin.model.EnumPermissoes;
-import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,8 +31,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -43,7 +41,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class CadastrarSelecaoController { 
 
     private SelecaoServiceIfc selecaoServiceIfc;
-
+    private UsuarioServiceIfc usuarioServiceIfc;
+    
     public SelecaoServiceIfc getSelecaoServiceIfc() {
         return selecaoServiceIfc;
     }
@@ -58,9 +57,16 @@ public class CadastrarSelecaoController {
         return "cadastrar-selecao";
     }
 
-
+    public UsuarioServiceIfc getUsuarioServiceIfc() {
+        return usuarioServiceIfc;
+    }
+    @Autowired(required = true)
+    public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc) {
+        this.usuarioServiceIfc = usuarioServiceIfc;
+    }
+    
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file, HttpServletResponse response) throws IOException {
+    public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException {
 
         if (result.hasErrors()) {
 
@@ -69,7 +75,7 @@ public class CadastrarSelecaoController {
             //return "cadastrar-selecao";
         }
 
-        
+
         if (!file.isEmpty()) {
 
             ArquivoBeans edital = new ArquivoBeans();
@@ -89,9 +95,11 @@ public class CadastrarSelecaoController {
             //System.out.println("\n\neu aqui1!!!\n\n");
 
             selecao.setEdital(edital);
-            
-        }
 
+        }
+        HttpSession session = request.getSession();
+        UsuarioBeans usuario = this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
+        selecao.getResponsaveis().add(usuario);
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         UsuarioBeans u = new UsuarioBeans();
         u.setNome("Alex");

@@ -136,7 +136,7 @@ public class DAOImpl<T> implements DAOIfc<T> {
            T o = (T) session.get(object.getClass(), codObject);
            //T o  = (T) session.createCriteria(object.getClass()).add(example).uniqueResult();
            t.commit();
-           return o;
+            return o;
         } catch (RuntimeException e) {
             t.rollback();
             throw e;

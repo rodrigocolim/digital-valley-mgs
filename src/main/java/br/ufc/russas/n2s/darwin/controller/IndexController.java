@@ -6,12 +6,14 @@
 package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -35,9 +37,19 @@ public class IndexController{
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public String getIndex(Model model){  
+    public String getIndex(Model model){
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaTodasSelecoes();
         model.addAttribute("selecoes", selecoes);        
         return "index";
     }
+    
+    @RequestMapping(value="/{categoria}", method = RequestMethod.GET)
+    public String getIndex(Model model, @PathVariable String categoria){
+        Selecao selecao = new Selecao();
+        selecao.setCategoria(categoria.replace("_", " "));
+        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
+        model.addAttribute("selecoes", selecoes);
+        return "index";
+    }
+    
 }

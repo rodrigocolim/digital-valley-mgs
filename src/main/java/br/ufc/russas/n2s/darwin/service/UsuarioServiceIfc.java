@@ -18,4 +18,5 @@ public interface UsuarioServiceIfc {
     public void removeUsuario(UsuarioBeans usuario);
     public List<UsuarioBeans> listaTodosUsuarios();
     public UsuarioBeans getUsuario(long codUsuario, long codUsuarioControleDeAcesso);
+    public UsuarioBeans getUsuarioControleDeAcesso(long codUsuarioControleDeAcesso);
 }

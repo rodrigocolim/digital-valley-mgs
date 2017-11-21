@@ -51,22 +51,7 @@
                 <value>br.ufc.russas.n2s.darwin.model.Etapa</value>
                 <value>br.ufc.russas.n2s.darwin.model.Selecao</value>
             </list>
-        </property>
-        <!-- <property name="hibernateProperties">
-
-           <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
-                <prop key="hibernate.current_session_context_class">thread</prop>
-                <prop key="hibernate.connection.driver_class">org.postgresql.Driver</prop>
-                <prop key="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</prop>
-                <prop key="hibernate.connection.url">jdbc:postgresql://localhost:5432/darwin</prop>
-                <prop key="hibernate.connection.username">n2s</prop>
-                <prop key="hibernate.connection.password">N2S@UFC</prop>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
-            </props>
-        </property>-->
-        
+        </property>        
         <property name="configLocation">
             <value> /WEB-INF/hibernate.cfg.xml</value>
         </property>
@@ -85,6 +70,7 @@
         class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
     <bean id="multipartResolver"
             class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
             <property name="maxUploadSize" value="90000000" />
     </bean>
     <tx:annotation-driven transaction-manager="transactionManager"/>

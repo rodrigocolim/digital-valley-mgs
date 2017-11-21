@@ -52,10 +52,16 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
     }
 
     @Override
-    public UsuarioBeans getUsuario(long codUsuario) {
+    public UsuarioBeans getUsuario(long codUsuario, long codUsuarioControleDeAcesso) {
         Usuario usuario = new Usuario();
         usuario.setCodUsuario(codUsuario);
-        return (UsuarioBeans) new UsuarioBeans().toBeans(this.getUsuarioDAOIfc().getUsuario(usuario));
+        usuario.setCodUsuarioControleDeAcesso(codUsuarioControleDeAcesso);
+        Usuario u = this.getUsuarioDAOIfc().getUsuario(usuario);
+        if(u != null){
+            return (UsuarioBeans) new UsuarioBeans().toBeans(u);
+        }else{
+            return null;
+        }
     }
     
 }

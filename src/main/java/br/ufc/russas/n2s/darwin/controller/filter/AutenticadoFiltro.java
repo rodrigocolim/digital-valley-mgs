@@ -25,6 +25,7 @@ import model.Usuario;
 import dao.DAOFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import util.Facade;
 /**
  *
@@ -64,11 +65,14 @@ public class AutenticadoFiltro implements Filter {
                             Pessoa user = Facade.buscarPessoaPorId(id);
                             if (token.equals(user.getUsuario().getTokenUsuario()) && id == user.getId() && !token.equals("null")) {
                                     UsuarioDAO userDAO = DAOFactory.criarUsuarioDAO();
-                                    session.setAttribute("usuario", user.getUsuario());
+                                    session.setAttribute("usuarioControle", user.getUsuario());
                                     UsuarioBeans u = new UsuarioBeans();
-                                    if(this.getUsuarioServiceIfc().getUsuario(user.getId()) == null){
-                                        this.getUsuarioServiceIfc().adicionaUsuario(u);
-                                    }
+                                    if(this.getUsuarioServiceIfc().getUsuario(0, user.getId()) == null){
+                                        u.setCodUsuarioControleDeAcesso(user.getId());
+                                        session.setAttribute("usuarioControle", this.getUsuarioServiceIfc().adicionaUsuario(u));
+                                    }else{
+                                        session.setAttribute("usuarioDarwin", this.getUsuarioServiceIfc().getUsuario(0, user.getId()));
+                                    }                                    
                                     chain.doFilter(request, response);
                             }else {
                                     ((HttpServletResponse) response).sendRedirect("/Controle_de_Acesso/");
@@ -83,8 +87,8 @@ public class AutenticadoFiltro implements Filter {
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
-		// TODO Auto-generated method stub
-		
+            SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
+            arg0.getServletContext());		
 	}
 
 

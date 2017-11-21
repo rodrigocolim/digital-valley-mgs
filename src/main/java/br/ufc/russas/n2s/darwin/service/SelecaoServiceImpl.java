@@ -8,11 +8,10 @@ package br.ufc.russas.n2s.darwin.service;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Selecao;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -62,7 +61,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         for (Selecao s : resultado) {
             if (s.getInscricao() != null) {
-                if (s.getInscricao().getPeriodo().getInicio().isAfter(LocalDateTime.now())) {
+                if (s.getInscricao().getPeriodo().getInicio().isAfter(LocalDate.now())) {
                     selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
                 }
             }
@@ -73,12 +72,25 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Override
     @Transactional
     public List<SelecaoBeans> listaTodasSelecoes() {
+         Selecao selecao = new Selecao();
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
-        Selecao selecao = new Selecao();
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         System.out.println(resultado.size());
         for (Selecao s : resultado) {
-            System.out.println(s.getTitulo());
+            //System.out.println(s.getTitulo());
+            selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+        }
+        return selecoes;
+    }
+    
+    
+    @Override
+    @Transactional
+    public List<SelecaoBeans> listaSelecoes(Selecao selecao) {
+        List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
+        List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
+        System.out.println(resultado.size());
+        for (Selecao s : resultado) {
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
         return selecoes;

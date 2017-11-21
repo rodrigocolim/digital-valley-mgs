@@ -38,21 +38,19 @@
                 <br>
                 
                 <div class="form-group">
-                    
-                  <!--    <form method="post" action="adicionaSelecao"  enctype="multipart/form-data"> -->
-                  <form method="post" action="cadastrarSelecao"  enctype="multipart/form-data"> 
+                  <form method="post" action="cadastrarSelecao"  enctype="multipart/form-data" id="needs-validation" novalidate> 
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>
                         <div class="invalid-feedback">
-                            O titulo da seleção é inválido
+                            
                         </div>
                         <br>
 
                         <label for="descricaoInput">Descrição*</label>
                         <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" required></textarea>
                         <div class="invalid-feedback">
-                            A descrição da seleção está inválida
+                            
                         </div>
                         <br>
 
@@ -76,7 +74,7 @@
                         <input type="text" name="areaDeConcentracao" class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Computação, Engenharia Mecânica, LINCE</small>
                         <div class="invalid-feedback">
-                            A área de concentração da seleção é inválida
+                            
                         </div>
                         <br>
 
@@ -94,19 +92,18 @@
                                 <label for="vagasRemuneradasInput">Número de vagas remuneradas</label>
                                 <input type="number" name="vagasRemuneradas" class="form-control col-sm-2 disabled" id="vagasRemuneradasInput" value="0" min="0" max="100" disabled>
                                 <div class="invalid-feedback" >
-                                    O número de vagas remuneradas é inválido
+                                    
                                 </div>
                                 <br>
 
                                 <label for="vagasVoluntariasInput">Número de vagas voluntárias</label>
                                 <input type="number" name="vagasVoluntarias" class="form-control col-sm-2 disabled" id="vagasVoluntariasInput" value="0" min="0" max="100" disabled>
                                 <div class="invalid-feedback">
-                                    O número de vagas voluntárias é inválido
+                                    
                                 </div>
                             </div>
                         </div>
                         <br>
-
                         <label for="editalInput">Edital*</label>
                         <input type="file" name="file" class="form-control" id="editalInput" aria-describedby="editalHelp" placeholder="Anexe o edital da seleção"  required>
                         <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
@@ -127,21 +124,9 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
     <script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-      'use strict';
-      window.addEventListener('load', function() {
-        var form = document.getElementById('needs-validation');
-        form.addEventListener('submit', function(event) {
-          if ((form.checkValidity() === false)) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          form.classList.add('was-validated');
-        }, false);
-      }, false);
-    })();
+
 
     function habilitaCampoVagas(){
 	if(! document.getElementById('isVagasLimitadasInput').checked){
@@ -152,6 +137,25 @@
                 document.getElementById('vagasVoluntariasInput').disabled = false;
 	}
     }
+
+    </script>
+    <script type="text/javascript">
+
+    
+    var arquivoInput = document.getElementById("arquivoInput");
+    var enviar = document.getElementById("enviar");
+    enviar.addEventListener("click", function (event) {
+      if (arquivoInput.files.length === 0) {
+        alert("Nenhum Arquivo Selecionado");
+        return;
+      }
+
+      if (arquivoInput.files[0].type.indexOf("pdf") !== 0) {
+        alert("Este arquivo não é um PDF");
+        $(".invalid-feedback").addClass("active");
+        return;
+      }
+    });
 
     </script>
 </body>

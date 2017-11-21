@@ -15,6 +15,8 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,8 +52,8 @@ public class Etapa implements Serializable, Atualizavel {
     @Column(name = "documentacao_exigida")
     private List<String> documentacaoExigida;
     @Column(name = "criterio_de_avaliacao")
-    @Embedded
-    private CriterioDeAvaliacao criterioDeAvaliacao;
+    @Enumerated(EnumType.ORDINAL)
+    private EnumCriterioDeAvaliacao criterioDeAvaliacao;
     @ManyToMany(targetEntity = Avaliacao.class)
     @JoinTable(name = "avaliacoes", 
             joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
@@ -61,8 +63,8 @@ public class Etapa implements Serializable, Atualizavel {
     @JoinTable(name = "documentacoes", joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
             inverseJoinColumns = {@JoinColumn(name = "documentacao", referencedColumnName = "codDocumentacao")})
     private List<Documentacao> documentacoes;
-    @Embedded
-    private EstadoEtapa estado;
+    @Enumerated(EnumType.ORDINAL)
+    private EnumEstadoEtapa estado;
     @ManyToOne
         @JoinColumn(name = "prerequisito", referencedColumnName = "codEtapa")
     private Etapa prerequisito;
@@ -129,11 +131,11 @@ public class Etapa implements Serializable, Atualizavel {
         this.documentacaoExigida = documentacao;
     }
 
-    public CriterioDeAvaliacao getCriterioDeAvaliacao() {
+    public EnumCriterioDeAvaliacao getCriterioDeAvaliacao() {
         return criterioDeAvaliacao;
     }
 
-    public void setCriterioDeAvaliacao(CriterioDeAvaliacao criterioDeAvaliacao) {
+    public void setCriterioDeAvaliacao(EnumCriterioDeAvaliacao criterioDeAvaliacao) {
         if (criterioDeAvaliacao != null) {
             this.criterioDeAvaliacao = criterioDeAvaliacao;
         } else {
@@ -157,11 +159,11 @@ public class Etapa implements Serializable, Atualizavel {
         this.documentacoes = documentacoes;
     }
 
-    public EstadoEtapa getEstado () {
+    public EnumEstadoEtapa getEstado () {
         return estado;
     }
 
-    public void setEstado (EstadoEtapa estado) {
+    public void setEstado (EnumEstadoEtapa estado) {
         this.estado = estado;
     }
 

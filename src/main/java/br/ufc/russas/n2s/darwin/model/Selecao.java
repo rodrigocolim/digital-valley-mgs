@@ -6,7 +6,7 @@
 package br.ufc.russas.n2s.darwin.model;
 
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,7 +21,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -41,8 +40,9 @@ public class Selecao {
     private long codSelecao;
     private String titulo;
     private String descricao;
-    @ManyToMany(targetEntity = Usuario.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //@Fetch(FetchMode.SUBSELECT)
+
+    @ManyToMany(targetEntity = Usuario.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "responsaveis_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "usuario", referencedColumnName = "codUsuario")})
     private List<Usuario> responsaveis;
@@ -52,8 +52,8 @@ public class Selecao {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "etapa_inscricao", referencedColumnName = "codEtapa")
     private Etapa inscricao;
-    @ManyToMany(targetEntity = Etapa.class,  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //@Fetch(FetchMode.SUBSELECT)
+    @ManyToMany(targetEntity = Etapa.class,  cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "etapas_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")})
     private List<Etapa> etapas;
@@ -61,19 +61,20 @@ public class Selecao {
     private int vagasVoluntarias;
     private String descricaoPreRequisitos;
     private String areaDeConcentracao;
-    @ManyToMany(targetEntity = Participante.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   // @Fetch(FetchMode.SUBSELECT)
+
+    @ManyToMany(targetEntity = Participante.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "candidatos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "participante", referencedColumnName = "codParticipante")})
     private List<Participante> candidatos;
     private String categoria;
-    @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.LAZY)
-   // @Fetch(FetchMode.SUBSELECT)
+    @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name="aditivos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})
     private List<Arquivo> aditivos;
-    @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.LAZY)
-    //@Fetch(FetchMode.SUBSELECT)
+    @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name="anexos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})
     private List<Arquivo> anexos;
@@ -347,7 +348,7 @@ public class Selecao {
     public Etapa getEtapaAtual() {
         if (this.etapas != null && !this.etapas.isEmpty()) {
             for (Etapa e: etapas) {
-                if (e.getPeriodo().getInicio().isBefore(LocalDateTime.now()) && e.getPeriodo().getTermino().isAfter(LocalDateTime.now())) {
+                if (e.getPeriodo().getInicio().isBefore(LocalDate.now()) && e.getPeriodo().getTermino().isAfter(LocalDate.now())) {
                     return e;
                 }
             }

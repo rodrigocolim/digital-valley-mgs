@@ -112,7 +112,7 @@ public class DAOImpl<T> implements DAOIfc<T> {
         Session session = getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         try {
-            Example example = Example.create(object).excludeZeroes();
+            Example example = Example.create(object).excludeZeroes().ignoreCase();
             List<T> objetos = session.createCriteria(object.getClass()).add(example).list();
             t.commit();
             return objetos;

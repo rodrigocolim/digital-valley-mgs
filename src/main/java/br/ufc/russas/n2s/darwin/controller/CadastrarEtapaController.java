@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
- * @author Lavínia Matoso
+ * @author Wallison Carlos
  */
 @Controller("cadastrarEtapaController")
 @RequestMapping("/cadastrarEtapa")
@@ -75,19 +75,7 @@ public class CadastrarEtapaController {
     public String getIndex(@PathVariable long codSelecao, Model model) {
         SelecaoBeans selecaoBeans = this.selecaoServiceIfc.getSelecao(codSelecao);
         model.addAttribute("selecao", selecaoBeans);
-        ArrayList<Usuario> avaliadores = new ArrayList<>();
-        Usuario a = new Usuario();
-        a.setCodUsuario(12312312);
-        Usuario b = new Usuario();
-        b.setCodUsuario(12346345);
-        Usuario c = new Usuario();
-        c.setCodUsuario(743224);
-        Usuario d = new Usuario();
-        d.setCodUsuario(86576353);
-        avaliadores.add(a);
-        avaliadores.add(b);
-        avaliadores.add(c);
-        avaliadores.add(d);
+        List<UsuarioBeans> avaliadores = this.getUsuarioServiceIfc().listaTodosUsuarios();
         model.addAttribute("avaliadores", avaliadores);
         return "cadastrar-etapa";
     }
@@ -97,6 +85,7 @@ public class CadastrarEtapaController {
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         model.addAttribute("selecao", selecao);
         String[] codAvaliadores = request.getParameterValues("codAvaliadores");
+        String[] documentosExigidos = request.getParameterValues("documentosExigidos");
         int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
         if (criterio == 1) {
             etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
@@ -117,6 +106,11 @@ public class CadastrarEtapaController {
                 }
             }
         }
+        ArrayList<String> docs = new ArrayList<>();
+        for(String documento : documentosExigidos){
+            docs.add(documento);
+        }
+        etapa.setDocumentacaoExigida(docs);
         etapa.setAvaliadores(avaliadores);
         etapa = getEtapaServiceIfc().adicionaEtapa(etapa);
         selecao.getEtapas().add(etapa);

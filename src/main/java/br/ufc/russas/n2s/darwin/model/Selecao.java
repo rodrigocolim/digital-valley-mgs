@@ -40,9 +40,8 @@ public class Selecao {
     private long codSelecao;
     private String titulo;
     private String descricao;
-
-    @ManyToMany(targetEntity = Usuario.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Fetch(FetchMode.SUBSELECT)
+    @ManyToMany(targetEntity = Usuario.class, fetch = FetchType.EAGER)
+    //@Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "responsaveis_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "usuario", referencedColumnName = "codUsuario")})
     private List<Usuario> responsaveis;
@@ -61,7 +60,6 @@ public class Selecao {
     private int vagasVoluntarias;
     private String descricaoPreRequisitos;
     private String areaDeConcentracao;
-
     @ManyToMany(targetEntity = Participante.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "candidatos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},

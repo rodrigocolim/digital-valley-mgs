@@ -11,9 +11,12 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Table;
 
 /**
@@ -29,6 +32,7 @@ public class Usuario {
     private long codUsuario;
     @Column(name = "codUsuarioControleDeAcesso")
     private long codUsuarioControleDeAcesso;
+    private String nome;
     @Column
     @Enumerated
     @ElementCollection(targetClass = EnumPermissoes.class)
@@ -60,5 +64,15 @@ public class Usuario {
     public void setCodUsuarioControleDeAcesso(long codUsuarioControleDeAcesso) {
         this.codUsuarioControleDeAcesso = codUsuarioControleDeAcesso;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
+    
     
 }

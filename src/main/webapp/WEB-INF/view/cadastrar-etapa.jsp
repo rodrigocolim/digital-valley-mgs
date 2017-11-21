@@ -94,8 +94,8 @@
                             <div class="card-body">
                                 <br>
                                 <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
-                                <select type="text" name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}" class="form-control" id="categoriaInput" required>
-                                    <option value="" selected="selected" disabled="disabled">- Selecione o critério de avaliação dessa etapa -</option>
+                                <select name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"  class="form-control col-md-8"  id="categoriaInput" required>
+                                    <option value="" selected="selected" disabled="disabled">Selecione o critério de avaliação dessa etapa</option>
                                     <option value="1">Nota</option>
                                     <option value="2">Aprovação</option>
                                     <option value="3">Deferimento</option>
@@ -106,16 +106,22 @@
 
                                 <br>
                                 <label for="AvaliadoresInput">Avaliadores*</label>
-                                <input type="text" id="nomeAvaliador" class="form-control" onkeyup="getListaAvaliadores()" placeholder="Digite o nome do avaliador" title="Digite o nome do avaliador">
-                                <ul id="listaAvaliadores" class="list-group">
-                                    <c:forEach var="avaliador" items="${avaliadores}">
-                                        <li class="list-group-item" style="display: none;">
-                                            <input type="checkbox" value="${avaliador.codUsuario}" name="codAvaliadores">
-                                            <span>${avaliador.codUsuario}</span>
-                                        </li>
-                                    </c:forEach>
+                                
+                                <div class="form-row">
+                                    <select id="avaliadorInput" class="form-control col-md-8" >
+                                        <option selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
+                                        <c:forEach items="${avaliadores}" var="avaliador">
+                                            <option id="avaliadorOption-${avaliador.codUsuario}">${avaliador.codUsuario}</option>
+                                        </c:forEach>
+                                    </select>
+                                    &nbsp;&nbsp;
+                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar">                            
+                                </div>
+                                <br>
+                                <ul class="list-group col-md-8 " id="listaAvaliadores">
                                 </ul>
-                                <small id="avaliadoresHelp" class="form-text text-muted">Selecione os avaliadores dessa etapa</small>
+                                
+                                
                                 <br>
                             </div>
                         </div>
@@ -187,12 +193,12 @@
       }
       
       var listaDocumentos = [];
-      var j = 0;
+      var numDocumentos = 0;
       function adicionaDocumento(){
         var nomeDocumento = document.getElementById("documentoInput").value;
         if(nomeDocumento !== ""){
-            listaDocumentos[j] = nomeDocumento;
-            j++;
+            listaDocumentos[numDocumentos] = nomeDocumento;
+            numDocumentos++;
         }
         document.getElementById("documentoInput").value = "";
         atualizaDocumentos();
@@ -214,6 +220,40 @@
               }
           }
           atualizaDocumentos();
+      }
+      
+      
+      var listaAvaliadores = [];
+      var numAvaliadores = 0;
+      function adicionaAvaliador(){
+        var nomeAvaliador = document.getElementById("avaliadorInput").value;
+        if(nomeAvaliador !== ""){
+            listaAvaliadores[numAvaliadores] = nomeAvaliador;
+            document.getElementById("avaliadorOption-"+nomeAvaliador+"").disabled = "disabled";
+            numAvaliadores++;
+        }
+        document.getElementById("avaliadorInput").value = "";
+        atualizaAvaliadores();
+        
+      }
+      function atualizaAvaliadores(){
+          var list = document.getElementById("listaAvaliadores");
+          list.innerHTML = "";
+          for(i = 0;i < listaAvaliadores.length;i++){
+            if(listaAvaliadores[i] !== ""){
+                list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codAvaliadores" value="'+listaAvaliadores[i]+'" style="display: none;"> '+ listaAvaliadores[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(\''+listaAvaliadores[i]+'\')">clear</button></li>';
+            }
+          }
+      }
+      function removeAvaliador(codAvaliador){
+          for(i = 0;i < listaAvaliadores.length;i++){
+              if(listaAvaliadores[i] === codAvaliador){
+                  document.getElementById("avaliadorOption-"+codAvaliador+"").disabled = "";
+                  listaAvaliadores[i] = "";
+                  
+              }
+          }
+          atualizaAvaliadores();
       }
     </script>
 </body>

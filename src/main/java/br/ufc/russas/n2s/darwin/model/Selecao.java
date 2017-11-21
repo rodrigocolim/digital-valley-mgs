@@ -7,7 +7,6 @@ package br.ufc.russas.n2s.darwin.model;
 
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,7 +21,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -63,7 +61,7 @@ public class Selecao {
     private String descricaoPreRequisitos;
     private String areaDeConcentracao;
     @ManyToMany(targetEntity = Participante.class, fetch = FetchType.EAGER)
-   @Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "candidatos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "participante", referencedColumnName = "codParticipante")})
     private List<Participante> candidatos;

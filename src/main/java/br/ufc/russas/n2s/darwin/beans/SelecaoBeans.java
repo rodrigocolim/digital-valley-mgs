@@ -216,6 +216,7 @@ public class SelecaoBeans implements Beans {
                 etapas.add((Etapa) ((EtapaBeans) this.getEtapas().get(i)).toBusiness());
             }
         }
+        System.out.println("Etapas tamanho: "+etapas.size());
         selecao.setEtapas(etapas);
         
         List<Arquivo> aditivos = Collections.synchronizedList(new ArrayList<Arquivo>());

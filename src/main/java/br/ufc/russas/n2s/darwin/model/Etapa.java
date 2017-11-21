@@ -44,7 +44,7 @@ public class Etapa implements Serializable, Atualizavel {
     @JoinColumn(name = "periodo", referencedColumnName = "codPeriodo")
     private Periodo periodo;
     private String descricao;
-    @ManyToMany(targetEntity = Usuario.class)
+    @ManyToMany(targetEntity = Usuario.class, cascade = CascadeType.ALL)
     @JoinTable(name = "avaliadores", joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
             inverseJoinColumns = {@JoinColumn(name = "avaliador", referencedColumnName = "codUsuario")})
     private List<Usuario> avaliadores;

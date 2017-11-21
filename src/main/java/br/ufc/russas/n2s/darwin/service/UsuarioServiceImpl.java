@@ -8,6 +8,8 @@ package br.ufc.russas.n2s.darwin.service;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.UsuarioDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Usuario;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,7 +49,12 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
 
     @Override
     public List<UsuarioBeans> listaTodosUsuarios() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Usuario> result = this.getUsuarioDAOIfc().listaUsuarios(new Usuario());
+        List<UsuarioBeans> usuarios = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
+        for(Usuario usuario : result){
+            usuarios.add((UsuarioBeans) new UsuarioBeans().toBeans(usuario));
+        }
+        return usuarios;
     }
 
     @Override

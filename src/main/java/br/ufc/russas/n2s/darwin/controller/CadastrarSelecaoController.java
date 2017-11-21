@@ -79,7 +79,6 @@ public class CadastrarSelecaoController {
             //return "cadastrar-selecao";
         }
 
-        selecao.getResponsaveis().add(new UsuarioBeans());
         if (!file.isEmpty()) {
 
             ArquivoBeans edital = new ArquivoBeans();

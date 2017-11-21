@@ -48,7 +48,7 @@ public class DAOImpl<T> implements DAOIfc<T> {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public T adiciona(T object) {
         Session session = getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
@@ -69,7 +69,7 @@ public class DAOImpl<T> implements DAOIfc<T> {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public T atualiza(T object) {
         Session session = getSessionFactory().openSession();
         Transaction t = session.beginTransaction();

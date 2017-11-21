@@ -127,11 +127,7 @@ public class Selecao {
 
     public void setResponsavel(List<Usuario> responsaveis) {
         if (responsaveis != null) {
-            if (!responsaveis.isEmpty()) {
-                this.responsaveis = responsaveis;
-            } else {
-                throw new IllegalArgumentException("Lista de responsaveis está vazia!");
-            }
+            this.responsaveis = responsaveis;
         } else {
             throw new IllegalArgumentException("Lista de responsaveis não pode ser nula!");
         }

@@ -9,6 +9,7 @@ import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.DocumentacaoDAOImpl;
+import br.ufc.russas.n2s.darwin.model.EnumPermissoes;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.io.File;
@@ -16,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,8 +69,7 @@ public class CadastrarSelecaoController {
             //return "cadastrar-selecao";
         }
 
-        selecao.getResponsaveis().add(new UsuarioBeans());
-        System.out.println(file);
+        
         if (!file.isEmpty()) {
 
             ArquivoBeans edital = new ArquivoBeans();
@@ -88,16 +89,19 @@ public class CadastrarSelecaoController {
             //System.out.println("\n\neu aqui1!!!\n\n");
 
             selecao.setEdital(edital);
-            System.out.println(selecao.getEdital().getTitulo());
-            System.out.println(selecao.getEdital().getArquivo());
-
-            System.out.println(selecao.getCodSelecao());
-            System.out.println(selecao.getDescricao());
-            System.out.println(selecao.getTitulo());
-            System.out.println(selecao.getCategoria());
+            
         }
 
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
+        UsuarioBeans u = new UsuarioBeans();
+        u.setNome("Alex");
+        ArrayList<EnumPermissoes> p = new ArrayList();
+        p.add(EnumPermissoes.RESPONSAVEL);
+        u.setPermissoes(p);
+        u.setCodUsuario(12);
+        selecao.setResponsaveis(new ArrayList<UsuarioBeans>());
+        selecao.getResponsaveis().add(u);
+        selecao = selecaoServiceIfc.atualizaSelecao(selecao);
         response.sendRedirect("selecao/" + selecao.getCodSelecao());
         //return "forward:/selecao/"+selecao.getCodSelecao();
 

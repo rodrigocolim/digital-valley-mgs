@@ -202,10 +202,10 @@ public class SelecaoBeans implements Beans {
         
         List<Usuario> responsaveis = Collections.synchronizedList(new ArrayList<Usuario>());
         //Ajeitar
-        if(this.getResponsaveis()!=null){
+        if(this.getResponsaveis()!=null && this.getResponsaveis().size()>0 ){
             List<UsuarioBeans> resp = this.getResponsaveis();
             for(int i=0;i<resp.size();i++){
-                responsaveis.add((Usuario) new UsuarioBeans().toBusiness());
+                responsaveis.add((Usuario) resp.get(i).toBusiness());
             }
         }
         selecao.setResponsavel(responsaveis);

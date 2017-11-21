@@ -106,6 +106,16 @@
 
                                 <br>
                                 <label for="AvaliadoresInput">Avaliadores*</label>
+<<<<<<< HEAD
+                                <input type="text" id="nomeAvaliador" class="form-control" onkeyup="getListaAvaliadores()" placeholder="Digite o nome do avaliador" title="Digite o nome do avaliador">
+                                <ul id="listaAvaliadores" class="list-group">
+                                    <c:forEach var="avaliador" items="${avaliadores}">
+                                        <li class="list-group-item" style="display: none;">
+                                            <input type="checkbox" value="${avaliador.codUsuario}" name="codAvaliadores">
+                                            <span>${avaliador.nome}</span>
+                                        </li>
+                                    </c:forEach>
+=======
                                 
                                 <div class="form-row">
                                     <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px">
@@ -119,6 +129,7 @@
                                 </div>
                                 <br>
                                 <ul class="list-group col-md-8 " id="listaAvaliadores">
+>>>>>>> 7fcc3c50cc76a0845668f6c9140f2b7c395c3a1e
                                 </ul>
                                 <br>
                             </div>

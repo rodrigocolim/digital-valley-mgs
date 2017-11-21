@@ -58,13 +58,13 @@ public class CadastrarSelecaoController {
 
 
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody String adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file) throws IOException {
+    public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file, HttpServletResponse response) throws IOException {
 
         if (result.hasErrors()) {
 
             System.out.println("\n\nde novo!!!\n\n");
-            //response.sendRedirect("");
-            return "cadastrar-selecao";
+            response.sendRedirect("casdastrarSelecao");
+            //return "cadastrar-selecao";
         }
 
         selecao.getResponsaveis().add(new UsuarioBeans());
@@ -98,7 +98,9 @@ public class CadastrarSelecaoController {
         }
 
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-        return "selecao/"+selecao.getCodSelecao();
+        response.sendRedirect("selecao/" + selecao.getCodSelecao());
+        //return "forward:/selecao/"+selecao.getCodSelecao();
+
 
     }
     

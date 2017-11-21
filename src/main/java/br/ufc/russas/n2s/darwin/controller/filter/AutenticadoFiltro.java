@@ -25,7 +25,6 @@ import model.Pessoa;
 import model.Usuario;
 import dao.DAOFactory;
 import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -68,7 +67,7 @@ public class AutenticadoFiltro implements Filter {
                             Pessoa user = Facade.buscarPessoaPorId(id);
                             if (token.equals(user.getUsuario().getTokenUsuario()) && id == user.getId() && !token.equals("null")) {
                                     UsuarioDAO userDAO = DAOFactory.criarUsuarioDAO();
-                                    session.setAttribute("usuarioControle", user.getUsuario());
+                                    session.setAttribute("usuario", user.getUsuario());
                                     UsuarioBeans u = new UsuarioBeans();
                                     if(this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(user.getId()) == null){
                                         u.setCodUsuarioControleDeAcesso(user.getId());
@@ -80,13 +79,10 @@ public class AutenticadoFiltro implements Filter {
                                         permissoes.add(EnumPermissoes.ADMINISTRADOR);
                                         u.setPermissoes(permissoes);
                                         this.getUsuarioServiceIfc().adicionaUsuario(u);
-                                        session.setAttribute("usuarioControle", user);
-                                    }else{
-                                        session.setAttribute("usuarioDarwin", this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(user.getId()));
-                                    }                                    
+                                    }                          
                                     chain.doFilter(request, response);
                             }else {
-                                    ((HttpServletResponse) response).sendRedirect("/Controle_de_Acesso/");
+                                ((HttpServletResponse) response).sendRedirect("/Controle_de_Acesso/");
                             }
                     }else if(session.getAttribute("usuario")!= null && DAOFactory.criarUsuarioDAO().buscarTokenTemp(((Usuario)session.getAttribute("usuario")).getPessoa().getId())!=null && ((Usuario)session.getAttribute("usuario")).getTokenUsuario().equals(DAOFactory.criarUsuarioDAO().buscarTokenTemp(((Usuario)session.getAttribute("usuario")).getPessoa().getId()))){
                             chain.doFilter(request, response);

@@ -7,6 +7,9 @@ package br.ufc.russas.n2s.darwin.dao;
 
 import br.ufc.russas.n2s.darwin.model.Usuario;
 import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -46,6 +49,23 @@ public class UsuarioDAOImpl implements UsuarioDAOIfc{
     @Override
     public Usuario getUsuario(Usuario usuario) {
         return this.daoImpl.getObject(usuario, usuario.getCodUsuario());
+    }
+
+    @Override
+    public Usuario getUsuarioControleDeAcesso(Usuario usuario) {
+        Session session = this.daoImpl.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            Example example = Example.create(usuario);
+            usuario = (Usuario) session.createCriteria(Usuario.class).add(example).uniqueResult();
+            t.commit();
+            return usuario;
+        } catch(RuntimeException e) {
+            t.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
     
     

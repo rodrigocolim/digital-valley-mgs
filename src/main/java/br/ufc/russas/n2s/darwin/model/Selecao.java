@@ -42,11 +42,7 @@ public class Selecao {
     private long codSelecao;
     private String titulo;
     private String descricao;
-<<<<<<< HEAD
     @ManyToMany(targetEntity = Usuario.class, fetch = FetchType.EAGER)
-=======
-    @ManyToMany(targetEntity = Usuario.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
->>>>>>> 143d9cb40cc45b2c2f03acb793af9c704a6331c1
     //@Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "responsaveis_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "usuario", referencedColumnName = "codUsuario")})
@@ -66,13 +62,8 @@ public class Selecao {
     private int vagasVoluntarias;
     private String descricaoPreRequisitos;
     private String areaDeConcentracao;
-<<<<<<< HEAD
     @ManyToMany(targetEntity = Participante.class, fetch = FetchType.EAGER)
    @Fetch(FetchMode.SUBSELECT)
-=======
-    @ManyToMany(targetEntity = Participante.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   // @Fetch(FetchMode.SUBSELECT)
->>>>>>> 143d9cb40cc45b2c2f03acb793af9c704a6331c1
     @JoinTable(name = "candidatos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "participante", referencedColumnName = "codParticipante")})
     private List<Participante> candidatos;

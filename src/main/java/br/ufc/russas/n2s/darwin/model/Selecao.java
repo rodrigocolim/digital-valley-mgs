@@ -49,10 +49,10 @@ public class Selecao {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "periodo", referencedColumnName = "codPeriodo")
     private Periodo periodo;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "etapa_inscricao", referencedColumnName = "codEtapa")
     private Etapa inscricao;
-    @ManyToMany(targetEntity = Etapa.class,  fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Etapa.class,  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     //@Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "etapas_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")})

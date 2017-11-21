@@ -105,23 +105,12 @@
                                 </div>
 
                                 <br>
-                                <label for="AvaliadoresInput">Avaliadores*</label>
-<<<<<<< HEAD
-                                <input type="text" id="nomeAvaliador" class="form-control" onkeyup="getListaAvaliadores()" placeholder="Digite o nome do avaliador" title="Digite o nome do avaliador">
-                                <ul id="listaAvaliadores" class="list-group">
-                                    <c:forEach var="avaliador" items="${avaliadores}">
-                                        <li class="list-group-item" style="display: none;">
-                                            <input type="checkbox" value="${avaliador.codUsuario}" name="codAvaliadores">
-                                            <span>${avaliador.nome}</span>
-                                        </li>
-                                    </c:forEach>
-=======
-                                
+                                <label for="AvaliadoresInput">Avaliadores*</label>                           
                                 <div class="form-row">
-                                    <select id="avaliadorInput" class="form-control col-md-8" >
+                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px">
                                         <option selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
                                         <c:forEach items="${avaliadores}" var="avaliador">
-                                            <option id="avaliadorOption-${avaliador.codUsuario}">${avaliador.codUsuario}</option>
+                                            <option id="avaliadorOption-${avaliador.nome}" value="${avaliador.codUsuario}-${avaliador.nome}">${avaliador.nome}</option>
                                         </c:forEach>
                                     </select>
                                     &nbsp;&nbsp;
@@ -129,13 +118,11 @@
                                 </div>
                                 <br>
                                 <ul class="list-group col-md-8 " id="listaAvaliadores">
->>>>>>> 7fcc3c50cc76a0845668f6c9140f2b7c395c3a1e
                                 </ul>
-                                
-                                
                                 <br>
                             </div>
                         </div>
+                        <br>
                         <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
                             Cancelar
                         </a>
@@ -235,11 +222,15 @@
       
       
       var listaAvaliadores = [];
+      var codAvaliadores = [];
       var numAvaliadores = 0;
       function adicionaAvaliador(){
-        var nomeAvaliador = document.getElementById("avaliadorInput").value;
+        var avaliadorInput = document.getElementById("avaliadorInput").value;
+        var nomeAvaliador = avaliadorInput.substring(avaliadorInput.indexOf("-") + 1, avaliadorInput.lenght);
+        var codAvaliador = avaliadorInput.substring(0, avaliadorInput.indexOf("-"));
         if(nomeAvaliador !== ""){
             listaAvaliadores[numAvaliadores] = nomeAvaliador;
+            codAvaliadores[numAvaliadores] = codAvaliador;
             document.getElementById("avaliadorOption-"+nomeAvaliador+"").disabled = "disabled";
             numAvaliadores++;
         }
@@ -252,7 +243,7 @@
           list.innerHTML = "";
           for(i = 0;i < listaAvaliadores.length;i++){
             if(listaAvaliadores[i] !== ""){
-                list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codAvaliadores" value="'+listaAvaliadores[i]+'" style="display: none;"> '+ listaAvaliadores[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(\''+listaAvaliadores[i]+'\')">clear</button></li>';
+                list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codAvaliadores" value="'+codAvaliadores[i]+'" style="display: none;"> '+ listaAvaliadores[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(\''+listaAvaliadores[i]+'\')">clear</button></li>';
             }
           }
       }
@@ -261,6 +252,7 @@
               if(listaAvaliadores[i] === codAvaliador){
                   document.getElementById("avaliadorOption-"+codAvaliador+"").disabled = "";
                   listaAvaliadores[i] = "";
+                  codAvaliadores[i] = "";
                   
               }
           }

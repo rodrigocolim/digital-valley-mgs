@@ -11,13 +11,17 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.DocumentacaoDAOImpl;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -41,7 +45,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class CadastrarSelecaoController { 
 
     private SelecaoServiceIfc selecaoServiceIfc;
-
+    private UsuarioServiceIfc usuarioServiceIfc;
+    
     public SelecaoServiceIfc getSelecaoServiceIfc() {
         return selecaoServiceIfc;
     }
@@ -56,9 +61,16 @@ public class CadastrarSelecaoController {
         return "cadastrar-selecao";
     }
 
-
+    public UsuarioServiceIfc getUsuarioServiceIfc() {
+        return usuarioServiceIfc;
+    }
+    @Autowired(required = true)
+    public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc) {
+        this.usuarioServiceIfc = usuarioServiceIfc;
+    }
+    
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file, HttpServletResponse response) throws IOException {
+    public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException {
 
         if (result.hasErrors()) {
 
@@ -68,7 +80,6 @@ public class CadastrarSelecaoController {
         }
 
         selecao.getResponsaveis().add(new UsuarioBeans());
-        System.out.println(file);
         if (!file.isEmpty()) {
 
             ArquivoBeans edital = new ArquivoBeans();
@@ -88,15 +99,10 @@ public class CadastrarSelecaoController {
             //System.out.println("\n\neu aqui1!!!\n\n");
 
             selecao.setEdital(edital);
-            System.out.println(selecao.getEdital().getTitulo());
-            System.out.println(selecao.getEdital().getArquivo());
-
-            System.out.println(selecao.getCodSelecao());
-            System.out.println(selecao.getDescricao());
-            System.out.println(selecao.getTitulo());
-            System.out.println(selecao.getCategoria());
         }
-
+        HttpSession session = request.getSession();
+        UsuarioBeans usuario = this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
+        selecao.getResponsaveis().add(usuario);
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         response.sendRedirect("selecao/" + selecao.getCodSelecao());
         //return "forward:/selecao/"+selecao.getCodSelecao();

@@ -109,9 +109,7 @@ public class CadastrarEtapaController {
         etapa.setDocumentacaoExigida(docs);
         etapa.setAvaliadores(avaliadores);
         selecao.getEtapas().add(etapa);
-        HttpSession session = request.getSession();
-        UsuarioBeans usuario = this.usuarioServiceIfc.getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
-        selecao.getResponsaveis().add(usuario);
+        
         this.selecaoServiceIfc.atualizaSelecao(selecao);
         return "cadastrar-etapa";
     }

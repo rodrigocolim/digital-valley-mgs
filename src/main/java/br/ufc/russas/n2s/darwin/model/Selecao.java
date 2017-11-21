@@ -48,7 +48,7 @@ public class Selecao {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "periodo", referencedColumnName = "codPeriodo")
     private Periodo periodo;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "etapa_inscricao", referencedColumnName = "codEtapa")
     private Etapa inscricao;
     @ManyToMany(targetEntity = Etapa.class,  cascade = CascadeType.ALL, fetch = FetchType.EAGER)

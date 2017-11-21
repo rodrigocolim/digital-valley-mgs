@@ -31,7 +31,7 @@
                     <span class="breadcrumb-item">Você está em:</span> 
                     <a class="breadcrumb-item active" href="/Darwin">Início</a>
                     <a class="breadcrumb-item active" href="${selecao.codSelecao}">${selecao.titulo}</a>
-                    <a class="breadcrumb-item active" href="cadastrarEtapas">Editar Etapa</a>
+                    <a class="breadcrumb-item active" href="editarEtapa">Editar Etapa</a>
                 </nav>
 
                 <h1>Editar Etapa</h1>
@@ -53,10 +53,6 @@
                         </div>
 
                         <br>
-                        <label for="documentacaoExigidaInput">Documentação Exigida</label>
-                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre os documentos que são exigidos para esta etapa" value="${etapa.documentacaoExigida}">${etapa.documentacaoExigida}</textarea>
-
-                        <br>
                         <label for="descricaoInput">Período*</label>
                         <div id="sandbox-container">
                             <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
@@ -68,14 +64,34 @@
                                 </div>
                             </div>
                         </div>
-
+                        
+                        <br>
+                        <div class="card">
+                            <div class="card-header col-auto">
+                                <label for="documentoInput">Documentação Exigida</label>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <input type="text" name="documento" class="form-control col-md-8" id="documentoInput" placeholder="Digite o nome do documento exigido para esta etapa">&nbsp;&nbsp;
+                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaDocumento()" value="Adicionar">                            
+                                </div>
+                                <br>
+                                <ul class="list-group col-md-8 " id="listaDocumentos">
+                                    <c:forEach var="documento" items="${etapa.documentacaoExigida}">
+                                        <li class="list-group-item" >
+                                            <input type="hidden" name="documentosExigidos" value="${documento}" style="display: none;">${documento}<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumento(${documento})">clear</button>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                            </div>
+                        </div>
+                        
                         <br>
                         <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
-                        <select type="text" name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"class="form-control" id="categoriaInput" required>
-                            <option selected="selected" disabled="disabled">- Selecione o critério de avaliação dessa etapa -</option>
-                            <option>Nota</option>
-                            <option>Deferido ou Indeferido</option>
-                            <option>Manual</option>
+                        <select name="criterioDeAvaliacao" class="form-control" id="categoriaInput" required>
+                            <option ${(etapa.criterioDeAvaliacao == "Nota" ? "selected" : "")}>Nota</option>
+                            <option ${(etapa.criterioDeAvaliacao == "Aprovação" ? "selected" : "")}>Aprovação</option>
+                            <option ${(etapa.criterioDeAvaliacao == "Deferimento" ? "selected" : "")}>Deferimento</option>
                         </select>
                         <div class="invalid-feedback">
                             Escolha um critério de avaliação
@@ -83,18 +99,25 @@
 
                         <br>
                         <label for="AvaliadoresInput">Avaliadores*</label>
-                        <input type="text" id="nomeAvaliador" class="form-control" onkeyup="getListaAvaliadores()" placeholder="Digite o nome do avaliador" title="Digite o nome do avaliador">
-                        <ul id="listaAvaliadores" class="list-group">
-                        <c:forEach var="avaliador" items="${avaliadores}">
-                            <li class="list-group-item" style="display: none;">
-                                <input type="checkbox" value="${avaliador.codUsuario}">
-                                <span>${avaliador.codUsuario}</span>
+
+                        <div class="form-row">
+                            <select id="avaliadorInput" class="form-control col-md-8" >
+                                <option selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
+                                <c:forEach items="${avaliadores}" var="avaliador">
+                                    <option id="avaliadorOption-${avaliador.nome}" value="${avaliador.nome}">${avaliador.codUsuario} - ${avaliador.nome}</option>
+                                </c:forEach>
+                            </select>
+                            &nbsp;&nbsp;
+                            <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar">
+                        </div>
+                        <br>
+                        <c:forEach var="avaliador" items="${etapa.avaliadores}">
+                            <li class="list-group-item">
+                                <input type="hidden" name="codAvaliadores" value="${avaliador}" style="display: none;">${avaliador}<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(${avaliador})">clear</button>
                             </li>
                         </c:forEach>
-                        </ul>
-                        <small id="avaliadoresHelp" class="form-text text-muted">Selecione os avaliadores dessa etapa</small>
-                        <br>
 
+                        <br>
                         <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
                             Cancelar
                         </a>
@@ -160,6 +183,71 @@
           }
         }
       }
+      
+      var listaDocumentos = [];
+      var numDocumentos = 0;
+      function adicionaDocumento(){
+        var nomeDocumento = document.getElementById("documentoInput").value;
+        if(nomeDocumento !== ""){
+            listaDocumentos[numDocumentos] = nomeDocumento;
+            numDocumentos++;
+        }
+        document.getElementById("documentoInput").value = "";
+        atualizaDocumentos();
+        
+      }
+      function atualizaDocumentos(){
+          var list = document.getElementById("listaDocumentos");
+          list.innerHTML = "";
+          for(i = 0;i < listaDocumentos.length;i++){
+            if(listaDocumentos[i] !== ""){
+                list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="documentosExigidos" value="'+listaDocumentos[i]+'" style="display: none;"> '+ listaDocumentos[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumento(\''+listaDocumentos[i]+'\')">clear</button></li>';
+            }
+          }
+      }
+      function removeDocumento(nome){
+          for(i = 0;i < listaDocumentos.length;i++){
+              if(listaDocumentos[i] === nome){
+                  listaDocumentos[i] = "";
+              }
+          }
+          atualizaDocumentos();
+      }
+      
+      
+      var listaAvaliadores = [];
+      var numAvaliadores = 0;
+      function adicionaAvaliador(){
+        var nomeAvaliador = document.getElementById("avaliadorInput").value;
+        if(nomeAvaliador !== ""){
+            listaAvaliadores[numAvaliadores] = nomeAvaliador;
+            document.getElementById("avaliadorOption-"+nomeAvaliador+"").disabled = "disabled";
+            numAvaliadores++;
+        }
+        document.getElementById("avaliadorInput").value = "";
+        atualizaAvaliadores();
+        
+      }
+      function atualizaAvaliadores(){
+          var list = document.getElementById("listaAvaliadores");
+          list.innerHTML = "";
+          for(i = 0;i < listaAvaliadores.length;i++){
+            if(listaAvaliadores[i] !== ""){
+                list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codAvaliadores" value="'+listaAvaliadores[i]+'" style="display: none;"> '+ listaAvaliadores[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(\''+listaAvaliadores[i]+'\')">clear</button></li>';
+            }
+          }
+      }
+      function removeAvaliador(codAvaliador){
+          for(i = 0;i < listaAvaliadores.length;i++){
+              if(listaAvaliadores[i] === codAvaliador){
+                  document.getElementById("avaliadorOption-"+codAvaliador+"").disabled = "";
+                  listaAvaliadores[i] = "";
+                  
+              }
+          }
+          atualizaAvaliadores();
+      }
     </script>
+
 </body>
 </html>

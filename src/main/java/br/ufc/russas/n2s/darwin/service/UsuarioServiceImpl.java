@@ -74,7 +74,7 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
     public UsuarioBeans getUsuarioControleDeAcesso(long codUsuarioControleDeAcesso) {
         Usuario usuario = new Usuario();
         usuario.setCodUsuarioControleDeAcesso(codUsuarioControleDeAcesso);
-        Usuario u = this.getUsuarioDAOIfc().getUsuario(usuario);
+        Usuario u = this.getUsuarioDAOIfc().getUsuarioControleDeAcesso(usuario);
         if(u != null){
             return (UsuarioBeans) new UsuarioBeans().toBeans(u);
         }else{

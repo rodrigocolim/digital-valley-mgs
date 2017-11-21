@@ -44,4 +44,12 @@ public interface UsuarioDAOIfc {
      * @return Etapa
      */
     Usuario getUsuario(Usuario usuario);
+    
+    /**
+     * Método resposável por pegar do banco de dados uma etapa a partir do
+     * código informado.
+     * @param codEtapa
+     * @return Etapa
+     */
+    Usuario getUsuarioControleDeAcesso(Usuario usuario);
 }

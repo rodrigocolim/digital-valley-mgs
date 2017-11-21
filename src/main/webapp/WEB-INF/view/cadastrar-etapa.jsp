@@ -111,7 +111,7 @@
                                     <c:forEach var="avaliador" items="${avaliadores}">
                                         <li class="list-group-item" style="display: none;">
                                             <input type="checkbox" value="${avaliador.codUsuario}" name="codAvaliadores">
-                                            <span>${avaliador.codUsuario}</span>
+                                            <span>${avaliador.nome}</span>
                                         </li>
                                     </c:forEach>
                                 </ul>

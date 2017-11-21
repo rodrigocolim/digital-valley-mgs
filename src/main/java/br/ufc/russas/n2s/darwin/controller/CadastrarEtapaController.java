@@ -11,28 +11,24 @@ import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
-import br.ufc.russas.n2s.darwin.model.Usuario;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import model.Usuario;
 /**
  *
  * @author Wallison Carlos
@@ -112,9 +108,10 @@ public class CadastrarEtapaController {
         }
         etapa.setDocumentacaoExigida(docs);
         etapa.setAvaliadores(avaliadores);
-        etapa = getEtapaServiceIfc().adicionaEtapa(etapa);
         selecao.getEtapas().add(etapa);
-        selecao.getResponsaveis().add(new UsuarioBeans());
+        HttpSession session = request.getSession();
+        UsuarioBeans usuario = this.usuarioServiceIfc.getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
+        selecao.getResponsaveis().add(usuario);
         this.selecaoServiceIfc.atualizaSelecao(selecao);
         /*if (!result.hasErrors()) {
         etapas.add(this.getEtapaServiceIfc().adicionaEtapa(etapa));

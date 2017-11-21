@@ -37,9 +37,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
  *
  * @author Lavínia Matoso
  */
-@Controller("cadastrarEtapaController")
-@RequestMapping("/cadastrarEtapa")
-public class CadastrarEtapaController {
+@Controller("editarEtapaController")
+@RequestMapping("/editarEtapa")
+public class EditarEtapaController {
 
     private EtapaServiceIfc etapaServiceIfc;
     private SelecaoServiceIfc selecaoServiceIfc;
@@ -89,11 +89,11 @@ public class CadastrarEtapaController {
         avaliadores.add(c);
         avaliadores.add(d);
         model.addAttribute("avaliadores", avaliadores);
-        return "cadastrar-etapa";
+        return "editar-etapa";
     }
 
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
-    public String adiciona(@PathVariable long codSelecao, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
+    public String atualiza(@PathVariable long codSelecao, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         model.addAttribute("selecao", selecao);
         String[] codAvaliadores = request.getParameterValues("codAvaliadores");
@@ -122,7 +122,11 @@ public class CadastrarEtapaController {
         selecao.getEtapas().add(etapa);
         selecao.getResponsaveis().add(new UsuarioBeans());
         this.selecaoServiceIfc.atualizaSelecao(selecao);
-        return "cadastrar-etapa";
+        /*if (!result.hasErrors()) {
+        etapas.add(this.getEtapaServiceIfc().adicionaEtapa(etapa));
+        model.addAttribute("etapas", etapas);
+        }*/
+        return "editar-etapa";
     }
     
 

@@ -6,7 +6,6 @@
 package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
 import br.ufc.russas.n2s.darwin.dao.UsuarioDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Usuario;
 import java.util.List;
@@ -55,6 +54,18 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
     public UsuarioBeans getUsuario(long codUsuario, long codUsuarioControleDeAcesso) {
         Usuario usuario = new Usuario();
         usuario.setCodUsuario(codUsuario);
+        usuario.setCodUsuarioControleDeAcesso(codUsuarioControleDeAcesso);
+        Usuario u = this.getUsuarioDAOIfc().getUsuario(usuario);
+        if(u != null){
+            return (UsuarioBeans) new UsuarioBeans().toBeans(u);
+        }else{
+            return null;
+        }
+    }
+    
+    @Override
+    public UsuarioBeans getUsuarioControleDeAcesso(long codUsuarioControleDeAcesso) {
+        Usuario usuario = new Usuario();
         usuario.setCodUsuarioControleDeAcesso(codUsuarioControleDeAcesso);
         Usuario u = this.getUsuarioDAOIfc().getUsuario(usuario);
         if(u != null){

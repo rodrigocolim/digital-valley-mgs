@@ -29,9 +29,19 @@
             <url>file:${project.basedir}/lib</url>
         </repository>
         <repository>
-            <id>central</id>
-            <name>DESKTOP-4SVL9LL-releases</name>
-            <url>http://192.169.1.2:8081/artifactory/br.com.n2s</url>
+                <id>central2</id>
+                <name>Central Repository</name>
+                <url>http://repo.maven.apache.org/maven2</url>
+                <layout>default</layout>
+                <snapshots>
+                        <enabled>false</enabled>
+                </snapshots>
+        </repository>
+        <repository>
+                <id>central</id>
+                <name>DESKTOP-4SVL9LL-releases</name>
+                <url>http://192.169.1.2:8081/artifactory/br.com.n2s</url>
+
         </repository>
     </repositories>
     

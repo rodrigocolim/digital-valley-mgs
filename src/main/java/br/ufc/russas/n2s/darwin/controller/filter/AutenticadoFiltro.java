@@ -67,11 +67,14 @@ public class AutenticadoFiltro implements Filter {
                                     UsuarioDAO userDAO = DAOFactory.criarUsuarioDAO();
                                     session.setAttribute("usuarioControle", user.getUsuario());
                                     UsuarioBeans u = new UsuarioBeans();
-                                    if(this.getUsuarioServiceIfc().getUsuario(0, user.getId()) == null){
+                                    System.out.println(id+" "+user.getId());
+                                    if(this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(user.getId()) == null){
                                         u.setCodUsuarioControleDeAcesso(user.getId());
-                                        session.setAttribute("usuarioControle", this.getUsuarioServiceIfc().adicionaUsuario(u));
+                                        u.setNome(user.getNome());
+                                        this.getUsuarioServiceIfc().adicionaUsuario(u);
+                                        session.setAttribute("usuarioControle", user);
                                     }else{
-                                        session.setAttribute("usuarioDarwin", this.getUsuarioServiceIfc().getUsuario(0, user.getId()));
+                                        session.setAttribute("usuarioDarwin", this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(user.getId()));
                                     }                                    
                                     chain.doFilter(request, response);
                             }else {

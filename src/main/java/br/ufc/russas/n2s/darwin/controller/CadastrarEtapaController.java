@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
- * @author Lavínia Matoso
+ * @author Wallison Carlos
  */
 @Controller("cadastrarEtapaController")
 @RequestMapping("/cadastrarEtapa")
@@ -97,6 +97,7 @@ public class CadastrarEtapaController {
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         model.addAttribute("selecao", selecao);
         String[] codAvaliadores = request.getParameterValues("codAvaliadores");
+        String[] documentosExigidos = request.getParameterValues("documentosExigidos");
         int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
         if (criterio == 1) {
             etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
@@ -117,6 +118,11 @@ public class CadastrarEtapaController {
                 }
             }
         }
+        ArrayList<String> docs = new ArrayList<>();
+        for(String documento : documentosExigidos){
+            docs.add(documento);
+        }
+        etapa.setDocumentacaoExigida(docs);
         etapa.setAvaliadores(avaliadores);
         etapa = getEtapaServiceIfc().adicionaEtapa(etapa);
         selecao.getEtapas().add(etapa);

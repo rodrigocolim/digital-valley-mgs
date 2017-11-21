@@ -102,11 +102,13 @@ public class CadastrarEtapaController {
                 }
             }
         }
-        ArrayList<String> docs = new ArrayList<>();
-        for(String documento : documentosExigidos){
-            docs.add(documento);
+        if (documentosExigidos != null) {
+            ArrayList<String> docs = new ArrayList<>();
+            for(String documento : documentosExigidos){
+                docs.add(documento);
+            }
+            etapa.setDocumentacaoExigida(docs);
         }
-        etapa.setDocumentacaoExigida(docs);
         etapa.setAvaliadores(avaliadores);
         selecao.getEtapas().add(etapa);
         

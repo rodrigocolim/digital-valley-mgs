@@ -46,7 +46,7 @@ public class SelecaoController {
         inscricao.setTitulo("Inscrição");
         inscricao.setDescricao("Poderíamos criar um novo JSP com uma mensagem de confirmação da remoção, mas usualmente isso não costuma ser bom, porque precisaríamos navegar até a lista das tarefas novamente caso tenhamos que remover outra tarefa.");
         inscricao.setCodEtapa(11);
-        inscricao.setPeriodo(new PeriodoBeans(codSelecao, LocalDateTime.now(), LocalDateTime.now()));
+        inscricao.setPeriodo(new PeriodoBeans(codSelecao, LocalDate.now(), LocalDate.now()));
         selecao.setInscricao(inscricao);
         EtapaBeans e1 = new EtapaBeans();
         e1.setTitulo("Entrevista");

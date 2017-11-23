@@ -8,7 +8,11 @@ package br.ufc.russas.n2s.darwin.controller;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import java.io.IOException;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -52,5 +56,11 @@ public class IndexController{
         model.addAttribute("selecoes", selecoes);
         return "index";
     }
-    
+    @RequestMapping(value = "/sair", method = RequestMethod.GET)
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        HttpSession session = request.getSession();
+        session.removeAttribute("usuario");
+        response.sendRedirect("http://192.169.1.102:8080/Controle_de_Acesso/");
+    }
+           
 }

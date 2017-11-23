@@ -9,6 +9,7 @@ import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,7 @@ public class SelecaoController {
     }
 
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
-    public String getIndex(@PathVariable long codSelecao, Model model){
+    public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
         ArrayList<EtapaBeans> etapas = new ArrayList<>();
         selecao.setEtapas(etapas);
@@ -60,6 +61,7 @@ public class SelecaoController {
         for(EnumPermissoes permissao: as){
             model.addAttribute(permissao.name(), u);
         }
+        request.getSession().setAttribute("selecao", selecao);
         model.addAttribute("selecao", selecao);
         return "selecao";
     }

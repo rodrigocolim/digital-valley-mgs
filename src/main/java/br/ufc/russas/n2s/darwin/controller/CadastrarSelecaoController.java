@@ -98,7 +98,9 @@ public class CadastrarSelecaoController {
 
         }
         HttpSession session = request.getSession();
-        UsuarioBeans usuario = this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
+        //UsuarioBeans usuario = this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
+        UsuarioBeans usuario = new UsuarioBeans();
+        usuario.setCodUsuario(12);
         selecao.getResponsaveis().add(usuario);
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         UsuarioBeans u = new UsuarioBeans();

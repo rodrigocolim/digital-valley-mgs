@@ -101,7 +101,7 @@
                                 <div class="timeline-body">
                                     <p class="text-justify">${etapa.descricao}</p><br>
                                         <c:if test="${not empty RESPONSAVEL}">
-                                            <input type="button" class="btn btn-sm btn-primary" value="Editar">
+                                            <a href="/Darwin/etapa/${etapa.codEtapa}" class="btn btn-sm btn-primary">Editar</a>
                                         </c:if>
                                         <c:if test="${not empty AVALIADOR}">
                                             <input type="button" class="btn btn-sm btn-primary" value="Avaliar">

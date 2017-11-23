@@ -37,7 +37,7 @@ public class Participante implements AttributeConverter<LocalDateTime, Timestamp
     private long codParticipante;
     @ManyToOne
     @JoinColumn(name="candidato", referencedColumnName="codUsuario")
-    private Usuario candidato;
+    private UsuarioDarwin candidato;
     @ManyToMany(targetEntity = Documentacao.class)
     @JoinTable(name="documentacoes_participante", joinColumns = {@JoinColumn(name="participante", referencedColumnName = "codParticipante")},
             inverseJoinColumns = {@JoinColumn(name="documentacao", referencedColumnName = "codDocumentacao")})
@@ -59,11 +59,11 @@ public class Participante implements AttributeConverter<LocalDateTime, Timestamp
         }
     }
 
-    public Usuario getCandidato() {
+    public UsuarioDarwin getCandidato() {
         return candidato;
     }
 
-    public void setCandidato(Usuario candidato) {
+    public void setCandidato(UsuarioDarwin candidato) {
         if(candidato != null){
            this.candidato = candidato;
         }else{

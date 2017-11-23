@@ -7,7 +7,7 @@ package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.UsuarioDAOIfc;
-import br.ufc.russas.n2s.darwin.model.Usuario;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +34,7 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
     
     @Override
     public UsuarioBeans adicionaUsuario(UsuarioBeans usuario) {
-        return (UsuarioBeans) new UsuarioBeans().toBeans(this.getUsuarioDAOIfc().adicionaUsuario((Usuario)usuario.toBusiness()));
+        return (UsuarioBeans) new UsuarioBeans().toBeans(this.getUsuarioDAOIfc().adicionaUsuario((UsuarioDarwin)usuario.toBusiness()));
     }
 
     @Override
@@ -49,9 +49,9 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
 
     @Override
     public List<UsuarioBeans> listaTodosUsuarios() {
-        List<Usuario> result = this.getUsuarioDAOIfc().listaUsuarios(new Usuario());
+        List<UsuarioDarwin> result = this.getUsuarioDAOIfc().listaUsuarios(new UsuarioDarwin());
         List<UsuarioBeans> usuarios = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
-        for(Usuario usuario : result){
+        for(UsuarioDarwin usuario : result){
             usuarios.add((UsuarioBeans) new UsuarioBeans().toBeans(usuario));
         }
         return usuarios;
@@ -59,10 +59,10 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
 
     @Override
     public UsuarioBeans getUsuario(long codUsuario, long codUsuarioControleDeAcesso) {
-        Usuario usuario = new Usuario();
+        UsuarioDarwin usuario = new UsuarioDarwin();
         usuario.setCodUsuario(codUsuario);
         usuario.setCodUsuarioControleDeAcesso(codUsuarioControleDeAcesso);
-        Usuario u = this.getUsuarioDAOIfc().getUsuario(usuario);
+        UsuarioDarwin u = this.getUsuarioDAOIfc().getUsuario(usuario);
         if(u != null){
             return (UsuarioBeans) new UsuarioBeans().toBeans(u);
         }else{
@@ -72,9 +72,9 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
     
     @Override
     public UsuarioBeans getUsuarioControleDeAcesso(long codUsuarioControleDeAcesso) {
-        Usuario usuario = new Usuario();
+        UsuarioDarwin usuario = new UsuarioDarwin();
         usuario.setCodUsuarioControleDeAcesso(codUsuarioControleDeAcesso);
-        Usuario u = this.getUsuarioDAOIfc().getUsuarioControleDeAcesso(usuario);
+        UsuarioDarwin u = this.getUsuarioDAOIfc().getUsuarioControleDeAcesso(usuario);
         if(u != null){
             return (UsuarioBeans) new UsuarioBeans().toBeans(u);
         }else{

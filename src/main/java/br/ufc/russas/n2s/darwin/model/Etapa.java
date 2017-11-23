@@ -14,10 +14,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,6 +26,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 
 /**
@@ -44,23 +46,27 @@ public class Etapa implements Serializable, Atualizavel {
     @JoinColumn(name = "periodo", referencedColumnName = "codPeriodo")
     private Periodo periodo;
     private String descricao;
-    @ManyToMany(targetEntity = Usuario.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = UsuarioDarwin.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "avaliadores", joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
             inverseJoinColumns = {@JoinColumn(name = "avaliador", referencedColumnName = "codUsuario")})
-    private List<Usuario> avaliadores;
-    @ElementCollection
+    private List<UsuarioDarwin> avaliadores;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @CollectionTable(name = "documentacoes_exigidas", joinColumns = @JoinColumn(name = "codEtapa"))
     @Column(name = "documentacao_exigida")
     private List<String> documentacaoExigida;
     @Column(name = "criterio_de_avaliacao")
     @Enumerated(EnumType.ORDINAL)
     private EnumCriterioDeAvaliacao criterioDeAvaliacao;
-    @ManyToMany(targetEntity = Avaliacao.class)
+    @ManyToMany(targetEntity = Avaliacao.class, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "avaliacoes", 
             joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
             inverseJoinColumns = {@JoinColumn(name = "avaliacao", referencedColumnName = "codAvaliacao")})
     private List<Avaliacao> avaliacoes;
-    @ManyToMany(targetEntity = Documentacao.class)
+    @ManyToMany(targetEntity = Documentacao.class, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "documentacoes", joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
             inverseJoinColumns = {@JoinColumn(name = "documentacao", referencedColumnName = "codDocumentacao")})
     private List<Documentacao> documentacoes;
@@ -116,11 +122,11 @@ public class Etapa implements Serializable, Atualizavel {
         this.descricao = descricao;
     }
 
-    public List<Usuario> getAvaliadores() {
+    public List<UsuarioDarwin> getAvaliadores() {
         return avaliadores;
     }
 
-    public void setAvaliadores(List<Usuario> avaliadores) {
+    public void setAvaliadores(List<UsuarioDarwin> avaliadores) {
         this.avaliadores = avaliadores;
     }
 
@@ -198,10 +204,10 @@ public class Etapa implements Serializable, Atualizavel {
      * Adiciona um novo avaliador a etapa.
      * @param usuario
      */
-    public void adicionaAvaliador(Usuario usuario) {
+    public void adicionaAvaliador(UsuarioDarwin usuario) {
         if (this.getAvaliadores() != null) {
-            ArrayList<Usuario> usuarios = new ArrayList<>();
-            List<Usuario> sync = Collections.synchronizedList(usuarios);
+            ArrayList<UsuarioDarwin> usuarios = new ArrayList<>();
+            List<UsuarioDarwin> sync = Collections.synchronizedList(usuarios);
             this.setAvaliadores(sync);
         }
         if (!this.getAvaliadores().contains(usuario)) {
@@ -217,7 +223,7 @@ public class Etapa implements Serializable, Atualizavel {
      * Método resposável por remover um avaliador desta etapa.
      * @param usuario
      */
-    public void removeAvaliador(Usuario usuario) {
+    public void removeAvaliador(UsuarioDarwin usuario) {
         if (this.getAvaliadores() != null) {
             if (this.getAvaliadores().contains(usuario)) {
                 this.getAvaliadores().remove(usuario);
@@ -235,7 +241,7 @@ public class Etapa implements Serializable, Atualizavel {
      * @param usuario
      * @return
      */
-    public boolean isAvaliador(Usuario usuario) {
+    public boolean isAvaliador(UsuarioDarwin usuario) {
         return this.getAvaliadores().contains(usuario);
     }
     

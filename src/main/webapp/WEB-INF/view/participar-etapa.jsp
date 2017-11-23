@@ -60,24 +60,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js" ></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
-    <script type="text/javascript">
 
-    
-    var arquivoInput = document.getElementById("arquivoInput");
-    var enviar = document.getElementById("enviar");
-    enviar.addEventListener("click", function (event) {
-      if (arquivoInput.files.length === 0) {
-        alert("Nenhum Arquivo Selecionado");
-        return;
-      }
-
-      if (arquivoInput.files[0].type.indexOf("pdf") !== 0) {
-        alert("Este arquivo não é um PDF");
-        $(".invalid-feedback").addClass("active");
-        return;
-      }
-    });
-
-    </script>
 </body>
 </html>

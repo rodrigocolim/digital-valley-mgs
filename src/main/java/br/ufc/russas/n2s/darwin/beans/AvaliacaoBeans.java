@@ -7,7 +7,7 @@ package br.ufc.russas.n2s.darwin.beans;
 
 import br.ufc.russas.n2s.darwin.model.Avaliacao;
 import br.ufc.russas.n2s.darwin.model.Participante;
-import br.ufc.russas.n2s.darwin.model.Usuario;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 
 /**
  *
@@ -78,7 +78,7 @@ public class AvaliacaoBeans implements Beans {
         }
         Participante p = (Participante) this.getParticipante().toBusiness();
         avaliacao.setParticipante(p);
-        avaliacao.setAvaliador((Usuario) this.getAvaliador().toBusiness());
+        avaliacao.setAvaliador((UsuarioDarwin) this.getAvaliador().toBusiness());
         avaliacao.setAprovado(this.isAprovado());
         avaliacao.setObservacao(this.getObservacao());
         avaliacao.setNota(this.getNota());

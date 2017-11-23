@@ -38,7 +38,7 @@
                 <br>
                 
                 <div class="form-group">
-                  <form method="post" action="cadastrarSelecao"  enctype="multipart/form-data" id="needs-validation" novalidate> 
+                    <form method="post" action="cadastrarSelecao" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate> 
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>
@@ -105,13 +105,13 @@
                         </div>
                         <br>
                         <label for="editalInput">Edital*</label>
-                        <input type="file" name="file" class="form-control" id="editalInput" aria-describedby="editalHelp" placeholder="Anexe o edital da seleção"  required>
+                        <input type="file" name="file" class="form-control" id="arquivoInput" aria-describedby="editalHelp" placeholder="Anexe o edital da seleção"  accept="application/pdf" onblur="verificaDocumento()" required>
                         <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
                         <div class="invalid-feedback">
                             
                         </div>
                         <br>
-                        <a href="/Darwin" type="button" class="btn btn-secondary">
+                        <a href="/Darwin" type="button" id="enviar" class="btn btn-secondary">
                             Cancelar
                         </a>
                         <input type="submit"  class="btn btn-primary" value="Salvar e Continuar">
@@ -157,6 +157,19 @@
       }
     });
 
+    function verificaDocumento(){
+        var arquivoInput = document.getElementById("arquivoInput");
+        if (arquivoInput.files.length === 0) {
+          
+          return;
+        }
+
+        if (arquivoInput.files[0].type.indexOf("pdf") !== 0) {
+            arquivoInput.value = "";
+            
+        }
+    }
+    
     </script>
 </body>
 </html>

@@ -5,7 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.dao;
 
-import br.ufc.russas.n2s.darwin.model.Usuario;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -19,45 +19,45 @@ import org.springframework.beans.factory.annotation.Qualifier;
  */
 public class UsuarioDAOImpl implements UsuarioDAOIfc{
 
-    private DAOIfc<Usuario> daoImpl;
+    private DAOIfc<UsuarioDarwin> daoImpl;
 
     @Autowired
-    public void setDAOIfc(@Qualifier("daoImpl")DAOIfc<Usuario> dao){
+    public void setDAOIfc(@Qualifier("daoImpl")DAOIfc<UsuarioDarwin> dao){
         this.daoImpl = dao;
     }
 
     @Override
-    public Usuario adicionaUsuario(Usuario usuario) {
+    public UsuarioDarwin adicionaUsuario(UsuarioDarwin usuario) {
         return this.daoImpl.adiciona(usuario);
     }
 
     @Override
-    public Usuario atualizaUsuario(Usuario usuario) {
+    public UsuarioDarwin atualizaUsuario(UsuarioDarwin usuario) {
         return this.daoImpl.atualiza(usuario);
     }
 
     @Override
-    public void removeUsuario(Usuario usuario) {
+    public void removeUsuario(UsuarioDarwin usuario) {
         this.daoImpl.remove(usuario);
     }
 
     @Override
-    public List<Usuario> listaUsuarios(Usuario usuario) {
+    public List<UsuarioDarwin> listaUsuarios(UsuarioDarwin usuario) {
         return this.daoImpl.lista(usuario);
     }
 
     @Override
-    public Usuario getUsuario(Usuario usuario) {
+    public UsuarioDarwin getUsuario(UsuarioDarwin usuario) {
         return this.daoImpl.getObject(usuario, usuario.getCodUsuario());
     }
 
     @Override
-    public Usuario getUsuarioControleDeAcesso(Usuario usuario) {
+    public UsuarioDarwin getUsuarioControleDeAcesso(UsuarioDarwin usuario) {
         Session session = this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         try {
             Example example = Example.create(usuario);
-            usuario = (Usuario) session.createCriteria(Usuario.class).add(example).uniqueResult();
+            usuario = (UsuarioDarwin) session.createCriteria(UsuarioDarwin.class).add(example).uniqueResult();
             t.commit();
             return usuario;
         } catch(RuntimeException e) {

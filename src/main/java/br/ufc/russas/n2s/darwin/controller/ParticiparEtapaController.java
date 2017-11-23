@@ -8,6 +8,7 @@ package br.ufc.russas.n2s.darwin.controller;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.PeriodoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.time.LocalDate;
@@ -72,7 +73,7 @@ public class ParticiparEtapaController {
     public String adiciona(@PathVariable long codSelecao, @Valid EtapaBeans etapa, BindingResult result, Model model) {
         SelecaoBeans selecaoBeans = this.selecaoServiceIfc.getSelecao(codSelecao);
         model.addAttribute("selecao", selecaoBeans);
-        selecaoBeans.getEtapas().add(etapa);
+        selecaoBeans.getEtapas().add((Etapa) etapa.toBusiness());
         this.selecaoServiceIfc.atualizaSelecao(selecaoBeans);
         /*if (!result.hasErrors()) {
         etapas.add(this.getEtapaServiceIfc().adicionaEtapa(etapa));

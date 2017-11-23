@@ -56,9 +56,9 @@
                         <label for="descricaoInput">Período*</label>
                         <div id="sandbox-container">
                             <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
-                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" value="${etapa.periodo.inicio}" required/>
+                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" value="<fmt:formatDate value="${etapa.periodo.inicio}" type="both" pattern="dd/MM/yyyy" dateStyle="full"/>" required/>
                                 <span class="input-group-addon">até</span>
-                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" name="dataTermino" value="${etapa.periodo.termino}" required/>
+                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" name="dataTermino" value="<fmt:formatDate value="${etapa.periodo.termino}" type="both" pattern="dd/MM/yyyy" dateStyle="full"/>" required/>
                                 <div class="invalid-feedback">
                                     Selecione uma data para Início e Término
                                 </div>

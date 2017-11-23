@@ -37,15 +37,6 @@ public class SelecaoController {
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-        
-        UsuarioBeans u = new UsuarioBeans();
-        u.setCodUsuario(12);
-        u.setNome("Alex");
-        ArrayList<EnumPermissoes> as = new ArrayList<>();
-        as.add(EnumPermissoes.RESPONSAVEL);
-        u.setPermissoes(as);
-        request.getSession().setAttribute("usuario", u);
-        
         request.getSession().setAttribute("selecao", selecao);
         return "selecao";
     }

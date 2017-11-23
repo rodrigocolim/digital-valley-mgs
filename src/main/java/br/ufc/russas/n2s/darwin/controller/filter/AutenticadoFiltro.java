@@ -82,12 +82,12 @@ public class AutenticadoFiltro implements Filter {
                                     }                          
                                     chain.doFilter(request, response);
                             }else {
-                                ((HttpServletResponse) response).sendRedirect("/Controle_de_Acesso/");
+                                ((HttpServletResponse) response).sendRedirect("http://192.169.1.102:8080/Controle_de_Acesso/");
                             }
                     }else if(session.getAttribute("usuario")!= null && DAOFactory.criarUsuarioDAO().buscarTokenTemp(((Usuario)session.getAttribute("usuario")).getPessoa().getId())!=null && ((Usuario)session.getAttribute("usuario")).getTokenUsuario().equals(DAOFactory.criarUsuarioDAO().buscarTokenTemp(((Usuario)session.getAttribute("usuario")).getPessoa().getId()))){
                             chain.doFilter(request, response);
                     }else {
-                            ((HttpServletResponse) response).sendRedirect("/Controle_de_Acesso/");
+                            ((HttpServletResponse) response).sendRedirect("http://192.169.1.102:8080/Controle_de_Acesso/");
                     }
             }				
 	}

@@ -53,7 +53,8 @@
                                     [...]
                                 </c:if>
                             </p>
-                            <a href="selecao/${selecao.codSelecao}" class="card-link">Acessar</a>
+                            <c:set var = "nomeUrl" value = "${selecao.titulo}"/>
+                            <a href="selecao/${fn:replace(nomeUrl," ", "_")}_${selecao.codSelecao}" class="card-link">Acessar</a>
                         </div>
                     </div>
                 </c:forEach>

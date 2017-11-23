@@ -54,18 +54,8 @@ public class ParticiparEtapaController {
     
     @RequestMapping(value="/{codEtapa}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codEtapa, Model model) {
-        //EtapaBeans etapaBeans = this.etapaServiceIfc.getEtapa(codEtapa);
-        EtapaBeans e1 = new EtapaBeans();
-        e1.setTitulo("Entrevista");
-        e1.setDescricao("Poderíamos criar um novo JSP com uma mensagem de confirmação da remoção, mas usualmente isso não costuma ser bom, porque precisaríamos navegar até a lista das tarefas novamente caso tenhamos que remover outra tarefa.");
-        e1.setCodEtapa(11);
-        e1.setPeriodo(new PeriodoBeans(123, LocalDate.MIN, LocalDate.MIN));
-        ArrayList<String> documentacao = new ArrayList<>();
-        documentacao.add("Histórico acadêmico");
-        documentacao.add("Atestado de matrícula");
-        documentacao.add("Curriculo");
-        e1.setDocumentacaoExigida(documentacao);
-        model.addAttribute("etapa", e1);
+        EtapaBeans etapaBeans = this.etapaServiceIfc.getEtapa(codEtapa);
+        model.addAttribute("etapa", etapaBeans);
         return "participar-etapa";
     }
 

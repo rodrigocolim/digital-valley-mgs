@@ -46,7 +46,7 @@ public class Etapa implements Serializable, Atualizavel {
     @JoinColumn(name = "periodo", referencedColumnName = "codPeriodo")
     private Periodo periodo;
     private String descricao;
-    @ManyToMany(targetEntity = UsuarioDarwin.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = UsuarioDarwin.class, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "avaliadores", joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
             inverseJoinColumns = {@JoinColumn(name = "avaliador", referencedColumnName = "codUsuario")})

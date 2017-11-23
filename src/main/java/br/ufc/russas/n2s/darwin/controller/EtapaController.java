@@ -33,7 +33,6 @@ public class EtapaController {
     
     @RequestMapping(value = "/{codEtapa}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codEtapa, Model model){
-        System.out.println("ENTROU AQUI");
         EtapaBeans etapa  = etapaServiceIfc.getEtapa(codEtapa);
         model.addAttribute("etapa", etapa);
         return "/etapa";

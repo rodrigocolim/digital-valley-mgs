@@ -79,7 +79,8 @@ public class AutenticadoFiltro implements Filter {
                                         permissoes.add(EnumPermissoes.ADMINISTRADOR);
                                         u.setPermissoes(permissoes);
                                         this.getUsuarioServiceIfc().adicionaUsuario(u);
-                                    }                          
+                                    }
+                                    session.setAttribute("usuarioDarwin", this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(user.getId()));
                                     chain.doFilter(request, response);
                             }else {
                                 ((HttpServletResponse) response).sendRedirect("http://192.169.1.102:8080/Controle_de_Acesso/");

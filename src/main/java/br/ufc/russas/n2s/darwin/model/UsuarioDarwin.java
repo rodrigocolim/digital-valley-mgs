@@ -18,6 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -35,7 +37,8 @@ public class UsuarioDarwin {
     private String nome;
     @Column
     @Enumerated
-    @ElementCollection(targetClass = EnumPermissoes.class)
+    @ElementCollection(targetClass = EnumPermissoes.class, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<EnumPermissoes> permissoes;
 
     public long getCodUsuario() {

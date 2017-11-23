@@ -56,9 +56,9 @@
                         <label for="descricaoInput">Período*</label>
                         <div id="sandbox-container">
                             <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
-                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" value="${etapa.dataInicio}" required/>
+                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" value="${etapa.periodo.dataInicio}" required/>
                                 <span class="input-group-addon">até</span>
-                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" name="dataTermino" value="${etapa.dataTermino}" required/>
+                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" name="dataTermino" value="${etapa.periodo.dataTermino}" required/>
                                 <div class="invalid-feedback">
                                     Selecione uma data para Início e Término
                                 </div>
@@ -89,9 +89,9 @@
                         <br>
                         <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
                         <select name="criterioDeAvaliacao" class="form-control" id="categoriaInput" required>
-                            <option ${(etapa.criterioDeAvaliacao == "Nota" ? "selected" : "")}>Nota</option>
-                            <option ${(etapa.criterioDeAvaliacao == "Aprovação" ? "selected" : "")}>Aprovação</option>
-                            <option ${(etapa.criterioDeAvaliacao == "Deferimento" ? "selected" : "")}>Deferimento</option>
+                            <option ${(etapa.criterioDeAvaliacao.criterio == 1 ? "selected" : "")}>Nota</option>
+                            <option ${(etapa.criterioDeAvaliacao.criterio == 2 ? "selected" : "")}>Aprovação</option>
+                            <option ${(etapa.criterioDeAvaliacao.criterio == 3 ? "selected" : "")}>Deferimento</option>
                         </select>
                         <div class="invalid-feedback">
                             Escolha um critério de avaliação

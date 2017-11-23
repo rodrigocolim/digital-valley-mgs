@@ -42,38 +42,6 @@
                     <p><b>Edital:</b></p>
                     <br/>
                     
-                    <!-- 
-                    <nav class="timeline timeline-horizontal" id="navEtapas" role="tablist" > 
-                    <c:forEach var="etapa" items="${selecao.etapas}">
-                        <a class="nav-item nav-link" id="navtab-etapa-${etapa.codEtapa}" data-toggle="tab" href="#nav-etapa-${etapa.codEtapa}" role="tab" aria-controls="nav-etapa-${etapa.codEtapa}" aria-selected="false">${etapa.titulo}</a>  
-                    </c:forEach>
-                        
-                        <a class="nav-link  btn-outline-dark" href="/Darwin/cadastrarEtapa/${selecao.codSelecao}">Adicionar etapa</a>
-                    </nav>
-                    
-                    <div class="tab-content" id="nav-tabContent">
-                    <c:forEach var="etapa" items="${selecao.etapas}">
-                        <div class="tab-pane fade card" id="nav-etapa-${etapa.codEtapa}" role="tabpanel" aria-labelledby="nav-etapa-${etapa.codEtapa}">
-                            <div class="card-body">
-                                <h2 class="card-title">
-                                    ${etapa.titulo} - 
-                                    <b>${etapa.periodo.inicio}</b> 
-                                    até 
-                                    <b>${etapa.periodo.termino}</b>
-                                </h2>
-                                <p class="card-text text-justify">
-                                    ${etapa.descricao}
-                                </p>
-                                <br/>
-                                <p><b>Avaliadores:</b> -
-                                <p><b>Documentação Exigida:</b> ${etapa.documentacaoExigida}</p>
-                                <p><b>Critério de Avaliação:</b> ${etapa.criterioDeAvaliacao}</p> 
-                            </div>
-                        </div>
-
-                    </c:forEach>
-                    </div>
-                    -->
                     <ul class="timeline timeline-vertical" id="timeline">
                     <c:forEach var="etapa" items="${selecao.etapas}">
                         <li class="timeline-item">
@@ -101,10 +69,10 @@
                                 <div class="timeline-body">
                                     <p class="text-justify">${etapa.descricao}</p><br>
                                         <c:if test="${not empty RESPONSAVEL}">
-                                            <input type="button" class="btn btn-sm btn-primary" value="Editar">
+                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-sm btn-primary">Editar</a>
                                         </c:if>
                                         <c:if test="${not empty AVALIADOR}">
-                                            <input type="button" class="btn btn-sm btn-primary" value="Avaliar">
+                                            <a href="/Darwin/avaliar/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-sm btn-primary" >Avaliar</a>
                                         </c:if>
                                         <c:if test="${not empty PARTICIPANTE}">
                                             <a href="/Darwin/participarEtapa/${etapa.codEtapa}" class="btn btn-sm btn-primary">Participar</a>

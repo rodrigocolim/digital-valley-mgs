@@ -10,6 +10,7 @@ import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -33,22 +34,12 @@ public class SelecaoController {
         this.selecaoServiceIfc = selecaoServiceIfc;
     }
 
-    @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
-    public String getIndex(@PathVariable long codSelecao, Model model){
+    @RequestMapping(value = "/{selecaoCodigo}", method = RequestMethod.GET)
+    public String getIndex(@PathVariable String selecaoCodigo, Model model, HttpServletRequest request){
+        String[] part = selecaoCodigo.split("_");
+        long codSelecao = Long.parseLong(part[part.length-1]);
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-        ArrayList<EtapaBeans> etapas = new ArrayList<>();
-        selecao.setEtapas(etapas);
-        UsuarioBeans u = new UsuarioBeans();
-        u.setCodUsuario(12);
-        ArrayList<EnumPermissoes> as = new ArrayList<>();
-        as.add(EnumPermissoes.PARTICIPANTE);
-        as.add(EnumPermissoes.RESPONSAVEL);
-        as.add(EnumPermissoes.AVALIADOR);
-        u.setPermissoes(as);
-        for(EnumPermissoes permissao: as){
-            model.addAttribute(permissao.name(), u);
-        }
-        model.addAttribute("selecao", selecao);
+        request.getSession().setAttribute("selecao", selecao);
         return "selecao";
     }
 }

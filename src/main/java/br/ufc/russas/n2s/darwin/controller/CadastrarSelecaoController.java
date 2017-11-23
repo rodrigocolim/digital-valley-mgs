@@ -98,18 +98,10 @@ public class CadastrarSelecaoController {
             selecao.setEdital(edital);
 
         }
+        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         HttpSession session = request.getSession();
         UsuarioBeans usuario = this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
         selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
-        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-        UsuarioBeans u = new UsuarioBeans();
-        u.setNome("Alex");
-        ArrayList<EnumPermissoes> p = new ArrayList();
-        p.add(EnumPermissoes.RESPONSAVEL);
-        u.setPermissoes(p);
-        u.setCodUsuario(12);
-
-        selecao.getResponsaveis().add((UsuarioDarwin) u.toBusiness());
         selecao = selecaoServiceIfc.atualizaSelecao(selecao);
         response.sendRedirect("selecao/" + selecao.getCodSelecao());
         //return "forward:/selecao/"+selecao.getCodSelecao();

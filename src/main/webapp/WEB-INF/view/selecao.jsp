@@ -45,46 +45,47 @@
                     <ul class="timeline timeline-vertical" id="timeline">
                     <c:forEach var="etapa" items="${selecao.etapas}">
                         <li class="timeline-item">
-                        <c:if test="${not empty PARTICIPANTE}">
-                            <div class="timeline-badge success">
-                                <i class="material-icons">check</i>
-                            </div>
-                        </c:if>
-                        <c:if test="${(not empty RESPONSAVEL) or (not empty AVALIADOR) }">
                             <div class="timeline-badge">
-                                <i class="material-icons"></i>
+                                <c:set var="estado" value="${etapa.estado.estado}"></c:set>
+                                <i class="material-icons">${estado == 2 ? 'timelapse': estado == 3  ? 'check': ''}</i>
                             </div>
-                        </c:if>
                             <div class="timeline-panel">
                                 <div class="timeline-heading">
                                     <h2 class="timeline-title">${etapa.titulo}</h2>
                                     <p>
                                         <small class="text-muted">
-                                            <b>${etapa.periodo.dataInicio}</b> 
+                                            <b>${etapa.periodo.inicio}</b> 
                                             até 
-                                            <b>${etapa.periodo.dataTermino}</b>
+                                            <b>${etapa.periodo.termino}</b>
                                         </small>
                                     </p>
                                 </div>
                                 <div class="timeline-body">
                                     <p class="text-justify">${etapa.descricao}</p><br>
-                                        <c:if test="${not empty RESPONSAVEL}">
-                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-sm btn-primary">Editar</a>
+                                        <c:if test="${fn:contains(sessionScope.usuarioDarwin.permissoes, 'RESPONSAVEL')}">
+                                            <a href="/Darwin/etapa/${etapa.codEtapa}" class="btn btn-sm btn-primary">Editar</a>
                                         </c:if>
-                                        <c:if test="${not empty AVALIADOR}">
-                                            <a href="/Darwin/avaliar/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-sm btn-primary" >Avaliar</a>
+                                        <c:if test="${fn:contains(sessionScope.usuarioDarwin.permissoes, 'AVALIADOR')}">
+                                            <a href="/Darwin/avaliar/${etapa.codEtapa}" class="btn btn-sm btn-primary" >Avaliar</a>
                                         </c:if>
-                                        <c:if test="${not empty PARTICIPANTE}">
+                                        <c:if test="${fn:contains(sessionScope.usuarioDarwin.permissoes, 'PARTICIPANTE') and (etapa.estado.estado == 2)}">
                                             <a href="/Darwin/participarEtapa/${etapa.codEtapa}" class="btn btn-sm btn-primary">Participar</a>
                                         </c:if>
                                 </div>
                             </div>
                         </li>
                     </c:forEach>
-                    <c:if test="${not empty RESPONSAVEL}">
+                    <c:if test="${fn:contains(sessionScope.usuarioDarwin.permissoes, 'RESPONSAVEL')}">  
                         <li class="timeline-item">
                             <a href="/Darwin/cadastrarEtapa/${selecao.codSelecao}" class="timeline-badge" style="background-color: #007bff;">
                                 <i class="material-icons">add</i>
+                            </a>
+                        </li>                        
+                    </c:if>
+                    <c:if test="${fn:contains(sessionScope.usuarioDarwin.permissoes, 'PARTICIPANTE')}">  
+                        <li class="timeline-item">
+                            <a href="#" class="timeline-badge" style="background-color: #007bff;">
+                                <i class="material-icons">flag</i>
                             </a>
                         </li>                        
                     </c:if>

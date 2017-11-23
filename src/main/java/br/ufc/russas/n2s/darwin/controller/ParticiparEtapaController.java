@@ -5,14 +5,26 @@
  */
 package br.ufc.russas.n2s.darwin.controller;
 
+import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
+import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.PeriodoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.Arquivo;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,10 +34,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author Lavínia Matoso
+ * @author Wallison Carlos
  */
 @Controller("participarEtapaController")
 @RequestMapping("/participarEtapa")
@@ -33,11 +48,19 @@ public class ParticiparEtapaController {
 
     private EtapaServiceIfc etapaServiceIfc;
     private SelecaoServiceIfc selecaoServiceIfc;
-
+    private UsuarioServiceIfc usuarioServiceIfc;
     public EtapaServiceIfc getEtapaServiceIfc() {
         return etapaServiceIfc;
     }
 
+    public UsuarioServiceIfc getUsuarioServiceIfc() {
+        return usuarioServiceIfc;
+    }
+    @Autowired(required = true)
+    public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc) {
+        this.usuarioServiceIfc = usuarioServiceIfc;
+    }
+    
     @Autowired(required = true)
     public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc")EtapaServiceIfc etapaServiceIfc) {
         this.etapaServiceIfc = etapaServiceIfc;
@@ -54,32 +77,39 @@ public class ParticiparEtapaController {
     
     @RequestMapping(value="/{codEtapa}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codEtapa, Model model) {
-        //EtapaBeans etapaBeans = this.etapaServiceIfc.getEtapa(codEtapa);
-        EtapaBeans e1 = new EtapaBeans();
-        e1.setTitulo("Entrevista");
-        e1.setDescricao("Poderíamos criar um novo JSP com uma mensagem de confirmação da remoção, mas usualmente isso não costuma ser bom, porque precisaríamos navegar até a lista das tarefas novamente caso tenhamos que remover outra tarefa.");
-        e1.setCodEtapa(11);
-        e1.setPeriodo(new PeriodoBeans(123, LocalDate.MIN, LocalDate.MIN));
-        ArrayList<String> documentacao = new ArrayList<>();
-        documentacao.add("Histórico acadêmico");
-        documentacao.add("Atestado de matrícula");
-        documentacao.add("Curriculo");
-        e1.setDocumentacaoExigida(documentacao);
-        model.addAttribute("etapa", e1);
+        EtapaBeans etapaBeans = this.etapaServiceIfc.getEtapa(codEtapa);
+        model.addAttribute("etapa", etapaBeans);
         return "participar-etapa";
     }
 
-    @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
-    public String adiciona(@PathVariable long codSelecao, @Valid EtapaBeans etapa, BindingResult result, Model model) {
-        SelecaoBeans selecaoBeans = this.selecaoServiceIfc.getSelecao(codSelecao);
-        model.addAttribute("selecao", selecaoBeans);
-        selecaoBeans.getEtapas().add((Etapa) etapa.toBusiness());
-        this.selecaoServiceIfc.atualizaSelecao(selecaoBeans);
-        /*if (!result.hasErrors()) {
-        etapas.add(this.getEtapaServiceIfc().adicionaEtapa(etapa));
-        model.addAttribute("etapas", etapas);
-        }*/
-        return "cadastrar-etapa";
+    @RequestMapping(value="/{codEtapa}", method = RequestMethod.POST)
+    public @ResponseBody void participar(@PathVariable long codEtapa, HttpServletRequest request, @RequestParam("nomeDocumento") String[] nomeDocumento, @RequestParam("documento") MultipartFile[] documentos) throws IOException {
+        EtapaBeans etapa = this.etapaServiceIfc.getEtapa(codEtapa);
+        HttpSession session = request.getSession();
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        List<Arquivo> arquivos = Collections.synchronizedList(new ArrayList<Arquivo>());
+        System.out.println(documentos.length);
+        System.out.println(nomeDocumento.length);
+        for (int i = 0; i < documentos.length;i++) {
+            String nome = nomeDocumento[i];
+            System.out.println(nome);
+            MultipartFile file = documentos[i];
+            System.out.println(file.getOriginalFilename());
+            if (!file.isEmpty()) {
+                Arquivo documento = new Arquivo();
+
+                java.io.File convFile = new java.io.File(file.getOriginalFilename());
+                convFile.createNewFile(); 
+                FileOutputStream fos = new FileOutputStream(convFile); 
+                fos.write(file.getBytes());
+                fos.close(); 
+
+                documento.setTitulo(nome);
+                documento.setData(LocalDateTime.now());
+                documento.setArquivo(convFile);
+                arquivos.add(documento);
+            }        
+        }
     }
     
 

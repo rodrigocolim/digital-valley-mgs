@@ -38,7 +38,7 @@
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
-                    <form method="POST" action="editarEtapa">
+                    <form method="POST" action="">
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
                         <div class="invalid-feedback">
@@ -56,9 +56,9 @@
                         <label for="descricaoInput">Período*</label>
                         <div id="sandbox-container">
                             <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
-                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" value="${etapa.periodo.dataInicio}" required/>
+                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" value="${etapa.periodo.inicio}" required/>
                                 <span class="input-group-addon">até</span>
-                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" name="dataTermino" value="${etapa.periodo.dataTermino}" required/>
+                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" name="dataTermino" value="${etapa.periodo.termino}" required/>
                                 <div class="invalid-feedback">
                                     Selecione uma data para Início e Término
                                 </div>

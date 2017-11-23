@@ -75,7 +75,7 @@
         <url-pattern>/SelecaoController</url-pattern>
 
     </servlet-mapping> 
-    
+    <!--
     <filter>
         <filter-name>MultipartFilter</filter-name>
         <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
@@ -106,7 +106,7 @@
         <filter-name>FiltroAutenticado</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
+-->
     <filter> 
         <filter-name>encodingFilter</filter-name>  
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  

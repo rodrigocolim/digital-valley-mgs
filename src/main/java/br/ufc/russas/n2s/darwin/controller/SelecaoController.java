@@ -36,8 +36,6 @@ public class SelecaoController {
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model){
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-        ArrayList<EtapaBeans> etapas = new ArrayList<>();
-        selecao.setEtapas(etapas);
         UsuarioBeans u = new UsuarioBeans();
         u.setCodUsuario(12);
         ArrayList<EnumPermissoes> as = new ArrayList<>();

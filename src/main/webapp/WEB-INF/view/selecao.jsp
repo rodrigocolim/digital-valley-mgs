@@ -57,9 +57,9 @@
                             <div class="card-body">
                                 <h2 class="card-title">
                                     ${etapa.titulo} - 
-                                    <b>${etapa.periodo.dataInicio}</b> 
+                                    <b>${etapa.periodo.inicio}</b> 
                                     até 
-                                    <b>${etapa.periodo.dataTermino}</b>
+                                    <b>${etapa.periodo.termino}</b>
                                 </h2>
                                 <p class="card-text text-justify">
                                     ${etapa.descricao}
@@ -92,9 +92,9 @@
                                     <h2 class="timeline-title">${etapa.titulo}</h2>
                                     <p>
                                         <small class="text-muted">
-                                            <b>${etapa.periodo.dataInicio}</b> 
+                                            <b>${etapa.periodo.inicio}</b> 
                                             até 
-                                            <b>${etapa.periodo.dataTermino}</b>
+                                            <b>${etapa.periodo.termino}</b>
                                         </small>
                                     </p>
                                 </div>

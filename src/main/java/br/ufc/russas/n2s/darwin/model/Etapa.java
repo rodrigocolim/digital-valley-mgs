@@ -14,10 +14,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,6 +26,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 
 /**
@@ -44,23 +46,27 @@ public class Etapa implements Serializable, Atualizavel {
     @JoinColumn(name = "periodo", referencedColumnName = "codPeriodo")
     private Periodo periodo;
     private String descricao;
-    @ManyToMany(targetEntity = UsuarioDarwin.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = UsuarioDarwin.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "avaliadores", joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
             inverseJoinColumns = {@JoinColumn(name = "avaliador", referencedColumnName = "codUsuario")})
     private List<UsuarioDarwin> avaliadores;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @CollectionTable(name = "documentacoes_exigidas", joinColumns = @JoinColumn(name = "codEtapa"))
     @Column(name = "documentacao_exigida")
     private List<String> documentacaoExigida;
     @Column(name = "criterio_de_avaliacao")
     @Enumerated(EnumType.ORDINAL)
     private EnumCriterioDeAvaliacao criterioDeAvaliacao;
-    @ManyToMany(targetEntity = Avaliacao.class)
+    @ManyToMany(targetEntity = Avaliacao.class, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "avaliacoes", 
             joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
             inverseJoinColumns = {@JoinColumn(name = "avaliacao", referencedColumnName = "codAvaliacao")})
     private List<Avaliacao> avaliacoes;
-    @ManyToMany(targetEntity = Documentacao.class)
+    @ManyToMany(targetEntity = Documentacao.class, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "documentacoes", joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
             inverseJoinColumns = {@JoinColumn(name = "documentacao", referencedColumnName = "codDocumentacao")})
     private List<Documentacao> documentacoes;

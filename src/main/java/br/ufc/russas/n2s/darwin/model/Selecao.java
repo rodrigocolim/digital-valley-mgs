@@ -40,11 +40,11 @@ public class Selecao {
     private long codSelecao;
     private String titulo;
     private String descricao;
-    @ManyToMany(targetEntity = Usuario.class, fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = UsuarioDarwin.class, fetch = FetchType.EAGER)
     //@Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "responsaveis_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "usuario", referencedColumnName = "codUsuario")})
-    private List<Usuario> responsaveis;
+    private List<UsuarioDarwin> responsaveis;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "periodo", referencedColumnName = "codPeriodo")
     private Periodo periodo;
@@ -121,11 +121,11 @@ public class Selecao {
         }
     }
 
-    public List<Usuario> getResponsaveis() {
+    public List<UsuarioDarwin> getResponsaveis() {
         return responsaveis;
     }
 
-    public void setResponsavel(List<Usuario> responsaveis) {
+    public void setResponsavel(List<UsuarioDarwin> responsaveis) {
         if (responsaveis != null) {
             this.responsaveis = responsaveis;
         } else {
@@ -278,7 +278,7 @@ public class Selecao {
         }
     }
     
-    public void adicionaResponsavel(Usuario responsavel) {
+    public void adicionaResponsavel(UsuarioDarwin responsavel) {
         if (responsaveis.isEmpty()) {
             if (responsavel != null) {
                 this.responsaveis.add(responsavel);
@@ -294,7 +294,7 @@ public class Selecao {
         }
     }
     
-    public boolean isResponsavel(Usuario responsavel) {
+    public boolean isResponsavel(UsuarioDarwin responsavel) {
         if (responsavel != null) {
             if (this.responsaveis.contains(responsavel)) {
                 return true;
@@ -305,7 +305,7 @@ public class Selecao {
         return false;
     }
     
-    public boolean isParticipante(Usuario participante) {
+    public boolean isParticipante(UsuarioDarwin participante) {
         if (participante != null) {
             if (this.candidatos.contains(participante)) {
                 return true;
@@ -316,7 +316,7 @@ public class Selecao {
         return false;
     }
 
-    public void removeResponsavel(Usuario responsavel) {
+    public void removeResponsavel(UsuarioDarwin responsavel) {
         if (responsavel != null) {
             this.responsaveis.remove(responsavel);
         } else {

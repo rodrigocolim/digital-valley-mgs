@@ -25,7 +25,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="usuario")
-public class Usuario {
+public class UsuarioDarwin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codUsuario")

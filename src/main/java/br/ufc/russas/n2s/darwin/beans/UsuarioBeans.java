@@ -6,7 +6,7 @@
 package br.ufc.russas.n2s.darwin.beans;
 
 import br.ufc.russas.n2s.darwin.model.EnumPermissoes;
-import br.ufc.russas.n2s.darwin.model.Usuario;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import java.util.List;
 
 /**
@@ -56,7 +56,7 @@ public class UsuarioBeans implements Beans{
     
     @Override
     public Object toBusiness() {
-        Usuario usuario = new Usuario();
+        UsuarioDarwin usuario = new UsuarioDarwin();
         if (this.getCodUsuario() > 0) {
             usuario.setCodUsuario(this.getCodUsuario());
         }
@@ -71,8 +71,8 @@ public class UsuarioBeans implements Beans{
     @Override
     public Beans toBeans(Object object) {
         if(object != null){
-            if(object instanceof Usuario){
-                Usuario usuario = (Usuario) object;
+            if(object instanceof UsuarioDarwin){
+                UsuarioDarwin usuario = (UsuarioDarwin) object;
                 this.setCodUsuario(usuario.getCodUsuario());
                 this.setPermissoes(usuario.getPermissoes());
                 this.setCodUsuarioControleDeAcesso(usuario.getCodUsuarioControleDeAcesso());

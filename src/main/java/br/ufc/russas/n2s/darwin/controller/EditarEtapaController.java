@@ -11,7 +11,8 @@ import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
-import br.ufc.russas.n2s.darwin.model.Usuario;
+import br.ufc.russas.n2s.darwin.model.Etapa;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -75,14 +76,14 @@ public class EditarEtapaController {
     public String getIndex(@PathVariable long codSelecao, Model model) {
         SelecaoBeans selecaoBeans = this.selecaoServiceIfc.getSelecao(codSelecao);
         model.addAttribute("selecao", selecaoBeans);
-        ArrayList<Usuario> avaliadores = new ArrayList<>();
-        Usuario a = new Usuario();
+        ArrayList<UsuarioDarwin> avaliadores = new ArrayList<>();
+        UsuarioDarwin a = new UsuarioDarwin();
         a.setCodUsuario(12312312);
-        Usuario b = new Usuario();
+        UsuarioDarwin b = new UsuarioDarwin();
         b.setCodUsuario(12346345);
-        Usuario c = new Usuario();
+        UsuarioDarwin c = new UsuarioDarwin();
         c.setCodUsuario(743224);
-        Usuario d = new Usuario();
+        UsuarioDarwin d = new UsuarioDarwin();
         d.setCodUsuario(86576353);
         avaliadores.add(a);
         avaliadores.add(b);
@@ -119,8 +120,7 @@ public class EditarEtapaController {
         }
         etapa.setAvaliadores(avaliadores);
         etapa = getEtapaServiceIfc().adicionaEtapa(etapa);
-        selecao.getEtapas().add(etapa);
-        selecao.getResponsaveis().add(new UsuarioBeans());
+        selecao.getEtapas().add((Etapa)etapa.toBusiness());
         this.selecaoServiceIfc.atualizaSelecao(selecao);
         /*if (!result.hasErrors()) {
         etapas.add(this.getEtapaServiceIfc().adicionaEtapa(etapa));

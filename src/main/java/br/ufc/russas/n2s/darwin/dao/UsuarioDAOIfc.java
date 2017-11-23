@@ -5,7 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.dao;
 
-import br.ufc.russas.n2s.darwin.model.Usuario;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import java.util.List;
 
 /**
@@ -17,25 +17,25 @@ public interface UsuarioDAOIfc {
      * Método resposável por fazer a persistência de uma etapa.
      * @param etapa
      */
-    Usuario adicionaUsuario(Usuario usuario);
+    UsuarioDarwin adicionaUsuario(UsuarioDarwin usuario);
 
     /**
      * Método resposável por fazer a atualização de uma etapa.
      * @param etapa
      */
-    Usuario atualizaUsuario(Usuario usuario);
+    UsuarioDarwin atualizaUsuario(UsuarioDarwin usuario);
 
     /**
      * Método resposável por fazer a remoção de uma etapa.
      * @param etapa
      */
-    void removeUsuario(Usuario usuario);
+    void removeUsuario(UsuarioDarwin usuario);
 
     /**
      * Método resposável por fazer a listagem de todas as etapas.
      * @return List<Etapa>
      */
-    List<Usuario> listaUsuarios(Usuario usuario);
+    List<UsuarioDarwin> listaUsuarios(UsuarioDarwin usuario);
 
     /**
      * Método resposável por pegar do banco de dados uma etapa a partir do
@@ -43,7 +43,7 @@ public interface UsuarioDAOIfc {
      * @param codEtapa
      * @return Etapa
      */
-    Usuario getUsuario(Usuario usuario);
+    UsuarioDarwin getUsuario(UsuarioDarwin usuario);
     
     /**
      * Método resposável por pegar do banco de dados uma etapa a partir do
@@ -51,5 +51,5 @@ public interface UsuarioDAOIfc {
      * @param codEtapa
      * @return Etapa
      */
-    Usuario getUsuarioControleDeAcesso(Usuario usuario);
+    UsuarioDarwin getUsuarioControleDeAcesso(UsuarioDarwin usuario);
 }

@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
+import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,8 @@ public class EtapaController {
     public String getIndex(@PathVariable long codEtapa, Model model){
         EtapaBeans etapa  = etapaServiceIfc.getEtapa(codEtapa);
         model.addAttribute("etapa", etapa);
-        return "editar-etapa";
+        return "/etapa";
     }
+    
+
 }

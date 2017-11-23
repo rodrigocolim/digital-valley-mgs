@@ -157,18 +157,6 @@
       }
     });
 
-    function verificaDocumento(){
-        var arquivoInput = document.getElementById("arquivoInput");
-        if (arquivoInput.files.length === 0) {
-          
-          return;
-        }
-
-        if (arquivoInput.files[0].type.indexOf("pdf") !== 0) {
-
-            
-        }
-    }
     
     </script>
 </body>

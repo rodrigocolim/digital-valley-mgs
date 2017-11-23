@@ -55,7 +55,7 @@
                         <br>
 
                         <label for="preRequisitosInput">Pré Requisitos</label>
-                        <textarea name="descricaoPreRequisitos" class="form-control" id="preRequisitosInput" placeholder="Digite uma breve descrição sobre os pré requisitos para participar da seleção">${selecao.descricaoPreRequisitos}</textarea>
+                        <textarea name="descricaoPreRequisitos" class="form-control" id="preRequisitosInput" placeholder="Digite uma breve descrição sobre os pré requisitos para participar da seleção"></textarea>
                         <br>
 
                         <label for="categoriaInput">Categoria*</label>
@@ -165,7 +165,7 @@
         }
 
         if (arquivoInput.files[0].type.indexOf("pdf") !== 0) {
-            arquivoInput.value = "";
+
             
         }
     }

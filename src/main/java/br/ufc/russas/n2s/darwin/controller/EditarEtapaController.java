@@ -74,19 +74,10 @@ public class EditarEtapaController {
     
     @RequestMapping(value="/{codSelecao}/{codEtapa}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, @PathVariable long codEtapa, Model model) {
-        //EtapaBeans etapaBeans = this.etapaServiceIfc.getEtapa(codEtapa);
+        EtapaBeans etapaBeans = this.etapaServiceIfc.getEtapa(codEtapa);
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-        EtapaBeans e1 = new EtapaBeans();
-        e1.setTitulo("Entrevista");
-        e1.setDescricao("Poderíamos criar um novo JSP com uma mensagem de confirmação da remoção, mas usualmente isso não costuma ser bom, porque precisaríamos navegar até a lista das tarefas novamente caso tenhamos que remover outra tarefa.");
-        e1.setCodEtapa(11);
-        e1.setPeriodo(new PeriodoBeans(0, LocalDate.now(), LocalDate.now()));
-        e1.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
-        ArrayList<String> documentacao = new ArrayList<>();
-        documentacao.add("Histórico Acadêmico");
-        e1.setDocumentacaoExigida(documentacao);
         model.addAttribute("selecao", selecao);
-        model.addAttribute("etapa", e1);
+        model.addAttribute("etapa", etapaBeans);
         return "editar-etapa";
     }
 

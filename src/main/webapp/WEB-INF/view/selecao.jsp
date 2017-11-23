@@ -45,12 +45,12 @@
                     <ul class="timeline timeline-vertical" id="timeline">
                     <c:forEach var="etapa" items="${selecao.etapas}">
                         <li class="timeline-item">
-                        <c:if test="${not empty PARTICIPANTE}">
+                        <c:if test="${fn:contains(sessionScope.usuario.permissoes, 'PARTICIPANTE')}">
                             <div class="timeline-badge success">
                                 <i class="material-icons">check</i>
                             </div>
                         </c:if>
-                        <c:if test="${(not empty RESPONSAVEL) or (not empty AVALIADOR) }">
+                        <c:if test="${fn:contains(sessionScope.usuario.permissoes, 'RESPONSAVEL') or fn:contains(sessionScope.usuario.permissoes, 'AVALIADOR')}">
                             <div class="timeline-badge">
                                 <i class="material-icons"></i>
                             </div>
@@ -60,28 +60,28 @@
                                     <h2 class="timeline-title">${etapa.titulo}</h2>
                                     <p>
                                         <small class="text-muted">
-                                            <b>${etapa.periodo.dataInicio}</b> 
+                                            <b>${etapa.periodo.inicio}</b> 
                                             até 
-                                            <b>${etapa.periodo.dataTermino}</b>
+                                            <b>${etapa.periodo.termino}</b>
                                         </small>
                                     </p>
                                 </div>
                                 <div class="timeline-body">
                                     <p class="text-justify">${etapa.descricao}</p><br>
-                                        <c:if test="${not empty RESPONSAVEL}">
-                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-sm btn-primary">Editar</a>
+                                        <c:if test="${fn:contains(sessionScope.usuario.permissoes, 'RESPONSAVEL')}">
+                                            <a href="/Darwin/etapa/${etapa.codEtapa}" class="btn btn-sm btn-primary">Editar</a>
                                         </c:if>
-                                        <c:if test="${not empty AVALIADOR}">
+                                        <c:if test="${fn:contains(sessionScope.usuario.permissoes, 'AVALIADOR')}">
                                             <a href="/Darwin/avaliar/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-sm btn-primary" >Avaliar</a>
                                         </c:if>
-                                        <c:if test="${not empty PARTICIPANTE}">
+                                        <c:if test="${fn:contains(sessionScope.usuario.permissoes, 'PARTICIPANTE')}">
                                             <a href="/Darwin/participarEtapa/${etapa.codEtapa}" class="btn btn-sm btn-primary">Participar</a>
                                         </c:if>
                                 </div>
                             </div>
                         </li>
                     </c:forEach>
-                    <c:if test="${not empty RESPONSAVEL}">
+                    <c:if test="${fn:contains(sessionScope.usuario.permissoes, 'RESPONSAVEL')}">
                         <li class="timeline-item">
                             <a href="/Darwin/cadastrarEtapa/${selecao.codSelecao}" class="timeline-badge" style="background-color: #007bff;">
                                 <i class="material-icons">add</i>

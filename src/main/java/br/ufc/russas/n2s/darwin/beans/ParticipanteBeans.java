@@ -7,7 +7,7 @@ package br.ufc.russas.n2s.darwin.beans;
 
 import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.Participante;
-import br.ufc.russas.n2s.darwin.model.Usuario;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +19,7 @@ import java.util.List;
 public class ParticipanteBeans implements Beans {
 
     private long codParticipante;
-    private Usuario candidato;
+    private UsuarioDarwin candidato;
     private List<DocumentacaoBeans> documentacao;
     private boolean deferido;
     private LocalDateTime data;
@@ -28,7 +28,7 @@ public class ParticipanteBeans implements Beans {
     public ParticipanteBeans(){
     }
 
-    public ParticipanteBeans(long codParticipante, Usuario candidato, List<DocumentacaoBeans> documentacao, boolean deferido, LocalDateTime data, boolean notificado) {
+    public ParticipanteBeans(long codParticipante, UsuarioDarwin candidato, List<DocumentacaoBeans> documentacao, boolean deferido, LocalDateTime data, boolean notificado) {
         this.codParticipante = codParticipante;
         this.candidato = candidato;
         this.documentacao = documentacao;
@@ -45,11 +45,11 @@ public class ParticipanteBeans implements Beans {
         this.codParticipante = codParticipante;
     }
 
-    public Usuario getCandidato() {
+    public UsuarioDarwin getCandidato() {
         return candidato;
     }
 
-    public void setCandidato(Usuario candidato) {
+    public void setCandidato(UsuarioDarwin candidato) {
         this.candidato = candidato;
     }
 

@@ -38,7 +38,7 @@
                 <br>
                 
                 <div class="form-group">
-                  <form method="post" action="cadastrarSelecao"  enctype="multipart/form-data" id="needs-validation" novalidate> 
+                    <form method="post" action="cadastrarSelecao" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate> 
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>

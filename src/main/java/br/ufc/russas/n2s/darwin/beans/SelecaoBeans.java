@@ -9,7 +9,7 @@ package br.ufc.russas.n2s.darwin.beans;
 import br.ufc.russas.n2s.darwin.model.Arquivo;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
-import br.ufc.russas.n2s.darwin.model.Usuario;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.EstadoSelecao;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class SelecaoBeans implements Beans {
     @NotNull @Size(min = 5)
     private String titulo;
     private String descricao;
-    private List responsaveis = Collections.synchronizedList(new ArrayList<UsuarioBeans>());;
+    private List responsaveis = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
     private EtapaBeans inscricao;
     private List etapas;
     @Min(0)
@@ -40,7 +40,7 @@ public class SelecaoBeans implements Beans {
     private String descricaoPreRequisitos;
     @NotNull
     private String areaDeConcentracao;
-    private List<ParticipanteBeans> candidatos;
+    private List<Participante> candidatos;
     @NotNull
     private String categoria;
     private List aditivos;
@@ -74,7 +74,7 @@ public class SelecaoBeans implements Beans {
         this.descricao = descricao;
     }
 
-    public List<UsuarioBeans> getResponsaveis() {
+    public List<UsuarioDarwin> getResponsaveis() {
         return responsaveis;
     }
 
@@ -90,7 +90,7 @@ public class SelecaoBeans implements Beans {
         this.inscricao = inscricao;
     }
 
-    public List<EtapaBeans> getEtapas() {
+    public List<Etapa> getEtapas() {
         return etapas;
     }
 
@@ -130,7 +130,7 @@ public class SelecaoBeans implements Beans {
         this.areaDeConcentracao = areaDeConcentracao;
     }
 
-    public List<ParticipanteBeans> getCandidatos() {
+    public List<Participante> getCandidatos() {
         return candidatos;
     }
 
@@ -154,7 +154,7 @@ public class SelecaoBeans implements Beans {
         this.aditivos = aditivos;
     }
 
-    public List<ArquivoBeans> getAnexos() {
+    public List<Arquivo> getAnexos() {
         return anexos;
     }
 
@@ -200,12 +200,11 @@ public class SelecaoBeans implements Beans {
         }
         selecao.setEstado(this.getEstado());
         
-        List<Usuario> responsaveis = Collections.synchronizedList(new ArrayList<Usuario>());
+        List<UsuarioDarwin> responsaveis = Collections.synchronizedList(new ArrayList<UsuarioDarwin>());
         //Ajeitar
         if(this.getResponsaveis()!=null && this.getResponsaveis().size()>0 ){
-            List<UsuarioBeans> resp = this.getResponsaveis();
-            for(UsuarioBeans u : resp){
-                responsaveis.add((Usuario) u.toBusiness());
+            for(UsuarioDarwin u : this.getResponsaveis()){
+                responsaveis.add(u);
             }
         }
         selecao.setResponsavel(responsaveis);
@@ -213,7 +212,7 @@ public class SelecaoBeans implements Beans {
         List<Etapa> etapas = Collections.synchronizedList(new ArrayList<Etapa>()); 
         if(this.getEtapas()!=null){
             for(int i=0;i<this.getEtapas().size();i++){
-                etapas.add((Etapa) ((EtapaBeans) this.getEtapas().get(i)).toBusiness());
+                etapas.add(this.getEtapas().get(i));
             }
         }
         selecao.setEtapas(etapas);
@@ -229,7 +228,7 @@ public class SelecaoBeans implements Beans {
         List<Arquivo> anexos = Collections.synchronizedList(new ArrayList<Arquivo>());
         if(this.getAnexos()!=null){
             for(int i=0;i<this.getAnexos().size();i++){
-                anexos.add((Arquivo) ((ArquivoBeans)this.getAnexos().get(i)).toBusiness());
+                anexos.add(this.getAnexos().get(i));
             }
         }
         selecao.setAnexos(anexos);
@@ -237,7 +236,7 @@ public class SelecaoBeans implements Beans {
         List<Participante> candidatos = Collections.synchronizedList(new ArrayList<Participante>());
         if(this.getCandidatos()!=null){
             for(int i=0;i<this.getCandidatos().size();i++){
-                candidatos.add((Participante) ((ParticipanteBeans)this.getCandidatos().get(i)).toBusiness());
+                candidatos.add(this.getCandidatos().get(i));
             }
         }
         selecao.setCandidatos(candidatos);

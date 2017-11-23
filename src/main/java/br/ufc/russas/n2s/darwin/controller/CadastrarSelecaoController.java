@@ -9,6 +9,7 @@ import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumPermissoes;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import java.io.File;
@@ -99,7 +100,7 @@ public class CadastrarSelecaoController {
         }
         HttpSession session = request.getSession();
         UsuarioBeans usuario = this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
-        selecao.getResponsaveis().add(usuario);
+        selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         UsuarioBeans u = new UsuarioBeans();
         u.setNome("Alex");
@@ -107,8 +108,8 @@ public class CadastrarSelecaoController {
         p.add(EnumPermissoes.RESPONSAVEL);
         u.setPermissoes(p);
         u.setCodUsuario(12);
-        selecao.setResponsaveis(new ArrayList<UsuarioBeans>());
-        selecao.getResponsaveis().add(u);
+
+        selecao.getResponsaveis().add((UsuarioDarwin) u.toBusiness());
         selecao = selecaoServiceIfc.atualizaSelecao(selecao);
         response.sendRedirect("selecao/" + selecao.getCodSelecao());
         //return "forward:/selecao/"+selecao.getCodSelecao();

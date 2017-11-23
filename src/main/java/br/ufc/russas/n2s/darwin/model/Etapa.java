@@ -44,10 +44,10 @@ public class Etapa implements Serializable, Atualizavel {
     @JoinColumn(name = "periodo", referencedColumnName = "codPeriodo")
     private Periodo periodo;
     private String descricao;
-    @ManyToMany(targetEntity = Usuario.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = UsuarioDarwin.class, cascade = CascadeType.ALL)
     @JoinTable(name = "avaliadores", joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
             inverseJoinColumns = {@JoinColumn(name = "avaliador", referencedColumnName = "codUsuario")})
-    private List<Usuario> avaliadores;
+    private List<UsuarioDarwin> avaliadores;
     @ElementCollection
     @CollectionTable(name = "documentacoes_exigidas", joinColumns = @JoinColumn(name = "codEtapa"))
     @Column(name = "documentacao_exigida")
@@ -116,11 +116,11 @@ public class Etapa implements Serializable, Atualizavel {
         this.descricao = descricao;
     }
 
-    public List<Usuario> getAvaliadores() {
+    public List<UsuarioDarwin> getAvaliadores() {
         return avaliadores;
     }
 
-    public void setAvaliadores(List<Usuario> avaliadores) {
+    public void setAvaliadores(List<UsuarioDarwin> avaliadores) {
         this.avaliadores = avaliadores;
     }
 
@@ -198,10 +198,10 @@ public class Etapa implements Serializable, Atualizavel {
      * Adiciona um novo avaliador a etapa.
      * @param usuario
      */
-    public void adicionaAvaliador(Usuario usuario) {
+    public void adicionaAvaliador(UsuarioDarwin usuario) {
         if (this.getAvaliadores() != null) {
-            ArrayList<Usuario> usuarios = new ArrayList<>();
-            List<Usuario> sync = Collections.synchronizedList(usuarios);
+            ArrayList<UsuarioDarwin> usuarios = new ArrayList<>();
+            List<UsuarioDarwin> sync = Collections.synchronizedList(usuarios);
             this.setAvaliadores(sync);
         }
         if (!this.getAvaliadores().contains(usuario)) {
@@ -217,7 +217,7 @@ public class Etapa implements Serializable, Atualizavel {
      * Método resposável por remover um avaliador desta etapa.
      * @param usuario
      */
-    public void removeAvaliador(Usuario usuario) {
+    public void removeAvaliador(UsuarioDarwin usuario) {
         if (this.getAvaliadores() != null) {
             if (this.getAvaliadores().contains(usuario)) {
                 this.getAvaliadores().remove(usuario);
@@ -235,7 +235,7 @@ public class Etapa implements Serializable, Atualizavel {
      * @param usuario
      * @return
      */
-    public boolean isAvaliador(Usuario usuario) {
+    public boolean isAvaliador(UsuarioDarwin usuario) {
         return this.getAvaliadores().contains(usuario);
     }
     

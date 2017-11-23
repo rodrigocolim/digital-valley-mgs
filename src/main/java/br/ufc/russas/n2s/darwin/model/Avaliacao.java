@@ -35,7 +35,7 @@ public class Avaliacao implements Serializable {
     private String observacao;
     @ManyToOne
     @JoinColumn(name = "avaliador", referencedColumnName = "codUsuario")
-    private Usuario avaliador;
+    private UsuarioDarwin avaliador;
 
     public long getCodAvaliacao() {
         return codAvaliacao;
@@ -89,11 +89,11 @@ public class Avaliacao implements Serializable {
         this.observacao = observacao;
     }
 
-    public Usuario getAvaliador() {
+    public UsuarioDarwin getAvaliador() {
         return avaliador;
     }
 
-    public void setAvaliador(Usuario avaliador) {
+    public void setAvaliador(UsuarioDarwin avaliador) {
         if (avaliador != null) {
             this.avaliador = avaliador;
         } else {

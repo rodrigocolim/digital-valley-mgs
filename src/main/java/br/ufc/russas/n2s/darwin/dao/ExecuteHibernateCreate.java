@@ -10,7 +10,7 @@ import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.Periodo;
 import br.ufc.russas.n2s.darwin.model.Selecao;
-import br.ufc.russas.n2s.darwin.model.Usuario;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
@@ -25,7 +25,7 @@ public class ExecuteHibernateCreate {
         conf.addAnnotatedClass(Arquivo.class);
             conf.addAnnotatedClass(Documentacao.class);
             conf.addAnnotatedClass(Periodo.class);
-            conf.addAnnotatedClass(Usuario.class);
+            conf.addAnnotatedClass(UsuarioDarwin.class);
             conf.addAnnotatedClass(Etapa.class);
             conf.addAnnotatedClass(Selecao.class);
         SchemaExport se = new SchemaExport(conf);

@@ -12,7 +12,7 @@ import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
 import br.ufc.russas.n2s.darwin.model.EstadoEtapa;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.Periodo;
-import br.ufc.russas.n2s.darwin.model.Usuario;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -143,10 +143,10 @@ public class EtapaBeans implements Beans {
         }
         etapa.setPeriodo((Periodo) this.getPeriodo().toBusiness());
 
-        List<Usuario> avaliadores = Collections.synchronizedList(new ArrayList<Usuario>());
+        List<UsuarioDarwin> avaliadores = Collections.synchronizedList(new ArrayList<UsuarioDarwin>());
         if (this.getAvaliadores() != null) {
             for (UsuarioBeans avaliador : this.getAvaliadores()) {
-                avaliadores.add((Usuario) avaliador.toBusiness());
+                avaliadores.add((UsuarioDarwin) avaliador.toBusiness());
             }
         }
         etapa.setAvaliadores(avaliadores);
@@ -198,7 +198,7 @@ public class EtapaBeans implements Beans {
                 List<UsuarioBeans> avaliadoresBeans = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
                 UsuarioBeans ubs;
                 if (etapa.getAvaliadores() != null) {
-                    for (Usuario usuario : etapa.getAvaliadores()) {
+                    for (UsuarioDarwin usuario : etapa.getAvaliadores()) {
                         ubs = (UsuarioBeans) (new UsuarioBeans().toBeans(usuario));
                         avaliadoresBeans.add(ubs);
                     }

@@ -18,7 +18,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -39,10 +38,10 @@ public class EtapaController {
     private EtapaServiceIfc etapaServiceIfc;
     private UsuarioServiceIfc usuarioServiceIfc;
     
-    public EtapaServiceIfc getEtapaServiceIfc(){
+    
+    public EtapaServiceIfc getEtapaServiceIfc() {
         return etapaServiceIfc;
     }
-    
     @Autowired(required = true)
     public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc")EtapaServiceIfc etapaServiceIfc) {
         this.etapaServiceIfc = etapaServiceIfc;
@@ -62,10 +61,10 @@ public class EtapaController {
     public String getIndex(@PathVariable long codEtapa, Model model){
         EtapaBeans etapa  = etapaServiceIfc.getEtapa(codEtapa);
         model.addAttribute("etapa", etapa);
-        return "/etapa";
+        return "/editar-etapa";
     }
     
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/{codEtapa}",method = RequestMethod.POST)
     public String atualiza(@PathVariable long codSelecao, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
         SelecaoBeans selecao = (SelecaoBeans) request.getSession().getAttribute("selecao");
         model.addAttribute("selecao", selecao);
@@ -103,7 +102,6 @@ public class EtapaController {
         }*/
         return "/etapa";
     }
-    
-    
+
 
 }

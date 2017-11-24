@@ -11,6 +11,7 @@ import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
+import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import java.time.LocalDate;
@@ -37,13 +38,6 @@ public class EtapaController {
     private EtapaServiceIfc etapaServiceIfc;
     private UsuarioServiceIfc usuarioServiceIfc;
     
-    public UsuarioServiceIfc getUsuarioServiceIfc() {
-        return usuarioServiceIfc;
-    }
-    @Autowired(required = true)
-    public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc) {
-        this.usuarioServiceIfc = usuarioServiceIfc;
-    }
     
     public EtapaServiceIfc getEtapaServiceIfc() {
         return etapaServiceIfc;
@@ -52,6 +46,16 @@ public class EtapaController {
     public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc")EtapaServiceIfc etapaServiceIfc) {
         this.etapaServiceIfc = etapaServiceIfc;
     }
+    
+    public UsuarioServiceIfc getUsuarioServiceIfc() {
+        return usuarioServiceIfc;
+    }
+    @Autowired(required = true)
+    public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc) {
+        this.usuarioServiceIfc = usuarioServiceIfc;
+    }
+    
+    
     
     @RequestMapping(value = "/{codEtapa}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codEtapa, Model model){
@@ -98,5 +102,6 @@ public class EtapaController {
         }*/
         return "/etapa";
     }
+
 
 }

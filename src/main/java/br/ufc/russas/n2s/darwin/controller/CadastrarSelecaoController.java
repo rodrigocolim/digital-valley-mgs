@@ -68,35 +68,20 @@ public class CadastrarSelecaoController {
     
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException {
-
         if (result.hasErrors()) {
-
-            System.out.println("\n\nde novo!!!\n\n");
             response.sendRedirect("casdastrarSelecao");
-            //return "cadastrar-selecao";
         }
-
-
         if (!file.isEmpty()) {
-
             ArquivoBeans edital = new ArquivoBeans();
-            
             File convFile = new File(file.getOriginalFilename());
             convFile.createNewFile(); 
             FileOutputStream fos = new FileOutputStream(convFile); 
             fos.write(file.getBytes());
             fos.close(); 
-            
             edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
             edital.setData(LocalDateTime.now());
             edital.setArquivo(convFile);
-            
-            //edital.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
-
-            //System.out.println("\n\neu aqui1!!!\n\n");
-
             selecao.setEdital(edital);
-
         }
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         HttpSession session = request.getSession();

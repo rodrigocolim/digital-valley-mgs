@@ -36,8 +36,9 @@ public class SelecaoController {
 
     @RequestMapping(value = "/{selecaoCodigo}", method = RequestMethod.GET)
     public String getIndex(@PathVariable String selecaoCodigo, Model model, HttpServletRequest request){
-        String[] part = selecaoCodigo.split("_");
-        long codSelecao = Long.parseLong(part[part.length-1]);
+       // String[] part = selecaoCodigo.split("_");
+       // long codSelecao = Long.parseLong(part[part.length-1]);
+        long codSelecao = Long.parseLong(selecaoCodigo);
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
         request.getSession().setAttribute("selecao", selecao);
         return "selecao";

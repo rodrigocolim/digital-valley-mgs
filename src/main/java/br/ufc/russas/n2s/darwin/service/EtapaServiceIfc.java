@@ -6,6 +6,9 @@
 package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
+import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.Participante;
 import java.util.List;
 
 /**
@@ -18,4 +21,6 @@ public interface EtapaServiceIfc {
     public void removeEtapa(EtapaBeans etapa);
     public List<EtapaBeans> listaTodasEtapas();
     public EtapaBeans getEtapa(long codEtapa);
+    public boolean isParticipante(ParticipanteBeans participante);
+    public boolean isParticipante(UsuarioBeans participante);
 }

@@ -54,7 +54,8 @@
                                 </c:if>
                             </p>
                             <c:set var = "nomeUrl" value = "${selecao.titulo}"/>
-                            <a href="selecao/${fn:replace(nomeUrl," ", "_")}_${selecao.codSelecao}" class="card-link">Acessar</a>
+                         <!--   <a href="selecao/${fn:replace(nomeUrl," ", "_")}_${selecao.codSelecao}" class="card-link">Acessar</a> -->
+                            <a href="selecao/${selecao.codSelecao}" class="card-link">Acessar</a>
                         </div>
                     </div>
                 </c:forEach>

@@ -8,6 +8,7 @@ package br.ufc.russas.n2s.darwin.model;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,4 +61,12 @@ public class FileManipulation {
         connection.disconnect();
         return connection.getInputStream();
     }
+    
+    public static byte[] getBytes(File file) throws FileNotFoundException, IOException {
+        byte[] bytesArray = new byte[(int) file.length()];
+        FileInputStream fis = new FileInputStream(file);
+        fis.read(bytesArray); //read file into bytes[]
+        fis.close();
+        return bytesArray;
+    } 
 }

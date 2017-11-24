@@ -6,6 +6,8 @@
 package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
+import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import java.util.ArrayList;
@@ -64,6 +66,16 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         Etapa etp = new Etapa();
         etp.setCodEtapa(codEtapa);
         return (EtapaBeans) new EtapaBeans().toBeans(this.getEtapaDAOIfc().getEtapa(etp));
+    }
+
+    @Override
+    public boolean isParticipante(ParticipanteBeans participante) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isParticipante(UsuarioBeans participante) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

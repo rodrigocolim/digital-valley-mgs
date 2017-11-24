@@ -236,6 +236,31 @@ public class Etapa implements Serializable, Atualizavel {
         }
     }
 
+    public List<Participante> getAprovados() {
+        List<Participante> aprovados = Collections.synchronizedList(new ArrayList<Participante>());
+        for(Avaliacao avaliacao : this.getAvaliacoes()){
+            if(avaliacao.isAprovado()){
+                aprovados.add(avaliacao.getParticipante());
+            }
+        }
+        return aprovados;
+    }
+    
+    
+    public boolean isParticipante(Participante participante){
+        List<Participante> aprovados = this.getPrerequisito().getAprovados();
+        return aprovados.contains(participante);
+    }
+    
+    public boolean isParticipante(UsuarioDarwin participante){
+        for(Participante p : this.getPrerequisito().getAprovados()){
+            if(p.getCandidato().equals(participante)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     /**
      * Verifica se o usuário passado é um avaliador.
      * @param usuario

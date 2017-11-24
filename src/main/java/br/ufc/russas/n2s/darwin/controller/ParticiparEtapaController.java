@@ -12,7 +12,9 @@ import br.ufc.russas.n2s.darwin.beans.PeriodoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Arquivo;
+import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
+import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -97,19 +99,22 @@ public class ParticiparEtapaController {
             System.out.println(file.getOriginalFilename());
             if (!file.isEmpty()) {
                 Arquivo documento = new Arquivo();
-
                 java.io.File convFile = new java.io.File(file.getOriginalFilename());
                 convFile.createNewFile(); 
                 FileOutputStream fos = new FileOutputStream(convFile); 
                 fos.write(file.getBytes());
                 fos.close(); 
-
                 documento.setTitulo(nome);
                 documento.setData(LocalDateTime.now());
                 documento.setArquivo(convFile);
                 arquivos.add(documento);
             }        
         }
+        
+        Documentacao documentacao = new  Documentacao();
+        documentacao.setCandidato(new Participante());
+        documentacao.setDocumentos(arquivos);
+        //etapa.getDocumentacoes().add(documentacao);
     }
     
 

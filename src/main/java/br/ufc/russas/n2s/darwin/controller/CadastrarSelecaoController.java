@@ -101,6 +101,9 @@ public class CadastrarSelecaoController {
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         HttpSession session = request.getSession();
         UsuarioBeans usuario = this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
+        if(!usuario.getPermissoes().contains(EnumPermissoes.RESPONSAVEL)){
+            usuario.getPermissoes().add(EnumPermissoes.RESPONSAVEL);
+        }
         selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
         selecao = selecaoServiceIfc.atualizaSelecao(selecao);
         response.sendRedirect("selecao/" + selecao.getCodSelecao());

@@ -39,7 +39,11 @@
                     <p><b>Vagas:</b> ${selecao.vagasRemuneradas} remuneradas e ${selecao.vagasVoluntarias} voluntárias.</p>
                     <p><b>Categoria:</b> ${selecao.categoria}</p>
                     <p><b>Área de Concentração:</b> ${selecao.areaDeConcentracao}</p>      
-                    <p><b>Edital:</b></p>
+                    <p>
+                        <b>Edital:</b>  
+                        <c:set var = "nomeUrl" value = "${selecao.titulo}"/>
+                        <a href="${fn:replace(nomeUrl," ", "_")}_${selecao.codSelecao}/edital" class="card-link">${selecao.edital.titulo}</a>
+                    </p>
                     <br/>
                     
                     <ul class="timeline timeline-vertical" id="timeline">

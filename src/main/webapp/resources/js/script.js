@@ -3,20 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var arquivoInput = document.getElementById("arquivoInput");
-var enviar = document.getElementById("enviar");
-enviar.addEventListener("click", function (event) {
-  if (arquivoInput.files.length === 0) {
-    alert("Nenhum Arquivo Selecionado");
-    return;
-  }
-
-  if (arquivoInput.files[0].type.indexOf("pdf") !== 0) {
-    alert("Este arquivo não é um PDF");
-    $(".invalid-feedback").addClass("active");
-    return;
-  }
-});
 (function () {
     'use strict';
     window.addEventListener('load', function () {

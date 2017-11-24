@@ -113,7 +113,7 @@
                         <br>
                         <c:forEach var="avaliador" items="${etapa.avaliadores}">
                             <li class="list-group-item">
-                                <input type="hidden" name="codAvaliadores" value="${avaliador}" style="display: none;">${avaliador}<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(${avaliador})">clear</button>
+                                <input type="hidden" name="codAvaliadores" value="${avaliador}" style="display: none;">${avaliador.nome}<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(${avaliador})">clear</button>
                             </li>
                         </c:forEach>
 

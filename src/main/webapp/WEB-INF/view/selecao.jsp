@@ -21,6 +21,7 @@
     </head>
     <body>
         <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
+        <c:set var="permissoes" value="${sessionScope.usuarioDarwin.permissoes}"></c:set>
         <div class="container-fluid">
             <div class="row row-offcanvas row-offcanvas-right">
             <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
@@ -30,6 +31,14 @@
                         <a class="breadcrumb-item" href="/Darwin">Início</a>
                         <a class="breadcrumb-item active" href="${selecao.codSelecao}">${selecao.titulo}</a>
                     </nav>
+                    <c:if test="${not empty mensagem}">
+                    <div class="alert alert-${tipoMensagem} alert-dismissible fade show" role="alert">
+                         ${mensagem}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    </c:if>
                     <h1>${selecao.titulo}</h1>
                     <p class="text-justify">
                         ${selecao.descricao}
@@ -54,35 +63,39 @@
                                     <h2 class="timeline-title">${etapa.titulo}</h2>
                                     <p>
                                         <small class="text-muted">
-                                            <b>${etapa.periodo.inicio}</b> 
+                                            <fmt:parseDate value="${etapa.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicio" type="date" />
+                                            <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
+                                            <fmt:formatDate value="${parseDataInicio}"  pattern="dd/MMMM/yyyy" var="dataInicio" type="date"/>
+                                            <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MMMM/yyyy" var="dataTermino" type="date"/>
+                                            <b>${fn:replace(dataInicio, "/", " de ")}</b> 
                                             até 
-                                            <b>${etapa.periodo.termino}</b>
+                                            <b>${fn:replace(dataTermino, "/", " de ")}</b>
                                         </small>
                                     </p>
                                 </div>
                                 <div class="timeline-body">
                                     <p class="text-justify">${etapa.descricao}</p><br>
-                                        <c:if test="${fn:contains(sessionScope.usuarioDarwin.permissoes, 'RESPONSAVEL')}">
+                                        <c:if test="${fn:contains(permissoes, 'RESPONSAVEL')}">
                                             <a href="/Darwin/etapa/${etapa.codEtapa}" class="btn btn-sm btn-primary">Editar</a>
                                         </c:if>
-                                        <c:if test="${fn:contains(sessionScope.usuarioDarwin.permissoes, 'AVALIADOR')}">
+                                        <c:if test="${fn:contains(permissoes, 'AVALIADOR')}">
                                             <a href="/Darwin/avaliar/${etapa.codEtapa}" class="btn btn-sm btn-primary" >Avaliar</a>
                                         </c:if>
-                                        <c:if test="${fn:contains(sessionScope.usuarioDarwin.permissoes, 'PARTICIPANTE') and (etapa.estado.estado == 2)}">
+                                        <c:if test="${fn:contains(permissoes, 'PARTICIPANTE') and (etapa.estado.estado == 2)}">
                                             <a href="/Darwin/participarEtapa/${etapa.codEtapa}" class="btn btn-sm btn-primary">Participar</a>
                                         </c:if>
                                 </div>
                             </div>
                         </li>
                     </c:forEach>
-                    <c:if test="${fn:contains(sessionScope.usuarioDarwin.permissoes, 'RESPONSAVEL')}">  
+                    <c:if test="${fn:contains(permissoes, 'RESPONSAVEL')}">  
                         <li class="timeline-item">
                             <a href="/Darwin/cadastrarEtapa/${selecao.codSelecao}" class="timeline-badge" style="background-color: #007bff;">
                                 <i class="material-icons">add</i>
                             </a>
                         </li>                        
                     </c:if>
-                    <c:if test="${fn:contains(sessionScope.usuarioDarwin.permissoes, 'PARTICIPANTE')}">  
+                    <c:if test="${fn:contains(permissoes, 'PARTICIPANTE') and (not empty selecao.etapas) and not fn:contains(permissoes, 'RESPONSAVEL')}">  
                         <li class="timeline-item">
                             <a href="#" class="timeline-badge" style="background-color: #007bff;">
                                 <i class="material-icons">flag</i>

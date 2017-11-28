@@ -100,7 +100,7 @@ public class EtapaController {
         etapas.add(this.getEtapaServiceIfc().adicionaEtapa(etapa));
         model.addAttribute("etapas", etapas);
         }*/
-        return "/etapa";
+        return "editar-etapa";
     }
 
 

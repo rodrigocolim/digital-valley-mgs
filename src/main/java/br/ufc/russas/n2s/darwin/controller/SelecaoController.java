@@ -36,6 +36,7 @@ public class SelecaoController {
        // long codSelecao = Long.parseLong(part[part.length-1]);
         long codSelecao = Long.parseLong(selecaoCodigo);
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
+        model.addAttribute("selecao", selecao);
         request.getSession().setAttribute("selecao", selecao);
         return "selecao";
     }
@@ -65,8 +66,9 @@ public class SelecaoController {
     
     @RequestMapping(value = "/{selecaoCodigo}/edital}", method = RequestMethod.GET)
     public void generateReport(@PathVariable String selecaoCodigo, HttpServletResponse response) throws Exception {
-        String[] part = selecaoCodigo.split("_");
-        long codSelecao = Long.parseLong(part[part.length-1]);
+       // String[] part = selecaoCodigo.split("_");
+        //long codSelecao = Long.parseLong(part[part.length-1]);
+        long codSelecao = Long.parseLong(selecaoCodigo);
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
         System.out.println("teste");
         byte[] data = FileManipulation.getBytes(selecao.getEdital().getArquivo());

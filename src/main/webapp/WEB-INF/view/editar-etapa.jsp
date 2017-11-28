@@ -38,7 +38,7 @@
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
-                    <form method="POST" action="etapa">
+                    <form method="POST" action="etapa/${etapa.codEtapa}">
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
                         <div class="invalid-feedback">

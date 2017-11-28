@@ -5,6 +5,8 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
+import br.ufc.russas.n2s.darwin.dao.EtapaDAOImpl;
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -270,6 +272,19 @@ public class Etapa implements Serializable, Atualizavel {
         }
         return null;
     }
+    
+    public void participa(Documentacao documentacao) throws IllegalAccessException {
+        if (documentacao != null) {
+            throw new NullPointerException("Documentacao não pode ser vazia!");
+        } else if (isParticipante(documentacao.getCandidato())) {
+            throw new IllegalAccessException("Você não é um participante desta Etapa");
+        } else {
+            this.getDocumentacoes().add(documentacao);
+            EtapaDAOIfc etapaDAOIfc = new EtapaDAOImpl();
+            etapaDAOIfc.atualizaEtapa(this);
+        } 
+    }
+    
     /**
      * Verifica se o usuário passado é um avaliador.
      * @param usuario

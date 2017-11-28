@@ -25,6 +25,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -85,10 +87,11 @@ public class ParticiparEtapaController {
     }
 
     @RequestMapping(value="/{codEtapa}", method = RequestMethod.POST)
-    public @ResponseBody void participar(@PathVariable long codEtapa, HttpServletRequest request, @RequestParam("nomeDocumento") String[] nomeDocumento, @RequestParam("documento") MultipartFile[] documentos) throws IOException {
+    public @ResponseBody void participar(@PathVariable long codEtapa, HttpServletRequest request, @RequestParam("nomeDocumento") String[] nomeDocumento, @RequestParam("documento") MultipartFile[] documentos) throws IOException {    
         EtapaBeans etapa = this.etapaServiceIfc.getEtapa(codEtapa);
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        this.etapaServiceIfc.setUsuario(usuario);
         List<Arquivo> arquivos = Collections.synchronizedList(new ArrayList<Arquivo>());
         for (int i = 0; i < documentos.length;i++) {
             String nome = nomeDocumento[i];
@@ -111,8 +114,12 @@ public class ParticiparEtapaController {
         Documentacao documentacao = new  Documentacao();
         documentacao.setCandidato((Participante) this.etapaServiceIfc.getParticipante(etapa, usuario).toBusiness());
         documentacao.setDocumentos(arquivos);
-        etapa.getDocumentacoes().add((DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
-        
+        try {
+            this.etapaServiceIfc.participa(etapa, (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
+        }
+        catch (IllegalAccessException ex) {
+            Logger.getLogger(ParticiparEtapaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 

@@ -5,11 +5,13 @@
  */
 package br.ufc.russas.n2s.darwin.service;
 
+import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
+import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
@@ -100,6 +102,12 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     public ParticipanteBeans getParticipante(EtapaBeans etapa, UsuarioBeans usuario) {
         Etapa e = (Etapa) etapa.toBusiness();
         return (ParticipanteBeans) new ParticipanteBeans().toBeans(e.getParticipante((UsuarioDarwin) usuario.toBusiness()));
+    }
+
+    @Override
+    public void participa(EtapaBeans etapa, DocumentacaoBeans documentacao) throws IllegalAccessException {
+        Etapa e = (Etapa) etapa.toBusiness();
+        e.participa((Documentacao) documentacao.toBusiness());                
     }
 
 }

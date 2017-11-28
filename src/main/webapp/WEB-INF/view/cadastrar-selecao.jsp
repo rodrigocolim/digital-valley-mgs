@@ -105,7 +105,7 @@
                         </div>
                         <br>
                         <label for="editalInput">Edital*</label>
-                        <input type="file" name="file" class="form-control" id="arquivoInput" aria-describedby="editalHelp" placeholder="Anexe o edital da seleção"  accept="application/pdf"  required>
+                        <input type="file" name="file" class="form-control" id="arquivoInput" aria-describedby="editalHelp" placeholder="Anexe o edital da seleção"  accept="application/pdf" required>
                         <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
                         <div class="invalid-feedback">
                             

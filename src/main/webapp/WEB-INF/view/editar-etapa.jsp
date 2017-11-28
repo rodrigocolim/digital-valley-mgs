@@ -38,8 +38,12 @@
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
+<<<<<<< HEAD
+                    <form method="POST" action="etapa/${etapa.codEtapa}">
+=======
                     <form method="POST" action="etapa" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
 
+>>>>>>> 065e451ad019ba0cdc487aa21aa4dd00954b42f0
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
                         
@@ -53,7 +57,7 @@
                             <c:forEach var="e" items="${selecao.etapas}">
                             <fmt:parseDate value="${e.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
                             <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
-                            <option value="${e.codEtapa}" ${(etapa.prerequisito.codEtapa eq e.codEtapa ? "selected" : "")} onclick="atualizaDataMinimaPermitida('${dataTermino}')">${e.titulo}</option>
+                            <option value="${e.codEtapa}" ${(etapa.prerequisito.codEtapa == e.codEtapa ? "selected" : "")} onclick="atualizaDataMinimaPermitida('${dataTermino}')">${e.titulo}</option>
                             </c:forEach>
                         </select>
                         
@@ -61,9 +65,13 @@
                         <label for="descricaoInput">Período*</label>
                         <div id="sandbox-container">
                             <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
-                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" value="${etapa.periodo.inicio}" required/>
+                                <fmt:parseDate value="${etapa.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicio" type="date" />
+                                <fmt:formatDate value="${parseDataInicio}"  pattern="dd/MM/yyyy" var="dataInicio" type="date"/>
+                                <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
+                                <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
+                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" value="${dataInicio}" required/>
                                 <span class="input-group-addon">até</span>
-                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" name="dataTermino" value="${etapa.periodo.termino}" required/>
+                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" name="dataTermino" value="${dataTermino}" required/>
                                 <div class="invalid-feedback">
                                     Selecione uma data para Início e Término
                                 </div>

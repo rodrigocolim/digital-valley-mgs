@@ -7,9 +7,13 @@ package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
+import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Etapa;
+import br.ufc.russas.n2s.darwin.model.Selecao;
+import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +30,8 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
 
     private EtapaDAOIfc etapaDAOIfc;
 
+    private UsuarioBeans usuario;
+    
     public EtapaDAOIfc getEtapaDAOIfc() {
         return etapaDAOIfc;
     }
@@ -34,10 +40,18 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     public void setEtapaDAOIfc(@Qualifier("etapaDAOIfc")EtapaDAOIfc etapaDAOIfc) {
         this.etapaDAOIfc = etapaDAOIfc;
     }
-
+    
     @Override
-    public EtapaBeans adicionaEtapa(EtapaBeans etapa) {
-        return (EtapaBeans) new EtapaBeans().toBeans(this.getEtapaDAOIfc().adicionaEtapa((Etapa) etapa.toBusiness()));
+    public void setUsuario(UsuarioBeans usuario) {
+        this.usuario = usuario;
+    }
+    
+    @Override
+    public EtapaBeans adicionaEtapa(SelecaoBeans selecao, EtapaBeans etapa) throws IllegalAccessException {
+        UsuarioDarwin u = (UsuarioDarwin) usuario.toBusiness();
+        SelecaoProxy sp = new SelecaoProxy(u);
+        sp.adicionaEtapa((Selecao) selecao.toBusiness(), (Etapa) etapa.toBusiness());
+        return etapa;
     }
 
     @Override

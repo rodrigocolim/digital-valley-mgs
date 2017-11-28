@@ -107,7 +107,6 @@ public class EditarEtapaController {
             }
         }
         etapa.setAvaliadores(avaliadores);
-        etapa = getEtapaServiceIfc().adicionaEtapa(etapa);
         selecao.getEtapas().add((Etapa)etapa.toBusiness());
         this.selecaoServiceIfc.atualizaSelecao(selecao);
         /*if (!result.hasErrors()) {

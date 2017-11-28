@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -7,19 +7,7 @@
             /WEB-INF/dispatcher-servlet.xml
         </param-value>
     </context-param>
-    <!--
-    <filter>  
-        <filter-name>HibernateSessionRequestFilter</filter-name>  
-        <filter-class>br.ufc.russas.n2s.darwin.controller.filter.HibernateSessionRequestFilter</filter-class>  
-    </filter>  
-  
-    <filter-mapping>  
-        <filter-name>HibernateSessionRequestFilter</filter-name>  
-        <url-pattern>/*</url-pattern>  
-    </filter-mapping>
-    -->
-      
- 
+    <!--    
     <filter>
         <filter-name>openSessionInView</filter-name>
         <filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
@@ -29,7 +17,7 @@
         <filter-name>openSessionInView</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-  
+  -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
@@ -105,9 +93,8 @@
         <filter-name>FiltroAutenticado</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
     <filter> 
-        <filter-name>encodingFilter</filter-name>  
+        <filter-name>SetCharacterEncodingFilter</filter-name>  
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  
         <init-param>  
            <param-name>encoding</param-name>  
@@ -119,7 +106,7 @@
         </init-param>  
     </filter>   
     <filter-mapping>  
-       <filter-name>encodingFilter</filter-name>  
+       <filter-name>SetCharacterEncodingFilter</filter-name>  
        <url-pattern>/*</url-pattern>  
     </filter-mapping>
 

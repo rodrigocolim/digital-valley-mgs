@@ -90,7 +90,7 @@ public class EtapaController {
             }
         }
         etapa.setAvaliadores(avaliadores);
-        etapa = getEtapaServiceIfc().adicionaEtapa(etapa);
+        //etapa = getEtapaServiceIfc().adicionaEtapa(etapa);
         //selecao.getEtapas().add((Etapa)etapa.toBusiness());
         //this.selecaoServiceIfc.atualizaSelecao(selecao);
         this.getEtapaServiceIfc().atualizaEtapa(etapa);
@@ -100,7 +100,7 @@ public class EtapaController {
         etapas.add(this.getEtapaServiceIfc().adicionaEtapa(etapa));
         model.addAttribute("etapas", etapas);
         }*/
-        return "/etapa";
+        return "";
     }
 
 

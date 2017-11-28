@@ -37,4 +37,20 @@ public class SelecaoProxy {
         }
     }
     
+    public Selecao adicionaSelecao(Selecao selecao) throws IllegalAccessException {
+        if (usuario.getPermissoes().contains(EnumPermissoes.RESPONSAVEL)) {
+            return selecao.adicionaSelecao(selecao);
+        } else {
+            throw new IllegalAccessException("Você não é um responsável de ".concat(selecao.getTitulo()));
+        }
+    }
+    
+    public Selecao atualizaSelecao(Selecao selecao) throws IllegalAccessException {
+        if (usuario.getPermissoes().contains(EnumPermissoes.RESPONSAVEL)) {
+            return selecao.atualizaSelecao(selecao);
+        } else {
+            throw new IllegalAccessException("Você não é um responsável de ".concat(selecao.getTitulo()));
+        }
+    }
+    
 }

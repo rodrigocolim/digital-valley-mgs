@@ -16,8 +16,7 @@ import java.util.List;
  *
  * @author Wallison Carlos
  */
-public interface EtapaServiceIfc {
-    public void setUsuario(UsuarioBeans usuario);
+public interface EtapaServiceIfc extends ServiceIfc{
     public EtapaBeans adicionaEtapa(SelecaoBeans selecao, EtapaBeans etapa) throws IllegalAccessException;
     public EtapaBeans atualizaEtapa(EtapaBeans etapa);
     public void removeEtapa(EtapaBeans etapa);

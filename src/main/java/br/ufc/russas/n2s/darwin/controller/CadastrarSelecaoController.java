@@ -67,7 +67,7 @@ public class CadastrarSelecaoController {
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException {
+    public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
         if (result.hasErrors()) {
             response.sendRedirect("casdastrarSelecao");
         }
@@ -83,14 +83,15 @@ public class CadastrarSelecaoController {
             edital.setArquivo(convFile);
             selecao.setEdital(edital);
         }
-        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         HttpSession session = request.getSession();
-        UsuarioBeans usuario = this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usaurioDarwin");
+        this.getSelecaoServiceIfc().setUsuario(usuario);
+        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         if(!usuario.getPermissoes().contains(EnumPermissoes.RESPONSAVEL)){
             usuario.getPermissoes().add(EnumPermissoes.RESPONSAVEL);
         }
         selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
-        selecao = selecaoServiceIfc.atualizaSelecao(selecao);
+        selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
         response.sendRedirect("selecao/" + selecao.getCodSelecao());
         //return "forward:/selecao/"+selecao.getCodSelecao();
 

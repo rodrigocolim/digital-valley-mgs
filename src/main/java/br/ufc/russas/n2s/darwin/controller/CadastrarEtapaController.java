@@ -15,6 +15,7 @@ import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -79,6 +80,11 @@ public class CadastrarEtapaController {
 
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
     public String adiciona(@PathVariable long codSelecao, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
+        try{
+            request.setCharacterEncoding("UTF-8");
+        }catch(UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         model.addAttribute("selecao", selecao);
         String[] codAvaliadores = request.getParameterValues("codAvaliadores");

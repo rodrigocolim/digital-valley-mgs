@@ -25,8 +25,10 @@ import model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,11 +37,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author Wallison Carlos
+ * @author Alex Felipe
  */
-@Controller("cadastrarSelecaoController")
-@RequestMapping("/cadastrarSelecao")
-public class CadastrarSelecaoController { 
+@Controller("editarr=SelecaoController")
+@RequestMapping("/editarSelecao")
+public class EditarSelecaoController { 
 
     private SelecaoServiceIfc selecaoServiceIfc;
     private UsuarioServiceIfc usuarioServiceIfc;
@@ -53,11 +55,6 @@ public class CadastrarSelecaoController {
         this.selecaoServiceIfc = selecaoServiceIfc;
     }
     
-    @RequestMapping(method = RequestMethod.GET)
-    public String getIndex() {
-        return "cadastrar-selecao";
-    }
-
     public UsuarioServiceIfc getUsuarioServiceIfc() {
         return usuarioServiceIfc;
     }
@@ -65,14 +62,21 @@ public class CadastrarSelecaoController {
     public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc) {
         this.usuarioServiceIfc = usuarioServiceIfc;
     }
+
+    @RequestMapping(value = "/{selecaoCodigo}", method = RequestMethod.GET)
+    public String getIndex(@PathVariable String selecaoCodigo, Model model, HttpServletRequest request){
+       // String[] part = selecaoCodigo.split("_");
+       // long codSelecao = Long.parseLong(part[part.length-1]);
+        long codSelecao = Long.parseLong(selecaoCodigo);
+        SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
+        request.getSession().setAttribute("selecao", selecao);
+        return "editar-selecao";
+    }
     
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
-        
-        System.out.println("\n Nome: "+selecao.getTitulo()+"\n");
-        
+    public @ResponseBody void edita(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("edital") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException {
         if (result.hasErrors()) {
-            response.sendRedirect("cadastrarSelecao");
+            response.sendRedirect("editarSelecao/"+selecao.getCodSelecao());
         }
         if (!file.isEmpty()) {
             ArquivoBeans edital = new ArquivoBeans();
@@ -86,15 +90,14 @@ public class CadastrarSelecaoController {
             edital.setArquivo(convFile);
             selecao.setEdital(edital);
         }
-        HttpSession session = request.getSession();
-        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usaurioDarwin");
-        this.getSelecaoServiceIfc().setUsuario(usuario);
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
+        HttpSession session = request.getSession();
+        UsuarioBeans usuario = this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
         if(!usuario.getPermissoes().contains(EnumPermissoes.RESPONSAVEL)){
             usuario.getPermissoes().add(EnumPermissoes.RESPONSAVEL);
         }
         selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
-        selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+        selecao = selecaoServiceIfc.atualizaSelecao(selecao);
         response.sendRedirect("selecao/" + selecao.getCodSelecao());
         //return "forward:/selecao/"+selecao.getCodSelecao();
 

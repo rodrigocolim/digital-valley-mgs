@@ -5,6 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.service;
 
+import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
@@ -27,4 +28,6 @@ public interface EtapaServiceIfc extends ServiceIfc{
     public boolean isParticipante(UsuarioBeans participante);
     public ParticipanteBeans getParticipante(EtapaBeans etapa, UsuarioBeans usuario);
     public void participa(EtapaBeans etapa, DocumentacaoBeans documentacao) throws IllegalAccessException;
+    public void avalia(EtapaBeans etapa, AvaliacaoBeans avaliacao) throws IllegalAccessException;
+   
 }

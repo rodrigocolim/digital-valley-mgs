@@ -68,6 +68,9 @@ public class CadastrarSelecaoController {
     
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
+        
+        System.out.println("\n Nome: "+selecao.getTitulo()+"\n");
+        
         if (result.hasErrors()) {
             response.sendRedirect("casdastrarSelecao");
         }

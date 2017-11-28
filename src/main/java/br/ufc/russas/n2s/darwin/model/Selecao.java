@@ -5,6 +5,8 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
+import br.ufc.russas.n2s.darwin.dao.EtapaDAOImpl;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOImpl;
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
@@ -301,6 +303,15 @@ public class Selecao {
             return etapa;
         } else {
             throw new IllegalArgumentException("Etapa adicionada não pode ser nula!");
+        }
+    }
+    
+    public Etapa atualizaEtapa(Etapa etapa) {
+        if (etapa != null) {            
+            EtapaDAOIfc etapaDAOIfc = new EtapaDAOImpl();
+            return etapaDAOIfc.atualizaEtapa(etapa);
+        } else {
+            throw new IllegalArgumentException("Etapa para atualizar não pode ser nula!");
         }
     }
     

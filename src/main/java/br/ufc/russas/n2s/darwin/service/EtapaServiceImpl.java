@@ -11,6 +11,7 @@ import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Etapa;
+import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
@@ -55,8 +56,11 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     }
 
     @Override
-    public EtapaBeans atualizaEtapa(EtapaBeans etapa) {
-        return (EtapaBeans) new EtapaBeans().toBeans(this.getEtapaDAOIfc().atualizaEtapa((Etapa) etapa.toBusiness()));
+    public EtapaBeans atualizaEtapa(SelecaoBeans selecao, EtapaBeans etapa) throws IllegalAccessException {
+        UsuarioDarwin u = (UsuarioDarwin) usuario.toBusiness();
+        SelecaoProxy sp = new SelecaoProxy(u);
+        Etapa e = sp.atualizaEtapa((Selecao) selecao.toBusiness(), (Etapa) etapa.toBusiness());
+        return (EtapaBeans) etapa.toBeans(e);
     }
 
     @Override
@@ -90,6 +94,12 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     @Override
     public boolean isParticipante(UsuarioBeans participante) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ParticipanteBeans getParticipante(EtapaBeans etapa, UsuarioBeans usuario) {
+        Etapa e = (Etapa) etapa.toBusiness();
+        return (ParticipanteBeans) new ParticipanteBeans().toBeans(e.getParticipante((UsuarioDarwin) usuario.toBusiness()));
     }
 
 }

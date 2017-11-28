@@ -80,7 +80,11 @@ public class CadastrarEtapaController {
 
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
     public String adiciona(@PathVariable long codSelecao, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) throws IllegalAccessException {
-
+        
+           
+        System.out.println("\n Nome: "+etapa.getTitulo()+"\n");
+        
+        
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         model.addAttribute("selecao", selecao);
         String[] codAvaliadores = request.getParameterValues("codAvaliadores");

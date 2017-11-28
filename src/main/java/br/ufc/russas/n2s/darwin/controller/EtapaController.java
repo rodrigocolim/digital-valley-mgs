@@ -17,6 +17,8 @@ import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -90,10 +92,15 @@ public class EtapaController {
             }
         }
         etapa.setAvaliadores(avaliadores);
-        //etapa = getEtapaServiceIfc().adicionaEtapa(etapa);
-        //selecao.getEtapas().add((Etapa)etapa.toBusiness());
-        //this.selecaoServiceIfc.atualizaSelecao(selecao);
-        this.getEtapaServiceIfc().atualizaEtapa(etapa);
+        try {
+            //etapa = getEtapaServiceIfc().adicionaEtapa(etapa);
+            //selecao.getEtapas().add((Etapa)etapa.toBusiness());
+            //this.selecaoServiceIfc.atualizaSelecao(selecao);
+            this.getEtapaServiceIfc().atualizaEtapa(selecao, etapa);
+        }
+        catch (IllegalAccessException ex) {
+            Logger.getLogger(EtapaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
         /*if (!result.hasErrors()) {

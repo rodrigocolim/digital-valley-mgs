@@ -18,10 +18,11 @@ import java.util.List;
  */
 public interface EtapaServiceIfc extends ServiceIfc{
     public EtapaBeans adicionaEtapa(SelecaoBeans selecao, EtapaBeans etapa) throws IllegalAccessException;
-    public EtapaBeans atualizaEtapa(EtapaBeans etapa);
+    public EtapaBeans atualizaEtapa(SelecaoBeans selecao, EtapaBeans etapa) throws IllegalAccessException;
     public void removeEtapa(EtapaBeans etapa);
     public List<EtapaBeans> listaTodasEtapas();
     public EtapaBeans getEtapa(long codEtapa);
     public boolean isParticipante(ParticipanteBeans participante);
     public boolean isParticipante(UsuarioBeans participante);
+    public ParticipanteBeans getParticipante(EtapaBeans etapa, UsuarioBeans usuario);
 }

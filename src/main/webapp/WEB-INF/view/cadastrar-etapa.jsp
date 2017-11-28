@@ -135,7 +135,9 @@
                         <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
                             Cancelar
                         </a>
-                        <input type="button" class="btn btn-primary" value="Salvar" >
+                        <a href="/cadastrarEtapa/${selecao.codSelecao}" type="button" class="btn btn-secondary">
+                            Salvar
+                        </a>
                     </form>   
                 </div>
             </div>

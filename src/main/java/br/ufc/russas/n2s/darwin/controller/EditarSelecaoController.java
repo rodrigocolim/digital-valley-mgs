@@ -17,6 +17,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -90,14 +92,24 @@ public class EditarSelecaoController {
             edital.setArquivo(convFile);
             selecao.setEdital(edital);
         }
-        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
+        try {
+            selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
+        }
+        catch (IllegalAccessException ex) {
+            Logger.getLogger(EditarSelecaoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         HttpSession session = request.getSession();
         UsuarioBeans usuario = this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
         if(!usuario.getPermissoes().contains(EnumPermissoes.RESPONSAVEL)){
             usuario.getPermissoes().add(EnumPermissoes.RESPONSAVEL);
         }
         selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
-        selecao = selecaoServiceIfc.atualizaSelecao(selecao);
+        try {
+            selecao = selecaoServiceIfc.atualizaSelecao(selecao);
+        }
+        catch (IllegalAccessException ex) {
+            Logger.getLogger(EditarSelecaoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         response.sendRedirect("selecao/" + selecao.getCodSelecao());
         //return "forward:/selecao/"+selecao.getCodSelecao();
 

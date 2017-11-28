@@ -38,8 +38,12 @@
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
+<<<<<<< HEAD
+                    <form method="POST" action="etapa/${etapa.codEtapa}">
+=======
                     <form method="POST" action="etapa" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
 
+>>>>>>> 065e451ad019ba0cdc487aa21aa4dd00954b42f0
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
                         

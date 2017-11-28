@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
+import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import java.util.List;
@@ -16,7 +17,8 @@ import java.util.List;
  * @author Wallison Carlos
  */
 public interface EtapaServiceIfc {
-    public EtapaBeans adicionaEtapa(EtapaBeans etapa);
+    public void setUsuario(UsuarioBeans usuario);
+    public EtapaBeans adicionaEtapa(SelecaoBeans selecao, EtapaBeans etapa) throws IllegalAccessException;
     public EtapaBeans atualizaEtapa(EtapaBeans etapa);
     public void removeEtapa(EtapaBeans etapa);
     public List<EtapaBeans> listaTodasEtapas();

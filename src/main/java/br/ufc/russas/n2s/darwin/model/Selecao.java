@@ -5,6 +5,8 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
+import br.ufc.russas.n2s.darwin.dao.SelecaoDAOImpl;
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.time.LocalDate;
 import java.util.List;
@@ -272,7 +274,13 @@ public class Selecao {
     
     public void adicionaEtapa(Etapa etapa) {
         if (etapa != null) {
-            etapas.add(etapa);
+            if (inscricao == null) {
+                etapas.add(etapa);
+            } else {
+                inscricao = etapa;
+            }
+            SelecaoDAOIfc selecaoDAOIfc = new SelecaoDAOImpl();
+            selecaoDAOIfc.atualizaSelecao(this);
         } else {
             throw new IllegalArgumentException("Etapa adicionada não pode ser nula!");
         }

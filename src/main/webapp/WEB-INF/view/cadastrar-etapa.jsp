@@ -135,7 +135,7 @@
                         <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
                             Cancelar
                         </a>
-                        <input type="button" class="btn btn-primary" value="Salvar" data-toggle="modal" data-target="#confirmarEtapa" >
+                       <input type="button" class="btn btn-primary" value="Salvar" data-toggle="modal" data-target="#confirmarEtapa" >
                         
                         <!-- Modal -->
                         <div class="modal fade" id="confirmarEtapa" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">

@@ -5,10 +5,12 @@
  */
 package br.ufc.russas.n2s.darwin.service;
 
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+
 /**
  *
  * @author Wallison Carlos
  */
 public interface ServiceIfc {
-    
+    void setUsuario(UsuarioBeans usuario);
 }

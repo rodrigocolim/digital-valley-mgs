@@ -70,8 +70,8 @@
                         <br>
 
                         <br>
-                        <label for="areaDeConcentracaoInput">Área de Concentração*</label>
-                        <input type="text" name="areaDeConcentracao" class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração" required>
+                        <label for="areaDeConcentracaoInput">Área de Concentração</label>
+                        <input type="text" name="areaDeConcentracao" class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração">
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Computação, Engenharia Mecânica, LINCE</small>
                         <div class="invalid-feedback">
                             
@@ -105,7 +105,7 @@
                         </div>
                         <br>
                         <label for="editalInput">Edital*</label>
-                        <input type="file" name="file" class="form-control" id="arquivoInput" aria-describedby="editalHelp" placeholder="Anexe o edital da seleção"  accept="application/pdf"  required>
+                        <input type="file" name="file" class="form-control" id="arquivoInput" aria-describedby="editalHelp" placeholder="Anexe o edital da seleção"  accept="application/pdf" required>
                         <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
                         <div class="invalid-feedback">
                             
@@ -115,32 +115,35 @@
                             Cancelar
                         </a>
                         <input type="button"  class="btn btn-primary" value="Salvar e Continuar" data-toggle="modal" data-target="#confirmarSelecao" >
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="confirmarSelecao" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalLabel">Confirmar cadastro da seleção</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Você deseja confirmar o cadastro da seleção?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary btn-sm">Confirmar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="confirmarSelecao" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalLabel">Confirmar cadastro da seleção</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>Você deseja confirmar o cadastro da seleção?</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary btn-sm" onclick="$('#needs-validation').submit()">Confirmar</button>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
 
     <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  

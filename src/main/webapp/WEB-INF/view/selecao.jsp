@@ -40,6 +40,7 @@
                     </div>
                     </c:if>
                     <h1>${selecao.titulo}</h1>
+                    <a href="/Darwin/editarSelecao/${selecao.codSelecao}"> Editar </a>
                     <p class="text-justify">
                         ${selecao.descricao}
                     </p>

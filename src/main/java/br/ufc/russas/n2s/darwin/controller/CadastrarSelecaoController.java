@@ -72,7 +72,7 @@ public class CadastrarSelecaoController {
         System.out.println("\n Nome: "+selecao.getTitulo()+"\n");
         
         if (result.hasErrors()) {
-            response.sendRedirect("casdastrarSelecao");
+            response.sendRedirect("cadastrarSelecao");
         }
         if (!file.isEmpty()) {
             ArquivoBeans edital = new ArquivoBeans();

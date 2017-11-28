@@ -40,18 +40,19 @@
                 <div class="form-group">
                     <form method="POST" action="${selecao.codSelecao}" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
                         <label for="tituloInput">Titulo*</label>
-                        <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
+                        <input type="text" name="titulo" value="${empty selecao.etapas ? 'Inscrição': ''}" disabled="${empty selecao.etapas ? 'disabled': ''}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Inscrição</small>
                         <div class="invalid-feedback">
                         </div>
-                        
                         <br>
+                        
                         <label for="descricaoInput">Descrição*</label>
                         <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" required>${etapa.descricao}</textarea>
                         <div class="invalid-feedback">
                         </div>
-
                         <br>
+                        
+                        <c:if test="${not empty selecao.etapas}">
                         <label for="etapaAnteriorInput">Etapa anterior*</label>
                         <select name="prerequisito" class="form-control col-md-8"  id="etapaAnteriorInput" required>
                             <option value="" selected="selected" disabled="disabled">Selecione a etapa anterior a esta</option>
@@ -63,14 +64,16 @@
                         </select>
                         <div class="invalid-feedback">
                         </div>
-                        
                         <br>
+                        </c:if>
+                        
+                        
                         <label for="periodoInput">Período*</label>
                         <div id="sandbox-container">
                             <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
-                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" id="dataInicio" required/>
+                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" id="dataInicioInput" required/>
                                 <span class="input-group-addon">até</span>
-                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" name="dataTermino" required/>
+                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" name="dataTermino" id="dataTerminoInput" required/>
                                 <div class="invalid-feedback">
                                 </div>
                             </div>
@@ -152,7 +155,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-                                        <button type="button" class="btn btn-primary btn-sm" onclick="$('#needs-validation').submit()">Confirmar</button>
+                                        <button type="submit" class="btn btn-primary btn-sm">Confirmar</button>
                                     </div>
                                 </div>
                             </div>
@@ -170,10 +173,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js" ></script>
+    <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.pt-BR.min.js" ></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
-    <script type="text/javascript">
-    </script>
     <script>
+    $('#sandbox-container input').datepicker({
+        format: "dd/mm/yyyy",
+        todayBtn: "linked",
+        language: "pt-BR",
+        orientation: "top left",
+        todayHighlight: true,
+        toggleActive: true
+    });
     function getListaAvaliadores() {
         ordenaLista();
         var input, filter, ul, li, a, i;
@@ -288,12 +298,6 @@
           atualizaAvaliadores();
       }
       
-      function atualizaDataMinimaPermitida(valor){
-        $('#sandbox-container .input-daterange').datepicker({
-           datesDisabled: ['10/10/1999', valor]
-        });
-
-      }
     </script>
 </body>
 </html>

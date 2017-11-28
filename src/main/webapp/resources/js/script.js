@@ -11,6 +11,7 @@
             if ((form.checkValidity() === false)) {
                 event.preventDefault();
                 event.stopPropagation();
+                $(".modal").modal('hide');
             }
             form.classList.add('was-validated');
         }, false);

@@ -6,6 +6,7 @@
 package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import java.util.List;
 
@@ -55,7 +56,13 @@ public interface SelecaoServiceIfc extends ServiceIfc{
      * @return List
      */
     List<SelecaoBeans> listaSelecoes(Selecao selecao);
-
+    
+    /**
+     * 
+     * @return List
+     */
+    public List<SelecaoBeans> listaSelecoesAssociada(UsuarioBeans usuario);
+    
     /**
      *
      * @param codSelecao

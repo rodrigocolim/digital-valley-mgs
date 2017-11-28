@@ -38,30 +38,40 @@
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
-                    <form method="POST" action="${selecao.codSelecao}">
+                    <form method="POST" action="${selecao.codSelecao}" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Inscrição</small>
                         <div class="invalid-feedback">
-                            O titulo da etapa é inválido
                         </div>
                         
                         <br>
                         <label for="descricaoInput">Descrição*</label>
                         <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" required>${etapa.descricao}</textarea>
                         <div class="invalid-feedback">
-                            A descrição da etapa é inválida
                         </div>
-                        <br>
 
+                        <br>
+                        <label for="etapaAnteriorInput">Etapa anterior*</label>
+                        <select name="prerequisito" class="form-control col-md-8"  id="etapaAnteriorInput" required>
+                            <option value="" selected="selected" disabled="disabled">Selecione a etapa anterior a esta</option>
+                            <c:forEach var="etapa" items="${selecao.etapas}">
+                            <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
+                            <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
+                            <option value="${etapa.codEtapa}" onclick="atualizaDataMinimaPermitida('${dataTermino}')">${etapa.titulo}</option>
+                            </c:forEach>
+                        </select>
+                        <div class="invalid-feedback">
+                        </div>
+                        
+                        <br>
                         <label for="periodoInput">Período*</label>
                         <div id="sandbox-container">
                             <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
-                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" required/>
+                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" id="dataInicio" required/>
                                 <span class="input-group-addon">até</span>
                                 <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" name="dataTermino" required/>
                                 <div class="invalid-feedback">
-                                    Selecione uma data para Início e Término
                                 </div>
                             </div>
                             <small id="periodoHelp" class="form-text text-muted">Selecione uma data para início e término</small>
@@ -101,7 +111,6 @@
                                     <option value="3">Deferimento</option>
                                 </select>
                                 <div class="invalid-feedback">
-                                    Escolha um critério de avaliação
                                 </div>
 
                                 <br>
@@ -126,23 +135,20 @@
                         <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
                             Cancelar
                         </a>
-                        <input type="submit" value="Salvar" class="btn btn-primary">
-                    </form>
-                            
+                        <input type="button" class="btn btn-primary" value="Salvar" >
+                    </form>   
                 </div>
             </div>
         </div>
     </div>
+
+
 
     <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js" ></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
     <script type="text/javascript">
-     $('#sandbox-container .input-daterange').datepicker({
-        todayHighlight: true
-        
-     });
     </script>
     <script>
     function getListaAvaliadores() {
@@ -257,6 +263,13 @@
               }
           }
           atualizaAvaliadores();
+      }
+      
+      function atualizaDataMinimaPermitida(valor){
+        $('#sandbox-container .input-daterange').datepicker({
+           datesDisabled: ['10/10/1999', valor]
+        });
+
       }
     </script>
 </body>

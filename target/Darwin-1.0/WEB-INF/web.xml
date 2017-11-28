@@ -7,7 +7,7 @@
             /WEB-INF/dispatcher-servlet.xml
         </param-value>
     </context-param>
-    
+    <!--
     <filter>  
         <filter-name>HibernateSessionRequestFilter</filter-name>  
         <filter-class>br.ufc.russas.n2s.darwin.controller.filter.HibernateSessionRequestFilter</filter-class>  
@@ -17,7 +17,7 @@
         <filter-name>HibernateSessionRequestFilter</filter-name>  
         <url-pattern>/*</url-pattern>  
     </filter-mapping>
-    
+    -->
       
  
     <filter>
@@ -105,7 +105,10 @@
         <filter-name>FiltroAutenticado</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+<<<<<<< HEAD
+=======
 
+>>>>>>> 360ab5fa7f7e16954d0806ff86623ebaf781cefa
     <filter> 
         <filter-name>encodingFilter</filter-name>  
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  

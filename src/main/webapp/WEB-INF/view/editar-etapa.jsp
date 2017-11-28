@@ -38,20 +38,24 @@
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
-                    <form method="POST" action="etapa">
+                    <form method="POST" action="etapa" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
-                        <div class="invalid-feedback">
-                            Digite um título para a seleção
-                        </div>
                         
                         <br>
                         <label for="descricaoInput">Descrição*</label>
                         <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" value="${etapa.descricao}" required>${etapa.descricao}</textarea>
-                        <div class="invalid-feedback">
-                            Digite uma descrição para a seleção
-                        </div>
-
+  
+                        <br>
+                        <label for="etapaAnteriorInput">Etapa anterior*</label>
+                        <select name="prerequisito" class="form-control col-md-8"  id="etapaAnteriorInput" required>
+                            <c:forEach var="e" items="${selecao.etapas}">
+                            <fmt:parseDate value="${e.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
+                            <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
+                            <option value="${e.codEtapa}" ${(etapa.prerequisito.codEtapa eq e.codEtapa ? "selected" : "")} onclick="atualizaDataMinimaPermitida('${dataTermino}')">${e.titulo}</option>
+                            </c:forEach>
+                        </select>
+                        
                         <br>
                         <label for="descricaoInput">Período*</label>
                         <div id="sandbox-container">
@@ -64,7 +68,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <br>
                         <div class="card">
                             <div class="card-header col-auto">
@@ -87,41 +91,72 @@
                         </div>
                         
                         <br>
-                        <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
-                        <select name="criterioDeAvaliacao" class="form-control" id="categoriaInput" required>
-                            <option ${(etapa.criterioDeAvaliacao.criterio == 1 ? "selected" : "")}>Nota</option>
-                            <option ${(etapa.criterioDeAvaliacao.criterio == 2 ? "selected" : "")}>Aprovação</option>
-                            <option ${(etapa.criterioDeAvaliacao.criterio == 3 ? "selected" : "")}>Deferimento</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Escolha um critério de avaliação
-                        </div>
+                        <div class="card">
+                            <div class="card-header col-auto">
+                                <label for="documentacaoExigidaInput">Dados sobre a avaliação</label>
+                            </div>
+                            <div class="card-body">
+                                <br>
+                                <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
+                                <select name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"  class="form-control col-md-8"  id="categoriaInput" required>
+                                    <option ${(etapa.criterioDeAvaliacao.criterio == 1 ? "selected" : "")}>Nota</option>
+                                    <option ${(etapa.criterioDeAvaliacao.criterio == 2 ? "selected" : "")}>Aprovação</option>
+                                    <option ${(etapa.criterioDeAvaliacao.criterio == 3 ? "selected" : "")}>Deferimento</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                </div>
 
-                        <br>
-                        <label for="AvaliadoresInput">Avaliadores*</label>
-
-                        <div class="form-row">
-                            <select id="avaliadorInput" class="form-control col-md-8" >
-                                <option selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
-                                <c:forEach items="${avaliadores}" var="avaliador">
-                                    <option id="avaliadorOption-${avaliador.nome}" value="${avaliador.nome}">${avaliador.codUsuario} - ${avaliador.nome}</option>
-                                </c:forEach>
-                            </select>
-                            &nbsp;&nbsp;
-                            <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar">
+                                <br>
+                                <label for="AvaliadoresInput">Avaliadores*</label>                           
+                                <div class="form-row">
+                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px">
+                                        <option selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
+                                        <c:forEach items="${avaliadores}" var="avaliador">
+                                            <option id="avaliadorOption-${avaliador.nome}" value="${avaliador.codUsuario}-${avaliador.nome}">${avaliador.nome}</option>
+                                        </c:forEach>
+                                    </select>
+                                    &nbsp;&nbsp;
+                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar">                            
+                                </div>
+                                <br>
+                                <ul class="list-group col-md-8 " id="listaAvaliadores">
+                                    <c:forEach var="avaliador" items="${etapa.avaliadores}">
+                                        <li class="list-group-item">
+                                            <input type="hidden" name="codAvaliadores" value="${avaliador}" style="display: none;">${avaliador.nome}<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(${avaliador})">clear</button>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                                <br>
+                            </div>
                         </div>
-                        <br>
-                        <c:forEach var="avaliador" items="${etapa.avaliadores}">
-                            <li class="list-group-item">
-                                <input type="hidden" name="codAvaliadores" value="${avaliador}" style="display: none;">${avaliador.nome}<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(${avaliador})">clear</button>
-                            </li>
-                        </c:forEach>
+                        
 
                         <br>
                         <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
                             Cancelar
                         </a>
-                        <input type="submit" value="Salvar" class="btn btn-primary">
+                        <input type="button" value="Salvar" class="btn btn-primary" data-toggle="modal" data-target="#confirmarEtapa">
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="confirmarEtapa" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalLabel">Confirmar edição da etapa</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Você deseja confirmar a edição da etapa?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="$('#needs-validation').submit()">Confirmar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -130,6 +165,8 @@
 
     <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js" ></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
     <script type="text/javascript">

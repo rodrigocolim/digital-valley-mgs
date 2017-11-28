@@ -15,6 +15,7 @@ import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -78,7 +79,12 @@ public class CadastrarEtapaController {
     }
 
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
-    public String adiciona(@PathVariable long codSelecao, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
+    public String adiciona(@PathVariable long codSelecao, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) throws IllegalAccessException {
+        
+           
+        System.out.println("\n Nome: "+etapa.getTitulo()+"\n");
+        
+        
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         model.addAttribute("selecao", selecao);
         String[] codAvaliadores = request.getParameterValues("codAvaliadores");
@@ -112,8 +118,10 @@ public class CadastrarEtapaController {
         }
         etapa.setAvaliadores(avaliadores);
         selecao.getEtapas().add((Etapa) etapa.toBusiness());
-        
-        this.selecaoServiceIfc.atualizaSelecao(selecao);
+        HttpSession session = request.getSession();
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        this.etapaServiceIfc.setUsuario(usuario);
+        this.etapaServiceIfc.adicionaEtapa(selecao, etapa);
         return "cadastrar-etapa";
     }
     

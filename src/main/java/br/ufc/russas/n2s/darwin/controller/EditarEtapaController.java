@@ -22,6 +22,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,9 +109,13 @@ public class EditarEtapaController {
             }
         }
         etapa.setAvaliadores(avaliadores);
-        etapa = getEtapaServiceIfc().adicionaEtapa(etapa);
         selecao.getEtapas().add((Etapa)etapa.toBusiness());
-        this.selecaoServiceIfc.atualizaSelecao(selecao);
+        try {
+            this.selecaoServiceIfc.atualizaSelecao(selecao);
+        }
+        catch (IllegalAccessException ex) {
+            Logger.getLogger(EditarEtapaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         /*if (!result.hasErrors()) {
         etapas.add(this.getEtapaServiceIfc().adicionaEtapa(etapa));
         model.addAttribute("etapas", etapas);

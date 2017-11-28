@@ -52,11 +52,50 @@
                                 <td>Pendente</td>
                             </tr>
                             <tr>
-                                <td><a href="#" >Analisar</a></td>
+                                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Avaliar</button></td>
                             </tr>
                             </c:forEach>
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Avaliar Candidato</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="recipient-name" class="form-control-label">Documentação:</label>
+                                    <c:forEach var="documento" items="${etapa.documentacaoExigida}">
+                                        <p><b>${documento}:</b> <a href="#"></a></p>
+                                    </c:forEach>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message-text" class="form-control-label">Avaliação:</label>
+                                    <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
+                                        <input type="number" name="nota" class="form-control col-sm-2 disabled" id="notaInput" value="0" min="0" max="10">
+                                    </c:if>
+                                    <c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
+                                        
+                                    </c:if>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message-text" class="form-control-label">Observações:</label>
+                                    <textarea class="form-control" id="message-text"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

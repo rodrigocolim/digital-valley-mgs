@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Wallison Carlos
  */
-public interface SelecaoServiceIfc {
+public interface SelecaoServiceIfc extends ServiceIfc{
 
     /**
      *
@@ -21,7 +21,7 @@ public interface SelecaoServiceIfc {
      * selecao - uma nova SelecaoBeans a ser armazenada
      * @return SelecaoBeans
      */
-    SelecaoBeans adicionaSelecao(SelecaoBeans selecao);
+    SelecaoBeans adicionaSelecao(SelecaoBeans selecao) throws IllegalAccessException;
     
     /**
      *
@@ -29,7 +29,7 @@ public interface SelecaoServiceIfc {
      * selecao - uma SelecaoBeans para ser atualizada
      * @return SelecaoBeans
      */
-    SelecaoBeans atualizaSelecao(SelecaoBeans selecao);
+    SelecaoBeans atualizaSelecao(SelecaoBeans selecao) throws IllegalAccessException;
 
     /**
      *

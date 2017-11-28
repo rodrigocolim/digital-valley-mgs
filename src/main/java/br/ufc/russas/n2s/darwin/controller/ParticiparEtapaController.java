@@ -90,8 +90,6 @@ public class ParticiparEtapaController {
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         List<Arquivo> arquivos = Collections.synchronizedList(new ArrayList<Arquivo>());
-        System.out.println(documentos.length);
-        System.out.println(nomeDocumento.length);
         for (int i = 0; i < documentos.length;i++) {
             String nome = nomeDocumento[i];
             System.out.println(nome);
@@ -110,11 +108,11 @@ public class ParticiparEtapaController {
                 arquivos.add(documento);
             }        
         }
-        
         Documentacao documentacao = new  Documentacao();
-        documentacao.setCandidato(new Participante());
+        documentacao.setCandidato((Participante) this.etapaServiceIfc.getParticipante(etapa, usuario).toBusiness());
         documentacao.setDocumentos(arquivos);
-        //etapa.getDocumentacoes().add(documentacao);
+        etapa.getDocumentacoes().add((DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
+        
     }
     
 

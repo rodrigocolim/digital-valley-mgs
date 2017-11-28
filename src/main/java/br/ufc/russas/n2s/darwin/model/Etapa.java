@@ -261,6 +261,15 @@ public class Etapa implements Serializable, Atualizavel {
         return false;
     }
     
+    
+    public Participante getParticipante(UsuarioDarwin usuario) {
+        for (Participante participante : getAprovados()) {
+            if (usuario.equals(participante.getCandidato())) {
+                return participante;
+            }
+        }
+        return null;
+    }
     /**
      * Verifica se o usuário passado é um avaliador.
      * @param usuario

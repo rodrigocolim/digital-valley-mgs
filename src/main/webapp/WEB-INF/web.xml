@@ -81,6 +81,7 @@
         <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
     </filter>
 
+
     <filter-mapping>
         <filter-name>MultipartFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -105,10 +106,7 @@
         <filter-name>FiltroAutenticado</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-<<<<<<< HEAD
-=======
-
->>>>>>> 360ab5fa7f7e16954d0806ff86623ebaf781cefa
+    
     <filter> 
         <filter-name>encodingFilter</filter-name>  
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  

@@ -6,8 +6,11 @@
 package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Selecao;
+import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class SelecaoServiceImpl implements SelecaoServiceIfc {
 
     private SelecaoDAOIfc selecaoDAOIfc;
-
+    private UsuarioBeans usuario;
+    
     public SelecaoServiceImpl(){
     }
 
@@ -40,8 +44,10 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     }
 
     @Override
-    public SelecaoBeans adicionaSelecao(SelecaoBeans selecao) {
-        return (SelecaoBeans) new SelecaoBeans().toBeans(this.getSelecaoDAOIfc().adicionaSelecao((Selecao) selecao.toBusiness()));
+    public SelecaoBeans adicionaSelecao(SelecaoBeans selecao) throws IllegalAccessException {
+        UsuarioDarwin usuario = (UsuarioDarwin) this.usuario.toBusiness();
+        SelecaoProxy sp = new SelecaoProxy(usuario);
+        return (SelecaoBeans) selecao.toBeans(sp.adicionaSelecao((Selecao) selecao.toBusiness()));
     }
 
     @Override
@@ -102,6 +108,11 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
        Selecao selecao = new Selecao();
        selecao.setCodSelecao(codSelecao);
        return (SelecaoBeans) new SelecaoBeans().toBeans(this.getSelecaoDAOIfc().getSelecao(selecao));
+    }
+
+    @Override
+    public void setUsuario(UsuarioBeans usuario) {
+        this.usuario = usuario;
     }
 
 }

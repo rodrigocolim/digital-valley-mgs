@@ -271,8 +271,25 @@ public class Selecao {
             throw new IllegalArgumentException("Estado da seleção não pode ser nulo!");
         }
     }
+    public Selecao adicionaSelecao(Selecao selecao) {
+        if(selecao != null) {
+            SelecaoDAOIfc selecaoDAOIfc = new SelecaoDAOImpl();
+            return selecaoDAOIfc.adicionaSelecao(selecao);
+        } else {
+            throw new NullPointerException("Seleção não pode ser vazia!");
+        }
+    }
     
-    public void adicionaEtapa(Etapa etapa) {
+    public Selecao atualizaSelecao(Selecao selecao) {
+        if(selecao != null) {
+            SelecaoDAOIfc selecaoDAOIfc = new SelecaoDAOImpl();
+            return selecaoDAOIfc.atualizaSelecao(selecao);
+        } else {
+            throw new NullPointerException("Seleção não pode ser vazia!");
+        }
+    }
+    
+    public Etapa adicionaEtapa(Etapa etapa) {
         if (etapa != null) {
             if (inscricao == null) {
                 etapas.add(etapa);
@@ -281,6 +298,7 @@ public class Selecao {
             }
             SelecaoDAOIfc selecaoDAOIfc = new SelecaoDAOImpl();
             selecaoDAOIfc.atualizaSelecao(this);
+            return etapa;
         } else {
             throw new IllegalArgumentException("Etapa adicionada não pode ser nula!");
         }

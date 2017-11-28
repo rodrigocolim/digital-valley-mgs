@@ -5,15 +5,17 @@
  */
 package br.ufc.russas.n2s.darwin.service;
 
+import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
+import br.ufc.russas.n2s.darwin.model.Avaliacao;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
-import br.ufc.russas.n2s.darwin.model.Participante;
+import br.ufc.russas.n2s.darwin.model.EtapaProxy;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
@@ -108,6 +110,14 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     public void participa(EtapaBeans etapa, DocumentacaoBeans documentacao) throws IllegalAccessException {
         Etapa e = (Etapa) etapa.toBusiness();
         e.participa((Documentacao) documentacao.toBusiness());                
+    }
+
+    @Override
+    public void avalia(EtapaBeans etapa, AvaliacaoBeans avaliacao) throws IllegalAccessException {
+        Etapa e = (Etapa) etapa.toBusiness();
+        Avaliacao a = (Avaliacao) avaliacao.toBusiness();
+        EtapaProxy ep = new EtapaProxy((UsuarioDarwin) usuario.toBusiness());
+        ep.avalia(a);
     }
 
 }

@@ -24,7 +24,7 @@
             <a class="nav-item nav-link" href="#">Minhas seleções</a>
             <c:if test="${fn:contains(permissoes, 'RESPONSAVEL')}">
             <div class="btn-group">
-                <a href="#" type="button" class="nav-item nav-link " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a href="#" class="nav-item nav-link " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Opções
                 </a>
                 <div class="dropdown-menu">

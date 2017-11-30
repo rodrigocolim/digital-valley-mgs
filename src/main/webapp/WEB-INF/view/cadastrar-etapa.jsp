@@ -33,7 +33,14 @@
                     <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
                     <a class="breadcrumb-item active" href="cadastrarEtapas">Cadastrar Etapa</a>
                 </nav>
-
+            <c:if test="${not empty mensagem}">
+                <div class="alert alert-${status} alert-dismissible fade show" role="alert">
+                    ${mensagem}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </c:if>      
                 <h1>Cadastrar Etapa</h1>
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>

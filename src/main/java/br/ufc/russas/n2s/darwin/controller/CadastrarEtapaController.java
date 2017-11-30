@@ -118,24 +118,30 @@ public class CadastrarEtapaController {
             this.etapaServiceIfc.setUsuario(usuario);
             this.etapaServiceIfc.adicionaEtapa(selecao, etapa);
             model.addAttribute("mensagem", "Etapa cadastrada com sucesso!");
-            model.addAttribute("status", "sucess");
+            model.addAttribute("status", "success");
+            return "selecao/".concat(selecao.getTitulo().replace(" ", "_")).concat("_")+selecao.getCodSelecao();
         } catch (NumberFormatException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
+            return "cadastrar-etapa";
         } catch (IllegalArgumentException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
+            return "cadastrar-etapa";
         } catch (NullPointerException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
+            return "cadastrar-etapa";
         } catch (IllegalAccessException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
+            return "cadastrar-etapa";
         } catch (Exception e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
+            return "cadastrar-etapa";
         }
-        return "cadastrar-etapa";
+        
     }
     
 

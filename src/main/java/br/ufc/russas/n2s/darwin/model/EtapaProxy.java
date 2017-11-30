@@ -36,4 +36,21 @@ public class EtapaProxy extends Etapa{
             throw new IllegalAccessException("Você não é uma valiador da etapa ".concat(etapa.getTitulo()));
         }
     }
+    
+    public void adicionaAvaliador(Selecao selecao, Etapa etapa, UsuarioDarwin usuario) throws IllegalAccessException {
+       if (getUsuario().getPermissoes().contains(EnumPermissoes.RESPONSAVEL) && selecao.isResponsavel(getUsuario())) {
+           etapa.adicionaAvaliador(usuario);
+       } else {
+           throw new IllegalAccessException("Usuário não é um resposável da seleção ".concat(selecao.getTitulo()));
+       }
+    }
+     
+    public void removeAvaliador(Selecao selecao, Etapa etapa, UsuarioDarwin usuario) throws IllegalAccessException{
+        if (getUsuario().getPermissoes().contains(EnumPermissoes.RESPONSAVEL) && selecao.isResponsavel(getUsuario())) {
+            etapa.removeAvaliador(usuario);
+        } else {
+            throw new IllegalAccessException("Usuário não é um resposável da seleção ".concat(selecao.getTitulo()));
+        }
+    }
+    
 }

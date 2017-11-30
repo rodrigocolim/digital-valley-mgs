@@ -123,9 +123,9 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     public List<SelecaoBeans> listaSelecoesAssociada(UsuarioBeans usuario) {
         Selecao selecao = new Selecao();
         UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
-        selecao.adicionaResponsavel(user);
-        List<SelecaoBeans> selecoes = new ArrayList();
-        List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
+        //selecao.adicionaResponsavel(user);
+        List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList());
+        List<Selecao> resultado = this.getSelecaoDAOIfc().getMinhasSelecoes(user);
         for (Selecao s : resultado) {
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }

@@ -59,18 +59,18 @@
                                 <td>Pendente</td>
                             </tr>
                             <tr>
-                                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Avaliar</button></td>
+                                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliar">Avaliar</button></td>
                             </tr>
                             </c:forEach>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="avaliar" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Avaliar Candidato</h5>
+                            <h5 class="modal-title" id="modalLabel">Avaliar Candidato</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -89,7 +89,28 @@
                                         <input type="number" name="nota" class="form-control col-sm-2 disabled" id="notaInput" value="0" min="0" max="10">
                                     </c:if>
                                     <c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
-                                        
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="aprovadoOpcao" id="aprovadoOpcao" value="Aprovado"> Aprovado
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="reprovadoOpcao" id="reprovadoOpcao" value="Reprovado"> Reprovado
+                                            </label>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${(etapa.criterioDeAvaliacao.criterio == 3)}">
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="deferidoOpcao" id="deferidoOpcao" value="Deferido"> Deferido
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="indeferidoOpcao" id="indeferidoOpcao" value="Indeferido"> Indeferido
+                                            </label>
+                                        </div>
                                     </c:if>
                                 </div>
                                 <div class="form-group">

@@ -57,7 +57,28 @@
                         <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
                             Cancelar
                         </a>
-                        <input type="submit" value="Confirmar Inscrição" id="enviar" class="btn btn-primary" >
+                        <input type="button" value="Confirmar Inscrição" id="enviar" class="btn btn-primary" data-toggle="modal" data-target="#participarEtapa" >
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="participarEtapa" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalLabel">Confirmar participação na etapa</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Você deseja confirmar sua participação na etapa?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary btn-sm" onclick="$('#needs-validation').submit()">Confirmar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -67,6 +88,8 @@
 
     <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js" ></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
 

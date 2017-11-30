@@ -38,9 +38,22 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                </c:if>   
+                </c:if>
+                <!-- Mensagem de primeiro acesso após o cadastro da seleção -->
+                <c:if test="${empty selecao.etapas and (fn:contains(permissoes, 'RESPONSAVEL') || fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                    <div class="jumbotron jumbotron-fluid" style="padding-top: 40px; padding-bottom: 30px; ">
+                        <div class="container">
+                            <h1 style="font-size: 20px; font-weight: bold;">Cadastre a primeira etapa da sua seleção!</h1><br>
+                            <p style="font-size: 15px;">Para iniciar sua seleção é necessário o cadastro da etapa de inscrição. Você deseja cadastrar a etapa de inscrição? &nbsp;
+                                <a href="/Darwin/cadastrarEtapa/${selecao.codSelecao}"> Cadastrar etapa de inscrição </a>
+                            </p>
+                        </div>
+                    </div>
+                </c:if>
                     <h1>${selecao.titulo}</h1>
-                    <a href="/Darwin/editarSelecao/${selecao.codSelecao}"> Editar </a>
+                <c:if test="${fn:contains(permissoes, 'RESPONSAVEL')}">
+                    <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-sm"> Editar </a>
+                </c:if>
                     <p class="text-justify">
                         ${selecao.descricao}
                     </p>
@@ -80,8 +93,8 @@
                                 </div>
                                 <div class="timeline-body">
                                     <p class="text-justify">${etapa.descricao}</p><br>
-                                        <c:if test="${fn:contains(permissoes, 'RESPONSAVEL')}">
-                                            <a href="/Darwin/etapa/${etapa.codEtapa}" class="btn btn-sm btn-primary">Editar</a>
+                                        <c:if test="${(fn:contains(permissoes, 'RESPONSAVEL') && selecao.estado != 'EM_ANDAMENTO') || fn:contains(permissoes, 'ADMINISTRADOR')}">
+                                            <a href="/Darwin/etapa/${etapa.codEtapa}" class="btn btn-sm btn-secondary">Editar</a>
                                         </c:if>
                                         <c:if test="${fn:contains(permissoes, 'AVALIADOR')}">
                                             <a href="/Darwin/avaliar/${etapa.codEtapa}" class="btn btn-sm btn-primary" >Avaliar</a>
@@ -93,7 +106,7 @@
                             </div>
                         </li>
                     </c:forEach>
-                    <c:if test="${fn:contains(permissoes, 'RESPONSAVEL')}">  
+                    <c:if test="${fn:contains(permissoes, 'RESPONSAVEL') and not empty selecao.etapas}">  
                         <li class="timeline-item">
                             <a href="/Darwin/cadastrarEtapa/${selecao.codSelecao}" class="timeline-badge" style="background-color: #007bff;">
                                 <i class="material-icons">add</i>

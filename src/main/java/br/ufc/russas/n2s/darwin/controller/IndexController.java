@@ -57,14 +57,7 @@ public class IndexController{
         model.addAttribute("selecoes", selecoes);
         return "index";
     }
-    
-    @RequestMapping(value="/{codUsuario}", method = RequestMethod.GET)
-    public String getIndexMinhasSelecoes(Model model, @PathVariable String codigoUsuario, HttpServletRequest request){
-        UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
-        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
-        model.addAttribute("selecoes", selecoes);
-        return "index";
-    }
+
     
     
     @RequestMapping(value = "/sair", method = RequestMethod.GET)

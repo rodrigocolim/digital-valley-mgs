@@ -308,15 +308,22 @@ public class Selecao {
     }
     
     public void adicionaResponsavel(UsuarioDarwin responsavel) {
+<<<<<<< HEAD
         if (responsaveis.isEmpty() || responsaveis == null) {
+=======
+        SelecaoDAOIfc selecaoDAOIfc = new SelecaoDAOImpl();
+        if (responsaveis.isEmpty()) {
+>>>>>>> fc89868448f9bfd11d393f642b416e9d63aa4f2f
             if (responsavel != null) {
                 this.responsaveis.add(responsavel);
+                selecaoDAOIfc.atualizaSelecao(this);
             } else {
                 throw new IllegalArgumentException("Deve ser selecionado um responsável para a seleção!");
             }
         } else {
             if (responsavel != null) {
                 this.responsaveis.add(responsavel);
+                selecaoDAOIfc.atualizaSelecao(this);
             } else {
                 throw new IllegalArgumentException("Responsável não pode ser nulo!");
             }
@@ -345,17 +352,27 @@ public class Selecao {
         return false;
     }
 
-    public void removeResponsavel(UsuarioDarwin responsavel) {
-        if (responsavel != null) {
-            this.responsaveis.remove(responsavel);
+    public void removeResponsavel(UsuarioDarwin responsavel) {    
+        if (this.getResponsaveis().size() > 1) {
+            if (responsavel != null) {
+                this.responsaveis.remove(responsavel);
+                SelecaoDAOIfc selecaoDAOIfc = new SelecaoDAOImpl();
+                selecaoDAOIfc.atualizaSelecao(this);
+            } else {
+                throw new IllegalArgumentException("Responsavel não pode ser nulo!");
+            }
         } else {
-            throw new IllegalArgumentException("Responsavel não pode ser nulo!");
+            throw new IllegalArgumentException("Não é possível remover responsável, pois só existe um na lista de responsáveis!");
         }
     }
 
     public void removeEtapa(Etapa etapa){
         if (etapa != null) {
-            this.etapas.remove(etapa);
+            if (!etapa.getEstado().equals(EnumEstadoEtapa.ANDAMENTO)) {
+                this.etapas.remove(etapa);
+            } else {
+                throw new IllegalArgumentException("Etapa em andamento, não sendo possível remove-la!");
+            }
         } else {
             throw new IllegalArgumentException("Etapa não pode ser nula!");
         }

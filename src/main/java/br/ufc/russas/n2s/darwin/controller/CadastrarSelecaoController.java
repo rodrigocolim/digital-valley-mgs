@@ -9,6 +9,7 @@ import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumPermissoes;
+import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -67,37 +68,57 @@ public class CadastrarSelecaoController {
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
-        
-        System.out.println("\n Nome: "+selecao.getTitulo()+"\n");
-        
-        if (result.hasErrors()) {
-            response.sendRedirect("cadastrarSelecao");
-        }
-        if (!file.isEmpty()) {
-            ArquivoBeans edital = new ArquivoBeans();
-            File convFile = new File(file.getOriginalFilename());
-            convFile.createNewFile(); 
-            FileOutputStream fos = new FileOutputStream(convFile); 
-            fos.write(file.getBytes());
-            fos.close(); 
-            edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
-            edital.setData(LocalDateTime.now());
-            edital.setArquivo(convFile);
-            selecao.setEdital(edital);
-        }
+    public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
         HttpSession session = request.getSession();
-        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usaurioDarwin");
-        this.getSelecaoServiceIfc().setUsuario(usuario);
-        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-        if(!usuario.getPermissoes().contains(EnumPermissoes.RESPONSAVEL)){
-            usuario.getPermissoes().add(EnumPermissoes.RESPONSAVEL);
-        }
-        selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
-        selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-        response.sendRedirect("selecao/" + selecao.getCodSelecao());
+        try {
+            if (!file.isEmpty()) {
+                ArquivoBeans edital = new ArquivoBeans();
+                File convFile = new File(file.getOriginalFilename());
+                convFile.createNewFile(); 
+                FileOutputStream fos = new FileOutputStream(convFile); 
+                fos.write(file.getBytes());
+                fos.close(); 
+                edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
+                edital.setData(LocalDateTime.now());
+                edital.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
+                selecao.setEdital(edital);
+            }
+            
+            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usaurioDarwin");
+            this.getSelecaoServiceIfc().setUsuario(usuario);
+            selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
+            if(!usuario.getPermissoes().contains(EnumPermissoes.RESPONSAVEL)){
+                usuario.getPermissoes().add(EnumPermissoes.RESPONSAVEL);
+            }
+            selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
+            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+            session.setAttribute("mensagemCadastraSelecao", "Seleção cadastrada com sucesso!");
+            session.setAttribute("statusCadastraSelecao", "success");
+            response.sendRedirect("selecao/" + selecao.getCodSelecao());
+            
         //return "forward:/selecao/"+selecao.getCodSelecao();
-
+        } catch (NumberFormatException e) {
+            session.setAttribute("mensagemCadastraSelecao", e.getMessage());
+            session.setAttribute("statusCadastraSelecao", "danger");
+            response.sendRedirect("cadastrar-selecao");
+        } catch (IllegalArgumentException e) {
+            session.setAttribute("mensagemCadastraSelecao", e.getMessage());
+            session.setAttribute("statusCadastraSelecao", "danger");
+            session.setAttribute("statusCadastraSelecao", "danger");
+            response.sendRedirect("cadastrar-selecao");
+        } catch (NullPointerException e) {
+            session.setAttribute("mensagemCadastraSelecao", e.getMessage());
+            session.setAttribute("statusCadastraSelecao", "danger");
+            response.sendRedirect("cadastrar-selecao");
+        } catch (IllegalAccessException e) {
+            session.setAttribute("mensagemCadastraSelecao", e.getMessage());
+            session.setAttribute("statusCadastraSelecao", "danger");
+            response.sendRedirect("cadastrar-selecao");
+        } catch (Exception e) {
+            session.setAttribute("mensagemCadastraSelecao", e.getMessage());
+            session.setAttribute("statusCadastraSelecao", "danger");
+            response.sendRedirect("cadastrar-selecao");
+        }
 
     }
     

@@ -31,14 +31,14 @@
                         <a class="breadcrumb-item" href="/Darwin">Início</a>
                         <a class="breadcrumb-item active" href="${selecao.codSelecao}">${selecao.titulo}</a>
                     </nav>
-                    <c:if test="${not empty mensagem}">
-                    <div class="alert alert-${tipoMensagem} alert-dismissible fade show" role="alert">
-                         ${mensagem}
+                <c:if test="${not empty mensagem}">
+                    <div class="alert alert-${status} alert-dismissible fade show" role="alert">
+                        ${mensagem}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    </c:if>
+                </c:if>   
                     <h1>${selecao.titulo}</h1>
                     <a href="/Darwin/editarSelecao/${selecao.codSelecao}"> Editar </a>
                     <p class="text-justify">
@@ -52,7 +52,7 @@
                     <p>
                         <b>Edital:</b>  
                         <c:set var = "nomeUrl" value = "${selecao.titulo}"/>
-                        <a href="${fn:replace(nomeUrl," ", "_")}_${selecao.codSelecao}/edital" class="card-link">${selecao.edital.titulo}</a>
+                        <a href="/Darwin/vizualizarEdital?selecao=${selecao.codSelecao}" class="card-link">${selecao.edital.titulo}</a>
                     </p>
                     <br/>
                     

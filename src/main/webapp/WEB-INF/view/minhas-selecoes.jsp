@@ -31,7 +31,14 @@
                         <a class="breadcrumb-item" href="index.jsp">Início</a>
                         <a class="breadcrumb-item active" href="index.jsp">Minhas Seleções</a>
                     </nav>
-                    
+                <c:if test="${not empty mensagem}">
+                    <div class="alert alert-${status} alert-dismissible fade show" role="alert">
+                        ${mensagem}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </c:if>                       
                     <h1>Início</h1>
                 <c:forEach var="selecao" begin="0" end="4" items="${novasSelecoes}">
                     <div class="card">

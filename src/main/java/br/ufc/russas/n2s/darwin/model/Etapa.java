@@ -285,6 +285,13 @@ public class Etapa implements Serializable, Atualizavel {
         } 
     }
     
+    public void avalia(Avaliacao avaliacao) {
+        EtapaDAOIfc etapaDAOIfc = new EtapaDAOImpl();
+        this.getAvaliacoes().add(avaliacao);
+        etapaDAOIfc.atualizaEtapa(this);
+    }
+    
+    
     /**
      * Verifica se o usuário passado é um avaliador.
      * @param usuario

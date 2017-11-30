@@ -33,17 +33,19 @@
                     <a class="breadcrumb-item active" href="${selecao.codSelecao}">${selecao.titulo}</a>
                     <a class="breadcrumb-item active" href="editarEtapa">Editar Etapa</a>
                 </nav>
-
+            <c:if test="${not empty mensagem}">
+                <div class="alert alert-${status} alert-dismissible fade show" role="alert">
+                    ${mensagem}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </c:if>   
                 <h1>Editar Etapa</h1>
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
-<<<<<<< HEAD
-                    <form method="POST" action="etapa/${etapa.codEtapa}">
-=======
                     <form method="POST" action="etapa" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
-
->>>>>>> 065e451ad019ba0cdc487aa21aa4dd00954b42f0
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
                         

@@ -34,7 +34,7 @@ public class SelecaoController {
     public String getIndex(@PathVariable String selecaoCodigo, Model model, HttpServletRequest request){
         long codSelecao = Long.parseLong(selecaoCodigo);
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
-        model.addAttribute("selecao", selecao);
+        model.addAttribute("selecao", selecao);        
         request.getSession().setAttribute("selecao", selecao);
         return "selecao";
     }
@@ -50,7 +50,6 @@ public class SelecaoController {
     }
    
     */
-
     
     @RequestMapping(value = "/editar-selecao/{codSelecao}", method = RequestMethod.GET)
     public String remove(@PathVariable String selecaoCodigo, SelecaoBeans selecao, Model model, BindingResult result, HttpServletRequest request){

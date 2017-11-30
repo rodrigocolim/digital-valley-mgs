@@ -40,7 +40,7 @@
                 <div class="form-group">
                     <form method="POST" action="${selecao.codSelecao}" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
                         <label for="tituloInput">Titulo*</label>
-                        <input type="text" name="titulo" value="${empty selecao.etapas ? 'Inscrição': ''}" disabled="${empty selecao.etapas ? 'disabled': ''}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
+                        <input type="text" name="titulo" value="${empty selecao.etapas ? 'Inscrição': ''}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" ${empty selecao.etapas ? 'readonly': ''} required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Inscrição</small>
                         <div class="invalid-feedback">
                         </div>

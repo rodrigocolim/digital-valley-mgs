@@ -18,12 +18,19 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/design.css" />
-    <a href="selecao.jsp"></a>
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.standalone.css" />
     </head>
     <body>
     <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
+    <c:if test="${not empty mensagem}">
+        <div class="alert alert-${status} alert-dismissible fade show" role="alert">
+            ${mensagem}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </c:if>   
     <div class="container-fluid">
         <div class="row row-offcanvas row-offcanvas-right">
             <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>

@@ -308,7 +308,7 @@ public class Selecao {
     }
     
     public void adicionaResponsavel(UsuarioDarwin responsavel) {
-        if (responsaveis.isEmpty()) {
+        if (responsaveis.isEmpty() || responsaveis == null) {
             if (responsavel != null) {
                 this.responsaveis.add(responsavel);
             } else {

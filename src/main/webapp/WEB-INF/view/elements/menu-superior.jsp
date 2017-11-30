@@ -21,7 +21,7 @@
         <div class="navbar-nav">
             <c:set var="permissoes" value="${sessionScope.usuarioDarwin.permissoes}"></c:set>
             <a class="nav-item nav-link" href="/Darwin">Início <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="#">Minhas seleções</a>
+            <a class="nav-item nav-link" href="/Darwin/minhasSelecoes">Minhas seleções</a>
             <c:if test="${fn:contains(permissoes, 'RESPONSAVEL')}">
             <div class="btn-group">
                 <a href="#" type="button" class="nav-item nav-link " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

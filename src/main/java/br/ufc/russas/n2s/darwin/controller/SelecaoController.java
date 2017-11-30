@@ -38,18 +38,18 @@ public class SelecaoController {
         request.getSession().setAttribute("selecao", selecao);
         return "selecao";
     }
-    /*
-    @RequestMapping(value = "/editar-selecao/{codSelecao}", method = RequestMethod.POST)
-    public String atualiza(@PathVariable String selecaoCodigo, SelecaoBeans selecao, Model model, BindingResult result, HttpServletRequest request){
-        if(result.hasErrors()){
-            return "selecao";
-        }
-        selecao = this.selecaoServiceIfc.atualizaSelecao(selecao);
-        request.getSession().setAttribute("selecao", selecao);
-        return "selecao";
-    }
    
-    */
+    /*@RequestMapping(value = "/editar-selecao/{codSelecao}", method = RequestMethod.POST)
+    public String atualiza(@PathVariable String selecaoCodigo, SelecaoBeans selecao, Model model, BindingResult result, HttpServletRequest request){
+    if(result.hasErrors()){
+    return "selecao";
+    }
+    selecao = this.selecaoServiceIfc.atualizaSelecao(selecao);
+    request.getSession().setAttribute("selecao", selecao);
+    return "selecao";
+    }*/
+   
+   
     
     @RequestMapping(value = "/editar-selecao/{codSelecao}", method = RequestMethod.GET)
     public String remove(@PathVariable String selecaoCodigo, SelecaoBeans selecao, Model model, BindingResult result, HttpServletRequest request){

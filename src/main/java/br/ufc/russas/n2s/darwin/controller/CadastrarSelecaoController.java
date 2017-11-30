@@ -9,7 +9,6 @@ import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumPermissoes;
-import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -17,7 +16,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -67,8 +65,8 @@ public class CadastrarSelecaoController {
         this.usuarioServiceIfc = usuarioServiceIfc;
     }
     
-    @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
+   @RequestMapping(method = RequestMethod.POST)
+    public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
         HttpSession session = request.getSession();
         try {
             if (!file.isEmpty()) {
@@ -80,16 +78,17 @@ public class CadastrarSelecaoController {
                 fos.close(); 
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
                 edital.setData(LocalDateTime.now());
-                edital.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
+                edital.setArquivo(convFile);
                 selecao.setEdital(edital);
             }
-            
-            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usaurioDarwin");
-            this.getSelecaoServiceIfc().setUsuario(usuario);
             selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
+            UsuarioBeans usuario = this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
             if(!usuario.getPermissoes().contains(EnumPermissoes.RESPONSAVEL)){
                 usuario.getPermissoes().add(EnumPermissoes.RESPONSAVEL);
             }
+
+            
+            
             selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
             session.setAttribute("mensagemCadastraSelecao", "Seleção cadastrada com sucesso!");
@@ -115,11 +114,14 @@ public class CadastrarSelecaoController {
             session.setAttribute("statusCadastraSelecao", "danger");
             response.sendRedirect("cadastrar-selecao");
         } catch (Exception e) {
+            e.printStackTrace();
             session.setAttribute("mensagemCadastraSelecao", e.getMessage());
             session.setAttribute("statusCadastraSelecao", "danger");
             response.sendRedirect("cadastrar-selecao");
         }
 
     }
+
+    
     
 }

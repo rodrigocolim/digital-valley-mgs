@@ -308,12 +308,8 @@ public class Selecao {
     }
     
     public void adicionaResponsavel(UsuarioDarwin responsavel) {
-<<<<<<< HEAD
-        if (responsaveis.isEmpty() || responsaveis == null) {
-=======
         SelecaoDAOIfc selecaoDAOIfc = new SelecaoDAOImpl();
         if (responsaveis.isEmpty()) {
->>>>>>> fc89868448f9bfd11d393f642b416e9d63aa4f2f
             if (responsavel != null) {
                 this.responsaveis.add(responsavel);
                 selecaoDAOIfc.atualizaSelecao(this);

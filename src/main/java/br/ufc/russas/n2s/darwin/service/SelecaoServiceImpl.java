@@ -15,7 +15,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.crypto.SealedObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -46,8 +45,8 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 
     @Override
     public SelecaoBeans adicionaSelecao(SelecaoBeans selecao) throws IllegalAccessException {
-        UsuarioDarwin usuario = (UsuarioDarwin) this.usuario.toBusiness();
-        SelecaoProxy sp = new SelecaoProxy(usuario);
+        UsuarioDarwin usuariod = (UsuarioDarwin) this.usuario.toBusiness();
+        SelecaoProxy sp = new SelecaoProxy(usuariod);
         return (SelecaoBeans) selecao.toBeans(sp.adicionaSelecao((Selecao) selecao.toBusiness()));
     }
 
@@ -116,18 +115,18 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         this.usuario = usuario;
     }
     
-    @Override
+    /* @Override
     public List<SelecaoBeans> listaSelecoesAssociada(UsuarioBeans usuario) {
-        Selecao selecao = new Selecao();
-        UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
-        //selecao.adicionaResponsavel(user);
-        List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList());
-        List<Selecao> resultado = this.getSelecaoDAOIfc().getMinhasSelecoes(user);
-        for (Selecao s : resultado) {
-            selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
-        }
-        return selecoes;
-        
+    Selecao selecao = new Selecao();
+    UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
+    //selecao.adicionaResponsavel(user);
+    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList());
+    List<Selecao> resultado = this.getSelecaoDAOIfc().getMinhasSelecoes(user);
+    for (Selecao s : resultado) {
+    selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
     }
+    return selecoes;
+    
+    }*/
 
 }

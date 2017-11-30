@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 public class EtapaServiceImpl implements EtapaServiceIfc {
 
     private EtapaDAOIfc etapaDAOIfc;
+    private SelecaoServiceIfc selecaoServiceIfc;
 
     private UsuarioBeans usuario;
     
@@ -46,6 +47,12 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         this.etapaDAOIfc = etapaDAOIfc;
     }
     
+    @Autowired(required = true)
+    public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc")SelecaoServiceIfc selecaoServiceIfc){
+        this.selecaoServiceIfc = selecaoServiceIfc;
+    }
+    
+    
     @Override
     public void setUsuario(UsuarioBeans usuario) {
         this.usuario = usuario;
@@ -55,7 +62,11 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     public EtapaBeans adicionaEtapa(SelecaoBeans selecao, EtapaBeans etapa) throws IllegalAccessException {
         UsuarioDarwin u = (UsuarioDarwin) usuario.toBusiness();
         SelecaoProxy sp = new SelecaoProxy(u);
-        sp.adicionaEtapa((Selecao) selecao.toBusiness(), (Etapa) etapa.toBusiness());
+        Selecao s = (Selecao) selecao.toBusiness();
+        Etapa e =(Etapa) etapa.toBusiness();
+        sp.adicionaEtapa(s, e);
+        this.selecaoServiceIfc.setUsuario(usuario);
+        this.selecaoServiceIfc.atualizaSelecao((SelecaoBeans) selecao.toBeans(s));
         return etapa;
     }
 

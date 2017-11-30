@@ -8,7 +8,7 @@ package br.ufc.russas.n2s.darwin.controller;
 import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.model.EnumPermissoes;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -100,8 +100,8 @@ public class EditarSelecaoController {
         }
         HttpSession session = request.getSession();
         UsuarioBeans usuario = this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
-        if(!usuario.getPermissoes().contains(EnumPermissoes.RESPONSAVEL)){
-            usuario.getPermissoes().add(EnumPermissoes.RESPONSAVEL);
+        if(!usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)){
+            usuario.getPermissoes().add(EnumPermissao.RESPONSAVEL);
         }
         selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
         try {

@@ -5,7 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.beans;
 
-import br.ufc.russas.n2s.darwin.model.EnumPermissoes;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class UsuarioBeans implements Beans{
     private long codUsuario;
     private long codUsuarioControleDeAcesso;
     private String nome;
-    private List<EnumPermissoes> permissoes;
+    private List<EnumPermissao> permissoes;
 
     public long getCodUsuario() {
         return codUsuario;
@@ -28,11 +28,11 @@ public class UsuarioBeans implements Beans{
         this.codUsuario = codUsuario;
     }
 
-    public List<EnumPermissoes> getPermissoes() {
+    public List<EnumPermissao> getPermissoes() {
         return permissoes;
     }
 
-    public void setPermissoes(List<EnumPermissoes> permissoes) {
+    public void setPermissoes(List<EnumPermissao> permissoes) {
         this.permissoes = permissoes;
     }
 

@@ -30,58 +30,67 @@ public class SelecaoProxy extends Selecao{
     }
     
     public Etapa adicionaEtapa(Selecao selecao, Etapa etapa) throws IllegalAccessException {
-        if (this.getUsuario().getPermissoes().contains(EnumPermissoes.RESPONSAVEL) && selecao.getResponsaveis().contains(this.getUsuario())) {
+        for (EnumPermissao permissao : this.getUsuario().getPermissoes()) {
+            System.out.println(permissao);
+        }
+        
+        for (UsuarioDarwin usuario : selecao.getResponsaveis()) {
+            System.out.println(usuario.getNome());
+        }
+        
+        if (this.getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL) && selecao.getResponsaveis().contains(this.getUsuario())) {
+            System.out.println("Entrou");
             return selecao.adicionaEtapa(etapa);
         } else {
-            throw new IllegalAccessException("Você não é um responsável de ".concat(selecao.getTitulo()));
+            throw new IllegalAccessException("Você não é um responsável da selação ".concat(selecao.getTitulo()));
         }
     }
     
     public Etapa atualizaEtapa(Selecao selecao, Etapa etapa) throws IllegalAccessException {
-        if (this.getUsuario().getPermissoes().contains(EnumPermissoes.RESPONSAVEL) && selecao.getResponsaveis().contains(this.getUsuario())) {
+        if (this.getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL) && selecao.getResponsaveis().contains(this.getUsuario())) {
             return selecao.atualizaEtapa(etapa);
         } else {
-            throw new IllegalAccessException("Você não é um responsável de ".concat(selecao.getTitulo()));
+            throw new IllegalAccessException("Você não é um responsável da selação ".concat(selecao.getTitulo()));
         }
     }
      
     public Selecao adicionaSelecao(Selecao selecao) throws IllegalAccessException {
-        if (this.getUsuario().getPermissoes().contains(EnumPermissoes.RESPONSAVEL)) {
+        if (this.getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL)) {
             return selecao.adicionaSelecao();
         } else {
-            throw new IllegalAccessException("Você não é um responsável de ".concat(selecao.getTitulo()));
+            throw new IllegalAccessException("Você não é um responsável da selação ".concat(selecao.getTitulo()));
         }
     }
     
     public Selecao atualizaSelecao(Selecao selecao) throws IllegalAccessException {
-        if (this.getUsuario().getPermissoes().contains(EnumPermissoes.RESPONSAVEL)) {
+        if (this.getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL)) {
             return selecao.atualizaSelecao();
         } else {
-            throw new IllegalAccessException("Você não é um responsável de ".concat(selecao.getTitulo()));
+            throw new IllegalAccessException("Você não é um responsável da selação ".concat(selecao.getTitulo()));
         }
     }
     
     public void adicionaResponsavel(Selecao selecao, UsuarioDarwin responsavel) throws IllegalAccessException {
-        if (getUsuario().getPermissoes().contains(EnumPermissoes.RESPONSAVEL) && selecao.isResponsavel(getUsuario())) {
+        if (getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL) && selecao.isResponsavel(getUsuario())) {
             selecao.adicionaResponsavel(responsavel);
         } else {
-            throw new IllegalAccessException("Você não é um responsável de ".concat(selecao.getTitulo()));
+            throw new IllegalAccessException("Você não é um responsável da selação ".concat(selecao.getTitulo()));
         }
     }
     
     public void removeResponsavel(Selecao selecao, UsuarioDarwin responsavel) throws IllegalAccessException {
-        if (getUsuario().getPermissoes().contains(EnumPermissoes.RESPONSAVEL) && selecao.isResponsavel(getUsuario())) {
+        if (getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL) && selecao.isResponsavel(getUsuario())) {
             selecao.removeResponsavel(responsavel);
         } else {
-            throw new IllegalAccessException("Você não é um responsável de ".concat(selecao.getTitulo()));
+            throw new IllegalAccessException("Você não é um responsável da selação ".concat(selecao.getTitulo()));
         }
     }
     
     public void removeEtapa(Selecao selecao, Etapa etapa) throws IllegalAccessException {
-        if (getUsuario().getPermissoes().contains(EnumPermissoes.RESPONSAVEL) && selecao.isResponsavel(getUsuario())) {
+        if (getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL) && selecao.isResponsavel(getUsuario())) {
             selecao.removeEtapa(etapa);
         } else {
-            throw new IllegalAccessException("Você não é um responsável de ".concat(selecao.getTitulo()));
+            throw new IllegalAccessException("Você não é um responsável da selação ".concat(selecao.getTitulo()));
         }
     }
     

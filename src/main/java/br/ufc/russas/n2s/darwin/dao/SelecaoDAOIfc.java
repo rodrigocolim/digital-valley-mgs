@@ -5,9 +5,8 @@
  */
 package br.ufc.russas.n2s.darwin.dao;
 
-import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
-import br.ufc.russas.n2s.darwin.model.Etapa;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import java.util.List;
 
 /**
@@ -49,5 +48,7 @@ public interface SelecaoDAOIfc {
      * @return
      */
     Selecao getSelecao(Selecao selecao);
+    
+    List<Selecao> getMinhasSelecoes(UsuarioDarwin responsavel);
 
 }

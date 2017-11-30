@@ -8,7 +8,8 @@ package br.ufc.russas.n2s.darwin.controller;
 import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.model.EnumPermissoes;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
+import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -16,16 +17,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,37 +65,57 @@ public class CadastrarSelecaoController {
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
-        
-        System.out.println("\n Nome: "+selecao.getTitulo()+"\n");
-        
-        if (result.hasErrors()) {
-            response.sendRedirect("cadastrarSelecao");
-        }
-        if (!file.isEmpty()) {
-            ArquivoBeans edital = new ArquivoBeans();
-            File convFile = new File(file.getOriginalFilename());
-            convFile.createNewFile(); 
-            FileOutputStream fos = new FileOutputStream(convFile); 
-            fos.write(file.getBytes());
-            fos.close(); 
-            edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
-            edital.setData(LocalDateTime.now());
-            edital.setArquivo(convFile);
-            selecao.setEdital(edital);
-        }
+    public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
         HttpSession session = request.getSession();
-        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usaurioDarwin");
-        this.getSelecaoServiceIfc().setUsuario(usuario);
-        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-        if(!usuario.getPermissoes().contains(EnumPermissoes.RESPONSAVEL)){
-            usuario.getPermissoes().add(EnumPermissoes.RESPONSAVEL);
-        }
-        selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
-        selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-        response.sendRedirect("selecao/" + selecao.getCodSelecao());
+        try {
+            if (!file.isEmpty()) {
+                ArquivoBeans edital = new ArquivoBeans();
+                File convFile = new File(file.getOriginalFilename());
+                convFile.createNewFile(); 
+                FileOutputStream fos = new FileOutputStream(convFile); 
+                fos.write(file.getBytes());
+                fos.close(); 
+                edital.setTitulo("Edital");
+                edital.setData(LocalDateTime.now());
+                edital.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
+                selecao.setEdital(edital);
+            }
+            
+            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            this.getSelecaoServiceIfc().setUsuario(usuario);
+            selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
+            if(!usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)){
+                usuario.getPermissoes().add(EnumPermissao.RESPONSAVEL);
+            }
+            selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
+            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+            session.setAttribute("mensagemCadastraSelecao", "Seleção cadastrada com sucesso!");
+            session.setAttribute("statusCadastraSelecao", "success");
+            response.sendRedirect("selecao/" + selecao.getCodSelecao());
+            
         //return "forward:/selecao/"+selecao.getCodSelecao();
-
+        } catch (NumberFormatException e) {
+            session.setAttribute("mensagemCadastraSelecao", e.getMessage());
+            session.setAttribute("statusCadastraSelecao", "danger");
+            response.sendRedirect("cadastrar-selecao");
+        } catch (IllegalArgumentException e) {
+            session.setAttribute("mensagemCadastraSelecao", e.getMessage());
+            session.setAttribute("statusCadastraSelecao", "danger");
+            session.setAttribute("statusCadastraSelecao", "danger");
+            response.sendRedirect("cadastrar-selecao");
+        } catch (NullPointerException e) {
+            session.setAttribute("mensagemCadastraSelecao", e.getMessage());
+            session.setAttribute("statusCadastraSelecao", "danger");
+            response.sendRedirect("cadastrar-selecao");
+        } catch (IllegalAccessException e) {
+            session.setAttribute("mensagemCadastraSelecao", e.getMessage());
+            session.setAttribute("statusCadastraSelecao", "danger");
+            response.sendRedirect("cadastrar-selecao");
+        } catch (Exception e) {
+            session.setAttribute("mensagemCadastraSelecao", e.getMessage());
+            session.setAttribute("statusCadastraSelecao", "danger");
+            response.sendRedirect("cadastrar-selecao");
+        }
 
     }
     

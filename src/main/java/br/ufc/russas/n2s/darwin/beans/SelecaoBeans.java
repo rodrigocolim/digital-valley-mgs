@@ -46,7 +46,7 @@ public class SelecaoBeans implements Beans {
     private List aditivos;
     private List anexos;
     private ArquivoBeans edital;
-    private EstadoSelecao estado = new EstadoSelecao();
+    private EstadoSelecao estado;
     
     public SelecaoBeans(){}
 

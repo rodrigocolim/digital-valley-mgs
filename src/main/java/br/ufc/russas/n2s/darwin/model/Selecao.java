@@ -274,13 +274,11 @@ public class Selecao {
         }
     }
     public Selecao adicionaSelecao() {
-        SelecaoDAOIfc selecaoDAOIfc = new SelecaoDAOImpl();
-        return selecaoDAOIfc.adicionaSelecao(this);
+        return this;
     }
     
     public Selecao atualizaSelecao() {
-        SelecaoDAOIfc selecaoDAOIfc = new SelecaoDAOImpl();
-        return selecaoDAOIfc.atualizaSelecao(this);
+        return this;
     }
     
     public Etapa adicionaEtapa(Etapa etapa) {
@@ -290,8 +288,6 @@ public class Selecao {
             } else {
                 inscricao = etapa;
             }
-            SelecaoDAOIfc selecaoDAOIfc = new SelecaoDAOImpl();
-            selecaoDAOIfc.atualizaSelecao(this);
             return etapa;
         } else {
             throw new IllegalArgumentException("Etapa adicionada não pode ser nula!");

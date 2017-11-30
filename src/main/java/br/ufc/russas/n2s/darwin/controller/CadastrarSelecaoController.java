@@ -8,7 +8,7 @@ package br.ufc.russas.n2s.darwin.controller;
 import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.model.EnumPermissoes;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
@@ -17,16 +17,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -78,7 +75,7 @@ public class CadastrarSelecaoController {
                 FileOutputStream fos = new FileOutputStream(convFile); 
                 fos.write(file.getBytes());
                 fos.close(); 
-                edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
+                edital.setTitulo("Edital");
                 edital.setData(LocalDateTime.now());
                 edital.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
                 selecao.setEdital(edital);
@@ -87,8 +84,8 @@ public class CadastrarSelecaoController {
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usaurioDarwin");
             this.getSelecaoServiceIfc().setUsuario(usuario);
             selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-            if(!usuario.getPermissoes().contains(EnumPermissoes.RESPONSAVEL)){
-                usuario.getPermissoes().add(EnumPermissoes.RESPONSAVEL);
+            if(!usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)){
+                usuario.getPermissoes().add(EnumPermissao.RESPONSAVEL);
             }
             selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);

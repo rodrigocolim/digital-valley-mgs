@@ -29,6 +29,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 /**
  *
  * @author Wallison Carlos
@@ -77,7 +78,7 @@ public class CadastrarEtapaController {
     }
 
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
-    public String adiciona(@PathVariable long codSelecao, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
+    public String adiciona(@PathVariable long codSelecao, @RequestParam("prerequisito") long codPrerequisito, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
   
         try {
             SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
@@ -91,6 +92,10 @@ public class CadastrarEtapaController {
                 etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
             } else if(criterio == 3) {
                 etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
+            }
+            if (selecao.getInscricao() != null) {
+                EtapaBeans pre = etapaServiceIfc.getEtapa(codSelecao);
+                etapa.setPrerequisito(pre);
             }
             etapa.setEstado(EnumEstadoEtapa.ESPERA);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -115,11 +120,12 @@ public class CadastrarEtapaController {
             selecao.getEtapas().add((Etapa) etapa.toBusiness());
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            System.out.println(usuario);
             this.etapaServiceIfc.setUsuario(usuario);
             this.etapaServiceIfc.adicionaEtapa(selecao, etapa);
             model.addAttribute("mensagem", "Etapa cadastrada com sucesso!");
             model.addAttribute("status", "success");
-            return "selecao/".concat(selecao.getTitulo().replace(" ", "_")).concat("_")+selecao.getCodSelecao();
+            return "forward: /selecao/"+selecao.getCodSelecao();
         } catch (NumberFormatException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
@@ -128,15 +134,7 @@ public class CadastrarEtapaController {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
             return "cadastrar-etapa";
-        } catch (NullPointerException e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "cadastrar-etapa";
-        } catch (IllegalAccessException e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "cadastrar-etapa";
-        } catch (Exception e) {
+        }  catch (IllegalAccessException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
             return "cadastrar-etapa";

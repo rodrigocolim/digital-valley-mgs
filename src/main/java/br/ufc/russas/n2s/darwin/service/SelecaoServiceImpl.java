@@ -15,7 +15,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.crypto.SealedObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -48,12 +47,16 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     public SelecaoBeans adicionaSelecao(SelecaoBeans selecao) throws IllegalAccessException {
         UsuarioDarwin usuario = (UsuarioDarwin) this.usuario.toBusiness();
         SelecaoProxy sp = new SelecaoProxy(usuario);
-        return (SelecaoBeans) selecao.toBeans(sp.adicionaSelecao((Selecao) selecao.toBusiness()));
+        Selecao s = getSelecaoDAOIfc().adicionaSelecao(sp.adicionaSelecao((Selecao) selecao.toBusiness()));
+        return (SelecaoBeans) selecao.toBeans(s);
     }
 
     @Override
-    public SelecaoBeans atualizaSelecao(SelecaoBeans selecao){
-        return (SelecaoBeans) new SelecaoBeans().toBeans(this.getSelecaoDAOIfc().atualizaSelecao((Selecao) selecao.toBusiness()));
+    public SelecaoBeans atualizaSelecao(SelecaoBeans selecao) throws IllegalAccessException{
+        UsuarioDarwin usuario = (UsuarioDarwin) this.usuario.toBusiness();
+        SelecaoProxy sp = new SelecaoProxy(usuario);
+        Selecao s = getSelecaoDAOIfc().atualizaSelecao(sp.atualizaSelecao((Selecao) selecao.toBusiness()));
+        return (SelecaoBeans) new SelecaoBeans().toBeans(s);
     }
 
     @Override

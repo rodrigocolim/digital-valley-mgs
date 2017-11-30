@@ -9,7 +9,7 @@ package br.ufc.russas.n2s.darwin.model;
  *
  * @author Wallison Carlos
  */
-public enum EnumPermissoes {
+public enum EnumPermissao {
     PARTICIPANTE(1),
     AVALIADOR(2),
     RESPONSAVEL(3),
@@ -17,11 +17,11 @@ public enum EnumPermissoes {
 
     private int nivel;
     
-    EnumPermissoes() {
+    EnumPermissao() {
         
     }
 
-    EnumPermissoes(int nivel) {
+    EnumPermissao(int nivel) {
         setNivel(nivel);
     }
 

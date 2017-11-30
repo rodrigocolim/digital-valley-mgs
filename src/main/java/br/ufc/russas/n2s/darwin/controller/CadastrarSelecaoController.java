@@ -81,7 +81,7 @@ public class CadastrarSelecaoController {
                 selecao.setEdital(edital);
             }
             
-            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usaurioDarwin");
+            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             this.getSelecaoServiceIfc().setUsuario(usuario);
             selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
             if(!usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)){

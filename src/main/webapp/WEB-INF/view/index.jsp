@@ -29,7 +29,14 @@
                         <li class="breadcrumb-item active" aria-current="page">Início</li>
                     </ol>
                 </nav>
-                    
+                <c:if test="${not empty mensagem}">
+                    <div class="alert alert-${status} alert-dismissible fade show" role="alert">
+                        ${mensagem}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </c:if>                       
                 <h1>Início</h1>
                 <c:if test="${empty selecoes}">
                     <p class="text-muted">Nenhuma seleção cadastrada!</p>

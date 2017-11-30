@@ -15,7 +15,6 @@ import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -30,7 +29,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import model.Usuario;
 /**
  *
  * @author Wallison Carlos
@@ -79,49 +77,64 @@ public class CadastrarEtapaController {
     }
 
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
-    public String adiciona(@PathVariable long codSelecao, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) throws IllegalAccessException {
-        
-           
-        System.out.println("\n Nome: "+etapa.getTitulo()+"\n");
-        
-        
-        SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
-        model.addAttribute("selecao", selecao);
-        String[] codAvaliadores = request.getParameterValues("codAvaliadores");
-        String[] documentosExigidos = request.getParameterValues("documentosExigidos");
-        int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
-        if (criterio == 1) {
-            etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
-        } else if(criterio == 2) {
-            etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
-        } else if(criterio == 3) {
-            etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
-        }
-        etapa.setEstado(EnumEstadoEtapa.ESPERA);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
-        ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
-        if(codAvaliadores != null){
-            for(String cod : codAvaliadores){
-                UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
-                if(u != null){
-                    avaliadores.add(u);
+    public String adiciona(@PathVariable long codSelecao, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
+  
+        try {
+            SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
+            model.addAttribute("selecao", selecao);
+            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
+            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
+            int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
+            if (criterio == 1) {
+                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
+            } else if(criterio == 2) {
+                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
+            } else if(criterio == 3) {
+                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
+            }
+            etapa.setEstado(EnumEstadoEtapa.ESPERA);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
+            if(codAvaliadores != null){
+                for(String cod : codAvaliadores){
+                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+                    if(u != null){
+                        avaliadores.add(u);
+                    }
                 }
             }
-        }
-        if (documentosExigidos != null) {
-            ArrayList<String> docs = new ArrayList<>();
-            for(String documento : documentosExigidos){
-                docs.add(documento);
+            if (documentosExigidos != null) {
+                ArrayList<String> docs = new ArrayList<>();
+                for(String documento : documentosExigidos){
+                    docs.add(documento);
+                }
+                etapa.setDocumentacaoExigida(docs);
             }
-            etapa.setDocumentacaoExigida(docs);
+            etapa.setAvaliadores(avaliadores);
+            selecao.getEtapas().add((Etapa) etapa.toBusiness());
+            HttpSession session = request.getSession();
+            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            this.etapaServiceIfc.setUsuario(usuario);
+            this.etapaServiceIfc.adicionaEtapa(selecao, etapa);
+            model.addAttribute("mensagem", "Etapa cadastrada com sucesso!");
+            model.addAttribute("status", "sucess");
+        } catch (NumberFormatException e) {
+            model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("status", "danger");
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("status", "danger");
+        } catch (NullPointerException e) {
+            model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("status", "danger");
+        } catch (IllegalAccessException e) {
+            model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("status", "danger");
+        } catch (Exception e) {
+            model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("status", "danger");
         }
-        etapa.setAvaliadores(avaliadores);
-        selecao.getEtapas().add((Etapa) etapa.toBusiness());
-        HttpSession session = request.getSession();
-        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        this.etapaServiceIfc.setUsuario(usuario);
-        this.etapaServiceIfc.adicionaEtapa(selecao, etapa);
         return "cadastrar-etapa";
     }
     

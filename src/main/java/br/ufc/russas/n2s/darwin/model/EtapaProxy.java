@@ -41,7 +41,7 @@ public class EtapaProxy extends Etapa{
        if (getUsuario().getPermissoes().contains(EnumPermissoes.RESPONSAVEL) && selecao.isResponsavel(getUsuario())) {
            etapa.adicionaAvaliador(usuario);
        } else {
-           throw new IllegalAccessException("Usuário não é um resposável da seleção ".concat(selecao.getTitulo()));
+           throw new IllegalAccessException("Você não é um resposável da seleção ".concat(selecao.getTitulo()));
        }
     }
      
@@ -49,7 +49,7 @@ public class EtapaProxy extends Etapa{
         if (getUsuario().getPermissoes().contains(EnumPermissoes.RESPONSAVEL) && selecao.isResponsavel(getUsuario())) {
             etapa.removeAvaliador(usuario);
         } else {
-            throw new IllegalAccessException("Usuário não é um resposável da seleção ".concat(selecao.getTitulo()));
+            throw new IllegalAccessException("Você não é um resposável da seleção ".concat(selecao.getTitulo()));
         }
     }
     

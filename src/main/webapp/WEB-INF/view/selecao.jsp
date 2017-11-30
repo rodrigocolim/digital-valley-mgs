@@ -52,7 +52,7 @@
                     <p>
                         <b>Edital:</b>  
                         <c:set var = "nomeUrl" value = "${selecao.titulo}"/>
-                        <a href="${fn:replace(nomeUrl," ", "_")}_${selecao.codSelecao}/edital" class="card-link">${selecao.edital.titulo}</a>
+                        <a href="/Darwin/vizualizarEdital?selecao=${selecao.codSelecao}" class="card-link">${selecao.edital.titulo}</a>
                     </p>
                     <br/>
                     

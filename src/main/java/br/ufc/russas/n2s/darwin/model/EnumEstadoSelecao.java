@@ -13,7 +13,19 @@ import java.time.LocalDate;
  */
 public enum EnumEstadoSelecao implements EstadoSelecao{
     
-    ABERTA(1){
+    ESPERA(1){
+        @Override
+        public EnumEstadoSelecao execute(Selecao selecao){
+            LocalDate inicio = selecao.getInscricao().getPeriodo().getInicio();
+            LocalDate termino = selecao.getInscricao().getPeriodo().getTermino();
+            if (inicio.isAfter(LocalDate.now())){
+                return this;
+            } else {
+                return ABERTA.execute(selecao);
+            }
+        }
+    },
+    ABERTA(2){
         @Override
         public EnumEstadoSelecao execute(Selecao selecao){
             LocalDate inicio = selecao.getInscricao().getPeriodo().getInicio();
@@ -25,7 +37,7 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
             }
         }
     },
-    ANDAMENTO(2){
+    ANDAMENTO(3){
         @Override
         public EnumEstadoSelecao execute(Selecao selecao){
             LocalDate termino = selecao.getInscricao().getPeriodo().getTermino();
@@ -36,7 +48,7 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
             }
         }
     },
-    FINALIZADA(3){
+    FINALIZADA(4){
         @Override
         public EnumEstadoSelecao execute(Selecao selecao){
             if(selecao.getUltimaEtapa().getPeriodo().getTermino().isBefore(LocalDate.now())){
@@ -65,10 +77,10 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
 
     
     public void setEstado(int estado) {
-        if (estado >= 1 && estado <= 3) {
+        if (estado >= 1 && estado <= 4) {
             this.estado = estado;
         } else {
-            throw new IllegalArgumentException("Critério de avaliação deve ser maior igual a um e menor igual a três!");
+            throw new IllegalArgumentException("Estado de seleçao deve ser maior igual a um e menor igual a quatro!");
         }
     }
     

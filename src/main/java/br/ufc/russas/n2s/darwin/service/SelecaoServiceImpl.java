@@ -45,14 +45,18 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 
     @Override
     public SelecaoBeans adicionaSelecao(SelecaoBeans selecao) throws IllegalAccessException {
-        UsuarioDarwin usuariod = (UsuarioDarwin) this.usuario.toBusiness();
-        SelecaoProxy sp = new SelecaoProxy(usuariod);
-        return (SelecaoBeans) selecao.toBeans(sp.adicionaSelecao((Selecao) selecao.toBusiness()));
+        UsuarioDarwin usuario = (UsuarioDarwin) this.usuario.toBusiness();
+        SelecaoProxy sp = new SelecaoProxy(usuario);
+        Selecao s = getSelecaoDAOIfc().adicionaSelecao(sp.adicionaSelecao((Selecao) selecao.toBusiness()));
+        return (SelecaoBeans) selecao.toBeans(s);
     }
 
     @Override
-    public SelecaoBeans atualizaSelecao(SelecaoBeans selecao){
-        return (SelecaoBeans) new SelecaoBeans().toBeans(this.getSelecaoDAOIfc().atualizaSelecao((Selecao) selecao.toBusiness()));
+    public SelecaoBeans atualizaSelecao(SelecaoBeans selecao) throws IllegalAccessException{
+        UsuarioDarwin usuario = (UsuarioDarwin) this.usuario.toBusiness();
+        SelecaoProxy sp = new SelecaoProxy(usuario);
+        Selecao s = getSelecaoDAOIfc().atualizaSelecao(sp.atualizaSelecao((Selecao) selecao.toBusiness()));
+        return (SelecaoBeans) new SelecaoBeans().toBeans(s);
     }
 
     @Override

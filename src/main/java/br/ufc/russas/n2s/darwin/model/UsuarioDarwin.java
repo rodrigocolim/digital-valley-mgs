@@ -5,6 +5,8 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import br.ufc.russas.n2s.darwin.dao.UsuarioDAOIfc;
+import br.ufc.russas.n2s.darwin.dao.UsuarioDAOImpl;
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.util.List;
 import javax.persistence.Column;
@@ -37,9 +39,9 @@ public class UsuarioDarwin {
     private String nome;
     @Column
     @Enumerated
-    @ElementCollection(targetClass = EnumPermissoes.class, fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = EnumPermissao.class, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
-    private List<EnumPermissoes> permissoes;
+    private List<EnumPermissao> permissoes;
 
     public long getCodUsuario() {
         return codUsuario;
@@ -52,11 +54,11 @@ public class UsuarioDarwin {
             throw new IllegalCodeException("Código de usuário deve ser maior de zero!");
     }
 
-    public List<EnumPermissoes> getPermissoes() {
+    public List<EnumPermissao> getPermissoes() {
         return permissoes;
     }
 
-    public void setPermissoes(List<EnumPermissoes> permissoes) {
+    public void setPermissoes(List<EnumPermissao> permissoes) {
         this.permissoes = permissoes;
     }
 
@@ -76,6 +78,36 @@ public class UsuarioDarwin {
         this.nome = nome;
     }
     
+    public void adicionaNivel(UsuarioDarwin usuario, EnumPermissao permisao) throws IllegalAccessException{
+        if (!usuario.getPermissoes().contains(permisao)) {
+            usuario.getPermissoes().add(permisao);
+            UsuarioDAOIfc usuarioDAOIfc = new UsuarioDAOImpl();
+            usuarioDAOIfc.atualizaUsuario(usuario);
+        } else {
+            throw new IllegalArgumentException("Usuário já possui a permição de ".concat(permisao.toString()));
+        }
+    }
+    
+    public void removeNivel(UsuarioDarwin usuario, EnumPermissao permisao) throws IllegalAccessException{
+        if (usuario.getPermissoes().contains(permisao)) {
+            usuario.getPermissoes().remove(permisao);
+            UsuarioDAOIfc usuarioDAOIfc = new UsuarioDAOImpl();
+            usuarioDAOIfc.atualizaUsuario(usuario);
+        } else {
+            throw new IllegalArgumentException("Usuário não possui a permição de ".concat(permisao.toString()));
+        }
+    }
     
     
+    @Override
+    public boolean equals(Object o){
+        return (this.getCodUsuario() == ((UsuarioDarwin) o).getCodUsuario());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 23 * hash + (int) (this.codUsuario ^ (this.codUsuario >>> 32));
+        return hash;
+    }
 }

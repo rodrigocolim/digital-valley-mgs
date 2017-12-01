@@ -8,7 +8,7 @@ package br.ufc.russas.n2s.darwin.controller.filter;
 
 
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.model.EnumPermissoes;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -72,11 +72,11 @@ public class AutenticadoFiltro implements Filter {
                                     if(this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(user.getId()) == null){
                                         u.setCodUsuarioControleDeAcesso(user.getId());
                                         u.setNome(user.getNome());
-                                        ArrayList<EnumPermissoes> permissoes = new ArrayList<>();
-                                        permissoes.add(EnumPermissoes.AVALIADOR);
-                                        permissoes.add(EnumPermissoes.PARTICIPANTE);
-                                        permissoes.add(EnumPermissoes.RESPONSAVEL);
-                                        permissoes.add(EnumPermissoes.ADMINISTRADOR);
+                                        ArrayList<EnumPermissao> permissoes = new ArrayList<>();
+                                        permissoes.add(EnumPermissao.AVALIADOR);
+                                        permissoes.add(EnumPermissao.PARTICIPANTE);
+                                        permissoes.add(EnumPermissao.RESPONSAVEL);
+                                        permissoes.add(EnumPermissao.ADMINISTRADOR);
                                         u.setPermissoes(permissoes);
                                         this.getUsuarioServiceIfc().adicionaUsuario(u);
                                     }

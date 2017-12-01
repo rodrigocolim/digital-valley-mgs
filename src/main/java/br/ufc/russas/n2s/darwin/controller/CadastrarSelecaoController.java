@@ -8,7 +8,8 @@ package br.ufc.russas.n2s.darwin.controller;
 import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.model.EnumPermissoes;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
+import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -20,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -68,6 +68,8 @@ public class CadastrarSelecaoController {
    @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody void adiciona(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
         HttpSession session = request.getSession();
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        this.selecaoServiceIfc.setUsuario(usuario);
         try {
             if (!file.isEmpty()) {
                 ArquivoBeans edital = new ArquivoBeans();
@@ -76,15 +78,17 @@ public class CadastrarSelecaoController {
                 FileOutputStream fos = new FileOutputStream(convFile); 
                 fos.write(file.getBytes());
                 fos.close(); 
-                edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
+                edital.setTitulo("Edital para" + selecao.getTitulo() );
                 edital.setData(LocalDateTime.now());
-                edital.setArquivo(convFile);
+                //edital.setArquivo(convFile);
+                edital.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
                 selecao.setEdital(edital);
             }
             selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-            UsuarioBeans usuario = this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
-            if(!usuario.getPermissoes().contains(EnumPermissoes.RESPONSAVEL)){
-                usuario.getPermissoes().add(EnumPermissoes.RESPONSAVEL);
+            
+            if(!usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)){
+                System.out.println("\n\nController\n\n");
+                usuario.getPermissoes().add(EnumPermissao.RESPONSAVEL);
             }
 
             
@@ -97,19 +101,12 @@ public class CadastrarSelecaoController {
             
         //return "forward:/selecao/"+selecao.getCodSelecao();
         } catch (NumberFormatException e) {
+            e.printStackTrace();
             session.setAttribute("mensagemCadastraSelecao", e.getMessage());
             session.setAttribute("statusCadastraSelecao", "danger");
             response.sendRedirect("cadastrar-selecao");
-        } catch (IllegalArgumentException e) {
-            session.setAttribute("mensagemCadastraSelecao", e.getMessage());
-            session.setAttribute("statusCadastraSelecao", "danger");
-            session.setAttribute("statusCadastraSelecao", "danger");
-            response.sendRedirect("cadastrar-selecao");
-        } catch (NullPointerException e) {
-            session.setAttribute("mensagemCadastraSelecao", e.getMessage());
-            session.setAttribute("statusCadastraSelecao", "danger");
-            response.sendRedirect("cadastrar-selecao");
-        } catch (IllegalAccessException e) {
+        } catch (IllegalArgumentException | NullPointerException | IllegalAccessException e) {
+            e.printStackTrace();
             session.setAttribute("mensagemCadastraSelecao", e.getMessage());
             session.setAttribute("statusCadastraSelecao", "danger");
             response.sendRedirect("cadastrar-selecao");

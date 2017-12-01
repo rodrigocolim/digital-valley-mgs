@@ -12,6 +12,6 @@ import javax.persistence.Embeddable;
  * @author Lavínia Matoso
  */
 @Embeddable
-public class EstadoSelecao {
+public enum EstadoSelecao {
     
 }

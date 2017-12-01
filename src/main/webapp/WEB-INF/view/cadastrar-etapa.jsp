@@ -183,7 +183,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.pt-BR.min.js" ></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
     <script>
-    $('#sandbox-container input').datepicker({
+    $('#sandbox-container .input-daterange').datepicker({
         format: "dd/mm/yyyy",
         todayBtn: "linked",
         language: "pt-BR",

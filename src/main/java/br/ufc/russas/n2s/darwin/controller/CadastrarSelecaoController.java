@@ -84,6 +84,9 @@ public class CadastrarSelecaoController {
                 edital.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
                 selecao.setEdital(edital);
             }
+
+            this.getSelecaoServiceIfc().setUsuario(usuario);
+
             selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
             
             if(!usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)){

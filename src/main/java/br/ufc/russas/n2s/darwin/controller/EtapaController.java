@@ -17,6 +17,7 @@ import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -63,6 +64,8 @@ public class EtapaController {
     public String getIndex(@PathVariable long codEtapa, Model model){
         EtapaBeans etapa  = etapaServiceIfc.getEtapa(codEtapa);
         model.addAttribute("etapa", etapa);
+        List<UsuarioBeans> avaliadores = this.getUsuarioServiceIfc().listaTodosUsuarios();
+        model.addAttribute("avaliadores", avaliadores);
         return "/editar-etapa";
     }
     

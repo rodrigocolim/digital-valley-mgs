@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 </c:if>
-                    <h1>${selecao.titulo}</h1>
+                    <h1 class="text-uppercase">${selecao.titulo}</h1>
                 <c:if test="${fn:contains(permissoes, 'RESPONSAVEL')}">
                     <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-sm"> Editar </a>
                 </c:if>
@@ -78,7 +78,7 @@
                             </div>
                             <div class="timeline-panel">
                                 <div class="timeline-heading">
-                                    <h2 class="timeline-title">${etapa.titulo}</h2>
+                                    <h2 class="timeline-title text-uppercase">${etapa.titulo}</h2>
                                     <p>
                                         <small class="text-muted">
                                             <fmt:parseDate value="${etapa.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicio" type="date" />

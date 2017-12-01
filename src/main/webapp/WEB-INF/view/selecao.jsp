@@ -31,6 +31,7 @@
                         <a class="breadcrumb-item" href="/Darwin">Início</a>
                         <a class="breadcrumb-item active" href="${selecao.codSelecao}">${selecao.titulo}</a>
                     </nav>
+                <c:set var="mensagem" value="${sessionScope.mensagem}"></c:set>
                 <c:if test="${not empty mensagem}">
                     <div class="alert alert-${status} alert-dismissible fade show" role="alert">
                         ${mensagem}
@@ -66,6 +67,11 @@
                         <b>Edital:</b>  
                         <c:set var = "nomeUrl" value = "${selecao.titulo}"/>
                         <a href="/Darwin/vizualizarEdital?selecao=${selecao.codSelecao}" class="card-link">${selecao.edital.titulo}</a>
+                        
+                    <div class="iconInput">
+                        <i class="material-icons">picture_as_pdf</i>
+                        <input type="button" class="btn btn-primary btn-sm"value="Acessar edital"/>
+                    </div>
                     </p>
                     <br/>
                     

@@ -52,7 +52,7 @@ public class IndexController{
         Selecao selecao = new Selecao();
         selecao.setCategoria(categoria.replace("_", " "));
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
-        model.addAttribute("categoria", categoria.replace("_", " "));
+        model.addAttribute("categoria", categoria);
         model.addAttribute("selecoes", selecoes);
         return "index";
     }

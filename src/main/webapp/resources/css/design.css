@@ -51,6 +51,18 @@ form > .btn{
 .btn{
     cursor: pointer;
 }
+.iconInput { 
+    position: relative 
+}
+.iconInput input { 
+    padding-left: 34px 
+}
+.iconInput i { 
+    position: absolute; 
+    padding: 4px 4px; 
+    color: white; 
+}
+
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575px) { 
 

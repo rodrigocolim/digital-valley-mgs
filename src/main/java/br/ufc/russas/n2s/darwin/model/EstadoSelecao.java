@@ -11,7 +11,7 @@ import javax.persistence.Embeddable;
  *
  * @author Lavínia Matoso
  */
-@Embeddable
-public enum EstadoSelecao {
-    
+
+public interface EstadoSelecao {
+    EnumEstadoSelecao execute(Selecao selecao);
 }

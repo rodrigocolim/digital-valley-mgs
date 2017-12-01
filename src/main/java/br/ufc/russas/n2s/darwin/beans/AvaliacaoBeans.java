@@ -6,7 +6,7 @@
 package br.ufc.russas.n2s.darwin.beans;
 
 import br.ufc.russas.n2s.darwin.model.Avaliacao;
-import br.ufc.russas.n2s.darwin.model.EnumAvaliacaoEstado;
+import br.ufc.russas.n2s.darwin.model.EnumEstadoAvaliacao;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 
@@ -20,7 +20,7 @@ public class AvaliacaoBeans implements Beans {
     private ParticipanteBeans participante;
     private float nota;
     private boolean aprovado;
-    private EnumAvaliacaoEstado estado;
+    private EnumEstadoAvaliacao estado;
     private String observacao;
     private UsuarioBeans avaliador;
 
@@ -72,11 +72,11 @@ public class AvaliacaoBeans implements Beans {
         this.avaliador = avaliador;
     }
 
-    public EnumAvaliacaoEstado getEstado() {
+    public EnumEstadoAvaliacao getEstado() {
         return estado;
     }
 
-    public void setEstado(EnumAvaliacaoEstado estado) {
+    public void setEstado(EnumEstadoAvaliacao estado) {
         this.estado = estado;
     }
     

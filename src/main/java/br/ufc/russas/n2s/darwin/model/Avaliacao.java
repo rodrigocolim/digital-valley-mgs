@@ -10,6 +10,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -39,10 +40,8 @@ public class Avaliacao implements Serializable {
     private boolean aprovado;
     private String observacao;
     @Column
-    @Enumerated
-    @ElementCollection(targetClass = EnumPermissao.class, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    private EnumAvaliacaoEstado estado;
+    @Enumerated(EnumType.ORDINAL)
+    private EnumEstadoAvaliacao estado;
     @ManyToOne
     @JoinColumn(name = "avaliador", referencedColumnName = "codUsuario")
     private UsuarioDarwin avaliador;
@@ -111,11 +110,11 @@ public class Avaliacao implements Serializable {
         }
     }
 
-    public EnumAvaliacaoEstado getEstado() {
+    public EnumEstadoAvaliacao getEstado() {
         return estado;
     }
 
-    public void setEstado(EnumAvaliacaoEstado estado) {
+    public void setEstado(EnumEstadoAvaliacao estado) {
         this.estado = estado;
     }
     

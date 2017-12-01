@@ -49,8 +49,7 @@ public class VizualizarEdital extends HttpServlet {
             throws ServletException, IOException {
         long codSelecao = Long.parseLong(request.getParameter("selecao"));
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-        File file = selecao.getEdital().getArquivo();
-        System.out.println(file);
+        File file = selecao.getEdital().getArquivo();;
         response.setContentType("application/pdf");
         response.addHeader("Content-Disposition", "attachment; filename=" + selecao.getEdital().getTitulo());
         response.setContentLength((int) file.length());

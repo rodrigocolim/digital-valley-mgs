@@ -31,6 +31,7 @@
                         <span class="breadcrumb-item">Você está em:</span> 
                         <a class="breadcrumb-item active" href="/Darwin">Início</a>
                         <a class="breadcrumb-item active" href="${selecao.codSelecao}">${selecao.titulo}</a>
+                        <a class="breadcrumb-item active" href="${etapa.codEtapa}">${etapa.titulo}</a>
                         <a class="breadcrumb-item active" href="#">Avaliar participantes</a>
                     </nav>
                 <c:if test="${not empty mensagem}">
@@ -42,9 +43,9 @@
                     </div>
                 </c:if>                           
                     <h1>Avaliar participantes</h1>
-                    
+                    <br>
                     <table class="table table-responsive">
-                        <thead class="thead-dark">
+                        <thead>
                             <tr>
                                 <th scope="col">Candidato</th>
                                 <th scope="col">Status</th>
@@ -52,9 +53,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="candidato" items="${selecao.candidatos}">
+                            <c:forEach var="participante" items="${participantesEtapa}">
                             <tr>
-                                <td>${candidato.nome}</td>
+                                <td>${participante.nome}</td>
                             </tr>
                                 <td>Pendente</td>
                             </tr>
@@ -75,6 +76,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
+                        
                         <div class="modal-body">
                             <form>
                                 <div class="form-group">

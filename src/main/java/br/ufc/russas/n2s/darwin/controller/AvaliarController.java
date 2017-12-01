@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +25,8 @@ public class AvaliarController {
     
     private EtapaServiceIfc etapaServiceIfc;
     
-    public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc") EtapaServiceIfc etapaServiceIfc) {
+    @Autowired(required = true)
+    public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc")EtapaServiceIfc etapaServiceIfc) {
         this.etapaServiceIfc = etapaServiceIfc;
     }
     
@@ -32,7 +34,7 @@ public class AvaliarController {
     public String getIndex(@PathVariable long codEtapa, Model model) {
         EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
         model.addAttribute("etapa", etapa);
-        model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
+        //model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
         return "avaliar";
     }
     

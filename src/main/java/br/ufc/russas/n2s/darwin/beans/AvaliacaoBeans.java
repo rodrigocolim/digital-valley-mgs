@@ -6,6 +6,7 @@
 package br.ufc.russas.n2s.darwin.beans;
 
 import br.ufc.russas.n2s.darwin.model.Avaliacao;
+import br.ufc.russas.n2s.darwin.model.EnumAvaliacaoEstado;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 
@@ -19,6 +20,7 @@ public class AvaliacaoBeans implements Beans {
     private ParticipanteBeans participante;
     private float nota;
     private boolean aprovado;
+    private EnumAvaliacaoEstado estado;
     private String observacao;
     private UsuarioBeans avaliador;
 
@@ -70,6 +72,14 @@ public class AvaliacaoBeans implements Beans {
         this.avaliador = avaliador;
     }
 
+    public EnumAvaliacaoEstado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EnumAvaliacaoEstado estado) {
+        this.estado = estado;
+    }
+    
     @Override
     public Object toBusiness() {
         Avaliacao avaliacao = new Avaliacao();
@@ -82,6 +92,7 @@ public class AvaliacaoBeans implements Beans {
         avaliacao.setAprovado(this.isAprovado());
         avaliacao.setObservacao(this.getObservacao());
         avaliacao.setNota(this.getNota());
+        avaliacao.setEstado(this.getEstado());
         return avaliacao;
     }
 
@@ -100,6 +111,7 @@ public class AvaliacaoBeans implements Beans {
                 this.setAprovado(avaliacao.isAprovado());
                 this.setObservacao(avaliacao.getObservacao());
                 this.setNota(avaliacao.getNota());
+                this.setEstado(avaliacao.getEstado());
                 return this;
             } else {
                 throw new IllegalArgumentException("Isso não é uma avaliação!");

@@ -52,14 +52,15 @@ form > .btn{
     cursor: pointer;
 }
 .iconInput { 
-    position: relative 
+    position: relative;
 }
 .iconInput input { 
-    padding-left: 34px 
+    padding-left: 40px; 
+    height: 40px;
 }
 .iconInput i { 
     position: absolute; 
-    padding: 4px 4px; 
+    padding: 8px 8px; 
     color: white; 
 }
 

@@ -64,13 +64,11 @@
                     <p><b>Categoria:</b> ${selecao.categoria}</p>
                     <p><b>Área de Concentração:</b> ${selecao.areaDeConcentracao}</p>      
                     <p>
-                        <b>Edital:</b>  
-                        <c:set var = "nomeUrl" value = "${selecao.titulo}"/>
-                        <a href="/Darwin/vizualizarEdital?selecao=${selecao.codSelecao}" class="card-link">${selecao.edital.titulo}</a>
-                        
                     <div class="iconInput">
-                        <i class="material-icons">picture_as_pdf</i>
-                        <input type="button" class="btn btn-primary btn-sm"value="Acessar edital"/>
+                        <a href="/Darwin/visualizarEdital/?selecao=${selecao.codSelecao}">
+                            <i class="material-icons">picture_as_pdf</i>
+                            <input type="button" class="btn btn-primary btn-sm" value="Visualizar edital"/>
+                        </a>
                     </div>
                     </p>
                     <br/>

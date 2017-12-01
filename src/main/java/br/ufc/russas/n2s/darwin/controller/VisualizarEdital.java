@@ -26,8 +26,8 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
  *
  * @author Wallison Carlos
  */
-@WebServlet(name = "VizualizarEdital", urlPatterns = {"/vizualizarEdital"})
-public class VizualizarEdital extends HttpServlet {
+@WebServlet(name = "VisualizarEdital", urlPatterns = {"/visualizarEdital"})
+public class VisualizarEdital extends HttpServlet {
     
     private SelecaoServiceIfc selecaoServiceIfc;
     

@@ -17,9 +17,10 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
         @Override
         public EnumEstadoSelecao execute(Selecao selecao){
             LocalDate inicio = selecao.getInscricao().getPeriodo().getInicio();
-            if(inicio.isBefore(LocalDate.now()) || inicio.equals(LocalDate.now())){
+            LocalDate termino = selecao.getInscricao().getPeriodo().getTermino();
+            if ((inicio.isBefore(LocalDate.now()) || inicio.equals(LocalDate.now())) && termino.isAfter(LocalDate.now())) {
                 return this;
-            }else{
+            } else {
                 return ANDAMENTO.execute(selecao);
             }
         }
@@ -27,20 +28,21 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
     ANDAMENTO(2){
         @Override
         public EnumEstadoSelecao execute(Selecao selecao){
-            if(etapa.getPeriodo().getTermino().isBefore(LocalDate.now())){
+            LocalDate termino = selecao.getInscricao().getPeriodo().getTermino();
+            if (termino.isBefore(LocalDate.now()) && (selecao.getUltimaEtapa().getPeriodo().getTermino().isAfter(LocalDate.now()) || selecao.getUltimaEtapa().getPeriodo().getTermino().equals(LocalDate.now()))) {
                 return this;
-            }else{
-                return FINALIZADA.execute(etapa);
+            } else {
+                return FINALIZADA.execute(selecao);
             }
         }
     },
     FINALIZADA(3){
         @Override
         public EnumEstadoSelecao execute(Selecao selecao){
-            if(etapa.getPeriodo().getTermino().isAfter(LocalDate.now())){
+            if(selecao.getUltimaEtapa().getPeriodo().getTermino().isBefore(LocalDate.now())){
                 return this;
             }else{
-                return ANDAMENTO.execute(etapa);
+                return ANDAMENTO.execute(selecao);
             }
         }
     };

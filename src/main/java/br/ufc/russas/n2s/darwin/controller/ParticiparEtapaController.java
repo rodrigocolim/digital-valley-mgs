@@ -105,7 +105,9 @@ public class ParticiparEtapaController {
             }        
         }
         Documentacao documentacao = new  Documentacao();
-        documentacao.setCandidato((Participante) this.etapaServiceIfc.getParticipante(etapa, usuario).toBusiness());
+        Participante participante = (Participante) this.etapaServiceIfc.getParticipante(etapa, usuario).toBusiness();
+        System.out.println(participante);
+        documentacao.setCandidato(participante);
         documentacao.setDocumentos(arquivos);
         try {
             this.etapaServiceIfc.participa(etapa, (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));

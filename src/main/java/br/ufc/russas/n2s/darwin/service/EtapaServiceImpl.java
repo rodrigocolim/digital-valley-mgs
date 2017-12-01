@@ -16,6 +16,7 @@ import br.ufc.russas.n2s.darwin.model.Avaliacao;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.EtapaProxy;
+import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
@@ -120,7 +121,8 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     @Override
     public void participa(EtapaBeans etapa, DocumentacaoBeans documentacao) throws IllegalAccessException {
         Etapa e = (Etapa) etapa.toBusiness();
-        e.participa((Documentacao) documentacao.toBusiness());                
+        e.participa((Documentacao) documentacao.toBusiness()); 
+        getEtapaDAOIfc().atualizaEtapa(e);
     }
 
     @Override
@@ -129,6 +131,16 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         Avaliacao a = (Avaliacao) avaliacao.toBusiness();
         EtapaProxy ep = new EtapaProxy((UsuarioDarwin) usuario.toBusiness());
         ep.avalia(a);
+    }
+
+    @Override
+    public List<ParticipanteBeans> getParticipantes(EtapaBeans etapa) {
+        Etapa e = (Etapa) etapa.toBusiness();
+        List<ParticipanteBeans> participantes = Collections.synchronizedList(new ArrayList<ParticipanteBeans>());
+        for (Participante participante : e.getParticipantes()) {
+            participantes.add((ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
+        }
+        return participantes;
     }
 
 }

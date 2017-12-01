@@ -29,6 +29,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">Você está em: </li>
                         <li class="breadcrumb-item" aria-current="page"><a href="/Darwin">Início</a></li>
+                        <li class="breadcrumb-item" aria-current="page"><a href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Editar Seleção</li>
                     </ol>
                 </nav>

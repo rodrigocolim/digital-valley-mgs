@@ -22,12 +22,16 @@
         <div class="container-fluid">
             <div class="row row-offcanvas row-offcanvas-right">
                 <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
+                <c:if test="${empty categoria}"> 
+                    <c:set var="categoria" value="Início"></c:set> 
+                </c:if>
                 <div class="col-sm-8">
-                <nav aria-label="breadcrumb" role="navigation">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">Você está em: </li>
-                        <li class="breadcrumb-item active" aria-current="page">Início</li>
-                    </ol>
+                <nav class="breadcrumb">
+                    <span class="breadcrumb-item">Você está em:</span> 
+                    <a class="breadcrumb-item ${categoria eq 'Início' ? 'active': ''}" href="/Darwin">Início</a>
+                    <c:if test="${not (categoria eq 'Início')}"> 
+                    <a class="breadcrumb-item text-capitalize active" href="#">${categoria}</a>
+                    </c:if>
                 </nav>
                 <c:if test="${not empty mensagem}">
                     <div class="alert alert-${status} alert-dismissible fade show" role="alert">
@@ -37,7 +41,7 @@
                         </button>
                     </div>
                 </c:if>                       
-                <h1>Início</h1>
+                <h1 class="text-capitalize">${categoria}</h1>
                 <c:if test="${empty selecoes}">
                     <p class="text-muted">Nenhuma seleção cadastrada!</p>
                 </c:if>
@@ -62,7 +66,7 @@
                             </p>
                             <c:set var = "nomeUrl" value = "${selecao.titulo}"/>
                          <!--   <a href="selecao/${fn:replace(nomeUrl," ", "_")}_${selecao.codSelecao}" class="card-link">Acessar</a> -->
-                            <a href="selecao/${selecao.codSelecao}" class="card-link">Acessar</a>
+                            <a href="selecao/${selecao.codSelecao}" class="card-link">Mais informações</a>
                         </div>
                     </div>
                 </c:forEach>

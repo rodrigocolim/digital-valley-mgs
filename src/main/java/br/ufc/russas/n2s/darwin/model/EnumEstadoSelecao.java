@@ -12,7 +12,19 @@ import java.time.LocalDate;
  * @author Wallison Carlos
  */
 public enum EnumEstadoSelecao implements EstadoSelecao{
-    ABERTA(1){
+    ESPERA(1){
+        @Override
+        public EnumEstadoSelecao execute(Selecao selecao){
+            LocalDate inicio = selecao.getInscricao().getPeriodo().getInicio();
+            LocalDate termino = selecao.getInscricao().getPeriodo().getTermino();
+            if (inicio.isAfter(LocalDate.now())){
+                return this;
+            } else {
+                return ABERTA.execute(selecao);
+            }
+        }
+    },
+    ABERTA(2){
         @Override
         public EnumEstadoSelecao execute(Selecao selecao){
             LocalDate inicio = selecao.getInscricao().getPeriodo().getInicio();
@@ -24,7 +36,7 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
             }
         }
     },
-    ANDAMENTO(2){
+    ANDAMENTO(3){
         @Override
         public EnumEstadoSelecao execute(Selecao selecao){
             LocalDate termino = selecao.getInscricao().getPeriodo().getTermino();
@@ -35,7 +47,7 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
             }
         }
     },
-    FINALIZADA(3){
+    FINALIZADA(4){
         @Override
         public EnumEstadoSelecao execute(Selecao selecao){
             if(selecao.getUltimaEtapa().getPeriodo().getTermino().isBefore(LocalDate.now())){
@@ -60,6 +72,4 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-
-    
 }

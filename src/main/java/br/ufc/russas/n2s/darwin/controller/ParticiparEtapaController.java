@@ -10,6 +10,7 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Arquivo;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
+import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -80,40 +82,55 @@ public class ParticiparEtapaController {
     }
 
     @RequestMapping(value="/{codEtapa}", method = RequestMethod.POST)
-    public @ResponseBody void participar(@PathVariable long codEtapa, HttpServletRequest request, @RequestParam("nomeDocumento") String[] nomeDocumento, @RequestParam("documento") MultipartFile[] documentos) throws IOException {    
-        EtapaBeans etapa = this.etapaServiceIfc.getEtapa(codEtapa);
+    public @ResponseBody void participar(@PathVariable long codEtapa, HttpServletRequest request, HttpServletResponse response, @RequestParam("nomeDocumento") String[] nomeDocumento, @RequestParam("documento") MultipartFile[] documentos) throws IOException {    
         HttpSession session = request.getSession();
-        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        this.etapaServiceIfc.setUsuario(usuario);
-        List<Arquivo> arquivos = Collections.synchronizedList(new ArrayList<Arquivo>());
-        for (int i = 0; i < documentos.length;i++) {
-            String nome = nomeDocumento[i];
-            System.out.println(nome);
-            MultipartFile file = documentos[i];
-            System.out.println(file.getOriginalFilename());
-            if (!file.isEmpty()) {
-                Arquivo documento = new Arquivo();
-                java.io.File convFile = new java.io.File(file.getOriginalFilename());
-                convFile.createNewFile(); 
-                FileOutputStream fos = new FileOutputStream(convFile); 
-                fos.write(file.getBytes());
-                fos.close(); 
-                documento.setTitulo(nome);
-                documento.setData(LocalDateTime.now());
-                documento.setArquivo(convFile);
-                arquivos.add(documento);
-            }        
-        }
-        Documentacao documentacao = new  Documentacao();
-        Participante participante = (Participante) this.etapaServiceIfc.getParticipante(etapa, usuario).toBusiness();
-        System.out.println(participante);
-        documentacao.setCandidato(participante);
-        documentacao.setDocumentos(arquivos);
         try {
+            EtapaBeans etapa = this.etapaServiceIfc.getEtapa(codEtapa);
+            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            this.etapaServiceIfc.setUsuario(usuario);
+            List<Arquivo> arquivos = Collections.synchronizedList(new ArrayList<Arquivo>());
+            for (int i = 0; i < documentos.length;i++) {
+                String nome = nomeDocumento[i];
+                System.out.println(nome);
+                MultipartFile file = documentos[i];
+                System.out.println(file.getOriginalFilename());
+                if (!file.isEmpty()) {
+                    Arquivo documento = new Arquivo();
+                    java.io.File convFile = new java.io.File(file.getOriginalFilename());
+                    convFile.createNewFile(); 
+                    FileOutputStream fos = new FileOutputStream(convFile); 
+                    fos.write(file.getBytes());
+                    fos.close(); 
+                    documento.setTitulo(nome);
+                    documento.setData(LocalDateTime.now());
+                    documento.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
+                    arquivos.add(documento);
+                }        
+            }
+            Documentacao documentacao = new  Documentacao();
+            Participante participante = (Participante) this.etapaServiceIfc.getParticipante(etapa, usuario).toBusiness();
+            System.out.println(participante);
+            documentacao.setCandidato(participante);
+            documentacao.setDocumentos(arquivos);
             this.etapaServiceIfc.participa(etapa, (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
-        }
-        catch (IllegalAccessException ex) {
-            Logger.getLogger(ParticiparEtapaController.class.getName()).log(Level.SEVERE, null, ex);
+            session.setAttribute("mensagem", "Agora você está inscrito na etapa".concat(etapa.getTitulo()));
+            session.setAttribute("status", "success");
+            //response.sendRedirect("selecao/" + selecao.getCodSelecao());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
+            response.sendRedirect("participar-etapa");
+        } catch (IllegalArgumentException | NullPointerException | IllegalAccessException e) {
+            e.printStackTrace();
+            session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
+            response.sendRedirect("participar-etapa");
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
+            response.sendRedirect("participar-etapa");
         }
     }
     

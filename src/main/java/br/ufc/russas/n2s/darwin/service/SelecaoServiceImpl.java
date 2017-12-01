@@ -119,18 +119,18 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         this.usuario = usuario;
     }
     
-    @Override
+    /* @Override
     public List<SelecaoBeans> listaSelecoesAssociada(UsuarioBeans usuario) {
-        Selecao selecao = new Selecao();
-        UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
-        //selecao.adicionaResponsavel(user);
-        List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList());
-        List<Selecao> resultado = this.getSelecaoDAOIfc().getMinhasSelecoes(user);
-        for (Selecao s : resultado) {
-            selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
-        }
-        return selecoes;
-        
+    Selecao selecao = new Selecao();
+    UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
+    //selecao.adicionaResponsavel(user);
+    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList());
+    List<Selecao> resultado = this.getSelecaoDAOIfc().getMinhasSelecoes(user);
+    for (Selecao s : resultado) {
+    selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
     }
+    return selecoes;
+    
+    }*/
 
 }

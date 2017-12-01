@@ -49,6 +49,6 @@ public interface SelecaoDAOIfc {
      */
     Selecao getSelecao(Selecao selecao);
     
-    List<Selecao> getMinhasSelecoes(UsuarioDarwin responsavel);
+   // List<Selecao> getMinhasSelecoes(UsuarioDarwin responsavel);
 
 }

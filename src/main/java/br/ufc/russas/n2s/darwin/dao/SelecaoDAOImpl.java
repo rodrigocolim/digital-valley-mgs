@@ -63,17 +63,17 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
         return this.daoImpl.getObject(selecao, selecao.getCodSelecao());
     }
     
-    @Override
+    /*    @Override
     public List<Selecao> getMinhasSelecoes(UsuarioDarwin responsavel){
-        Session session;
-        session = this.daoImpl.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
-        Criteria cr = session.createCriteria(Selecao.class);
-        cr.add(Restrictions.eq("responsaveis.usuario", responsavel.getCodUsuario()));
-        List<Selecao> selecoes = cr.list();
-        t.commit();
-        return selecoes;
-    }
+    Session session;
+    session = this.daoImpl.getSessionFactory().openSession();
+    Transaction t = session.beginTransaction();
+    Criteria cr = session.createCriteria(Selecao.class);
+    cr.add(Restrictions.eq("responsaveis.usuario", responsavel.getCodUsuario()));
+    List<Selecao> selecoes = cr.list();
+    t.commit();
+    return selecoes;
+    }*/
     
 
 }

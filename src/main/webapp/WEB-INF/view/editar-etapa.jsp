@@ -21,7 +21,7 @@
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.standalone.css" />
     </head>
-    <body>
+    <body onload="inicializa()">
     <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
     <div class="container-fluid">
         <div class="row row-offcanvas row-offcanvas-right">
@@ -46,16 +46,16 @@
                 <br>
                 <div class="form-group">
                     <form method="POST" action="etapa" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
-                        <label for="tituloInput">Titulo*</label>
-                        <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
+                        <label for="tituloInput"><input type="checkbox" onclick="habilitaEdicao('tituloInput')"> Titulo*</label>
+                        <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" disabled="disabled" required>
                         
                         <br>
-                        <label for="descricaoInput">Descrição*</label>
-                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" value="${etapa.descricao}" required>${etapa.descricao}</textarea>
+                        <label for="descricaoInput"><input type="checkbox" onclick="habilitaEdicao('descricaoInput')"> Descrição*</label>
+                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" value="${etapa.descricao}" disabled="disabled" required>${etapa.descricao}</textarea>
   
                         <br>
-                        <label for="etapaAnteriorInput">Etapa anterior*</label>
-                        <select name="prerequisito" class="form-control col-md-8"  id="etapaAnteriorInput" required>
+                        <label for="etapaAnteriorInput"><input type="checkbox" onclick="habilitaEdicao('etapaAnteriorInput')"> Etapa anterior*</label>
+                        <select name="prerequisito" class="form-control col-md-8"  id="etapaAnteriorInput" disabled="disabled" required>
                             <c:forEach var="e" items="${selecao.etapas}">
                             <fmt:parseDate value="${e.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
                             <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
@@ -64,30 +64,27 @@
                         </select>
                         
                         <br>
-                        <label for="descricaoInput">Período*</label>
+                        <label for="periodoInput"><input type="checkbox" onclick="habilitaEdicao('periodoInput1');habilitaEdicao('periodoInput2')"> Período*</label>
                         <div id="sandbox-container">
                             <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
                                 <fmt:parseDate value="${etapa.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicio" type="date" />
                                 <fmt:formatDate value="${parseDataInicio}"  pattern="dd/MM/yyyy" var="dataInicio" type="date"/>
                                 <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
                                 <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
-                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" value="${dataInicio}" required/>
+                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" id="periodoInput1" name="dataInicio" value="${dataInicio}" disabled="disabled" required/>
                                 <span class="input-group-addon">até</span>
-                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" name="dataTermino" value="${dataTermino}" required/>
-                                <div class="invalid-feedback">
-                                    Selecione uma data para Início e Término
-                                </div>
+                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" id="periodoInput2" name="dataTermino" value="${dataTermino}" disabled="disabled" required/>
                             </div>
                         </div>
 
                         <br>
                         <div class="card">
                             <div class="card-header col-auto">
-                                <label for="documentoInput">Documentação Exigida</label>
+                                <label for="documentoInput"><input type="checkbox" onclick="habilitaEdicao('documentoInput')"> Documentação Exigida</label>
                             </div>
                             <div class="card-body">
                                 <div class="form-row">
-                                    <input type="text" name="documento" class="form-control col-md-8" id="documentoInput" placeholder="Digite o nome do documento exigido para esta etapa">&nbsp;&nbsp;
+                                    <input type="text" name="documento" class="form-control col-md-8" id="documentoInput" placeholder="Digite o nome do documento exigido para esta etapa" disabled="disabled">&nbsp;&nbsp;
                                     <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaDocumento()" value="Adicionar">                            
                                 </div>
                                 <br>
@@ -108,19 +105,17 @@
                             </div>
                             <div class="card-body">
                                 <br>
-                                <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
-                                <select name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"  class="form-control col-md-8"  id="categoriaInput" required>
+                                <label for="criterioDeAvaliacaoInput"><input type="checkbox" onclick="habilitaEdicao('criterioDeAvaliacaoInput')"> Critério de Avaliação*</label>
+                                <select name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"  class="form-control col-md-8"  id="criterioDeAvaliacaoInput" disabled="disabled" required>
                                     <option ${(etapa.criterioDeAvaliacao.criterio == 1 ? "selected" : "")}>Nota</option>
                                     <option ${(etapa.criterioDeAvaliacao.criterio == 2 ? "selected" : "")}>Aprovação</option>
                                     <option ${(etapa.criterioDeAvaliacao.criterio == 3 ? "selected" : "")}>Deferimento</option>
                                 </select>
-                                <div class="invalid-feedback">
-                                </div>
 
                                 <br>
-                                <label for="AvaliadoresInput">Avaliadores*</label>                           
+                                <label for="AvaliadoresInput"><input type="checkbox" onclick="habilitaEdicao('avaliadorInput')"> Avaliadores*</label>                           
                                 <div class="form-row">
-                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px">
+                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px" disabled="disabled">
                                         <option selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
                                         <c:forEach items="${avaliadores}" var="avaliador">
                                             <option id="avaliadorOption-${avaliador.nome}" value="${avaliador.codUsuario}-${avaliador.nome}">${avaliador.nome}</option>
@@ -133,7 +128,10 @@
                                 <ul class="list-group col-md-8 " id="listaAvaliadores">
                                     <c:forEach var="avaliador" items="${etapa.avaliadores}">
                                         <li class="list-group-item">
-                                            <input type="hidden" name="codAvaliadores" value="${avaliador}" style="display: none;">${avaliador.nome}<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(${avaliador})">clear</button>
+                                            <input type="hidden" name="codAvaliadores" value="${avaliador.codUsuario}-${avaliador.nome}" style="display: none;"/>
+                                            ${avaliador.nome}
+                                            <button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador('${avaliador.nome}')">clear</button>
+                                            
                                         </li>
                                     </c:forEach>
                                 </ul>
@@ -163,7 +161,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-                                        <button type="button" class="btn btn-primary btn-sm" onclick="$('#needs-validation').submit()">Confirmar</button>
+                                        <button type="submit" class="btn btn-primary btn-sm">Confirmar</button>
                                     </div>
                                 </div>
                             </div>
@@ -192,30 +190,7 @@
     });
     </script>
     <script>
-    function getListaAvaliadores() {
-        ordenaLista();
-        var input, filter, ul, li, a, i;
-        input = document.getElementById("nomeAvaliador");
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("listaAvaliadores");
-        li = ul.getElementsByTagName("li");
-        for (i = 0; i < li.length; i++) {
-            a = li[i].getElementsByTagName("span")[0];
-            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                li[i].getElementsByTagName("span")[0].style.display = "";
-                li[i].getElementsByTagName("input")[0].style.display = "";
-                li[i].style.display = "";
-            } else {
-                if(li[i].getElementsByTagName("input")[0].checked === false){
-                    li[i].getElementsByTagName("span")[0].style.display = "none";
-                    li[i].getElementsByTagName("input")[0].style.display = "none";
-                    li[i].style.display = "none";                    
-                }
 
-            }
-        }
-    }
-    
     function ordenaLista() {
         var list, i, switching, b, shouldSwitch;
         list = document.getElementById("listaAvaliadores");
@@ -237,8 +212,15 @@
         }
       }
       
+      var listaInputs = document.getElementById("listaDocumentos").getElementsByTagName("input");
+      var numDocumentos = listaInputs.length;
       var listaDocumentos = [];
-      var numDocumentos = 0;
+      var k;
+      for(k = 0;k < numDocumentos;k++){
+          listaDocumentos[k] = listaInputs[k].value;
+      }
+      atualizaDocumentos();
+      
       function adicionaDocumento(){
         var nomeDocumento = document.getElementById("documentoInput").value;
         if(nomeDocumento !== ""){
@@ -266,14 +248,31 @@
           }
           atualizaDocumentos();
       }
-      
-      
-      var listaAvaliadores = [];
-      var numAvaliadores = 0;
+        var codAvaliadores = [];
+        var listaAvaliadores = [];
+        var numAvaliadores = 0;
+        var listaAInputs = document.getElementById("listaAvaliadores").getElementsByTagName("input");
+        var numAvaliadores = listaAInputs.length;
+        alert(numAvaliadores);
+        var l;
+        for(l = 0;l < numAvaliadores;l++){
+          var avaliadorInput = listaAInputs[l].value;
+          var nomeAvaliador = avaliadorInput.substring(avaliadorInput.indexOf("-") + 1, avaliadorInput.lenght);
+          var codAvaliador = avaliadorInput.substring(0, avaliadorInput.indexOf("-"));
+          listaAvaliadores[l] = nomeAvaliador;
+
+          codAvaliadores[l] = codAvaliador;
+  
+        atualizaAvaliadores();
+  }
+
       function adicionaAvaliador(){
-        var nomeAvaliador = document.getElementById("avaliadorInput").value;
+        var avaliadorInput = document.getElementById("avaliadorInput").value;
+        var nomeAvaliador = avaliadorInput.substring(avaliadorInput.indexOf("-") + 1, avaliadorInput.lenght);
+        var codAvaliador = avaliadorInput.substring(0, avaliadorInput.indexOf("-"));
         if(nomeAvaliador !== ""){
             listaAvaliadores[numAvaliadores] = nomeAvaliador;
+            codAvaliadores[numAvaliadores] = codAvaliador;
             document.getElementById("avaliadorOption-"+nomeAvaliador+"").disabled = "disabled";
             numAvaliadores++;
         }
@@ -286,7 +285,7 @@
           list.innerHTML = "";
           for(i = 0;i < listaAvaliadores.length;i++){
             if(listaAvaliadores[i] !== ""){
-                list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codAvaliadores" value="'+listaAvaliadores[i]+'" style="display: none;"> '+ listaAvaliadores[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(\''+listaAvaliadores[i]+'\')">clear</button></li>';
+                list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codAvaliadores" value="'+codAvaliadores[i]+'" style="display: none;"> '+ listaAvaliadores[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(\''+listaAvaliadores[i]+'\')">clear</button></li>';
             }
           }
       }
@@ -295,11 +294,22 @@
               if(listaAvaliadores[i] === codAvaliador){
                   document.getElementById("avaliadorOption-"+codAvaliador+"").disabled = "";
                   listaAvaliadores[i] = "";
+                  codAvaliadores[i] = "";
                   
               }
           }
           atualizaAvaliadores();
       }
+      
+      function habilitaEdicao(id){
+        var input = document.getElementById(id);
+        if(input.disabled){
+            input.disabled = "";
+        }else{
+            input.disabled = "disabled";
+        }
+    }
+
     </script>
 
 </body>

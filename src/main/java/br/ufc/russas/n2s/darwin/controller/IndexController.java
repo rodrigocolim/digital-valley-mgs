@@ -6,11 +6,9 @@
 package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
-import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.io.IOException;
-import java.time.Clock;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,21 +57,23 @@ public class IndexController{
         return "index";
     }
 
-    //@RequestMapping(value="/minhasSelecoes", method = RequestMethod.GET)
+/*
+    @RequestMapping(value="/minhasSelecoes", method = RequestMethod.GET)
+
     public String getMinhasSelecoes(Model model, HttpServletRequest request) {
-        
-        HttpSession session = request.getSession();
-        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        
-       
-        System.out.println("\nA\nA\nA\nA\nA\nA\nA\nA");
-        System.out.println(usuario);
-        //System.out.println(usuario.getNome());
-        System.out.println("\n\n");
-        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
-        model.addAttribute("selecoes", selecoes);
-        return "index";
-    }
+    
+    HttpSession session = request.getSession();
+    UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+    
+    
+    System.out.println("\nA\nA\nA\nA\nA\nA\nA\nA");
+    System.out.println(usuario);
+    //System.out.println(usuario.getNome());
+    System.out.println("\n\n");
+    List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
+    model.addAttribute("selecoes", selecoes);
+    return "index";
+    }*/
     
     @RequestMapping(value = "/sair", method = RequestMethod.GET)
     public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException{

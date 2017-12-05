@@ -39,9 +39,11 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    <c:set scope="session" var="mensagem" value=""></c:set>
+                    <c:set scope="session" var="status" value=""></c:set>
                 </c:if>
                 <!-- Mensagem de primeiro acesso após o cadastro da seleção -->
-                <c:if test="${empty selecao.etapas and (fn:contains(permissoes, 'RESPONSAVEL') || fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                <c:if test="${(empty selecao.etapas) and (fn:contains(permissoes, 'RESPONSAVEL') || fn:contains(permissoes, 'ADMINISTRADOR'))}">
                     <div class="jumbotron jumbotron-fluid" style="padding-top: 40px; padding-bottom: 30px; ">
                         <div class="container">
                             <h1 style="font-size: 20px; font-weight: bold;">Cadastre a primeira etapa da sua seleção!</h1><br>
@@ -51,40 +53,37 @@
                         </div>
                     </div>
                 </c:if>
-                    <h1 class="text-uppercase">${selecao.titulo}</h1>
-                <c:if test="${fn:contains(permissoes, 'RESPONSAVEL')}">
-                    <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-sm"> Editar </a>
+                <!-- Mensagem de primeiro acesso após o cadastro da seleção -->
+                <c:if test="${(not empty selecao.etapas) and ((fn:contains(permissoes, 'RESPONSAVEL') || fn:contains(permissoes, 'ADMINISTRADOR')))}">
+                    <div class="jumbotron jumbotron-fluid" style="padding-top: 40px; padding-bottom: 30px; ">
+                        <div class="container">
+                            <h1 style="font-size: 20px; font-weight: bold;">Divulgue sua seleção!</h1><br>
+                            <p style="font-size: 15px;">Para permitir que os outros usuários tenham acesso a sua seleção, você precisa divulga-lá. Antes disso, verifique se as configurações estão de acordo com o edital. Você deseja divulgar a seleção? &nbsp;
+                                <a href="#"> Divulgar a seleção </a>
+                            </p>
+                        </div>
+                    </div>
                 </c:if>
-                    <p class="text-justify">
+                    <h1 class="text-uppercase">${selecao.titulo}</h1>
+                    <p>
                         ${selecao.descricao}
                     </p>
                     <br/>
-                    <p><b>Descrição dos Pré-Requisitos:</b> ${selecao.descricaoPreRequisitos}</p>
-                    <p><b>Vagas:</b> ${selecao.vagasRemuneradas} remuneradas e ${selecao.vagasVoluntarias} voluntárias.</p>
-                    <p><b>Categoria:</b> ${selecao.categoria}</p>
-                    <p><b>Área de Concentração:</b> ${selecao.areaDeConcentracao}</p>      
-                    <p>
-                    <div class="iconInput">
-                        <a href="/Darwin/visualizarEdital/?selecao=${selecao.codSelecao}">
-                            <i class="material-icons">picture_as_pdf</i>
-                            <input type="button" class="btn btn-primary btn-sm" value="Visualizar edital"/>
-                        </a>
-                    </div>
-                    </p>
-                    <br/>
-                    
-                    <ul class="timeline timeline-vertical" id="timeline">
-                    <c:forEach var="etapa" items="${selecao.etapas}">
-                        <li class="timeline-item">
-                            <div class="timeline-badge">
-                                <c:set var="estado" value="${etapa.estado.estado}"></c:set>
-                                <i class="material-icons">${estado == 2 ? 'timelapse': estado == 3  ? 'check': ''}</i>
+                    <c:if test="${not empty selecao.etapas}">
+                        <ul class="timeline">
+                    <c:set var="i" value="0"></c:set>
+                    <c:forEach var="etapa" begin="0" items="${selecao.etapas}">
+                        <c:set var="estado" value="${etapa.estado.estado}"></c:set>
+                        <li class="${i%2 != 0? 'timeline-inverted': ''}">
+                            <div class="timeline-badge ${estado == 1 ? 'insert_invitation': estado == 2 ? 'warning': estado == 3  ? 'success': ''}">
+                                <i class="material-icons">${estado == 1 ? 'insert_invitation': estado == 2 ? 'timelapse': estado == 3  ? 'done_all': ''}</i>
                             </div>
                             <div class="timeline-panel">
                                 <div class="timeline-heading">
                                     <h2 class="timeline-title text-uppercase">${etapa.titulo}</h2>
                                     <p>
                                         <small class="text-muted">
+                                            <i class="glyphicon glyphicon-time"></i>                                             
                                             <fmt:parseDate value="${etapa.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicio" type="date" />
                                             <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
                                             <fmt:formatDate value="${parseDataInicio}"  pattern="dd/MMMM/yyyy" var="dataInicio" type="date"/>
@@ -96,37 +95,34 @@
                                     </p>
                                 </div>
                                 <div class="timeline-body">
-                                    <p class="text-justify">${etapa.descricao}</p><br>
-                                        <c:if test="${(fn:contains(permissoes, 'RESPONSAVEL') && selecao.estado != 'EM_ANDAMENTO') || fn:contains(permissoes, 'ADMINISTRADOR')}">
-                                            <a href="/Darwin/etapa/${etapa.codEtapa}" class="btn btn-sm btn-secondary">Editar</a>
-                                        </c:if>
-                                        <c:if test="${fn:contains(permissoes, 'AVALIADOR')}">
-                                            <a href="/Darwin/avaliar/${etapa.codEtapa}" class="btn btn-sm btn-primary" >Avaliar</a>
-                                        </c:if>
-                                        <c:if test="${fn:contains(permissoes, 'PARTICIPANTE') and (etapa.estado.estado == 2)}">
-                                            <a href="/Darwin/participarEtapa/${etapa.codEtapa}" class="btn btn-sm btn-primary">Participar</a>
-                                        </c:if>
+                                    <p>${etapa.descricao}</p>
+                                    <c:if test="${(not empty etapa.documentacaoExigida) and (estado == 2) and (fn:contains(permissoes, 'PARTICIPANTE'))}">
+                                        <hr>
+                                        <a href="/Darwin/participarEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Enviar documentação</a>
+                                    </c:if>
                                 </div>
                             </div>
                         </li>
+                    <c:set var="i" value="${i + 1}"></c:set>
                     </c:forEach>
-                    <c:if test="${fn:contains(permissoes, 'RESPONSAVEL') and not empty selecao.etapas}">  
-                        <li class="timeline-item">
-                            <a href="/Darwin/cadastrarEtapa/${selecao.codSelecao}" class="timeline-badge" style="background-color: #007bff;">
+
+                    <c:if test="${fn:contains(permissoes, 'RESPONSAVEL') and (selecao.estado == 'ESPERA')}">  
+                        <li>
+                            <a href="/Darwin/cadastrarEtapa/${selecao.codSelecao}" class="timeline-badge primary" >
                                 <i class="material-icons">add</i>
                             </a>
                         </li>                        
                     </c:if>
-                    <c:if test="${fn:contains(permissoes, 'PARTICIPANTE') and (not empty selecao.etapas) and not fn:contains(permissoes, 'RESPONSAVEL')}">  
-                        <li class="timeline-item">
-                            <a href="#" class="timeline-badge" style="background-color: #007bff;">
+                    <c:if test="${fn:contains(permissoes, 'PARTICIPANTE')}">  
+                        <li class="">
+                            <div class="timeline-badge primary">
                                 <i class="material-icons">flag</i>
-                            </a>
+                            </div>
                         </li>                        
                     </c:if>
-
+                        
                     </ul>
-                </div>            
+                </c:if>
             </div>
         </div>
             <br>

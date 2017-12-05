@@ -23,13 +23,16 @@
             <div class="row row-offcanvas row-offcanvas-right">
                 <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
                 <c:if test="${empty categoria}"> 
-                    <c:set var="categoria" value="Início"></c:set> 
+                    <c:set var="titulo" value="Início"></c:set> 
                 </c:if>
+                <c:set var="titulo" value="${fn:replace(categoria, '_', ' ')}"></c:set>
+                
                 <div class="col-sm-8">
                 <nav class="breadcrumb">
                     <span class="breadcrumb-item">Você está em:</span> 
-                    <a class="breadcrumb-item ${categoria eq 'Início' ? 'active': ''}" href="/Darwin">Início</a>
-                    <c:if test="${not (categoria eq 'Início')}"> 
+                    
+                    <a class="breadcrumb-item ${titulo eq 'Início' ? 'active': ''}" href="/Darwin">Início</a>
+                    <c:if test="${not (titulo eq 'Início')}"> 
                     <a class="breadcrumb-item text-capitalize active" href="#">${categoria}</a>
                     </c:if>
                 </nav>
@@ -41,7 +44,7 @@
                         </button>
                     </div>
                 </c:if>                       
-                <h1 class="text-capitalize">${categoria}</h1>
+                <h1 class="text-capitalize">${titulo}</h1>
                 <c:if test="${empty selecoes}">
                     <p class="text-muted">Nenhuma seleção cadastrada!</p>
                 </c:if>
@@ -79,7 +82,7 @@
                     <c:forEach var="i" begin="1" end="${(fn:length(selecoes)/5) + (fn:length(selecoes)%5 == 0 ? 0 : 1)}">
                         <li class="page-item ${(pagina == i ? "active": "")}"><a class="page-link" href="/Darwin/${categoria}?pag=${i}">${i}</a></li>
                     </c:forEach>
-                        <li class="page-item  ${(pagina > ((fn:length(selecoes))/5) ? "disabled" : "")}">
+                        <li class="page-item  ${(pagina >= ((fn:length(selecoes))/5) ? "disabled" : "")}">
                             <a class="page-link" href="/Darwin/${categoria}?pag=${pagina + 1}">Próximo</a>
                         </li>
                     </ul>

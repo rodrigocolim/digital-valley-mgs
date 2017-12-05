@@ -15,8 +15,9 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Converter;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -83,8 +84,8 @@ public class Selecao {
     @ManyToOne(targetEntity = Arquivo.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "edital", referencedColumnName = "codArquivo")
     private Arquivo edital;
-    @Embedded
-    private EstadoSelecao estado;
+    @Enumerated(EnumType.ORDINAL)
+    private EnumEstadoSelecao estado;
 
     public Selecao() {
     }
@@ -262,11 +263,11 @@ public class Selecao {
         this.edital = edital;
     }
 
-    public EstadoSelecao getEstado() {
+    public EnumEstadoSelecao getEstado() {
         return estado;
     }
 
-    public void setEstado(EstadoSelecao estado) {
+    public void setEstado(EnumEstadoSelecao estado) {
         if (estado != null) {
             this.estado = estado;
         } else {
@@ -388,6 +389,21 @@ public class Selecao {
             throw new RuntimeException("Lista de etapas está vazia!");
         }
         return null;
+    }
+    
+    public Etapa getUltimaEtapa() {
+        Etapa etapa = null;
+        if (this.etapas != null && !this.etapas.isEmpty()) {
+            etapa = this.getEtapas().get(0);
+            for (Etapa e: etapas) {
+                if (e.getPeriodo().getInicio().isAfter(etapa.getPeriodo().getInicio())) {
+                    etapa = e;
+                }
+            }
+        } else {
+            throw new RuntimeException("Lista de etapas está vazia!");
+        }
+        return etapa;
     }
 
 }

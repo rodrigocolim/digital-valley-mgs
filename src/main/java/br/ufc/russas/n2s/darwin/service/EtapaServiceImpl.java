@@ -119,9 +119,9 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     }
 
     @Override
-    public void participa(EtapaBeans etapa, DocumentacaoBeans documentacao) throws IllegalAccessException {
+    public void anexaDocumentacao(EtapaBeans etapa, DocumentacaoBeans documentacao) throws IllegalAccessException {
         Etapa e = (Etapa) etapa.toBusiness();
-        e.participa((Documentacao) documentacao.toBusiness()); 
+        e.anexaDocumentacao((Documentacao) documentacao.toBusiness()); 
         getEtapaDAOIfc().atualizaEtapa(e);
     }
 

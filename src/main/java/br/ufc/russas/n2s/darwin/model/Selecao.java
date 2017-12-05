@@ -406,4 +406,21 @@ public class Selecao {
         return etapa;
     }
 
+    public void participa(Participante participante) {
+        if (participante !=  null) {
+            getCandidatos().add(participante);
+        } else {
+            throw new NullPointerException("Deve ser informado um participante!");
+        }
+    }
+    
+    public void participa(Participante participante, Documentacao documentacao) throws IllegalAccessException {
+        if (participante !=  null) {
+            getCandidatos().add(participante);
+            getInscricao().anexaDocumentacao(documentacao);
+        } else {
+            throw new NullPointerException("Deve ser informado um participante e uma documentação!");
+        }
+    }
+    
 }

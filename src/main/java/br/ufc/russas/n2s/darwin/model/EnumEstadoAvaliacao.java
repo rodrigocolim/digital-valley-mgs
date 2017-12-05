@@ -29,10 +29,10 @@ public enum EnumEstadoAvaliacao {
     }
     
     public void setNivel(int nivel){
-        if (nivel>=1 && nivel<=4) { 
+        if (nivel>=1 && nivel<=2) { 
             this.nivel = nivel;
         } else {
-            throw new IllegalArgumentException("Critério de avaliação deve ser maior igual a um e menor igual a quatro!");
+            throw new IllegalArgumentException("Estado de avaliação deve ser maior igual a um e menor igual a dois!");
         }            
     }
     

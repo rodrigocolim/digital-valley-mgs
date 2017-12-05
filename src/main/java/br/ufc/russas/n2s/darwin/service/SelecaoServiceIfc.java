@@ -5,6 +5,8 @@
  */
 package br.ufc.russas.n2s.darwin.service;
 
+import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
+import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Selecao;
@@ -71,6 +73,8 @@ public interface SelecaoServiceIfc extends ServiceIfc{
      */
     SelecaoBeans getSelecao(long codSelecao);
     
+    void participa(SelecaoBeans selecao, ParticipanteBeans participante) throws IllegalAccessException;
     
+    void participa(SelecaoBeans selecao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException;
 
 }

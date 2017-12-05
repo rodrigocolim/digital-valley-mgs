@@ -29,18 +29,18 @@ public class UsuarioDarwinProxy extends UsuarioDarwin{
     }
     
     @Override
-    public void adicionaNivel(UsuarioDarwin usuario, EnumPermissao permissao) throws IllegalAccessException{
+    public UsuarioDarwin adicionaNivel(UsuarioDarwin usuario, EnumPermissao permissao) throws IllegalAccessException{
         if (getUsuario().getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
-            super.adicionaNivel(usuario, permissao);
+            return super.adicionaNivel(usuario, permissao);
         } else {
             throw new IllegalAccessException("Você não é um administrador do Darwin!");
         }
     }
     
     @Override
-    public void removeNivel(UsuarioDarwin usuario, EnumPermissao permissao) throws IllegalAccessException{
+    public UsuarioDarwin removeNivel(UsuarioDarwin usuario, EnumPermissao permissao) throws IllegalAccessException{
         if (getUsuario().getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
-            super.removeNivel(usuario, permissao);
+            return super.removeNivel(usuario, permissao);
         } else {
             throw new IllegalAccessException("Você não é um administrador do Darwin!");
         }

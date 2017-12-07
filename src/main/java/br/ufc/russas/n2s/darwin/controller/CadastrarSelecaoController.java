@@ -86,9 +86,9 @@ public class CadastrarSelecaoController {
             }
             selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-            model.addAttribute("mensagemCadastraSelecao", "Seleção cadastrada com sucesso!");
-            model.addAttribute("statusCadastraSelecao", "success");
-            return ("forward: selecao/" + selecao.getCodSelecao());
+            session.setAttribute("mensagemCadastraSelecao", "Seleção cadastrada com sucesso!");
+            session.setAttribute("statusCadastraSelecao", "success");
+            return ("redirect:selecao/" + selecao.getCodSelecao());
         } catch (NumberFormatException e) {
             e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());

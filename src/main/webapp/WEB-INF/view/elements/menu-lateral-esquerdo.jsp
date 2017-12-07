@@ -3,7 +3,7 @@
     Created on : 05/10/2017, 11:50:30
     Author     : Alex Felipe
 --%>
-<div class="col-12 col-md-3 col-xl-2 bd-sidebar" style="margin-top: 8px;">
+<div class="col-12 col-md-3 col-xl-2 bd-sidebar" style="margin-top: 5px;">
     <div class="btn-group-vertical d-flex flex-column border" role="group">
         <a href="/Darwin/assistência_estudantil" class="btn btn-light btn-sm text-left ${categoria == 'assistência_estudantil' ? 'active': ''}">Assistência Estudantil</a>
         <a href="/Darwin/bolsas_para_discentes" class="btn btn-light btn-sm text-left ${categoria == 'bolsas_para_discentes' ? 'active': ''}">Bolsas para Discentes</a>  

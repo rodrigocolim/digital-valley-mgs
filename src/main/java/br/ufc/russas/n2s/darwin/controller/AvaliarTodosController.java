@@ -17,12 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
- * @author Wallison Carlos
+ * @author Lavínia Matoso
  */
-@Controller("avaliarController")
-@RequestMapping("/avaliar")
-public class AvaliarController {
-    
+@Controller("avaliarTodosController")
+@RequestMapping("/avaliarTodos")
+public class AvaliarTodosController {
     private EtapaServiceIfc etapaServiceIfc;
     
     @Autowired(required = true)
@@ -35,7 +34,6 @@ public class AvaliarController {
         EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
         model.addAttribute("etapa", etapa);
         //model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
-        return "avaliar";
+        return "avaliar-todos";
     }
-    
 }

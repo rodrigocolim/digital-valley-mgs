@@ -44,55 +44,23 @@
                 </c:if>                           
                     <h1>Avaliar participantes</h1>
                     <br>
-                    <table class="table table-responsive">
-                        <thead>
-                            <tr>
-                                <th scope="col">Candidato</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Opção</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="participante" items="${participantesEtapa}">
-                            <tr>
-                                <td>${participante.nome}</td>
-                            </tr>
-                            <tr>
-                                <td>Pendente</td>
-                            </tr>
-                            <tr>
-                                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliar">Avaliar</button></td>
-                            </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                    <a href="/Darwin/avaliarTodos/${etapa.codEtapa}">
-                        <input type="button" class="btn btn-primary btn-sm" value="Avaliar Todos"/>
-                    </a>
-                </div>
-            </div>
-            <div class="modal fade" id="avaliar" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalLabel">Avaliar Candidato</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        
-                        <div class="modal-body">
-                            <form>
-                                <div class="form-group">
-                                    <label for="recipient-name" class="form-control-label">Documentação:</label>
-                                    <c:forEach var="documento" items="${etapa.documentacaoExigida}">
-                                        <p><b>${documento}:</b> <a href="#"></a></p>
-                                    </c:forEach>
-                                </div>
-                                <div class="form-group">
-                                    <label for="message-text" class="form-control-label">Avaliação:</label>
-                                    <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
-                                        <input type="number" name="nota" class="form-control col-sm-2 disabled" id="notaInput" value="0" min="0" max="10">
+                    <div class="form-group">
+                        <form method="POST" action="avaliar" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
+                            <table class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Candidato</th>
+                                        <th scope="col">Avaliação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="participante" items="${participantesEtapa}">
+                                    <tr>
+                                        <td>${participante.nome}</td>
+                                    </tr>
+                                    <tr>
+                                        <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
+                                    <input type="number" name="nota" class="form-control col-sm-2 disabled" id="notaInput" value="0" min="0" max="10">
                                     </c:if>
                                     <c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
                                         <div class="form-check form-check-inline">
@@ -118,17 +86,12 @@
                                             </label>
                                         </div>
                                     </c:if>
-                                </div>
-                                <div class="form-group">
-                                    <label for="message-text" class="form-control-label">Observações:</label>
-                                    <textarea class="form-control" id="message-text"></textarea>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
-                        </div>
+                                    </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                            <input type="submit" class="btn btn-primary" value="Salvar">
+                        </form>
                     </div>
                 </div>
             </div>

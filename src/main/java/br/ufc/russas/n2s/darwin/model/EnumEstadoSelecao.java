@@ -12,7 +12,6 @@ import java.time.LocalDate;
  * @author Wallison Carlos
  */
 public enum EnumEstadoSelecao implements EstadoSelecao{
-    
     ESPERA(1){
         @Override
         public EnumEstadoSelecao execute(Selecao selecao){
@@ -69,19 +68,8 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
         setEstado(estado);
     }
 
-    private int estado;
-    
-    public int getEstado() {
-        return estado;
+    private void setEstado(int estado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
-    public void setEstado(int estado) {
-        if (estado >= 1 && estado <= 4) {
-            this.estado = estado;
-        } else {
-            throw new IllegalArgumentException("Estado de seleçao deve ser maior igual a um e menor igual a quatro!");
-        }
-    }
-    
 }

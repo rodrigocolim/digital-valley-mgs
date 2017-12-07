@@ -78,45 +78,35 @@ public class CadastrarSelecaoController {
                 FileOutputStream fos = new FileOutputStream(convFile); 
                 fos.write(file.getBytes());
                 fos.close(); 
-                edital.setTitulo("Edital para" + selecao.getTitulo() );
+                edital.setTitulo("Edital para".concat(selecao.getTitulo()));
                 edital.setData(LocalDateTime.now());
-                //edital.setArquivo(convFile);
                 edital.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
                 selecao.setEdital(edital);
             }
-
-            this.getSelecaoServiceIfc().setUsuario(usuario);
-
             selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-            
             if(!usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)){
                 System.out.println("\n\nController\n\n");
                 usuario.getPermissoes().add(EnumPermissao.RESPONSAVEL);
             }
-
-            
-            
             selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
             session.setAttribute("mensagemCadastraSelecao", "Seleção cadastrada com sucesso!");
             session.setAttribute("statusCadastraSelecao", "success");
             response.sendRedirect("selecao/" + selecao.getCodSelecao());
-            
-        //return "forward:/selecao/"+selecao.getCodSelecao();
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            session.setAttribute("mensagemCadastraSelecao", e.getMessage());
-            session.setAttribute("statusCadastraSelecao", "danger");
+            session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
             response.sendRedirect("cadastrar-selecao");
         } catch (IllegalArgumentException | NullPointerException | IllegalAccessException e) {
             e.printStackTrace();
-            session.setAttribute("mensagemCadastraSelecao", e.getMessage());
-            session.setAttribute("statusCadastraSelecao", "danger");
+            session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
             response.sendRedirect("cadastrar-selecao");
         } catch (Exception e) {
             e.printStackTrace();
-            session.setAttribute("mensagemCadastraSelecao", e.getMessage());
-            session.setAttribute("statusCadastraSelecao", "danger");
+            session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
             response.sendRedirect("cadastrar-selecao");
         }
 

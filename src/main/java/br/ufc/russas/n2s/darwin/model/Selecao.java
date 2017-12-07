@@ -86,6 +86,7 @@ public class Selecao {
     private Arquivo edital;
     @Enumerated(EnumType.ORDINAL)
     private EnumEstadoSelecao estado;
+   
 
     public Selecao() {
     }
@@ -274,6 +275,7 @@ public class Selecao {
             throw new IllegalArgumentException("Estado da seleção não pode ser nulo!");
         }
     }
+    
     public Selecao adicionaSelecao() {
         return this;
     }
@@ -284,7 +286,7 @@ public class Selecao {
     
     public Etapa adicionaEtapa(Etapa etapa) {
         if (etapa != null) {
-            if (inscricao == null) {
+            if (inscricao != null) {
                 etapas.add(etapa);
             } else {
                 inscricao = etapa;

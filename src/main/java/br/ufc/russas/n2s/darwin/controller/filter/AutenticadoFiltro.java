@@ -85,7 +85,7 @@ public class AutenticadoFiltro implements Filter {
                             }else {
                                 ((HttpServletResponse) response).sendRedirect("http://192.169.1.102:8080/Controle_de_Acesso/");
                             }
-                    }else if(session.getAttribute("usuario")!= null && DAOFactory.criarUsuarioDAO().buscarTokenTemp(((Usuario)session.getAttribute("usuario")).getPessoa().getId())!=null && ((Usuario)session.getAttribute("usuario")).getTokenUsuario().equals(DAOFactory.criarUsuarioDAO().buscarTokenTemp(((Usuario)session.getAttribute("usuario")).getPessoa().getId()))){
+                    }else if(session.getAttribute("usuarioDarwin")!= null && session.getAttribute("usuario")!= null && DAOFactory.criarUsuarioDAO().buscarTokenTemp(((Usuario)session.getAttribute("usuario")).getPessoa().getId())!=null && ((Usuario)session.getAttribute("usuario")).getTokenUsuario().equals(DAOFactory.criarUsuarioDAO().buscarTokenTemp(((Usuario)session.getAttribute("usuario")).getPessoa().getId()))){
                             chain.doFilter(request, response);
                     }else {
                             ((HttpServletResponse) response).sendRedirect("http://192.169.1.102:8080/Controle_de_Acesso/");

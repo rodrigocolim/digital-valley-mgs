@@ -30,16 +30,7 @@ public class SelecaoProxy extends Selecao{
     }
     
     public Etapa adicionaEtapa(Selecao selecao, Etapa etapa) throws IllegalAccessException {
-        for (EnumPermissao permissao : this.getUsuario().getPermissoes()) {
-            System.out.println(permissao);
-        }
-        
-        for (UsuarioDarwin usuario : selecao.getResponsaveis()) {
-            System.out.println(usuario.getNome());
-        }
-        
         if (this.getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL) && selecao.getResponsaveis().contains(this.getUsuario())) {
-            System.out.println("Entrou");
             return selecao.adicionaEtapa(etapa);
         } else {
             throw new IllegalAccessException("Você não é um responsável da selação ".concat(selecao.getTitulo()));

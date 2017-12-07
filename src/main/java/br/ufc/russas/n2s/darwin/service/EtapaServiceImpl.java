@@ -137,10 +137,31 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     public List<ParticipanteBeans> getParticipantes(EtapaBeans etapa) {
         Etapa e = (Etapa) etapa.toBusiness();
         List<ParticipanteBeans> participantes = Collections.synchronizedList(new ArrayList<ParticipanteBeans>());
-        for (Participante participante : e.getParticipantes()) {
-            participantes.add((ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
-        }
-        return participantes;
+        if(e.getParticipantes() != null) {
+            for (Participante participante : e.getParticipantes()) {
+                participantes.add((ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
+            }
+            return participantes;
+        } else {
+            for (Participante participante : getSelecao(etapa).getCandidatos()) {
+                participantes.add((ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
+            }
+            return participantes;
+        }        
     }
+
+    @Override
+    public SelecaoBeans getSelecao(EtapaBeans etapa) {
+        List<SelecaoBeans> selecoes = selecaoServiceIfc.listaTodasSelecoes();
+        Etapa e = (Etapa) etapa.toBusiness();
+        for (SelecaoBeans selecao : selecoes) {
+            if (selecao.getEtapas().contains(e) || selecao.getInscricao().equals(etapa)) {
+                return selecao;
+            }
+        }
+        return null;
+    }
+    
+    
 
 }

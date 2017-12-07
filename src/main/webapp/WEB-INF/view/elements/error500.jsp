@@ -7,7 +7,7 @@
         <title>Darwin - Sistema de Gerenciamento de Seleções</title>
         <style>
             body{
-                background-image: url('../../resources/img/500.png');
+                background-image: url('${pageContext.request.contextPath}/resources/img/500.png');
             }
         </style>
     </head>

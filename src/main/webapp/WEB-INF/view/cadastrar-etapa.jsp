@@ -62,7 +62,7 @@
                         <c:if test="${not empty selecao.etapas}">
                         <label for="etapaAnteriorInput">Etapa anterior*</label>
                         <select name="prerequisito" class="form-control col-md-8"  id="etapaAnteriorInput" required>
-                            <option value="" selected="selected" disabled="disabled">Selecione a etapa anterior a esta</option>
+                            <option value="0" selected="selected" disabled="disabled">Selecione a etapa anterior a esta</option>
                             <c:forEach var="etapa" items="${selecao.etapas}">
                             <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
                             <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
@@ -72,6 +72,9 @@
                         <div class="invalid-feedback">
                         </div>
                         <br>
+                        </c:if>
+                        <c:if test="${empty selecao.etapas}">
+                            <input type="hidden" value="0" name="prerequisito">
                         </c:if>
                         
                         

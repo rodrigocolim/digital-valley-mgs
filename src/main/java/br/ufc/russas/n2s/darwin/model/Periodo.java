@@ -133,6 +133,7 @@ public class Periodo implements AttributeConverter<LocalDate, Date> {
     }
 
     public boolean isAntes(Periodo periodo) {
+        System.out.println("\n\n\n\n "+periodo.toString()+"\n\n\n\n "+ this.toString());
         return this.getTermino().isBefore(periodo.getInicio());
     }
 

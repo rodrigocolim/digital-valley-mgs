@@ -30,9 +30,9 @@ public class SelecaoController {
         this.selecaoServiceIfc = selecaoServiceIfc;
     }
 
-    @RequestMapping(value = "/{selecaoCodigo}", method = RequestMethod.GET)
-    public String getIndex(@PathVariable String selecaoCodigo, Model model, HttpServletRequest request){
-        long codSelecao = Long.parseLong(selecaoCodigo);
+    @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
+    public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
+        //long codSelecao = Long.parseLong(selecaoCodigo);
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         model.addAttribute("selecao", selecao);        
         request.getSession().setAttribute("selecao", selecao);

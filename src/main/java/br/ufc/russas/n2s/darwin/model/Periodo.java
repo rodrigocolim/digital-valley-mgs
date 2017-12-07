@@ -69,7 +69,7 @@ public class Periodo implements AttributeConverter<LocalDate, Date> {
     public void setInicio(LocalDate inicio) {
         if (inicio != null) {
             if (this.getTermino()!= null) {
-                if ((inicio.isBefore(this.getTermino()) || inicio.equals(this.getTermino()))) {
+                if ((inicio.isBefore(this.getTermino()) || inicio.equals(this.getTermino())) && inicio.isAfter(LocalDate.now())) {
                     this.inicio = inicio;
                 } else {
                     throw new IllegalArgumentException("Inicio não pode ser maior que o termino!");
@@ -133,6 +133,7 @@ public class Periodo implements AttributeConverter<LocalDate, Date> {
     }
 
     public boolean isAntes(Periodo periodo) {
+        System.out.println("\n\n\n\n "+periodo.toString()+"\n\n\n\n "+ this.toString());
         return this.getTermino().isBefore(periodo.getInicio());
     }
 

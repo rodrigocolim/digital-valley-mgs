@@ -5,9 +5,13 @@
  */
 package br.ufc.russas.n2s.darwin.service;
 
+import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
+import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
+import br.ufc.russas.n2s.darwin.model.Documentacao;
+import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
@@ -103,6 +107,21 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         for (Selecao s : resultado) {
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
+        SelecaoBeans aux;
+        List<SelecaoBeans> selecoesSemPeriodo = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
+        for(int i=0;i<selecoes.size()-1;i++){
+            for(int j=i;j<selecoes.size()-1;j++){
+                if (selecoes.get(j).getInscricao() != null && selecoes.get(j+1).getInscricao() != null) {
+                    if (selecoes.get(j).getInscricao().getPeriodo().getInicio().isAfter(selecoes.get(j+1).getInscricao().getPeriodo().getInicio())) {
+                        aux = selecoes.get(j);
+                        selecoes.set(j, selecoes.get(j+1));
+                        selecoes.set(j+1, aux);
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
         return selecoes;
     }
 
@@ -132,5 +151,21 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     return selecoes;
     
     }*/
+
+    @Override
+    public void participa(SelecaoBeans selecao, ParticipanteBeans participante) throws IllegalAccessException {
+        UsuarioDarwin usuario = (UsuarioDarwin) this.usuario.toBusiness();
+        Selecao  s = (Selecao) selecao.toBusiness();
+        s.participa((Participante) participante.toBusiness());
+        atualizaSelecao((SelecaoBeans) selecao.toBeans(s));
+    }
+
+    @Override
+    public void participa(SelecaoBeans selecao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException {
+        UsuarioDarwin usuario = (UsuarioDarwin) this.usuario.toBusiness();
+        Selecao  s = (Selecao) selecao.toBusiness();
+        s.participa((Participante) participante.toBusiness(), (Documentacao) documentacao.toBusiness());
+        atualizaSelecao((SelecaoBeans) selecao.toBeans(s));
+    }
 
 }

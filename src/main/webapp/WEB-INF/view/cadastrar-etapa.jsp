@@ -45,7 +45,7 @@
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
-                    <form method="POST" action="${selecao.codSelecao}" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
+                    <form method="POST" action="/Darwin/cadastrarEtapa/${selecao.codSelecao}" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" value="${empty selecao.etapas ? 'Inscrição': ''}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" ${empty selecao.etapas ? 'readonly': ''} required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Inscrição</small>
@@ -130,7 +130,7 @@
                                 <label for="AvaliadoresInput">Avaliadores*</label>                           
                                 <div class="form-row">
                                     <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px">
-                                        <option selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
+                                        <option value="" selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
                                         <c:forEach items="${avaliadores}" var="avaliador">
                                             <option id="avaliadorOption-${avaliador.nome}" value="${avaliador.codUsuario}-${avaliador.nome}">${avaliador.nome}</option>
                                         </c:forEach>

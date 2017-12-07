@@ -22,12 +22,19 @@
         <div class="container-fluid">
             <div class="row row-offcanvas row-offcanvas-right">
                 <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
+                <c:if test="${empty categoria}"> 
+                    <c:set var="titulo" value="Início"></c:set> 
+                </c:if>
+                <c:set var="titulo" value="${fn:replace(categoria, '_', ' ')}"></c:set>
+                
                 <div class="col-sm-8">
-                <nav aria-label="breadcrumb" role="navigation">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">Você está em: </li>
-                        <li class="breadcrumb-item active" aria-current="page">Início</li>
-                    </ol>
+                <nav class="breadcrumb">
+                    <span class="breadcrumb-item">Você está em:</span> 
+                    
+                    <a class="breadcrumb-item ${titulo eq 'Início' ? 'active': ''}" href="/Darwin">Início</a>
+                    <c:if test="${not (titulo eq 'Início')}"> 
+                    <a class="breadcrumb-item text-capitalize active" href="#">${categoria}</a>
+                    </c:if>
                 </nav>
                 <c:if test="${not empty mensagem}">
                     <div class="alert alert-${status} alert-dismissible fade show" role="alert">
@@ -37,7 +44,7 @@
                         </button>
                     </div>
                 </c:if>                       
-                <h1>Início</h1>
+                <h1 class="text-capitalize">${titulo}</h1>
                 <c:if test="${empty selecoes}">
                     <p class="text-muted">Nenhuma seleção cadastrada!</p>
                 </c:if>
@@ -75,7 +82,7 @@
                     <c:forEach var="i" begin="1" end="${(fn:length(selecoes)/5) + (fn:length(selecoes)%5 == 0 ? 0 : 1)}">
                         <li class="page-item ${(pagina == i ? "active": "")}"><a class="page-link" href="/Darwin/${categoria}?pag=${i}">${i}</a></li>
                     </c:forEach>
-                        <li class="page-item  ${(pagina > ((fn:length(selecoes))/5) ? "disabled" : "")}">
+                        <li class="page-item  ${(pagina >= ((fn:length(selecoes))/5) ? "disabled" : "")}">
                             <a class="page-link" href="/Darwin/${categoria}?pag=${pagina + 1}">Próximo</a>
                         </li>
                     </ul>

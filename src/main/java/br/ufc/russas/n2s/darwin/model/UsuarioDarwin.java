@@ -78,21 +78,19 @@ public class UsuarioDarwin {
         this.nome = nome;
     }
     
-    public void adicionaNivel(UsuarioDarwin usuario, EnumPermissao permisao) throws IllegalAccessException{
+    public UsuarioDarwin adicionaNivel(UsuarioDarwin usuario, EnumPermissao permisao) throws IllegalAccessException{
         if (!usuario.getPermissoes().contains(permisao)) {
             usuario.getPermissoes().add(permisao);
-            UsuarioDAOIfc usuarioDAOIfc = new UsuarioDAOImpl();
-            usuarioDAOIfc.atualizaUsuario(usuario);
+            return usuario;
         } else {
             throw new IllegalArgumentException("Usuário já possui a permição de ".concat(permisao.toString()));
         }
     }
     
-    public void removeNivel(UsuarioDarwin usuario, EnumPermissao permisao) throws IllegalAccessException{
+    public UsuarioDarwin removeNivel(UsuarioDarwin usuario, EnumPermissao permisao) throws IllegalAccessException{
         if (usuario.getPermissoes().contains(permisao)) {
             usuario.getPermissoes().remove(permisao);
-            UsuarioDAOIfc usuarioDAOIfc = new UsuarioDAOImpl();
-            usuarioDAOIfc.atualizaUsuario(usuario);
+            return usuario;
         } else {
             throw new IllegalArgumentException("Usuário não possui a permição de ".concat(permisao.toString()));
         }

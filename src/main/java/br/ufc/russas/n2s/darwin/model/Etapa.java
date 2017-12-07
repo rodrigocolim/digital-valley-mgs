@@ -184,7 +184,7 @@ public class Etapa implements Serializable, Atualizavel {
      *
      * @param prerequisito
      */
-    public void setPrerequisito(Etapa prerequisito) {
+    public void setPrerequisito(Etapa prerequisito) throws IllegalArgumentException{
         if (prerequisito.getPeriodo().isAntes(this.getPeriodo())) {
             this.prerequisito = prerequisito;
         } else {
@@ -248,6 +248,9 @@ public class Etapa implements Serializable, Atualizavel {
         return aprovados;
     }
     
+    public List<Participante> getParticipantes () {
+        return getPrerequisito().getAprovados();
+    } 
     
     public boolean isParticipante(Participante participante){
         List<Participante> aprovados = this.getPrerequisito().getAprovados();
@@ -273,22 +276,18 @@ public class Etapa implements Serializable, Atualizavel {
         return null;
     }
     
-    public void participa(Documentacao documentacao) throws IllegalAccessException {
+    public void anexaDocumentacao(Documentacao documentacao) throws IllegalAccessException {
         if (documentacao != null) {
             throw new NullPointerException("Documentacao não pode ser vazia!");
         } else if (isParticipante(documentacao.getCandidato())) {
             throw new IllegalAccessException("Você não é um participante desta Etapa");
         } else {
             this.getDocumentacoes().add(documentacao);
-            EtapaDAOIfc etapaDAOIfc = new EtapaDAOImpl();
-            etapaDAOIfc.atualizaEtapa(this);
         } 
     }
     
     public void avalia(Avaliacao avaliacao) {
-        EtapaDAOIfc etapaDAOIfc = new EtapaDAOImpl();
         this.getAvaliacoes().add(avaliacao);
-        etapaDAOIfc.atualizaEtapa(this);
     }
     
     

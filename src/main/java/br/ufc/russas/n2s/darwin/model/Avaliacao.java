@@ -8,13 +8,19 @@ package br.ufc.russas.n2s.darwin.model;
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -33,6 +39,9 @@ public class Avaliacao implements Serializable {
     private float nota;
     private boolean aprovado;
     private String observacao;
+    @Column
+    @Enumerated(EnumType.ORDINAL)
+    private EnumEstadoAvaliacao estado;
     @ManyToOne
     @JoinColumn(name = "avaliador", referencedColumnName = "codUsuario")
     private UsuarioDarwin avaliador;
@@ -100,4 +109,14 @@ public class Avaliacao implements Serializable {
             throw new NullPointerException("Avaliador deve ser informado!");
         }
     }
+
+    public EnumEstadoAvaliacao getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EnumEstadoAvaliacao estado) {
+        this.estado = estado;
+    }
+    
+    
 }

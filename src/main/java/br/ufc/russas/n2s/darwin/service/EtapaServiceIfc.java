@@ -27,7 +27,8 @@ public interface EtapaServiceIfc extends ServiceIfc{
     public boolean isParticipante(ParticipanteBeans participante);
     public boolean isParticipante(UsuarioBeans participante);
     public ParticipanteBeans getParticipante(EtapaBeans etapa, UsuarioBeans usuario);
-    public void participa(EtapaBeans etapa, DocumentacaoBeans documentacao) throws IllegalAccessException;
+    public void anexaDocumentacao(EtapaBeans etapa, DocumentacaoBeans documentacao) throws IllegalAccessException;
     public void avalia(EtapaBeans etapa, AvaliacaoBeans avaliacao) throws IllegalAccessException;
+    public List<ParticipanteBeans> getParticipantes(EtapaBeans etapa);
    
 }

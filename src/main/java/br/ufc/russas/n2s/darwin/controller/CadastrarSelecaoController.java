@@ -94,14 +94,17 @@ public class CadastrarSelecaoController {
             session.setAttribute("statusCadastraSelecao", "success");
             response.sendRedirect("selecao/" + selecao.getCodSelecao());
         } catch (NumberFormatException e) {
+            e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
             response.sendRedirect("cadastrar-selecao");
         } catch (IllegalArgumentException | NullPointerException | IllegalAccessException e) {
+            e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
             response.sendRedirect("cadastrar-selecao");
         } catch (Exception e) {
+            e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
             response.sendRedirect("cadastrar-selecao");

@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.beans;
 
 
 import br.ufc.russas.n2s.darwin.model.Arquivo;
+import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
@@ -46,7 +47,7 @@ public class SelecaoBeans implements Beans {
     private List aditivos;
     private List anexos;
     private ArquivoBeans edital;
-    private EstadoSelecao estado;
+    private EnumEstadoSelecao estado;
     
     public SelecaoBeans(){}
 
@@ -170,11 +171,11 @@ public class SelecaoBeans implements Beans {
         this.edital = edital;
     }
 
-    public EstadoSelecao getEstado() {
+    public EnumEstadoSelecao getEstado() {
         return estado;
     }
 
-    public void setEstado(EstadoSelecao estado) {
+    public void setEstado(EnumEstadoSelecao estado) {
         this.estado = estado;
     }
     

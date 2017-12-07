@@ -118,25 +118,27 @@ public class CadastrarEtapaController {
                 }
                 etapa.setDocumentacaoExigida(docs);
             }
+            if (codPrerequisito > 0) {
+                etapa.setPrerequisito(this.getEtapaServiceIfc().getEtapa(codPrerequisito));
+            }
             etapa.setAvaliadores(avaliadores);
             selecao.getEtapas().add((Etapa) etapa.toBusiness());
-            
-            //System.out.println(usuario);
-            this.etapaServiceIfc.setUsuario(usuario);
-            //this.etapaServiceIfc.adicionaEtapa(selecao, etapa);
+            this.selecaoServiceIfc.setUsuario(usuario);
+            this.selecaoServiceIfc.atualizaSelecao(selecao);
             model.addAttribute("mensagem", "Etapa cadastrada com sucesso!");
             model.addAttribute("status", "success");
-            return "forward: /selecao/"+selecao.getCodSelecao();
+            return "forward:/Darwin/selecao/"+selecao.getCodSelecao();
         } catch (NumberFormatException e) {
+            e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
             return "cadastrar-etapa";
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
             return "cadastrar-etapa";
         }
-        
     }
     
 

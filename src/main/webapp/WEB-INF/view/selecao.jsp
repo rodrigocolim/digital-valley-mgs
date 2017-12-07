@@ -64,11 +64,21 @@
                         </div>
                     </div>
                 </c:if>
-                    <h1 class="text-uppercase">${selecao.titulo}</h1>
-                    <p>
-                        ${selecao.descricao}
-                    </p>
-                    <br/>
+                <div class="row ">
+                    <h1 class="text-uppercase col-sm-12">${selecao.titulo}</h1>
+                    <form method="GET" action="/Darwin/visualizarEdital">
+                        <input type="hidden" value="${selecao.codSelecao}" name="selecao">
+                        <div class="iconInput">
+                            <i class="material-icons">picture_as_pdf</i>
+                            <input type="submit" class="btn btn-primary btn-sm" style="right: 15px; position:absolute;" value="Visualizar edital"/>
+                        </div>
+                    </form>
+
+                </div>
+                <p>
+                    ${selecao.descricao}
+                </p>
+                <br/>
                     <c:if test="${not empty selecao.etapas}">
                         <ul class="timeline">
                     <c:set var="i" value="0"></c:set>
@@ -132,7 +142,7 @@
                     <li class="list-group-item disabled">
                         <fmt:parseDate value="${aditivo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
                         <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
-                        <a href="/Darwin/visualizarEdital/${aditivo.titulo}">(${dataAditivo}) ${aditivo.titulo}</a>
+                        <a href="/Darwin/visualizarAditivo/${aditivo.titulo}">(${dataAditivo}) ${aditivo.titulo}</a>
                     </li>
                     </c:forEach>
                 </ul>

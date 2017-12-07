@@ -112,8 +112,8 @@
                         </div>
                         <br>
                         <label for="editalInput"> <input type="checkbox" onclick="habilitaEdicao('editalInput')"> Substituir edital</label>
-                        <input type="file" name="edital" class="form-control" id="editalInput" aria-describedby="editalHelp" placeholder="Anexe o novo edital da seleção"  accept="application/pdf"  readonly="true">
-                        <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
+                        <input type="text" name="file" class="form-control" id="editalInput" aria-describedby="editalHelp" placeholder="Adicione o link atual para o edital da seleção"  accept="application/pdf" readonly="true">
+                        <small id="tituloHelp" class="form-text text-muted">Ex. http://www.campusrussas.ufc.br/editais-e-selecoes.php</small>
                         <div class="invalid-feedback">
                             
                         </div>

@@ -58,7 +58,7 @@
                     <div class="jumbotron jumbotron-fluid" style="padding-top: 40px; padding-bottom: 30px; ">
                         <div class="container">
                             <h1 style="font-size: 20px; font-weight: bold;">Divulgue sua seleção!</h1><br>
-                            <p style="font-size: 15px;">Para permitir que os outros usuários tenham acesso a sua seleção, você precisa divulga-lá. Antes disso, verifique se as configurações estão de acordo com o edital. Você deseja divulgar a seleção? &nbsp;
+                            <p style="font-size: 15px;">Para permitir que os outros usuários tenham acesso a sua seleção, você precisa divulga-lá. Antes disso, verifique se as configurações da sua seleção estão de acordo com o edital. Você deseja divulgar a seleção? &nbsp;
                                 <a href="#"> Divulgar a seleção </a>
                             </p>
                         </div>
@@ -124,9 +124,21 @@
                     </ul>
                 </c:if>
             </div>
+            <div class="col-sm-2 sidebar-offcanvas">
+                <h2><center>ADITIVOS E ANEXOS</center></h2>
+                <div class="card" style="width: 20rem;">
+                    <div class="card-header">
+                        Featured
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Cras justo odio</li>
+                        <li class="list-group-item">Dapibus ac facilisis in</li>
+                        <li class="list-group-item">Vestibulum at eros</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-            <br>
-        <c:import url="elements/menu-lateral-direito.jsp" charEncoding="UTF-8"></c:import>
+
         <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>

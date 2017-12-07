@@ -112,8 +112,8 @@
                         </div>
                         <br>
                         <label for="editalInput">Edital*</label>
-                        <input type="file" name="file" class="form-control" id="arquivoInput" aria-describedby="editalHelp" placeholder="Anexe o edital da seleção"  accept="application/pdf" required>
-                        <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
+                        <input type="text" name="file" class="form-control" id="arquivoInput" aria-describedby="editalHelp" placeholder="Adicione aqui o link para o edital da seleção"  accept="application/pdf" required>
+                        <small id="tituloHelp" class="form-text text-muted">Ex. http://www.campusrussas.ufc.br/editais-e-selecoes.php</small>
                         <div class="invalid-feedback">
                             
                         </div>

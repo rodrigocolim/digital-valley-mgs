@@ -63,7 +63,7 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         UsuarioDarwin u = (UsuarioDarwin) usuario.toBusiness();
         SelecaoProxy sp = new SelecaoProxy(u);
         Selecao s = (Selecao) selecao.toBusiness();
-        Etapa e =(Etapa) etapa.toBusiness();
+        Etapa e = (Etapa) etapa.toBusiness();
         sp.adicionaEtapa(s, e);
         this.selecaoServiceIfc.setUsuario(usuario);
         this.selecaoServiceIfc.atualizaSelecao((SelecaoBeans) selecao.toBeans(s));

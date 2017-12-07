@@ -5,8 +5,6 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
-<%@page import="br.ufc.russas.n2s.darwin.model.EnumPermissoes"%>
-<%@page import="br.ufc.russas.n2s.darwin.model.EnumPermissoes"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="br.ufc.russas.n2s.darwin.beans.UsuarioBeans"%>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">

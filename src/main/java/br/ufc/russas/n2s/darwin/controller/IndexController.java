@@ -44,6 +44,7 @@ public class IndexController{
     public String getIndex(Model model){
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaTodasSelecoes();
         System.out.println(selecoes);
+        model.addAttribute("categoria", "Início");
         model.addAttribute("selecoes", selecoes);        
         return "index";
     }

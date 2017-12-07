@@ -22,9 +22,6 @@
         <div class="container-fluid">
             <div class="row row-offcanvas row-offcanvas-right">
                 <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
-                <c:if test="${empty categoria}"> 
-                    <c:set var="titulo" value="Início"></c:set> 
-                </c:if>
                 <c:set var="titulo" value="${fn:replace(categoria, '_', ' ')}"></c:set>
                 
                 <div class="col-sm-8">
@@ -43,8 +40,20 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                </c:if>                       
-                <h1 class="text-capitalize">${titulo}</h1>
+                </c:if>
+                    <div class='row'>
+                    <h1 class="text-capitalize">${titulo}</h1>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Filtrar
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Seleções Abertas</a>
+                            <a class="dropdown-item" href="#">Seleções em andamento</a>
+                            <a class="dropdown-item" href="#">Seleções finalizadas</a>
+                        </div>
+                    </div>
+                </div>
                 <c:if test="${empty selecoes}">
                     <p class="text-muted">Nenhuma seleção cadastrada!</p>
                 </c:if>

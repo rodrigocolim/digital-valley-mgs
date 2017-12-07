@@ -48,7 +48,6 @@ public class SelecaoBeans implements Beans {
     private List anexos;
     private ArquivoBeans edital;
     private EnumEstadoSelecao estado;
-    private boolean divulgada;
     
     public SelecaoBeans(){}
 
@@ -180,13 +179,7 @@ public class SelecaoBeans implements Beans {
         this.estado = estado;
     }
 
-    public boolean isDivulgada() {
-        return divulgada;
-    }
 
-    public void setDivulgada(boolean divulgada) {
-        this.divulgada = divulgada;
-    }
     
     @Override
     public Object toBusiness() { //Esse método transforma uma Beans em um objeto seleção
@@ -250,7 +243,6 @@ public class SelecaoBeans implements Beans {
             }
         }
         selecao.setCandidatos(candidatos);
-        selecao.setDivulgada(this.isDivulgada());
         return selecao;
     }
 
@@ -284,7 +276,6 @@ public class SelecaoBeans implements Beans {
                 this.setAnexos(selecao.getAnexos());
                 this.setCandidatos(selecao.getCandidatos());
                 this.setEtapas(selecao.getEtapas());
-                this.setDivulgada(selecao.isDivulgada());
                 return this;
             }else{
                 throw new IllegalArgumentException("O objeto a ser adicionado não é uma Seleção!");

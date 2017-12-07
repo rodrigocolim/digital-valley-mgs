@@ -26,15 +26,16 @@ public class AvaliarController {
     private EtapaServiceIfc etapaServiceIfc;
     
     @Autowired(required = true)
-    public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc")EtapaServiceIfc etapaServiceIfc) {
+    public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc") EtapaServiceIfc etapaServiceIfc) {
         this.etapaServiceIfc = etapaServiceIfc;
     }
     
     @RequestMapping(value = "/{codEtapa}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codEtapa, Model model) {
         EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
+        
         model.addAttribute("etapa", etapa);
-        //model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
+        model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
         return "avaliar";
     }
     

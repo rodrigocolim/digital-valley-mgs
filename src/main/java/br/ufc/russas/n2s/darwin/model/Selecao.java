@@ -86,7 +86,7 @@ public class Selecao {
     private Arquivo edital;
     @Enumerated(EnumType.ORDINAL)
     private EnumEstadoSelecao estado;
-    private boolean divulgada;
+   
 
     public Selecao() {
     }
@@ -275,15 +275,8 @@ public class Selecao {
             throw new IllegalArgumentException("Estado da seleção não pode ser nulo!");
         }
     }
-
-    public boolean isDivulgada() {
-        return divulgada;
-    }
-
-    public void setDivulgada(boolean divulgada) {
-        this.divulgada = divulgada;
-    }
-        
+    
+    
     public Selecao adicionaSelecao() {
         return this;
     }

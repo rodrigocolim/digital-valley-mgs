@@ -249,7 +249,11 @@ public class Etapa implements Serializable, Atualizavel {
     }
     
     public List<Participante> getParticipantes () {
-        return getPrerequisito().getAprovados();
+        if (getPrerequisito() != null) {
+            return getPrerequisito().getAprovados();
+        } else {
+            return null;
+        }
     } 
     
     public boolean isParticipante(Participante participante){

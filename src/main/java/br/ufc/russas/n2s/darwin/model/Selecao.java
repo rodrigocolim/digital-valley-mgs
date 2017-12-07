@@ -86,6 +86,7 @@ public class Selecao {
     private Arquivo edital;
     @Enumerated(EnumType.ORDINAL)
     private EnumEstadoSelecao estado;
+    @Column(name = "divulgada", insertable = true)
     private boolean divulgada;
 
     public Selecao() {

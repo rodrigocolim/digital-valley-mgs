@@ -8,6 +8,8 @@
         <style>
             body{
                 background-image: url('${pageContext.request.contextPath}/resources/img/404.png');
+                background-repeat: no-repeat;
+                background-size: 100%;
             }
         </style>
     </head>

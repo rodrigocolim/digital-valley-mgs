@@ -41,7 +41,7 @@
                     <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
                 	<a class="breadcrumb-item active" href="/Darwin/selecao/${selecao.codSelecao}">${etapa.titulo}</a>
                 </nav>                
-                <h1>Inscrição na etapa</h1>
+                <h1>Enviar documentação</h1>
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
@@ -57,7 +57,7 @@
                         <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
                             Cancelar
                         </a>
-                        <input type="button" value="Confirmar Inscrição" id="enviar" class="btn btn-primary" data-toggle="modal" data-target="#participarEtapa" >
+                        <input type="button" value="Enviar" id="enviar" class="btn btn-primary" data-toggle="modal" data-target="#participarEtapa" >
                         
                         <!-- Modal -->
                         <div class="modal fade" id="participarEtapa" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">

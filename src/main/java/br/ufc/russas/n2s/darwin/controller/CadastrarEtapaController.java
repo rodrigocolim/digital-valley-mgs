@@ -120,7 +120,6 @@ public class CadastrarEtapaController {
             selecao.getEtapas().add((Etapa) etapa.toBusiness());
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-            System.out.println(usuario);
             this.etapaServiceIfc.setUsuario(usuario);
             this.etapaServiceIfc.adicionaEtapa(selecao, etapa);
             model.addAttribute("mensagem", "Etapa cadastrada com sucesso!");

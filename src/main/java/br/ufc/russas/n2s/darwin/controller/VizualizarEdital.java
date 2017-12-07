@@ -11,7 +11,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.File;
-import java.io.PrintWriter;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -53,15 +52,16 @@ public class VizualizarEdital extends HttpServlet {
         response.setContentType("application/pdf");
         response.addHeader("Content-Disposition", "attachment; filename=" + selecao.getEdital().getTitulo());
         response.setContentLength((int) file.length());
-
         FileInputStream fileInputStream = new FileInputStream(file);
         OutputStream responseOutputStream = response.getOutputStream();
         int bytes;
         while ((bytes = fileInputStream.read()) != -1) {
                 responseOutputStream.write(bytes);
         }
+        fileInputStream.close();
         responseOutputStream.flush();
         responseOutputStream.close();
+        response.flushBuffer();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -27,7 +27,8 @@ public enum EnumEstadoEtapa implements EstadoEtapa{
     ANDAMENTO(2){
         @Override
         public EnumEstadoEtapa execute(Etapa etapa){
-            if(etapa.getPeriodo().getTermino().isBefore(LocalDate.now())){
+            if((etapa.getPeriodo().getInicio().isAfter(LocalDate.now()) || etapa.getPeriodo().getInicio().isEqual(LocalDate.now()))
+                    && (etapa.getPeriodo().getTermino().isAfter(LocalDate.now())) || etapa.getPeriodo().getTermino().equals(LocalDate.now())){
                 return this;
             }else{
                 return FINALIZADA.execute(etapa);
@@ -37,7 +38,7 @@ public enum EnumEstadoEtapa implements EstadoEtapa{
     FINALIZADA(3){
         @Override
         public EnumEstadoEtapa execute(Etapa etapa){
-            if(etapa.getPeriodo().getTermino().isAfter(LocalDate.now())){
+            if(etapa.getPeriodo().getTermino().isBefore(LocalDate.now())){
                 return this;
             }else{
                 return ANDAMENTO.execute(etapa);

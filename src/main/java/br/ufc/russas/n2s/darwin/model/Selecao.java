@@ -284,7 +284,7 @@ public class Selecao {
     
     public Etapa adicionaEtapa(Etapa etapa) {
         if (etapa != null) {
-            if (inscricao == null) {
+            if (inscricao != null) {
                 etapas.add(etapa);
             } else {
                 inscricao = etapa;

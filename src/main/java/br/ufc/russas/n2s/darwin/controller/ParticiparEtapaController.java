@@ -112,7 +112,7 @@ public class ParticiparEtapaController {
             System.out.println(participante);
             documentacao.setCandidato(participante);
             documentacao.setDocumentos(arquivos);
-            this.etapaServiceIfc.participa(etapa, (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
+            this.etapaServiceIfc.anexaDocumentacao(etapa, (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
             session.setAttribute("mensagem", "Agora você está inscrito na etapa".concat(etapa.getTitulo()));
             session.setAttribute("status", "success");
             //response.sendRedirect("selecao/" + selecao.getCodSelecao());

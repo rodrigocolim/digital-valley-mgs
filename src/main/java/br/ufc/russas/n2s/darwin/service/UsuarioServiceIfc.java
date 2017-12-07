@@ -6,17 +6,20 @@
 package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import java.util.List;
 
 /**
  *
  * @author Wallison Carlos
  */
-public interface UsuarioServiceIfc {
-    public UsuarioBeans adicionaUsuario(UsuarioBeans usuario);
-    public UsuarioBeans atualizaUsuario(UsuarioBeans usuario);
-    public void removeUsuario(UsuarioBeans usuario);
-    public List<UsuarioBeans> listaTodosUsuarios();
-    public UsuarioBeans getUsuario(long codUsuario, long codUsuarioControleDeAcesso);
-    public UsuarioBeans getUsuarioControleDeAcesso(long codUsuarioControleDeAcesso);
+public interface UsuarioServiceIfc extends ServiceIfc{
+    UsuarioBeans adicionaUsuario(UsuarioBeans usuario);
+    UsuarioBeans atualizaUsuario(UsuarioBeans usuario);
+    void removeUsuario(UsuarioBeans usuario);
+    List<UsuarioBeans> listaTodosUsuarios();
+    UsuarioBeans getUsuario(long codUsuario, long codUsuarioControleDeAcesso);
+    UsuarioBeans getUsuarioControleDeAcesso(long codUsuarioControleDeAcesso);
+    void adicionaNivel(UsuarioBeans usuario, EnumPermissao permissao) throws IllegalAccessException;
+    void removeNivel(UsuarioBeans usuario, EnumPermissao permissao) throws IllegalAccessException;
 }

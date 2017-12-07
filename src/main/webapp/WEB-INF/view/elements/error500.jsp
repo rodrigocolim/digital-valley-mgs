@@ -1,17 +1,16 @@
-<%-- 
-    Document   : error404
-    Created on : 10/10/2017, 09:05:38
-    Author     : Alex Felipe
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Darwin - Sistema de Gerenciamento de Seleções</title>
+        <style>
+            body{
+                background-image: url('../../resources/img/500.png');
+            }
+        </style>
     </head>
     <body>
-        <h1>sdsfaskjdasgdaksjgdaskjdagksjdsgdkajsdgagjksdagksg</h1>
     </body>
 </html>

@@ -126,7 +126,7 @@
                                 <br>
                                 <label for="AvaliadoresInput">Avaliadores*</label>                           
                                 <div class="form-row">
-                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px" required>
+                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px">
                                         <option value="" selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
                                         <c:forEach items="${avaliadores}" var="avaliador">
                                             <option id="avaliadorOption-${avaliador.nome}" value="${avaliador.codUsuario}-${avaliador.nome}">${avaliador.nome}</option>

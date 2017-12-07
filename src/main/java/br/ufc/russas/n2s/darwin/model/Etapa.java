@@ -276,7 +276,7 @@ public class Etapa implements Serializable, Atualizavel {
         return null;
     }
     
-    public void participa(Documentacao documentacao) throws IllegalAccessException {
+    public void anexaDocumentacao(Documentacao documentacao) throws IllegalAccessException {
         if (documentacao != null) {
             throw new NullPointerException("Documentacao não pode ser vazia!");
         } else if (isParticipante(documentacao.getCandidato())) {

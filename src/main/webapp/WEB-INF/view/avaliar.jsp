@@ -57,6 +57,7 @@
                             <tr>
                                 <td>${participante.nome}</td>
                             </tr>
+                            <tr>
                                 <td>Pendente</td>
                             </tr>
                             <tr>
@@ -65,6 +66,9 @@
                             </c:forEach>
                         </tbody>
                     </table>
+                    <a href="/Darwin/avaliarTodos/${etapa.codEtapa}">
+                        <input type="button" class="btn btn-primary btn-sm" value="Avaliar Todos"/>
+                    </a>
                 </div>
             </div>
             <div class="modal fade" id="avaliar" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">

@@ -48,7 +48,7 @@
                 <div class="form-group">
                     <form method="POST" action="/Darwin/editarSelecao" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate> 
                         <label for="tituloInput"> <input type="checkbox" onclick="habilitaEdicao('tituloInput')"> Titulo*</label>
-                        <input type="text" name="titulo" value="${selecao.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" disabled="disabled" required>
+                        <input type="text" name="titulo" value="${selecao.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" readonly="true" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>
                         <div class="invalid-feedback">
                             
@@ -56,18 +56,18 @@
                         <br>
 
                         <label for="descricaoInput"> <input type="checkbox" onclick="habilitaEdicao('descricaoInput')"> Descrição*</label>
-                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" disabled="disabled" required>${selecao.descricao}</textarea>
+                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" readonly="true" required>${selecao.descricao}</textarea>
                         <div class="invalid-feedback">
                             
                         </div>
                         <br>
 
                         <label for="preRequisitosInput"> <input type="checkbox" onclick="habilitaEdicao('preRequisitosInput')"> Pré Requisitos</label>
-                        <textarea name="descricaoPreRequisitos" class="form-control" id="preRequisitosInput" placeholder="Digite uma breve descrição sobre os pré requisitos para participar da seleção" disabled="disabled">${selecao.descricaoPreRequisitos}</textarea>
+                        <textarea name="descricaoPreRequisitos" class="form-control" id="preRequisitosInput" placeholder="Digite uma breve descrição sobre os pré requisitos para participar da seleção" readonly="true">${selecao.descricaoPreRequisitos}</textarea>
                         <br>
 
                         <label for="categoriaInput"> <input type="checkbox" onclick="habilitaEdicao('categoriaInput')"> Categoria*</label>
-                        <select type="text" name="categoria" class="form-control custom-select" id="categoriaInput" disabled="disabled" required>
+                        <select type="text" name="categoria" class="form-control custom-select" id="categoriaInput" readonly="true" required>
                             <option selected="${selecao.categoria eq 'Assistência Estudantil' ? 'selected' : ''}">Assistência Estudantil</option>
                             <option selected="${selecao.categoria eq 'Bolsas para Discentes' ? 'selected' : ''}">Bolsas para Discentes</option>
                             <option selected="${selecao.categoria eq 'Cargos de Docente' ? 'selected' : ''}">Cargos de Docente</option>
@@ -78,7 +78,7 @@
 
                         <br>
                         <label for="areaDeConcentracaoInput"> <input type="checkbox" onclick="habilitaEdicao('areaDeConcentracaoInput')">  Área de Concentração</label>
-                        <input type="text" name="areaDeConcentracao" value="${selecao.areaDeConcentracao}" class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração" disabled="disabled">
+                        <input type="text" name="areaDeConcentracao" value="${selecao.areaDeConcentracao}" class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração" readonly="true">
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Computação, Engenharia Mecânica, LINCE</small>
                         <div class="invalid-feedback">
                             
@@ -104,7 +104,7 @@
                                 <br>
 
                                 <label for="vagasVoluntariasInput">Número de vagas voluntárias</label>
-                                <input type="number" name="vagasVoluntarias" value="${selecao.vagasVoluntarias}" class="form-control col-sm-2 disabled" id="vagasVoluntariasInput" value="0" min="0" max="100" disabled>
+                                <input type="number" name="vagasVoluntarias" value="${selecao.vagasVoluntarias}" class="form-control col-sm-2 disabled"  id="vagasVoluntariasInput" value="0" min="0" max="100" disabled>
                                 <div class="invalid-feedback">
                                     
                                 </div>
@@ -112,7 +112,7 @@
                         </div>
                         <br>
                         <label for="editalInput"> <input type="checkbox" onclick="habilitaEdicao('editalInput')"> Substituir edital</label>
-                        <input type="file" name="edital" class="form-control" id="editalInput" aria-describedby="editalHelp" placeholder="Anexe o novo edital da seleção"  accept="application/pdf"  disabled="disabled">
+                        <input type="file" name="edital" class="form-control" id="editalInput" aria-describedby="editalHelp" placeholder="Anexe o novo edital da seleção"  accept="application/pdf"  readonly="true">
                         <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
                         <div class="invalid-feedback">
                             
@@ -171,11 +171,11 @@
     }
     
     function habilitaEdicao(id){
-        var input = document.getElementById(id);
-        if(input.disabled){
-            input.disabled = "";
+        var input = $("#"+id);
+        if(document.getElementById(id).getAttribute('readonly')){
+            input.removeAttr('readonly');
         }else{
-            input.disabled = "disabled";
+            input.attr('readonly',true);
         }
     }
 

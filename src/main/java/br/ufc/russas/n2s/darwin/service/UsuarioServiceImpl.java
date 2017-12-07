@@ -7,7 +7,9 @@ package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.UsuarioDAOIfc;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwinProxy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,9 +21,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * @author Wallison Carlos
  */
 public class UsuarioServiceImpl implements UsuarioServiceIfc {
-
+    
     private UsuarioDAOIfc usuarioDAOIfc;
-
+    private UsuarioBeans usuario;
+    
     public UsuarioDAOIfc getUsuarioDAOIfc() {
         return usuarioDAOIfc;
     }
@@ -29,6 +32,11 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
     @Autowired(required = true)
     public void setUsuarioDAOIfc(@Qualifier("usuarioDAOIfc")UsuarioDAOIfc usuarioDAOIfc) {
         this.usuarioDAOIfc = usuarioDAOIfc;
+    }
+    
+    @Override
+    public void setUsuario(UsuarioBeans usuario) {
+        this.usuario = usuario;
     }
     
     
@@ -81,5 +89,23 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
             return null;
         }
     }
+
+    @Override
+    public void adicionaNivel(UsuarioBeans usuario, EnumPermissao permissao) throws IllegalAccessException {
+        UsuarioDarwin u = (UsuarioDarwin) this.usuario.toBusiness();
+        UsuarioDarwinProxy up = new UsuarioDarwinProxy(u);
+        usuario  = (UsuarioBeans) usuario.toBeans(up.adicionaNivel((UsuarioDarwin)usuario.toBusiness(), permissao));
+        atualizaUsuario(usuario);
+    }
+
+    @Override
+    public void removeNivel(UsuarioBeans usuario, EnumPermissao permissao) throws IllegalAccessException {
+        UsuarioDarwin u = (UsuarioDarwin) this.usuario.toBusiness();
+        UsuarioDarwinProxy up = new UsuarioDarwinProxy(u);
+        usuario  = (UsuarioBeans) usuario.toBeans(up.removeNivel((UsuarioDarwin)usuario.toBusiness(), permissao));
+        atualizaUsuario(usuario);
+    }
+
+    
     
 }

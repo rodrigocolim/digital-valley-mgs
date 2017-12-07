@@ -138,11 +138,10 @@ public class EtapaBeans implements Beans {
         etapa.setDocumentacaoExigida(this.getDocumentacaoExigida());
         etapa.setCriterioDeAvaliacao(this.getCriterioDeAvaliacao());
         etapa.setEstado(this.getEstado());
+        etapa.setPeriodo((Periodo) this.getPeriodo().toBusiness());
         if(this.getPrerequisito() != null){
             etapa.setPrerequisito((Etapa) this.getPrerequisito().toBusiness());
         }
-        etapa.setPeriodo((Periodo) this.getPeriodo().toBusiness());
-
         List<UsuarioDarwin> avaliadores = Collections.synchronizedList(new ArrayList<UsuarioDarwin>());
         if (this.getAvaliadores() != null) {
             for (UsuarioBeans avaliador : this.getAvaliadores()) {

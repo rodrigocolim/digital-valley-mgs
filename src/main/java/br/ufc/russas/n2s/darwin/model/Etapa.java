@@ -185,6 +185,10 @@ public class Etapa implements Serializable, Atualizavel {
      * @param prerequisito
      */
     public void setPrerequisito(Etapa prerequisito) throws IllegalArgumentException{
+        System.out.println(prerequisito);
+        System.out.println(prerequisito.getPeriodo());
+        System.out.println(this.getPeriodo());
+        
         if (prerequisito.getPeriodo().isAntes(this.getPeriodo())) {
             this.prerequisito = prerequisito;
         } else {

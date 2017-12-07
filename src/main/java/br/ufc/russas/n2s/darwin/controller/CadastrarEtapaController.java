@@ -95,10 +95,6 @@ public class CadastrarEtapaController {
             } else if(criterio == 3) {
                 etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
             }
-            if (selecao.getInscricao() != null) {
-                EtapaBeans pre = etapaServiceIfc.getEtapa(codSelecao);
-                etapa.setPrerequisito(pre);
-            }
             etapa.setEstado(EnumEstadoEtapa.ESPERA);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
@@ -110,6 +106,10 @@ public class CadastrarEtapaController {
                         avaliadores.add(u);
                     }
                 }
+            }
+            if (selecao.getInscricao() != null) {
+                EtapaBeans pre = etapaServiceIfc.getEtapa(codSelecao);
+                etapa.setPrerequisito(pre);
             }
             if (documentosExigidos != null) {
                 ArrayList<String> docs = new ArrayList<>();
@@ -125,9 +125,9 @@ public class CadastrarEtapaController {
             selecao.getEtapas().add((Etapa) etapa.toBusiness());
             this.selecaoServiceIfc.setUsuario(usuario);
             this.selecaoServiceIfc.atualizaSelecao(selecao);
-            model.addAttribute("mensagem", "Etapa cadastrada com sucesso!");
-            model.addAttribute("status", "success");
-            return "forward:/Darwin/selecao/"+selecao.getCodSelecao();
+            session.setAttribute("mensagem", "Etapa cadastrada com sucesso!");
+            session.setAttribute("status", "success");
+            return ("redirect:/selecao/" + selecao.getCodSelecao());
         } catch (NumberFormatException e) {
             e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());

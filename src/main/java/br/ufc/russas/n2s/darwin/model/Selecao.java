@@ -276,7 +276,6 @@ public class Selecao {
         }
     }
     
-    
     public Selecao adicionaSelecao() {
         return this;
     }

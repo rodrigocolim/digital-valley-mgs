@@ -178,8 +178,6 @@ public class SelecaoBeans implements Beans {
     public void setEstado(EnumEstadoSelecao estado) {
         this.estado = estado;
     }
-
-
     
     @Override
     public Object toBusiness() { //Esse método transforma uma Beans em um objeto seleção
@@ -259,13 +257,12 @@ public class SelecaoBeans implements Beans {
                 this.setDescricaoPreRequisitos(selecao.getDescricaoPreRequisitos());
                 this.setAreaDeConcentracao(selecao.getAreaDeConcentracao());
                 this.setCategoria(selecao.getCategoria());
-                
+                this.setEstado(selecao.getEstado());
                 EtapaBeans eb = null;
                 if(selecao.getInscricao()!=null){
                    eb = (EtapaBeans) (new EtapaBeans().toBeans(selecao.getInscricao()));
                 }
                 this.setInscricao(eb);
- 
                 ArquivoBeans ab = null;
                 if(selecao.getEdital()!=null){
                    ab = (ArquivoBeans) (new ArquivoBeans().toBeans(selecao.getEdital()));

@@ -73,7 +73,7 @@ public class CadastrarSelecaoController {
         try {
             if (!file.isEmpty()) {
                 ArquivoBeans edital = new ArquivoBeans();
-                edital.setTitulo("Edital para".concat(selecao.getTitulo()));
+                edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
                 edital.setData(LocalDateTime.now());
                 InputStream inputStream = new URL(file).openStream();
                 edital.setArquivo(FileManipulation.getFileStream(inputStream, ".pdf"));
@@ -88,7 +88,7 @@ public class CadastrarSelecaoController {
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
             model.addAttribute("mensagemCadastraSelecao", "Seleção cadastrada com sucesso!");
             model.addAttribute("statusCadastraSelecao", "success");
-            return ("selecao/" + selecao.getCodSelecao());
+            return ("forward: selecao/" + selecao.getCodSelecao());
         } catch (NumberFormatException e) {
             e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());

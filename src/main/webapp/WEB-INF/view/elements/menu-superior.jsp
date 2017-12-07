@@ -32,7 +32,9 @@
                 </div>
             </div>
             </c:if>
-            <a class="nav-item nav-link" href="/Darwin/sair">Sair</a>
+            
         </div>
+        
     </div>
+    <a class="btn-sm btn-light text-right" href="/Darwin/sair">Sair</a>
 </nav>         

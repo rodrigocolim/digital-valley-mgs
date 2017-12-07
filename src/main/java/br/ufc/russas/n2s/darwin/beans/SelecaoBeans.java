@@ -27,22 +27,22 @@ import javax.validation.constraints.Size;
 public class SelecaoBeans implements Beans {
 
     private long codSelecao;
-    @NotNull @Size(min = 5)
+    //@NotNull @Size(min = 5)
     private String titulo;
     private String descricao;
     private List responsaveis = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
     private EtapaBeans inscricao;
     private List etapas;
-    @Min(0)
+   // @Min(0)
     private int vagasRemuneradas;
-    @Min(0)
+    //@Min(0)
     private int vagasVoluntarias;
-    @NotNull
+   // @NotNull
     private String descricaoPreRequisitos;
-    @NotNull
+   // @NotNull
     private String areaDeConcentracao;
     private List<Participante> candidatos;
-    @NotNull
+   // @NotNull
     private String categoria;
     private List aditivos;
     private List anexos;
@@ -199,7 +199,7 @@ public class SelecaoBeans implements Beans {
         if (this.getEdital() != null) {
             selecao.setEdital((Arquivo) this.getEdital().toBusiness());
         }
-        selecao.setEstado(this.getEstado());
+       // selecao.setEstado(this.getEstado());
         
         List<UsuarioDarwin> responsaveis = Collections.synchronizedList(new ArrayList<UsuarioDarwin>());
         //Ajeitar

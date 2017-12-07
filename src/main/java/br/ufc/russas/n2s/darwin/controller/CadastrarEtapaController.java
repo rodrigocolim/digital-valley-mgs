@@ -79,8 +79,10 @@ public class CadastrarEtapaController {
 
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
     public String adiciona(@PathVariable long codSelecao, @RequestParam("prerequisito") long codPrerequisito, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
-  
         try {
+            HttpSession session = request.getSession();
+            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            
             SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
             model.addAttribute("selecao", selecao);
             String[] codAvaliadores = request.getParameterValues("codAvaliadores");
@@ -101,10 +103,10 @@ public class CadastrarEtapaController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
             ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
-            if(codAvaliadores != null){
-                for(String cod : codAvaliadores){
+            if (codAvaliadores != null) {
+                for (String cod : codAvaliadores) {
                     UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
-                    if(u != null){
+                    if (u != null) {
                         avaliadores.add(u);
                     }
                 }
@@ -116,29 +118,27 @@ public class CadastrarEtapaController {
                 }
                 etapa.setDocumentacaoExigida(docs);
             }
+            if (codPrerequisito > 0) {
+                etapa.setPrerequisito(this.getEtapaServiceIfc().getEtapa(codPrerequisito));
+            }
             etapa.setAvaliadores(avaliadores);
             selecao.getEtapas().add((Etapa) etapa.toBusiness());
-            HttpSession session = request.getSession();
-            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-            this.etapaServiceIfc.setUsuario(usuario);
-            this.etapaServiceIfc.adicionaEtapa(selecao, etapa);
+            this.selecaoServiceIfc.setUsuario(usuario);
+            this.selecaoServiceIfc.atualizaSelecao(selecao);
             model.addAttribute("mensagem", "Etapa cadastrada com sucesso!");
             model.addAttribute("status", "success");
-            return "forward: /selecao/"+selecao.getCodSelecao();
+            return "forward:/Darwin/selecao/"+selecao.getCodSelecao();
         } catch (NumberFormatException e) {
+            e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
             return "cadastrar-etapa";
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "cadastrar-etapa";
-        }  catch (IllegalAccessException e) {
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
             return "cadastrar-etapa";
         }
-        
     }
     
 

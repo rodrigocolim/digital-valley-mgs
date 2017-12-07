@@ -107,6 +107,21 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         for (Selecao s : resultado) {
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
+        SelecaoBeans aux;
+        List<SelecaoBeans> selecoesSemPeriodo = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
+        for(int i=0;i<selecoes.size()-1;i++){
+            for(int j=i;j<selecoes.size()-1;j++){
+                if (selecoes.get(j).getInscricao() != null && selecoes.get(j+1).getInscricao() != null) {
+                    if (selecoes.get(j).getInscricao().getPeriodo().getInicio().isAfter(selecoes.get(j+1).getInscricao().getPeriodo().getInicio())) {
+                        aux = selecoes.get(j);
+                        selecoes.set(j, selecoes.get(j+1));
+                        selecoes.set(j+1, aux);
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
         return selecoes;
     }
 

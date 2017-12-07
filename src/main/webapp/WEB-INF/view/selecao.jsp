@@ -75,8 +75,8 @@
                     <c:forEach var="etapa" begin="0" items="${selecao.etapas}">
                         <c:set var="estado" value="${etapa.estado.estado}"></c:set>
                         <li class="${i%2 != 0? 'timeline-inverted': ''}">
-                            <div class="timeline-badge ${estado == 1 ? 'insert_invitation': estado == 2 ? 'warning': estado == 3  ? 'success': ''}">
-                                <i class="material-icons">${estado == 1 ? 'insert_invitation': estado == 2 ? 'timelapse': estado == 3  ? 'done_all': ''}</i>
+                            <div class="timeline-badge ${estado == 1 ? 'insert_invitation': estado == 2 ? 'warning': estado == 3  ? 'success': 'danger'}">
+                                <i class="material-icons">${estado == 1 ? 'insert_invitation': estado == 2 ? 'timelapse': estado == 3  ? 'done_all': 'warning'}</i>
                             </div>
                             <div class="timeline-panel">
                                 <div class="timeline-heading">
@@ -113,7 +113,7 @@
                             </a>
                         </li>                        
                     </c:if>
-                    <c:if test="${fn:contains(permissoes, 'PARTICIPANTE')}">  
+                    <c:if test="${(fn:contains(permissoes, 'PARTICIPANTE'))}">  
                         <li class="">
                             <div class="timeline-badge primary">
                                 <i class="material-icons">flag</i>
@@ -125,20 +125,20 @@
                 </c:if>
             </div>
             <div class="col-sm-2 sidebar-offcanvas">
-                <h2><center>ADITIVOS E ANEXOS</center></h2>
-                <div class="card" style="width: 20rem;">
-                    <div class="card-header">
-                        Featured
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Cras justo odio</li>
-                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                        <li class="list-group-item">Vestibulum at eros</li>
-                    </ul>
-                </div>
+                <c:if test="${not empty selecao.aditivos}">
+                <h2 style="font-size: 15px; font-weight: bold;margin-top: 5px;" class="text-center">ANEXOS E ADITIVOS</h2>
+                <ul class="list-group">
+                    <c:forEach var="aditivo" items="${selecao.aditivos}">
+                    <li class="list-group-item disabled">
+                        <fmt:parseDate value="${aditivo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
+                        <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
+                        <a href="/Darwin/visualizarEdital/${aditivo.titulo}">(${dataAditivo}) ${aditivo.titulo}</a>
+                    </li>
+                    </c:forEach>
+                </ul>
+                </c:if>
             </div>
         </div>
-
         <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>

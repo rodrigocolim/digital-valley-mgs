@@ -41,7 +41,7 @@ import org.springframework.web.multipart.MultipartFile;
  *
  * @author Alex Felipe
  */
-@Controller("editarr=SelecaoController")
+@Controller("editarSelecaoController")
 @RequestMapping("/editarSelecao")
 public class EditarSelecaoController { 
 
@@ -65,55 +65,66 @@ public class EditarSelecaoController {
         this.usuarioServiceIfc = usuarioServiceIfc;
     }
 
-    @RequestMapping(value = "/{selecaoCodigo}", method = RequestMethod.GET)
-    public String getIndex(@PathVariable String selecaoCodigo, Model model, HttpServletRequest request){
+    @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
+    public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
        // String[] part = selecaoCodigo.split("_");
        // long codSelecao = Long.parseLong(part[part.length-1]);
-        long codSelecao = Long.parseLong(selecaoCodigo);
+        System.out.println(codSelecao);
+        //long codigo = Long.parseLong(CodSelecao);
+        //System.out.println(codigo);
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
         request.getSession().setAttribute("selecao", selecao);
         return "editar-selecao";
     }
     
-    @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody void edita(@ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("edital") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException {
-        if (result.hasErrors()) {
-            response.sendRedirect("editarSelecao/"+selecao.getCodSelecao());
+    @RequestMapping(value = "/{codSelecao}", method = RequestMethod.POST)
+    public @ResponseBody void edita(@ModelAttribute("selecao") SelecaoBeans selecao, @PathVariable long CodSelecao, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException {
+        System.out.println("\n\n\n\n\n");
+        System.out.println(selecao.toString());
+        System.out.println(selecao.getTitulo());
+        System.out.println(selecao.getDescricao());
+        System.out.println(selecao.getCodSelecao());
+        System.out.println("\n\n\n\n\n");
+        SelecaoBeans selecaoBeans = this.getSelecaoServiceIfc().getSelecao(CodSelecao);
+        selecaoBeans.setTitulo(selecao.getTitulo());
+        selecaoBeans.setDescricao(selecao.getDescricao());
+        selecaoBeans.setDescricaoPreRequisitos(selecao.getDescricaoPreRequisitos());
+        selecaoBeans.setAreaDeConcentracao(selecao.getAreaDeConcentracao());
+        if(file!= null){
+             if (!file.isEmpty()) {
+                ArquivoBeans edital = new ArquivoBeans();
+                File convFile = new File(file.getOriginalFilename());
+                convFile.createNewFile(); 
+                FileOutputStream fos = new FileOutputStream(convFile); 
+                fos.write(file.getBytes());
+                fos.close(); 
+                edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
+                edital.setData(LocalDateTime.now());
+                edital.setArquivo(convFile);
+                selecaoBeans.setEdital(edital);
+            }
         }
-        if (!file.isEmpty()) {
-            ArquivoBeans edital = new ArquivoBeans();
-            File convFile = new File(file.getOriginalFilename());
-            convFile.createNewFile(); 
-            FileOutputStream fos = new FileOutputStream(convFile); 
-            fos.write(file.getBytes());
-            fos.close(); 
-            edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
-            edital.setData(LocalDateTime.now());
-            edital.setArquivo(convFile);
-            selecao.setEdital(edital);
-        }
-        try {
-            selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-        }
-        catch (IllegalAccessException ex) {
-            Logger.getLogger(EditarSelecaoController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //selecao.setCodSelecao(CodSelecao);
+        
         HttpSession session = request.getSession();
-        UsuarioBeans usuario = this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(((Usuario) session.getAttribute("usuario")).getPessoa().getId());
-        if(!usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)){
-            usuario.getPermissoes().add(EnumPermissao.RESPONSAVEL);
+        //SelecaoBeans selecao = (SelecaoBeans) session.getAttribute("selecao");
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        try{
+           
+            //if (!usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)) {
+                selecaoBeans = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+                session.setAttribute("selecao", selecaoBeans);
+                session.setAttribute("mensagem", "Seleção atualizada com sucesso!");
+                session.setAttribute("status", "success");
+          //  }else{
+                //session.setAttribute("mensagem", "Você não é um responsável por essa seleção!");
+               // session.setAttribute("status", "danger");
+          //  }
+            response.sendRedirect("selecao/" + selecao.getCodSelecao());
+        }catch(IOException | IllegalAccessException e){
+            session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
+            response.sendRedirect("selecao/" + selecao.getCodSelecao());
         }
-        selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
-        try {
-            selecao = selecaoServiceIfc.atualizaSelecao(selecao);
-        }
-        catch (IllegalAccessException ex) {
-            Logger.getLogger(EditarSelecaoController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        response.sendRedirect("selecao/" + selecao.getCodSelecao());
-        //return "forward:/selecao/"+selecao.getCodSelecao();
-
-
     }
-    
 }

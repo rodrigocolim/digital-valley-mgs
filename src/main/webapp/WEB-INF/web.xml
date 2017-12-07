@@ -137,13 +137,13 @@
     </filter-mapping>
     
     <error-page>
-        <error-code>400</error-code>
-        <location>/400</location>
+        <error-code>500</error-code>
+        <location>/WEB-INF/view/elements/error500.jsp</location>
     </error-page>
 
     <error-page>
         <error-code>404</error-code>
-        <location>/404</location>
+        <location>/WEB-INF/view/elements/error404.jsp</location>
     </error-page>
 
     

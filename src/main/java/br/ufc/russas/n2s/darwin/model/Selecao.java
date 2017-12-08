@@ -387,9 +387,7 @@ public class Selecao {
                     return e;
                 }
             }
-        } else {
-            throw new RuntimeException("Lista de etapas está vazia!");
-        }
+        } 
         return null;
     }
     

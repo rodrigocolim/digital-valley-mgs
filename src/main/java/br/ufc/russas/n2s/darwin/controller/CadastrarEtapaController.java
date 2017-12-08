@@ -82,7 +82,6 @@ public class CadastrarEtapaController {
         try {
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-            
             SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
             model.addAttribute("selecao", selecao);
             String[] codAvaliadores = request.getParameterValues("codAvaliadores");

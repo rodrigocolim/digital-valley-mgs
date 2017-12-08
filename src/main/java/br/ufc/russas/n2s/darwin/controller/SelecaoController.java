@@ -35,6 +35,7 @@ public class SelecaoController {
         //long codSelecao = Long.parseLong(selecaoCodigo);
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         model.addAttribute("selecao", selecao);        
+        model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
         request.getSession().setAttribute("selecao", selecao);
         return "selecao";
     }

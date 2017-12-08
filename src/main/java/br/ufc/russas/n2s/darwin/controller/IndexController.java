@@ -5,10 +5,13 @@
  */
 package br.ufc.russas.n2s.darwin.controller;
 
+import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,9 +46,13 @@ public class IndexController{
     @RequestMapping(method = RequestMethod.GET)
     public String getIndex(Model model){
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaTodasSelecoes();
-        System.out.println(selecoes);
+        List<EtapaBeans> etapasAtuais = Collections.synchronizedList(new ArrayList<EtapaBeans>());
+        for (SelecaoBeans s : selecoes) {
+            etapasAtuais.add(this.getSelecaoServiceIfc().getEtapaAtual(s));
+        }
         model.addAttribute("categoria", "Início");
         model.addAttribute("selecoes", selecoes);        
+        model.addAttribute("etapasAtuais", etapasAtuais);        
         return "index";
     }
     
@@ -54,12 +61,17 @@ public class IndexController{
         Selecao selecao = new Selecao();
         selecao.setCategoria(categoria.replace("_", " "));
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
+        List<EtapaBeans> etapasAtuais = Collections.synchronizedList(new ArrayList<EtapaBeans>());
+        for (SelecaoBeans s : selecoes) {
+            etapasAtuais.add(this.getSelecaoServiceIfc().getEtapaAtual(s));
+        }
         model.addAttribute("categoria", categoria);
         model.addAttribute("selecoes", selecoes);
+        model.addAttribute("etapasAtuais", etapasAtuais); 
         return "index";
     }
 
-/*
+    /*
     @RequestMapping(value="/minhasSelecoes", method = RequestMethod.GET)
 
     public String getMinhasSelecoes(Model model, HttpServletRequest request) {

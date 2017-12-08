@@ -45,10 +45,14 @@ public class IndexController{
     
     @RequestMapping(method = RequestMethod.GET)
     public String getIndex(Model model){
-        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaTodasSelecoes();      
+        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaTodasSelecoes();
+        List<EtapaBeans> etapasAtuais = Collections.synchronizedList(new ArrayList<EtapaBeans>());
+        for (SelecaoBeans s : selecoes) {
+            etapasAtuais.add(this.getSelecaoServiceIfc().getEtapaAtual(s));
+        }
         model.addAttribute("categoria", "Início");
         model.addAttribute("selecoes", selecoes);        
-        model.addAttribute("etapasAtuais", getEtapasAtuais(selecoes));        
+        model.addAttribute("etapasAtuais", etapasAtuais);        
         return "index";
     }
     
@@ -57,21 +61,17 @@ public class IndexController{
         Selecao selecao = new Selecao();
         selecao.setCategoria(categoria.replace("_", " "));
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
+        List<EtapaBeans> etapasAtuais = Collections.synchronizedList(new ArrayList<EtapaBeans>());
+        for (SelecaoBeans s : selecoes) {
+            etapasAtuais.add(this.getSelecaoServiceIfc().getEtapaAtual(s));
+        }
         model.addAttribute("categoria", categoria);
         model.addAttribute("selecoes", selecoes);
-        model.addAttribute("etapasAtuais", getEtapasAtuais(selecoes)); 
+        model.addAttribute("etapasAtuais", etapasAtuais); 
         return "index";
     }
 
-    
-    public List<EtapaBeans> getEtapasAtuais(List<SelecaoBeans> selecoes){
-        List<EtapaBeans> etapasAtuais = Collections.synchronizedList(new ArrayList<EtapaBeans>());
-        for (SelecaoBeans selecao : selecoes) {
-            etapasAtuais.add(this.getSelecaoServiceIfc().getEtapaAtual(selecao));
-        }
-        return etapasAtuais;
-    }    
-/*
+    /*
     @RequestMapping(value="/minhasSelecoes", method = RequestMethod.GET)
 
     public String getMinhasSelecoes(Model model, HttpServletRequest request) {

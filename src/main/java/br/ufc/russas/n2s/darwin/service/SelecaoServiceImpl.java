@@ -12,6 +12,7 @@ import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
+import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
@@ -172,7 +173,12 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Override
     public EtapaBeans getEtapaAtual(SelecaoBeans selecao) {
         Selecao s = (Selecao) selecao.toBusiness();
-        return (EtapaBeans) new EtapaBeans().toBeans(s.getEtapaAtual());
+        Etapa etapa = s.getEtapaAtual();
+        if (etapa != null) {
+            return (EtapaBeans) new EtapaBeans().toBeans(etapa);
+        } else {
+            return null;
+        }
     }
 
 }

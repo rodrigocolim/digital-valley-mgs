@@ -6,6 +6,7 @@
 package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
+import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
@@ -166,6 +167,12 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         Selecao  s = (Selecao) selecao.toBusiness();
         s.participa((Participante) participante.toBusiness(), (Documentacao) documentacao.toBusiness());
         atualizaSelecao((SelecaoBeans) selecao.toBeans(s));
+    }
+
+    @Override
+    public EtapaBeans getEtapaAtual(SelecaoBeans selecao) {
+        Selecao s = (Selecao) selecao.toBusiness();
+        return (EtapaBeans) new EtapaBeans().toBeans(s.getEtapaAtual());
     }
 
 }

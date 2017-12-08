@@ -48,9 +48,9 @@ public class VisualizarEdital extends HttpServlet {
             throws ServletException, IOException {
         long codSelecao = Long.parseLong(request.getParameter("selecao"));
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-        File file = selecao.getEdital().getArquivo();;
+        File file = selecao.getEdital().getArquivo();
         response.setContentType("application/pdf");
-        response.addHeader("Content-Disposition", "attachment; filename=" + selecao.getEdital().getTitulo());
+        response.addHeader("Content-Disposition", "attachment; filename=" + selecao.getEdital().getTitulo()+".pdf");
         response.setContentLength((int) file.length());
         FileInputStream fileInputStream = new FileInputStream(file);
         OutputStream responseOutputStream = response.getOutputStream();

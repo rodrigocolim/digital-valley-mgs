@@ -41,14 +41,12 @@
                         </button>
                     </div>
                 </c:if>
-                    <div class='row'>
-                    <h1 class="text-capitalize">${titulo}</h1>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Filtrar
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Seleções Abertas</a>
+                    <div class="row col-sm-12">
+                    <h1 class="text-capitalize" >${titulo}</h1>
+                    <div class="dropdown right" style="right:-13px; position:absolute;">
+                        <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Filtrar Seleções</button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Seleções abertas</a>
                             <a class="dropdown-item" href="#">Seleções em andamento</a>
                             <a class="dropdown-item" href="#">Seleções finalizadas</a>
                         </div>
@@ -84,6 +82,7 @@
                 </c:forEach>
                 <br/>
                 <nav aria-label="">
+                <c:if test="${titulo eq 'Início'}"><c:set value="" var="categoria"></c:set></c:if>
                     <ul class="pagination justify-content-center">
                         <li class="page-item ${(pagina <= 1 ? "disabled" : "")}">
                             <a class="page-link" href="/Darwin/${categoria}?pag=${pagina - 1}" tabindex="-1">Anterior</a>
@@ -96,6 +95,7 @@
                         </li>
                     </ul>
                 </nav>
+                
                 </div>
             </div>
         </div>

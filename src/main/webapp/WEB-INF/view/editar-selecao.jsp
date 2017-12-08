@@ -78,11 +78,7 @@
 
                         <br>
                         <label for="areaDeConcentracaoInput"> <input type="checkbox" onclick="habilitaEdicao('areaDeConcentracaoInput')">  Área de Concentração</label>
-<<<<<<< HEAD
-                        <input type="text" name="areaDeConcentracao" value="${selecao.areaDeConcentracao}" class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração" >
-=======
                         <input type="text" name="areaDeConcentracao" value="${selecao.areaDeConcentracao}" class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração" readonly="true">
->>>>>>> a0b61555ccff8f295da8e21967eba3f5372ac2d0
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Computação, Engenharia Mecânica, LINCE</small>
                         <div class="invalid-feedback">
                             

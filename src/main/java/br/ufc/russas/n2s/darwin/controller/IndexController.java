@@ -7,6 +7,8 @@ package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
+import br.ufc.russas.n2s.darwin.model.EstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.io.IOException;
@@ -71,6 +73,30 @@ public class IndexController{
         model.addAttribute("etapasAtuais", etapasAtuais); 
         return "index";
     }
+    @RequestMapping(value = "/{estado}", method = RequestMethod.GET)
+    public String getEstadaos(Model model, @PathVariable String estado){
+        Selecao selecao = new Selecao();
+        EnumEstadoSelecao e = null;
+        if (estado.equals("aberta")){
+            e = EnumEstadoSelecao.ABERTA;
+        } else if( estado.equals("andamento")) {
+            e = EnumEstadoSelecao.ANDAMENTO;
+        } else if (estado.equals("finalizada")) {
+            e = EnumEstadoSelecao.FINALIZADA;
+        }
+        selecao.setEstado(e);
+        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
+        List<EtapaBeans> etapasAtuais = Collections.synchronizedList(new ArrayList<EtapaBeans>());
+        for (SelecaoBeans s : selecoes) {
+            etapasAtuais.add(this.getSelecaoServiceIfc().getEtapaAtual(s));
+        }
+        model.addAttribute("estado", e);
+        model.addAttribute("selecoes", selecoes);
+        model.addAttribute("etapasAtuais", etapasAtuais); 
+        return "index";
+    }
+    
+    
 
     /*
     @RequestMapping(value="/minhasSelecoes", method = RequestMethod.GET)

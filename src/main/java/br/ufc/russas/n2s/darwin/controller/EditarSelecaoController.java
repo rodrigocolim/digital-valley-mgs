@@ -113,8 +113,9 @@ public class EditarSelecaoController {
             response.sendRedirect("selecao/" + selecao.getCodSelecao());
         }
     }
-    
+    /*
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.PUT)
     public String 
+*/
     
 }

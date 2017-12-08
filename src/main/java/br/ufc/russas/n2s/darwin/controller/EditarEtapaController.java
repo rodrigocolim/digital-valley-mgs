@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -85,42 +86,42 @@ public class EditarEtapaController {
 
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
     public String atualiza(@PathVariable long codSelecao, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
-        SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
-        model.addAttribute("selecao", selecao);
-        String[] codAvaliadores = request.getParameterValues("codAvaliadores");
-        int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
-        if (criterio == 1) {
-            etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
-        } else if(criterio == 2) {
-            etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
-        } else if(criterio == 3) {
-            etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
-        }
-        etapa.setEstado(EnumEstadoEtapa.ESPERA);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
-        ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
-        if(codAvaliadores != null){
-            for(String cod : codAvaliadores){
-                UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
-                if(u != null){
-                    avaliadores.add(u);
+        try{
+            HttpSession session = request.getSession();
+            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
+            model.addAttribute("selecao", selecao);
+            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
+            int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
+            if (criterio == 1) {
+                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
+            } else if(criterio == 2) {
+                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
+            } else if(criterio == 3) {
+                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
+            }
+            etapa.setEstado(EnumEstadoEtapa.ESPERA);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
+            if(codAvaliadores != null){
+                for(String cod : codAvaliadores){
+                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+                    if(u != null){
+                        avaliadores.add(u);
+                    }
                 }
             }
+            etapa.setAvaliadores(avaliadores);
+            this.etapaServiceIfc.setUsuario(usuario);
+            this.etapaServiceIfc.atualizaEtapa(selecao, etapa);
+            
+            return "editar-etapa";
+        }catch(IllegalAccessException e){
+            e.printStackTrace();
+            return "editar-etapa";
         }
-        etapa.setAvaliadores(avaliadores);
-        selecao.getEtapas().add((Etapa)etapa.toBusiness());
-        try {
-            this.selecaoServiceIfc.atualizaSelecao(selecao);
-        }
-        catch (IllegalAccessException ex) {
-            Logger.getLogger(EditarEtapaController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        /*if (!result.hasErrors()) {
-        etapas.add(this.getEtapaServiceIfc().adicionaEtapa(etapa));
-        model.addAttribute("etapas", etapas);
-        }*/
-        return "editar-etapa";
+         
     }
     
 

@@ -45,7 +45,7 @@
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
-                    <form method="POST" action="etapa" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
+                    <form method="POST" action="" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
                         <label for="tituloInput"><input type="checkbox" onclick="habilitaEdicao('tituloInput')"> Titulo*</label>
                         <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" disabled="disabled" required>
                         
@@ -62,7 +62,6 @@
                             <option value="${e.codEtapa}" ${(etapa.prerequisito.codEtapa == e.codEtapa ? "selected" : "")} onclick="atualizaDataMinimaPermitida('${dataTermino}')">${e.titulo}</option>
                             </c:forEach>
                         </select>
-                        
                         <br>
                         <label for="periodoInput"><input type="checkbox" onclick="habilitaEdicao('periodoInput1');habilitaEdicao('periodoInput2')"> Período*</label>
                         <div id="sandbox-container">
@@ -76,7 +75,6 @@
                                 <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" id="periodoInput2" name="dataTermino" value="${dataTermino}" disabled="disabled" required/>
                             </div>
                         </div>
-
                         <br>
                         <div class="card">
                             <div class="card-header col-auto">

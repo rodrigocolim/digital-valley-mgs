@@ -9,12 +9,15 @@ import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
+import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -67,18 +70,13 @@ public class EditarSelecaoController {
 
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
-       // String[] part = selecaoCodigo.split("_");
-       // long codSelecao = Long.parseLong(part[part.length-1]);
-        System.out.println(codSelecao);
-        //long codigo = Long.parseLong(CodSelecao);
-        //System.out.println(codigo);
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
         request.getSession().setAttribute("selecao", selecao);
         return "editar-selecao";
     }
     
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.POST)
-    public @ResponseBody void edita(@ModelAttribute("selecao") SelecaoBeans selecao, @PathVariable long CodSelecao, @RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws IOException {
+    public @ResponseBody void edita(@ModelAttribute("selecao") SelecaoBeans selecao, @RequestParam("file") String file, @PathVariable long CodSelecao, HttpServletResponse response, HttpServletRequest request) throws IOException {
         System.out.println("\n\n\n\n\n");
         System.out.println(selecao.toString());
         System.out.println(selecao.getTitulo());
@@ -90,36 +88,24 @@ public class EditarSelecaoController {
         selecaoBeans.setDescricao(selecao.getDescricao());
         selecaoBeans.setDescricaoPreRequisitos(selecao.getDescricaoPreRequisitos());
         selecaoBeans.setAreaDeConcentracao(selecao.getAreaDeConcentracao());
-        if(file!= null){
-             if (!file.isEmpty()) {
+     
+        if (!file.isEmpty()) {
                 ArquivoBeans edital = new ArquivoBeans();
-                File convFile = new File(file.getOriginalFilename());
-                convFile.createNewFile(); 
-                FileOutputStream fos = new FileOutputStream(convFile); 
-                fos.write(file.getBytes());
-                fos.close(); 
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
                 edital.setData(LocalDateTime.now());
-                edital.setArquivo(convFile);
-                selecaoBeans.setEdital(edital);
+                InputStream inputStream = new URL(file).openStream();
+                edital.setArquivo(FileManipulation.getFileStream(inputStream, ".pdf"));
+                selecao.setEdital(edital);
             }
-        }
         //selecao.setCodSelecao(CodSelecao);
-        
         HttpSession session = request.getSession();
         //SelecaoBeans selecao = (SelecaoBeans) session.getAttribute("selecao");
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         try{
-           
-            //if (!usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)) {
-                selecaoBeans = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-                session.setAttribute("selecao", selecaoBeans);
-                session.setAttribute("mensagem", "Seleção atualizada com sucesso!");
-                session.setAttribute("status", "success");
-          //  }else{
-                //session.setAttribute("mensagem", "Você não é um responsável por essa seleção!");
-               // session.setAttribute("status", "danger");
-          //  }
+            selecaoBeans = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+            session.setAttribute("selecao", selecaoBeans);
+            session.setAttribute("mensagem", "Seleção atualizada com sucesso!");
+            session.setAttribute("status", "success");
             response.sendRedirect("selecao/" + selecao.getCodSelecao());
         }catch(IOException | IllegalAccessException e){
             session.setAttribute("mensagem", e.getMessage());
@@ -127,4 +113,8 @@ public class EditarSelecaoController {
             response.sendRedirect("selecao/" + selecao.getCodSelecao());
         }
     }
+    
+    @RequestMapping(value = "/{codSelecao}", method = RequestMethod.PUT)
+    public String 
+    
 }

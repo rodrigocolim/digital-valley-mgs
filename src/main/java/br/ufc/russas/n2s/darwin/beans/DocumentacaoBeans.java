@@ -71,7 +71,7 @@ public class DocumentacaoBeans implements Beans {
                 Documentacao documentacao = (Documentacao) object;
                 this.setCodDocumentacao(this.getCodDocumentacao());
                 ParticipanteBeans participanteBeans = new ParticipanteBeans();
-                participanteBeans.toBeans(this.getCandidato());
+                participanteBeans.toBeans(documentacao.getCandidato());
                 this.setCandidato(participanteBeans);
                 ArrayList<ArquivoBeans> docs = new ArrayList<>();
                 List<ArquivoBeans> syncDocs;

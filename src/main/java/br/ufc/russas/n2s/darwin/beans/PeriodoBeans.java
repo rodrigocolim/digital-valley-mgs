@@ -52,6 +52,13 @@ public class PeriodoBeans implements Beans{
         this.termino = termino;
     }
     
+    public String getDataInicio(){
+        return inicio.format(DateTimeFormatter.ofPattern("dd MMMM uuuu", Locale.getDefault()));
+    }
+    public String getDataTermino(){
+        return termino.format(DateTimeFormatter.ofPattern("dd MMMM uuuu", Locale.getDefault()));
+    }   
+    
     @Override
     public Object toBusiness() {
         Periodo periodo = new Periodo();

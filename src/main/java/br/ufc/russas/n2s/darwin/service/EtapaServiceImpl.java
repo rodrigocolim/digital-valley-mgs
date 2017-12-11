@@ -142,20 +142,17 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
                 participantes.add((ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
             }
             return participantes;
-        } else {
-            for (Participante participante : getSelecao(etapa).getCandidatos()) {
-                participantes.add((ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
-            }
-            return participantes;
-        }        
+        }
+        return null;
     }
 
     @Override
     public SelecaoBeans getSelecao(EtapaBeans etapa) {
         List<SelecaoBeans> selecoes = selecaoServiceIfc.listaTodasSelecoes();
         Etapa e = (Etapa) etapa.toBusiness();
+       
         for (SelecaoBeans selecao : selecoes) {
-            if (selecao.getEtapas().contains(e) || selecao.getInscricao().equals(etapa)) {
+            if (selecao.getEtapas().contains(e) || (selecao.getInscricao() != null && selecao.getInscricao().equals(etapa))) {
                 return selecao;
             }
         }

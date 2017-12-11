@@ -46,7 +46,7 @@ public class Selecao {
     private String titulo;
     private String descricao;
     @ManyToMany(targetEntity = UsuarioDarwin.class, fetch = FetchType.EAGER)
-    //@Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "responsaveis_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "usuario", referencedColumnName = "codUsuario")})
     private List<UsuarioDarwin> responsaveis;
@@ -55,7 +55,7 @@ public class Selecao {
     private Periodo periodo;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "etapa_inscricao", referencedColumnName = "codEtapa")
-    private Etapa inscricao;
+    private Inscricao inscricao;
     @ManyToMany(targetEntity = Etapa.class,  cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "etapas_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
@@ -65,11 +65,6 @@ public class Selecao {
     private int vagasVoluntarias;
     private String descricaoPreRequisitos;
     private String areaDeConcentracao;
-    @ManyToMany(targetEntity = Participante.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Fetch(FetchMode.SUBSELECT)
-    @JoinTable(name = "candidatos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
-    inverseJoinColumns = {@JoinColumn(name = "participante", referencedColumnName = "codParticipante")})
-    private List<Participante> candidatos;
     private String categoria;
     @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
@@ -86,7 +81,7 @@ public class Selecao {
     private Arquivo edital;
     @Enumerated(EnumType.ORDINAL)
     private EnumEstadoSelecao estado;
-   
+    private boolean divulgada;
 
     public Selecao() {
     }
@@ -151,14 +146,13 @@ public class Selecao {
         }
     }
 
-    public Etapa getInscricao() {
+    public Inscricao getInscricao() {
         return inscricao;
     }
 
-    public void setInscricao(Etapa inscricao) {
+    public void setInscricao(Inscricao inscricao) {
         if (inscricao != null) {
             this.inscricao = inscricao;
-            adicionaEtapa(inscricao);
         } else {
             throw new IllegalArgumentException("Etapa de inscrição não pode ser nula!");
         }
@@ -220,14 +214,6 @@ public class Selecao {
         }
     }
 
-    public List<Participante> getCandidatos() {
-        return candidatos;
-    }
-
-    public void setCandidatos(List<Participante> candidatos) {
-        this.candidatos = candidatos;
-    }
-
     public String getCategoria() {
         return categoria;
     }
@@ -275,7 +261,15 @@ public class Selecao {
             throw new IllegalArgumentException("Estado da seleção não pode ser nulo!");
         }
     }
-    
+
+    public boolean isDivulgada() {
+        return divulgada;
+    }
+
+    public void setDivulgada(boolean divulgada) {
+        this.divulgada = divulgada;
+    }
+        
     public Selecao adicionaSelecao() {
         return this;
     }
@@ -286,11 +280,7 @@ public class Selecao {
     
     public Etapa adicionaEtapa(Etapa etapa) {
         if (etapa != null) {
-            if (inscricao != null) {
-                etapas.add(etapa);
-            } else {
-                inscricao = etapa;
-            }
+            etapas.add(etapa);
             return etapa;
         } else {
             throw new IllegalArgumentException("Etapa adicionada não pode ser nula!");
@@ -336,17 +326,6 @@ public class Selecao {
         return false;
     }
     
-    public boolean isParticipante(UsuarioDarwin participante) {
-        if (participante != null) {
-            if (this.candidatos.contains(participante)) {
-                return true;
-            }
-        } else {
-            throw new IllegalArgumentException("Participante não pode ser nulo!");
-        }
-        return false;
-    }
-
     public void removeResponsavel(UsuarioDarwin responsavel) {    
         if (this.getResponsaveis().size() > 1) {
             if (responsavel != null) {
@@ -373,13 +352,6 @@ public class Selecao {
         }
     }
 
-    public void inscreve(Participante participante) {
-        if (participante != null) {
-            this.candidatos.add(participante);
-        } else {
-            throw new IllegalArgumentException("Participante não pode ser nulo!");
-        }
-    }
     public Etapa getEtapaAtual() {
         if (this.etapas != null && !this.etapas.isEmpty()) {
             for (Etapa e: etapas) {
@@ -404,23 +376,6 @@ public class Selecao {
             throw new RuntimeException("Lista de etapas está vazia!");
         }
         return etapa;
-    }
-
-    public void participa(Participante participante) {
-        if (participante !=  null) {
-            getCandidatos().add(participante);
-        } else {
-            throw new NullPointerException("Deve ser informado um participante!");
-        }
-    }
-    
-    public void participa(Participante participante, Documentacao documentacao) throws IllegalAccessException {
-        if (participante !=  null) {
-            getCandidatos().add(participante);
-            getInscricao().anexaDocumentacao(documentacao);
-        } else {
-            throw new NullPointerException("Deve ser informado um participante e uma documentação!");
-        }
     }
     
 }

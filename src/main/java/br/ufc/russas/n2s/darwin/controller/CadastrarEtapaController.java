@@ -6,6 +6,7 @@
 package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
+import br.ufc.russas.n2s.darwin.beans.InscricaoBeans;
 import br.ufc.russas.n2s.darwin.beans.PeriodoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
@@ -78,7 +79,7 @@ public class CadastrarEtapaController {
     }
 
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
-    public String adiciona(@PathVariable long codSelecao, @RequestParam("prerequisito") long codPrerequisito, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
+    public String adiciona(@PathVariable long codSelecao, @RequestParam("prerequisito") long codPrerequisito, InscricaoBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
         try {
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
@@ -121,7 +122,12 @@ public class CadastrarEtapaController {
                 etapa.setPrerequisito(this.getEtapaServiceIfc().getEtapa(codPrerequisito));
             }
             etapa.setAvaliadores(avaliadores);
-            selecao.getEtapas().add((Etapa) etapa.toBusiness());
+            if (selecao.getInscricao() != null) {
+                EtapaBeans e = (InscricaoBeans) etapa;
+                selecao.getEtapas().add((Etapa) e.toBusiness());
+            } else {
+                selecao.setInscricao(etapa);
+            }
             this.selecaoServiceIfc.setUsuario(usuario);
             this.selecaoServiceIfc.atualizaSelecao(selecao);
             session.setAttribute("mensagem", "Etapa cadastrada com sucesso!");

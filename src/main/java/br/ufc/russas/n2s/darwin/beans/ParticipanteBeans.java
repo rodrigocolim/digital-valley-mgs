@@ -133,7 +133,7 @@ public class ParticipanteBeans implements Beans {
                 throw new IllegalArgumentException("O objeto a ser adicionado não é um participante");
             }
         } else {
-            throw new NullPointerException("Participante não pode sr nulo!");
+            throw new NullPointerException("Participante não pode ser nulo!");
         }
     }
 }

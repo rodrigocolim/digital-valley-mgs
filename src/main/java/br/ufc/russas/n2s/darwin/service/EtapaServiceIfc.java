@@ -25,6 +25,7 @@ public interface EtapaServiceIfc extends ServiceIfc{
     void removeEtapa(EtapaBeans etapa);
     List<EtapaBeans> listaTodasEtapas();
     EtapaBeans getEtapa(long codEtapa);
+    InscricaoBeans getInscricao(long codInscricao);
     boolean isParticipante(ParticipanteBeans participante);
     boolean isParticipante(UsuarioBeans participante);
     ParticipanteBeans getParticipante(EtapaBeans etapa, UsuarioBeans usuario);
@@ -33,6 +34,5 @@ public interface EtapaServiceIfc extends ServiceIfc{
     List<ParticipanteBeans> getParticipantes(EtapaBeans etapa);
     SelecaoBeans getSelecao(EtapaBeans etapa);
     void participa(InscricaoBeans inscricao, ParticipanteBeans participante) throws IllegalAccessException;
-    void participa(InscricaoBeans inscricao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException;
-   
+    void participa(InscricaoBeans inscricao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException;   
 }

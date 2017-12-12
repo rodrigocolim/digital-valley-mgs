@@ -8,6 +8,8 @@ package br.ufc.russas.n2s.darwin.model;
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.util.List;
 import javax.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 
 /**
@@ -24,11 +26,12 @@ public class Documentacao {
     @Column(name = "codDocumentacao")
     private long codDocumentacao;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "candidato", referencedColumnName = "codParticipante")
     private Participante candidato;
 
-    @ManyToMany(targetEntity = Arquivo.class)
+    @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "arquivos_documentacao", joinColumns = {@JoinColumn(name = "documentacao", referencedColumnName = "codDocumentacao")},
     inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})
     private List<Arquivo> documentos;

@@ -73,7 +73,7 @@ public class Etapa implements Serializable, Atualizavel {
             joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
             inverseJoinColumns = {@JoinColumn(name = "avaliacao", referencedColumnName = "codAvaliacao")})
     private List<Avaliacao> avaliacoes;
-    @ManyToMany(targetEntity = Documentacao.class, fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = Documentacao.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "documentacoes", joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
             inverseJoinColumns = {@JoinColumn(name = "documentacao", referencedColumnName = "codDocumentacao")})

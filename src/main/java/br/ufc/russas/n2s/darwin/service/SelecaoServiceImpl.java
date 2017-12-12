@@ -154,21 +154,6 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     
     }*/
 
-    @Override
-    public void participa(SelecaoBeans selecao, ParticipanteBeans participante) throws IllegalAccessException {
-        UsuarioDarwin usuario = (UsuarioDarwin) this.usuario.toBusiness();
-        Selecao  s = (Selecao) selecao.toBusiness();
-        s.getInscricao().participa((Participante) participante.toBusiness());
-        atualizaSelecao((SelecaoBeans) selecao.toBeans(s));
-    }
-
-    @Override
-    public void participa(SelecaoBeans selecao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException {
-        
-        Selecao  s = (Selecao) selecao.toBusiness();
-        s.getInscricao().participa((Participante) participante.toBusiness(), (Documentacao) documentacao.toBusiness());
-        atualizaSelecao((SelecaoBeans) selecao.toBeans(s));
-    }
 
     @Override
     public EtapaBeans getEtapaAtual(SelecaoBeans selecao) {

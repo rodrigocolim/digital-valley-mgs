@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  *
- * @author Lavínia Matoso
+ * @author Wallison Carlos, Gilberto
  */
 public class EtapaBeans implements Beans {
 

@@ -45,7 +45,12 @@
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
-                    <form method="POST" action="/Darwin/cadastrarEtapa/${selecao.codSelecao}" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
+                    <c:if test="${not empty selecao.inscricao}">
+                    <form method="POST" action="/Darwin/cadastrarEtapa/${selecao.codSelecao}" accept-charset="UTF-8" id="needs-validation" novalidate>
+                    </c:if>
+                    <c:if test="${empty selecao.inscricao}">
+                    <form method="POST" action="/Darwin/cadastrarEtapa/inscricao/${selecao.codSelecao}" accept-charset="UTF-8"  id="needs-validation" novalidate>
+                    </c:if>    
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" value="${empty selecao.inscricao ? 'Inscrição': ''}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" ${empty selecao.inscricao ? 'readonly': ''} required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Inscrição</small>

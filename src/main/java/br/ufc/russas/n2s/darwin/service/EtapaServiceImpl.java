@@ -8,6 +8,7 @@ package br.ufc.russas.n2s.darwin.service;
 import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
+import br.ufc.russas.n2s.darwin.beans.InscricaoBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
@@ -16,6 +17,7 @@ import br.ufc.russas.n2s.darwin.model.Avaliacao;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.EtapaProxy;
+import br.ufc.russas.n2s.darwin.model.Inscricao;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
@@ -152,12 +154,31 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         Etapa e = (Etapa) etapa.toBusiness();
        
         for (SelecaoBeans selecao : selecoes) {
-            if (selecao.getEtapas().contains(e) || (selecao.getInscricao() != null && selecao.getInscricao().equals(etapa))) {
+            System.out.println("\n\n"+selecao.getInscricao()+"\n\n");
+            
+            if (selecao.getEtapas().contains(e) || (selecao.getInscricao() != null && selecao.getInscricao().getCodEtapa() == etapa.getCodEtapa())) {
                 return selecao;
             }
         }
         return null;
     }
+    
+    @Override
+    public void participa(InscricaoBeans inscricao, ParticipanteBeans participante) throws IllegalAccessException {
+        Inscricao i = (Inscricao) inscricao.toBusiness();
+        i.participa((Participante) participante.toBusiness());
+        this.etapaDAOIfc.atualizaEtapa(i);
+    }
+
+    @Override
+    public void participa(InscricaoBeans inscricao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException {
+        Inscricao i = (Inscricao) inscricao.toBusiness();
+        Documentacao d = (Documentacao) documentacao.toBusiness();
+        Participante p = (Participante) participante.toBusiness();
+        i.participa(p, d);
+        this.etapaDAOIfc.atualizaEtapa(i);
+    }
+    
     
     
 

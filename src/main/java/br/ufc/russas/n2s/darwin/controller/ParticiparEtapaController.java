@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
+import br.ufc.russas.n2s.darwin.beans.InscricaoBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
@@ -148,7 +149,7 @@ public class ParticiparEtapaController {
     public @ResponseBody void participa(@PathVariable long codEtapa, HttpServletRequest request, HttpServletResponse response, @RequestParam("nomeDocumento") String[] nomeDocumento, @RequestParam("documento") MultipartFile[] documentos) throws IOException {    
         HttpSession session = request.getSession();
         try {
-            EtapaBeans etapa = this.etapaServiceIfc.getEtapa(codEtapa);
+            InscricaoBeans etapa = (InscricaoBeans) this.etapaServiceIfc.getEtapa(codEtapa);
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             this.etapaServiceIfc.setUsuario(usuario);
             List<Arquivo> arquivos = Collections.synchronizedList(new ArrayList<Arquivo>());
@@ -176,18 +177,13 @@ public class ParticiparEtapaController {
             participante.setData(LocalDateTime.now());
             documentacao.setCandidato(participante);
             documentacao.setDocumentos(arquivos);
-            SelecaoBeans selecao = etapaServiceIfc.getSelecao(etapa);
-            System.out.println(selecao.getInscricao());
-            System.out.println(selecao.getTitulo());
             if (arquivos.size()>0) {
-                selecaoServiceIfc.participa(selecao, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
+                etapaServiceIfc.participa(etapa, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
             } else {
-                selecaoServiceIfc.participa(selecao, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante), (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
+                etapaServiceIfc.participa(etapa, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante), (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
             }            
-            //this.etapaServiceIfc.anexaDocumentacao(etapa, (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
             session.setAttribute("mensagem", "Agora você está inscrito na etapa".concat(etapa.getTitulo()));
             session.setAttribute("status", "success");
-            //response.sendRedirect("selecao/" + selecao.getCodSelecao());
         } catch (NumberFormatException e) {
             e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());

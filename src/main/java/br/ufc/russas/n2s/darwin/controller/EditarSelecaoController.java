@@ -113,6 +113,28 @@ public class EditarSelecaoController {
             response.sendRedirect("selecao/" + selecao.getCodSelecao());
         }
     }
+    
+    @RequestMapping(value = "/divulga/{codSelecao}", method = RequestMethod.GET)
+    public String divulga(@PathVariable long codSelecao, Model model, HttpServletRequest request){
+        SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
+        HttpSession session = request.getSession();
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        try{
+            selecaoServiceIfc.setUsuario(usuario);
+            selecao.setDivulgada(true);
+            selecao = selecaoServiceIfc.atualizaSelecao(selecao);
+            request.getSession().setAttribute("selecao", selecao);
+            return "redirect:/selecao/" + selecao.getCodSelecao();
+            
+        }catch(IllegalAccessException e){
+            e.printStackTrace();
+            return "redirect:/selecao/" + selecao.getCodSelecao();
+        }catch(Exception e){
+            e.printStackTrace();
+             return "redirect:/selecao/" + selecao.getCodSelecao();
+        }
+    }
+    
     /*
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.PUT)
     public String 

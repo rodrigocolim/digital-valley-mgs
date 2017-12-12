@@ -89,11 +89,11 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Transactional
     public List<SelecaoBeans> listaTodasSelecoes() {
          Selecao selecao = new Selecao();
+         selecao.setDivulgada(true);
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         System.out.println(resultado.size());
         for (Selecao s : resultado) {
-            //System.out.println(s.getTitulo());
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
         return selecoes;
@@ -154,21 +154,6 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     
     }*/
 
-    @Override
-    public void participa(SelecaoBeans selecao, ParticipanteBeans participante) throws IllegalAccessException {
-        UsuarioDarwin usuario = (UsuarioDarwin) this.usuario.toBusiness();
-        Selecao  s = (Selecao) selecao.toBusiness();
-        s.participa((Participante) participante.toBusiness());
-        atualizaSelecao((SelecaoBeans) selecao.toBeans(s));
-    }
-
-    @Override
-    public void participa(SelecaoBeans selecao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException {
-        UsuarioDarwin usuario = (UsuarioDarwin) this.usuario.toBusiness();
-        Selecao  s = (Selecao) selecao.toBusiness();
-        s.participa((Participante) participante.toBusiness(), (Documentacao) documentacao.toBusiness());
-        atualizaSelecao((SelecaoBeans) selecao.toBeans(s));
-    }
 
     @Override
     public EtapaBeans getEtapaAtual(SelecaoBeans selecao) {

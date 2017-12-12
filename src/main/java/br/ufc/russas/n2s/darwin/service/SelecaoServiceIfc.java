@@ -74,10 +74,6 @@ public interface SelecaoServiceIfc extends ServiceIfc{
      */
     SelecaoBeans getSelecao(long codSelecao);
     
-    void participa(SelecaoBeans selecao, ParticipanteBeans participante) throws IllegalAccessException;
-    
-    void participa(SelecaoBeans selecao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException;
-    
     EtapaBeans getEtapaAtual(SelecaoBeans selecao);
 
 }

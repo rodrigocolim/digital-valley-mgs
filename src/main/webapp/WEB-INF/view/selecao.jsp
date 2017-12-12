@@ -43,7 +43,7 @@
                     <c:set scope="session" var="status" value=""></c:set>
                 </c:if>
                 <!-- Mensagem de primeiro acesso após o cadastro da seleção -->
-                <c:if test="${(empty selecao.etapas) and (fn:contains(permissoes, 'RESPONSAVEL') || fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                <c:if test="${(empty selecao.inscricao) and (fn:contains(permissoes, 'RESPONSAVEL') || fn:contains(permissoes, 'ADMINISTRADOR'))}">
                     <div class="jumbotron jumbotron-fluid" style="padding-top: 40px; padding-bottom: 30px; ">
                         <div class="container">
                             <h1 style="font-size: 20px; font-weight: bold;">Cadastre a primeira etapa da sua seleção!</h1><br>
@@ -54,12 +54,12 @@
                     </div>
                 </c:if>
                 <!-- Mensagem de primeiro acesso após o cadastro da seleção -->
-                <c:if test="${(not empty selecao.etapas) and ((fn:contains(permissoes, 'RESPONSAVEL') || fn:contains(permissoes, 'ADMINISTRADOR')))}">
+                <c:if test="${(not empty selecao.etapas) and ((fn:contains(permissoes, 'RESPONSAVEL') || fn:contains(permissoes, 'ADMINISTRADOR'))) and not selecao.divulgada}">
                     <div class="jumbotron jumbotron-fluid" style="padding-top: 40px; padding-bottom: 30px; ">
                         <div class="container">
                             <h1 style="font-size: 20px; font-weight: bold;">Divulgue sua seleção!</h1><br>
                             <p style="font-size: 15px;">Para permitir que os outros usuários tenham acesso a sua seleção, você precisa divulga-lá. Antes disso, verifique se as configurações da sua seleção estão de acordo com o edital. Você deseja divulgar a seleção? &nbsp;
-                                <a href="#"> Divulgar a seleção </a>
+                                <a href="/Darwin/editarSelecao/divulga/${selecao.codSelecao}"> Divulgar a seleção </a>
                             </p>
                         </div>
                     </div>
@@ -107,8 +107,40 @@
                     </div>
                 </div>
                 <br/>
-                    <c:if test="${not empty selecao.etapas}">
+                    <c:if test="${(not empty selecao.etapas) or (not empty selecao.inscricao)}">
                         <ul class="timeline">
+                            <c:if test="${not empty selecao.inscricao}">
+                                <c:set var="estadoInscricao" value="${selecao.inscricao.estado.estado}"></c:set>
+                        <li class="${i%2 != 0? 'timeline-inverted': ''}">
+                            <div class="timeline-badge ${estadoInscricao == 1 ? 'insert_invitation': estadoInscricao == 2 ? 'warning': estadoInscricao == 3  ? 'success': 'danger'}">
+                                <i class="material-icons">${estadoInscricao == 1 ? 'insert_invitation': estadoInscricao == 2 ? 'timelapse': estadoInscricao == 3  ? 'done_all': 'warning'}</i>
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h2 class="timeline-title text-uppercase">${selecao.inscricao.titulo}</h2>
+                                    <p>
+                                        <small class="text-muted">
+                                            <i class="glyphicon glyphicon-time"></i>                                             
+                                            <fmt:parseDate value="${selecao.inscricao.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicio" type="date" />
+                                            <fmt:parseDate value="${selecao.inscricao.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
+                                            <fmt:formatDate value="${parseDataInicio}"  pattern="dd/MMMM/yyyy" var="dataInicio" type="date"/>
+                                            <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MMMM/yyyy" var="dataTermino" type="date"/>
+                                            <b>${fn:replace(dataInicio, "/", " de ")}</b> 
+                                            até 
+                                            <b>${fn:replace(dataTermino, "/", " de ")}</b>
+                                        </small>
+                                    </p>
+                                </div>
+                                <div class="timeline-body">
+                                    <p>${selecao.inscricao.descricao}</p>
+                                    <c:if test="${(estadoInscricao == 2) and (fn:contains(permissoes, 'PARTICIPANTE'))}">
+                                        <hr>
+                                        <a href="/Darwin/participarEtapa/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Participar</a>
+                                    </c:if>
+                                </div>
+                            </div>
+                        </li>
+                            </c:if>
                     <c:set var="i" value="0"></c:set>
                     <c:forEach var="etapa" begin="0" items="${selecao.etapas}">
                         <c:set var="estado" value="${etapa.estado.estado}"></c:set>

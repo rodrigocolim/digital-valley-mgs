@@ -13,6 +13,7 @@ import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.EstadoSelecao;
+import br.ufc.russas.n2s.darwin.model.Inscricao;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,7 +32,7 @@ public class SelecaoBeans implements Beans {
     private String titulo;
     private String descricao;
     private List responsaveis = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
-    private EtapaBeans inscricao;
+    private InscricaoBeans inscricao;
     private List etapas;
    // @Min(0)
     private int vagasRemuneradas;
@@ -41,13 +42,13 @@ public class SelecaoBeans implements Beans {
     private String descricaoPreRequisitos;
    // @NotNull
     private String areaDeConcentracao;
-    private List<Participante> candidatos;
    // @NotNull
     private String categoria;
     private List aditivos;
     private List anexos;
     private ArquivoBeans edital;
     private EnumEstadoSelecao estado;
+    private boolean divulgada;
     
     public SelecaoBeans(){}
 
@@ -83,11 +84,11 @@ public class SelecaoBeans implements Beans {
         this.responsaveis = usuario;
     }
 
-    public EtapaBeans getInscricao() {
+    public InscricaoBeans getInscricao() {
         return inscricao;
     }
 
-    public void setInscricao(EtapaBeans inscricao) {
+    public void setInscricao(InscricaoBeans inscricao) {
         this.inscricao = inscricao;
     }
 
@@ -130,15 +131,7 @@ public class SelecaoBeans implements Beans {
     public void setAreaDeConcentracao(String areaDeConcentracao) {
         this.areaDeConcentracao = areaDeConcentracao;
     }
-
-    public List<Participante> getCandidatos() {
-        return candidatos;
-    }
-
-    public void setCandidatos(List candidatos) {
-        this.candidatos = candidatos;
-    }
-
+    
     public String getCategoria() {
         return categoria;
     }
@@ -178,6 +171,15 @@ public class SelecaoBeans implements Beans {
     public void setEstado(EnumEstadoSelecao estado) {
         this.estado = estado;
     }
+
+    public boolean isDivulgada() {
+        return divulgada;
+    }
+
+    public void setDivulgada(boolean divulgada) {
+        this.divulgada = divulgada;
+    }
+    
     
     @Override
     public Object toBusiness() { //Esse método transforma uma Beans em um objeto seleção
@@ -189,13 +191,15 @@ public class SelecaoBeans implements Beans {
         selecao.setTitulo(this.getTitulo());
         selecao.setDescricao(this.getDescricao());
         if (this.getInscricao() != null) {
-            selecao.setInscricao((Etapa) this.getInscricao().toBusiness());
+            selecao.setInscricao((Inscricao) this.getInscricao().toBusiness());
         }
         if(this.vagasRemuneradas >= 0) selecao.setVagasRemuneradas(this.getVagasRemuneradas());
         if(this.vagasVoluntarias >= 0) selecao.setVagasVoluntarias(this.getVagasVoluntarias());
         selecao.setDescricaoPreRequisitos(this.getDescricaoPreRequisitos());
         selecao.setAreaDeConcentracao(this.getAreaDeConcentracao());
         selecao.setCategoria(this.getCategoria());
+        selecao.setEstado(this.getEstado());
+        selecao.setDivulgada(this.isDivulgada());
         if (this.getEdital() != null) {
             selecao.setEdital((Arquivo) this.getEdital().toBusiness());
         }
@@ -233,14 +237,6 @@ public class SelecaoBeans implements Beans {
             }
         }
         selecao.setAnexos(anexos);
-        
-        List<Participante> candidatos = Collections.synchronizedList(new ArrayList<Participante>());
-        if(this.getCandidatos()!=null){
-            for(int i=0;i<this.getCandidatos().size();i++){
-                candidatos.add(this.getCandidatos().get(i));
-            }
-        }
-        selecao.setCandidatos(candidatos);
         return selecao;
     }
 
@@ -258,9 +254,10 @@ public class SelecaoBeans implements Beans {
                 this.setAreaDeConcentracao(selecao.getAreaDeConcentracao());
                 this.setCategoria(selecao.getCategoria());
                 this.setEstado(selecao.getEstado());
-                EtapaBeans eb = null;
+                this.setDivulgada(selecao.isDivulgada());
+                InscricaoBeans eb = null;
                 if(selecao.getInscricao()!=null){
-                   eb = (EtapaBeans) (new EtapaBeans().toBeans(selecao.getInscricao()));
+                   eb = (InscricaoBeans) (new InscricaoBeans().toBeans(selecao.getInscricao()));
                 }
                 this.setInscricao(eb);
                 ArquivoBeans ab = null;
@@ -271,7 +268,6 @@ public class SelecaoBeans implements Beans {
                 this.setResponsaveis(selecao.getResponsaveis());
                 this.setAditivos(selecao.getAditivos());
                 this.setAnexos(selecao.getAnexos());
-                this.setCandidatos(selecao.getCandidatos());
                 this.setEtapas(selecao.getEtapas());
                 return this;
             }else{

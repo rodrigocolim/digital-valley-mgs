@@ -14,14 +14,18 @@ import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
+import java.io.BufferedInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -74,9 +78,24 @@ public class CadastrarSelecaoController {
             if (!file.isEmpty()) {
                 ArquivoBeans edital = new ArquivoBeans();
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
+                /*URL url = new URL(file);
+                BufferedInputStream bis = new BufferedInputStream(url.openStream());
+                FileOutputStream fis = new FileOutputStream(file);
+                byte[] buffer = new byte[1024];
+                int count=0;
+                while((count = bis.read(buffer,0,1024)) != -1)
+                {
+                fis.write(buffer, 0, count);
+                }*/
+                edital.setArquivo(FileManipulation.getFileStream(FileManipulation.getStreamFromURL(file), ".pdf"));
+                /*fis.close();
+                bis.close();*/
+                /*file = new File(getExternalFilesDir(null), "test.pdf");
+                FileOutputStream fileOutput = new FileOutputStream(file);*/
+
                 edital.setData(LocalDateTime.now());
-                InputStream inputStream = new URL(file).openStream();
-                edital.setArquivo(FileManipulation.getFileStream(inputStream, ".pdf"));
+                //InputStream inputStream = new URL(file).openStream();
+                
                 selecao.setEdital(edital);
             }
             selecao.setEstado(EnumEstadoSelecao.ESPERA);

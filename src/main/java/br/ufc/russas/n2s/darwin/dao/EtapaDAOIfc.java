@@ -6,6 +6,7 @@
 package br.ufc.russas.n2s.darwin.dao;
 
 import br.ufc.russas.n2s.darwin.model.Etapa;
+import br.ufc.russas.n2s.darwin.model.Inscricao;
 import java.util.List;
 
 /**
@@ -46,5 +47,13 @@ public interface EtapaDAOIfc {
      * @return Etapa
      */
     Etapa getEtapa(Etapa etapa);
+    
+    /**
+     * Método resposável por pegar do banco de dados uma etapa a partir do
+     * código informado.
+     * @param codEtapa
+     * @return Etapa
+     */
+    Inscricao getEtapaInscricao(Inscricao inscricao);
 
 }

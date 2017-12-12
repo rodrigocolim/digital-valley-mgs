@@ -178,6 +178,13 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         i.participa(p, d);
         this.etapaDAOIfc.atualizaEtapa(i);
     }
+
+    @Override
+    public InscricaoBeans getInscricao(long codInscricao) {
+        Inscricao ins = new Inscricao();
+        ins.setCodEtapa(codInscricao);
+        return (InscricaoBeans) new InscricaoBeans().toBeans(this.getEtapaDAOIfc().getEtapaInscricao(ins));
+    }
     
     
     

@@ -64,20 +64,48 @@
                         </div>
                     </div>
                 </c:if>
-                <div class="row ">
-                    <h1 class="text-uppercase col-sm-12">${selecao.titulo}</h1>
-                    <form method="GET" action="/Darwin/visualizarEdital">
-                        <input type="hidden" value="${selecao.codSelecao}" name="selecao">
-                        <div class="iconInput">
-                            <i class="material-icons">picture_as_pdf</i>
-                            <input type="submit" class="btn btn-primary btn-sm" style="right: 15px; position:absolute;" value="Visualizar edital"/>
-                        </div>
-                    </form>
+                <h1 class="text-uppercase">${selecao.titulo}</h1>
+                <div class="card text-center">
+                    <div class="card-header">
+                        <ul class="nav nav-pills card-header-pills">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">Descrição</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Pré requisitos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Editar</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text text-justify">${selecao.descricao}</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        
+                       
+                        <h2 style="font-size: 15px; font-weight: bold;margin-top: 5px;" class="text-center">ANEXOS E ADITIVOS</h2>
+                        <ul class="list-group">
+                                <li class="list-group-item disabled">
+                                    <a href="/Darwin/visualizarAditivo/">(25/11/2017) ADITIVO I - Aletração nas datas</a>
+                                </li>
 
+                        </ul>
+                        <form method="GET" action="/Darwin/visualizarEdital">
+                            <input type="hidden" value="${selecao.codSelecao}" name="selecao">
+                            <button type="submit" class="btn btn-primary btn-sm btn-icon" style="position: relative;">
+                                <i class="material-icons">picture_as_pdf</i> 
+                                <span>Visualizar edital</span>
+                            </button>
+                        </form>
+                            
+                            <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm btn-icon" style="position: relative;margin-left: 50px;margin-bottom: 8px;">
+                                <i class="material-icons">edit</i>
+                                <span>Editar</span>
+                            </a>
+
+                    </div>
                 </div>
-                <p>
-                    ${selecao.descricao}
-                </p>
                 <br/>
                     <c:if test="${not empty selecao.etapas}">
                         <ul class="timeline">

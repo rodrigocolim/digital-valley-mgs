@@ -79,7 +79,71 @@ public class CadastrarEtapaController {
     }
 
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
-    public String adiciona(@PathVariable long codSelecao, @RequestParam("prerequisito") long codPrerequisito, InscricaoBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
+    public String adiciona(@PathVariable long codSelecao, @RequestParam("prerequisito") long codPrerequisito, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
+            model.addAttribute("selecao", selecao);
+            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
+            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
+            int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
+            if (criterio == 1) {
+                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
+            } else if(criterio == 2) {
+                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
+            } else if(criterio == 3) {
+                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
+            }
+            etapa.setEstado(EnumEstadoEtapa.ESPERA);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
+            if (codAvaliadores != null) {
+                for (String cod : codAvaliadores) {
+                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+                    if (u != null) {
+                        avaliadores.add(u);
+                    }
+                }
+            }
+            if (selecao.getInscricao() != null) {
+                EtapaBeans pre = etapaServiceIfc.getEtapa(codSelecao);
+                etapa.setPrerequisito(pre);
+            }
+            if (documentosExigidos != null) {
+                ArrayList<String> docs = new ArrayList<>();
+                for(String documento : documentosExigidos){
+                    docs.add(documento);
+                }
+                etapa.setDocumentacaoExigida(docs);
+            }
+            if (codPrerequisito > 0) {
+                etapa.setPrerequisito(this.getEtapaServiceIfc().getEtapa(codPrerequisito));
+            }
+            etapa.setAvaliadores(avaliadores);
+            selecao.getEtapas().add((Etapa) etapa.toBusiness());
+            this.selecaoServiceIfc.setUsuario(usuario);
+            this.selecaoServiceIfc.atualizaSelecao(selecao);
+            session.setAttribute("mensagem", "Etapa cadastrada com sucesso!");
+            session.setAttribute("status", "success");
+            return ("redirect:/selecao/" + selecao.getCodSelecao());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("status", "danger");
+            return "cadastrar-etapa";
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            e.printStackTrace();
+            model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("status", "danger");
+            return "cadastrar-etapa";
+        }
+    }
+    
+    
+    @RequestMapping(value="/inscricao/{codSelecao}", method = RequestMethod.POST)
+    public String adicionaInscricao(@PathVariable long codSelecao, @RequestParam("prerequisito") long codPrerequisito, InscricaoBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
         try {
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
@@ -123,7 +187,7 @@ public class CadastrarEtapaController {
             }
             etapa.setAvaliadores(avaliadores);
             if (selecao.getInscricao() != null) {
-                EtapaBeans e = (InscricaoBeans) etapa;
+                EtapaBeans e = (EtapaBeans) etapa;
                 selecao.getEtapas().add((Etapa) e.toBusiness());
             } else {
                 selecao.setInscricao(etapa);

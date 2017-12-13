@@ -54,7 +54,7 @@ public class IndexController{
             etapasAtuais.put(s, this.getSelecaoServiceIfc().getEtapaAtual(s));
         }
         model.addAttribute("categoria", "Início");
-        model.addAttribute("estado", "inicio");
+        model.addAttribute("estado", "início");
         model.addAttribute("selecoes", selecoes);        
         model.addAttribute("etapasAtuais", etapasAtuais);        
         return "index";
@@ -65,11 +65,12 @@ public class IndexController{
         Selecao selecao = new Selecao();
         selecao.setCategoria(categoria.replace("_", " "));
         EnumEstadoSelecao e = null;
+        System.out.println("\n\n estado: "+estado +"\n\n");;
         if(estado != null) {
-            if (!estado.equals("inicio")) {
-                if (estado.equals("aberta")){
+            if (!estado.toLowerCase().equals("início")) {
+                if (estado.equals("aberta")) {
                     e = EnumEstadoSelecao.ABERTA;
-                } else if( estado.equals("andamento")) {
+                } else if (estado.equals("andamento")) {
                     e = EnumEstadoSelecao.ANDAMENTO;
                 } else if (estado.equals("finalizada")) {
                     e = EnumEstadoSelecao.FINALIZADA;
@@ -78,7 +79,7 @@ public class IndexController{
                 model.addAttribute("estado", e.toString().toLowerCase());
             }
         }
-        
+       // System.out.println("\n\n "+ selecao.getEstado().name() +"\n\n");
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
         HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {

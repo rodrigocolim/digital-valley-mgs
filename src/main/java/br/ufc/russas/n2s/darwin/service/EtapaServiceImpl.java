@@ -137,8 +137,8 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
 
     @Override
     public List<ParticipanteBeans> getParticipantes(EtapaBeans etapa) {
-        Etapa e = (Etapa) etapa.toBusiness();
         List<ParticipanteBeans> participantes = Collections.synchronizedList(new ArrayList<ParticipanteBeans>());
+        Etapa e = (Etapa) etapa.toBusiness();
         if(e.getParticipantes() != null) {
             for (Participante participante : e.getParticipantes()) {
                 participantes.add((ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
@@ -175,7 +175,10 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         Inscricao i = (Inscricao) inscricao.toBusiness();
         Documentacao d = (Documentacao) documentacao.toBusiness();
         Participante p = (Participante) participante.toBusiness();
-        i.participa(p, d);
+        i.participa(p);
+        //this.etapaDAOIfc.atualizaEtapa(i);
+        d.setCandidato(p);
+        i.anexaDocumentacao(d);
         this.etapaDAOIfc.atualizaEtapa(i);
     }
 

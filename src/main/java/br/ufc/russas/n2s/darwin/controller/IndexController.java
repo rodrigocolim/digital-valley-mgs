@@ -60,13 +60,13 @@ public class IndexController{
         return "index";
     }
     
-    @RequestMapping(value="/{categoria}/{estado}", method = RequestMethod.GET)
-    public String getIndex(Model model, @PathVariable String categoria, @PathVariable String estado){
+    @RequestMapping(value="/{categoria}", method = RequestMethod.GET)
+    public String getIndex(Model model, @PathVariable String categoria){
         Selecao selecao = new Selecao();
         selecao.setCategoria(categoria.replace("_", " "));
-        EnumEstadoSelecao e = null;
-        System.out.println("\n\n estado: "+estado +"\n\n");;
-        if(estado != null) {
+       // EnumEstadoSelecao e = null;
+       // System.out.println("\n\n estado: "+estado +"\n\n");;
+       /* if(estado != null) {
             if (!estado.toLowerCase().equals("início")) {
                 if (estado.equals("aberta")) {
                     e = EnumEstadoSelecao.ABERTA;
@@ -79,6 +79,7 @@ public class IndexController{
                 model.addAttribute("estado", e.toString().toLowerCase());
             }
         }
+        */
        // System.out.println("\n\n "+ selecao.getEstado().name() +"\n\n");
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
         HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();

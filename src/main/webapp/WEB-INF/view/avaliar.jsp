@@ -55,12 +55,8 @@
                         <tbody>
                             <c:forEach var="participante" items="${participantesEtapa}">
                             <tr>
-                                <td>${participante.nome}</td>
-                            </tr>
-                            <tr>
+                                <td>${participante.candidato.nome}</td>
                                 <td>Pendente</td>
-                            </tr>
-                            <tr>
                                 <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliar">Avaliar</button></td>
                             </tr>
                             </c:forEach>

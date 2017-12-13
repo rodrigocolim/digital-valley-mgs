@@ -6,6 +6,7 @@
 package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
+import br.ufc.russas.n2s.darwin.beans.InscricaoBeans;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,5 +39,16 @@ public class AvaliarController {
         model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
         return "avaliar";
     }
+    
+    @RequestMapping(value = "/inscricao/{codEtapa}", method = RequestMethod.GET)
+    public String getIndexInscricao(@PathVariable long codEtapa, Model model) {
+        InscricaoBeans etapa = etapaServiceIfc.getInscricao(codEtapa);
+        
+        model.addAttribute("etapa", etapa);
+        model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
+        return "avaliar";
+    }
+    
+    
     
 }

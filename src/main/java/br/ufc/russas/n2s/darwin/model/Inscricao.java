@@ -84,4 +84,8 @@ public class Inscricao extends Etapa {
         return false;
     }
     
+    @Override
+    public List<Participante> getParticipantes () {
+        return getCandidatos();
+    } 
 }

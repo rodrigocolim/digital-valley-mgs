@@ -23,7 +23,7 @@
             <div class="row row-offcanvas row-offcanvas-right">
                 <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
                 <c:set var="titulo" value="${fn:replace(categoria, '_', ' ')}"></c:set>
-                
+                <c:set var="titulo" value="${fn:replace(titulo, 'Selecoes', 'Seleções')}"></c:set>
                 <div class="col-sm-8">
                 <nav class="breadcrumb">
                     <span class="breadcrumb-item">Você está em:</span> 
@@ -42,21 +42,19 @@
                     </div>
                 </c:if>
                     <div class="row col-sm-12">
-                    <h1 class="text-capitalize" >${titulo}</h1>
-                    <c:if test="${titulo eq 'Início'}">
-                    <div class="dropdown right" style="right:-13px; position:absolute;">
-                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm btn-icon" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">filter_list</i>
-                            <span>Filtrar</span>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="/Darwin/${categoria}/aberta">Seleções abertas</a>
-                            <a class="dropdown-item" href="/Darwin/${categoria}/andamento">Seleções em andamento</a>
-                            <a class="dropdown-item" href="/Darwin/${categoria}/finalizada">Seleções finalizadas</a>
+                        <h1 class="text-capitalize" >${titulo}</h1>
+                        <div class="dropdown right" style="right:-13px; position:absolute;">
+                            <button class="btn btn-outline-secondary dropdown-toggle btn-sm btn-icon" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">filter_list</i>
+                                <span>Filtrar</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Seleções abertas</a>
+                                <a class="dropdown-item" href="#">Seleções em andamento</a>
+                                <a class="dropdown-item" href="#">Seleções finalizadas</a>
+                            </div>
                         </div>
                     </div>
-                    </c:if>
-                </div>
                 <c:if test="${empty selecoes}">
                     <p class="text-muted">Nenhuma seleção cadastrada!</p>
                 </c:if>

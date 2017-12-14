@@ -5,6 +5,8 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
@@ -25,7 +27,7 @@ import org.hibernate.annotations.FetchMode;
 public class Inscricao extends Etapa { 
 
     
-    @ManyToMany(targetEntity = Participante.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Participante.class, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "candidatos_selecao", joinColumns = {@JoinColumn(name = "etapaInscricao", referencedColumnName = "codEtapa")},
     inverseJoinColumns = {@JoinColumn(name = "participante", referencedColumnName = "codParticipante")})
@@ -43,7 +45,7 @@ public class Inscricao extends Etapa {
         this.candidatos = candidatos;
     }
     
-    public void participa(Participante participante) {
+    public void participa(Participante participante)  throws IllegalAccessException{
         if (participante ==  null) {
             throw new NullPointerException("Deve ser informado um participante!");
         } else if (getCandidatos().contains(participante) || isCanditado(participante.getCandidato())) {
@@ -61,15 +63,7 @@ public class Inscricao extends Etapa {
         }
         return false;
     }
-    
-    public void participa(Participante participante, Documentacao documentacao) throws IllegalAccessException {
-        if (participante !=  null ) {
-            getCandidatos().add(participante);
-        } else {
-            throw new NullPointerException("Deve ser informado um participante e uma documentação!");
-        }
-    }
-    
+        
     @Override
     public boolean isParticipante(Participante participante) {
         if (participante != null) {
@@ -80,5 +74,34 @@ public class Inscricao extends Etapa {
             throw new IllegalArgumentException("Participante não pode ser nulo!");
         }
         return false;
+    }
+    
+    @Override
+    public boolean isParticipante(UsuarioDarwin participante){
+        for(Participante p : this.getCandidatos()){
+            if(p.getCandidato().equals(participante)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    @Override
+    public List<Participante> getParticipantes () {
+        return getCandidatos();
+    } 
+    
+    
+    @Override
+    public List<Participante> getAprovados() {
+        List<Participante> aprovados = Collections.synchronizedList(new ArrayList<Participante>());
+        if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO || getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
+            for(Avaliacao avaliacao : this.getAvaliacoes()){
+                if(avaliacao.isAprovado()){
+                    aprovados.add(avaliacao.getParticipante());
+                }
+            }
+        }
+        return aprovados;
     }
 }

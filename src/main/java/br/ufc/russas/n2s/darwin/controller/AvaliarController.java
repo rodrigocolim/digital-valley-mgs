@@ -46,18 +46,22 @@ public class AvaliarController {
     }
     
     @RequestMapping(value = "/{codEtapa}", method = RequestMethod.GET)
-    public String getIndex(@PathVariable long codEtapa, Model model) {
+    public String getIndex(@PathVariable long codEtapa, Model model, HttpServletRequest request) {
         EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
-        
+        HttpSession session = request.getSession();
+        UsuarioBeans avaliador = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         model.addAttribute("etapa", etapa);
         model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
+        model.addAttribute("avaliador", avaliador);
         return "avaliar";
     }
     
     @RequestMapping(value = "/inscricao/{codEtapa}", method = RequestMethod.GET)
-    public String getIndexInscricao(@PathVariable long codEtapa, Model model) {
+    public String getIndexInscricao(@PathVariable long codEtapa, Model model, HttpServletRequest request) {
         InscricaoBeans etapa = etapaServiceIfc.getInscricao(codEtapa);
-        
+        HttpSession session = request.getSession();
+        UsuarioBeans avaliador = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        model.addAttribute("avaliador", avaliador);
         model.addAttribute("etapa", etapa);
         model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
         return "avaliar";
@@ -65,8 +69,11 @@ public class AvaliarController {
     
     @RequestMapping(value = "/inscricao/{codEtapa}", method = RequestMethod.POST)
     public String avaliarInscricao(@PathVariable long codEtapa, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        UsuarioBeans avaliador = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        InscricaoBeans etapa = null;
         try {
-            InscricaoBeans etapa = etapaServiceIfc.getInscricao(codEtapa);
+            etapa = etapaServiceIfc.getInscricao(codEtapa);
             AvaliacaoBeans avaliacao = new AvaliacaoBeans();
             if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO) {
                 avaliacao.setAprovado((Integer.parseInt(request.getParameter("aprovacao")) == 1));
@@ -82,8 +89,7 @@ public class AvaliarController {
                 }
             }
             
-            HttpSession session = request.getSession();
-            UsuarioBeans avaliador = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            
             avaliacao.setObservacao(request.getParameter("observacoes"));
             ParticipanteBeans participante = participanteServiceIfc.getParticipante(Long.parseLong(request.getParameter("participante")));
             avaliacao.setParticipante(participante);
@@ -92,6 +98,7 @@ public class AvaliarController {
             etapaServiceIfc.setUsuario(avaliador);
             etapaServiceIfc.avalia(etapa, avaliacao);
             model.addAttribute("etapa", etapa);
+            model.addAttribute("avaliador", avaliador);
             model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
             model.addAttribute("mensagem", "Participante avaliado com sucesso!");
             model.addAttribute("status", "success");
@@ -99,21 +106,29 @@ public class AvaliarController {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("avaliador", avaliador);
+            model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
             model.addAttribute("status", "danger");
             return "avaliar";
         } catch (NumberFormatException e) {
             e.printStackTrace();
             model.addAttribute("mensagem", "Isso não é um número!");
+            model.addAttribute("avaliador", avaliador);
+            model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
             model.addAttribute("status", "danger");
             return "avaliar";
         } catch (NullPointerException | IllegalArgumentException e) {
             e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("avaliador", avaliador);
+            model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
             model.addAttribute("status", "danger");
             return "avaliar";
         }  catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("avaliador", avaliador);
+            model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
             model.addAttribute("status", "danger");
             return "avaliar";
         }

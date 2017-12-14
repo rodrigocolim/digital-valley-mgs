@@ -43,17 +43,19 @@
                 </c:if>
                     <div class="row col-sm-12">
                         <h1 class="text-capitalize" >${titulo}</h1>
-                        <div class="dropdown right" style="right:-13px; position:absolute;">
-                            <button class="btn btn-outline-secondary dropdown-toggle btn-sm btn-icon" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">filter_list</i>
-                                <span>Filtrar</span>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="/Darwin/estado/aberta">Seleções abertas</a>
-                                <a class="dropdown-item" href="/Darwin/estado/andamento">Seleções em andamento</a>
-                                <a class="dropdown-item" href="/Darwin/estado/finalizada">Seleções finalizadas</a>
+                        <c:if test="${categoria eq 'Início'}">
+                            <div class="dropdown right" style="right:-13px; position:absolute;">
+                                <button class="btn btn-outline-secondary dropdown-toggle btn-sm btn-icon" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">filter_list</i>
+                                    <span>Filtrar</span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="/Darwin/estado/aberta">Seleções abertas</a>
+                                    <a class="dropdown-item" href="/Darwin/estado/andamento">Seleções em andamento</a>
+                                    <a class="dropdown-item" href="/Darwin/estado/finalizada">Seleções finalizadas</a>
+                                </div>
                             </div>
-                        </div>
+                        </c:if>
                     </div>
                 <c:if test="${empty selecoes}">
                     <p class="text-muted">Nenhuma seleção cadastrada!</p>

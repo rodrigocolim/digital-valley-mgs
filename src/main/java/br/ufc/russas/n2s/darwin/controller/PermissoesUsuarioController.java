@@ -38,6 +38,13 @@ public class PermissoesUsuarioController {
         return "acessarPermissoes"; 
     }
     
+    @RequestMapping(method = RequestMethod.POST)
+    public String getIndexSelectedUser(Model model, HttpServletRequest request) {
+        model.addAttribute("usuarios", this.usuarioServiceIfc.listaTodosUsuarios());
+        model.addAttribute("usuarioSelecionado", this.usuarioServiceIfc.getUsuario(Long.parseLong(request.getParameter("usuario")), 0));
+        return "acessarPermissoes"; 
+    }
+    
     @RequestMapping(value = "/adicionar", method = RequestMethod.POST)
     public String adiciona(@RequestParam("usuario") long codUsuario, @RequestParam("permissao") int permissao, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();

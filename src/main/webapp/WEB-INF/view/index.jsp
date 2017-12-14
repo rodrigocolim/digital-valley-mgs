@@ -44,9 +44,9 @@
                     <div class="row col-sm-12">
                         <h1 class="text-capitalize" >${titulo}</h1>
                         <div class="dropdown right" style="right:-13px; position:absolute;">
-                            <button class="btn btn-outline-secondary dropdown-toggle btn-sm btn-icon" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn btn-outline-secondary dropdown-toggle btn-sm btn-icon" id="filtro_tela" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">filter_list</i>
-                                <span>Filtrar</span>
+                                <span >Filtrar</span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="/Darwin/estado/aberta">Seleções abertas</a>
@@ -62,9 +62,24 @@
                 <c:forEach var="selecao" begin="${((pagina - 1) * 5)}" end="${((pagina - 1) * 5) + 4}" items="${selecoes}">
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title text-uppercase font-weight-bold">
+                            <div class="row" style="padding-left: 13px;">
+                                <h2 class="card-title text-uppercase font-weight-bold">
                                 ${selecao.titulo}
-                            </h2>
+                                </h2>
+                                <c:if test="${selecao.estado.estado == 1}">
+                                    <span class="badge badge-pill badge-dark" style="right: 20px; font-size: 10px;position: absolute;">Em espera</span>
+                                </c:if>
+                                <c:if test="${selecao.estado.estado == 2}">
+                                    <span class="badge badge-pill badge-primary" style="right: 20px; font-size: 10px;position: absolute;">Aberta</span>
+                                </c:if>
+                                <c:if test="${selecao.estado.estado == 3}">
+                                    <span class="badge badge-pill badge-info" style="right: 20px; font-size: 10px;position: absolute;">Em andamento</span>
+                                </c:if>
+                                <c:if test="${selecao.estado.estado == 4}">
+                                    <span class="badge badge-pill badge-warning" style="right: 20px; font-size: 10px;position: absolute;">Finalizada</span>
+                                </c:if>                                
+                                
+                            </div>
                             <h3 class="card-subtitle mb-2 text-muted">
                                 ${selecao.inscricao.titulo} - 
                                 <b>${selecao.inscricao.periodo.dataInicio}</b>

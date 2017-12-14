@@ -65,7 +65,6 @@ public class Inscricao extends Etapa {
     public void participa(Participante participante, Documentacao documentacao) throws IllegalAccessException {
         if (participante !=  null ) {
             getCandidatos().add(participante);
-            anexaDocumentacao(documentacao);
         } else {
             throw new NullPointerException("Deve ser informado um participante e uma documentação!");
         }

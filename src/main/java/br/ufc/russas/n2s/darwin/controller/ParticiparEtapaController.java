@@ -25,8 +25,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -149,7 +147,8 @@ public class ParticiparEtapaController {
     public @ResponseBody void participa(@PathVariable long codEtapa, HttpServletRequest request, HttpServletResponse response, @RequestParam("nomeDocumento") String[] nomeDocumento, @RequestParam("documento") MultipartFile[] documentos) throws IOException {    
         HttpSession session = request.getSession();
         try {
-            InscricaoBeans etapa = (InscricaoBeans) this.etapaServiceIfc.getEtapa(codEtapa);
+            InscricaoBeans etapa = this.etapaServiceIfc.getInscricao(codEtapa);
+            SelecaoBeans selecao = this.etapaServiceIfc.getSelecao(etapa);
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             this.etapaServiceIfc.setUsuario(usuario);
             List<Arquivo> arquivos = Collections.synchronizedList(new ArrayList<Arquivo>());
@@ -182,8 +181,9 @@ public class ParticiparEtapaController {
             } else {
                 etapaServiceIfc.participa(etapa, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante), (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
             }            
-            session.setAttribute("mensagem", "Agora você está inscrito na etapa".concat(etapa.getTitulo()));
+            session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(etapa.getTitulo()));
             session.setAttribute("status", "success");
+            response.sendRedirect("/minhasSelecoes");
         } catch (NumberFormatException e) {
             e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());

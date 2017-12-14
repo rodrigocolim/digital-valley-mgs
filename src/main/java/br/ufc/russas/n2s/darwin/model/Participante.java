@@ -38,10 +38,6 @@ public class Participante implements AttributeConverter<LocalDateTime, Timestamp
     @ManyToOne
     @JoinColumn(name="candidato", referencedColumnName="codUsuario")
     private UsuarioDarwin candidato;
-    @ManyToMany(targetEntity = Documentacao.class)
-    @JoinTable(name="documentacoes_participante", joinColumns = {@JoinColumn(name="participante", referencedColumnName = "codParticipante")},
-            inverseJoinColumns = {@JoinColumn(name="documentacao", referencedColumnName = "codDocumentacao")})
-    private List<Documentacao> documentacao;
     private boolean deferido;
     @Column(name = "dataInscricao")
     private LocalDateTime data;
@@ -69,14 +65,6 @@ public class Participante implements AttributeConverter<LocalDateTime, Timestamp
         }else{
             throw new NullPointerException("Deve ser informado um candidato!");
         }
-    }
-
-    public List<Documentacao> getDocumentacao() {
-        return documentacao;
-    }
-
-    public void setDocumentacao(List<Documentacao> documentacao) {
-        this.documentacao = documentacao;
     }
 
     public boolean isDeferido() {

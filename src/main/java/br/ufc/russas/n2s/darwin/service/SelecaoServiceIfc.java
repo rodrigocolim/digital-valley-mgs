@@ -60,11 +60,14 @@ public interface SelecaoServiceIfc extends ServiceIfc{
      */
     List<SelecaoBeans> listaSelecoes(Selecao selecao);
     
+    
+    
     /**
      * 
+     * @param usuario
      * @return List
      */
- //   public List<SelecaoBeans> listaSelecoesAssociada(UsuarioBeans usuario);
+    public List<SelecaoBeans> listaSelecoesAssociada(UsuarioBeans usuario);
     
     /**
      *

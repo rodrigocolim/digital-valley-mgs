@@ -52,7 +52,7 @@
                     <c:set scope="session" var="status" value=""></c:set>
                 </c:if>
                 <!-- Mensagem de primeiro acesso após o cadastro da seleção -->
-                <c:if test="${(empty selecao.inscricao) and (fn:contains(permissoes, 'RESPONSAVEL') || fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                <c:if test="${(empty selecao.inscricao) and (fn:contains(permissoes, 'RESPONSAVEL') or fn:contains(permissoes, 'ADMINISTRADOR'))}">
                     <div class="jumbotron jumbotron-fluid" style="padding-top: 40px; padding-bottom: 30px; ">
                         <div class="container">
                             <h1 style="font-size: 20px; font-weight: bold;">Cadastre a primeira etapa da sua seleção!</h1><br>
@@ -63,7 +63,7 @@
                     </div>
                 </c:if>
                 <!-- Mensagem de primeiro acesso após o cadastro da seleção -->
-                <c:if test="${(not empty selecao.etapas) and ((fn:contains(permissoes, 'RESPONSAVEL') || fn:contains(permissoes, 'ADMINISTRADOR'))) and not selecao.divulgada}">
+                <c:if test="${(not empty selecao.inscricao) and ((isResponsavel || fn:contains(permissoes, 'ADMINISTRADOR'))) and (not selecao.divulgada)}">
                     <div class="jumbotron jumbotron-fluid" style="padding-top: 40px; padding-bottom: 30px; ">
                         <div class="container">
                             <h1 style="font-size: 20px; font-weight: bold;">Divulgue sua seleção!</h1><br>
@@ -73,12 +73,12 @@
                         </div>
                     </div>
                 </c:if>
-                <div class="row" style="padding-left: 13px;">
+                <div class="row" style="padding-left: 15px;">
                     <h1 class="text-uppercase" style="font-size: 20px;">${selecao.titulo}</h1>
-                <c:if test="${fn:contains(selecao.responsaveis, usuarioDarwin)}">
-                    <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm btn-icon" style="position: relative;margin-left: 50px;margin-bottom: 8px;">
+                <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                    <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm btn-icon" style="height: 33px; padding-top: 0px;padding-left: 5px;margin-left: 30px;margin-top: -4px;">
                         <i class="material-icons">edit</i>
-                        <span>Editar</span>
+                        <span>Editar seleção</span>
                     </a>                    
                 </c:if>
                 </div>
@@ -143,9 +143,15 @@
                                     </div>
                                     <div class="timeline-body">
                                         <p>${selecao.inscricao.descricao}</p>
+                                        <hr>
                                         <c:if test="${(estadoInscricao == 2) and (fn:contains(permissoes, 'PARTICIPANTE'))}">
-                                            <hr>
                                             <a href="/Darwin/participarEtapa/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Inscrever-se</a>
+                                        </c:if>
+                                        <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm btn-icon" style="height: 30px; padding-top: 0px;padding-left: 5px;">
+                                                <i class="material-icons">edit</i>
+                                                <span>Editar</span>
+                                            </a>   
                                         </c:if>
                                     </div>
                                 </div>
@@ -177,28 +183,33 @@
                                 </div>
                                 <div class="timeline-body" >
                                     <p>${etapa.descricao}</p>
+                                    <hr>
                                     <c:if test="${(not empty etapa.documentacaoExigida) and (estado == 2) and (fn:contains(permissoes, 'PARTICIPANTE'))}">
-                                        <hr>
                                         <a href="/Darwin/participarEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Enviar documentação</a>
+                                    </c:if>
+                                    <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                                        <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Editar</a>
                                     </c:if>
                                 </div>
                             </div>
                         </li>
                     <c:set var="i" value="${i + 1}"></c:set>
                     </c:forEach>
-
-                    <c:if test="${(fn:contains(permissoes, 'RESPONSAVEL') and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">  
+                    <c:if test="${((not isResponsavel) or (fn:contains(permissoes, 'PARTICIPANTE')))}">  
+                        <li class="">
+                            <div class="timeline-badge success">
+                                <i class="material-icons">flag</i>
+                            </div>
+                            <div class="timeline-heading" style="">
+                                <br><br><br>
+                            </div>
+                        </li>                        
+                    </c:if>
+                    <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">  
                         <li>
                             <a href="/Darwin/cadastrarEtapa/${selecao.codSelecao}" class="timeline-badge primary" >
                                 <i class="material-icons">add</i>
                             </a>
-                        </li>                        
-                    </c:if>
-                    <c:if test="${((fn:contains(permissoes, 'PARTICIPANTE')) or (selecao.estado == 'ANDAMENTO')) and (not fn:contains(permissoes, 'ADMINISTRADOR')) }">  
-                        <li class="">
-                            <div class="timeline-badge primary">
-                                <i class="material-icons">flag</i>
-                            </div>
                         </li>                        
                     </c:if>
                         

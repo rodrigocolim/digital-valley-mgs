@@ -83,10 +83,13 @@ public class IndexController {
         EnumEstadoSelecao e = null;
         if (estado.equals("aberta")){
             e = EnumEstadoSelecao.ABERTA;
+            model.addAttribute("categoria", "Seleções abertas");
         } else if( estado.equals("andamento")) {
             e = EnumEstadoSelecao.ANDAMENTO;
+            model.addAttribute("categoria", "Seleções em andamento");
         } else if (estado.equals("finalizada")) {
             e = EnumEstadoSelecao.FINALIZADA;
+            model.addAttribute("categoria", "Seleções finalizadas");
         }
         selecao.setEstado(e);
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
@@ -94,6 +97,7 @@ public class IndexController {
         for (SelecaoBeans s : selecoes) {
         etapasAtuais.add(this.getSelecaoServiceIfc().getEtapaAtual(s));
         }
+        
         model.addAttribute("estado", e);
         model.addAttribute("selecoes", selecoes);
         model.addAttribute("etapasAtuais", etapasAtuais);
@@ -107,10 +111,12 @@ public class IndexController {
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         System.out.println("\n\n");
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
+        
         HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
             etapasAtuais.put(s, this.getSelecaoServiceIfc().getEtapaAtual(s));
         }
+        model.addAttribute("categoria", "Minhas seleções");
         model.addAttribute("selecoes", selecoes);
         model.addAttribute("etapasAtuais", etapasAtuais);
         return "index";

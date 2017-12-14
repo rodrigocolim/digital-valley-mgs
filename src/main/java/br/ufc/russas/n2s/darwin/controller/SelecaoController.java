@@ -3,6 +3,7 @@ package br.ufc.russas.n2s.darwin.controller;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,16 +38,18 @@ public class SelecaoController {
         //long codSelecao = Long.parseLong(selecaoCodigo);
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         HttpSession session = request.getSession();
-        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usaurioDarwin");
-        if(!selecao.isDivulgada() && selecao.getResponsaveis().contains(usuario)) {
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        if (!selecao.isDivulgada() && selecao.getResponsaveis().contains((UsuarioDarwin) usuario.toBusiness())) {
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
+            model.addAttribute("isResponsavel", true);
             request.getSession().setAttribute("selecao", selecao);
             return "selecao";
         } else if(selecao.isDivulgada()) {
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
             request.getSession().setAttribute("selecao", selecao);
+            model.addAttribute("isResponsavel", false);
             return "selecao";
         } else {
             return "elements/error404";

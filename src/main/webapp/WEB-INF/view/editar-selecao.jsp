@@ -117,7 +117,7 @@
                         <div class="invalid-feedback">
                         </div>
                         <br>
-                        <a href="/Darwin" type="button" id="enviar" class="btn btn-secondary">
+                        <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" id="enviar" class="btn btn-secondary">
                             Cancelar
                         </a>
                         <input type="button"  class="btn btn-primary" value="Salvar" data-toggle="modal" data-target="#confirmarSelecao" >

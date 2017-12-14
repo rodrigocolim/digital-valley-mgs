@@ -86,4 +86,15 @@ public class UsuarioBeans implements Beans{
         }  
     }
     
+    @Override
+    public boolean equals(Object o) {
+        return this.getCodUsuario() == ((UsuarioBeans) o).getCodUsuario() ;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 71 * hash + (int) (this.codUsuario ^ (this.codUsuario >>> 32));
+        return hash;
+    }
 }

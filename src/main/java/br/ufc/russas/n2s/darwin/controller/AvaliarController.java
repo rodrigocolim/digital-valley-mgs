@@ -11,6 +11,7 @@ import br.ufc.russas.n2s.darwin.beans.InscricaoBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
+import br.ufc.russas.n2s.darwin.model.EnumEstadoAvaliacao;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.ParticipanteServiceIfc;
 import javax.servlet.http.HttpServletRequest;
@@ -64,7 +65,6 @@ public class AvaliarController {
     
     @RequestMapping(value = "/inscricao/{codEtapa}", method = RequestMethod.POST)
     public String avaliarInscricao(@PathVariable long codEtapa, HttpServletRequest request, Model model) {
-        System.out.println("teste");
         try {
             InscricaoBeans etapa = etapaServiceIfc.getInscricao(codEtapa);
             AvaliacaoBeans avaliacao = new AvaliacaoBeans();
@@ -88,6 +88,7 @@ public class AvaliarController {
             ParticipanteBeans participante = participanteServiceIfc.getParticipante(Long.parseLong(request.getParameter("participante")));
             avaliacao.setParticipante(participante);
             avaliacao.setAvaliador(avaliador);
+            avaliacao.setEstado(EnumEstadoAvaliacao.AVALIADO);
             etapaServiceIfc.setUsuario(avaliador);
             etapaServiceIfc.avalia(etapa, avaliacao);
             model.addAttribute("etapa", etapa);
@@ -120,25 +121,58 @@ public class AvaliarController {
     
     @RequestMapping(value = "/{codEtapa}", method = RequestMethod.POST)
     public String avaliarEtapa(@PathVariable long codEtapa, HttpServletRequest request, Model model) {
-        EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
-        AvaliacaoBeans avaliacao = new AvaliacaoBeans();
-        if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO) {
-            avaliacao.setAprovado((Integer.parseInt(request.getParameter("aprovacao")) == 1));
-        } else if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
-            avaliacao.setAprovado((Integer.parseInt(request.getParameter("deferimento")) == 1));
-        } else if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
-            float nota = Float.parseFloat(request.getParameter("nota"));
-            avaliacao.setNota(nota);
-            if (nota >= etapa.getNotaMinima()) {
-                avaliacao.setAprovado(true);
-            } else {
-                avaliacao.setAprovado(false);
+        try {
+            EtapaBeans etapa = etapaServiceIfc.getInscricao(codEtapa);
+            AvaliacaoBeans avaliacao = new AvaliacaoBeans();
+            if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO) {
+                avaliacao.setAprovado((Integer.parseInt(request.getParameter("aprovacao")) == 1));
+            } else if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
+                avaliacao.setAprovado((Integer.parseInt(request.getParameter("deferimento")) == 1));
+            } else if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
+                float nota = Float.parseFloat(request.getParameter("nota"));
+                avaliacao.setNota(nota);
+                if (nota >= etapa.getNotaMinima()) {
+                    avaliacao.setAprovado(true);
+                } else {
+                    avaliacao.setAprovado(false);
+                }
             }
+            
+            HttpSession session = request.getSession();
+            UsuarioBeans avaliador = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            avaliacao.setObservacao(request.getParameter("observacoes"));
+            ParticipanteBeans participante = participanteServiceIfc.getParticipante(Long.parseLong(request.getParameter("participante")));
+            avaliacao.setParticipante(participante);
+            avaliacao.setAvaliador(avaliador);
+            avaliacao.setEstado(EnumEstadoAvaliacao.AVALIADO);
+            etapaServiceIfc.setUsuario(avaliador);
+            etapaServiceIfc.avalia(etapa, avaliacao);
+            model.addAttribute("etapa", etapa);
+            model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
+            model.addAttribute("mensagem", "Participante avaliado com sucesso!");
+            model.addAttribute("status", "success");
+            return "avaliar";
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("status", "danger");
+            return "avaliar";
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            model.addAttribute("mensagem", "Isso não é um número!");
+            model.addAttribute("status", "danger");
+            return "avaliar";
+        } catch (NullPointerException | IllegalArgumentException e) {
+            e.printStackTrace();
+            model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("status", "danger");
+            return "avaliar";
+        }  catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("status", "danger");
+            return "avaliar";
         }
-        avaliacao.setObservacao(request.getParameter("observacoes"));
-        model.addAttribute("etapa", etapa);
-        model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
-        return "avaliar";
     }
     
 }

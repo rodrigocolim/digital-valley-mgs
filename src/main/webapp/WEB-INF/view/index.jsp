@@ -49,9 +49,9 @@
                                 <span>Filtrar</span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Seleções abertas</a>
-                                <a class="dropdown-item" href="#">Seleções em andamento</a>
-                                <a class="dropdown-item" href="#">Seleções finalizadas</a>
+                                <a class="dropdown-item" href="/Darwin/estado/aberta">Seleções abertas</a>
+                                <a class="dropdown-item" href="/Darwin/estado/andamento">Seleções em andamento</a>
+                                <a class="dropdown-item" href="/Darwin/estado/finalizada">Seleções finalizadas</a>
                             </div>
                         </div>
                     </div>

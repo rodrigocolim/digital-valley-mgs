@@ -64,7 +64,15 @@
                         </div>
                     </div>
                 </c:if>
-                <h1 class="text-uppercase">${selecao.titulo}</h1>
+                <div class="row" style="padding-left: 12px;">
+                    <h1 class="text-uppercase">${selecao.titulo}</h1>
+                <c:if test="${fn:contains(selecao.responsaveis, usuarioDarwin)}">
+                    <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm btn-icon" style="position: relative;margin-left: 50px;margin-bottom: 8px;">
+                        <i class="material-icons">edit</i>
+                        <span>Editar</span>
+                    </a>                    
+                </c:if>
+                </div>
                 <div class="card text-center">
                     <div class="tab-content card-body" id="pills-tabContent">
                         <div class="tab-pane fade show active text-justify" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
@@ -76,11 +84,6 @@
                                     <span>Visualizar edital</span>
                                 </button>
                             </form>
-
-                            <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm btn-icon" style="position: relative;margin-left: 50px;margin-bottom: 8px;">
-                                <i class="material-icons">edit</i>
-                                <span>Editar</span>
-                            </a>
                         </div>
                     </div>
                 </div>

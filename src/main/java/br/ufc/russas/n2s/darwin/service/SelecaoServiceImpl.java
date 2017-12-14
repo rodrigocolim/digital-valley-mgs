@@ -88,12 +88,13 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Override
     @Transactional
     public List<SelecaoBeans> listaTodasSelecoes() {
-         Selecao selecao = new Selecao();
-         selecao.setDivulgada(true);
+        Selecao selecao = new Selecao();
+        selecao.setDivulgada(true);
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         System.out.println(resultado.size());
         for (Selecao s : resultado) {
+          //   System.out.println("\n\n\nestado sele: "+s.getEstado());
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
         return selecoes;
@@ -103,10 +104,14 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Override
     @Transactional
     public List<SelecaoBeans> listaSelecoes(Selecao selecao) {
+        selecao.setDivulgada(true);
+       // System.out.println("\n\n\n estado sele : "+selecao.getEstado());
+       // System.out.println("\n\n\n categoria sele : "+selecao.getCategoria());
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         System.out.println(resultado.size());
         for (Selecao s : resultado) {
+         //   System.out.println("\n\n\nestado sele: "+s.getEstado());
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
         SelecaoBeans aux;

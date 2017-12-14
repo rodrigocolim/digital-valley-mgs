@@ -83,6 +83,7 @@ public class Etapa implements Serializable, Atualizavel {
     @ManyToOne
         @JoinColumn(name = "prerequisito", referencedColumnName = "codEtapa")
     private Etapa prerequisito;
+    private float notaMinima;
 
     public long getCodEtapa() {
         return codEtapa;
@@ -185,6 +186,20 @@ public class Etapa implements Serializable, Atualizavel {
     public Etapa getPrerequisito() {
         return prerequisito;
     }
+
+    public float getNotaMinima() {
+        return notaMinima;
+    }
+
+    public void setNotaMinima(float notaMinima) {
+        if (notaMinima >= 0 && notaMinima <= 10) {
+            this.notaMinima = notaMinima;
+        } else {
+            throw new IllegalArgumentException("Nota miníma inválida. Nota miníma deve ser maior igual a zero e menor igual a 10!");
+        }
+    }
+    
+    
 
     /**
      *
@@ -293,7 +308,7 @@ public class Etapa implements Serializable, Atualizavel {
     public void anexaDocumentacao(Documentacao documentacao) throws IllegalAccessException {
         if (documentacao == null) {
             throw new NullPointerException("Documentacao não pode ser vazia!");
-        } else if (isParticipante(documentacao.getCandidato())) {
+        } else if (!isParticipante(documentacao.getCandidato())) {
             throw new IllegalAccessException("Você não é um participante desta Etapa");
         } else {
             this.getDocumentacoes().add(documentacao);

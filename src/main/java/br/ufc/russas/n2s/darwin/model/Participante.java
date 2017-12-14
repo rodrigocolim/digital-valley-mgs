@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Column;
 import javax.persistence.Converter;
@@ -111,6 +112,19 @@ public class Participante implements AttributeConverter<LocalDateTime, Timestamp
         } else {
             return dbDate.toLocalDateTime();
         }
+    }
+    
+    @Override
+    public boolean equals(Object o){
+        Participante participante = (Participante) o;
+        return (participante.getCandidato().equals(this.getCandidato()));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 67 * hash + Objects.hashCode(this.candidato);
+        return hash;
     }
 
 }

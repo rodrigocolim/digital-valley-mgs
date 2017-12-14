@@ -54,62 +54,70 @@ public class IndexController{
             etapasAtuais.put(s, this.getSelecaoServiceIfc().getEtapaAtual(s));
         }
         model.addAttribute("categoria", "Início");
+        model.addAttribute("estado", "início");
         model.addAttribute("selecoes", selecoes);        
         model.addAttribute("etapasAtuais", etapasAtuais);        
         return "index";
     }
     
-    @RequestMapping(value="/{categoria}/{estado}", method = RequestMethod.GET)
-    public String getIndex(Model model, @PathVariable String categoria, @PathVariable String estado){
+    @RequestMapping(value="/{categoria}", method = RequestMethod.GET)
+    public String getIndex(Model model, @PathVariable String categoria){
         Selecao selecao = new Selecao();
         selecao.setCategoria(categoria.replace("_", " "));
-        EnumEstadoSelecao e = null;
-        if(estado != null) {
-            if (estado.equals("aberta")){
-                e = EnumEstadoSelecao.ABERTA;
-            } else if( estado.equals("andamento")) {
-                e = EnumEstadoSelecao.ANDAMENTO;
-            } else if (estado.equals("finalizada")) {
-                e = EnumEstadoSelecao.FINALIZADA;
+       // EnumEstadoSelecao e = null;
+       // System.out.println("\n\n estado: "+estado +"\n\n");;
+       /* if(estado != null) {
+            if (!estado.toLowerCase().equals("início")) {
+                if (estado.equals("aberta")) {
+                    e = EnumEstadoSelecao.ABERTA;
+                } else if (estado.equals("andamento")) {
+                    e = EnumEstadoSelecao.ANDAMENTO;
+                } else if (estado.equals("finalizada")) {
+                    e = EnumEstadoSelecao.FINALIZADA;
+                }
+                selecao.setEstado(e);
+                model.addAttribute("estado", e.toString().toLowerCase());
             }
-            selecao.setEstado(e);
         }
+        */
+       // System.out.println("\n\n "+ selecao.getEstado().name() +"\n\n");
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
         HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
             etapasAtuais.put(s, this.getSelecaoServiceIfc().getEtapaAtual(s));
         }
         model.addAttribute("categoria", categoria);
+       
         model.addAttribute("selecoes", selecoes);
         model.addAttribute("etapasAtuais", etapasAtuais); 
         return "index";
     }
     
-    /*@RequestMapping(value = "/{estado}", method = RequestMethod.GET)
+   /* @RequestMapping(value = "/{estado}", method = RequestMethod.GET)
     public String getEstadaos(Model model, @PathVariable String estado){
-    Selecao selecao = new Selecao();
-    EnumEstadoSelecao e = null;
-    if (estado.equals("aberta")){
-    e = EnumEstadoSelecao.ABERTA;
-    } else if( estado.equals("andamento")) {
-    e = EnumEstadoSelecao.ANDAMENTO;
-    } else if (estado.equals("finalizada")) {
-    e = EnumEstadoSelecao.FINALIZADA;
+        Selecao selecao = new Selecao();
+        EnumEstadoSelecao e = null;
+        if (estado.equals("aberta")){
+            e = EnumEstadoSelecao.ABERTA;
+        } else if( estado.equals("andamento")) {
+            e = EnumEstadoSelecao.ANDAMENTO;
+        } else if (estado.equals("finalizada")) {
+            e = EnumEstadoSelecao.FINALIZADA;
+        }
+        selecao.setEstado(e);
+        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
+        List<EtapaBeans> etapasAtuais = Collections.synchronizedList(new ArrayList<EtapaBeans>());
+        for (SelecaoBeans s : selecoes) {
+        etapasAtuais.add(this.getSelecaoServiceIfc().getEtapaAtual(s));
+        }
+        model.addAttribute("estado", e);
+        model.addAttribute("selecoes", selecoes);
+        model.addAttribute("etapasAtuais", etapasAtuais);
+        return "index";
     }
-    selecao.setEstado(e);
-    List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
-    List<EtapaBeans> etapasAtuais = Collections.synchronizedList(new ArrayList<EtapaBeans>());
-    for (SelecaoBeans s : selecoes) {
-    etapasAtuais.add(this.getSelecaoServiceIfc().getEtapaAtual(s));
-    }
-    model.addAttribute("estado", e);
-    model.addAttribute("selecoes", selecoes);
-    model.addAttribute("etapasAtuais", etapasAtuais);
-    return "index";
-    }*/
     
     
-
+*/
     /*
     @RequestMapping(value="/minhasSelecoes", method = RequestMethod.GET)
 

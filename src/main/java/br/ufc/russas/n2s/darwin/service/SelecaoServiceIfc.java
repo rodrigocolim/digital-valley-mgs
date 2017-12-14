@@ -42,11 +42,6 @@ public interface SelecaoServiceIfc extends ServiceIfc{
      */
     void removeSelecao(SelecaoBeans selecao);
 
-    /**
-     *
-     * @return  List
-     */
-    List<SelecaoBeans> listaNovasSelecoes();
 
     /**
      * 

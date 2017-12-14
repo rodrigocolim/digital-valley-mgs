@@ -12,6 +12,7 @@ import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
+import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
@@ -71,21 +72,6 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     }
 
     @Override
-    public List<SelecaoBeans> listaNovasSelecoes() {
-        List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
-        Selecao selecao = new Selecao();
-        List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
-        for (Selecao s : resultado) {
-            if (s.getInscricao() != null) {
-                if (s.getInscricao().getPeriodo().getInicio().isAfter(LocalDate.now())) {
-                    selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
-                }
-            }
-        }
-        return selecoes;
-    }
-
-    @Override
     @Transactional
     public List<SelecaoBeans> listaTodasSelecoes() {
         Selecao selecao = new Selecao();
@@ -94,6 +80,15 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         System.out.println(resultado.size());
         for (Selecao s : resultado) {
+            if (s.getInscricao() != null) {
+                System.out.println("\n\n\n\n");
+                System.out.println(s.getEstado());
+                System.out.println(s.getEstado().execute(s));
+                System.out.println("\n\n\n\n");
+                if (s.getEstado().execute(s).compareTo(s.getEstado()) != 0) {
+                    this.atualizaEstado(s, s.getEstado().execute(s));
+                }
+            }
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
         return selecoes;
@@ -147,9 +142,8 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList());
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
-        
         for (Selecao s : resultado) {
-            if (s.getResponsaveis().contains(usuario)) {
+            if (s.getResponsaveis().contains(user)) {
                 selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
             }
         }
@@ -166,6 +160,11 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         } else {
             return null;
         }
+    }
+    
+    private Selecao atualizaEstado(Selecao selecao, EnumEstadoSelecao estado) {
+        selecao.setEstado(estado);
+        return this.selecaoDAOIfc.atualizaSelecao(selecao);
     }
 
 }

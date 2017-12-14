@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.EstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
@@ -117,7 +118,7 @@ public class IndexController{
     
     
 */
-    /*
+    
     @RequestMapping(value="/minhasSelecoes", method = RequestMethod.GET)
 
     public String getMinhasSelecoes(Model model, HttpServletRequest request) {
@@ -133,7 +134,7 @@ public class IndexController{
     List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
     model.addAttribute("selecoes", selecoes);
     return "index";
-    }*/
+    }
     
     @RequestMapping(value = "/sair", method = RequestMethod.GET)
     public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException{

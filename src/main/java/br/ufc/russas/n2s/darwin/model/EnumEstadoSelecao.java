@@ -16,7 +16,7 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
         @Override
         public EnumEstadoSelecao execute(Selecao selecao){
             LocalDate inicio = selecao.getInscricao().getPeriodo().getInicio();
-            LocalDate termino = selecao.getInscricao().getPeriodo().getTermino();
+            //LocalDate termino = selecao.getInscricao().getPeriodo().getTermino();
             if (inicio.isAfter(LocalDate.now())){
                 return this;
             } else {

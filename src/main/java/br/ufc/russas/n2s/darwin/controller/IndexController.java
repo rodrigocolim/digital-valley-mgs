@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller("indexController")
 @RequestMapping("/")
-public class IndexController{ 
+public class IndexController { 
 
     private SelecaoServiceIfc selecaoServiceIfc;
     
@@ -48,7 +48,7 @@ public class IndexController{
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public String getIndex(Model model){
+    public String getIndex(Model model) {
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaTodasSelecoes();
         HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
@@ -62,7 +62,7 @@ public class IndexController{
     }
     
     @RequestMapping(value="/{categoria}", method = RequestMethod.GET)
-    public String getIndex(Model model, @PathVariable String categoria){
+    public String getIndex(Model model, @PathVariable String categoria) {
         Selecao selecao = new Selecao();
         selecao.setCategoria(categoria.replace("_", " "));
        // EnumEstadoSelecao e = null;
@@ -94,8 +94,8 @@ public class IndexController{
         return "index";
     }
     
-   /* @RequestMapping(value = "/{estado}", method = RequestMethod.GET)
-    public String getEstadaos(Model model, @PathVariable String estado){
+    @RequestMapping(value = "/estado/{estado}", method = RequestMethod.GET)
+    public String getEstados(Model model, @PathVariable String estado){
         Selecao selecao = new Selecao();
         EnumEstadoSelecao e = null;
         if (estado.equals("aberta")){
@@ -118,19 +118,13 @@ public class IndexController{
     }
     
     
-*/
+
     
     @RequestMapping(value="/minhas_Selecoes", method = RequestMethod.GET)
 
     public String getMinhasSelecoes(Model model, HttpServletRequest request) {
-
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-
-
-        System.out.println("\nA\nA\nA\nA\nA\nA\nA\nA");
-        System.out.println(usuario);
-        //System.out.println(usuario.getNome());
         System.out.println("\n\n");
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
         model.addAttribute("selecoes", selecoes);

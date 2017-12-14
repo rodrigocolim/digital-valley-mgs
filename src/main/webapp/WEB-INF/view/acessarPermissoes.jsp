@@ -44,20 +44,33 @@
                     <br>
                     <div class="form-group">
                         <form method="POST" action="acessarPermissoes" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
-                            <label for="usuarioInput">Usuário</label>                    
-                            <div class="form-row">
-                                <select id="usuarioInput" class="form-control col-md-8">
+                            <label for="usuarioInput">Usuário</label>
+                            <select id="usuarioInput" class="form-control col-md-8">
                                     <option value="" selected="selected" disabled="disabled">Selecione o usuário desejado</option>
                                 <c:forEach items="${usuariosDarwin}" var="usuario">
                                     <option id="usuarioOption-${usuario.nome}" value="${usuario.codUsuario}-${usuario.nome}">${usuario.nome}</option>
                                 </c:forEach>
                             </select>
-                            &nbsp;&nbsp;
-                            <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar">                            
+                            <div class="form-row">
+                                <select id="usuarioInput" class="form-control col-md-8">
+                                    <option value="" selected="selected" disabled="disabled">Selecione a permissão desejada</option>
+                                <c:forEach items="${usuariosDarwin.permissoes}" var="usuario">
+                                    <option id="usuarioOption-${usuario.nome}" value="${permissao}">${usuario.permissoes.nivel}</option>
+                                </c:forEach>
+                                </select>
+                                &nbsp;&nbsp;
+                                <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar">                            
                             </div>
                             <br>
                             <ul class="list-group col-md-8 " id="listaAvaliadores">
-                            </ul>
+                                <c:forEach var="permissoes" items="${usuario.permissoes}">
+                                    <li class="list-group-item">
+                                        <input type="hidden" name="codUsuario" value="${permissoes}" style="display: none;"/>
+                                        ${permissoes.nivel}
+                                        <button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador('${permissoes.nivel}')">clear</button>
+                                    </li>
+                                </c:forEach>
+                            </ul>                      
                             <input type="submit" class="btn btn-primary" value="Salvar">
                         </form>
                     </div>

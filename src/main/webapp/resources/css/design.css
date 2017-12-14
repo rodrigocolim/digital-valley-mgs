@@ -72,13 +72,13 @@ form > .btn{
     left: 5px;
     position: relative;
 }
-#filtro_tela > i{
+.filtro_tela > i{
     color: gray;
 }
-#filtro_tela:hover > i{
+.filtro_tela:hover > i{
     color: white;
 }
-#filtro_tela:focus > i{
+.filtro_tela:focus > i{
     color: white;
 }
 .footer{

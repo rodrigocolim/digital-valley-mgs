@@ -5,6 +5,8 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
@@ -25,7 +27,7 @@ import org.hibernate.annotations.FetchMode;
 public class Inscricao extends Etapa { 
 
     
-    @ManyToMany(targetEntity = Participante.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Participante.class, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "candidatos_selecao", joinColumns = {@JoinColumn(name = "etapaInscricao", referencedColumnName = "codEtapa")},
     inverseJoinColumns = {@JoinColumn(name = "participante", referencedColumnName = "codParticipante")})
@@ -88,4 +90,18 @@ public class Inscricao extends Etapa {
     public List<Participante> getParticipantes () {
         return getCandidatos();
     } 
+    
+    
+    @Override
+    public List<Participante> getAprovados() {
+        List<Participante> aprovados = Collections.synchronizedList(new ArrayList<Participante>());
+        if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO || getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
+            for(Avaliacao avaliacao : this.getAvaliacoes()){
+                if(avaliacao.isAprovado()){
+                    aprovados.add(avaliacao.getParticipante());
+                }
+            }
+        }
+        return aprovados;
+    }
 }

@@ -45,7 +45,9 @@
     </bean>
     <bean name="selecaoDAOIfc"  class = "br.ufc.russas.n2s.darwin.dao.SelecaoDAOImpl" />
     <bean name="usuarioDAOIfc"  class = "br.ufc.russas.n2s.darwin.dao.UsuarioDAOImpl" />
+    <bean name="participanteDAOIfc"  class = "br.ufc.russas.n2s.darwin.dao.ParticipanteDAOImpl" />
     <bean name="indexController"  class = "br.ufc.russas.n2s.darwin.controller.IndexController" />
     <bean name="selecaoServiceIfc"  class = "br.ufc.russas.n2s.darwin.service.SelecaoServiceImpl" />
     <bean name="usuarioServiceIfc"  class = "br.ufc.russas.n2s.darwin.service.UsuarioServiceImpl" />
+    <bean name="participanteServiceIfc"  class = "br.ufc.russas.n2s.darwin.service.ParticipanteServiceImpl" />
 </beans>

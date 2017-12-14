@@ -62,6 +62,7 @@
                             <div class="modal fade" id="avaliar${participante.candidato.codUsuario}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
+                        <form action="" method="post" accept-charset="UTF-8">
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalLabel">Avaliar Candidato</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -70,7 +71,7 @@
                         </div>
                         
                         <div class="modal-body">
-                            <form action="" method="post" accept-charset="UTF-8">
+                           
                                 <input type="hidden" name="participante" value="${participante.codParticipante}">
                                 <div class="form-group">
                                     <label for="recipient-name" class="form-control-label">Documentação:</label>
@@ -116,12 +117,13 @@
                                     <label for="message-text" class="form-control-label">Observações:</label>
                                     <textarea class="form-control" id="message-text" name="observacoes"></textarea>
                                 </div>
-                            </form>
+                            
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary">Salvar</button>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>

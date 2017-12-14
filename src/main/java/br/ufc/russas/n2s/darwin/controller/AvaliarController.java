@@ -8,9 +8,11 @@ package br.ufc.russas.n2s.darwin.controller;
 import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.InscricaoBeans;
+import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
+import br.ufc.russas.n2s.darwin.service.ParticipanteServiceIfc;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +32,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AvaliarController {
     
     private EtapaServiceIfc etapaServiceIfc;
+    private ParticipanteServiceIfc participanteServiceIfc;
     
     @Autowired(required = true)
     public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc") EtapaServiceIfc etapaServiceIfc) {
         this.etapaServiceIfc = etapaServiceIfc;
+    }
+    
+    @Autowired(required = true)
+    public void setParticipanteServiceIfc(@Qualifier("participanteServiceIfc") ParticipanteServiceIfc participanteServiceIfc) {
+        this.participanteServiceIfc = participanteServiceIfc;
     }
     
     @RequestMapping(value = "/{codEtapa}", method = RequestMethod.GET)
@@ -56,6 +64,7 @@ public class AvaliarController {
     
     @RequestMapping(value = "/inscricao/{codEtapa}", method = RequestMethod.POST)
     public String avaliarInscricao(@PathVariable long codEtapa, HttpServletRequest request, Model model) {
+        System.out.println("teste");
         try {
             InscricaoBeans etapa = etapaServiceIfc.getInscricao(codEtapa);
             AvaliacaoBeans avaliacao = new AvaliacaoBeans();
@@ -72,9 +81,14 @@ public class AvaliarController {
                     avaliacao.setAprovado(false);
                 }
             }
+            
             HttpSession session = request.getSession();
+            UsuarioBeans avaliador = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             avaliacao.setObservacao(request.getParameter("observacoes"));
-            etapaServiceIfc.setUsuario((UsuarioBeans) session.getAttribute("usuarioDarwin"));
+            ParticipanteBeans participante = participanteServiceIfc.getParticipante(Long.parseLong(request.getParameter("participante")));
+            avaliacao.setParticipante(participante);
+            avaliacao.setAvaliador(avaliador);
+            etapaServiceIfc.setUsuario(avaliador);
             etapaServiceIfc.avalia(etapa, avaliacao);
             model.addAttribute("etapa", etapa);
             model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
@@ -82,18 +96,22 @@ public class AvaliarController {
             model.addAttribute("status", "success");
             return "avaliar";
         } catch (IllegalAccessException e) {
+            e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
             return "avaliar";
         } catch (NumberFormatException e) {
+            e.printStackTrace();
             model.addAttribute("mensagem", "Isso não é um número!");
             model.addAttribute("status", "danger");
             return "avaliar";
         } catch (NullPointerException | IllegalArgumentException e) {
+            e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
             return "avaliar";
         }  catch (Exception e) {
+            e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
             return "avaliar";

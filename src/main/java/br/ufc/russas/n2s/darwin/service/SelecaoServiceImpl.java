@@ -94,7 +94,6 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         System.out.println(resultado.size());
         for (Selecao s : resultado) {
-          //   System.out.println("\n\n\nestado sele: "+s.getEstado());
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
         return selecoes;
@@ -105,13 +104,10 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Transactional
     public List<SelecaoBeans> listaSelecoes(Selecao selecao) {
         selecao.setDivulgada(true);
-       // System.out.println("\n\n\n estado sele : "+selecao.getEstado());
-       // System.out.println("\n\n\n categoria sele : "+selecao.getCategoria());
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         System.out.println(resultado.size());
         for (Selecao s : resultado) {
-         //   System.out.println("\n\n\nestado sele: "+s.getEstado());
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
         SelecaoBeans aux;
@@ -150,9 +146,9 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         Selecao selecao = new Selecao();
         UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList());
-        List<SelecaoBeans> resultado = this.listaTodasSelecoes();
+        List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         
-        for (SelecaoBeans s : resultado) {
+        for (Selecao s : resultado) {
             if (s.getResponsaveis().contains(usuario)) {
                 selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
             }

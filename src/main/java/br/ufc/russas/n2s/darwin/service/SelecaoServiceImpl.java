@@ -94,7 +94,6 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         System.out.println(resultado.size());
         for (Selecao s : resultado) {
-          //   System.out.println("\n\n\nestado sele: "+s.getEstado());
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
         return selecoes;
@@ -105,13 +104,10 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Transactional
     public List<SelecaoBeans> listaSelecoes(Selecao selecao) {
         selecao.setDivulgada(true);
-       // System.out.println("\n\n\n estado sele : "+selecao.getEstado());
-       // System.out.println("\n\n\n categoria sele : "+selecao.getCategoria());
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         System.out.println(resultado.size());
         for (Selecao s : resultado) {
-         //   System.out.println("\n\n\nestado sele: "+s.getEstado());
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
         SelecaoBeans aux;
@@ -145,19 +141,20 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         this.usuario = usuario;
     }
     
-    /* @Override
+    @Override
     public List<SelecaoBeans> listaSelecoesAssociada(UsuarioBeans usuario) {
-    Selecao selecao = new Selecao();
-    UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
-    //selecao.adicionaResponsavel(user);
-    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList());
-    List<Selecao> resultado = this.getSelecaoDAOIfc().getMinhasSelecoes(user);
-    for (Selecao s : resultado) {
-    selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+        Selecao selecao = new Selecao();
+        UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
+        List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList());
+        List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
+        
+        for (Selecao s : resultado) {
+            if (s.getResponsaveis().contains(usuario)) {
+                selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+            }
+        }
+        return selecoes;
     }
-    return selecoes;
-    
-    }*/
 
 
     @Override

@@ -34,10 +34,14 @@ public class SelecaoController {
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
         //long codSelecao = Long.parseLong(selecaoCodigo);
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
-        model.addAttribute("selecao", selecao);        
-        model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
-        request.getSession().setAttribute("selecao", selecao);
-        return "selecao";
+        if(selecao.isDivulgada()) {
+            model.addAttribute("selecao", selecao);        
+            model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
+            request.getSession().setAttribute("selecao", selecao);
+            return "selecao";
+        } else {
+            return "elements/error404";
+        }
     }
    
     /*@RequestMapping(value = "/editar-selecao/{codSelecao}", method = RequestMethod.POST)

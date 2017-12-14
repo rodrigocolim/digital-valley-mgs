@@ -132,7 +132,7 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         Etapa e = (Etapa) etapa.toBusiness();
         Avaliacao a = (Avaliacao) avaliacao.toBusiness();
         EtapaProxy ep = new EtapaProxy((UsuarioDarwin) usuario.toBusiness());
-        ep.avalia(a);
+        ep.avalia(e, a);
         this.etapaDAOIfc.atualizaEtapa(e);
     }
 

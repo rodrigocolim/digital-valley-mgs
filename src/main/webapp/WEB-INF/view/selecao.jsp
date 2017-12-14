@@ -64,54 +64,35 @@
                         </div>
                     </div>
                 </c:if>
-                <h1 class="text-uppercase">${selecao.titulo}</h1>
+                <div class="row" style="padding-left: 12px;">
+                    <h1 class="text-uppercase">${selecao.titulo}</h1>
+                <c:if test="${fn:contains(selecao.responsaveis, usuarioDarwin)}">
+                    <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm btn-icon" style="position: relative;margin-left: 50px;margin-bottom: 8px;">
+                        <i class="material-icons">edit</i>
+                        <span>Editar</span>
+                    </a>                    
+                </c:if>
+                </div>
                 <div class="card text-center">
-                    <div class="card-header">
-                        <ul class="nav nav-pills card-header-pills">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">Descrição</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Pré requisitos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Editar</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text text-justify">${selecao.descricao}</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                        
-                       
-                        <h2 style="font-size: 15px; font-weight: bold;margin-top: 5px;" class="text-center">ANEXOS E ADITIVOS</h2>
-                        <ul class="list-group">
-                                <li class="list-group-item disabled">
-                                    <a href="/Darwin/visualizarAditivo/">(25/11/2017) ADITIVO I - Aletração nas datas</a>
-                                </li>
-
-                        </ul>
-                        <form method="GET" action="/Darwin/visualizarEdital">
-                            <input type="hidden" value="${selecao.codSelecao}" name="selecao">
-                            <button type="submit" class="btn btn-primary btn-sm btn-icon" style="position: relative;">
-                                <i class="material-icons">picture_as_pdf</i> 
-                                <span>Visualizar edital</span>
-                            </button>
-                        </form>
-                            
-                            <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm btn-icon" style="position: relative;margin-left: 50px;margin-bottom: 8px;">
-                                <i class="material-icons">edit</i>
-                                <span>Editar</span>
-                            </a>
-
+                    <div class="tab-content card-body" id="pills-tabContent">
+                        <div class="tab-pane fade show active text-justify" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                            ${selecao.descricao}
+                            <form method="GET" action="/Darwin/visualizarEdital">
+                                <input type="hidden" value="${selecao.codSelecao}" name="selecao">
+                                <button type="submit" class="btn btn-primary btn-sm btn-icon" style="position: relative;">
+                                    <i class="material-icons">picture_as_pdf</i> 
+                                    <span>Visualizar edital</span>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <br/>
                     <c:if test="${(not empty selecao.etapas) or (not empty selecao.inscricao)}">
                         <ul class="timeline">
                             <c:if test="${not empty selecao.inscricao}">
-                                <c:set var="estadoInscricao" value="${selecao.inscricao.estado.estado}"></c:set>
-                        <li class="${i%2 != 0? 'timeline-inverted': ''}">
+                            <c:set var="estadoInscricao" value="${selecao.inscricao.estado.estado}"></c:set>
+                            <li class="${i%2 != 0? 'timeline-inverted': ''}">
                             <div class="timeline-badge ${estadoInscricao == 1 ? 'insert_invitation': estadoInscricao == 2 ? 'warning': estadoInscricao == 3  ? 'success': 'danger'}">
                                 <i class="material-icons">${estadoInscricao == 1 ? 'insert_invitation': estadoInscricao == 2 ? 'timelapse': estadoInscricao == 3  ? 'done_all': 'warning'}</i>
                             </div>
@@ -141,7 +122,7 @@
                             </div>
                         </li>
                             </c:if>
-                    <c:set var="i" value="0"></c:set>
+                    <c:set var="i" value="1"></c:set>
                     <c:forEach var="etapa" begin="0" items="${selecao.etapas}">
                         <c:set var="estado" value="${etapa.estado.estado}"></c:set>
                         <li class="${i%2 != 0? 'timeline-inverted': ''}">
@@ -164,7 +145,7 @@
                                         </small>
                                     </p>
                                 </div>
-                                <div class="timeline-body">
+                                <div class="timeline-body" >
                                     <p>${etapa.descricao}</p>
                                     <c:if test="${(not empty etapa.documentacaoExigida) and (estado == 2) and (fn:contains(permissoes, 'PARTICIPANTE'))}">
                                         <hr>
@@ -193,6 +174,7 @@
                         
                     </ul>
                 </c:if>
+                <br>
             </div>
             <div class="col-sm-2 sidebar-offcanvas">
                 <c:if test="${not empty selecao.aditivos}">

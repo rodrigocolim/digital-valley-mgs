@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author Wallison Carlos
  */
-@Controller("nivelUsuarioController")
-@RequestMapping("/nivelUsuario")
-public class NivelUsuarioController {
+@Controller("permissoesUsuarioController")
+@RequestMapping("/permissoes")
+public class PermissoesUsuarioController {
     
     private UsuarioServiceIfc usuarioServiceIfc;
     
@@ -32,9 +32,10 @@ public class NivelUsuarioController {
     public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc") UsuarioServiceIfc usuarioServiceIfc) {
         this.usuarioServiceIfc = usuarioServiceIfc;
     }
-    
-    public String getIndex() {
-        return "nivel-usuario"; 
+    @RequestMapping(method = RequestMethod.GET)
+    public String getIndex(Model model, HttpServletRequest request) {
+        model.addAttribute("usuarios", this.usuarioServiceIfc.listaTodosUsuarios());
+        return "acessarPermissoes"; 
     }
     
     @RequestMapping(value = "/adicionar", method = RequestMethod.POST)

@@ -50,7 +50,9 @@ public class Inscricao extends Etapa {
             throw new NullPointerException("Deve ser informado um participante!");
         } else if (getCandidatos().contains(participante) || isCanditado(participante.getCandidato())) {
             throw new IllegalArgumentException("Você já é um candidato desta seleção!");
-        } else {
+        } else if (getAvaliadores().contains(participante.getCandidato())){
+            throw new IllegalArgumentException("Você já é um avaliador desta seleção!");
+        } else{
             getCandidatos().add(participante);
         }
     }

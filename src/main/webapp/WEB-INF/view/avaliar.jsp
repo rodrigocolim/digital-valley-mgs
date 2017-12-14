@@ -55,13 +55,13 @@
                         <tbody>
                             <c:forEach var="participante" items="${participantesEtapa}">
                             <c:set var = "avaliado" value = "${false}"/>
-                            <c:set var = "avaliacaoParticipane" value = "${null}"/>
+                            <c:set var = "avaliacaoParticipante" value = "${null}"/>
                             <tr>
                                 <td>${participante.candidato.nome}</td>
                                 <c:if test="${not empty etapa.avaliacoes}">
                                     <c:forEach var="avaliacao" items="${etapa.avaliacoes}">
                                             <c:if test="${(avaliacao.participante.codParticipante == participante.codParticipante) and (avaliacao.avaliador.codUsuario == avaliador.codUsuario)}">
-                                                <c:set var = "avaliacaoParticipane" value = "${avaliacao}"/>
+                                                <c:set var = "avaliacaoParticipante" value = "${avaliacao}"/>
                                                 <td>${avaliacao.estado}</td>
                                                 <c:if test="${avaliacao.estado == 'PENDENTE'}">
                                                     <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliar${participante.candidato.codUsuario}">Avaliar</button></td>
@@ -108,14 +108,12 @@
                                 <div class="form-group">
                                     <label for="message-text" class="form-control-label">Avaliação:</label>
                                     <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
-                                        <input type="number" name="nota" class="form-control col-sm-2 disabled" id="notaInput" value="${(avaliado and (not empty avaliacaoParticipane)) ? avaliacaoParticipane.nota : '0'}" min="0" max="10" ${avaliado ? "disabled='disabled'" : ""}>
+                                        <input type="number" name="nota" class="form-control col-sm-2 disabled" id="notaInput" value="${(avaliado and (not empty avaliacaoParticipante)) ? avaliacaoParticipante.nota : '0'}" min="0" max="10" ${avaliado ? "disabled='disabled'" : ""}>
                                     </c:if>
                                     <c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
-                                                <c:if test="${avaliado and avaliacaoParticipante.aprovado}">
-                                                    <input class="form-check-input" type="radio" name="aprovacao" id="aprovadoOpcao" value="1" > Aprovado
-                                                </c:if>
+                                                <input class="form-check-input" type="radio" name="aprovacao" id="aprovadoOpcao" value="1" > Aprovado
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
@@ -127,19 +125,19 @@
                                     <c:if test="${(etapa.criterioDeAvaliacao.criterio == 3)}">
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" name="deferimento" id="deferidoOpcao" value="1" ${(avaliado and (not empty avaliacaoParticipane) and avaliacaoParticipante.aprovado) ? "checked='checkded'" : ""} ${avaliado ? "disabled='disabled'" : ""}> Deferido
+                                                <input class="form-check-input" type="radio" name="deferimento" id="deferidoOpcao" value="1" ${(avaliado and (not empty avaliacaoParticipante) and avaliacaoParticipante.aprovado) ? "checked='checked'" : ""} ${avaliado ? "disabled='disabled'" : ""}> Deferido
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" name="deferimento" id="indeferidoOpcao" value="0" ${(avaliado and (not empty avaliacaoParticipante) and not avaliacaoParticipante.aprovado) ? "checked='checkded'" : ""} ${avaliado ? "disabled='disabled'" : ""}> Indeferido
+                                                <input class="form-check-input" type="radio" name="deferimento" id="indeferidoOpcao" value="0" ${(avaliado and (not empty avaliacaoParticipante) and (not avaliacaoParticipante.aprovado)) ? "checked='checked'" : ""} ${avaliado ? "disabled='disabled'" : ""}> Indeferido
                                             </label>
                                         </div>
                                     </c:if>
                                 </div>
                                 <div class="form-group">
                                     <label for="message-text" class="form-control-label">Observações:</label>
-                                    <textarea class="form-control" id="message-text" name="observacoes" ${ avaliado ? "disabled='disabled'" : ""} value="${(avaliado and (not empty avaliacaoParticipane) and not empty avaliacaoParticipane.observacao) ? avaliacaoParticipane.observacao : ''}">${(avaliado and (not empty avaliacaoParticipane) and not empty avaliacaoParticipane.observacao) ? avaliacaoParticipane.observacao : ''}</textarea>
+                                    <textarea class="form-control" id="message-text" name="observacoes" ${ avaliado ? "disabled='disabled'" : ""} value="${(avaliado and (not empty avaliacaoParticipante) and not empty avaliacaoParticipante.observacao) ? avaliacaoParticipante.observacao : ''}">${(avaliado and (not empty avaliacaoParticipante) and not empty avaliacaoParticipante.observacao) ? avaliacaoParticipante.observacao : ''}</textarea>
                                 </div>
                             
                         </div>

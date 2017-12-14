@@ -48,8 +48,8 @@
                             <div class="form-row">
                                 <select id="usuarioInput" class="form-control col-md-8">
                                     <option value="" selected="selected" disabled="disabled">Selecione o usuário desejado</option>
-                                <c:forEach items="${usuariosDarwin}" var="usuario">
-                                    <option id="usuarioOption-${usuario.nome}" value="${usuario.codUsuario}-${usuario.nome}">${usuario.nome}</option>
+                                <c:forEach items="${usuarios}" var="usuario">
+                                    <option id="usuarioOption-${usuario.nome}" value="${usuario.codUsuario}">${usuario.nome}</option>
                                 </c:forEach>
                             </select>
                             &nbsp;&nbsp;
@@ -64,6 +64,7 @@
                 </div>
             </div>
         </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script>
       var listaAvaliadores = [];
       var codAvaliadores = [];
@@ -102,7 +103,16 @@
           }
           atualizaAvaliadores();
       }
-      
+      /*
+        $(document).ready(function() {
+            $("#AttorneyEmpresa").change(function(){
+                $.ajax({
+                    type: 'POST',
+                    data:  {keyname:$('#AttorneyEmpresa option:selected').val()}
+                });
+            });
+        });
+        */
     </script>
     </body>
 </html>

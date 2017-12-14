@@ -67,7 +67,7 @@ public class Etapa implements Serializable, Atualizavel {
     @Column(name = "criterio_de_avaliacao")
     @Enumerated(EnumType.ORDINAL)
     private EnumCriterioDeAvaliacao criterioDeAvaliacao;
-    @ManyToMany(targetEntity = Avaliacao.class, fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = Avaliacao.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "avaliacoes", 
             joinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")},
@@ -83,6 +83,7 @@ public class Etapa implements Serializable, Atualizavel {
     @ManyToOne
         @JoinColumn(name = "prerequisito", referencedColumnName = "codEtapa")
     private Etapa prerequisito;
+    private float notaMinima;
 
     public long getCodEtapa() {
         return codEtapa;
@@ -186,6 +187,20 @@ public class Etapa implements Serializable, Atualizavel {
         return prerequisito;
     }
 
+    public float getNotaMinima() {
+        return notaMinima;
+    }
+
+    public void setNotaMinima(float notaMinima) {
+        if (notaMinima >= 0 && notaMinima <= 10) {
+            this.notaMinima = notaMinima;
+        } else {
+            throw new IllegalArgumentException("Nota miníma inválida. Nota miníma deve ser maior igual a zero e menor igual a 10!");
+        }
+    }
+    
+    
+
     /**
      *
      * @param prerequisito
@@ -250,9 +265,27 @@ public class Etapa implements Serializable, Atualizavel {
 
     public List<Participante> getAprovados() {
         List<Participante> aprovados = Collections.synchronizedList(new ArrayList<Participante>());
-        for(Avaliacao avaliacao : this.getAvaliacoes()){
-            if(avaliacao.isAprovado()){
-                aprovados.add(avaliacao.getParticipante());
+        if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO || getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
+            for(Avaliacao avaliacao : this.getAvaliacoes()){
+                if(avaliacao.isAprovado()){
+                    aprovados.add(avaliacao.getParticipante());
+                }
+            }
+        } else if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
+            for (Participante participante : getParticipantes()) {
+                float media = 0;
+                float soma = 0;
+                int count = 0;
+                for (Avaliacao avaliacao : getAvaliacoes()) {
+                    if (avaliacao.getParticipante().equals(participante)) {
+                        soma += avaliacao.getNota();
+                        count++;
+                    }
+                }
+                media = soma/count;
+                if(media >=  getNotaMinima()) {
+                    aprovados.add(participante);
+                }
             }
         }
         return aprovados;
@@ -293,7 +326,7 @@ public class Etapa implements Serializable, Atualizavel {
     public void anexaDocumentacao(Documentacao documentacao) throws IllegalAccessException {
         if (documentacao == null) {
             throw new NullPointerException("Documentacao não pode ser vazia!");
-        } else if (isParticipante(documentacao.getCandidato())) {
+        } else if (!isParticipante(documentacao.getCandidato())) {
             throw new IllegalAccessException("Você não é um participante desta Etapa");
         } else {
             this.getDocumentacoes().add(documentacao);
@@ -301,9 +334,13 @@ public class Etapa implements Serializable, Atualizavel {
     }
     
     public void avalia(Avaliacao avaliacao) {
-        this.getAvaliacoes().add(avaliacao);
+        if(this.getAvaliacoes() != null) {
+            this.getAvaliacoes().add(avaliacao);
+        } else {
+            this.setAvaliacoes(Collections.synchronizedList(new ArrayList<Avaliacao>()));
+            this.getAvaliacoes().add(avaliacao);
+        }
     }
-    
     
     /**
      * Verifica se o usuário passado é um avaliador.

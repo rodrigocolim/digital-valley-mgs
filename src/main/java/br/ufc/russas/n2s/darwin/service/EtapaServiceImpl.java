@@ -133,14 +133,27 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         Avaliacao a = (Avaliacao) avaliacao.toBusiness();
         EtapaProxy ep = new EtapaProxy((UsuarioDarwin) usuario.toBusiness());
         ep.avalia(a);
+        this.etapaDAOIfc.atualizaEtapa(e);
     }
 
     @Override
     public List<ParticipanteBeans> getParticipantes(EtapaBeans etapa) {
-        Etapa e = (Etapa) etapa.toBusiness();
-        List<ParticipanteBeans> participantes = Collections.synchronizedList(new ArrayList<ParticipanteBeans>());
-        if(e.getParticipantes() != null) {
-            for (Participante participante : e.getParticipantes()) {
+         List<ParticipanteBeans> participantes = Collections.synchronizedList(new ArrayList<ParticipanteBeans>());
+         List<Participante> p = null;
+         
+        
+        if (etapa instanceof InscricaoBeans) {
+             System.out.println(etapa);
+            System.out.println("\n\n");
+            Inscricao i = (Inscricao) ((InscricaoBeans) etapa).toBusiness();
+            p = Collections.synchronizedList(i.getParticipantes());
+        } else {
+            Etapa e = (Etapa) etapa.toBusiness();
+            p = Collections.synchronizedList(e.getParticipantes());
+        }
+        
+        if(p != null) {
+            for (Participante participante : p) {
                 participantes.add((ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
             }
             return participantes;
@@ -175,7 +188,10 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         Inscricao i = (Inscricao) inscricao.toBusiness();
         Documentacao d = (Documentacao) documentacao.toBusiness();
         Participante p = (Participante) participante.toBusiness();
-        i.participa(p, d);
+        i.participa(p);
+        //this.etapaDAOIfc.atualizaEtapa(i);
+        d.setCandidato(p);
+        i.anexaDocumentacao(d);
         this.etapaDAOIfc.atualizaEtapa(i);
     }
 

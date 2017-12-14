@@ -55,25 +55,14 @@
                         <tbody>
                             <c:forEach var="participante" items="${participantesEtapa}">
                             <tr>
-                                <td>${participante.nome}</td>
-                            </tr>
-                            <tr>
+                                <td>${participante.candidato.nome}</td>
                                 <td>Pendente</td>
+                                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliar${participante.candidato.codUsuario}">Avaliar</button></td>
                             </tr>
-                            <tr>
-                                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliar">Avaliar</button></td>
-                            </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                    <a href="/Darwin/avaliarTodos/${etapa.codEtapa}">
-                        <input type="button" class="btn btn-primary btn-sm" value="Avaliar Todos"/>
-                    </a>
-                </div>
-            </div>
-            <div class="modal fade" id="avaliar" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                            <div class="modal fade" id="avaliar${participante.candidato.codUsuario}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
+                        <form action="" method="post" accept-charset="UTF-8">
                         <div class="modal-header">
                             <h5 class="modal-title" id="modalLabel">Avaliar Candidato</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -82,11 +71,16 @@
                         </div>
                         
                         <div class="modal-body">
-                            <form>
+                           
+                                <input type="hidden" name="participante" value="${participante.codParticipante}">
                                 <div class="form-group">
                                     <label for="recipient-name" class="form-control-label">Documentação:</label>
-                                    <c:forEach var="documento" items="${etapa.documentacaoExigida}">
-                                        <p><b>${documento}:</b> <a href="#"></a></p>
+                                    <c:forEach var="documentacao" items="${etapa.documentacoes}">
+                                        <c:if test="${documentacao.candidato.codParticipante == participante.codParticipante}">
+                                            <c:forEach var="documento" items="${documentacao.documentos}">
+                                    <p><b>${documento.titulo}:</b><a href="#">Ver</a></p>
+                                            </c:forEach>
+                                        </c:if>
                                     </c:forEach>
                                 </div>
                                 <div class="form-group">
@@ -97,41 +91,56 @@
                                     <c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" name="aprovadoOpcao" id="aprovadoOpcao" value="Aprovado"> Aprovado
+                                                <input class="form-check-input" type="radio" name="aprovacao" id="aprovadoOpcao" value="1"> Aprovado
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" name="reprovadoOpcao" id="reprovadoOpcao" value="Reprovado"> Reprovado
+                                                <input class="form-check-input" type="radio" name="aprovacao" id="reprovadoOpcao" value="0"> Reprovado
                                             </label>
                                         </div>
                                     </c:if>
                                     <c:if test="${(etapa.criterioDeAvaliacao.criterio == 3)}">
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" name="deferidoOpcao" id="deferidoOpcao" value="Deferido"> Deferido
+                                                <input class="form-check-input" type="radio" name="deferimento" id="deferidoOpcao" value="1"> Deferido
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="radio" name="indeferidoOpcao" id="indeferidoOpcao" value="Indeferido"> Indeferido
+                                                <input class="form-check-input" type="radio" name="deferimento" id="indeferidoOpcao" value="0"> Indeferido
                                             </label>
                                         </div>
                                     </c:if>
                                 </div>
                                 <div class="form-group">
                                     <label for="message-text" class="form-control-label">Observações:</label>
-                                    <textarea class="form-control" id="message-text"></textarea>
+                                    <textarea class="form-control" id="message-text" name="observacoes"></textarea>
                                 </div>
-                            </form>
+                            
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary">Salvar</button>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                    <a href="/Darwin/avaliarTodos/${etapa.codEtapa}">
+                        <input type="button" class="btn btn-primary btn-sm" value="Avaliar Todos"/>
+                    </a>
+                </div>
+            </div>
+            
         </div>
+        <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
     </body>
 </html>

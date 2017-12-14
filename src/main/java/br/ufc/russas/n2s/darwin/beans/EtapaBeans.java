@@ -35,7 +35,8 @@ public class EtapaBeans implements Beans {
     private List<DocumentacaoBeans> documentacoes;
     private EnumEstadoEtapa estado;
     private EtapaBeans prerequisito;
-
+    private float notaMinima;
+    
     public EtapaBeans(){}
 
     public long getCodEtapa() {
@@ -126,6 +127,14 @@ public class EtapaBeans implements Beans {
         this.prerequisito = prerequisito;
     }
 
+    public float getNotaMinima() {
+        return notaMinima;
+    }
+
+    public void setNotaMinima(float notaMinima) {
+        this.notaMinima = notaMinima;
+    }
+    
     @Override
     public Object toBusiness() {
         Etapa etapa = new Etapa();
@@ -165,7 +174,7 @@ public class EtapaBeans implements Beans {
             }
         }
         etapa.setDocumentacoes(documentacoes);
-
+        etapa.setNotaMinima(this.getNotaMinima());
         return etapa;
     }
 
@@ -223,7 +232,7 @@ public class EtapaBeans implements Beans {
                     }
                 }
                 this.setDocumentacoes(documentacoes);
-
+                this.setNotaMinima(etapa.getNotaMinima());
                 return this;
             } else {
                 throw new IllegalArgumentException("O objeto a ser adicionado não é uma Etapa!");

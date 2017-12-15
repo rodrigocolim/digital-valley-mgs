@@ -43,66 +43,92 @@
                     <h1>Acessar Permissões</h1>
                     <br>
                     <div class="form-group">
-                        <form method="POST" action="acessarPermissoes" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
-                            <label for="usuarioInput">Usuário</label>                    
-                            <div class="form-row">
-                                <select id="usuarioInput" class="form-control col-md-8">
+                        <form method="POST" action="" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" class="select-usuario" novalidate>
+                            <label for="usuarioInput">Usuário</label>
+                            <select id="usuarioInput" class="form-control col-md-8" name="usuario">
                                     <option value="" selected="selected" disabled="disabled">Selecione o usuário desejado</option>
-                                <c:forEach items="${usuariosDarwin}" var="usuario">
-                                    <option id="usuarioOption-${usuario.nome}" value="${usuario.codUsuario}-${usuario.nome}">${usuario.nome}</option>
+                                <c:forEach items="${usuarios}" var="usuario">
+                                    <option id="usuarioOption-${usuario.nome}" value="${usuario.codUsuario}">${usuario.nome}</option>
                                 </c:forEach>
                             </select>
-                            &nbsp;&nbsp;
-                            <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar">                            
+                        </form>
+                            <c:if test="${not empty usuarioSelecionado}">
+                            <form method="POST" action="/atualiza" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
+                            <div class="form-row">
+                                <select id="PermissaoInput" class="form-control col-md-8">
+                                    <option value="" selected="selected" disabled="disabled">Selecione a permissão desejada</option>
+                                    <option id="PermissaoOption-1" value="1" ${fn:contains(usuarioSelecionado.permissoes, 'PARTICIPANTE') ? "disabled='disabled'" : ""} >Participante</option>
+                                    <option id="PermissaoOption-2" value="2" ${fn:contains(usuarioSelecionado.permissoes, 'AVALIADOR') ? "disabled='disabled'" : ""} >Avaliador</option>
+                                    <option id="PermissaoOption-3" value="3" ${fn:contains(usuarioSelecionado.permissoes, 'RESPONSAVEL') ? "disabled='disabled'" : ""}>Responsavel</option>
+                                    <option id="PermissaoOption-4" value="4" ${fn:contains(usuarioSelecionado.permissoes, 'ADMINISTRADOR') ? "disabled='disabled'" : ""}>Administrador</option>
+                                </select>
+                                &nbsp;&nbsp;
+                                <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaPermissao()" value="Adicionar">                            
                             </div>
+                                
                             <br>
-                            <ul class="list-group col-md-8 " id="listaAvaliadores">
-                            </ul>
+                            <ul class="list-group col-md-8 " id="listaPermissoes">
+                                <c:forEach var="permissoes" items="${usuarioSelecionado.permissoes}">
+                                    <li class="list-group-item">
+                                        <input type="hidden" name="codUsuario" value="${permissoes}" style="display: none;"/>
+                                        ${permissoes.nivel}
+                                        <button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removePermissao('${permissoes.nivel}')">clear</button>
+                                    </li>
+                                </c:forEach>
+                            </ul>                      
                             <input type="submit" class="btn btn-primary" value="Salvar">
                         </form>
+                        </c:if>        
                     </div>
                 </div>
             </div>
         </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script>
-      var listaAvaliadores = [];
-      var codAvaliadores = [];
-      var numAvaliadores = 0;
-      function adicionaAvaliador(){
-        var avaliadorInput = document.getElementById("avaliadorInput").value;
-        var nomeAvaliador = avaliadorInput.substring(avaliadorInput.indexOf("-") + 1, avaliadorInput.lenght);
-        var codAvaliador = avaliadorInput.substring(0, avaliadorInput.indexOf("-"));
-        if(nomeAvaliador !== ""){
-            listaAvaliadores[numAvaliadores] = nomeAvaliador;
-            codAvaliadores[numAvaliadores] = codAvaliador;
-            document.getElementById("avaliadorOption-"+nomeAvaliador+"").disabled = "disabled";
-            numAvaliadores++;
+      var listaPermissoes = [];
+      var codPermissoes = [];
+      var numPermissoes = 0;
+      function adicionaPermissao(){
+        var PermissaoInput = document.getElementById("PermissaoInput").value;
+        var nomePermissao = PermissaoInput.substring(PermissaoInput.indexOf("-") + 1, PermissaoInput.lenght);
+        var codPermissao = PermissaoInput.substring(0, PermissaoInput.indexOf("-"));
+        if(nomePermissao !== ""){
+            listaPermissoes[numPermissoes] = nomePermissao;
+            codPermissoes[numPermissoes] = codPermissao;
+            document.getElementById("PermissaoOption-"+codPermissao+"").disabled = "disabled";
+            numPermissoes++;
         }
-        document.getElementById("avaliadorInput").value = "";
-        atualizaAvaliadores();
+        document.getElementById("PermissaoInput").value = "";
+        atualizaPermissoes();
         
       }
-      function atualizaAvaliadores(){
-          var list = document.getElementById("listaAvaliadores");
+      function atualizaPermissoes(){
+          var list = document.getElementById("listaPermissoes");
           list.innerHTML = "";
-          for(i = 0;i < listaAvaliadores.length;i++){
-            if(listaAvaliadores[i] !== ""){
-                list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codAvaliadores" value="'+codAvaliadores[i]+'" style="display: none;"> '+ listaAvaliadores[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(\''+listaAvaliadores[i]+'\')">clear</button></li>';
+          for(i = 0;i < listaPermissoes.length;i++){
+            if(listaPermissoes[i] !== ""){
+                list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codPermissoes" value="'+codPermissoes[i]+'" style="display: none;"> '+ listaPermissoes[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removePermissao(\''+listaPermissoes[i]+'\')">clear</button></li>';
             }
           }
       }
-      function removeAvaliador(codAvaliador){
-          for(i = 0;i < listaAvaliadores.length;i++){
-              if(listaAvaliadores[i] === codAvaliador){
-                  document.getElementById("avaliadorOption-"+codAvaliador+"").disabled = "";
-                  listaAvaliadores[i] = "";
-                  codAvaliadores[i] = "";
+      function removePermissao(codPermissao){
+          for(i = 0;i < listaPermissoes.length;i++){
+              alert("Oie");
+              if(listaPermissoes[i] === codPermissao){
+                  document.getElementById("PermissaoOption-"+codPermissao+"").disabled = "";
+                  listaPermissoes[i] = "";
+                  codPermissoes[i] = "";
                   
               }
           }
-          atualizaAvaliadores();
+          atualizaPermissoes();
       }
-      
+
+        $(document).ready(function() {
+            $("#usuarioInput").change(function(){
+                $(".select-usuario").submit();
+            });
+        });
     </script>
     </body>
 </html>

@@ -38,15 +38,18 @@ public class SelecaoController {
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        if(!selecao.isDivulgada() && selecao.getResponsaveis().contains((UsuarioDarwin) usuario.toBusiness())) {
-            model.addAttribute("selecao", selecao);
+
+        if (!selecao.isDivulgada() && selecao.getResponsaveis().contains((UsuarioDarwin) usuario.toBusiness())) {
+            model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
+            model.addAttribute("isResponsavel", true);
             request.getSession().setAttribute("selecao", selecao);
             return "selecao";
         } else if(selecao.isDivulgada()) {
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
             request.getSession().setAttribute("selecao", selecao);
+            model.addAttribute("isResponsavel", false);
             return "selecao";
         } else {
             return "elements/error404";
@@ -84,6 +87,9 @@ public class SelecaoController {
         System.out.println("teste");
         //byte[] data = FileManipulation.getBytes(selecao.getEdital().getArquivo());
         byte[] data = FileManipulation.getByte(selecao.getEdital().getArquivo());
+
+        //byte[] data = FileManipulation.getBytes(selecao.getEdital().getArquivo());
+
 
         streamReport(response, data, selecao.getEdital().getTitulo());
     }

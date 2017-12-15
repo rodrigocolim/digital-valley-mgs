@@ -6,30 +6,22 @@
 package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
+import br.ufc.russas.n2s.darwin.beans.InscricaoBeans;
 import br.ufc.russas.n2s.darwin.beans.PeriodoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
-import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
 import br.ufc.russas.n2s.darwin.model.Etapa;
-import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -79,30 +71,85 @@ public class EditarEtapaController {
     public String getIndex(@PathVariable long codSelecao, @PathVariable long codEtapa, Model model) {
         EtapaBeans etapaBeans = this.etapaServiceIfc.getEtapa(codEtapa);
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
+        if (etapaBeans.getCodEtapa() == selecao.getInscricao().getCodEtapa()) {
+            model.addAttribute("tipo", "inscricao"); 
+        } else {
+            model.addAttribute("tipo", "etapa");
+        }
         model.addAttribute("selecao", selecao);
         model.addAttribute("etapa", etapaBeans);
         return "editar-etapa";
     }
 
-    @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
-    public String atualiza(@PathVariable long codSelecao, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
+    @RequestMapping(value="/{codSelecao}/{codEtapa}", method = RequestMethod.POST)
+    public String atualiza(@PathVariable long codSelecao, @PathVariable long codEtapa, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
         try{
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
-            model.addAttribute("selecao", selecao);
+            EtapaBeans etapaBeans= this.etapaServiceIfc.getEtapa(codEtapa);
             String[] codAvaliadores = request.getParameterValues("codAvaliadores");
+            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
             int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
             if (criterio == 1) {
-                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
+                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
             } else if(criterio == 2) {
-                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
+                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
             } else if(criterio == 3) {
-                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
+                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
             }
-            etapa.setEstado(EnumEstadoEtapa.ESPERA);
+            etapaBeans.setTitulo(etapa.getTitulo());
+            etapaBeans.setDescricao(etapa.getDescricao());
+            etapaBeans.setPrerequisito(etapa.getPrerequisito());
+            
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+            etapaBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
+            if (codAvaliadores != null) {
+                for (String cod : codAvaliadores) {
+                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+                    if (u != null) {
+                        avaliadores.add(u);
+                    }
+                }
+            }
+            if (documentosExigidos != null) {
+                ArrayList<String> docs = new ArrayList<>();
+                for(String documento : documentosExigidos){
+                    docs.add(documento);
+                }
+                etapaBeans.setDocumentacaoExigida(docs);
+            }
+            etapaBeans.setAvaliadores(avaliadores);
+            this.getSelecaoServiceIfc().setUsuario(usuario);
+            
+            selecao.getEtapas().remove(etapaBeans);
+            selecao.getEtapas().add((Etapa) etapaBeans.toBusiness());
+            
+            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+            //this.etapaServiceIfc.atualizaEtapa(selecao, etapaBeans);
+            model.addAttribute("selecao", selecao);
+            return "editar-etapa";
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return "editar-etapa";
+        }
+         
+    }
+    
+    @RequestMapping(value="/{codSelecao}/inscricao/{codInscricao}", method = RequestMethod.POST)
+    public String atualizaInscricao(@PathVariable long codSelecao, @PathVariable long codInscricao, InscricaoBeans inscricao, BindingResult result, Model model, HttpServletRequest request) {
+        try{
+            HttpSession session = request.getSession();
+            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
+            InscricaoBeans inscricaoBeans = this.getEtapaServiceIfc().getInscricao(codInscricao);
+            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
+            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
+            inscricaoBeans.setTitulo(inscricao.getTitulo());
+            inscricaoBeans.setDescricao(inscricao.getDescricao());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            inscricaoBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
             ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
             if(codAvaliadores != null){
                 for(String cod : codAvaliadores){
@@ -112,10 +159,21 @@ public class EditarEtapaController {
                     }
                 }
             }
-            etapa.setAvaliadores(avaliadores);
-            this.etapaServiceIfc.setUsuario(usuario);
-            this.etapaServiceIfc.atualizaEtapa(selecao, etapa);
+            if (documentosExigidos != null) {
+                ArrayList<String> docs = new ArrayList<>();
+                for (String documento : documentosExigidos) {
+                    docs.add(documento);
+                }
+                inscricaoBeans.setDocumentacaoExigida(docs);
+            }
+            inscricaoBeans.setAvaliadores(avaliadores);
+            //this.getEtapaServiceIfc().setUsuario(usuario);
+            this.getSelecaoServiceIfc().setUsuario(usuario);
             
+            selecao.setInscricao(inscricaoBeans);
+            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+            //this.etapaServiceIfc.atualizaEtapa(selecao, inscricaoBeans);
+            model.addAttribute("selecao", selecao);
             return "editar-etapa";
         }catch(IllegalAccessException e){
             e.printStackTrace();

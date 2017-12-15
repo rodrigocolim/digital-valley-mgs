@@ -28,7 +28,7 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="/Darwin/cadastrarSelecao">Cadastrar Seleção</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Acessar permissões</a>
+                    <a class="dropdown-item" href="/Darwin/permissoes">Acessar permissões</a>
                 </div>
             </div>
             </c:if>

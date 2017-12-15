@@ -24,7 +24,7 @@ public class EtapaDAOImpl implements EtapaDAOIfc{
     private DAOIfc<Etapa> daoImpl;
     private DAOIfc<Inscricao> daoIns;
 
-    @Autowired
+    @Autowired(required = true)
     public void setDAOIfc(@Qualifier("daoImpl")DAOIfc<Etapa> dao){
         this.daoImpl = dao;
     }

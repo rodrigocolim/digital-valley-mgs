@@ -45,23 +45,41 @@
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
-                    <form method="POST" action="" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
+                    <c:if test="${tipo eq 'etapa'}">
+                    <form method="POST" action="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" accept-charset="UTF-8" id="needs-validation" novalidate>
+                    </c:if>
+                    <c:if test="${tipo eq 'inscricao'}">
+                    <form method="POST" action="/Darwin/editarEtapa/${selecao.codSelecao}/inscricao/${etapa.codEtapa}" accept-charset="UTF-8"  id="needs-validation" novalidate>
+                    </c:if>    
+                    
                         <label for="tituloInput"><input type="checkbox" onclick="habilitaEdicao('tituloInput')"> Titulo*</label>
                         <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" disabled="disabled" required>
                         
                         <br>
                         <label for="descricaoInput"><input type="checkbox" onclick="habilitaEdicao('descricaoInput')"> Descrição*</label>
                         <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" value="${etapa.descricao}" disabled="disabled" required>${etapa.descricao}</textarea>
-  
-                        <br>
-                        <label for="etapaAnteriorInput"><input type="checkbox" onclick="habilitaEdicao('etapaAnteriorInput')"> Etapa anterior*</label>
-                        <select name="prerequisito" class="form-control col-md-8"  id="etapaAnteriorInput" disabled="disabled" required>
-                            <c:forEach var="e" items="${selecao.etapas}">
-                            <fmt:parseDate value="${e.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
+                        <c:if test="${tipo eq 'etapa'}">
+                            <c:if test="${not empty selecao.inscricao}">
+                        <label for="etapaAnteriorInput">Etapa anterior*</label>
+                        <select name="prerequisito" class="form-control col-md-8"  id="etapaAnteriorInput" required>
+                            <option value="0" selected="selected" disabled="disabled">Selecione a etapa anterior a esta</option>
+                            <fmt:parseDate value="${selecao.inscricao.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTerminoIncricao" type="date" />
+                            <fmt:formatDate value="${parseDataTerminoIncricao}"  pattern="dd/MM/yyyy" var="dataTerminoIncricao" type="date"/>
+                            <option value="${selecao.inscricao.codEtapa}" onclick="atualizaDataMinimaPermitida('${dataTerminoIncricao}')">${selecao.inscricao.titulo}</option>
+                            <c:forEach var="etapa" items="${selecao.etapas}">
+                            <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
                             <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
-                            <option value="${e.codEtapa}" ${(etapa.prerequisito.codEtapa == e.codEtapa ? "selected" : "")} onclick="atualizaDataMinimaPermitida('${dataTermino}')">${e.titulo}</option>
+                            <option value="${etapa.codEtapa}" onclick="atualizaDataMinimaPermitida('${dataTermino}')">${etapa.titulo}</option>
                             </c:forEach>
                         </select>
+                        <div class="invalid-feedback">
+                        </div>
+                        <br>
+                        </c:if>
+                        <c:if test="${empty selecao.etapas}">
+                            <input type="hidden" value="0" name="prerequisito">
+                        </c:if>
+                        </c:if>
                         <br>
                         <label for="periodoInput"><input type="checkbox" onclick="habilitaEdicao('periodoInput1');habilitaEdicao('periodoInput2')"> Período*</label>
                         <div id="sandbox-container">
@@ -102,14 +120,15 @@
                                 <label for="documentacaoExigidaInput">Dados sobre a avaliação</label>
                             </div>
                             <div class="card-body">
-                                <br>
-                                <label for="criterioDeAvaliacaoInput"><input type="checkbox" onclick="habilitaEdicao('criterioDeAvaliacaoInput')"> Critério de Avaliação*</label>
-                                <select name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"  class="form-control col-md-8"  id="criterioDeAvaliacaoInput" disabled="disabled" required>
-                                    <option ${(etapa.criterioDeAvaliacao.criterio == 1 ? "selected" : "")}>Nota</option>
-                                    <option ${(etapa.criterioDeAvaliacao.criterio == 2 ? "selected" : "")}>Aprovação</option>
-                                    <option ${(etapa.criterioDeAvaliacao.criterio == 3 ? "selected" : "")}>Deferimento</option>
-                                </select>
-
+                                <c:if test="${tipo eq 'etapa'}">
+                                    <br>
+                                    <label for="criterioDeAvaliacaoInput"><input type="checkbox" onclick="habilitaEdicao('criterioDeAvaliacaoInput')"> Critério de Avaliação*</label>
+                                    <select name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"  class="form-control col-md-8"  id="criterioDeAvaliacaoInput" disabled="disabled" required>
+                                        <option ${(etapa.criterioDeAvaliacao.criterio == 1 ? "selected" : "")} value="1">Nota</option>
+                                        <option ${(etapa.criterioDeAvaliacao.criterio == 2 ? "selected" : "")} value="2" >Aprovação</option>
+                                        <option ${(etapa.criterioDeAvaliacao.criterio == 3 ? "selected" : "")} value="3" >Deferimento</option>
+                                    </select>
+                                </c:if>
                                 <br>
                                 <label for="AvaliadoresInput"><input type="checkbox" onclick="habilitaEdicao('avaliadorInput')"> Avaliadores*</label>                           
                                 <div class="form-row">

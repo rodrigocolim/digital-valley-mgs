@@ -266,9 +266,20 @@ public class Etapa implements Serializable, Atualizavel {
     public List<Participante> getAprovados() {
         List<Participante> aprovados = Collections.synchronizedList(new ArrayList<Participante>());
         if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO || getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
-            for(Avaliacao avaliacao : this.getAvaliacoes()){
-                if(avaliacao.isAprovado()){
-                    aprovados.add(avaliacao.getParticipante());
+            for (Participante p : getParticipantes()) {
+                int aprovacao = 0;
+                int reprovacao = 0;
+                for (Avaliacao a : getAvaliacoes()) {
+                    if (a.getParticipante().equals(p)) {
+                        if (a.isAprovado()) {
+                            aprovacao++;
+                        } else {
+                            reprovacao++;
+                        }
+                    }
+                }
+                if (aprovacao >=  reprovacao) {
+                    aprovados.add(p);
                 }
             }
         } else if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {

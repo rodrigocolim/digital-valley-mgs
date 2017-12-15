@@ -8,25 +8,17 @@ package br.ufc.russas.n2s.darwin.controller;
 import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
-import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -37,8 +29,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -76,41 +66,36 @@ public class EditarSelecaoController {
     }
     
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.POST)
-    public @ResponseBody void edita(@ModelAttribute("selecao") SelecaoBeans selecao, @RequestParam("file") String file, @PathVariable long CodSelecao, HttpServletResponse response, HttpServletRequest request) throws IOException {
-        System.out.println("\n\n\n\n\n");
-        System.out.println(selecao.toString());
-        System.out.println(selecao.getTitulo());
-        System.out.println(selecao.getDescricao());
-        System.out.println(selecao.getCodSelecao());
-        System.out.println("\n\n\n\n\n");
-        SelecaoBeans selecaoBeans = this.getSelecaoServiceIfc().getSelecao(CodSelecao);
-        selecaoBeans.setTitulo(selecao.getTitulo());
-        selecaoBeans.setDescricao(selecao.getDescricao());
-        selecaoBeans.setDescricaoPreRequisitos(selecao.getDescricaoPreRequisitos());
-        selecaoBeans.setAreaDeConcentracao(selecao.getAreaDeConcentracao());
-     
-        if (!file.isEmpty()) {
+    public String atualiza(@PathVariable long codSelecao, @ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") String file, Model model, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
+        SelecaoBeans selecaoBeans = this.getSelecaoServiceIfc().getSelecao(codSelecao);
+        HttpSession session = request.getSession();
+        try{
+            selecaoBeans.setTitulo(selecao.getTitulo());
+            selecaoBeans.setDescricao(selecao.getDescricao());
+            selecaoBeans.setDescricaoPreRequisitos(selecao.getDescricaoPreRequisitos());
+            selecaoBeans.setAreaDeConcentracao(selecao.getAreaDeConcentracao());
+            selecaoBeans.setCategoria(selecao.getCategoria());
+            selecaoBeans.setVagasRemuneradas(selecao.getVagasRemuneradas());
+            selecaoBeans.setVagasVoluntarias(selecao.getVagasVoluntarias());
+            if (!file.isEmpty()) {
                 ArquivoBeans edital = new ArquivoBeans();
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
                 edital.setData(LocalDateTime.now());
                 InputStream inputStream = new URL(file).openStream();
                 edital.setArquivo(FileManipulation.getFileStream(inputStream, ".pdf"));
-                selecao.setEdital(edital);
+                selecaoBeans.setEdital(edital);
             }
-        //selecao.setCodSelecao(CodSelecao);
-        HttpSession session = request.getSession();
-        //SelecaoBeans selecao = (SelecaoBeans) session.getAttribute("selecao");
-        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        try{
-            selecaoBeans = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            this.getSelecaoServiceIfc().setUsuario(usuario);
+            selecaoBeans = this.getSelecaoServiceIfc().atualizaSelecao(selecaoBeans);
             session.setAttribute("selecao", selecaoBeans);
-            session.setAttribute("mensagem", "Seleção atualizada com sucesso!");
-            session.setAttribute("status", "success");
-            response.sendRedirect("selecao/" + selecao.getCodSelecao());
+            session.setAttribute("mensagemCadastraSelecao", "Seleção atualizada com sucesso!");
+            session.setAttribute("statusCadastraSelecao", "success");
+            return ("redirect:selecao/" + selecao.getCodSelecao());
         }catch(IOException | IllegalAccessException e){
-            session.setAttribute("mensagem", e.getMessage());
-            session.setAttribute("status", "danger");
-            response.sendRedirect("selecao/" + selecao.getCodSelecao());
+            model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("status", "danger");
+            return ("cadastrar-selecao");
         }
     }
     

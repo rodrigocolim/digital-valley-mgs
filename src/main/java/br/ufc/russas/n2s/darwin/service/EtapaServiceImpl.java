@@ -202,7 +202,21 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         return (InscricaoBeans) new InscricaoBeans().toBeans(this.getEtapaDAOIfc().getEtapaInscricao(ins));
     }
     
-    
+     public List<EtapaBeans> ordenaEtapasPorData(List<EtapaBeans> etapas) {
+        EtapaBeans aux;
+        for(int i=0;i<etapas.size()-1;i++){
+            for(int j=i;j<etapas.size()-1;j++){
+                    if (etapas.get(j).getPeriodo().getInicio().isAfter(etapas.get(j+1).getPeriodo().getInicio())) {
+                        aux = etapas.get(j);
+                        etapas.set(j, etapas.get(j+1));
+                        etapas.set(j+1, aux);
+                    } else {
+                        break;
+                    }
+            }
+        }
+        return etapas;
+    }
     
 
 }

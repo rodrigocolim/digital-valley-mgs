@@ -62,14 +62,35 @@
                         </div>
                     </div>
                 </c:if>
-                <!-- Mensagem de primeiro acesso após o cadastro da seleção -->
+                <!-- Mensagem de solicitando a divulgação da seleção -->
                 <c:if test="${(not empty selecao.inscricao) and ((isResponsavel || fn:contains(permissoes, 'ADMINISTRADOR'))) and (not selecao.divulgada)}">
                     <div class="jumbotron jumbotron-fluid" style="padding-top: 40px; padding-bottom: 30px; ">
                         <div class="container">
                             <h1 style="font-size: 20px; font-weight: bold;">Divulgue sua seleção!</h1><br>
-                            <p style="font-size: 15px;">Para permitir que os outros usuários tenham acesso a sua seleção, você precisa divulga-lá. Antes disso, verifique se as configurações da sua seleção estão de acordo com o edital. Você deseja divulgar a seleção? &nbsp;
-                                <a href="/Darwin/editarSelecao/divulga/${selecao.codSelecao}"> Divulgar a seleção </a>
+                            <p style="font-size: 15px;">Para permitir que os outros usuários tenham acesso a sua seleção, você precisa divulga-lá. Antes disso, verifique se as configurações da sua seleção estão de acordo com o edital. Você deseja divulgar a seleção?
+                                <input type="button" style="font-size: 15px;" class="btn btn-link" value="Divulgar a seleção" data-toggle="modal" data-target="#divulgar" >
+                                
                             </p>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="divulgar" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalLabel">Divulgar seleção</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Após divulgar sua seleção todos os outros usuários poderão visualizar e participar dela. Portanto, verifique se todas as configurações da sua seleção estão de acordo com o edital. </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                                    <a class="btn btn-sm btn-primary" href="/Darwin/editarSelecao/divulga/${selecao.codSelecao}"> Divulgar a seleção</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </c:if>
@@ -104,14 +125,11 @@
                                     <li>VOLUNTÁRIAS:  <b>${selecao.vagasVoluntarias}</b></li>
                                 </ul>
                             </c:if>
-                            <hr>
-                            <form method="GET" target="_blank" action="/Darwin/visualizarEdital">
-                                <input type="hidden" value="${selecao.codSelecao}" name="selecao">
-                                <button type="submit" class="btn btn-primary btn-sm btn-icon" style="height: 40px">
+                                <hr>
+                                <a href="/Darwin/visualizarEdital?selecao=${selecao.codSelecao}" target="_blank" class="btn btn-primary btn-sm btn-icon" style="height: 40px">
                                     <i class="material-icons">picture_as_pdf</i> 
                                     <span>Visualizar edital</span>
-                                </button>
-                            </form>
+                                </a>
                             </p>
                         </div>
                     </div>

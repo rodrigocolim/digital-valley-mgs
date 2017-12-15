@@ -73,10 +73,10 @@ form > .btn{
     position: relative;
 }
 .filtro_tela > i{
-    color: #3f1111;
+    color: gray;
 }
 .filtro_tela{
-    color: #3f1111;
+    color: gray;
     background-color: #f8f9fa;
     
 }

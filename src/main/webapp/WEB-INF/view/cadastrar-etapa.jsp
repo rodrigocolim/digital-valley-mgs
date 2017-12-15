@@ -21,7 +21,7 @@
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.standalone.css" />
     </head>
-    <body>
+    <body onload="adicionaCampoNotaMinima()">
     <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
     <div class="container-fluid">
         <div class="row row-offcanvas row-offcanvas-right">
@@ -125,15 +125,18 @@
                             <div class="card-body">
                                 <br>
                                 <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
-                                <select name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"  class="form-control col-md-8"  id="categoriaInput" required>
+                                <select name="criterioDeAvaliacao"   class="form-control col-md-8"  id="criterioInput" required>
                                     <option value="" selected="selected" disabled="disabled">Selecione o critério de avaliação dessa etapa</option>
+                                    <c:if test="${not empty selecao.inscricao}"> 
                                     <option value="1" onclick="adicionaCampoNotaMinima()">Nota</option>
                                     <option value="2" onclick="removeCampoNotaMinima()">Aprovação</option>
+                                    </c:if>
                                     <option value="3" onclick="removeCampoNotaMinima()">Deferimento</option>
                                 </select>
-                                    <span id="campoNotaMinima">
-                                        
-                                    </span>
+                                <br>
+                                <span id="campoNotaMinima">
+
+                                </span>
                                     
                                 <div class="invalid-feedback">
                                 </div>
@@ -319,8 +322,10 @@
           }
           atualizaAvaliadores();
       }
+
       function adicionaCampoNotaMinima(){
-          document.getElementById("campoNotaMinima").innerHTML = "<input type='text' name='notaMinima' class='form-control' placeholder='Nota miníma requerida'>";
+         if(document.getElementById("criterioInput").value === '1')
+            document.getElementById("campoNotaMinima").innerHTML = "Nota mínima: <input type='number' name='notaMinima' style='width: 150px' class='form-control' placeholder='Nota miníma requerida' required>";
       }
       function removeCampoNotaMinima(){
           document.getElementById("campoNotaMinima").innerHTML = "";

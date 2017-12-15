@@ -73,10 +73,7 @@ public class AutenticadoFiltro implements Filter {
                                         u.setCodUsuarioControleDeAcesso(user.getId());
                                         u.setNome(user.getNome());
                                         ArrayList<EnumPermissao> permissoes = new ArrayList<>();
-                                        permissoes.add(EnumPermissao.AVALIADOR);
                                         permissoes.add(EnumPermissao.PARTICIPANTE);
-                                        permissoes.add(EnumPermissao.RESPONSAVEL);
-                                        permissoes.add(EnumPermissao.ADMINISTRADOR);
                                         u.setPermissoes(permissoes);
                                         this.getUsuarioServiceIfc().adicionaUsuario(u);
                                     }

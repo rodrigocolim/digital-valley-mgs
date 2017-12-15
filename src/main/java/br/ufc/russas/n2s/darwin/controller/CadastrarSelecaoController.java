@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.io.File;
+import java.net.URL;
 /**
  *
  * @author Wallison Carlos
@@ -85,7 +86,7 @@ public class CadastrarSelecaoController {
                 fis.write(buffer, 0, count);
                 }*/
                 File temp = File.createTempFile("temp", ".pdf");
-                InputStream input = FileManipulation.getStreamFromURL(file);
+                InputStream input = new URL(file).openStream();
                 OutputStream output = new FileOutputStream(temp);
                 int read = 0;
                 byte[] bytes = new byte[1024];

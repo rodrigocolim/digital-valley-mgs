@@ -49,13 +49,11 @@ public class PermissoesUsuarioController {
     public String adiciona(@RequestParam("codUsuario") long codUsuario, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         try {
-            System.out.println("Oiei");
             UsuarioBeans autenticado = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             usuarioServiceIfc.setUsuario(autenticado);
             UsuarioBeans usuario = usuarioServiceIfc.getUsuario(codUsuario, 0);
             String[] permissoes  = request.getParameterValues("codPermissao");
             for(String num : permissoes) {
-                System.out.println(num);
                 int permissao = Integer.parseInt(num);
                 EnumPermissao p = null;
                 if (permissao == 1) {

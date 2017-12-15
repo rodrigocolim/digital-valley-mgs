@@ -108,7 +108,7 @@ public class CadastrarEtapaController {
                 }
             }
             if (selecao.getInscricao() != null) {
-                EtapaBeans pre = etapaServiceIfc.getEtapa(codSelecao);
+                EtapaBeans pre = etapaServiceIfc.getEtapa(codPrerequisito);
                 etapa.setPrerequisito(pre);
             }
             if (documentosExigidos != null) {

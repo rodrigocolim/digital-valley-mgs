@@ -47,12 +47,12 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
 
     @Override
     public UsuarioBeans atualizaUsuario(UsuarioBeans usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (UsuarioBeans) new UsuarioBeans().toBeans(this.getUsuarioDAOIfc().atualizaUsuario((UsuarioDarwin) usuario.toBusiness()));
     }
 
     @Override
     public void removeUsuario(UsuarioBeans usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.getUsuarioDAOIfc().removeUsuario((UsuarioDarwin) usuario.toBusiness());
     }
 
     @Override

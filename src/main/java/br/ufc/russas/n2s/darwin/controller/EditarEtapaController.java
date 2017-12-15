@@ -151,10 +151,10 @@ public class EditarEtapaController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             inscricaoBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
             ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
-            if(codAvaliadores != null){
-                for(String cod : codAvaliadores){
+            if (codAvaliadores != null) {
+                for (String cod : codAvaliadores) {
                     UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
-                    if(u != null){
+                    if (u != null) {
                         avaliadores.add(u);
                     }
                 }
@@ -167,13 +167,13 @@ public class EditarEtapaController {
                 inscricaoBeans.setDocumentacaoExigida(docs);
             }
             inscricaoBeans.setAvaliadores(avaliadores);
-            //this.getEtapaServiceIfc().setUsuario(usuario);
             this.getSelecaoServiceIfc().setUsuario(usuario);
             
             selecao.setInscricao(inscricaoBeans);
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-            //this.etapaServiceIfc.atualizaEtapa(selecao, inscricaoBeans);
-            model.addAttribute("selecao", selecao);
+            session.setAttribute("selecao", selecao);
+            session.setAttribute("mensagem", "Etapa atualizada com sucesso!");
+            session.setAttribute("status", "success");
             return "redirect:/editarEtapa/" + selecao.getCodSelecao()+"/"+codInscricao;
         } catch (IllegalAccessException e) {
             e.printStackTrace();

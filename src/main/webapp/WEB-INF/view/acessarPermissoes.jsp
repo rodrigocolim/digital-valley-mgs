@@ -29,7 +29,7 @@
                 <div class="col-sm-8">
                     <nav class="breadcrumb">
                         <span class="breadcrumb-item">Você está em:</span> 
-                        <a class="breadcrumb-item active" href="/Darwin">Início</a>
+                        <a class="breadcrumb-item" href="/Darwin">Início</a>
                         <a class="breadcrumb-item active" href="#">Acessar Permissões</a>
                     </nav>
                 <c:if test="${not empty mensagem}">
@@ -40,47 +40,64 @@
                         </button>
                     </div>
                 </c:if>                           
-                    <h1>Acessar Permissões</h1>
-                    <br>
-                    <div class="form-group">
-                        <form method="POST" action="" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" class="select-usuario" novalidate>
-                            <label for="usuarioInput">Usuário</label>
-                            <select id="usuarioInput" class="form-control col-md-8" name="usuario">
-                                    <option value="" selected="selected" disabled="disabled">Selecione o usuário desejado</option>
-                                <c:forEach items="${usuarios}" var="usuario">
-                                    <option id="usuarioOption-${usuario.nome}" value="${usuario.codUsuario}">${usuario.nome}</option>
-                                </c:forEach>
-                            </select>
+                    <div class="row">
+                        <h1 class="col-sm-8">Gerenciar Permissões</h1>
+                        <form class="form-inline">
+                            <input class="form-control" style="width: 250px;" type="search" name="nomeUsuario" placeholder="Nome do usuário">&nbsp;
+                            <button class="btn btn-sm btn-primary" type="submit">Procurar</button>
                         </form>
-                            <c:if test="${not empty usuarioSelecionado}">
-                            
-                            <div class="form-row">
-                                <select id="PermissaoInput" class="form-control col-md-8">
-                                    <option value="" selected="selected" disabled="disabled">Selecione a permissão desejada</option>
-                                    <option id="PermissaoOption-1" value="1" ${fn:contains(usuarioSelecionado.permissoes, 'PARTICIPANTE') ? "disabled='disabled'" : ""} >Participante</option>
-                                    <option id="PermissaoOption-2" value="2" ${fn:contains(usuarioSelecionado.permissoes, 'AVALIADOR') ? "disabled='disabled'" : ""} >Avaliador</option>
-                                    <option id="PermissaoOption-3" value="3" ${fn:contains(usuarioSelecionado.permissoes, 'RESPONSAVEL') ? "disabled='disabled'" : ""}>Responsavel</option>
-                                    <option id="PermissaoOption-4" value="4" ${fn:contains(usuarioSelecionado.permissoes, 'ADMINISTRADOR') ? "disabled='disabled'" : ""}>Administrador</option>
-                                </select>
-                                &nbsp;&nbsp;
-                                <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaPermissao()" value="Adicionar">                            
-                            </div>
-                           <form method="POST" action="/Darwin/permissoes/atualizar" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
-                            <br>
-                            <input type="hidden" name="codUsuario" value="${usuarioSelecionado.codUsuario}">
-                            <ul class="list-group col-md-8 " id="listaPermissoes">
-                                <c:forEach var="permissoes" items="${usuarioSelecionado.permissoes}">
-                                    <li class="list-group-item">
-                                        <input type="hidden" name="codPermissao" value="${permissoes.nivel}" style="display: none;"/>
-                                        ${permissoes}
-                                        <button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removePermissao('${permissoes.nivel}')">clear</button>
-                                    </li>
-                                </c:forEach>
-                            </ul>                      
-                            <input type="submit" class="btn btn-primary" value="Salvar">
-                        </form>
-                        </c:if>        
                     </div>
+                    <br>
+                    <table class="table table-striped  table-responsive">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th class="text-center" scope="col">Usuário</th>
+                                <th class="text-center" scope="col">Participante</th>
+                                <th class="text-center" scope="col">Avaliador</th>
+                                <th class="text-center" scope="col">Responsável</th>
+                                <th class="text-center" scope="col">Administrador</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <c:set var="numMaxPorTela" value="20"></c:set>
+                         <c:set var="pagina" value="${(((not empty param.pag) and (param.pag >= 1)) ? param.pag : 1)}"></c:set> 
+                       <c:forEach items="${usuarios}" var="usuario" begin="${((pagina - 1) * numMaxPorTela)}" end="${((pagina - 1) * numMaxPorTela) + (numMaxPorTela - 1)}">
+                        <c:set var="permissoes" value="${usuario.permissoes}"></c:set>
+                            <tr>
+                                <form method="POST" id="permissaoUser-${usuario.codUsuario}" action="/Darwin/permissoes/atualizar" enctype="multipart/form-data">
+                                    <input type="hidden" value="${usuario.codUsuario}" name="codUsuario"/>
+                                    <th  scope="row">${usuario.nome}</th>
+                                    <td>
+                                        <center><input class="form-check-input" type="checkbox" value="1" name="codPermissao" onclick="submeteAtualizacaoDePermissao('permissaoUser-${usuario.codUsuario}')" ${(fn:contains(permissoes, 'PARTICIPANTE') ? 'checked': '')}/></center>
+                                    </td>
+                                    <td>
+                                        <center><input class="form-check-input" type="checkbox" value="2" name="codPermissao" onclick="submeteAtualizacaoDePermissao('permissaoUser-${usuario.codUsuario}')" ${(fn:contains(permissoes, 'AVALIADOR') ? 'checked': '')}/></center>
+                                    </td>
+                                    <td>
+                                        <center><input class="form-check-input" type="checkbox" value="3" name="codPermissao" onclick="submeteAtualizacaoDePermissao('permissaoUser-${usuario.codUsuario}')" ${(fn:contains(permissoes, 'RESPONSAVEL') ? 'checked': '')}/></center>
+                                    </td>
+                                    <td>
+                                        <center><input class="form-check-input" type="checkbox" value="4" name="codPermissao" onclick="submeteAtualizacaoDePermissao('permissaoUser-${usuario.codUsuario}')" ${(fn:contains(permissoes, 'ADMINISTRADOR') ? 'checked': '')}/></center>
+                                    </td>
+                                </form>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    
+                    <nav aria-label="">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item ${(pagina <= 1 ? "disabled" : "")}">
+                                <a class="page-link" href="/Darwin/permissoes?pag=${pagina - 1}" tabindex="-1">Anterior</a>
+                            </li>
+                            <c:forEach var="i" begin="1" end="${(fn:length(usuarios)/numMaxPorTela) + (fn:length(usuarios)%numMaxPorTela == 0 ? 0 : 1)}">
+                            <li class="page-item ${(pagina == i ? "active": "")}"><a class="page-link" href="/Darwin/permissoes?pag=${i}">${i}</a></li>
+                            </c:forEach>
+                            <li class="page-item  ${(pagina >= ((fn:length(usuarios))/numMaxPorTela) ? "disabled" : "")}">
+                                <a class="page-link" href="/Darwin/permissoes?pag=${pagina + 1}">Próximo</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -106,7 +123,6 @@
       function atualizaPermissoes(){
           var list = document.getElementById("listaPermissoes");
           list.innerHTML = "";
-          alert("oie");
           for(i = 0;i < listaPermissoes.length;i++){
             if(listaPermissoes[i] !== ""){
                 list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codPermissoes" value="'+codPermissoes[i]+'" style="display: none;"> '+ listaPermissoes[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removePermissao(\''+listaPermissoes[i]+'\')">clear</button></li>';
@@ -115,7 +131,6 @@
       }
       function removePermissao(codPermissao){
           for(i = 0;i < listaPermissoes.length;i++){
-              alert("Oie");
               if(listaPermissoes[i] === codPermissao){
                   document.getElementById("PermissaoOption-"+codPermissao+"").disabled = "";
                   listaPermissoes[i] = "";
@@ -131,6 +146,10 @@
                 $(".select-usuario").submit();
             });
         });
+        
+        function submeteAtualizacaoDePermissao(formSelecionado){
+            document.getElementById(formSelecionado).submit();
+        }
     </script>
     </body>
 </html>

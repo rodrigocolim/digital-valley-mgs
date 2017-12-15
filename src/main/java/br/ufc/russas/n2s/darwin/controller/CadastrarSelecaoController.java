@@ -76,15 +76,6 @@ public class CadastrarSelecaoController {
             if (!file.isEmpty()) {
                 ArquivoBeans edital = new ArquivoBeans();
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
-                /*URL url = new URL(file);
-                BufferedInputStream bis = new BufferedInputStream(url.openStream());
-                FileOutputStream fis = new FileOutputStream(file);
-                byte[] buffer = new byte[1024];
-                int count=0;
-                while((count = bis.read(buffer,0,1024)) != -1)
-                {
-                fis.write(buffer, 0, count);
-                }*/
                 File temp = File.createTempFile("temp", ".pdf");
                 InputStream input = new URL(file).openStream();
                 OutputStream output = new FileOutputStream(temp);
@@ -94,14 +85,7 @@ public class CadastrarSelecaoController {
                     output.write(bytes, 0, read);
                 }
                 edital.setArquivo(temp);
-                /*fis.close();
-                bis.close();*/
-                /*file = new File(getExternalFilesDir(null), "test.pdf");
-                FileOutputStream fileOutput = new FileOutputStream(file);*/
-
                 edital.setData(LocalDateTime.now());
-                //InputStream inputStream = new URL(file).openStream();
-                
                 selecao.setEdital(edital);
             }
             selecao.setEstado(EnumEstadoSelecao.ESPERA);

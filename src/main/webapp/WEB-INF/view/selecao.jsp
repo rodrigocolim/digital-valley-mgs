@@ -62,60 +62,75 @@
                         </div>
                     </div>
                 </c:if>
-                <!-- Mensagem de primeiro acesso após o cadastro da seleção -->
+                <!-- Mensagem de solicitando a divulgação da seleção -->
                 <c:if test="${(not empty selecao.inscricao) and ((isResponsavel || fn:contains(permissoes, 'ADMINISTRADOR'))) and (not selecao.divulgada)}">
                     <div class="jumbotron jumbotron-fluid" style="padding-top: 40px; padding-bottom: 30px; ">
                         <div class="container">
                             <h1 style="font-size: 20px; font-weight: bold;">Divulgue sua seleção!</h1><br>
-                            <p style="font-size: 15px;">Para permitir que os outros usuários tenham acesso a sua seleção, você precisa divulga-lá. Antes disso, verifique se as configurações da sua seleção estão de acordo com o edital. Você deseja divulgar a seleção? &nbsp;
-                                <a href="/Darwin/editarSelecao/divulga/${selecao.codSelecao}"> Divulgar a seleção </a>
+                            <p style="font-size: 15px;">Para permitir que os outros usuários tenham acesso a sua seleção, você precisa divulga-lá. Antes disso, verifique se as configurações da sua seleção estão de acordo com o edital. Você deseja divulgar a seleção?
+                                <input type="button" style="font-size: 15px;" class="btn btn-link" value="Divulgar a seleção" data-toggle="modal" data-target="#divulgar" >
+                                
                             </p>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="divulgar" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalLabel">Divulgar seleção</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Após divulgar sua seleção todos os outros usuários poderão visualizar e participar dela. Portanto, verifique se todas as configurações da sua seleção estão de acordo com o edital. </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                                    <a class="btn btn-sm btn-primary" href="/Darwin/editarSelecao/divulga/${selecao.codSelecao}"> Divulgar a seleção</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </c:if>
                 <div class="row" style="padding-left: 15px;">
                     <h1 class="text-uppercase" style="font-size: 20px;">${selecao.titulo}</h1>
                 <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
-                    <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm btn-icon" style="height: 33px; padding-top: 0px;padding-left: 5px;margin-left: 30px;margin-top: -4px;">
-                        <i class="material-icons">edit</i>
-                        <span>Editar seleção</span>
+                    <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
+                        Editar seleção
                     </a>                    
                 </c:if>
                 </div>
-                <div class="card text-center">
-                    <div class="tab-content card-body" id="pills-tabContent">
-                        <div class="tab-pane fade show active text-justify" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                            ${selecao.descricao}
-                            <p>
-                            <hr>
-                            <c:if test="${not empty selecao.areaDeConcentracao}">
-                                <b>ÁREA DE CONCENTRAÇÃO: </b> ${selecao.areaDeConcentracao}<br><br>
-                            </c:if>
-                            <c:if test="${not empty selecao.descricaoPreRequisitos}">
-                                <b>PRÉ REQUISITOS: </b> ${selecao.descricaoPreRequisitos}<br><br>
-                            </c:if>
-                            <c:if test="${selecao.vagasRemuneradas == 0 and selecao.vagasVoluntarias == 0}">
-                                <b>NÚMERO DE VAGAS: </b> Indeterminadas<br><br>
-                            </c:if>
-                            <c:if test="${not (selecao.vagasRemuneradas == 0 and selecao.vagasVoluntarias == 0)}">
-                                <b>NÚMERO DE VAGAS: </b> 
-                                <ul>
-                                    <li>REMUNERADAS:  <b>${selecao.vagasRemuneradas}</b></li>
-                                    <li>VOLUNTÁRIAS:  <b>${selecao.vagasVoluntarias}</b></li>
-                                </ul>
-                            </c:if>
-                            <hr>
-                            <form method="GET" target="_blank" action="/Darwin/visualizarEdital">
-                                <input type="hidden" value="${selecao.codSelecao}" name="selecao">
-                                <button type="submit" class="btn btn-primary btn-sm btn-icon" style="height: 40px">
-                                    <i class="material-icons">picture_as_pdf</i> 
-                                    <span>Visualizar edital</span>
-                                </button>
-                            </form>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <br>
+                <p class="text-justify">
+                    ${selecao.descricao}
+                </p>
+                <p class="text-justify">
+                    <hr>
+                    <c:if test="${not empty selecao.areaDeConcentracao}">
+                    <b>ÁREA DE CONCENTRAÇÃO: </b> ${selecao.areaDeConcentracao}<br/><br/>
+                    </c:if>
+                    <c:if test="${not empty selecao.descricaoPreRequisitos}">
+                    <b>PRÉ REQUISITOS: </b> ${selecao.descricaoPreRequisitos}<br/><br/>
+                    </c:if>
+                    <c:if test="${selecao.vagasRemuneradas == 0 and selecao.vagasVoluntarias == 0}">
+                    <b>NÚMERO DE VAGAS: </b> Indeterminadas<br/><br/>
+                    </c:if>
+                    <c:if test="${not (selecao.vagasRemuneradas == 0 and selecao.vagasVoluntarias == 0)}">
+                    <b>NÚMERO DE VAGAS: </b> 
+                    <ul>
+                        <li>REMUNERADAS:  <b>${selecao.vagasRemuneradas}</b></li>
+                        <li>VOLUNTÁRIAS:  <b>${selecao.vagasVoluntarias}</b></li>
+                    </ul>
+                    </c:if>
+                    <hr/>
+                    <a href="/Darwin/visualizarEdital?selecao=${selecao.codSelecao}" target="_blank" class="btn btn-primary btn-sm btn-icon" style="height: 40px">
+                        <i class="material-icons">picture_as_pdf</i> 
+                        <span>Visualizar edital</span>
+                    </a>
+                </p>
+
                 <br/>
                     <c:if test="${(not empty selecao.etapas) or (not empty selecao.inscricao)}">
                         <ul class="timeline">
@@ -148,9 +163,8 @@
                                             <a href="/Darwin/participarEtapa/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Inscrever-se</a>
                                         </c:if>
                                         <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
-                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm btn-icon" style="height: 30px; padding-top: 0px;padding-left: 5px;">
-                                                <i class="material-icons">edit</i>
-                                                <span>Editar</span>
+                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
+                                                Editar etapa
                                             </a>   
                                         </c:if>
                                     </div>
@@ -182,13 +196,32 @@
                                     </p>
                                 </div>
                                 <div class="timeline-body" >
-                                    <p>${etapa.descricao}</p>
+                                    <p class="text-justify">${etapa.descricao}</p>
+                                    <br>
+                                    <b>CRITÉRIO DE AVALIAÇÃO: </b> ${etapa.criterioDeAvaliacao}<br>
+                                    <c:if test="${not empty etapa.documentacaoExigida}">
+                                    <b>DOCUMENTAÇÃO EXIGIDA: </b> 
+                                    <ul>
+                                        <c:forEach var="documento" items="${etapa.documentacaoExigida}">
+                                        <li>${documento}</b></li>
+                                        </c:forEach>
+                                    </ul>
+                                    </c:if>
                                     <hr>
                                     <c:if test="${(not empty etapa.documentacaoExigida) and (estado == 2) and (fn:contains(permissoes, 'PARTICIPANTE'))}">
-                                        <a href="/Darwin/participarEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Enviar documentação</a>
+                                        <a href="/Darwin/participarEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+                                            Enviar documentação
+                                        </a>
                                     </c:if>
                                     <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
-                                        <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Editar</a>
+                                        <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
+                                            Editar etapa
+                                        </a>   
+                                    </c:if>
+                                    <c:if test="${(estado == 3)}">
+                                        <a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+                                            Resultado
+                                        </a>
                                     </c:if>
                                 </div>
                             </div>

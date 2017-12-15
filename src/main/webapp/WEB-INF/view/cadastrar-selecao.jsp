@@ -113,10 +113,27 @@
                         <br>
                         <label for="editalInput">Edital*</label>
                         <input type="text" name="file" class="form-control" id="arquivoInput" aria-describedby="editalHelp" placeholder="Adicione aqui o link para o edital da seleção"  accept="application/pdf" required>
-                        <small id="tituloHelp" class="form-text text-muted">Ex. http://www.campusrussas.ufc.br/editais-e-selecoes.php</small>
+                        <small id="tituloHelp" class="form-text text-muted">Ex. http://www.campusrussas.ufc.br/docs/edital.pdf</small>
                         <div class="invalid-feedback">
                             
                         </div>
+                        <br>
+                        <label for="ResponsavelInput">Responsáveis*</label>                           
+                        <div class="form-row">
+                            <select id="responsavelInput" class="form-control col-md-8" style="margin-left: 3px">
+                                <option value="" selected="selected" disabled="disabled">Selecione os responsáveis por esta seleção</option>
+                                <c:forEach items="${responsaveis}" var="responsavel">
+                                    <option id="responsavelOption-${responsavel.nome}" value="${responsavel.codUsuario}-${responsavel.nome}">${responsavel.nome}</option>
+                                </c:forEach>
+                            </select>
+                            &nbsp;&nbsp;
+                            <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaResponsavel()" value="Adicionar">                            
+                        </div>
+                        <br>
+                        <ul class="list-group col-md-8 " id="listaAvaliadores">
+                        </ul>
+                        <br>
+
                         <br>
                         <a href="/Darwin" type="button" id="enviar" class="btn btn-secondary">
                             Cancelar

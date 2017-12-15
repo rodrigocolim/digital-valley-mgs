@@ -123,7 +123,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList());
         List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().listaSelecoes(selecao);
-        List<SelecaoBeans> resultadoDivulgadas = this.listaSelecoes(selecao);
+        List<SelecaoBeans> resultadoDivulgadas = this.listaTodasSelecoes();
         
         for (Selecao s : resultadoNaoDivulgadas) {
             if (s.getResponsaveis().contains(user)) {
@@ -135,7 +135,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
                 selecoes.add(s);
             }
         }
-        return selecoes;
+        return this.ordenaSelecoesPorData(selecoes);
     }
 
 

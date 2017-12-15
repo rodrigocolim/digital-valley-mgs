@@ -129,10 +129,10 @@ public class EditarEtapaController {
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
             //this.etapaServiceIfc.atualizaEtapa(selecao, etapaBeans);
             model.addAttribute("selecao", selecao);
-            return "editar-etapa";
+            return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-            return "editar-etapa";
+             return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
         }
          
     }
@@ -142,7 +142,7 @@ public class EditarEtapaController {
         try{
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-            SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
+            SelecaoBeans selecao = this.getSelecaoServiceIfc().getSelecao(codSelecao);
             InscricaoBeans inscricaoBeans = this.getEtapaServiceIfc().getInscricao(codInscricao);
             String[] codAvaliadores = request.getParameterValues("codAvaliadores");
             String[] documentosExigidos = request.getParameterValues("documentosExigidos");
@@ -174,10 +174,10 @@ public class EditarEtapaController {
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
             //this.etapaServiceIfc.atualizaEtapa(selecao, inscricaoBeans);
             model.addAttribute("selecao", selecao);
-            return "editar-etapa";
-        }catch(IllegalAccessException e){
+            return "redirect:/editarEtapa/" + selecao.getCodSelecao()+"/"+codInscricao;
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
-            return "editar-etapa";
+            return "redirect:/editarEtapa/" + codSelecao+"/"+codInscricao;
         }
          
     }

@@ -81,10 +81,6 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         System.out.println(resultado.size());
         for (Selecao s : resultado) {
             if (s.getInscricao() != null) {
-                System.out.println("\n\n\n\n");
-                System.out.println(s.getEstado());
-                System.out.println(s.getEstado().execute(s));
-                System.out.println("\n\n\n\n");
                 if (s.getEstado().execute(s).compareTo(s.getEstado()) != 0) {
                     this.atualizaEstado(s, s.getEstado().execute(s));
                 }

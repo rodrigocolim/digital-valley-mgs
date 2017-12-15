@@ -35,10 +35,10 @@ public class SelecaoController {
 
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
-        //long codSelecao = Long.parseLong(selecaoCodigo);
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+
         if (!selecao.isDivulgada() && selecao.getResponsaveis().contains((UsuarioDarwin) usuario.toBusiness())) {
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
@@ -84,7 +84,12 @@ public class SelecaoController {
         //long codSelecao = Long.parseLong(part[part.length-1]);
         long codSelecao = Long.parseLong(selecaoCodigo);
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-        byte[] data = FileManipulation.getBytes(selecao.getEdital().getArquivo());
+        System.out.println("teste");
+        //byte[] data = FileManipulation.getBytes(selecao.getEdital().getArquivo());
+        byte[] data = FileManipulation.getByte(selecao.getEdital().getArquivo());
+
+        //byte[] data = FileManipulation.getBytes(selecao.getEdital().getArquivo());
+
 
         streamReport(response, data, selecao.getEdital().getTitulo());
     }

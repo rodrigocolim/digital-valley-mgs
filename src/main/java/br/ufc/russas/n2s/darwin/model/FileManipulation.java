@@ -5,6 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,6 +17,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sun.misc.BASE64Encoder;
 
 /**
@@ -69,4 +72,42 @@ public class FileManipulation {
         fis.close();
         return bytesArray;
     } 
+    
+    public static byte[] getByte(File file) {
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+            try {
+                for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                    bos.write(buf, 0, readNum); //no doubt here is 0
+                    System.out.println("read " + readNum + " bytes,");
+                }
+            } catch (IOException ex) {
+               ex.printStackTrace();
+            }
+            byte[] bytes = bos.toByteArray();
+
+            //below is the different part
+           /* File someFile = new File("java2.pdf");
+            FileOutputStream fos = new FileOutputStream(file);
+           // fos.write(bytes);
+            fos.flush();
+            fos.close();
+            */
+            return  bytes;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+        e.printStackTrace();}
+        return null;
+    }
+    
+     public static File getFile(byte[] bytes) { 
+         
+         
+         
+         return null;
+     }
+    
 }

@@ -73,14 +73,21 @@ form > .btn{
     position: relative;
 }
 .filtro_tela > i{
-    color: gray;
+    color: #3f1111;
 }
-.filtro_tela:hover > i{
-    color: white;
+.filtro_tela{
+    color: #3f1111;
+    background-color: #f8f9fa;
+    
 }
-.filtro_tela:focus > i{
-    color: white;
+
+.filtro_tela:hover{
+    background-color: #e2e6ea;
 }
+.filtro_tela:focus{
+    background-color: #e2e6ea;
+}
+
 .footer{
     bottom: 0px;
 }

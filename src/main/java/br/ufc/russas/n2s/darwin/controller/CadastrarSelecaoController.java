@@ -14,18 +14,15 @@ import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
-import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.OutputStream;
 import java.time.LocalDateTime;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -35,7 +32,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import java.io.File;
 /**
  *
  * @author Wallison Carlos
@@ -87,7 +84,15 @@ public class CadastrarSelecaoController {
                 {
                 fis.write(buffer, 0, count);
                 }*/
-                edital.setArquivo(FileManipulation.getFileStream(FileManipulation.getStreamFromURL(file), ".pdf"));
+                File temp = File.createTempFile("temp", ".pdf");
+                InputStream input = FileManipulation.getStreamFromURL(file);
+                OutputStream output = new FileOutputStream(temp);
+                int read = 0;
+                byte[] bytes = new byte[1024];
+                while ((read = input.read(bytes)) != -1) {
+                    output.write(bytes, 0, read);
+                }
+                edital.setArquivo(temp);
                 /*fis.close();
                 bis.close();*/
                 /*file = new File(getExternalFilesDir(null), "test.pdf");

@@ -3,6 +3,7 @@ package br.ufc.russas.n2s.darwin.controller;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,12 +35,11 @@ public class SelecaoController {
 
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
-        //long codSelecao = Long.parseLong(selecaoCodigo);
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         HttpSession session = request.getSession();
-        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usaurioDarwin");
-        if(!selecao.isDivulgada() && selecao.getResponsaveis().contains(usuario)) {
-            model.addAttribute("selecao", selecao);        
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        if(!selecao.isDivulgada() && selecao.getResponsaveis().contains((UsuarioDarwin) usuario.toBusiness())) {
+            model.addAttribute("selecao", selecao);
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
             request.getSession().setAttribute("selecao", selecao);
             return "selecao";
@@ -82,7 +82,8 @@ public class SelecaoController {
         long codSelecao = Long.parseLong(selecaoCodigo);
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
         System.out.println("teste");
-        byte[] data = FileManipulation.getBytes(selecao.getEdital().getArquivo());
+        //byte[] data = FileManipulation.getBytes(selecao.getEdital().getArquivo());
+        byte[] data = FileManipulation.getByte(selecao.getEdital().getArquivo());
 
         streamReport(response, data, selecao.getEdital().getTitulo());
     }

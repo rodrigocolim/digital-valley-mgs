@@ -101,24 +101,9 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         for (Selecao s : resultado) {
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
-        SelecaoBeans aux;
-        List<SelecaoBeans> selecoesSemPeriodo = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
-        for(int i=0;i<selecoes.size()-1;i++){
-            for(int j=i;j<selecoes.size()-1;j++){
-                if (selecoes.get(j).getInscricao() != null && selecoes.get(j+1).getInscricao() != null) {
-                    if (selecoes.get(j).getInscricao().getPeriodo().getInicio().isAfter(selecoes.get(j+1).getInscricao().getPeriodo().getInicio())) {
-                        aux = selecoes.get(j);
-                        selecoes.set(j, selecoes.get(j+1));
-                        selecoes.set(j+1, aux);
-                    } else {
-                        break;
-                    }
-                }
-            }
-        }
-        return selecoes;
+        return this.ordenaSelecoesPorData(selecoes);
     }
-
+    
     @Override
     @Transactional(readOnly = true)
     public SelecaoBeans getSelecao(long codSelecao) {
@@ -137,13 +122,20 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         Selecao selecao = new Selecao();
         UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList());
-        List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
-        for (Selecao s : resultado) {
+        List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().listaSelecoes(selecao);
+        List<SelecaoBeans> resultadoDivulgadas = this.listaTodasSelecoes();
+        
+        for (Selecao s : resultadoNaoDivulgadas) {
             if (s.getResponsaveis().contains(user)) {
                 selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
             }
         }
-        return selecoes;
+        for (SelecaoBeans s : resultadoDivulgadas) {
+            if (s.getResponsaveis().contains(user)) {
+                selecoes.add(s);
+            }
+        }
+        return this.ordenaSelecoesPorData(selecoes);
     }
 
 
@@ -163,4 +155,22 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         return this.selecaoDAOIfc.atualizaSelecao(selecao);
     }
 
+    @Override
+    public List<SelecaoBeans> ordenaSelecoesPorData(List<SelecaoBeans> selecoes) {
+        SelecaoBeans aux;
+        for(int i=0;i<selecoes.size()-1;i++){
+            for(int j=i;j<selecoes.size()-1;j++){
+                if (selecoes.get(j).getInscricao() != null && selecoes.get(j+1).getInscricao() != null) {
+                    if (selecoes.get(j).getInscricao().getPeriodo().getInicio().isAfter(selecoes.get(j+1).getInscricao().getPeriodo().getInicio())) {
+                        aux = selecoes.get(j);
+                        selecoes.set(j, selecoes.get(j+1));
+                        selecoes.set(j+1, aux);
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+        return selecoes;
+    }
 }

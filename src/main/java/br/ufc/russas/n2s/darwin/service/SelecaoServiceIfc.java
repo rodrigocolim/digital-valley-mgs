@@ -36,7 +36,6 @@ public interface SelecaoServiceIfc extends ServiceIfc{
     SelecaoBeans atualizaSelecao(SelecaoBeans selecao) throws IllegalAccessException;
 
     /**
-     *
      * @param selecao
      * selecao - Uma SelecaoBeans a ser removida
      */
@@ -50,12 +49,10 @@ public interface SelecaoServiceIfc extends ServiceIfc{
     List<SelecaoBeans> listaTodasSelecoes();
     
     /**
-     * 
+     * @param selecao
      * @return List
      */
     List<SelecaoBeans> listaSelecoes(Selecao selecao);
-    
-    
     
     /**
      * 
@@ -72,6 +69,18 @@ public interface SelecaoServiceIfc extends ServiceIfc{
      */
     SelecaoBeans getSelecao(long codSelecao);
     
+     /**
+     *
+     * @param selecao
+     * 
+     */
     EtapaBeans getEtapaAtual(SelecaoBeans selecao);
+    
+    /**
+     * 
+     * @param selecoes
+     * @return List
+     */
+    List<SelecaoBeans> ordenaSelecoesPorData(List<SelecaoBeans> selecoes);
 
 }

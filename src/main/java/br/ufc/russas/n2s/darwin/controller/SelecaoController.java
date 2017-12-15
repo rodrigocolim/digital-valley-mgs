@@ -84,7 +84,6 @@ public class SelecaoController {
         //long codSelecao = Long.parseLong(part[part.length-1]);
         long codSelecao = Long.parseLong(selecaoCodigo);
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-        System.out.println("teste");
         byte[] data = FileManipulation.getBytes(selecao.getEdital().getArquivo());
 
         streamReport(response, data, selecao.getEdital().getTitulo());

@@ -95,7 +95,7 @@
         if(nomePermissao !== ""){
             listaPermissoes[numPermissoes] = nomePermissao;
             codPermissoes[numPermissoes] = codPermissao;
-            document.getElementById("PermissaoOption-"+nomePermissao+"").disabled = "disabled";
+            document.getElementById("PermissaoOption-"+codPermissao+"").disabled = "disabled";
             numPermissoes++;
         }
         document.getElementById("PermissaoInput").value = "";

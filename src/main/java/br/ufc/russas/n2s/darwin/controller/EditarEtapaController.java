@@ -167,13 +167,13 @@ public class EditarEtapaController {
                 inscricaoBeans.setDocumentacaoExigida(docs);
             }
             inscricaoBeans.setAvaliadores(avaliadores);
-            //this.getEtapaServiceIfc().setUsuario(usuario);
             this.getSelecaoServiceIfc().setUsuario(usuario);
             
             selecao.setInscricao(inscricaoBeans);
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-            //this.etapaServiceIfc.atualizaEtapa(selecao, inscricaoBeans);
-            model.addAttribute("selecao", selecao);
+            session.setAttribute("selecao", selecao);
+            session.setAttribute("mensagem", "Etapa atualizada com sucesso!");
+            session.setAttribute("status", "success");
             return "redirect:/editarEtapa/" + selecao.getCodSelecao()+"/"+codInscricao;
         } catch (IllegalAccessException e) {
             e.printStackTrace();

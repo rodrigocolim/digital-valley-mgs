@@ -127,10 +127,14 @@
                                 <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
                                 <select name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"  class="form-control col-md-8"  id="categoriaInput" required>
                                     <option value="" selected="selected" disabled="disabled">Selecione o critério de avaliação dessa etapa</option>
-                                    <option value="1">Nota</option>
-                                    <option value="2">Aprovação</option>
-                                    <option value="3">Deferimento</option>
+                                    <option value="1" onclick="adicionaCampoNotaMinima()">Nota</option>
+                                    <option value="2" onclick="removeCampoNotaMinima()">Aprovação</option>
+                                    <option value="3" onclick="removeCampoNotaMinima()">Deferimento</option>
                                 </select>
+                                    <span id="campoNotaMinima">
+                                        
+                                    </span>
+                                    
                                 <div class="invalid-feedback">
                                 </div>
 
@@ -315,7 +319,12 @@
           }
           atualizaAvaliadores();
       }
-      
+      function adicionaCampoNotaMinima(){
+          document.getElementById("campoNotaMinima").innerHTML = "<input type='text' name='notaMinima' class='form-control' placeholder='Nota miníma requerida'>";
+      }
+      function removeCampoNotaMinima(){
+          document.getElementById("campoNotaMinima").innerHTML = "";
+      }
     </script>
 </body>
 </html>

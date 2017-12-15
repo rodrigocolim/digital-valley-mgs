@@ -151,10 +151,10 @@ public class EditarEtapaController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             inscricaoBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
             ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
-            if(codAvaliadores != null){
-                for(String cod : codAvaliadores){
+            if (codAvaliadores != null) {
+                for (String cod : codAvaliadores) {
                     UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
-                    if(u != null){
+                    if (u != null) {
                         avaliadores.add(u);
                     }
                 }

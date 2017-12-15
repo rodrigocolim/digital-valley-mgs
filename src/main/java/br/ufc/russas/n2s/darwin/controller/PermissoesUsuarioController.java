@@ -45,27 +45,37 @@ public class PermissoesUsuarioController {
         return "acessarPermissoes"; 
     }
     
-    @RequestMapping(value = "/adicionar", method = RequestMethod.POST)
-    public String adiciona(@RequestParam("usuario") long codUsuario, @RequestParam("permissao") int permissao, HttpServletRequest request, Model model) {
+    @RequestMapping(value = "/atualizar", method = RequestMethod.POST)
+    public String adiciona(@RequestParam("codUsuario") long codUsuario, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         try {
+            System.out.println("Oiei");
             UsuarioBeans autenticado = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             usuarioServiceIfc.setUsuario(autenticado);
             UsuarioBeans usuario = usuarioServiceIfc.getUsuario(codUsuario, 0);
-            EnumPermissao p = null;
-            if (permissao == 1) {
-                p = EnumPermissao.PARTICIPANTE;
-            } else if (permissao == 2) {
-                p = EnumPermissao.AVALIADOR;
-            } else if (permissao == 3) {
-                p = EnumPermissao.RESPONSAVEL;
-            } else if (permissao == 4) {
-                p = EnumPermissao.ADMINISTRADOR;
+            String[] permissoes  = request.getParameterValues("codPermissao");
+            for(String num : permissoes) {
+                System.out.println(num);
+                int permissao = Integer.parseInt(num);
+                EnumPermissao p = null;
+                if (permissao == 1) {
+                    p = EnumPermissao.PARTICIPANTE;
+                } else if (permissao == 2) {
+                    p = EnumPermissao.AVALIADOR;
+                } else if (permissao == 3) {
+                    p = EnumPermissao.RESPONSAVEL;
+                } else if (permissao == 4) {
+                    p = EnumPermissao.ADMINISTRADOR;
+                }
+                if (!usuario.getPermissoes().contains(p)) {
+                    usuarioServiceIfc.adicionaNivel(usuario, p);
+                }
             }
-            usuarioServiceIfc.adicionaNivel(usuario, p);
-            model.addAttribute("mensagem", "Nível adicionado com sucesso!");
-            model.addAttribute("status", "danger");  
-            return "nivel-usuario";
+            model.addAttribute("mensagem", "Nível (is) atualizado (s) com sucesso!");
+            model.addAttribute("status", "success");
+            model.addAttribute("usuarios", this.usuarioServiceIfc.listaTodosUsuarios());
+            model.addAttribute("usuarioSelecionado", this.usuarioServiceIfc.getUsuario(Long.parseLong(request.getParameter("codUsuario")), 0));
+            return "acessarPermissoes";
         } catch (NumberFormatException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
@@ -81,39 +91,5 @@ public class PermissoesUsuarioController {
         }
     }
     
-    @RequestMapping(value = "/remover", method = RequestMethod.POST)
-    public String remove(@RequestParam("usuario") long codUsuario, @RequestParam("permissao") int permissao, HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        try {
-            UsuarioBeans autenticado = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-            usuarioServiceIfc.setUsuario(autenticado);
-            UsuarioBeans usuario = usuarioServiceIfc.getUsuario(codUsuario, 0);
-            EnumPermissao p = null;
-            if (permissao == 1) {
-                p = EnumPermissao.PARTICIPANTE;
-            } else if (permissao == 2) {
-                p = EnumPermissao.AVALIADOR;
-            } else if (permissao == 3) {
-                p = EnumPermissao.RESPONSAVEL;
-            } else if (permissao == 4) {
-                p = EnumPermissao.ADMINISTRADOR;
-            }
-            usuarioServiceIfc.removeNivel(usuario, p);
-            model.addAttribute("mensagem", "Nível removido com sucesso!");
-            model.addAttribute("status", "danger");  
-            return "nivel-usuario";
-        } catch (NumberFormatException e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "nivel-usuario";
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "nivel-usuario";
-        }  catch (IllegalAccessException e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "nivel-usuario";
-        }
-    }    
+    
 }

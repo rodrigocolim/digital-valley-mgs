@@ -53,7 +53,7 @@
                             </select>
                         </form>
                             <c:if test="${not empty usuarioSelecionado}">
-                            <form method="POST" action="/atualiza" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
+                            
                             <div class="form-row">
                                 <select id="PermissaoInput" class="form-control col-md-8">
                                     <option value="" selected="selected" disabled="disabled">Selecione a permissão desejada</option>
@@ -65,13 +65,14 @@
                                 &nbsp;&nbsp;
                                 <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaPermissao()" value="Adicionar">                            
                             </div>
-                                
+                           <form method="POST" action="/Darwin/permissoes/atualizar" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
                             <br>
+                            <input type="hidden" name="codUsuario" value="${usuarioSelecionado.codUsuario}">
                             <ul class="list-group col-md-8 " id="listaPermissoes">
                                 <c:forEach var="permissoes" items="${usuarioSelecionado.permissoes}">
                                     <li class="list-group-item">
-                                        <input type="hidden" name="codUsuario" value="${permissoes}" style="display: none;"/>
-                                        ${permissoes.nivel}
+                                        <input type="hidden" name="codPermissao" value="${permissoes.nivel}" style="display: none;"/>
+                                        ${permissoes}
                                         <button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removePermissao('${permissoes.nivel}')">clear</button>
                                     </li>
                                 </c:forEach>
@@ -105,6 +106,7 @@
       function atualizaPermissoes(){
           var list = document.getElementById("listaPermissoes");
           list.innerHTML = "";
+          alert("oie");
           for(i = 0;i < listaPermissoes.length;i++){
             if(listaPermissoes[i] !== ""){
                 list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codPermissoes" value="'+codPermissoes[i]+'" style="display: none;"> '+ listaPermissoes[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removePermissao(\''+listaPermissoes[i]+'\')">clear</button></li>';

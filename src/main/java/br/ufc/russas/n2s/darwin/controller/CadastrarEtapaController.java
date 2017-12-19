@@ -122,7 +122,7 @@ public class CadastrarEtapaController {
                 etapa.setPrerequisito(this.getEtapaServiceIfc().getEtapa(codPrerequisito));
             }
             etapa.setAvaliadores(avaliadores);
-            selecao.getEtapas().add((Etapa) etapa.toBusiness());
+            selecao.getEtapas().add(etapa);
             this.selecaoServiceIfc.setUsuario(usuario);
             this.selecaoServiceIfc.atualizaSelecao(selecao);
             session.setAttribute("mensagem", "Etapa cadastrada com sucesso!");
@@ -188,7 +188,7 @@ public class CadastrarEtapaController {
             etapa.setAvaliadores(avaliadores);
             if (selecao.getInscricao() != null) {
                 EtapaBeans e = (EtapaBeans) etapa;
-                selecao.getEtapas().add((Etapa) e.toBusiness());
+                selecao.getEtapas().add(e);
             } else {
                 selecao.setInscricao(etapa);
             }

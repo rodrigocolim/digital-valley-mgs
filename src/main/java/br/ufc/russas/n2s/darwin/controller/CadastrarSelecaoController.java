@@ -57,7 +57,8 @@ public class CadastrarSelecaoController {
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public String getIndex() {
+    public String getIndex(Model model) {
+        model.addAttribute("responsaveis", usuarioServiceIfc.listaTodosUsuarios());
         return "cadastrar-selecao";
     }
 
@@ -75,6 +76,7 @@ public class CadastrarSelecaoController {
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         this.selecaoServiceIfc.setUsuario(usuario);
         String[] codResponsaveis = request.getParameterValues("codResponsaveis");
+              
         
         String[] nomeAnexos = request.getParameterValues("listaNomeAnexos");
         String[] linkAnexos = request.getParameterValues("listaLinkAnexos");
@@ -108,7 +110,9 @@ public class CadastrarSelecaoController {
             }
             //para anexos
             if (nomeAnexos != null && linkAnexos != null) {
+                System.out.println("Aqui 1");
                 for (int i=0; i < nomeAnexos.length; i++) {
+                    System.out.println("Aqui 2");
                     ArquivoBeans anexo = new ArquivoBeans();
                     anexo.setTitulo(nomeAnexos[i]);
                     File temp = File.createTempFile("temp", ".pdf");
@@ -121,6 +125,7 @@ public class CadastrarSelecaoController {
                     }
                     selecao.getAnexos().add(anexo);
                 }
+                
             }
             //para aditivos
             if (nomeAditivos != null && linkAditivos != null) {
@@ -145,7 +150,7 @@ public class CadastrarSelecaoController {
                 usuario.getPermissoes().add(EnumPermissao.RESPONSAVEL);
             }
             selecao.setResponsaveis(responsaveis);
-            selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
+            selecao.getResponsaveis().add(usuario);
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
             session.setAttribute("mensagemCadastraSelecao", "Seleção cadastrada com sucesso!");
             session.setAttribute("statusCadastraSelecao", "success");

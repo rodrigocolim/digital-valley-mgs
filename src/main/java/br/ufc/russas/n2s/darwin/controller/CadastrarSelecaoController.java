@@ -78,10 +78,10 @@ public class CadastrarSelecaoController {
         String[] codResponsaveis = request.getParameterValues("codResponsaveis");
               
         
-        String[] nomeAnexos = request.getParameterValues("listaNomeAnexos");
-        String[] linkAnexos = request.getParameterValues("listaLinkAnexos");
-        String[] nomeAditivos = request.getParameterValues("listaNomeAditivos");
-        String[] linkAditivos = request.getParameterValues("listaLinkAditivos");
+        String[] nomeAnexos = request.getParameterValues("listaNomeAnexo");
+        String[] linkAnexos = request.getParameterValues("listaLinkAnexo");
+        String[] nomeAditivos = request.getParameterValues("listaNomeAditivo");
+        String[] linkAditivos = request.getParameterValues("listaLinkAditivo");
         
         ArrayList<UsuarioBeans> responsaveis = new ArrayList<>();
         if (codResponsaveis != null) {

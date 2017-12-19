@@ -201,13 +201,16 @@
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.pt-BR.min.js" ></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
     <script>
+    var hoje = new Date;
     $('#sandbox-container .input-daterange').datepicker({
         format: "dd/mm/yyyy",
         todayBtn: "linked",
         language: "pt-BR",
         orientation: "top left",
         todayHighlight: true,
-        toggleActive: true
+        toggleActive: true,
+        startDate: hoje.getDay()+'/'+(hoje.getMonth() + 1)+'/'+hoje.getFullYear(),
+        datesDisabled: ['06/12/2017', '12/12/2017']
     });
     function getListaAvaliadores() {
         ordenaLista();

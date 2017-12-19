@@ -20,7 +20,7 @@
             <c:set var="permissoes" value="${sessionScope.usuarioDarwin.permissoes}"></c:set>
             <a class="nav-item nav-link" href="/Darwin">Início <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="/Darwin/minhas_Selecoes">Minhas seleções</a>
-            <c:if test="${fn:contains(permissoes, 'RESPONSAVEL')}">
+            <c:if test="${fn:contains(permissoes, 'RESPONSAVEL') or fn:contains(permissoes, 'ADMINISTRADOR')}">
             <div class="btn-group">
                 <a href="#" class="nav-item nav-link " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Opções
@@ -28,7 +28,7 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="/Darwin/cadastrarSelecao">Cadastrar Seleção</a>
                     
-                    <c:if test="${fn:contains(permissoes, 'RESPONSAVEL')}">
+                    <c:if test="${fn:contains(permissoes, 'ADMINISTRADOR')}">
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/Darwin/permissoes">Gerenciar permissões</a>
                     </c:if>

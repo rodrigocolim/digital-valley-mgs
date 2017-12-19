@@ -32,6 +32,7 @@
                         <a class="breadcrumb-item" href="/Darwin">Início</a>
                         <a class="breadcrumb-item active" href="#">Acessar Permissões</a>
                     </nav>
+                <c:set var="mensagem" value="${sessionScope.mensagem}"></c:set>
                 <c:if test="${not empty mensagem}">
                     <div class="alert alert-${status} alert-dismissible fade show" role="alert">
                         ${mensagem}
@@ -39,7 +40,9 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                </c:if>                           
+                    <c:set scope="session" var="mensagem" value=""></c:set>
+                    <c:set scope="session" var="status" value=""></c:set>
+                </c:if>                   
                     <div class="row">
                         <h1 class="col-sm-8">Gerenciar Permissões</h1>
                         <form class="form-inline">

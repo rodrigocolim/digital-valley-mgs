@@ -137,14 +137,10 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     }
 
     @Override
-    public List<ParticipanteBeans> getParticipantes(EtapaBeans etapa) {
-         List<ParticipanteBeans> participantes = Collections.synchronizedList(new ArrayList<ParticipanteBeans>());
-         List<Participante> p = null;
-         
-        
+    public List<Object[]> getParticipantes(EtapaBeans etapa) {
+        List<Object[]> participantes = Collections.synchronizedList(new ArrayList<Object[]>());
+        List<Object[]> p = null;        
         if (etapa instanceof InscricaoBeans) {
-             System.out.println(etapa);
-            System.out.println("\n\n");
             Inscricao i = (Inscricao) ((InscricaoBeans) etapa).toBusiness();
             p = Collections.synchronizedList(i.getParticipantes());
         } else {
@@ -153,8 +149,9 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         }
         
         if(p != null) {
-            for (Participante participante : p) {
-                participantes.add((ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
+            for (Object[] participante : p) {
+                participante[0] =  (ParticipanteBeans) (new ParticipanteBeans().toBeans((Participante) participante[0]));
+                participantes.add(participante);
             }
             return participantes;
         }

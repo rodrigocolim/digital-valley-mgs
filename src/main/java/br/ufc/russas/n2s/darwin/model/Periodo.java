@@ -7,7 +7,6 @@ package br.ufc.russas.n2s.darwin.model;
 
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

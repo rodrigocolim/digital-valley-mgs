@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 /**
  *
@@ -94,7 +95,7 @@ public class CadastrarSelecaoController {
                 ArquivoBeans edital = new ArquivoBeans();
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
                 File temp = File.createTempFile("temp", ".pdf");
-                InputStream input = FileManipulation.getStreamFromURL(file);
+                InputStream input = new URL(file).openStream();
                 OutputStream output = new FileOutputStream(temp);
                 int read = 0;
                 byte[] bytes = new byte[1024];

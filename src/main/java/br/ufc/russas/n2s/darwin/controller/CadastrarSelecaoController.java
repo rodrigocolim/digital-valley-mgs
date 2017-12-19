@@ -107,6 +107,7 @@ public class CadastrarSelecaoController {
                 selecao.setEdital(edital);
             }
             if (nomeAnexos != null && linkAnexos != null) { // para anexos
+                ArrayList<ArquivoBeans> anexos = new ArrayList<>();
                 for (int i=0; i < nomeAnexos.length; i++) {
                     ArquivoBeans anexo = new ArquivoBeans();
                     anexo.setTitulo(nomeAnexos[i]);
@@ -120,10 +121,12 @@ public class CadastrarSelecaoController {
                     }
                     anexo.setArquivo(temp);
                     anexo.setData(LocalDateTime.now());
-                    selecao.getAnexos().add(anexo);
+                    anexos.add(anexo);
                 }
+                selecao.setAnexos(anexos);
             }
             if (nomeAditivos != null && linkAditivos != null) {  // para aditivos
+                ArrayList<ArquivoBeans> aditivos = new ArrayList<>();
                 for (int i=0; i < nomeAditivos.length; i++) {
                     ArquivoBeans aditivo = new ArquivoBeans();
                     aditivo.setTitulo(nomeAditivos[i]);
@@ -137,8 +140,9 @@ public class CadastrarSelecaoController {
                     }
                     aditivo.setArquivo(temp);
                     aditivo.setData(LocalDateTime.now());
-                    selecao.getAditivos().add(aditivo);
+                    aditivos.add(aditivo);
                 }
+                selecao.setAditivos(aditivos);
             }
             
             selecao.setEstado(EnumEstadoSelecao.ESPERA);

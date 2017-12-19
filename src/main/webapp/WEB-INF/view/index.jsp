@@ -43,7 +43,7 @@
                 </c:if>
                 <div class="row col-sm-12">
                     <h1 class="text-capitalize" >${titulo}</h1>
-                    <c:if test="${not empty estado}">
+                    <c:if test="${not empty estado}"> 
                     <div class="dropdown right" style="right:-13px; position:absolute;">
                         <button class="btn dropdown-toggle btn-sm btn-icon filtro_tela" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="material-icons">filter_list</i>

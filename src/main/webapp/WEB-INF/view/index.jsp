@@ -33,13 +33,16 @@
                     <a class="breadcrumb-item text-capitalize active" href="#">${categoria}</a>
                     </c:if>
                 </nav>
+                <c:set var="mensagem" value="${sessionScope.mensagem}"></c:set>
                 <c:if test="${not empty mensagem}">
-                <div class="alert alert-${status} alert-dismissible fade show" role="alert">
-                    ${mensagem}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+                    <div class="alert alert-${status} alert-dismissible fade show" role="alert">
+                        ${mensagem}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <c:set scope="session" var="mensagem" value=""></c:set>
+                    <c:set scope="session" var="status" value=""></c:set>
                 </c:if>
                 <div class="row col-sm-12">
                     <h1 class="text-capitalize" >${titulo}</h1>

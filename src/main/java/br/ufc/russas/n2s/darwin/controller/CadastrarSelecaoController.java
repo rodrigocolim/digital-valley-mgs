@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 /**
  *
  * @author Wallison Carlos
@@ -72,6 +73,17 @@ public class CadastrarSelecaoController {
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         this.selecaoServiceIfc.setUsuario(usuario);
+        
+        String[] codResponsaveis = request.getParameterValues("codResponsaveis");
+        ArrayList<UsuarioBeans> responsaveis = new ArrayList<>();
+        if (codResponsaveis != null) {
+            for (String cod : codResponsaveis) {
+                UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+                if (u != null) {
+                    responsaveis.add(u);
+                }
+            }
+        }
         try {
             if (!file.isEmpty()) {
                 ArquivoBeans edital = new ArquivoBeans();
@@ -93,6 +105,7 @@ public class CadastrarSelecaoController {
             if(!usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)){
                 usuario.getPermissoes().add(EnumPermissao.RESPONSAVEL);
             }
+            selecao.setResponsaveis(responsaveis);
             selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
             session.setAttribute("mensagemCadastraSelecao", "Seleção cadastrada com sucesso!");

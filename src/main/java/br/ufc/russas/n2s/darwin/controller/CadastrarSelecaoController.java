@@ -33,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
 /**
  *
  * @author Wallison Carlos
@@ -71,21 +73,23 @@ public class CadastrarSelecaoController {
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         this.selecaoServiceIfc.setUsuario(usuario);
+        
+        String[] codResponsaveis = request.getParameterValues("codResponsaveis");
+        ArrayList<UsuarioBeans> responsaveis = new ArrayList<>();
+        if (codResponsaveis != null) {
+            for (String cod : codResponsaveis) {
+                UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+                if (u != null) {
+                    responsaveis.add(u);
+                }
+            }
+        }
         try {
             if (!file.isEmpty()) {
                 ArquivoBeans edital = new ArquivoBeans();
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
-                /*URL url = new URL(file);
-                BufferedInputStream bis = new BufferedInputStream(url.openStream());
-                FileOutputStream fis = new FileOutputStream(file);
-                byte[] buffer = new byte[1024];
-                int count=0;
-                while((count = bis.read(buffer,0,1024)) != -1)
-                {
-                fis.write(buffer, 0, count);
-                }*/
                 File temp = File.createTempFile("temp", ".pdf");
-                InputStream input = FileManipulation.getStreamFromURL(file);
+                InputStream input = new URL(file).openStream();
                 OutputStream output = new FileOutputStream(temp);
                 int read = 0;
                 byte[] bytes = new byte[1024];
@@ -93,14 +97,7 @@ public class CadastrarSelecaoController {
                     output.write(bytes, 0, read);
                 }
                 edital.setArquivo(temp);
-                /*fis.close();
-                bis.close();*/
-                /*file = new File(getExternalFilesDir(null), "test.pdf");
-                FileOutputStream fileOutput = new FileOutputStream(file);*/
-
                 edital.setData(LocalDateTime.now());
-                //InputStream inputStream = new URL(file).openStream();
-                
                 selecao.setEdital(edital);
             }
             selecao.setEstado(EnumEstadoSelecao.ESPERA);
@@ -108,6 +105,7 @@ public class CadastrarSelecaoController {
             if(!usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)){
                 usuario.getPermissoes().add(EnumPermissao.RESPONSAVEL);
             }
+            selecao.setResponsaveis(responsaveis);
             selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
             session.setAttribute("mensagemCadastraSelecao", "Seleção cadastrada com sucesso!");

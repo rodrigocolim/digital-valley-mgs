@@ -91,6 +91,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     }
     
     
+    
     @Override
     @Transactional
     public List<SelecaoBeans> listaSelecoes(Selecao selecao) {

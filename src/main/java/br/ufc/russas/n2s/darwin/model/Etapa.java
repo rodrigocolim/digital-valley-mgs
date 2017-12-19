@@ -84,7 +84,9 @@ public class Etapa implements Serializable, Atualizavel {
         @JoinColumn(name = "prerequisito", referencedColumnName = "codEtapa")
     private Etapa prerequisito;
     private float notaMinima;
-
+    private int limiteClassificados;
+    private boolean divulgadoResultado;
+    
     public long getCodEtapa() {
         return codEtapa;
     }
@@ -198,6 +200,26 @@ public class Etapa implements Serializable, Atualizavel {
             throw new IllegalArgumentException("Nota miníma inválida. Nota miníma deve ser maior igual a zero e menor igual a 10!");
         }
     }
+
+    public int getLimiteClassificados() {
+        return limiteClassificados;
+    }
+
+    public void setLimiteClassificados(int limiteClassificados) {
+        if (limiteClassificados >= 0) {
+            this.limiteClassificados = limiteClassificados;
+        } else {
+            throw new IllegalArgumentException("Limite de Classificados deve ser maior igual a zero!");
+        }
+    }
+
+    public boolean isDivulgadoResultado() {
+        return divulgadoResultado;
+    }
+
+    public void setDivulgadoResultado(boolean divulgadoResultado) {
+        this.divulgadoResultado = divulgadoResultado;
+    }
     
     
 
@@ -205,11 +227,7 @@ public class Etapa implements Serializable, Atualizavel {
      *
      * @param prerequisito
      */
-    public void setPrerequisito(Etapa prerequisito) throws IllegalArgumentException{
-        System.out.println(prerequisito);
-        System.out.println(prerequisito.getPeriodo());
-        System.out.println(this.getPeriodo());
-        
+    public void setPrerequisito(Etapa prerequisito) throws IllegalArgumentException {        
         if (prerequisito.getPeriodo().isAntes(this.getPeriodo())) {
             this.prerequisito = prerequisito;
         } else {
@@ -263,14 +281,14 @@ public class Etapa implements Serializable, Atualizavel {
         }
     }
 
-    public List<Participante> getAprovados() {
-        List<Participante> aprovados = Collections.synchronizedList(new ArrayList<Participante>());
+    public List<Object[]> getAprovados() {
+        List<Object[]> aprovados = Collections.synchronizedList(new ArrayList<Object[]>());
         if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO || getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
-            for (Participante p : getParticipantes()) {
+            for (Object[] p : getParticipantes()) {
                 int aprovacao = 0;
                 int reprovacao = 0;
                 for (Avaliacao a : getAvaliacoes()) {
-                    if (a.getParticipante().equals(p)) {
+                    if (a.getParticipante().equals(((Participante) p[0]))) {
                         if (a.isAprovado()) {
                             aprovacao++;
                         } else {
@@ -279,30 +297,58 @@ public class Etapa implements Serializable, Atualizavel {
                     }
                 }
                 if (aprovacao >=  reprovacao) {
-                    aprovados.add(p);
+                    Object[] aprovado = {p, aprovacao, reprovacao};
+                    aprovados.add(aprovado);
                 }
             }
         } else if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
-            for (Participante participante : getParticipantes()) {
+            for (Object[] participante : getParticipantes()) {
                 float media = 0;
                 float soma = 0;
                 int count = 0;
                 for (Avaliacao avaliacao : getAvaliacoes()) {
-                    if (avaliacao.getParticipante().equals(participante)) {
+                    if (avaliacao.getParticipante().equals(((Participante) participante[1]))) {
                         soma += avaliacao.getNota();
                         count++;
                     }
                 }
                 media = soma/count;
                 if(media >=  getNotaMinima()) {
-                    aprovados.add(participante);
+                    Object[] aprovado = {participante, media};
+                    aprovados.add(aprovado);
                 }
             }
+            classificados (aprovados);
         }
         return aprovados;
     }
     
-    public List<Participante> getParticipantes () {
+    private void classificados (List<Object[]> aprovados) {
+        int n = aprovados.size();
+        for (int gap = n/2; gap > 0; gap /= 2) {
+            for (int i = gap; i < n; i += 1) {
+                Object[] temp = aprovados.get(i);
+                int j = i;
+                Object[] outro = aprovados.get(j - gap);
+                for (j = i; j >= gap && ((float) outro[1]) > ( (float) temp[1]); j -= gap) {
+                    aprovados.set(j, outro);
+                    outro = aprovados.get(j - gap);
+                }
+                aprovados.set(j, temp);
+            }
+        }
+        if (aprovados.size() > limiteClassificados && limiteClassificados != 0) {
+            Object[] temp = aprovados.get(limiteClassificados-1);
+            for (int i = limiteClassificados; i < aprovados.size(); i++) {
+                Object[] aprovado = aprovados.get(i);
+                if (((float) temp[1]) != ((float) aprovado[1])) {
+                    aprovados.remove(i);
+                } 
+            }
+        }
+    }
+    
+    public List<Object[]> getParticipantes () {
         if (getPrerequisito() != null) {
             return getPrerequisito().getAprovados();
         } else {
@@ -311,13 +357,13 @@ public class Etapa implements Serializable, Atualizavel {
     } 
     
     public boolean isParticipante(Participante participante){
-        List<Participante> aprovados = this.getPrerequisito().getAprovados();
+        List<Object[]> aprovados = this.getPrerequisito().getAprovados();
         return aprovados.contains(participante);
     }
     
     public boolean isParticipante(UsuarioDarwin participante){
-        for(Participante p : this.getPrerequisito().getAprovados()){
-            if(p.getCandidato().equals(participante)) {
+        for(Object[] p : this.getPrerequisito().getAprovados()){
+            if(((Participante) p[0]).equals(participante)) {
                 return true;
             }
         }
@@ -326,9 +372,9 @@ public class Etapa implements Serializable, Atualizavel {
     
     
     public Participante getParticipante(UsuarioDarwin usuario) {
-        for (Participante participante : getAprovados()) {
-            if (usuario.equals(participante.getCandidato())) {
-                return participante;
+        for (Object[] p : getAprovados()) {
+            if (usuario.equals(((Participante) p[0]).getCandidato())) {
+                return ((Participante) p[0]);
             }
         }
         return null;

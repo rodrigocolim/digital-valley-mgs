@@ -50,12 +50,11 @@ public class PermissoesUsuarioController {
     public String adiciona(@RequestParam("codUsuario") long codUsuario, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         try {
-            System.out.println("CodUsuario"+codUsuario);
+
             UsuarioBeans autenticado = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             usuarioServiceIfc.setUsuario(autenticado);
             UsuarioBeans usuario = usuarioServiceIfc.getUsuario(codUsuario, 0);
             String[] permissoes  = request.getParameterValues("codPermissao");
-            
             for (int i = 1; i <= EnumPermissao.values().length; i++) {
                 EnumPermissao p = null;
                 for (String num : permissoes) {
@@ -75,11 +74,11 @@ public class PermissoesUsuarioController {
                     usuarioServiceIfc.removeNivel(usuario, p.getValor(i));
                 }
             }
-            model.addAttribute("mensagem", "Nível (is) atualizado (s) com sucesso!");
-            model.addAttribute("status", "success");
+            session.setAttribute("mensagem", "Permissões do usuário '<b>"+usuario.getNome()+"</b>' atualizadas com sucesso!");
+            session.setAttribute("status", "success");
             model.addAttribute("usuarios", this.usuarioServiceIfc.listaTodosUsuarios());
             model.addAttribute("usuarioSelecionado", this.usuarioServiceIfc.getUsuario(Long.parseLong(request.getParameter("codUsuario")), 0));
-            return "redirect: /Darwin/permissoes/";
+            return "redirect:/permissoes";
         } catch (NumberFormatException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");

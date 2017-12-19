@@ -69,6 +69,13 @@ public class EditarSelecaoController {
     public String atualiza(@PathVariable long codSelecao, @ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") String file, Model model, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
         SelecaoBeans selecaoBeans = this.getSelecaoServiceIfc().getSelecao(codSelecao);
         HttpSession session = request.getSession();
+        
+        
+        System.out.println("\n\n\n");
+        System.out.println(selecao.getTitulo());
+        System.out.println(selecao.getDescricao());
+        System.out.println("\n\n\n");
+        if (selecao != null) {}
         try{
             selecaoBeans.setTitulo(selecao.getTitulo());
             selecaoBeans.setDescricao(selecao.getDescricao());
@@ -89,13 +96,13 @@ public class EditarSelecaoController {
             this.getSelecaoServiceIfc().setUsuario(usuario);
             selecaoBeans = this.getSelecaoServiceIfc().atualizaSelecao(selecaoBeans);
             session.setAttribute("selecao", selecaoBeans);
-            session.setAttribute("mensagemCadastraSelecao", "Seleção atualizada com sucesso!");
-            session.setAttribute("statusCadastraSelecao", "success");
-            return ("redirect:selecao/" + selecao.getCodSelecao());
+            session.setAttribute("mensagem", "Seleção atualizada com sucesso!");
+            session.setAttribute("status", "success");
+            return ("editar-selecao");
         }catch(IOException | IllegalAccessException e){
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
-            return ("cadastrar-selecao");
+            return ("editar-selecao");
         }
     }
     

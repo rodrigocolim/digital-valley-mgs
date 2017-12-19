@@ -9,7 +9,7 @@
 <%@page import="br.ufc.russas.n2s.darwin.beans.UsuarioBeans"%>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">
-        <img src="https://png.icons8.com/natural-food/color/160" width="30" height="30" class="d-inline-block align-top" alt="">
+        <img src="${pageContext.request.contextPath}/resources/img/logoDarwin.png" width="30" height="30" class="d-inline-block align-top" alt="">
         Darwin
     </a>  
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">

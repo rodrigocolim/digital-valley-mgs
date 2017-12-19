@@ -75,11 +75,11 @@ public class PermissoesUsuarioController {
                     usuarioServiceIfc.removeNivel(usuario, p.getValor(i));
                 }
             }
-            model.addAttribute("mensagem", "Nível (is) atualizado (s) com sucesso!");
-            model.addAttribute("status", "success");
+            session.setAttribute("mensagem", "Permissões do usuário '<b>"+usuario.getNome()+"</b>' atualizadas com sucesso!");
+            session.setAttribute("status", "success");
             model.addAttribute("usuarios", this.usuarioServiceIfc.listaTodosUsuarios());
             model.addAttribute("usuarioSelecionado", this.usuarioServiceIfc.getUsuario(Long.parseLong(request.getParameter("codUsuario")), 0));
-            return "redirect: /Darwin/permissoes/";
+            return "redirect:/permissoes";
         } catch (NumberFormatException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");

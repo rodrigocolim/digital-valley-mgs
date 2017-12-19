@@ -84,7 +84,7 @@
                             
                         </div>
                         <br>
-
+         
                         <div class="card">
                             <div class="card-header col-auto">
                                 
@@ -110,29 +110,52 @@
                                 </div>
                             </div>
                         </div>
-                        <br>
-                        <label for="editalInput">Edital*</label>
-                        <input type="text" name="file" class="form-control" id="arquivoInput" aria-describedby="editalHelp" placeholder="Adicione aqui o link para o edital da seleção"  accept="application/pdf" required>
-                        <small id="tituloHelp" class="form-text text-muted">Ex. http://www.campusrussas.ufc.br/docs/edital.pdf</small>
-                        <div class="invalid-feedback">
-                            
+                        <br>                     
+                        <div class="card">
+                            <div class="card-header col-auto">
+                                <span class="custom-control-description" style="margin-top: 4px;">Documentos da seleção</span>
+                            </div>
+
+                            <div class="card-body">
+                                <label for="editalInput">Edital*</label>
+                                <input type="text" name="file" class="form-control" id="arquivoInput" aria-describedby="editalHelp" placeholder="Adicione aqui o link para o edital da seleção"  accept="application/pdf" required>
+                                <small id="tituloHelp" class="form-text text-muted">Ex. http://www.campusrussas.ufc.br/docs/edital.pdf</small>
+                                <div class="invalid-feedback">
+
+                                </div>
+                                <br>
+
+                                <br>
+                                <label for="editalInput">Anexos e Aditivos</label>
+                                <div class="form-row">
+                                    <input type="text" class="form-control col-md-4" id="nomeAnexoAditivoInput" placeholder=" Digite o titulo do seu anexo ou aditivo">&nbsp; &nbsp;
+                                    <input type="text" class="form-control col-md-6" id="linkAnexoAditivoInput" placeholder=" Adicione aqui o link para acesso este anexo ou aditivo">&nbsp;
+                                    &nbsp;
+                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAnexoAditivo()" value="Adicionar">                            
+                                </div>
+
+                                <br>
+                                <ul class="list-group col-md-8 " id="listaAnexoAditivo">
+                                </ul>
+                                <br>
+                            </div>
                         </div>
                         <br>
-                        <label for="ResponsavelInput">Responsáveis*</label>                           
+                        <hr/>                        
+                        <label for="responsavelInput">Responsáveis</label>                           
                         <div class="form-row">
                             <select id="responsavelInput" class="form-control col-md-8" style="margin-left: 3px">
                                 <option value="" selected="selected" disabled="disabled">Selecione os responsáveis por esta seleção</option>
-                                <c:forEach items="${responsaveis}" var="responsavel">
-                                    <option id="responsavelOption-${responsavel.nome}" value="${responsavel.codUsuario}-${responsavel.nome}">${responsavel.nome}</option>
-                                </c:forEach>
+                            <c:forEach items="${responsaveis}" var="responsavel">
+                                <option id="responsavelOption-${responsavel.codUsuario}" value="${responsavel.codUsuario}-${responsavel.nome}">${responsavel.nome}</option>
+                            </c:forEach>
                             </select>
                             &nbsp;&nbsp;
                             <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaResponsavel()" value="Adicionar">                            
                         </div>
                         <br>
-                        <ul class="list-group col-md-8 " id="listaAvaliadores">
+                        <ul class="list-group col-md-8" id="listaResponsaveis">
                         </ul>
-                        <br>
 
                         <br>
                         <a href="/Darwin" type="button" id="enviar" class="btn btn-secondary">
@@ -187,6 +210,78 @@
 	}
     }
 
+      var listaNomeAnexoAditivo = [];
+      var listaLinkAnexoAditivo = [];
+      var numAnexoAditivo = 0;
+      function adicionaAnexoAditivo(){
+        var nomeAnexoAditivo = document.getElementById("nomeAnexoAditivoInput").value;
+        var linkAnexoAditivo = document.getElementById("linkAnexoAditivoInput").value;
+        if(nomeAnexoAditivo !== "" && linkAnexoAditivo !== ""){
+            listaNomeAnexoAditivo[numAnexoAditivo] = nomeAnexoAditivo;
+            listaLinkAnexoAditivo[numAnexoAditivo] = linkAnexoAditivo;
+            numAnexoAditivo++;
+        }
+        document.getElementById("nomeAnexoAditivoInput").value = "";
+        document.getElementById("linkAnexoAditivoInput").value = "";
+        atualizaAnexoAditivo();
+      }
+      function atualizaAnexoAditivo(){
+          var list = document.getElementById("listaAnexoAditivo");
+          list.innerHTML = "";
+          for(i = 0;i < listaNomeAnexoAditivo.length;i++){
+            if(listaNomeAnexoAditivo[i] !== ""){
+                list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="nomeAnexoAditivo" value="'+listaNomeAnexoAditivo[i]+'" style="display: none;"> <input type="hidden" name="linkAnexoAditivo" value="'+listaLinkAnexoAditivo[i]+'" style="display: none;"> <a href="'+listaLinkAnexoAditivo[i]+'" target="_blank">'+ listaNomeAnexoAditivo[i] +'</a><button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAnexoAditivo(\''+listaNomeAnexoAditivo[i]+'\')">clear</button></li>';
+            }
+          }
+      }
+      function removeAnexoAditivo(nome){
+          for(i = 0;i < listaNomeAnexoAditivo.length;i++){
+              if(listaNomeAnexoAditivo[i] === nome){
+                  listaNomeAnexoAditivo[i] = "";
+                  listaLinkAnexoAditivo[i] = "";
+              }
+          }
+          atualizaAnexoAditivo();
+      }
+      
+      
+      var listaResponsaveis = [];
+      var codResponsaveis = [];
+      var numResponsaveis = 0;
+      function adicionaResponsavel(){
+        var responsavelInput = document.getElementById("responsavelInput").value;
+        var nomeResponsavel= responsavelInput.substring(responsavelInput.indexOf("-") + 1, responsavelInput.lenght);
+        var codResponsavel = responsavelInput.substring(0, responsavelInput.indexOf("-"));
+        if(nomeResponsavel !== ""){
+            listaResponsaveis[numResponsaveis] = nomeResponsavel;
+            codResponsaveis[numResponsaveis] = codResponsavel;
+            document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "disabled";
+            numResponsaveis++;
+        }
+        document.getElementById("responsavelInput").value = "";
+        atualizaResponsaveis();
+        
+      }
+      function atualizaResponsaveis(){
+          var list = document.getElementById("listaResponsaveis");
+          list.innerHTML = "";
+          for(i = 0;i < listaResponsaveis.length;i++){
+            if(listaResponsaveis[i] !== ""){
+                list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codResponsaveis" value="'+codResponsaveis[i]+'" style="display: none;"> '+ listaResponsaveis[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeResponsaveis(\''+codResponsaveis[i]+'\')">clear</button></li>';
+            }
+          }
+      }
+      function removeResponsaveis(codResponsavel){
+          for(i = 0;i < listaResponsaveis.length;i++){
+              if(codResponsaveis[i] === codResponsavel){
+                  document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "";
+                  listaResponsaveis[i] = "";
+                  codResponsaveis[i] = "";
+                  
+              }
+          }
+          atualizaResponsaveis();
+      }
     </script>
 </body>
 </html>

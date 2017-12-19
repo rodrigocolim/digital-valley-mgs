@@ -84,6 +84,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
             /*    if (s.getEstado().execute(s).compareTo(s.getEstado()) != 0) {
                     this.atualizaEstado(s, s.getEstado().execute(s));
                 } */
+
             }
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }

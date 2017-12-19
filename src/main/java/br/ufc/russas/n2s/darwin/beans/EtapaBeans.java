@@ -36,6 +36,8 @@ public class EtapaBeans implements Beans {
     private EnumEstadoEtapa estado;
     private EtapaBeans prerequisito;
     private float notaMinima;
+    private int limiteClassificados;
+    private boolean divulgadoResultado;
     
     public EtapaBeans(){}
 
@@ -134,6 +136,24 @@ public class EtapaBeans implements Beans {
     public void setNotaMinima(float notaMinima) {
         this.notaMinima = notaMinima;
     }
+
+    public int getLimiteClassificados() {
+        return limiteClassificados;
+    }
+
+    public void setLimiteClassificados(int limiteClassificados) {
+        this.limiteClassificados = limiteClassificados;
+    }
+
+    public boolean isDivulgadoResultado() {
+        return divulgadoResultado;
+    }
+
+    public void setDivulgaResultado(boolean divulgadoResultado) {
+        this.divulgadoResultado = divulgadoResultado;
+    }
+    
+    
     
     @Override
     public Object toBusiness() {
@@ -175,6 +195,8 @@ public class EtapaBeans implements Beans {
         }
         etapa.setDocumentacoes(documentacoes);
         etapa.setNotaMinima(this.getNotaMinima());
+        etapa.setLimiteClassificados(this.getLimiteClassificados());
+        etapa.setDivulgadoResultado(this.isDivulgadoResultado());
         return etapa;
     }
 
@@ -233,6 +255,8 @@ public class EtapaBeans implements Beans {
                 }
                 this.setDocumentacoes(documentacoes);
                 this.setNotaMinima(etapa.getNotaMinima());
+                this.setLimiteClassificados(etapa.getLimiteClassificados());
+                this.setDivulgaResultado(etapa.isDivulgadoResultado());
                 return this;
             } else {
                 throw new IllegalArgumentException("O objeto a ser adicionado não é uma Etapa!");

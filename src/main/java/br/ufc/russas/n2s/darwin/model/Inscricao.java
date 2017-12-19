@@ -89,18 +89,35 @@ public class Inscricao extends Etapa {
     }
     
     @Override
-    public List<Participante> getParticipantes () {
-        return getCandidatos();
+    public List<Object[]> getParticipantes () {
+        List<Object[]> participantes = Collections.synchronizedList(new ArrayList<Object[]>());
+        for (Participante  p : getCandidatos()) {
+            Object[] participante = {p,0,0};
+            participantes.add(participante);
+        }
+        return participantes;
     } 
     
     
     @Override
-    public List<Participante> getAprovados() {
-        List<Participante> aprovados = Collections.synchronizedList(new ArrayList<Participante>());
+    public List<Object[]> getAprovados() {
+        List<Object[]> aprovados = Collections.synchronizedList(new ArrayList<Object[]>());
         if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO || getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
-            for(Avaliacao avaliacao : this.getAvaliacoes()){
-                if(avaliacao.isAprovado()){
-                    aprovados.add(avaliacao.getParticipante());
+            for (Object[] p : getParticipantes()) {
+                int aprovacao = 0;
+                int reprovacao = 0;
+                for (Avaliacao a : getAvaliacoes()) {
+                    if (a.getParticipante().equals(((Participante) p[0]))) {
+                        if (a.isAprovado()) {
+                            aprovacao++;
+                        } else {
+                            reprovacao++;
+                        }
+                    }
+                }
+                if (aprovacao >=  reprovacao) {
+                    Object[] aprovado = {p, aprovacao, reprovacao};
+                    aprovados.add(aprovado);
                 }
             }
         }

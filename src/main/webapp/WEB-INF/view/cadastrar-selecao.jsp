@@ -126,16 +126,29 @@
                                 <br>
 
                                 <br>
-                                <label for="editalInput">Anexos e Aditivos</label>
-                                <div class="form-row">
-                                    <input type="text" class="form-control col-md-4" id="nomeAnexoAditivoInput" placeholder=" Digite o titulo do seu anexo ou aditivo">&nbsp; &nbsp;
-                                    <input type="text" class="form-control col-md-6" id="linkAnexoAditivoInput" placeholder=" Adicione aqui o link para acesso este anexo ou aditivo">&nbsp;
+                                <label for="anexoInput">Anexos</label>
+                                <div class="form-row" style="margin-left: 2px;">
+                                    <input type="text" class="form-control col-md-4" id="nomeAnexoInput" placeholder=" Digite o titulo do anexo da seleção">&nbsp; &nbsp;
+                                    <input type="text" class="form-control col-md-6" id="linkAnexoInput" placeholder=" Adicione aqui o link para acesso deste anexo">&nbsp;
                                     &nbsp;
-                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAnexoAditivo()" value="Adicionar">                            
+                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAnexo()" value="Adicionar">                            
                                 </div>
 
                                 <br>
-                                <ul class="list-group col-md-8 " id="listaAnexoAditivo">
+                                <ul class="list-group col-md-8 " id="listaAnexos">
+                                </ul>
+                                <br>
+                                
+                                <label for="aditivosInput">Aditivos</label>
+                                <div class="form-row">
+                                    <input type="text" class="form-control col-md-4" id="nomeAditivoInput" placeholder=" Digite o titulo do aditivo da seleção">&nbsp; &nbsp;
+                                    <input type="text" class="form-control col-md-6" id="linkAditivoInput" placeholder=" Adicione aqui o link para acesso deste aditivo">&nbsp;
+                                    &nbsp;
+                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAditivo()" value="Adicionar">                            
+                                </div>
+
+                                <br>
+                                <ul class="list-group col-md-8 " id="listaAditivos">
                                 </ul>
                                 <br>
                             </div>
@@ -210,38 +223,74 @@
 	}
     }
 
-      var listaNomeAnexoAditivo = [];
-      var listaLinkAnexoAditivo = [];
-      var numAnexoAditivo = 0;
-      function adicionaAnexoAditivo(){
-        var nomeAnexoAditivo = document.getElementById("nomeAnexoAditivoInput").value;
-        var linkAnexoAditivo = document.getElementById("linkAnexoAditivoInput").value;
-        if(nomeAnexoAditivo !== "" && linkAnexoAditivo !== ""){
-            listaNomeAnexoAditivo[numAnexoAditivo] = nomeAnexoAditivo;
-            listaLinkAnexoAditivo[numAnexoAditivo] = linkAnexoAditivo;
-            numAnexoAditivo++;
+      var listaNomeAnexo = [];
+      var listaLinkAnexo = [];
+      var numAnexo = 0;
+      function adicionaAnexo(){
+        var nomeAnexo = document.getElementById("nomeAnexoInput").value;
+        var linkAnexo = document.getElementById("linkAnexoInput").value;
+        if(nomeAnexo !== "" && linkAnexo !== ""){
+            listaNomeAnexo[numAnexo] = nomeAnexo;
+            listaLinkAnexo[numAnexo] = linkAnexo;
+            numAnexo++;
         }
-        document.getElementById("nomeAnexoAditivoInput").value = "";
-        document.getElementById("linkAnexoAditivoInput").value = "";
-        atualizaAnexoAditivo();
+        document.getElementById("nomeAnexoInput").value = "";
+        document.getElementById("linkAnexoInput").value = "";
+        atualizaAnexo();
       }
-      function atualizaAnexoAditivo(){
-          var list = document.getElementById("listaAnexoAditivo");
+      function atualizaAnexo(){
+          var list = document.getElementById("listaAnexos");
           list.innerHTML = "";
-          for(i = 0;i < listaNomeAnexoAditivo.length;i++){
-            if(listaNomeAnexoAditivo[i] !== ""){
-                list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="nomeAnexoAditivo" value="'+listaNomeAnexoAditivo[i]+'" style="display: none;"> <input type="hidden" name="linkAnexoAditivo" value="'+listaLinkAnexoAditivo[i]+'" style="display: none;"> <a href="'+listaLinkAnexoAditivo[i]+'" target="_blank">'+ listaNomeAnexoAditivo[i] +'</a><button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAnexoAditivo(\''+listaNomeAnexoAditivo[i]+'\')">clear</button></li>';
+          for(i = 0;i < listaNomeAnexo.length;i++){
+            if(listaNomeAnexo[i] !== ""){
+                list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="listaNomeAnexo" value="'+listaNomeAnexo[i]+'" style="display: none;"> <input type="hidden" name="listaLinkAnexo" value="'+listaLinkAnexo[i]+'" style="display: none;"> <a href="'+listaLinkAnexo[i]+'" target="_blank">'+ listaNomeAnexo[i] +'</a><button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAnexo(\''+listaNomeAnexo[i]+'\')">clear</button></li>';
             }
           }
       }
-      function removeAnexoAditivo(nome){
-          for(i = 0;i < listaNomeAnexoAditivo.length;i++){
-              if(listaNomeAnexoAditivo[i] === nome){
-                  listaNomeAnexoAditivo[i] = "";
-                  listaLinkAnexoAditivo[i] = "";
+      function removeAnexo(nome){
+          for(i = 0;i < listaNomeAnexo.length;i++){
+              if(listaNomeAnexo[i] === nome){
+                  listaNomeAnexo[i] = "";
+                  listaLinkAnexo[i] = "";
               }
           }
-          atualizaAnexoAditivo();
+          atualizaAnexo();
+      }
+      
+
+
+      var listaNomeAditivo = [];
+      var listaLinkAditivo = [];
+      var numAditivo = 0;
+      function adicionaAditivo(){
+        var nomeAditivo = document.getElementById("nomeAditivoInput").value;
+        var linkAditivo = document.getElementById("linkAditivoInput").value;
+        if(nomeAditivo !== "" && linkAditivo !== ""){
+            listaNomeAditivo[numAditivo] = nomeAditivo;
+            listaLinkAditivo[numAditivo] = linkAditivo;
+            numAditivo++;
+        }
+        document.getElementById("nomeAditivoInput").value = "";
+        document.getElementById("linkAditivoInput").value = "";
+        atualizaAditivo();
+      }
+      function atualizaAditivo(){
+          var list = document.getElementById("listaAditivos");
+          list.innerHTML = "";
+          for(i = 0;i < listaNomeAditivo.length;i++){
+            if(listaNomeAditivo[i] !== ""){
+                list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="listaNomeAditivo" value="'+listaNomeAditivo[i]+'" style="display: none;"> <input type="hidden" name="listaLinkAditivo" value="'+listaLinkAditivo[i]+'" style="display: none;"> <a href="'+listaLinkAditivo[i]+'" target="_blank">'+ listaNomeAditivo[i] +'</a><button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAditivo(\''+listaNomeAditivo[i]+'\')">clear</button></li>';
+            }
+          }
+      }
+      function removeAditivo(nome){
+          for(i = 0;i < listaNomeAditivo.length;i++){
+              if(listaNomeAditivo[i] === nome){
+                  listaNomeAditivo[i] = "";
+                  listaLinkAditivo[i] = "";
+              }
+          }
+          atualizaAditivo();
       }
       
       

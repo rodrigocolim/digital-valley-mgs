@@ -148,7 +148,7 @@ public class SelecaoBeans implements Beans {
         this.aditivos = aditivos;
     }
 
-    public List<Arquivo> getAnexos() {
+    public List<ArquivoBeans> getAnexos() {
         return anexos;
     }
 
@@ -233,7 +233,7 @@ public class SelecaoBeans implements Beans {
         List<Arquivo> anexos = Collections.synchronizedList(new ArrayList<Arquivo>());
         if(this.getAnexos()!=null){
             for(int i=0;i<this.getAnexos().size();i++){
-                anexos.add(this.getAnexos().get(i));
+                anexos.add((Arquivo) ((ArquivoBeans)this.getAnexos().get(i)).toBusiness());
             }
         }
         selecao.setAnexos(anexos);

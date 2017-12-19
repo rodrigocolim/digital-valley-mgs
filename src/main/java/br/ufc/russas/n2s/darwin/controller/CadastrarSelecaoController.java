@@ -8,6 +8,7 @@ package br.ufc.russas.n2s.darwin.controller;
 import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.Arquivo;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
@@ -73,8 +74,13 @@ public class CadastrarSelecaoController {
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         this.selecaoServiceIfc.setUsuario(usuario);
-        
         String[] codResponsaveis = request.getParameterValues("codResponsaveis");
+        
+        String[] nomeAnexos = request.getParameterValues("listaNomeAnexos");
+        String[] linkAnexos = request.getParameterValues("listaLinkAnexos");
+        String[] nomeAditivos = request.getParameterValues("listaNomeAditivos");
+        String[] linkAditivos = request.getParameterValues("listaLinkAditivos");
+        
         ArrayList<UsuarioBeans> responsaveis = new ArrayList<>();
         if (codResponsaveis != null) {
             for (String cod : codResponsaveis) {
@@ -85,7 +91,7 @@ public class CadastrarSelecaoController {
             }
         }
         try {
-            if (!file.isEmpty()) {
+            if (!file.isEmpty()) {// para o edital
                 ArquivoBeans edital = new ArquivoBeans();
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
                 File temp = File.createTempFile("temp", ".pdf");
@@ -100,6 +106,39 @@ public class CadastrarSelecaoController {
                 edital.setData(LocalDateTime.now());
                 selecao.setEdital(edital);
             }
+            //para anexos
+            if (nomeAnexos != null && linkAnexos != null) {
+                for (int i=0; i < nomeAnexos.length; i++) {
+                    ArquivoBeans anexo = new ArquivoBeans();
+                    anexo.setTitulo(nomeAnexos[i]);
+                    File temp = File.createTempFile("temp", ".pdf");
+                    InputStream input = FileManipulation.getStreamFromURL(linkAnexos[i]);
+                    OutputStream output = new FileOutputStream(temp);
+                    int read = 0;
+                    byte[] bytes = new byte[1024];
+                    while ((read = input.read(bytes)) != -1) {
+                        output.write(bytes, 0, read);
+                    }
+                    selecao.getAnexos().add(anexo);
+                }
+            }
+            //para aditivos
+            if (nomeAditivos != null && linkAditivos != null) {
+                for (int i=0; i < nomeAditivos.length; i++) {
+                    ArquivoBeans aditivo = new ArquivoBeans();
+                    aditivo.setTitulo(nomeAditivos[i]);
+                    File temp = File.createTempFile("temp", ".pdf");
+                    InputStream input = FileManipulation.getStreamFromURL(linkAditivos[i]);
+                    OutputStream output = new FileOutputStream(temp);
+                    int read = 0;
+                    byte[] bytes = new byte[1024];
+                    while ((read = input.read(bytes)) != -1) {
+                        output.write(bytes, 0, read);
+                    }
+                    selecao.getAditivos().add(aditivo);
+                }
+            }
+            
             selecao.setEstado(EnumEstadoSelecao.ESPERA);
             selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
             if(!usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)){

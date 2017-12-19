@@ -91,7 +91,7 @@ public class CadastrarSelecaoController {
             }
         }
         try {
-            if (!file.isEmpty()) {// para o edital
+            if (!file.isEmpty()) { // para o edital
                 ArquivoBeans edital = new ArquivoBeans();
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
                 File temp = File.createTempFile("temp", ".pdf");
@@ -106,8 +106,7 @@ public class CadastrarSelecaoController {
                 edital.setData(LocalDateTime.now());
                 selecao.setEdital(edital);
             }
-            //para anexos
-            if (nomeAnexos != null && linkAnexos != null) {
+            if (nomeAnexos != null && linkAnexos != null) { // para anexos
                 for (int i=0; i < nomeAnexos.length; i++) {
                     ArquivoBeans anexo = new ArquivoBeans();
                     anexo.setTitulo(nomeAnexos[i]);
@@ -119,11 +118,12 @@ public class CadastrarSelecaoController {
                     while ((read = input.read(bytes)) != -1) {
                         output.write(bytes, 0, read);
                     }
+                    anexo.setArquivo(temp);
+                    anexo.setData(LocalDateTime.now());
                     selecao.getAnexos().add(anexo);
                 }
             }
-            //para aditivos
-            if (nomeAditivos != null && linkAditivos != null) {
+            if (nomeAditivos != null && linkAditivos != null) {  // para aditivos
                 for (int i=0; i < nomeAditivos.length; i++) {
                     ArquivoBeans aditivo = new ArquivoBeans();
                     aditivo.setTitulo(nomeAditivos[i]);
@@ -135,6 +135,8 @@ public class CadastrarSelecaoController {
                     while ((read = input.read(bytes)) != -1) {
                         output.write(bytes, 0, read);
                     }
+                    aditivo.setArquivo(temp);
+                    aditivo.setData(LocalDateTime.now());
                     selecao.getAditivos().add(aditivo);
                 }
             }
@@ -147,8 +149,8 @@ public class CadastrarSelecaoController {
             selecao.setResponsaveis(responsaveis);
             selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-            session.setAttribute("mensagemCadastraSelecao", "Seleção cadastrada com sucesso!");
-            session.setAttribute("statusCadastraSelecao", "success");
+            session.setAttribute("mensagem", "Seleção cadastrada com sucesso!");
+            session.setAttribute("status", "success");
             return ("redirect:selecao/" + selecao.getCodSelecao());
         } catch (NumberFormatException e) {
             e.printStackTrace();

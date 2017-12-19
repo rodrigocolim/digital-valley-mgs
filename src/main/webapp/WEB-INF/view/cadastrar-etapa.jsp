@@ -66,7 +66,7 @@
                         
                         <c:if test="${not empty selecao.inscricao}">
                         <label for="etapaAnteriorInput">Etapa anterior*</label>
-                        <select name="prerequisito" class="form-control col-md-8"  id="etapaAnteriorInput" required>
+                        <select name="prerequisito" id="etapaPreRequisito" class="form-control col-md-8"  id="etapaAnteriorInput" required>
                             <option value="0" selected="selected" disabled="disabled">Selecione a etapa anterior a esta</option>
                             <fmt:parseDate value="${selecao.inscricao.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTerminoIncricao" type="date" />
                             <fmt:formatDate value="${parseDataTerminoIncricao}"  pattern="dd/MM/yyyy" var="dataTerminoIncricao" type="date"/>
@@ -201,17 +201,30 @@
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.pt-BR.min.js" ></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
     <script>
-    var hoje = new Date;
-    $('#sandbox-container .input-daterange').datepicker({
-        format: "dd/mm/yyyy",
-        todayBtn: "linked",
-        language: "pt-BR",
-        orientation: "top left",
-        todayHighlight: true,
-        toggleActive: true,
-        startDate: hoje.getDay()+'/'+(hoje.getMonth() + 1)+'/'+hoje.getFullYear(),
-        datesDisabled: ['06/12/2017', '12/12/2017']
+
+    var datas = [];
+    <c:forEach var="etapa" items="${selecao.etapas}">
+        <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
+        <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
+        datas['${etapa.codEtapa}']  = '${dataTermino}';
+    </c:forEach>
+        
+    $(function(){
+      $("#sandbox-container .input-daterange").datepicker({
+      format: "dd/mm/yyyy",
+      todayBtn: "linked",
+      language: "pt-BR",
+      orientation: "top left",
+      todayHighlight: true,
+      toggleActive: true
+
+      });
+      $("#etapaPreRequisito").on("change", function(){
+          alert(datas["'"+$(this).val()+"'"]);
+        $("#sandbox-container .input-daterange").datepicker("option", "startDate", $(this).val());
+      });
     });
+
     function getListaAvaliadores() {
         ordenaLista();
         var input, filter, ul, li, a, i;

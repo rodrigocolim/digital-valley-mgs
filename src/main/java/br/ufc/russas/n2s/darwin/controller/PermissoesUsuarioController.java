@@ -68,7 +68,7 @@ public class PermissoesUsuarioController {
                     }
                 }
                 if (p != null) {
-                    if (!usuario.getPermissoes().contains(p)) {
+                    if (usuario.getPermissoes() == null || !usuario.getPermissoes().contains(p)) {
                         usuarioServiceIfc.adicionaNivel(usuario, p);
                     }
                 } else {
@@ -81,13 +81,13 @@ public class PermissoesUsuarioController {
             model.addAttribute("usuarioSelecionado", this.usuarioServiceIfc.getUsuario(Long.parseLong(request.getParameter("codUsuario")), 0));
             return "redirect:/permissoes";
         } catch (NumberFormatException e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "nivel-usuario";
+            session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
+            return "redirect:/permissoes";
         } catch (IllegalArgumentException | IllegalAccessException e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "nivel-usuario";
+            session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
+            return "redirect:/permissoes";
         }
     }
     

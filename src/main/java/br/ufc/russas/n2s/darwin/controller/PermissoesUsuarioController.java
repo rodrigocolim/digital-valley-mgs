@@ -60,6 +60,7 @@ public class PermissoesUsuarioController {
                 for (String num : permissoes) {
                     System.out.println(num);
                     int permissao = Integer.parseInt(num);
+                    System.out.println(permissao);
                     System.out.println(EnumPermissao.getValor(permissao));
                     if (i == permissao) {
                         p = EnumPermissao.getValor(i);

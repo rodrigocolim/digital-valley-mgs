@@ -33,7 +33,7 @@ public class SelecaoProxy extends Selecao{
         if (this.getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL) && selecao.getResponsaveis().contains(this.getUsuario())) {
             return selecao.adicionaEtapa(etapa);
         } else {
-            throw new IllegalAccessException("Você não é um responsável da selação ".concat(selecao.getTitulo()));
+            throw new IllegalAccessException("Você não é o responsável por esta seleção: <b> ".concat(selecao.getTitulo()).concat("</b>"));
         }
     }
     
@@ -41,7 +41,7 @@ public class SelecaoProxy extends Selecao{
         if (this.getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL) && selecao.getResponsaveis().contains(this.getUsuario())) {
             return selecao.atualizaEtapa(etapa);
         } else {
-            throw new IllegalAccessException("Você não é um responsável da selação ".concat(selecao.getTitulo()));
+            throw new IllegalAccessException("Você não é o responsável por esta seleção: <b> ".concat(selecao.getTitulo()).concat("</b>"));
         }
     }
      
@@ -49,7 +49,7 @@ public class SelecaoProxy extends Selecao{
         if (this.getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL)) {
             return selecao.adicionaSelecao();
         } else {
-            throw new IllegalAccessException("Você não é um responsável da selação ".concat(selecao.getTitulo()));
+            throw new IllegalAccessException("Você não é o responsável por esta seleção: <b> ".concat(selecao.getTitulo()).concat("</b>"));
         }
     }
     
@@ -57,7 +57,7 @@ public class SelecaoProxy extends Selecao{
         if (this.getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL)) {
             return selecao.atualizaSelecao();
         } else {
-            throw new IllegalAccessException("Você não é um responsável da selação ".concat(selecao.getTitulo()));
+            throw new IllegalAccessException("Você não é o responsável por esta seleção: <b> ".concat(selecao.getTitulo()).concat("</b>"));
         }
     }
     
@@ -65,7 +65,7 @@ public class SelecaoProxy extends Selecao{
         if (getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL) && selecao.isResponsavel(getUsuario())) {
             selecao.adicionaResponsavel(responsavel);
         } else {
-            throw new IllegalAccessException("Você não é um responsável da selação ".concat(selecao.getTitulo()));
+            throw new IllegalAccessException("Você não é o responsável por esta seleção: <b> ".concat(selecao.getTitulo()).concat("</b>"));
         }
     }
     
@@ -73,7 +73,7 @@ public class SelecaoProxy extends Selecao{
         if (getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL) && selecao.isResponsavel(getUsuario())) {
             selecao.removeResponsavel(responsavel);
         } else {
-            throw new IllegalAccessException("Você não é um responsável da selação ".concat(selecao.getTitulo()));
+            throw new IllegalAccessException("Você não é o responsável por esta seleção: <b> ".concat(selecao.getTitulo()).concat("</b>"));
         }
     }
     
@@ -81,7 +81,7 @@ public class SelecaoProxy extends Selecao{
         if (getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL) && selecao.isResponsavel(getUsuario())) {
             selecao.removeEtapa(etapa);
         } else {
-            throw new IllegalAccessException("Você não é um responsável da selação ".concat(selecao.getTitulo()));
+            throw new IllegalAccessException("Você não é o responsável por esta seleção: <b> ".concat(selecao.getTitulo()).concat("</b>"));
         }
     }
     

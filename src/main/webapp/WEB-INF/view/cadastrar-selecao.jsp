@@ -163,6 +163,7 @@
                                 <option id="responsavelOption-${responsavel.codUsuario}" value="${responsavel.codUsuario}-${responsavel.nome}">${responsavel.nome}</option>
                             </c:forEach>
                             </select>
+                            
                             &nbsp;&nbsp;
                             <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaResponsavel()" value="Adicionar">                            
                         </div>

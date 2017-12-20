@@ -58,21 +58,17 @@ public class PermissoesUsuarioController {
             for (int i = 1; i <= EnumPermissao.values().length; i++) {
                 EnumPermissao p = null;
                 for (String num : permissoes) {
-                    System.out.println(num);
                     int permissao = Integer.parseInt(num);
-                    System.out.println(permissao);
-                    System.out.println(EnumPermissao.getValor(permissao));
                     if (i == permissao) {
                         p = EnumPermissao.getValor(i);
-                        System.out.println("Para i = "+i+", valor ="+p);
                     }
                 }
                 if (p != null) {
-                    if (!usuario.getPermissoes().contains(p)) {
+                    if (usuario.getPermissoes() == null || !usuario.getPermissoes().contains(p)) {
                         usuarioServiceIfc.adicionaNivel(usuario, p);
                     }
                 } else {
-                    usuarioServiceIfc.removeNivel(usuario, p.getValor(i));
+                    usuarioServiceIfc.removeNivel(usuario, EnumPermissao.getValor(i));
                 }
             }
             session.setAttribute("mensagem", "Permissões do usuário '<b>"+usuario.getNome()+"</b>' atualizadas com sucesso!");
@@ -81,13 +77,13 @@ public class PermissoesUsuarioController {
             model.addAttribute("usuarioSelecionado", this.usuarioServiceIfc.getUsuario(Long.parseLong(request.getParameter("codUsuario")), 0));
             return "redirect:/permissoes";
         } catch (NumberFormatException e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "nivel-usuario";
+            session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
+            return "redirect:/permissoes";
         } catch (IllegalArgumentException | IllegalAccessException e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "nivel-usuario";
+            session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
+            return "redirect:/permissoes";
         }
     }
     

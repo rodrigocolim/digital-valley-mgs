@@ -11,7 +11,6 @@ import br.ufc.russas.n2s.darwin.beans.PeriodoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
-import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -124,7 +123,7 @@ public class EditarEtapaController {
             this.getSelecaoServiceIfc().setUsuario(usuario);
             
             selecao.getEtapas().remove(etapaBeans);
-            selecao.getEtapas().add((Etapa) etapaBeans.toBusiness());
+            selecao.getEtapas().add(etapaBeans);
             
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
             //this.etapaServiceIfc.atualizaEtapa(selecao, etapaBeans);

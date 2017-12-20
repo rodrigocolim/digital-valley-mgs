@@ -57,19 +57,19 @@
                             <c:set var = "avaliado" value = "${false}"/>
                             <c:set var = "avaliacaoParticipante" value = "${null}"/>
                             <tr>
-                                <td>${participante.candidato.nome}</td>
+                                <td>${participante[0].candidato.nome}</td>
                                 <c:if test="${not empty etapa.avaliacoes}">
                                     <c:forEach var="avaliacao" items="${etapa.avaliacoes}">
-                                            <c:if test="${(avaliacao.participante.codParticipante == participante.codParticipante) and (avaliacao.avaliador.codUsuario == avaliador.codUsuario)}">
+                                            <c:if test="${(avaliacao.participante.codParticipante == participante[0].codParticipante) and (avaliacao.avaliador.codUsuario == avaliador.codUsuario)}">
                                                 <c:set var = "avaliacaoParticipante" value = "${avaliacao}"/>
                                                 <td>${avaliacao.estado}</td>
                                                 <c:if test="${avaliacao.estado == 'PENDENTE'}">
-                                                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliar${participante.candidato.codUsuario}">Avaliar</button></td>
+                                                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliar${participante[0].candidato.codUsuario}">Avaliar</button></td>
                                                     <c:set var = "avaliado" value = "${false}"/>
                                                 </c:if>
                                                 <c:if test="${avaliacao.estado != 'PENDENTE'}">
                                                     <c:set var = "avaliado" value = "${true}"/>
-                                                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliar${participante.candidato.codUsuario}">Ver Avaliação</button></td>
+                                                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliar${participante[0].candidato.codUsuario}">Ver Avaliação</button></td>
                                                 </c:if>
                                             </c:if>
                                    </c:forEach>
@@ -77,11 +77,11 @@
                                     <c:if test="${empty etapa.avaliacoes}">
                                         <c:set var = "avaliado" value = "${false}"/>
                                         <td>Pendente</td>
-                                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliar${participante.candidato.codUsuario}">Avaliar</button></td>
+                                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliar${participante[0].candidato.codUsuario}">Avaliar</button></td>
                                     </c:if>    
                                 
                             </tr>
-                            <div class="modal fade" id="avaliar${participante.candidato.codUsuario}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                            <div class="modal fade" id="avaliar${participante[0].candidato.codUsuario}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <form action="" method="post" accept-charset="UTF-8">
@@ -94,11 +94,11 @@
                         
                         <div class="modal-body">
                            
-                                <input type="hidden" name="participante" value="${participante.codParticipante}">
+                                <input type="hidden" name="participante" value="${participante[0].codParticipante}">
                                 <div class="form-group">
                                     <label for="recipient-name" class="form-control-label">Documentação:</label>
                                     <c:forEach var="documentacao" items="${etapa.documentacoes}">
-                                        <c:if test="${documentacao.candidato.codParticipante == participante.codParticipante}">
+                                        <c:if test="${documentacao.candidato.codParticipante == participante[0].codParticipante}">
                                             <c:forEach var="documento" items="${documentacao.documentos}">
                                     <p><b>${documento.titulo}:</b><a href="#">Ver</a></p>
                                             </c:forEach>

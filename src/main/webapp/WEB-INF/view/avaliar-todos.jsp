@@ -29,9 +29,9 @@
                 <div class="col-sm-8">
                     <nav class="breadcrumb">
                         <span class="breadcrumb-item">Você está em:</span> 
-                        <a class="breadcrumb-item active" href="/Darwin">Início</a>
-                        <a class="breadcrumb-item active" href="${selecao.codSelecao}">${selecao.titulo}</a>
-                        <a class="breadcrumb-item active" href="${etapa.codEtapa}">${etapa.titulo}</a>
+                        <a class="breadcrumb-item" href="/Darwin">Início</a>
+                        <a class="breadcrumb-item" href="${selecao.codSelecao}">${selecao.titulo}</a>
+                        <a class="breadcrumb-item" href="${etapa.codEtapa}">${etapa.titulo}</a>
                         <a class="breadcrumb-item active" href="#">Avaliar participantes</a>
                     </nav>
                 <c:if test="${not empty mensagem}">
@@ -59,7 +59,7 @@
                                         <td>${participante.nome}</td>
                                     </tr>
                                     <tr>
-                                        <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
+                                    <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
                                     <input type="number" name="nota" class="form-control col-sm-2 disabled" id="notaInput" value="0" min="0" max="10">
                                     </c:if>
                                     <c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
@@ -90,7 +90,10 @@
                                     </c:forEach>
                                 </tbody>
                             </table>
-                            <input type="submit" class="btn btn-primary" value="Salvar">
+                            <a href="/Darwin/selecao/${selecao.codSelecao}" class="btn btn-secondary btn-sm">
+                                Cancelar
+                            </a>
+                            <input type="submit" class="btn btn-primary btn-sm" value="Salvar">
                         </form>
                     </div>
                 </div>

@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -145,7 +146,7 @@ public class ParticiparEtapaController {
     }*/
     
     @RequestMapping(value="/inscricao/{codEtapa}", method = RequestMethod.POST)
-    public @ResponseBody void participa(@PathVariable long codEtapa, HttpServletRequest request, MultipartHttpServletRequest r,HttpServletResponse response, @RequestParam("arquivos") List<MultipartFile> documentos) throws IOException {    
+    public String participa(@PathVariable long codEtapa, HttpServletRequest request,Model model, MultipartHttpServletRequest r,HttpServletResponse response, @RequestParam("arquivos") List<MultipartFile> documentos) throws IOException {    
         HttpSession session = request.getSession();
         InscricaoBeans etapa = null;
         try {
@@ -157,7 +158,8 @@ public class ParticiparEtapaController {
             String[] nomeDocumento = request.getParameterValues("nomeDocumento");
             System.out.println("N de nome de docs enviados: "+nomeDocumento.length);
             System.out.println("N de arquivos enviados: "+documentos.size());
-            System.out.println("N de arquivos enviados: "+r.getFiles("arquivos").size());
+            System.out.println("N de arquivos enviados: "+r.getFiles("arquivos").isEmpty());
+            
             for (int i = 0; i < documentos.size();i++) {
                 String nome = nomeDocumento[i];
                 System.out.println(nome);
@@ -187,23 +189,33 @@ public class ParticiparEtapaController {
             } else {
                 etapaServiceIfc.participa(etapa, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante), (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
             }            
-            session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(etapa.getTitulo()));
+            model.addAttribute("mensagem", "Agora você está inscrito na etapa ".concat(etapa.getTitulo()));
+            List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
+
+            HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
+            for (SelecaoBeans s : selecoes) {
+                etapasAtuais.put(s, this.getSelecaoServiceIfc().getEtapaAtual(s));
+            }
+            model.addAttribute("categoria", "Minhas seleções");
+            model.addAttribute("selecoes", selecoes);
+            model.addAttribute("etapasAtuais", etapasAtuais);
             session.setAttribute("status", "success");
-            response.sendRedirect("/Darwin/minhasSelecoes");
+            return "redirect:/minhasSelecoes";
         } catch (NumberFormatException e) {
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
-            response.sendRedirect("/Darwin/participarEtapa/inscricao/"+etapa.getCodEtapa());
+            return "redirect:/participarEtapa/inscricao/"+etapa.getCodEtapa();
         } catch (IllegalArgumentException | NullPointerException | IllegalAccessException e) {
             e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
             response.sendRedirect("/Darwin/participarEtapa/inscricao/"+etapa.getCodEtapa());
+            return "redirect:/participarEtapa/inscricao/"+etapa.getCodEtapa();
         } catch (Exception e) {
             e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
-            response.sendRedirect("/Darwin/participarEtapa/inscricao/"+etapa.getCodEtapa());
+            return "redirect:/participarEtapa/inscricao/"+etapa.getCodEtapa();
         }
     }
     
@@ -244,21 +256,21 @@ public class ParticiparEtapaController {
             this.etapaServiceIfc.anexaDocumentacao(etapa, (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));           
             session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(etapa.getTitulo()));
             session.setAttribute("status", "success");
-            response.sendRedirect("/Darwin/minhas_Selecoes");
+            response.sendRedirect("/minhas_Selecoes");
         } catch (NumberFormatException e) {
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
-            response.sendRedirect("/Darwin/participarEtapa/"+etapa.getCodEtapa());
+            response.sendRedirect("/participarEtapa/"+etapa.getCodEtapa());
         } catch (IllegalArgumentException | NullPointerException | IllegalAccessException e) {
             e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
-            response.sendRedirect("/Darwin/participarEtapa/"+etapa.getCodEtapa());
+            response.sendRedirect("/participarEtapa/"+etapa.getCodEtapa());
         } catch (Exception e) {
             e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
-            response.sendRedirect("/Darwin/participarEtapa/"+etapa.getCodEtapa());
+            response.sendRedirect("/participarEtapa/"+etapa.getCodEtapa());
         }
     }
 

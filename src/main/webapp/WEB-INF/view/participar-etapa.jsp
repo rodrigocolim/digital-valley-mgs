@@ -22,15 +22,7 @@
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.standalone.css" />
     </head>
     <body>
-    <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
-    <c:if test="${not empty mensagem}">
-        <div class="alert alert-${status} alert-dismissible fade show" role="alert">
-            ${mensagem}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    </c:if>   
+    <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import> 
     <div class="container-fluid">
         <div class="row row-offcanvas row-offcanvas-right">
             <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
@@ -40,23 +32,36 @@
                     <a class="breadcrumb-item" href="/Darwin">Início</a>
                     <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
                 	<a class="breadcrumb-item active" href="/Darwin/selecao/${selecao.codSelecao}">${etapa.titulo}</a>
-                </nav>                
+                </nav>
+                <c:set var="mensagem" value="${sessionScope.mensagem}"></c:set>
+                <c:if test="${not empty mensagem}">
+                    <div class="alert alert-${status} alert-dismissible fade show" role="alert">
+                        ${mensagem}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <c:set scope="session" var="mensagem" value=""></c:set>
+                    <c:set scope="session" var="status" value=""></c:set>
+                </c:if>               
                 <h1>Enviar documentação</h1>
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
-                    <form method="POST" action="" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        <c:set var = "i" value = "${0}"/>
                     <c:forEach var="documento" items="${etapa.documentacaoExigida}">
                         <label for="${documento}Input">${documento}</label>
                         <input type="file" name="arquivos" class="form-control" id="arquivoInput" aria-describedby="${documento}Help" accept="application/pdf">
                         <input type="hidden" name="nomeDocumento" value="${documento}" class="form-control">
                         <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
                         <br>
+                        <c:set var = "i" value = "${i + 1}"/>
                     </c:forEach>
-                        <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
+                        <a href="/Darwin/selecao/${selecao.codSelecao}" class="btn btn-secondary btn-sm">
                             Cancelar
                         </a>
-                        <input type="button" value="Enviar" id="enviar" class="btn btn-primary" data-toggle="modal" data-target="#participarEtapa" >
+                        <input type="button" value="Enviar" id="enviar" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#participarEtapa" >
                         
                         <!-- Modal -->
                         <div class="modal fade" id="participarEtapa" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">

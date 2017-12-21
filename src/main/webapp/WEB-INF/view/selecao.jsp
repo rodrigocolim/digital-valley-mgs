@@ -96,6 +96,9 @@
                 </c:if>
                 <div class="row" style="padding-left: 15px;">
                     <h1 class="text-uppercase" style="font-size: 20px;">${selecao.titulo}</h1>
+                    <a href="/Darwin/visualizarArquvio?selecao=${selecao.codSelecao}&tipo=edital" target="_blank" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;" >
+                        <span>Visualizar edital</span>
+                    </a>
                 <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
                     <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
                         Editar seleção
@@ -125,9 +128,6 @@
                     </ul>
                     </c:if>
                     <hr/>
-                    <a href="/Darwin/visualizarArquvio?selecao=${selecao.codSelecao}&tipo=edital" target="_blank" class="btn btn-primary btn-sm" >
-                        <span>Visualizar edital</span>
-                    </a>
                 </p>
 
                 <br/>
@@ -136,8 +136,8 @@
                             <c:if test="${not empty selecao.inscricao}">
                             <c:set var="estadoInscricao" value="${selecao.inscricao.estado.estado}"></c:set>
                             <li class="${i%2 != 0? 'timeline-inverted': ''}">
-                                <div class="timeline-badge ${estadoInscricao == 0 ? 'insert_invitation': estadoInscricao == 1 ? 'warning': estadoInscricao == 2  ? 'success': 'danger'}">
-                                    <i class="material-icons">${estadoInscricao == 0 ? 'insert_invitation': estadoInscricao == 1 ? 'timelapse': estadoInscricao == 2  ? 'done_all': 'warning'}</i>
+                                <div class="timeline-badge ${estadoInscricao == 1 ? 'insert_invitation': estadoInscricao == 2 ? 'warning': estadoInscricao == 3  ? 'success': 'danger'}">
+                                    <i class="material-icons">${estadoInscricao == 1 ? 'insert_invitation': estadoInscricao == 2 ? 'timelapse': estadoInscricao == 3  ? 'done_all': 'warning'}</i>
                                 </div>
                                 <div class="timeline-panel">
                                     <div class="timeline-heading">
@@ -163,14 +163,17 @@
                                             <ul>
                                                 <c:forEach var="documento" items="${selecao.inscricao.documentacaoExigida}">
                                                     <li>${documento}</b></li>
-                                                    </c:forEach>
+                                                </c:forEach>
                                             </ul>
                                         </c:if>
                                         <hr>
-                                        <c:if test="${(estadoInscricao == 1) and (fn:contains(permissoes, 'PARTICIPANTE') and (not isResponsavel) and (not fn:contains(permissoes, 'ADMINISTRADOR')))}">
-                                            <a href="/Darwin/participarEtapa/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Inscrever-se</a>
+                                        <c:if test="${(estadoInscricao == 2) and (not isResponsavel) and (not fn:contains(permissoes, 'ADMINISTRADOR')) and (not fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
+                                            <a href="/Darwin/participarEtapa/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Inscrever-se</a>
                                         </c:if>
-                                        <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                                        <c:if test="${(estadoInscricao == 2) and (not isResponsavel) and (not fn:contains(permissoes, 'ADMINISTRADOR') and (not selecao.inscricao.divulgadoResultado) and (fn:contains(selecao.inscricao.candidatos, sessionScope.usuarioDarwin)))}">
+                                            <a href="#" class="btn btn-secondary btn-sm" role="button" aria-pressed="true" disabled>Aguardando avaliação...</a>
+                                        </c:if>
+                                        <c:if test="${(isResponsavel and (estadoInscricao == 1)) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
                                             <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
                                                 Editar etapa
                                             </a>   
@@ -178,6 +181,11 @@
                                         <c:if test="${((estadoInscricao == 1) or (estadoInscricao == 2)) and (not selecao.inscricao.divulgadoResultado) and (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
                                             <a href="/Darwin/avaliar/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                                 Avaliar
+                                            </a>
+                                        </c:if>
+                                        <c:if test="${(estadoInscricao == 2) and (selecao.inscricao.divulgadoResultado) and (fn:contains(usuarioDarwin, etapa.avaliadores))}">
+                                            <a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+                                                Ver resultados
                                             </a>
                                         </c:if>
                                     </div>
@@ -231,12 +239,12 @@
                                             Editar etapa
                                         </a>   
                                     </c:if>
-                                    <c:if test="${(estado == 2) and (etapa.divulgadoResultado)}">
+                                    <c:if test="${(estado == 2) and (not etapa.divulgadoResultado)}">
                                         <a href="/Darwin/avaliar/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                             Avaliar
                                         </a>
                                     </c:if>
-                                    <c:if test="${(estado == 2) and (not etapa.divulgadoResultado) and (fn:contains(usuarioDarwin, etapa.avaliadores))}">
+                                    <c:if test="${(estado == 2) and (etapa.divulgadoResultado) and (fn:contains(usuarioDarwin, etapa.avaliadores))}">
                                         <a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                             Ver resultados
                                         </a>

@@ -30,8 +30,7 @@
                     <nav class="breadcrumb">
                         <span class="breadcrumb-item">Você está em:</span> 
                         <a class="breadcrumb-item" href="/Darwin">Início</a>
-                        <a class="breadcrumb-item" href="${selecao.codSelecao}">${selecao.titulo}</a>
-                        <a class="breadcrumb-item" href="${etapa.codEtapa}">${etapa.titulo}</a>
+                        <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
                         <a class="breadcrumb-item active" href="#">Avaliar participantes</a>
                     </nav>
                 <c:if test="${not empty mensagem}">
@@ -150,10 +149,28 @@
                                         </form>
                                     </div>
                                 </div>
+<<<<<<< HEAD
                             </div>
+=======
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                            <c:if test="${not avaliado}">
+                                <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+                            </c:if>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+>>>>>>> b257c888a024680c8471b43f33ac101b68e9ddc3
                             </c:forEach>
                         </tbody>
                     </table>
+                    <a href="/Darwin/selecao/${selecao.codSelecao}" class="btn btn-secondary btn-sm">
+                        Cancelar
+                    </a>
                     <a href="/Darwin/avaliarTodos/${etapa.codEtapa}">
                         <input type="button" class="btn btn-primary btn-sm" value="Avaliar Todos"/>
                     </a>

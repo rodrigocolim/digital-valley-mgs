@@ -128,7 +128,7 @@ public class InscricaoSelecaoController extends HttpServlet {
                          }
                      }
                  }
-                System.out.println("gheguie");
+                System.out.println("dasdadasdaqdjkahd");
                 DocumentacaoBeans documentacao = new  DocumentacaoBeans();
                 ParticipanteBeans participante = new ParticipanteBeans();
                 participante.setCandidato((UsuarioDarwin) usuario.toBusiness());

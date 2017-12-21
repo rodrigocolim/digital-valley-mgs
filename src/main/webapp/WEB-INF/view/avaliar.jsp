@@ -64,12 +64,12 @@
                                                 <c:set var = "avaliacaoParticipante" value = "${avaliacao}"/>
                                                 <td>${avaliacao.estado}</td>
                                                 <c:if test="${avaliacao.estado == 'PENDENTE'}">
-                                                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliar${participante[0].candidato.codUsuario}">Avaliar</button></td>
+                                                    <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#avaliar${participante[0].candidato.codUsuario}">Avaliar</button></td>
                                                     <c:set var = "avaliado" value = "${false}"/>
                                                 </c:if>
                                                 <c:if test="${avaliacao.estado != 'PENDENTE'}">
                                                     <c:set var = "avaliado" value = "${true}"/>
-                                                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliar${participante[0].candidato.codUsuario}">Ver Avaliação</button></td>
+                                                    <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#avaliar${participante[0].candidato.codUsuario}">Ver Avaliação</button></td>
                                                 </c:if>
                                             </c:if>
                                    </c:forEach>
@@ -77,7 +77,7 @@
                                     <c:if test="${empty etapa.avaliacoes}">
                                         <c:set var = "avaliado" value = "${false}"/>
                                         <td>Pendente</td>
-                                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avaliar${participante[0].candidato.codUsuario}">Avaliar</button></td>
+                                        <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#avaliar${participante[0].candidato.codUsuario}">Avaliar</button></td>
                                     </c:if>    
                                 
                             </tr>

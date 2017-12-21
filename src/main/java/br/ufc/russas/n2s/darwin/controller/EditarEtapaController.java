@@ -17,6 +17,7 @@ import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class EditarEtapaController {
     public UsuarioServiceIfc getUsuarioServiceIfc() {
         return usuarioServiceIfc;
     }
-    @Autowired(required = true)
+    @Autowired(required = true) 
     public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc) {
         this.usuarioServiceIfc = usuarioServiceIfc;
     }
@@ -70,6 +71,9 @@ public class EditarEtapaController {
     public String getIndex(@PathVariable long codSelecao, @PathVariable long codEtapa, Model model) {
         EtapaBeans etapaBeans = this.etapaServiceIfc.getEtapa(codEtapa);
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
+       
+        List<UsuarioBeans> avaliadores = usuarioServiceIfc.listaAvaliadores();
+        System.out.println("\n\n"+avaliadores.size()+"\n\n\n\n\n");
         if (etapaBeans.getCodEtapa() == selecao.getInscricao().getCodEtapa()) {
             model.addAttribute("tipo", "inscricao"); 
         } else {
@@ -77,6 +81,7 @@ public class EditarEtapaController {
         }
         model.addAttribute("selecao", selecao);
         model.addAttribute("etapa", etapaBeans);
+        model.addAttribute("avaliadores", avaliadores);
         return "editar-etapa";
     }
 

@@ -6,7 +6,6 @@
 package br.ufc.russas.n2s.darwin.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  *
@@ -18,8 +17,7 @@ public enum EnumEstadoEtapa implements EstadoEtapa{
         @Override
         public EnumEstadoEtapa execute(Etapa etapa){
             if(etapa.getPeriodo().getInicio().isAfter(LocalDate.now())){
-                return this;
-                
+                return this;  
             }else{
                 return ANDAMENTO.execute(etapa);
             }
@@ -42,7 +40,7 @@ public enum EnumEstadoEtapa implements EstadoEtapa{
             if(etapa.getPeriodo().getTermino().isBefore(LocalDate.now())){
                 return this;
             }else{
-                return this;
+                return ESPERA.execute(etapa);
             }
         }
     };

@@ -166,9 +166,9 @@
                                                 Editar etapa
                                             </a>   
                                         </c:if>
-                                        <c:if test="${(estado == 2) and (not etapa.divulgadoResultado) and (fn:contains(usuarioDarwin, etapa.avaliadores))}">
-                                            <a href="/Darwin/avaliar/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-                                                Ver resultados
+                                        <c:if test="${((estadoInscricao == 1) or (estadoInscricao == 2)) and (not selecao.inscricao.divulgadoResultado) and (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
+                                            <a href="/Darwin/avaliar/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+                                                Avaliar
                                             </a>
                                         </c:if>
                                     </div>

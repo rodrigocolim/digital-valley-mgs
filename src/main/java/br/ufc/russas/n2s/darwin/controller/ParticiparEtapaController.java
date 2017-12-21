@@ -189,7 +189,7 @@ public class ParticiparEtapaController {
             } else {
                 etapaServiceIfc.participa(etapa, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante), (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
             }            
-            model.addAttribute("mensagem", "Agora você está inscrito na etapa ".concat(etapa.getTitulo()));
+            session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(etapa.getTitulo()));
             List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
 
             HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();

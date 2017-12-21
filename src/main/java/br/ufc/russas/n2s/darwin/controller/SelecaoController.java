@@ -25,17 +25,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class SelecaoController {
     
     private SelecaoServiceIfc selecaoServiceIfc;
-    private EtapaServiceIfc etapaServiceIfc;
+   // private EtapaServiceIfc etapaServiceIfc;
     
     @Autowired(required = true)
     public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc")SelecaoServiceIfc selecaoServiceIfc){
         this.selecaoServiceIfc = selecaoServiceIfc;
     }
     
-    @Autowired(required = true)
+    /*  @Autowired(required = true)
     public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc")EtapaServiceIfc etapaServiceIfc) {
-        this.etapaServiceIfc = etapaServiceIfc;
-    }
+    this.etapaServiceIfc = etapaServiceIfc;
+    }*/
 
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
@@ -78,7 +78,7 @@ public class SelecaoController {
         request.getSession().setAttribute("selecao", selecao);
         return "selecao";
     }
-    
+   /* 
     @RequestMapping(value = "/{codSelecao}/resultado", method = RequestMethod.GET)
     public String resultado(@PathVariable long codSelecao, Model model) {
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
@@ -87,6 +87,6 @@ public class SelecaoController {
         model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));
         return "resultado";
     }
-
+*/
     
 }

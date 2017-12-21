@@ -105,7 +105,18 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
         usuario  = (UsuarioBeans) usuario.toBeans(up.removeNivel((UsuarioDarwin)usuario.toBusiness(), permissao));
         atualizaUsuario(usuario);
     }
-
+    
+    public List<UsuarioBeans> listaAvaliadores() {
+        List<UsuarioBeans> avaliadores = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
+        List<UsuarioBeans> resultado = this.listaTodosUsuarios();
+        
+        for (UsuarioBeans ub : resultado) {
+            if (ub.getPermissoes().contains(EnumPermissao.AVALIADOR)) {
+                avaliadores.add(ub);
+            }
+        }
+        return avaliadores;
+    }
     
     
 }

@@ -157,18 +157,27 @@
                                     </div>
                                     <div class="timeline-body">
                                         <p>${selecao.inscricao.descricao}</p>
+                                        <br>
+                                        <c:if test="${not empty selecao.inscricao.documentacaoExigida}">
+                                            <b>DOCUMENTAÇÃO EXIGIDA: </b> 
+                                            <ul>
+                                                <c:forEach var="documento" items="${selecao.inscricao.documentacaoExigida}">
+                                                    <li>${documento}</b></li>
+                                                    </c:forEach>
+                                            </ul>
+                                        </c:if>
                                         <hr>
-                                        <c:if test="${(estadoInscricao == 1) and (fn:contains(permissoes, 'PARTICIPANTE') and (not(fn:contains(permissoes, 'ADMINISTRADOR' or fn:contains(permissoes, 'RESPONSAVEL')))))}">
+                                        <c:if test="${(estadoInscricao == 1) and (fn:contains(permissoes, 'PARTICIPANTE') and (not isResponsavel) and (not fn:contains(permissoes, 'ADMINISTRADOR')))}">
                                             <a href="/Darwin/participarEtapa/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">Inscrever-se</a>
                                         </c:if>
                                         <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
-                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
+                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
                                                 Editar etapa
                                             </a>   
                                         </c:if>
-                                        <c:if test="${(estado == 2) and (not etapa.divulgadoResultado) and (fn:contains(usuarioDarwin, etapa.avaliadores))}">
-                                            <a href="/Darwin/avaliar/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-                                                Ver resultados
+                                        <c:if test="${((estadoInscricao == 1) or (estadoInscricao == 2)) and (not selecao.inscricao.divulgadoResultado) and (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
+                                            <a href="/Darwin/avaliar/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+                                                Avaliar
                                             </a>
                                         </c:if>
                                     </div>

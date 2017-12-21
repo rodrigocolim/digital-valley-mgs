@@ -160,13 +160,9 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
 
     @Override
     public SelecaoBeans getSelecao(EtapaBeans etapa) {
-        List<SelecaoBeans> selecoes = selecaoServiceIfc.listaTodasSelecoes();
-        Etapa e = (Etapa) etapa.toBusiness();
-       
-        for (SelecaoBeans selecao : selecoes) {
-            System.out.println("\n\n"+selecao.getInscricao()+"\n\n");
-            
-            if (selecao.getEtapas().contains(e) || (selecao.getInscricao() != null && selecao.getInscricao().getCodEtapa() == etapa.getCodEtapa())) {
+        List<SelecaoBeans> selecoes = selecaoServiceIfc.listaTodasSelecoes();       
+        for (SelecaoBeans selecao : selecoes) {            
+            if (selecao.getEtapas().contains(etapa) || (selecao.getInscricao() != null && selecao.getInscricao().getCodEtapa() == etapa.getCodEtapa())) {
                 return selecao;
             }
         }

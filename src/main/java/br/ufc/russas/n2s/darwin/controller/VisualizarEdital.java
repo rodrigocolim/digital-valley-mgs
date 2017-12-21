@@ -5,6 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.controller;
 
+import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.io.FileInputStream;
@@ -17,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -48,7 +50,44 @@ public class VisualizarEdital extends HttpServlet {
             throws ServletException, IOException {
         long codSelecao = Long.parseLong(request.getParameter("selecao"));
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-        File file = selecao.getEdital().getArquivo();
+        File file = null;
+        String tipo = request.getParameter("tipo");
+        HttpSession session = request.getSession();
+        if (tipo != null) {
+            if (tipo.equals("edital")) {
+                file = selecao.getEdital().getArquivo();
+            } else if (tipo.equals("anexo")) {
+                if (request.getParameter("anexo") != null) {
+                    long codAnexo = Long.parseLong(request.getParameter("anexo"));
+                    for (ArquivoBeans anexo : selecao.getAnexos()) {
+                        if (anexo.getCodArquivo() == codAnexo) {
+                            file = anexo.getArquivo();
+                            break;
+                        }
+                    }
+                } else {
+                    response.sendRedirect("/404");
+                }
+            } else if (tipo.equals("aditivo")) {
+                if (request.getParameter("anexo") != null) {
+                    long codAditivo = Long.parseLong(request.getParameter("aditivo"));
+                    for (ArquivoBeans aditivo : selecao.getAditivos()) {
+                        if (aditivo.getCodArquivo() == codAditivo) {
+                            file = aditivo.getArquivo();
+                            break;
+                        }
+                    }
+                } else {
+                    response.sendRedirect("/404");
+                }
+            } else if (tipo.equals("dccumentacao")) {
+                 
+            } else {
+                response.sendRedirect("/404");
+            }
+        } else {
+            response.sendRedirect("/404");
+        }
         response.setContentType("application/pdf");
         response.addHeader("Content-Disposition", "inline; filename=" + selecao.getEdital().getTitulo()+".pdf");
         response.setContentLength((int) file.length());

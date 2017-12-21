@@ -132,7 +132,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
             }
         }
         for (SelecaoBeans s : resultadoDivulgadas) {
-            if (s.getResponsaveis().contains(user)) {
+            if (s.getResponsaveis().contains(usuario)) {
                 selecoes.add(s);
             }
         }

@@ -41,7 +41,7 @@ public enum EnumEstadoEtapa implements EstadoEtapa{
             if(etapa.getPeriodo().getTermino().isBefore(LocalDate.now())){
                 return this;
             }else{
-                return ANDAMENTO.execute(etapa);
+                return this;
             }
         }
     };

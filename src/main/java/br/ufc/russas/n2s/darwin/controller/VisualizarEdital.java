@@ -28,7 +28,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
  *
  * @author Wallison Carlos
  */
-@WebServlet(name = "VisualizarEdital", urlPatterns = {"/visualizarEdital"})
+@WebServlet(name = "VisualizarEdital", urlPatterns = {"/visualizarArquvio"})
 public class VisualizarEdital extends HttpServlet {
     
     private SelecaoServiceIfc selecaoServiceIfc;
@@ -71,7 +71,7 @@ public class VisualizarEdital extends HttpServlet {
                     response.sendRedirect("/404");
                 }
             } else if (tipo.equals("aditivo")) {
-                if (request.getParameter("anexo") != null) {
+                if (request.getParameter("aditivo") != null) {
                     long codAditivo = Long.parseLong(request.getParameter("aditivo"));
                     for (ArquivoBeans aditivo : selecao.getAditivos()) {
                         if (aditivo.getCodArquivo() == codAditivo) {

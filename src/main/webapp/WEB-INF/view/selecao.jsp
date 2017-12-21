@@ -125,7 +125,7 @@
                     </ul>
                     </c:if>
                     <hr/>
-                    <a href="/Darwin/visualizarEdital?selecao=${selecao.codSelecao}&tipo=edital" target="_blank" class="btn btn-primary btn-sm" >
+                    <a href="/Darwin/visualizarArquvio?selecao=${selecao.codSelecao}&tipo=edital" target="_blank" class="btn btn-primary btn-sm" >
                         <span>Visualizar edital</span>
                     </a>
                 </p>
@@ -251,13 +251,25 @@
             </div>
             <div class="col-sm-2 sidebar-offcanvas">
                 <c:if test="${not empty selecao.aditivos}">
-                <h2 style="font-size: 15px; font-weight: bold;margin-top: 5px;" class="text-center">ANEXOS E ADITIVOS</h2>
+                <h2 style="font-size: 15px; font-weight: bold;margin-top: 5px;" class="text-center">ADITIVOS</h2>
                 <ul class="list-group">
                     <c:forEach var="aditivo" items="${selecao.aditivos}">
                     <li class="list-group-item disabled">
                         <fmt:parseDate value="${aditivo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
                         <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
-                        <a href="/Darwin/visualizarAditivo/${aditivo.titulo}">(${dataAditivo}) ${aditivo.titulo}</a>
+                        <a href="/Darwin/visualizarArquvio?selecao=${selecao.codSelecao}&tipo=aditivo&aditivo=${aditivo.codArquivo}" target="_blank">(${dataAditivo}) ${aditivo.titulo}</a>
+                    </li>
+                    </c:forEach>
+                </ul>
+                </c:if>
+                <c:if test="${not empty selecao.anexos}">
+                <h2 style="font-size: 15px; font-weight: bold;margin-top: 5px;" class="text-center">ANEXOS</h2>
+                <ul class="list-group">
+                    <c:forEach var="anexo" items="${selecao.anexos}">
+                    <li class="list-group-item disabled">
+                        <fmt:parseDate value="${anexo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
+                        <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
+                        <a href="/Darwin/visualizarArquvio?selecao=${selecao.codSelecao}&tipo=anexo&anexo=${anexo.codArquivo}" target="_blank">(${dataAditivo}) ${anexo.titulo}</a>
                     </li>
                     </c:forEach>
                 </ul>

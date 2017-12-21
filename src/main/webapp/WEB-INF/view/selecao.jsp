@@ -170,20 +170,17 @@
                                         <c:if test="${(estadoInscricao == 2) and (not isResponsavel) and (not fn:contains(permissoes, 'ADMINISTRADOR')) and (not fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
                                             <a href="/Darwin/participarEtapa/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Inscrever-se</a>
                                         </c:if>
-                                        <c:if test="${(estadoInscricao == 2) and (not isResponsavel) and (not fn:contains(permissoes, 'ADMINISTRADOR') and (not selecao.inscricao.divulgadoResultado) and (fn:contains(selecao.inscricao.candidatos, sessionScope.usuarioDarwin)))}">
-                                            <a href="#" class="btn btn-secondary btn-sm" role="button" aria-pressed="true" disabled>Aguardando avaliação...</a>
-                                        </c:if>
-                                        <c:if test="${(isResponsavel and (estadoInscricao == 1)) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                                        <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
                                             <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
                                                 Editar etapa
                                             </a>   
                                         </c:if>
-                                        <c:if test="${((estadoInscricao == 1) or (estadoInscricao == 2)) and (not selecao.inscricao.divulgadoResultado) and (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
+                                        <c:if test="${((estadoInscricao == 2) or (estadoInscricao == 3)) and (not selecao.inscricao.divulgadoResultado) and (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
                                             <a href="/Darwin/avaliar/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                                 Avaliar
                                             </a>
                                         </c:if>
-                                        <c:if test="${(estadoInscricao == 2) and (selecao.inscricao.divulgadoResultado) and (fn:contains(usuarioDarwin, etapa.avaliadores))}">
+                                        <c:if test="${(estadoInscricao == 3) and (selecao.inscricao.divulgadoResultado)}">
                                             <a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                                 Ver resultados
                                             </a>
@@ -239,12 +236,12 @@
                                             Editar etapa
                                         </a>   
                                     </c:if>
-                                    <c:if test="${(estado == 2) and (not etapa.divulgadoResultado)}">
+                                    <c:if test="${((estado == 2) or (estado == 3)) and (not etapa.divulgadoResultado) and (fn:contains(etapa.avaliadores, sessionScope.usuarioDarwin))}">
                                         <a href="/Darwin/avaliar/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                             Avaliar
                                         </a>
                                     </c:if>
-                                    <c:if test="${(estado == 2) and (etapa.divulgadoResultado) and (fn:contains(usuarioDarwin, etapa.avaliadores))}">
+                                    <c:if test="${(estado == 3) and (etapa.divulgadoResultado)}">
                                         <a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                             Ver resultados
                                         </a>
@@ -256,7 +253,7 @@
                     </c:forEach>
                     <c:if test="${((not isResponsavel) or (fn:contains(permissoes, 'PARTICIPANTE')))}">  
                         <li class="">
-                            <div class="timeline-badge success">
+                            <div class="timeline-badge primary">
                                 <i class="material-icons">flag</i>
                             </div>
                             <div class="timeline-heading" style="">
@@ -278,28 +275,37 @@
             </div>
             <div class="col-sm-2 sidebar-offcanvas">
                 <c:if test="${not empty selecao.aditivos}">
-                <h2 style="font-size: 15px; font-weight: bold;margin-top: 5px;" class="text-center">ADITIVOS</h2>
-                <ul class="list-group">
-                    <c:forEach var="aditivo" items="${selecao.aditivos}">
-                    <li class="list-group-item disabled">
-                        <fmt:parseDate value="${aditivo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
-                        <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
-                        <a href="/Darwin/visualizarArquvio?selecao=${selecao.codSelecao}&tipo=aditivo&aditivo=${aditivo.codArquivo}" target="_blank">(${dataAditivo}) ${aditivo.titulo}</a>
-                    </li>
-                    </c:forEach>
-                </ul>
+                <div class="card" >
+                    <div class="card-body">
+                        <h2 style="font-size: 15px; font-weight: bold;" class="text-center">ADITIVOS</h2>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <c:forEach var="aditivo" items="${selecao.aditivos}">
+                            <li class="list-group-item disabled">
+                                <fmt:parseDate value="${aditivo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
+                                <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
+                                <a href="/Darwin/visualizarArquvio?selecao=${selecao.codSelecao}&tipo=aditivo&aditivo=${aditivo.codArquivo}" target="_blank">(${dataAditivo}) ${aditivo.titulo}</a>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
                 </c:if>
+                <br>
                 <c:if test="${not empty selecao.anexos}">
-                <h2 style="font-size: 15px; font-weight: bold;margin-top: 5px;" class="text-center">ANEXOS</h2>
-                <ul class="list-group">
-                    <c:forEach var="anexo" items="${selecao.anexos}">
-                    <li class="list-group-item disabled">
-                        <fmt:parseDate value="${anexo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
-                        <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
-                        <a href="/Darwin/visualizarArquvio?selecao=${selecao.codSelecao}&tipo=anexo&anexo=${anexo.codArquivo}" target="_blank">(${dataAditivo}) ${anexo.titulo}</a>
-                    </li>
-                    </c:forEach>
-                </ul>
+                <div class="card" >
+                    <div class="card-body">
+                        <h2 style="font-size: 15px; font-weight: bold;" class="text-center">ANEXOS</h2>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <c:forEach var="anexo" items="${selecao.anexos}">
+                            <li class="list-group-item disabled">
+                                <fmt:parseDate value="${anexo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
+                                <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
+                                <a href="/Darwin/visualizarArquvio?selecao=${selecao.codSelecao}&tipo=anexo&anexo=${anexo.codArquivo}" target="_blank">(${dataAditivo}) ${anexo.titulo}</a>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
                 </c:if>
             </div>
         </div>

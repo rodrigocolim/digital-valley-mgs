@@ -48,13 +48,15 @@
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
-                    <form method="POST" action="" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate>
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        <c:set var = "i" value = "${0}"/>
                     <c:forEach var="documento" items="${etapa.documentacaoExigida}">
                         <label for="${documento}Input">${documento}</label>
                         <input type="file" name="arquivos" class="form-control" id="arquivoInput" aria-describedby="${documento}Help" accept="application/pdf">
                         <input type="hidden" name="nomeDocumento" value="${documento}" class="form-control">
                         <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
                         <br>
+                        <c:set var = "i" value = "${i + 1}"/>
                     </c:forEach>
                         <a href="/Darwin/selecao/${selecao.codSelecao}" class="btn btn-secondary btn-sm">
                             Cancelar

@@ -76,6 +76,13 @@ public interface SelecaoServiceIfc extends ServiceIfc{
      */
     EtapaBeans getEtapaAtual(SelecaoBeans selecao);
     
+     /**
+     *
+     * @param selecao
+     * 
+     */
+    EtapaBeans getUltimaEtapa(SelecaoBeans selecao);
+    
     /**
      * 
      * @param selecoes

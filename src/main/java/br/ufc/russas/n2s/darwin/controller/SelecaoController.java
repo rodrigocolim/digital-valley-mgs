@@ -5,9 +5,7 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
-import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,12 +25,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class SelecaoController {
     
     private SelecaoServiceIfc selecaoServiceIfc;
+    private EtapaServiceIfc etapaServiceIfc;
     
     @Autowired(required = true)
     public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc")SelecaoServiceIfc selecaoServiceIfc){
         this.selecaoServiceIfc = selecaoServiceIfc;
     }
- 
+    
+    @Autowired(required = true)
+    public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc")EtapaServiceIfc etapaServiceIfc) {
+        this.etapaServiceIfc = etapaServiceIfc;
+    }
 
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
@@ -76,33 +79,14 @@ public class SelecaoController {
         return "selecao";
     }
     
-    
-
-    
-    @RequestMapping(value = "/{selecaoCodigo}/edital}", method = RequestMethod.GET)
-    public void generateReport(@PathVariable String selecaoCodigo, HttpServletResponse response) throws Exception {
-       // String[] part = selecaoCodigo.split("_");
-        //long codSelecao = Long.parseLong(part[part.length-1]);
-        long codSelecao = Long.parseLong(selecaoCodigo);
+    @RequestMapping(value = "/{codSelecao}/resultado", method = RequestMethod.GET)
+    public String resultado(@PathVariable long codSelecao, Model model) {
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-        System.out.println("teste");
-        //byte[] data = FileManipulation.getBytes(selecao.getEdital().getArquivo());
-        byte[] data = FileManipulation.getByte(selecao.getEdital().getArquivo());
-
-        //byte[] data = FileManipulation.getBytes(selecao.getEdital().getArquivo());
-
-
-        streamReport(response, data, selecao.getEdital().getTitulo());
+        model.addAttribute("classificados", etapaServiceIfc.getAprovados(selecaoServiceIfc.getUltimaEtapa(selecao)));
+        model.addAttribute("selecao", selecao);
+        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));
+        return "resultado";
     }
 
-    private void streamReport(HttpServletResponse response, byte[] data, String name)
-            throws IOException {
-
-        response.setContentType("application/pdf");
-        response.setHeader("Content-disposition", "attachment; filename=" + name);
-        response.setContentLength(data.length);
-
-        response.getOutputStream().write(data);
-        response.getOutputStream().flush();
-    }
+    
 }

@@ -73,7 +73,7 @@
                                 ${selecao.titulo}
                                 </h2>
                                 <c:if test="${selecao.estado.estado == 1}">
-                                    <span class="badge badge-pill badge-dark" style="right: 20px; font-size: 10px;position: absolute;">Em espera</span>
+                                    <span class="badge badge-pill badge-warning" style="right: 20px; font-size: 10px;position: absolute;">Em espera</span>
                                 </c:if>
                                 <c:if test="${selecao.estado.estado == 2}">
                                     <span class="badge badge-pill badge-primary" style="right: 20px; font-size: 10px;position: absolute;">Aberta</span>
@@ -82,7 +82,7 @@
                                     <span class="badge badge-pill badge-info" style="right: 20px; font-size: 10px;position: absolute;">Em andamento</span>
                                 </c:if>
                                 <c:if test="${selecao.estado.estado == 4}">
-                                    <span class="badge badge-pill badge-warning" style="right: 20px; font-size: 10px;position: absolute;">Finalizada</span>
+                                    <span class="badge badge-pill badge-dark" style="right: 20px; font-size: 10px;position: absolute;">Finalizada</span>
                                 </c:if>                                
                                 
                             </div>

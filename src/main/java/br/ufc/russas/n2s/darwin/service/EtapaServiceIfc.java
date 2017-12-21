@@ -32,6 +32,7 @@ public interface EtapaServiceIfc extends ServiceIfc{
     void anexaDocumentacao(EtapaBeans etapa, DocumentacaoBeans documentacao) throws IllegalAccessException;
     void avalia(EtapaBeans etapa, AvaliacaoBeans avaliacao) throws IllegalAccessException;
     List<Object[]> getParticipantes(EtapaBeans etapa);
+    List<Object[]> getAprovados(EtapaBeans etapa);
     SelecaoBeans getSelecao(EtapaBeans etapa);
     void participa(InscricaoBeans inscricao, ParticipanteBeans participante) throws IllegalAccessException;
     void participa(InscricaoBeans inscricao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException; 

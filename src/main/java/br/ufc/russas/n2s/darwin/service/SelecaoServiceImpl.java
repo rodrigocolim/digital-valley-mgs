@@ -10,6 +10,7 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
@@ -36,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SelecaoServiceImpl implements SelecaoServiceIfc {
 
     private SelecaoDAOIfc selecaoDAOIfc;
+    private EtapaDAOIfc etapaDAOIfc;
     private UsuarioBeans usuario;
     
     public SelecaoServiceImpl(){
@@ -48,6 +50,11 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Autowired(required = true)
     public void setSelecaoDAOIfc(@Qualifier("selecaoDAOIfc")SelecaoDAOIfc selecaoDAOIfc) {
         this.selecaoDAOIfc = selecaoDAOIfc;
+    }
+    
+    @Autowired(required = true)
+    public void setEtapaDAOIfc(@Qualifier("etapaDAOIfc")EtapaDAOIfc etapaDAOIfc) {
+        this.etapaDAOIfc = etapaDAOIfc;
     }
 
     @Override
@@ -81,8 +88,14 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         System.out.println(resultado.size());
         for (Selecao s : resultado) {
             if (s.getInscricao() != null) {
+                s.getInscricao().setEstado(s.getInscricao().getEstado().execute(s.getInscricao()));
+                etapaDAOIfc.atualizaEtapa(s.getInscricao());
                 if (s.getEstado().execute(s).compareTo(s.getEstado()) != 0) {
                     this.atualizaEstado(s, s.getEstado().execute(s));
+                }
+                for (Etapa etapa : s.getEtapas()) {
+                    etapa.setEstado(etapa.getEstado().execute(etapa));
+                    etapaDAOIfc.atualizaEtapa(etapa);
                 }
             }
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
@@ -158,7 +171,6 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 
     @Override
     public List<SelecaoBeans> ordenaSelecoesPorData(List<SelecaoBeans> selecoes) {
-        SelecaoBeans aux;
         List<SelecaoBeans> selecoesSemDatas = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
         List<SelecaoBeans> selecoesFinalizadas = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
         List<SelecaoBeans> selecoesEmAndamento = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
@@ -202,4 +214,14 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         return selecoes;
     }
     
+    @Override
+    public EtapaBeans getUltimaEtapa(SelecaoBeans selecao) {
+        Selecao s = (Selecao) selecao.toBusiness();
+        Etapa etapa = s.getUltimaEtapa();
+        if (etapa != null) {
+            return (EtapaBeans) new EtapaBeans().toBeans(etapa);
+        } else {
+            return null;
+        }
+    }
 }

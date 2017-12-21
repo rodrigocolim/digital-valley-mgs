@@ -114,12 +114,4 @@
           atualizaAvaliadores();
       }
       
-      function habilitaEdicao(id){
-        var input = document.getElementById(id);
-        if(input.disabled){
-            input.disabled = "";
-        }else{
-            input.disabled = "disabled";
-        }
-    }
 

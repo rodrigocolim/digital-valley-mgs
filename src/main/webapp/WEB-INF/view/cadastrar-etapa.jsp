@@ -74,7 +74,8 @@
                             <c:forEach var="etapa" items="${selecao.etapas}">
                             <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
                             <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
-                            <option value="${etapa.codEtapa}" onclick="atualizaDataMinimaPermitida('${dataTermino}')">${etapa.titulo}</option>
+                            <option value="${etapa.codEtapa}" onclick="">${etapa.titulo}</option>
+                            <input type="hidden" name="dataTerminoEtapaAnt-${etapa.codEtapa}">
                             </c:forEach>
                         </select>
                         <div class="invalid-feedback">
@@ -125,13 +126,13 @@
                             <div class="card-body">
                                 <br>
                                 <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
-                                <select name="criterioDeAvaliacao"   class="form-control col-md-8"  id="criterioInput" required>
+                                <select name="criterioDeAvaliacao"   class="form-control col-md-8"  id="criterioInput" onchange="atualizaCampoNotaMinima()" required>
                                     <option value="" selected="selected" disabled="disabled">Selecione o critério de avaliação dessa etapa</option>
                                     <c:if test="${not empty selecao.inscricao}"> 
-                                    <option value="1" onclick="adicionaCampoNotaMinima()">Nota</option>
-                                    <option value="2" onclick="removeCampoNotaMinima()">Aprovação</option>
+                                    <option value="1">Nota</option>
+                                    <option value="2">Aprovação</option>
                                     </c:if>
-                                    <option value="3" onclick="removeCampoNotaMinima()">Deferimento</option>
+                                    <option value="3">Deferimento</option>
                                 </select>
                                 <br>
                                 <span id="campoNotaMinima">
@@ -220,8 +221,8 @@
 
       });
       $("#etapaPreRequisito").on("change", function(){
-          alert(datas[$(this).val()]);
-        $("#sandbox-container .input-daterange").datepicker("option", "startDate", $(this).val());
+        //alert(document.getElementById('dataTerminoEtapaAnt-'+($(this).val())).value);
+        $("#sandbox-container .input-daterange").datepicker("startDate", document.getElementById('dataTerminoEtapaAnt-'+$(this).val()).value);
       });
     });
 
@@ -339,10 +340,18 @@
           atualizaAvaliadores();
       }
 
-      function adicionaCampoNotaMinima(){
-         if(document.getElementById("criterioInput").value === '1')
-            document.getElementById("campoNotaMinima").innerHTML = "Nota mínima: <input type='number' name='notaMinima' style='width: 150px' class='form-control' placeholder='Nota miníma requerida' required>";
+      function  atualizaCampoNotaMinima(){
+          if(document.getElementById("criterioInput").value === '1'){
+              adicionaCampoNotaMinima();
+          }else{
+              removeCampoNotaMinima();
+          }
       }
+      function adicionaCampoNotaMinima(){
+         if(document.getElementById("criterioInput").value === '1'){
+            document.getElementById("campoNotaMinima").innerHTML = "Nota mínima: <input type='text' name='notaMinima' style='width: 150px' class='form-control' placeholder='Nota miníma requerida' required>";
+        }
+    }
       function removeCampoNotaMinima(){
           document.getElementById("campoNotaMinima").innerHTML = "";
       }

@@ -5,6 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.UsuarioDAOIfc;
 import br.ufc.russas.n2s.darwin.dao.UsuarioDAOImpl;
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;

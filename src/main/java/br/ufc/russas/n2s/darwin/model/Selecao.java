@@ -364,12 +364,14 @@ public class Selecao {
     }
     
     public Etapa getUltimaEtapa() {
-        Etapa etapa = null;
-        if (this.etapas != null && !this.etapas.isEmpty()) {
-            etapa = this.getEtapas().get(0);
-            for (Etapa e: etapas) {
-                if (e.getPeriodo().getInicio().isAfter(etapa.getPeriodo().getInicio())) {
-                    etapa = e;
+        Etapa etapa = this.getInscricao();
+        if (etapa != null) {
+            if (this.etapas != null && !this.etapas.isEmpty()) {
+                etapa = this.getEtapas().get(0);
+                for (Etapa e: etapas) {
+                    if (e.getPeriodo().getInicio().isAfter(etapa.getPeriodo().getInicio())) {
+                        etapa = e;
+                    }
                 }
             }
         } else {

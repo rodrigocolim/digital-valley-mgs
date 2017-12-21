@@ -125,7 +125,7 @@
                     </ul>
                     </c:if>
                     <hr/>
-                    <a href="/Darwin/visualizarEdital?selecao=${selecao.codSelecao}" target="_blank" class="btn btn-primary btn-sm" >
+                    <a href="/Darwin/visualizarEdital?selecao=${selecao.codSelecao}&tipo=edital" target="_blank" class="btn btn-primary btn-sm" >
                         <span>Visualizar edital</span>
                     </a>
                 </p>

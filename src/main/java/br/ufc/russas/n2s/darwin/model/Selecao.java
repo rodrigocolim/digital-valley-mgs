@@ -373,7 +373,11 @@ public class Selecao {
                 }
             }
         } else {
-            throw new RuntimeException("Lista de etapas está vazia!");
+            if (getInscricao() == null) {
+                throw new RuntimeException("Não existe etapa!");
+            } else {
+                return getInscricao();
+            }
         }
         return etapa;
     }

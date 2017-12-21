@@ -52,9 +52,9 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
         public EnumEstadoSelecao execute(Selecao selecao){
             if(selecao.getUltimaEtapa().getPeriodo().getTermino().isBefore(LocalDate.now())){
                 return this;
-            }else{
-                return ANDAMENTO.execute(selecao);
-            }
+            } else {
+                return this;
+            } 
         }
     };
     

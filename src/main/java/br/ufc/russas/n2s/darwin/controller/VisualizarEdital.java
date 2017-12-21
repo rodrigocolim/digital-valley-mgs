@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -53,6 +54,7 @@ public class VisualizarEdital extends HttpServlet {
         File file = null;
         String tipo = request.getParameter("tipo");
         HttpSession session = request.getSession();
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         if (tipo != null) {
             if (tipo.equals("edital")) {
                 file = selecao.getEdital().getArquivo();
@@ -81,7 +83,9 @@ public class VisualizarEdital extends HttpServlet {
                     response.sendRedirect("/404");
                 }
             } else if (tipo.equals("dccumentacao")) {
+                 if (selecao.getResponsaveis().contains(usuario)) {
                  
+                 }
             } else {
                 response.sendRedirect("/404");
             }

@@ -82,7 +82,7 @@ public class SelecaoController {
     @RequestMapping(value = "/{codSelecao}/resultado", method = RequestMethod.GET)
     public void resultado(@PathVariable long codSelecao, Model model) {
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-        model.addAttribute("classificados", etapaServiceIfc.getParticipantes(selecaoServiceIfc.getUltimaEtapa(selecao)));
+        model.addAttribute("classificados", etapaServiceIfc.getAprovados(selecaoServiceIfc.getUltimaEtapa(selecao)));
     }
 
     

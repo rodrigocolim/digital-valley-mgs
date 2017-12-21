@@ -62,20 +62,19 @@
                         <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" required>${etapa.descricao}</textarea>
                         <div class="invalid-feedback">
                         </div>
-                        <br>
+                        <br/>
                         
                         <c:if test="${not empty selecao.inscricao}">
+                        <fmt:parseDate value="${selecao.inscricao.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTerminoIncricao" type="date" />
+                        <fmt:formatDate value="${parseDataTerminoIncricao}"  pattern="dd/MM/yyyy" var="dataTerminoIncricao" type="date"/>
                         <label for="etapaAnteriorInput">Etapa anterior*</label>
                         <select name="prerequisito" id="etapaPreRequisito" class="form-control col-md-8"  id="etapaAnteriorInput" required>
                             <option value="0" selected="selected" disabled="disabled">Selecione a etapa anterior a esta</option>
-                            <fmt:parseDate value="${selecao.inscricao.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTerminoIncricao" type="date" />
-                            <fmt:formatDate value="${parseDataTerminoIncricao}"  pattern="dd/MM/yyyy" var="dataTerminoIncricao" type="date"/>
-                            <option value="${selecao.inscricao.codEtapa}" onclick="atualizaDataMinimaPermitida('${dataTerminoIncricao}')">${selecao.inscricao.titulo}</option>
+                            <option value="${selecao.inscricao.codEtapa}">${selecao.inscricao.titulo}</option>
                             <c:forEach var="etapa" items="${selecao.etapas}">
-                            <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
-                            <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
-                            <option value="${etapa.codEtapa}" onclick="">${etapa.titulo}</option>
-                            <input type="hidden" name="dataTerminoEtapaAnt-${etapa.codEtapa}">
+                                <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
+                                <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
+                                <option value="${etapa.codEtapa}" onclick="">${etapa.titulo}</option>
                             </c:forEach>
                         </select>
                         <div class="invalid-feedback">

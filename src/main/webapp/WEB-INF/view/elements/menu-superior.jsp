@@ -23,7 +23,7 @@
             <c:if test="${fn:contains(permissoes, 'RESPONSAVEL') or fn:contains(permissoes, 'ADMINISTRADOR')}">
             <div class="btn-group">
                 <a href="" class="nav-item nav-link " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Opções
+                    Administração
                 </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="/Darwin/cadastrarSelecao">Cadastrar Seleção</a>

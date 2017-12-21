@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 /**
  *
@@ -144,7 +145,7 @@ public class ParticiparEtapaController {
     }*/
     
     @RequestMapping(value="/inscricao/{codEtapa}", method = RequestMethod.POST)
-    public @ResponseBody void participa(@PathVariable long codEtapa, HttpServletRequest request, HttpServletResponse response, @RequestParam("nomeDocumento") String[] nomeDocumento, @RequestParam("documento") MultipartFile[] documentos) throws IOException {    
+    public @ResponseBody void participa(@PathVariable long codEtapa, HttpServletRequest request, MultipartHttpServletRequest r,HttpServletResponse response, @RequestParam("arquivos") List<MultipartFile> documentos) throws IOException {    
         HttpSession session = request.getSession();
         InscricaoBeans etapa = null;
         try {
@@ -153,12 +154,14 @@ public class ParticiparEtapaController {
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             this.etapaServiceIfc.setUsuario(usuario);
             List<Arquivo> arquivos = Collections.synchronizedList(new ArrayList<Arquivo>());
+            String[] nomeDocumento = request.getParameterValues("nomeDocumento");
             System.out.println("N de nome de docs enviados: "+nomeDocumento.length);
-            System.out.println("N de arquivos enviados: "+documentos.length);
-            for (int i = 0; i < documentos.length;i++) {
+            System.out.println("N de arquivos enviados: "+documentos.size());
+            System.out.println("N de arquivos enviados: "+r.getFiles("arquivos").size());
+            for (int i = 0; i < documentos.size();i++) {
                 String nome = nomeDocumento[i];
                 System.out.println(nome);
-                MultipartFile file = documentos[i];
+                MultipartFile file = documentos.get(i);
                 System.out.println(file.getOriginalFilename());
                 if (!file.isEmpty()) {
                     Arquivo documento = new Arquivo();
@@ -205,7 +208,7 @@ public class ParticiparEtapaController {
     }
     
     @RequestMapping(value="/{codEtapa}", method = RequestMethod.POST)
-    public @ResponseBody void anexaDocumentacao(@PathVariable long codEtapa, HttpServletRequest request, HttpServletResponse response, @RequestParam("nomeDocumento") String[] nomeDocumento, @RequestParam("documento") MultipartFile[] documentos) throws IOException {    
+    public @ResponseBody void anexaDocumentacao(@PathVariable long codEtapa, HttpServletRequest request, HttpServletResponse response, @RequestParam("nomeDocumento") String[] nomeDocumento, @RequestParam("documento") MultipartFile documentos[]) throws IOException {    
         HttpSession session = request.getSession();
         EtapaBeans etapa = null;
         try {
@@ -241,7 +244,7 @@ public class ParticiparEtapaController {
             this.etapaServiceIfc.anexaDocumentacao(etapa, (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));           
             session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(etapa.getTitulo()));
             session.setAttribute("status", "success");
-            response.sendRedirect("/Darwin/minhasSelecoes");
+            response.sendRedirect("/Darwin/minhas_Selecoes");
         } catch (NumberFormatException e) {
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");

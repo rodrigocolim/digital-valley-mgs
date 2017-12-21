@@ -48,9 +48,10 @@
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
-                    <form method="POST" action="" enctype="multipart/form-data">
+                    <form method="POST" action="/Darwin/inscricaoSelecao" enctype="multipart/form-data">
                         <c:set var = "i" value = "${0}"/>
                     <c:forEach var="documento" items="${etapa.documentacaoExigida}">
+                        <input type="hidden" value="${etapa.codEtapa}" name="etapa">
                         <label for="${documento}Input">${documento}</label>
                         <input type="file" name="arquivos" class="form-control" id="arquivoInput" aria-describedby="${documento}Help" accept="application/pdf">
                         <input type="hidden" name="nomeDocumento" value="${documento}" class="form-control">

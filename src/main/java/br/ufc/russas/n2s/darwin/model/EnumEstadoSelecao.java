@@ -50,11 +50,11 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
     FINALIZADA(4){
         @Override
         public EnumEstadoSelecao execute(Selecao selecao){
-            if(selecao.getUltimaEtapa().getPeriodo().getTermino().isBefore(LocalDate.now())){
+            if(selecao.getUltimaEtapa().getPeriodo().getTermino().isBefore(LocalDate.now()) || selecao.getUltimaEtapa().getPeriodo().getTermino().isEqual(LocalDate.now())){
                 return this;
-            }else{
-                return ANDAMENTO.execute(selecao);
-            }
+            } else {
+                return this;
+            } 
         }
     };
     

@@ -81,9 +81,9 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         System.out.println(resultado.size());
         for (Selecao s : resultado) {
             if (s.getInscricao() != null) {
-               /* if (s.getEstado().execute(s).compareTo(s.getEstado()) != 0) {
+                if (s.getEstado().execute(s).compareTo(s.getEstado()) != 0) {
                     this.atualizaEstado(s, s.getEstado().execute(s));
-                }*/
+                }
             }
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
@@ -132,7 +132,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
             }
         }
         for (SelecaoBeans s : resultadoDivulgadas) {
-            if (s.getResponsaveis().contains(user)) {
+            if (s.getResponsaveis().contains(usuario)) {
                 selecoes.add(s);
             }
         }

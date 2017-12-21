@@ -182,7 +182,7 @@ public class ParticiparEtapaController {
             Participante participante = new Participante();
             participante.setCandidato((UsuarioDarwin) usuario.toBusiness());
             participante.setData(LocalDateTime.now());
-            documentacao.setCandidato(participante);
+//            documentacao.setCandidato(participante);
             documentacao.setDocumentos(arquivos);
             if (arquivos.size()>0) {
                 etapaServiceIfc.participa(etapa, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante));

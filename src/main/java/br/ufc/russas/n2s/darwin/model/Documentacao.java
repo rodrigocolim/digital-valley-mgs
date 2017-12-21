@@ -26,7 +26,7 @@ public class Documentacao {
     @Column(name = "codDocumentacao")
     private long codDocumentacao;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "candidato", referencedColumnName = "codParticipante")
     private Participante candidato;
 

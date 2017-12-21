@@ -186,6 +186,8 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         d.setCandidato(p);
         i.anexaDocumentacao(d);
         this.etapaDAOIfc.atualizaEtapa(i);
+        d.setCandidato(p);
+        this.etapaDAOIfc.atualizaEtapa(i);
     }
 
     @Override

@@ -318,35 +318,11 @@ public class Etapa implements Serializable, Atualizavel {
                     aprovados.add(aprovado);
                 }
             }
-            classificados (aprovados);
         }
         return aprovados;
     }
     
-    private void classificados (List<Object[]> aprovados) {
-        int n = aprovados.size();
-        for (int gap = n/2; gap > 0; gap /= 2) {
-            for (int i = gap; i < n; i += 1) {
-                Object[] temp = aprovados.get(i);
-                int j = i;
-                Object[] outro = aprovados.get(j - gap);
-                for (j = i; j >= gap && ((float) outro[1]) > ( (float) temp[1]); j -= gap) {
-                    aprovados.set(j, outro);
-                    outro = aprovados.get(j - gap);
-                }
-                aprovados.set(j, temp);
-            }
-        }
-        if (aprovados.size() > limiteClassificados && limiteClassificados != 0) {
-            Object[] temp = aprovados.get(limiteClassificados-1);
-            for (int i = limiteClassificados; i < aprovados.size(); i++) {
-                Object[] aprovado = aprovados.get(i);
-                if (((float) temp[1]) != ((float) aprovado[1])) {
-                    aprovados.remove(i);
-                } 
-            }
-        }
-    }
+    
     
     public List<Object[]> getParticipantes () {
         if (getPrerequisito() != null) {

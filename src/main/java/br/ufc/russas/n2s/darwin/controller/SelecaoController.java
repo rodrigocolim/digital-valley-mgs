@@ -39,7 +39,7 @@ public class SelecaoController {
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
 
-        if (!selecao.isDivulgada() && selecao.getResponsaveis().contains((UsuarioDarwin) usuario.toBusiness())) {
+        if (!selecao.isDivulgada() && selecao.getResponsaveis().contains(usuario)) {
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
             model.addAttribute("isResponsavel", true);

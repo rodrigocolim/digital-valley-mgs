@@ -57,7 +57,8 @@ public class CadastrarSelecaoController {
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public String getIndex() {
+    public String getIndex(Model model) {
+        model.addAttribute("responsaveis", usuarioServiceIfc.listaTodosUsuarios());
         return "cadastrar-selecao";
     }
 
@@ -75,11 +76,12 @@ public class CadastrarSelecaoController {
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         this.selecaoServiceIfc.setUsuario(usuario);
         String[] codResponsaveis = request.getParameterValues("codResponsaveis");
+              
         
-        String[] nomeAnexos = request.getParameterValues("listaNomeAnexos");
-        String[] linkAnexos = request.getParameterValues("listaLinkAnexos");
-        String[] nomeAditivos = request.getParameterValues("listaNomeAditivos");
-        String[] linkAditivos = request.getParameterValues("listaLinkAditivos");
+        String[] nomeAnexos = request.getParameterValues("listaNomeAnexo");
+        String[] linkAnexos = request.getParameterValues("listaLinkAnexo");
+        String[] nomeAditivos = request.getParameterValues("listaNomeAditivo");
+        String[] linkAditivos = request.getParameterValues("listaLinkAditivo");
         
         ArrayList<UsuarioBeans> responsaveis = new ArrayList<>();
         if (codResponsaveis != null) {
@@ -91,7 +93,7 @@ public class CadastrarSelecaoController {
             }
         }
         try {
-            if (!file.isEmpty()) {// para o edital
+            if (!file.isEmpty()) { // para o edital
                 ArquivoBeans edital = new ArquivoBeans();
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
                 File temp = File.createTempFile("temp", ".pdf");
@@ -106,9 +108,12 @@ public class CadastrarSelecaoController {
                 edital.setData(LocalDateTime.now());
                 selecao.setEdital(edital);
             }
-            //para anexos
-            if (nomeAnexos != null && linkAnexos != null) {
+            if (nomeAnexos != null && linkAnexos != null) { // para anexos
+                ArrayList<ArquivoBeans> anexos = new ArrayList<>();
                 for (int i=0; i < nomeAnexos.length; i++) {
+                    System.out.println("\n\n\n");
+                    System.out.println("Aqui 2");
+                    System.out.println("\n\n\n");
                     ArquivoBeans anexo = new ArquivoBeans();
                     anexo.setTitulo(nomeAnexos[i]);
                     File temp = File.createTempFile("temp", ".pdf");
@@ -119,11 +124,17 @@ public class CadastrarSelecaoController {
                     while ((read = input.read(bytes)) != -1) {
                         output.write(bytes, 0, read);
                     }
-                    selecao.getAnexos().add(anexo);
+                    anexo.setArquivo(temp);
+                    anexo.setData(LocalDateTime.now());
+                     System.out.println("\n\n\n");
+                     System.out.println(anexo.getTitulo());
+                     System.out.println("\n\n\n");
+                    anexos.add(anexo);
                 }
+                selecao.setAnexos(anexos);
             }
-            //para aditivos
-            if (nomeAditivos != null && linkAditivos != null) {
+            if (nomeAditivos != null && linkAditivos != null) {  // para aditivos
+                ArrayList<ArquivoBeans> aditivos = new ArrayList<>();
                 for (int i=0; i < nomeAditivos.length; i++) {
                     ArquivoBeans aditivo = new ArquivoBeans();
                     aditivo.setTitulo(nomeAditivos[i]);
@@ -135,8 +146,11 @@ public class CadastrarSelecaoController {
                     while ((read = input.read(bytes)) != -1) {
                         output.write(bytes, 0, read);
                     }
-                    selecao.getAditivos().add(aditivo);
+                    aditivo.setArquivo(temp);
+                    aditivo.setData(LocalDateTime.now());
+                    aditivos.add(aditivo);
                 }
+                selecao.setAditivos(aditivos);
             }
             
             selecao.setEstado(EnumEstadoSelecao.ESPERA);
@@ -145,10 +159,10 @@ public class CadastrarSelecaoController {
                 usuario.getPermissoes().add(EnumPermissao.RESPONSAVEL);
             }
             selecao.setResponsaveis(responsaveis);
-            selecao.getResponsaveis().add((UsuarioDarwin) usuario.toBusiness());
+            selecao.getResponsaveis().add(usuario);
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-            session.setAttribute("mensagemCadastraSelecao", "Seleção cadastrada com sucesso!");
-            session.setAttribute("statusCadastraSelecao", "success");
+            session.setAttribute("mensagem", "Seleção cadastrada com sucesso!");
+            session.setAttribute("status", "success");
             return ("redirect:selecao/" + selecao.getCodSelecao());
         } catch (NumberFormatException e) {
             e.printStackTrace();

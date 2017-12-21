@@ -31,9 +31,9 @@ public class SelecaoBeans implements Beans {
     //@NotNull @Size(min = 5)
     private String titulo;
     private String descricao;
-    private List responsaveis = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
+    private List<UsuarioBeans> responsaveis = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
     private InscricaoBeans inscricao;
-    private List etapas;
+    private List<EtapaBeans> etapas;
    // @Min(0)
     private int vagasRemuneradas;
     //@Min(0)
@@ -44,8 +44,8 @@ public class SelecaoBeans implements Beans {
     private String areaDeConcentracao;
    // @NotNull
     private String categoria;
-    private List aditivos;
-    private List anexos;
+    private List<ArquivoBeans> aditivos;
+    private List<ArquivoBeans> anexos;
     private ArquivoBeans edital;
     private EnumEstadoSelecao estado;
     private boolean divulgada;
@@ -76,11 +76,11 @@ public class SelecaoBeans implements Beans {
         this.descricao = descricao;
     }
 
-    public List<UsuarioDarwin> getResponsaveis() {
+    public List<UsuarioBeans> getResponsaveis() {
         return responsaveis;
     }
 
-    public void setResponsaveis(List usuario) {
+    public void setResponsaveis(List<UsuarioBeans> usuario) {
         this.responsaveis = usuario;
     }
 
@@ -92,11 +92,11 @@ public class SelecaoBeans implements Beans {
         this.inscricao = inscricao;
     }
 
-    public List<Etapa> getEtapas() {
+    public List<EtapaBeans> getEtapas() {
         return etapas;
     }
 
-    public void setEtapas(List etapas) {
+    public void setEtapas(List<EtapaBeans> etapas) {
         this.etapas = etapas;
     }
 
@@ -144,7 +144,7 @@ public class SelecaoBeans implements Beans {
         return aditivos;
     }
 
-    public void setAditivos(List aditivos) {
+    public void setAditivos(List<ArquivoBeans> aditivos) {
         this.aditivos = aditivos;
     }
 
@@ -152,7 +152,7 @@ public class SelecaoBeans implements Beans {
         return anexos;
     }
 
-    public void setAnexos(List anexos) {
+    public void setAnexos(List<ArquivoBeans> anexos) {
         this.anexos = anexos;
     }
 
@@ -208,8 +208,8 @@ public class SelecaoBeans implements Beans {
         List<UsuarioDarwin> responsaveis = Collections.synchronizedList(new ArrayList<UsuarioDarwin>());
         //Ajeitar
         if(this.getResponsaveis()!=null && this.getResponsaveis().size()>0 ){
-            for(UsuarioDarwin u : this.getResponsaveis()){
-                responsaveis.add(u);
+            for(UsuarioBeans u : this.getResponsaveis()){
+                responsaveis.add((UsuarioDarwin) u.toBusiness());
             }
         }
         selecao.setResponsavel(responsaveis);
@@ -217,7 +217,7 @@ public class SelecaoBeans implements Beans {
         List<Etapa> etapas = Collections.synchronizedList(new ArrayList<Etapa>()); 
         if(this.getEtapas()!=null){
             for(int i=0;i<this.getEtapas().size();i++){
-                etapas.add(this.getEtapas().get(i));
+                etapas.add((Etapa) this.getEtapas().get(i).toBusiness());
             }
         }
         selecao.setEtapas(etapas);
@@ -225,7 +225,7 @@ public class SelecaoBeans implements Beans {
         List<Arquivo> aditivos = Collections.synchronizedList(new ArrayList<Arquivo>());
         if(this.getAditivos()!=null){
             for(int i=0;i<this.getAditivos().size();i++){
-                aditivos.add((Arquivo) ((ArquivoBeans)this.getAditivos().get(i)).toBusiness());
+                aditivos.add((Arquivo) this.getAditivos().get(i).toBusiness());
             }
         }
         selecao.setAditivos(aditivos);
@@ -233,7 +233,7 @@ public class SelecaoBeans implements Beans {
         List<Arquivo> anexos = Collections.synchronizedList(new ArrayList<Arquivo>());
         if(this.getAnexos()!=null){
             for(int i=0;i<this.getAnexos().size();i++){
-                anexos.add((Arquivo) ((ArquivoBeans)this.getAnexos().get(i)).toBusiness());
+                anexos.add((Arquivo) this.getAnexos().get(i).toBusiness());
             }
         }
         selecao.setAnexos(anexos);
@@ -265,10 +265,29 @@ public class SelecaoBeans implements Beans {
                    ab = (ArquivoBeans) (new ArquivoBeans().toBeans(selecao.getEdital()));
                 }
                 this.setEdital(ab);
-                this.setResponsaveis(selecao.getResponsaveis());
-                this.setAditivos(selecao.getAditivos());
-                this.setAnexos(selecao.getAnexos());
-                this.setEtapas(selecao.getEtapas());
+                List<UsuarioBeans> responsaveis = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
+                if (selecao.getResponsaveis() != null) {
+                for (UsuarioDarwin u : selecao.getResponsaveis())
+                    responsaveis.add((UsuarioBeans) new UsuarioBeans().toBeans(u));
+                }
+                this.setResponsaveis(responsaveis);
+                List<ArquivoBeans> aditivos = Collections.synchronizedList(new ArrayList<ArquivoBeans>());
+                if (selecao.getAditivos()!= null) {
+                for (Arquivo a : selecao.getAditivos())
+                    aditivos.add((ArquivoBeans) new ArquivoBeans().toBeans(a));
+                }
+                this.setAditivos(aditivos);
+                List<ArquivoBeans> anexos = Collections.synchronizedList(new ArrayList<ArquivoBeans>());
+                if (selecao.getAditivos()!= null) {
+                for (Arquivo a : selecao.getAnexos())
+                    anexos.add((ArquivoBeans) new ArquivoBeans().toBeans(a));
+                }
+                this.setAnexos(anexos);
+                List<EtapaBeans> etapas = Collections.synchronizedList(new ArrayList<EtapaBeans>());
+                for (Etapa etapa : selecao.getEtapas()) {
+                    etapas.add((EtapaBeans) new EtapaBeans().toBeans(etapa));
+                }
+                this.setEtapas(etapas);
                 return this;
             }else{
                 throw new IllegalArgumentException("O objeto a ser adicionado não é uma Seleção!");

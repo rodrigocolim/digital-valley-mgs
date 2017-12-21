@@ -125,8 +125,7 @@
                     </ul>
                     </c:if>
                     <hr/>
-                    <a href="/Darwin/visualizarEdital?selecao=${selecao.codSelecao}" target="_blank" class="btn btn-primary btn-sm btn-icon" style="height: 40px">
-                        <i class="material-icons">picture_as_pdf</i> 
+                    <a href="/Darwin/visualizarEdital?selecao=${selecao.codSelecao}" target="_blank" class="btn btn-primary btn-sm" >
                         <span>Visualizar edital</span>
                     </a>
                 </p>
@@ -218,9 +217,9 @@
                                             Editar etapa
                                         </a>   
                                     </c:if>
-                                    <c:if test="${(estado == 3)}">
+                                    <c:if test="${(estado == 3) and (etapa.divulgadoResultado)}">
                                         <a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-                                            Resultado
+                                            Ver resultados
                                         </a>
                                     </c:if>
                                 </div>

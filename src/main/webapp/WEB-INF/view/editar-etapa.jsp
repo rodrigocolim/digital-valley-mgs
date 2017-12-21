@@ -29,9 +29,9 @@
             <div class="col-sm-8">
                 <nav class="breadcrumb">
                     <span class="breadcrumb-item">Você está em:</span> 
-                    <a class="breadcrumb-item active" href="/Darwin">Início</a>
-                    <a class="breadcrumb-item active" href="${selecao.codSelecao}">${selecao.titulo}</a>
-                    <a class="breadcrumb-item active" href="editarEtapa">Editar Etapa</a>
+                    <a class="breadcrumb-item" href="/Darwin">Início</a>
+                    <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
+                    <a class="breadcrumb-item active" href="">Editar Etapa</a>
                 </nav>
             <c:if test="${not empty mensagem}">
                 <div class="alert alert-${status} alert-dismissible fade show" role="alert">
@@ -53,11 +53,11 @@
                     </c:if>    
                     
                         <label for="tituloInput"><input type="checkbox" onclick="habilitaEdicao('tituloInput')"> Titulo*</label>
-                        <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" disabled="disabled" required>
+                        <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" readonly="true" required>
                         
                         <br>
                         <label for="descricaoInput"><input type="checkbox" onclick="habilitaEdicao('descricaoInput')"> Descrição*</label>
-                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" value="${etapa.descricao}" disabled="disabled" required>${etapa.descricao}</textarea>
+                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" value="${etapa.descricao}" readonly="true" required>${etapa.descricao}</textarea>
                         <c:if test="${tipo eq 'etapa'}">
                             <c:if test="${not empty selecao.inscricao}">
                         <label for="etapaAnteriorInput">Etapa anterior*</label>
@@ -88,9 +88,9 @@
                                 <fmt:formatDate value="${parseDataInicio}"  pattern="dd/MM/yyyy" var="dataInicio" type="date"/>
                                 <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
                                 <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
-                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" id="periodoInput1" name="dataInicio" value="${dataInicio}" disabled="disabled" required/>
+                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" id="periodoInput1" name="dataInicio" value="${dataInicio}" readonly="true" required/>
                                 <span class="input-group-addon">até</span>
-                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" id="periodoInput2" name="dataTermino" value="${dataTermino}" disabled="disabled" required/>
+                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" id="periodoInput2" name="dataTermino" value="${dataTermino}" readonly="true" required/>
                             </div>
                         </div>
                         <br>
@@ -100,7 +100,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-row">
-                                    <input type="text" name="documento" class="form-control col-md-8" id="documentoInput" placeholder="Digite o nome do documento exigido para esta etapa" disabled="disabled">&nbsp;&nbsp;
+                                    <input type="text" name="documento" class="form-control col-md-8" id="documentoInput" placeholder="Digite o nome do documento exigido para esta etapa" readonly="true">&nbsp;&nbsp;
                                     <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaDocumento()" value="Adicionar">                            
                                 </div>
                                 <br>
@@ -123,7 +123,7 @@
                                 <c:if test="${tipo eq 'etapa'}">
                                     <br>
                                     <label for="criterioDeAvaliacaoInput"><input type="checkbox" onclick="habilitaEdicao('criterioDeAvaliacaoInput')"> Critério de Avaliação*</label>
-                                    <select name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"  class="form-control col-md-8"  id="criterioDeAvaliacaoInput" disabled="disabled" required>
+                                    <select name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"  class="form-control col-md-8"  id="criterioDeAvaliacaoInput" readonly="true" required>
                                         <option ${(etapa.criterioDeAvaliacao.criterio == 1 ? "selected" : "")} value="1">Nota</option>
                                         <option ${(etapa.criterioDeAvaliacao.criterio == 2 ? "selected" : "")} value="2" >Aprovação</option>
                                         <option ${(etapa.criterioDeAvaliacao.criterio == 3 ? "selected" : "")} value="3" >Deferimento</option>
@@ -132,7 +132,7 @@
                                 <br>
                                 <label for="AvaliadoresInput"><input type="checkbox" onclick="habilitaEdicao('avaliadorInput')"> Avaliadores*</label>                           
                                 <div class="form-row">
-                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px" disabled="disabled">
+                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px" readonly="true">
                                         <option selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
                                         <c:forEach items="${avaliadores}" var="avaliador">
                                             <option id="avaliadorOption-${avaliador.nome}" value="${avaliador.codUsuario}-${avaliador.nome}">${avaliador.nome}</option>
@@ -206,6 +206,14 @@
         todayHighlight: true,
         toggleActive: true
     });
+    function habilitaEdicao(id){
+        var input = $("#"+id);
+        if(document.getElementById(id).getAttribute('readonly')){
+            input.removeAttr('readonly');
+        }else{
+            input.attr('readonly',true);
+        }
+    }
     </script>
     <script>
 

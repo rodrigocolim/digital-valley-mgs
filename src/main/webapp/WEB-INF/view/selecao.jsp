@@ -218,6 +218,11 @@
                                         </a>   
                                     </c:if>
                                     <c:if test="${(estado == 3) and (etapa.divulgadoResultado)}">
+                                        <a href="/Darwin/avaliar/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+                                            Ver resultados
+                                        </a>
+                                    </c:if>
+                                    <c:if test="${(estado == 3) and (not etapa.divulgadoResultado) and (fn:contains(usuarioDarwin, etapa.avaliadores))}">
                                         <a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                             Ver resultados
                                         </a>

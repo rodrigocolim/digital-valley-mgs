@@ -58,13 +58,9 @@ public class PermissoesUsuarioController {
             for (int i = 1; i <= EnumPermissao.values().length; i++) {
                 EnumPermissao p = null;
                 for (String num : permissoes) {
-                    System.out.println(num);
                     int permissao = Integer.parseInt(num);
-                    //System.out.println(permissao);
-                    //System.out.println(EnumPermissao.getValor(permissao));
                     if (i == permissao) {
                         p = EnumPermissao.getValor(i);
-                        //System.out.println("Para i = "+i+", valor ="+p);
                     }
                 }
                 if (p != null) {
@@ -72,7 +68,7 @@ public class PermissoesUsuarioController {
                         usuarioServiceIfc.adicionaNivel(usuario, p);
                     }
                 } else {
-                    usuarioServiceIfc.removeNivel(usuario, p.getValor(i));
+                    usuarioServiceIfc.removeNivel(usuario, EnumPermissao.getValor(i));
                 }
             }
             session.setAttribute("mensagem", "Permissões do usuário '<b>"+usuario.getNome()+"</b>' atualizadas com sucesso!");

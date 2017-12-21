@@ -159,6 +159,7 @@ public class CadastrarEtapaController {
             } else if(criterio == 3) {
                 etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
             }
+            etapa.setDivulgaResultado(false);
             etapa.setEstado(EnumEstadoEtapa.ESPERA);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));

@@ -71,7 +71,7 @@ public class Selecao {
     @JoinTable(name="aditivos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})
     private List<Arquivo> aditivos;
-    @ManyToMany(targetEntity = Arquivo.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Arquivo.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name="anexos_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "arquivo", referencedColumnName = "codArquivo")})

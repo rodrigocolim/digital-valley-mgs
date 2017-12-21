@@ -99,14 +99,15 @@
                                 </c:if>
                             </p>
                             <c:set var = "nomeUrl" value = "${selecao.titulo}"/>
-                         <!--   <a href="selecao/${fn:replace(nomeUrl," ", "_")}_${selecao.codSelecao}" class="card-link">Acessar</a> -->
-                            <a href="selecao/${selecao.codSelecao}" class="card-link">Mais informações</a>
+                            <a href="/Darwin/selecao/${selecao.codSelecao}" class="card-link">Mais informações</a>
                         </div>
                     </div>
                 </c:forEach>
                 <br/>
                 <nav aria-label="">
                 <c:if test="${titulo eq 'Início'}"><c:set value="" var="categoria"></c:set></c:if>
+                <c:if test="${titulo eq 'Minhas seleções'}"><c:set value="minhas_Selecoes" var="categoria"></c:set></c:if>
+                
                     <ul class="pagination justify-content-center">
                         <li class="page-item ${(pagina <= 1 ? "disabled" : "")}">
                             <a class="page-link" href="/Darwin/${categoria}?pag=${pagina - 1}" tabindex="-1">Anterior</a>

@@ -184,7 +184,7 @@ public class ParticiparEtapaController {
             }            
             session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(etapa.getTitulo()));
             session.setAttribute("status", "success");
-            response.sendRedirect("/Darwin/minhasSelecoes");
+            response.sendRedirect("/Darwin/minhas_Selecoes");
         } catch (NumberFormatException e) {
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");

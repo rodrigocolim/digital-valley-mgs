@@ -69,7 +69,7 @@
                         <label for="categoriaInput"> <input type="checkbox" onclick="habilitaEdicao('categoriaInput')"> Categoria*</label>
                         <select type="text" name="categoria" class="form-control custom-select" id="categoriaInput" readonly="true" required>
                             <option selected="${selecao.categoria eq 'Assistência Estudantil' ? 'selected' : ''}">Assistência Estudantil</option>
-                            <option selected="${selecao.categoria eq 'Bolsas para Discentes' ? 'selected' : ''}">Bolsas para Discentes</option>
+                            <option selected="${selecao.categoria eq 'Bolsas para Discentes' ? 'selected' : ''}">Seleções para Discentes</option>
                             <option selected="${selecao.categoria eq 'Cargos de Docente' ? 'selected' : ''}">Cargos de Docente</option>
                             <option selected="${selecao.categoria eq 'Cargos de Técnicos Admin' ? 'selected' : ''}">Cargos de Técnicos Admin</option>
                             <option selected="${selecao.categoria eq 'Professores Substitutos' ? 'selected' : ''}">Professores Substitutos</option>

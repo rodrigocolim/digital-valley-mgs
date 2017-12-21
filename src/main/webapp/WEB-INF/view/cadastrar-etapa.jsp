@@ -206,7 +206,7 @@
     <c:forEach var="etapa" items="${selecao.etapas}">
         <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
         <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
-        datas['${etapa.codEtapa}']  = '${dataTermino}';
+        datas[${etapa.codEtapa}]  = '${dataTermino}';
     </c:forEach>
         
     $(function(){
@@ -220,7 +220,7 @@
 
       });
       $("#etapaPreRequisito").on("change", function(){
-          alert(datas["'"+$(this).val()+"'"]);
+          alert(datas[$(this).val()]);
         $("#sandbox-container .input-daterange").datepicker("option", "startDate", $(this).val());
       });
     });

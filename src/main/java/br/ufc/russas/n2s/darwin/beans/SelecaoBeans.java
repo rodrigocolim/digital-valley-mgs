@@ -11,15 +11,10 @@ import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
-import br.ufc.russas.n2s.darwin.model.Participante;
-import br.ufc.russas.n2s.darwin.model.EstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Inscricao;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -223,20 +218,20 @@ public class SelecaoBeans implements Beans {
         selecao.setEtapas(etapas);
         
         List<Arquivo> aditivos = Collections.synchronizedList(new ArrayList<Arquivo>());
-        if(this.getAditivos()!=null){
-            for(int i=0;i<this.getAditivos().size();i++){
+        if (this.getAditivos()!=null) {
+            for (int i=0;i<this.getAditivos().size();i++) {
                 aditivos.add((Arquivo) this.getAditivos().get(i).toBusiness());
             }
         }
         selecao.setAditivos(aditivos);
         
-        List<Arquivo> anexos = Collections.synchronizedList(new ArrayList<Arquivo>());
-        if(this.getAnexos()!=null){
-            for(int i=0;i<this.getAnexos().size();i++){
-                anexos.add((Arquivo) this.getAnexos().get(i).toBusiness());
+        List<Arquivo> listaAnexos = Collections.synchronizedList(new ArrayList<Arquivo>());
+        if (this.getAnexos()!=null) {
+            for (int i=0;i<this.getAnexos().size();i++) {
+                listaAnexos.add((Arquivo) this.getAnexos().get(i).toBusiness());
             }
         }
-        selecao.setAnexos(anexos);
+        selecao.setAnexos(listaAnexos);
         return selecao;
     }
 

@@ -153,6 +153,8 @@ public class ParticiparEtapaController {
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             this.etapaServiceIfc.setUsuario(usuario);
             List<Arquivo> arquivos = Collections.synchronizedList(new ArrayList<Arquivo>());
+            System.out.println("N de nome de docs enviados: "+nomeDocumento.length);
+            System.out.println("N de arquivos enviados: "+documentos.length);
             for (int i = 0; i < documentos.length;i++) {
                 String nome = nomeDocumento[i];
                 System.out.println(nome);

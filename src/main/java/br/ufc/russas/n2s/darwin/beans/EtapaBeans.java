@@ -9,7 +9,6 @@ import br.ufc.russas.n2s.darwin.model.Avaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
-import br.ufc.russas.n2s.darwin.model.EstadoEtapa;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.Periodo;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;

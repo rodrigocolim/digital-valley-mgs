@@ -110,12 +110,70 @@
                                 </div>
                             </div>
                         </div>
-                        <br>
-                        <label for="editalInput"> <input type="checkbox" onclick="habilitaEdicao('editalInput')"> Substituir edital</label>
-                        <input type="text" name="file" class="form-control" id="editalInput" aria-describedby="editalHelp" placeholder="Adicione o link atual para o edital da seleção"  accept="application/pdf" readonly="true">
-                        <small id="tituloHelp" class="form-text text-muted">Ex. http://www.campusrussas.ufc.br/editais-e-selecoes.php</small>
-                        <div class="invalid-feedback">
+
+                        <div class="card">
+                            <div class="card-header col-auto">
+                                <span class="custom-control-description" style="margin-top: 4px;">Documentos da seleção</span>
+                            </div>
+
+                            
+                            <div class="card-body">
+
+                                <br>
+                                <label for="editalInput">Substituir link do edital</label>
+                                <input type="text" name="file" class="form-control" id="editalInput" aria-describedby="editalHelp" placeholder="Adicione o link atual para o edital da seleção"  accept="application/pdf">
+                                <small id="tituloHelp" class="form-text text-muted"> Ex. http://www.campusrussas.ufc.br/editais-e-selecoes.php</small>
+                                <div class="invalid-feedback">
+                                </div>
+                                <br>
+                                
+                                <label for="anexoInput">Anexos</label>
+                                <div class="form-row" style="margin-left: 2px;">
+                                    <input type="text" class="form-control col-md-4" id="nomeAnexoInput" placeholder=" Digite o titulo do anexo da seleção">&nbsp; &nbsp;
+                                    <input type="text" class="form-control col-md-6" id="linkAnexoInput" placeholder=" Adicione aqui o link para acesso deste anexo">&nbsp;
+                                    &nbsp;
+                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAnexo()" value="Adicionar">                            
+                                </div>
+
+                                <br>
+                                <ul class="list-group col-md-8 " id="listaAnexos">
+                                </ul>
+                                <br>
+
+                                <label for="aditivosInput">Aditivos</label>
+                                <div class="form-row">
+                                    <input type="text" class="form-control col-md-4" id="nomeAditivoInput" placeholder=" Digite o titulo do aditivo da seleção">&nbsp; &nbsp;
+                                    <input type="text" class="form-control col-md-6" id="linkAditivoInput" placeholder=" Adicione aqui o link para acesso deste aditivo">&nbsp;
+                                    &nbsp;
+                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAditivo()" value="Adicionar">                            
+                                </div>
+
+                                <br>
+                                <ul class="list-group col-md-8 " id="listaAditivos">
+                                </ul>
+                                <br>
+                            </div>
                         </div>
+                        <br>
+                        <hr/>                        
+                        <label for="responsavelInput">Responsáveis</label>                           
+                        <div class="form-row">
+                            <select id="responsavelInput" class="form-control col-md-8" style="margin-left: 3px">
+                                <option value="" selected="selected" disabled="disabled">Selecione os responsáveis por esta seleção</option>
+                                <c:forEach items="${responsaveis}" var="responsavel">
+                                    <option id="responsavelOption-${responsavel.codUsuario}" value="${responsavel.codUsuario}-${responsavel.nome}">${responsavel.nome}</option>
+                                </c:forEach>
+                            </select>
+
+                            &nbsp;&nbsp;
+                            <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaResponsavel()" value="Adicionar">                            
+                        </div>
+                        <br>
+                        <ul class="list-group col-md-8" id="listaResponsaveis">
+                        </ul>
+                        
+                        
+                        
                         <br>
                         <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" id="enviar" class="btn btn-secondary">
                             Cancelar
@@ -178,6 +236,115 @@
         }
     }
 
+
+      var listaNomeAnexo = [];
+      var listaLinkAnexo = [];
+      var numAnexo = 0;
+      function adicionaAnexo(){
+        var nomeAnexo = document.getElementById("nomeAnexoInput").value;
+        var linkAnexo = document.getElementById("linkAnexoInput").value;
+        if(nomeAnexo !== "" && linkAnexo !== ""){
+            listaNomeAnexo[numAnexo] = nomeAnexo;
+            listaLinkAnexo[numAnexo] = linkAnexo;
+            numAnexo++;
+        }
+        document.getElementById("nomeAnexoInput").value = "";
+        document.getElementById("linkAnexoInput").value = "";
+        atualizaAnexo();
+      }
+      function atualizaAnexo(){
+          var list = document.getElementById("listaAnexos");
+          list.innerHTML = "";
+          for(i = 0;i < listaNomeAnexo.length;i++){
+            if(listaNomeAnexo[i] !== ""){
+                list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="listaNomeAnexo" value="'+listaNomeAnexo[i]+'" style="display: none;"> <input type="hidden" name="listaLinkAnexo" value="'+listaLinkAnexo[i]+'" style="display: none;"> <a href="'+listaLinkAnexo[i]+'" target="_blank">'+ listaNomeAnexo[i] +'</a><button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAnexo(\''+listaNomeAnexo[i]+'\')">clear</button></li>';
+            }
+          }
+      }
+      function removeAnexo(nome){
+          for(i = 0;i < listaNomeAnexo.length;i++){
+              if(listaNomeAnexo[i] === nome){
+                  listaNomeAnexo[i] = "";
+                  listaLinkAnexo[i] = "";
+              }
+          }
+          atualizaAnexo();
+      }
+      
+
+
+      var listaNomeAditivo = [];
+      var listaLinkAditivo = [];
+      var numAditivo = 0;
+      function adicionaAditivo(){
+        var nomeAditivo = document.getElementById("nomeAditivoInput").value;
+        var linkAditivo = document.getElementById("linkAditivoInput").value;
+        if(nomeAditivo !== "" && linkAditivo !== ""){
+            listaNomeAditivo[numAditivo] = nomeAditivo;
+            listaLinkAditivo[numAditivo] = linkAditivo;
+            numAditivo++;
+        }
+        document.getElementById("nomeAditivoInput").value = "";
+        document.getElementById("linkAditivoInput").value = "";
+        atualizaAditivo();
+      }
+      function atualizaAditivo(){
+          var list = document.getElementById("listaAditivos");
+          list.innerHTML = "";
+          for(i = 0;i < listaNomeAditivo.length;i++){
+            if(listaNomeAditivo[i] !== ""){
+                list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="listaNomeAditivo" value="'+listaNomeAditivo[i]+'" style="display: none;"> <input type="hidden" name="listaLinkAditivo" value="'+listaLinkAditivo[i]+'" style="display: none;"> <a href="'+listaLinkAditivo[i]+'" target="_blank">'+ listaNomeAditivo[i] +'</a><button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAditivo(\''+listaNomeAditivo[i]+'\')">clear</button></li>';
+            }
+          }
+      }
+      function removeAditivo(nome){
+          for(i = 0;i < listaNomeAditivo.length;i++){
+              if(listaNomeAditivo[i] === nome){
+                  listaNomeAditivo[i] = "";
+                  listaLinkAditivo[i] = "";
+              }
+          }
+          atualizaAditivo();
+      }
+      
+      
+      var listaResponsaveis = [];
+      var codResponsaveis = [];
+      var numResponsaveis = 0;
+      function adicionaResponsavel(){
+        var responsavelInput = document.getElementById("responsavelInput").value;
+        var nomeResponsavel= responsavelInput.substring(responsavelInput.indexOf("-") + 1, responsavelInput.lenght);
+        var codResponsavel = responsavelInput.substring(0, responsavelInput.indexOf("-"));
+        if(nomeResponsavel !== ""){
+            listaResponsaveis[numResponsaveis] = nomeResponsavel;
+            codResponsaveis[numResponsaveis] = codResponsavel;
+            document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "disabled";
+            numResponsaveis++;
+        }
+        document.getElementById("responsavelInput").value = "";
+        atualizaResponsaveis();
+        
+      }
+      function atualizaResponsaveis(){
+          var list = document.getElementById("listaResponsaveis");
+          list.innerHTML = "";
+          for(i = 0;i < listaResponsaveis.length;i++){
+            if(listaResponsaveis[i] !== ""){
+                list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codResponsaveis" value="'+codResponsaveis[i]+'" style="display: none;"> '+ listaResponsaveis[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeResponsaveis(\''+codResponsaveis[i]+'\')">clear</button></li>';
+            }
+          }
+      }
+      function removeResponsaveis(codResponsavel){
+          for(i = 0;i < listaResponsaveis.length;i++){
+              if(codResponsaveis[i] === codResponsavel){
+                  document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "";
+                  listaResponsaveis[i] = "";
+                  codResponsaveis[i] = "";
+                  
+              }
+          }
+          atualizaResponsaveis();
+      }
     </script>
 </body>
 </html>

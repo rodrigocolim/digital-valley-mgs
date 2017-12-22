@@ -3,8 +3,7 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML">
 <html>
     <head>
         <meta charset="utf-8"/>
@@ -32,18 +31,17 @@
                         <li class="breadcrumb-item active" aria-current="page">Cadastrar Seleção</li>
                     </ol>
                 </nav>
-            <c:if test="${not empty mensagem}">
+                <c:if test="${not empty mensagem}">
                 <div class="alert alert-${status} alert-dismissible fade show" role="alert">
                     ${mensagem}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-            </c:if>   
+                </c:if>   
                 <h1>Cadastrar Seleção</h1>
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
-                
                 <div class="form-group">
                     <form method="POST" action="cadastrarSelecao" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate> 
                         <label for="tituloInput">Titulo*</label>
@@ -89,7 +87,7 @@
                             <div class="card-header col-auto">
                                 
                                 <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0" for="isVagasLimitadasInput">
-                                    <input type="checkbox" class="custom-control-input" id="isVagasLimitadasInput" onclick="habilitaCampoVagas()"/>
+                                    <input type="checkbox" class="custom-control-input" id="isVagasLimitadasInput" onclick="habilitaCampoVagas()" alt="Definir número de vagas"/>
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description" style="margin-top: 4px;">Definir o número de vagas</span>
                                 </label>
@@ -212,126 +210,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
-    <script>
-
-    function habilitaCampoVagas(){
-	if(! document.getElementById('isVagasLimitadasInput').checked){
-		document.getElementById('vagasRemuneradasInput').disabled = true;
-                document.getElementById('vagasVoluntariasInput').disabled = true;
-	} else {
-		document.getElementById('vagasRemuneradasInput').disabled = false;
-                document.getElementById('vagasVoluntariasInput').disabled = false;
-	}
-    }
-
-      var listaNomeAnexo = [];
-      var listaLinkAnexo = [];
-      var numAnexo = 0;
-      function adicionaAnexo(){
-        var nomeAnexo = document.getElementById("nomeAnexoInput").value;
-        var linkAnexo = document.getElementById("linkAnexoInput").value;
-        if(nomeAnexo !== "" && linkAnexo !== ""){
-            listaNomeAnexo[numAnexo] = nomeAnexo;
-            listaLinkAnexo[numAnexo] = linkAnexo;
-            numAnexo++;
-        }
-        document.getElementById("nomeAnexoInput").value = "";
-        document.getElementById("linkAnexoInput").value = "";
-        atualizaAnexo();
-      }
-      function atualizaAnexo(){
-          var list = document.getElementById("listaAnexos");
-          list.innerHTML = "";
-          for(i = 0;i < listaNomeAnexo.length;i++){
-            if(listaNomeAnexo[i] !== ""){
-                list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="listaNomeAnexo" value="'+listaNomeAnexo[i]+'" style="display: none;"> <input type="hidden" name="listaLinkAnexo" value="'+listaLinkAnexo[i]+'" style="display: none;"> <a href="'+listaLinkAnexo[i]+'" target="_blank">'+ listaNomeAnexo[i] +'</a><button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAnexo(\''+listaNomeAnexo[i]+'\')">clear</button></li>';
-            }
-          }
-      }
-      function removeAnexo(nome){
-          for(i = 0;i < listaNomeAnexo.length;i++){
-              if(listaNomeAnexo[i] === nome){
-                  listaNomeAnexo[i] = "";
-                  listaLinkAnexo[i] = "";
-              }
-          }
-          atualizaAnexo();
-      }
-      
-
-
-      var listaNomeAditivo = [];
-      var listaLinkAditivo = [];
-      var numAditivo = 0;
-      function adicionaAditivo(){
-        var nomeAditivo = document.getElementById("nomeAditivoInput").value;
-        var linkAditivo = document.getElementById("linkAditivoInput").value;
-        if(nomeAditivo !== "" && linkAditivo !== ""){
-            listaNomeAditivo[numAditivo] = nomeAditivo;
-            listaLinkAditivo[numAditivo] = linkAditivo;
-            numAditivo++;
-        }
-        document.getElementById("nomeAditivoInput").value = "";
-        document.getElementById("linkAditivoInput").value = "";
-        atualizaAditivo();
-      }
-      function atualizaAditivo(){
-          var list = document.getElementById("listaAditivos");
-          list.innerHTML = "";
-          for(i = 0;i < listaNomeAditivo.length;i++){
-            if(listaNomeAditivo[i] !== ""){
-                list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="listaNomeAditivo" value="'+listaNomeAditivo[i]+'" style="display: none;"> <input type="hidden" name="listaLinkAditivo" value="'+listaLinkAditivo[i]+'" style="display: none;"> <a href="'+listaLinkAditivo[i]+'" target="_blank">'+ listaNomeAditivo[i] +'</a><button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAditivo(\''+listaNomeAditivo[i]+'\')">clear</button></li>';
-            }
-          }
-      }
-      function removeAditivo(nome){
-          for(i = 0;i < listaNomeAditivo.length;i++){
-              if(listaNomeAditivo[i] === nome){
-                  listaNomeAditivo[i] = "";
-                  listaLinkAditivo[i] = "";
-              }
-          }
-          atualizaAditivo();
-      }
-      
-      
-      var listaResponsaveis = [];
-      var codResponsaveis = [];
-      var numResponsaveis = 0;
-      function adicionaResponsavel(){
-        var responsavelInput = document.getElementById("responsavelInput").value;
-        var nomeResponsavel= responsavelInput.substring(responsavelInput.indexOf("-") + 1, responsavelInput.lenght);
-        var codResponsavel = responsavelInput.substring(0, responsavelInput.indexOf("-"));
-        if(nomeResponsavel !== ""){
-            listaResponsaveis[numResponsaveis] = nomeResponsavel;
-            codResponsaveis[numResponsaveis] = codResponsavel;
-            document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "disabled";
-            numResponsaveis++;
-        }
-        document.getElementById("responsavelInput").value = "";
-        atualizaResponsaveis();
-        
-      }
-      function atualizaResponsaveis(){
-          var list = document.getElementById("listaResponsaveis");
-          list.innerHTML = "";
-          for(i = 0;i < listaResponsaveis.length;i++){
-            if(listaResponsaveis[i] !== ""){
-                list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codResponsaveis" value="'+codResponsaveis[i]+'" style="display: none;"> '+ listaResponsaveis[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeResponsaveis(\''+codResponsaveis[i]+'\')">clear</button></li>';
-            }
-          }
-      }
-      function removeResponsaveis(codResponsavel){
-          for(i = 0;i < listaResponsaveis.length;i++){
-              if(codResponsaveis[i] === codResponsavel){
-                  document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "";
-                  listaResponsaveis[i] = "";
-                  codResponsaveis[i] = "";
-                  
-              }
-          }
-          atualizaResponsaveis();
-      }
-    </script>
+    <script src="${pageContext.request.contextPath}/resources/js/scriptCadastrarSelecao.js" ></script>
 </body>
 </html>

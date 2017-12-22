@@ -41,7 +41,8 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                </c:if>  
+                </c:if>
+                
                     <h1>Resultado</h1>
                     <br>
                     <table class="table table-responsive">

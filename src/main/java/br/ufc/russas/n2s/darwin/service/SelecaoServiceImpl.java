@@ -100,7 +100,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
             }
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
-        return selecoes;
+        return this.ordenaSelecoesPorData(selecoes);
     }
     
     
@@ -115,9 +115,9 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         for (Selecao s : resultado) {
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
-        return this.ordenaSelecoesPorData(selecoes);
+        return selecoes;
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public SelecaoBeans getSelecao(long codSelecao) {
@@ -130,7 +130,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     public void setUsuario(UsuarioBeans usuario) {
         this.usuario = usuario;
     }
-    
+
     @Override
     public List<SelecaoBeans> listaSelecoesAssociada(UsuarioBeans usuario) {
         Selecao selecao = new Selecao();
@@ -138,17 +138,17 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList());
         List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         List<SelecaoBeans> resultadoDivulgadas = this.listaTodasSelecoes();
-        
         for (Selecao s : resultadoNaoDivulgadas) {
             if (s.getResponsaveis().contains(user)) {
                 selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
-            }
+            } 
         }
         for (SelecaoBeans s : resultadoDivulgadas) {
             if (s.getResponsaveis().contains(usuario)) {
                 selecoes.add(s);
             }
         }
+       
         return this.ordenaSelecoesPorData(selecoes);
     }
 
@@ -171,23 +171,49 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 
     @Override
     public List<SelecaoBeans> ordenaSelecoesPorData(List<SelecaoBeans> selecoes) {
+        List<SelecaoBeans> selecoesSemDatas = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
+        List<SelecaoBeans> selecoesFinalizadas = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
+        List<SelecaoBeans> selecoesEmAndamento = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
+        List<SelecaoBeans> selecoesEmEspera = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
+        int p=0;
+        while( p<selecoes.size()) {
+            if (selecoes.get(p).getInscricao() == null) {
+                selecoesSemDatas.add(selecoes.get(p));
+            } else if (selecoes.get(p).getEstado().compareTo(EnumEstadoSelecao.ANDAMENTO) == 0) {
+                selecoesEmAndamento.add(selecoes.get(p));
+            } else if (selecoes.get(p).getEstado().compareTo(EnumEstadoSelecao.ESPERA) == 0) {
+                selecoesEmEspera.add(selecoes.get(p));
+            } else if (selecoes.get(p).getEstado().compareTo(EnumEstadoSelecao.FINALIZADA) == 0) {
+                selecoesFinalizadas.add(selecoes.get(p));
+            }
+            p++;
+        }
+        selecoes.removeAll(selecoesFinalizadas);
+        selecoes.removeAll(selecoesSemDatas);
+        selecoes.removeAll(selecoesEmEspera);
+        selecoes.removeAll(selecoesEmAndamento);
+        selecoes = this.ordena(selecoes);
+        selecoes.addAll(this.ordena(selecoesEmEspera));
+        selecoes.addAll(this.ordena(selecoesEmAndamento));
+        selecoes.addAll(this.ordena(selecoesFinalizadas));
+        selecoes.addAll(selecoesSemDatas);
+        return selecoes;
+    }
+    
+    private List<SelecaoBeans> ordena(List<SelecaoBeans> selecoes) {
         SelecaoBeans aux;
-        for(int i=0;i<selecoes.size()-1;i++){
-            for(int j=i;j<selecoes.size()-1;j++){
-                if (selecoes.get(j).getInscricao() != null && selecoes.get(j+1).getInscricao() != null) {
-                    if (selecoes.get(j).getInscricao().getPeriodo().getInicio().isAfter(selecoes.get(j+1).getInscricao().getPeriodo().getInicio())) {
-                        aux = selecoes.get(j);
-                        selecoes.set(j, selecoes.get(j+1));
-                        selecoes.set(j+1, aux);
-                    } else {
-                        break;
-                    }
+         for (int i=0;i<selecoes.size()-1;i++) {
+            for (int j=i;j<selecoes.size()-1;j++) {
+                if (selecoes.get(j).getInscricao().getPeriodo().getInicio().isAfter(selecoes.get(j+1).getInscricao().getPeriodo().getInicio())) {
+                    aux = selecoes.get(j);
+                    selecoes.set(j, selecoes.get(j+1));
+                    selecoes.set(j+1, aux);
                 }
             }
         }
         return selecoes;
     }
-
+    
     @Override
     public EtapaBeans getUltimaEtapa(SelecaoBeans selecao) {
         Selecao s = (Selecao) selecao.toBusiness();

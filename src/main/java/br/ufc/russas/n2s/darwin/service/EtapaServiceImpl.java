@@ -94,7 +94,7 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         for (Etapa etapa : result) {
             etapas.add((EtapaBeans) new EtapaBeans().toBeans(etapa));
         }
-        return etapas;
+        return this.ordenaEtapasPorData(etapas);
     }
 
     @Override
@@ -195,17 +195,16 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         return (InscricaoBeans) new InscricaoBeans().toBeans(this.getEtapaDAOIfc().getEtapaInscricao(ins));
     }
     
-     public List<EtapaBeans> ordenaEtapasPorData(List<EtapaBeans> etapas) {
+    @Override
+    public List<EtapaBeans> ordenaEtapasPorData(List<EtapaBeans> etapas) {
         EtapaBeans aux;
-        for(int i=0;i<etapas.size()-1;i++){
-            for(int j=i;j<etapas.size()-1;j++){
-                    if (etapas.get(j).getPeriodo().getInicio().isAfter(etapas.get(j+1).getPeriodo().getInicio())) {
-                        aux = etapas.get(j);
-                        etapas.set(j, etapas.get(j+1));
-                        etapas.set(j+1, aux);
-                    } else {
-                        break;
-                    }
+        for (int i=0;i<etapas.size()-1;i++) {
+            for (int j=i;j<etapas.size()-1;j++) {
+                if (etapas.get(j).getPeriodo().getInicio().isAfter(etapas.get(j+1).getPeriodo().getInicio())) {
+                    aux = etapas.get(j);
+                    etapas.set(j, etapas.get(j+1));
+                    etapas.set(j+1, aux);
+                }
             }
         }
         return etapas;

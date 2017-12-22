@@ -3,6 +3,7 @@ package br.ufc.russas.n2s.darwin.controller;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.util.HashMap;
@@ -35,9 +36,8 @@ public class SelecaoController {
     
     @Autowired(required = true)
     public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc")EtapaServiceIfc etapaServiceIfc) {
-        this.etapaServiceIfc = etapaServiceIfc;
+    this.etapaServiceIfc = etapaServiceIfc;
     }
-
 
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
@@ -86,7 +86,7 @@ public class SelecaoController {
         request.getSession().setAttribute("selecao", selecao);
         return "selecao";
     }
-    
+  
     @RequestMapping(value = "/{codSelecao}/resultado", method = RequestMethod.GET)
     public String resultado(@PathVariable long codSelecao, Model model) {
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);

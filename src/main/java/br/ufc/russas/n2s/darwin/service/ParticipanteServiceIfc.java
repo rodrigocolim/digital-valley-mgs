@@ -6,6 +6,7 @@
 package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import java.util.List;
 
 /**
@@ -13,9 +14,9 @@ import java.util.List;
  * @author N2S-PC03
  */
 public interface ParticipanteServiceIfc {
-    public void adicionaParticipante(ParticipanteBeans participante);
-    public void atualizaParticipante(ParticipanteBeans participante);
-    public void removeParticipante(ParticipanteBeans participante);
-    public List<ParticipanteBeans> listaTodosParticipantes();
-    public ParticipanteBeans getParticipante(long codParticipante);
+     void adicionaParticipante(ParticipanteBeans participante);
+     void atualizaParticipante(ParticipanteBeans participante);
+     void removeParticipante(ParticipanteBeans participante);
+     List<ParticipanteBeans> listaTodosParticipantes();
+     ParticipanteBeans getParticipante(long codParticipante);
 }

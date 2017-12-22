@@ -36,4 +36,5 @@ public interface EtapaServiceIfc extends ServiceIfc{
     void participa(InscricaoBeans inscricao, ParticipanteBeans participante) throws IllegalAccessException;
     void participa(InscricaoBeans inscricao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException; 
     Object[] getSituacao(EtapaBeans etapa, UsuarioBeans usuario);
+    List<EtapaBeans> ordenaEtapasPorData(List<EtapaBeans> etapas);
 }

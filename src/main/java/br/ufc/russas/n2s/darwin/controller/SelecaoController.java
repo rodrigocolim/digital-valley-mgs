@@ -1,9 +1,11 @@
 package br.ufc.russas.n2s.darwin.controller;
 
+import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,12 @@ public class SelecaoController {
             request.getSession().setAttribute("selecao", selecao);
             return "selecao";
         } else if(selecao.isDivulgada()) {
+            HashMap<EtapaBeans, Object[]> situacao = new HashMap<>();
+            situacao.put(selecao.getInscricao(), this.etapaServiceIfc.getSituacao(selecao.getInscricao(), usuario));
+            for (EtapaBeans etapa : selecao.getEtapas()) {
+                situacao.put(etapa, this.etapaServiceIfc.getSituacao(etapa, usuario));
+            }
+            model.addAttribute("situacao", situacao);
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
             request.getSession().setAttribute("selecao", selecao);

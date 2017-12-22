@@ -284,6 +284,24 @@ public class Etapa implements Serializable, Atualizavel {
     public List<Object[]> getAprovados() {
         List<Object[]> aprovados = Collections.synchronizedList(new ArrayList<Object[]>());
         if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO || getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
+            for (Object[] p : getResultado()) {
+                if (((int) p[1]) >=  ((int) p[2])) {
+                    aprovados.add(p);
+                }
+            }
+        } else if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
+            for (Object[] participante : getResultado()) {
+                if(((float) participante[1]) >=  getNotaMinima()) {
+                    aprovados.add(participante);
+                }
+            }
+        }
+        return aprovados;
+    }
+   
+    public List<Object[]> getResultado() {
+        List<Object[]> resultado = Collections.synchronizedList(new ArrayList<Object[]>());
+        if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO || getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
             for (Object[] p : getParticipantes()) {
                 int aprovacao = 0;
                 int reprovacao = 0;
@@ -296,10 +314,8 @@ public class Etapa implements Serializable, Atualizavel {
                         }
                     }
                 }
-                if (aprovacao >=  reprovacao) {
-                    Object[] aprovado = {p, aprovacao, reprovacao};
-                    aprovados.add(aprovado);
-                }
+                Object[] aprovado = {p, aprovacao, reprovacao};
+                resultado.add(aprovado);
             }
         } else if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
             for (Object[] participante : getParticipantes()) {
@@ -313,22 +329,28 @@ public class Etapa implements Serializable, Atualizavel {
                     }
                 }
                 media = soma/count;
-                if(media >=  getNotaMinima()) {
-                    Object[] aprovado = {participante, media};
-                    aprovados.add(aprovado);
-                }
+                Object[] aprovado = {participante, media};
+                resultado.add(aprovado);
             }
         }
-        return aprovados;
+        return resultado;
     }
     
-    
+    public Object[] getSituacao(UsuarioDarwin usuario) {
+        List<Object[]> resultado = getResultado();
+        for (Object[] participante : resultado) {
+            if(((Participante) participante[0]).getCandidato().equals(usuario)){
+                return participante;
+            }
+        }
+        return null;
+    }
     
     public List<Object[]> getParticipantes () {
         if (getPrerequisito() != null) {
             return getPrerequisito().getAprovados();
         } else {
-            return null;
+            return new ArrayList<>();
         }
     } 
     

@@ -181,12 +181,10 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         Inscricao i = (Inscricao) inscricao.toBusiness();
         Documentacao d = (Documentacao) documentacao.toBusiness();
         Participante p = (Participante) participante.toBusiness();
-        i.participa(p);
-        //this.etapaDAOIfc.atualizaEtapa(i);
         d.setCandidato(p);
         i.anexaDocumentacao(d);
         this.etapaDAOIfc.atualizaEtapa(i);
-        d.setCandidato(p);
+        i.participa(p);
         this.etapaDAOIfc.atualizaEtapa(i);
     }
 
@@ -233,6 +231,15 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
             return participantes;
         }
         return null;
+    }
+
+    @Override
+    public Object[] getSituacao(EtapaBeans etapa, UsuarioBeans usuario) {
+        Etapa e = (Etapa) etapa.toBusiness();
+        UsuarioDarwin u = (UsuarioDarwin) usuario.toBusiness();
+        Object[] situacao = e.getSituacao(u);
+        situacao[0] = (ParticipanteBeans) new ParticipanteBeans().toBeans(situacao[0]);
+        return situacao;
     }
     
 

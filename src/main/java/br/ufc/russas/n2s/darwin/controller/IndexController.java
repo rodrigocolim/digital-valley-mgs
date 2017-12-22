@@ -9,7 +9,6 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
-import br.ufc.russas.n2s.darwin.model.EstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.io.IOException;
@@ -109,7 +108,6 @@ public class IndexController {
     public String getMinhasSelecoes(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        System.out.println("\n\n");
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
         
         HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
@@ -126,7 +124,7 @@ public class IndexController {
     public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException{
         HttpSession session = request.getSession();
         session.removeAttribute("usuario");
-        response.sendRedirect("http://192.169.1.102:8080/Controle_de_Acesso/");
+        response.sendRedirect("http://192.169.1.2:8080/guardiao/");
     }
            
 }

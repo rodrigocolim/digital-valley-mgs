@@ -127,8 +127,17 @@ public class EditarEtapaController {
             etapaBeans.setAvaliadores(avaliadores);
             this.getSelecaoServiceIfc().setUsuario(usuario);
             
-            selecao.getEtapas().remove(etapaBeans);
-            selecao.getEtapas().add(etapaBeans);
+            int index=0;
+            
+            for(EtapaBeans etapaIterator :selecao.getEtapas()) {
+            	if(etapaIterator.getCodEtapa()==etapaBeans.getCodEtapa()) {
+            		selecao.getEtapas().remove(etapaIterator);
+            		selecao.getEtapas().add(index, etapaBeans);
+            		break;
+            	}
+            	index++;
+            }
+            
             
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
             //this.etapaServiceIfc.atualizaEtapa(selecao, etapaBeans);

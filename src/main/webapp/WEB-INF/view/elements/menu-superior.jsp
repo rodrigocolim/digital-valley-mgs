@@ -7,8 +7,9 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="br.ufc.russas.n2s.darwin.beans.UsuarioBeans"%>
+<%@page import="br.ufc.russas.n2s.darwin.util.Constantes"%>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="<%=Constantes.getAppUrl() %>">
         <img src="${pageContext.request.contextPath}/resources/img/logoDarwin.png" width="30" height="30" class="d-inline-block align-top" alt="Logo do módulo Darwin">
         Darwin
     </a>  
@@ -18,19 +19,19 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <c:set var="permissoes" value="${sessionScope.usuarioDarwin.permissoes}"></c:set>
-            <a class="nav-item nav-link" href="/Darwin">Início <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="/Darwin/minhas_Selecoes">Minhas seleções</a>
+            <a class="nav-item nav-link" href="<%=Constantes.getAppGuardiaoUrl()%>">Guardião</a>
+            <a class="nav-item nav-link" href="<%=Constantes.getAppUrl() %>/minhas_Selecoes">Minhas seleções</a>
             <c:if test="${fn:contains(permissoes, 'RESPONSAVEL') or fn:contains(permissoes, 'ADMINISTRADOR')}">
             <div class="btn-group">
                 <a href="" class="nav-item nav-link " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Administração
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/Darwin/cadastrarSelecao">Cadastrar Seleção</a>
+                    <a class="dropdown-item" href="<%=Constantes.getAppUrl() %>/cadastrarSelecao">Cadastrar Seleção</a>
                     
                     <c:if test="${fn:contains(permissoes, 'ADMINISTRADOR')}">
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/Darwin/permissoes">Gerenciar permissões</a>
+                    <a class="dropdown-item" href="<%=Constantes.getAppUrl() %>/permissoes">Gerenciar permissões</a>
                     </c:if>
                 </div>
             </div>
@@ -39,5 +40,5 @@
         </div>
         
     </div>
-    <a class="btn-sm btn-light text-right" href="/Darwin/sair">Sair</a>
+    <a class="btn-sm btn-light text-right" href="<%=Constantes.getAppUrl() %>/sair">Sair</a>
 </nav>         

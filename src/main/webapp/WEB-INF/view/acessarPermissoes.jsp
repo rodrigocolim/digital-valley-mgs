@@ -90,13 +90,13 @@
                     
                     <nav aria-label="">
                         <ul class="pagination justify-content-center">
-                            <li class="page-item ${(pagina <= 1 ? "disabled" : "")}">
+                            <li class="page-item "${(pagina <= 1 ? "disabled" : "")}">
                                 <a class="page-link" href="/Darwin/permissoes?pag=${pagina - 1}" tabindex="-1">Anterior</a>
                             </li>
                             <c:forEach var="i" begin="1" end="${(fn:length(usuarios)/numMaxPorTela) + (fn:length(usuarios)%numMaxPorTela == 0 ? 0 : 1)}">
-                            <li class="page-item ${(pagina == i ? "active": "")}"><a class="page-link" href="/Darwin/permissoes?pag=${i}">${i}</a></li>
+                            <li class="page-item "${(pagina == i ? "active": "")}"><a class="page-link" href="/Darwin/permissoes?pag=${i}">${i}</a></li>
                             </c:forEach>
-                            <li class="page-item  ${(pagina >= ((fn:length(usuarios))/numMaxPorTela) ? "disabled" : "")}">
+                            <li class="page-item  "${(pagina >= ((fn:length(usuarios))/numMaxPorTela) ? "disabled" : "")}">
                                 <a class="page-link" href="/Darwin/permissoes?pag=${pagina + 1}">Próximo</a>
                             </li>
                         </ul>

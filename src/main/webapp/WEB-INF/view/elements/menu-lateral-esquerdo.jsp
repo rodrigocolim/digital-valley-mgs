@@ -5,6 +5,7 @@
 --%>
 <div class="col-12 col-md-3 col-xl-2 bd-sidebar" style="margin-top: 5px;">
     <div class="btn-group-vertical d-flex flex-column border" role="group">
+    <strong><p class="btn btn-sm" align="center">Categorias</p></strong>
         <a href="/Darwin/assistência_estudantil" class="btn btn-light btn-sm text-left ${categoria == 'assistência_estudantil' ? 'active': ''}">Assistência Estudantil</a>
         <a href="/Darwin/bolsas_para_discentes" class="btn btn-light btn-sm text-left ${categoria == 'bolsas_para_discentes' ? 'active': ''}">Seleções para Discentes</a>  
         <a href="/Darwin/cargos_de_docente" class="btn btn-light btn-sm text-left ${categoria == 'cargos_de_docente' ? 'active': ''}">Cargos de Docente</a>

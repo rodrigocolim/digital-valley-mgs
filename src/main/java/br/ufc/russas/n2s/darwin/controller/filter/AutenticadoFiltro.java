@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
+import util.Constantes;
 import util.Facade;
 /**
  *
@@ -80,12 +82,12 @@ public class AutenticadoFiltro implements Filter {
                                     session.setAttribute("usuarioDarwin", this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(user.getId()));
                                     chain.doFilter(request, response);
                             }else {
-                                ((HttpServletResponse) response).sendRedirect("http://192.169.1.2:8080/guardiao/");
+                                ((HttpServletResponse) response).sendRedirect(Constantes.getAppUrl());
                             }
                     }else if(session.getAttribute("usuarioDarwin")!= null && session.getAttribute("usuario")!= null && DAOFactory.criarUsuarioDAO().buscarTokenTemp(((Usuario)session.getAttribute("usuario")).getPessoa().getId())!=null && ((Usuario)session.getAttribute("usuario")).getTokenUsuario().equals(DAOFactory.criarUsuarioDAO().buscarTokenTemp(((Usuario)session.getAttribute("usuario")).getPessoa().getId()))){
                             chain.doFilter(request, response);
                     }else {
-                            ((HttpServletResponse) response).sendRedirect("http://192.169.1.2:8080/guardiao/");
+                            ((HttpServletResponse) response).sendRedirect(Constantes.getAppUrl());
                     }
             }				
 	}

@@ -355,8 +355,14 @@ public class Etapa implements Serializable, Atualizavel {
     } 
     
     public boolean isParticipante(Participante participante){
-        List<Object[]> aprovados = this.getPrerequisito().getAprovados();
-        return aprovados.contains(participante);
+    	if(this.getPrerequisito()!=null) {
+    		System.out.println("entrou if");
+            List<Object[]> aprovados = this.getPrerequisito().getAprovados();
+            return aprovados.contains(participante);
+    	}else {
+    		System.out.println("entrou else");
+    		return true;
+    	}
     }
     
     public boolean isParticipante(UsuarioDarwin participante){

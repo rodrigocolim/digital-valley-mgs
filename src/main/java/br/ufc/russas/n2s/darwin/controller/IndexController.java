@@ -11,6 +11,8 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import br.ufc.russas.n2s.darwin.util.Constantes;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -122,9 +124,9 @@ public class IndexController {
     
     @RequestMapping(value = "/sair", method = RequestMethod.GET)
     public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        HttpSession session = request.getSession();
+    	HttpSession session = request.getSession();
         session.removeAttribute("usuario");
-        response.sendRedirect("http://192.169.1.2:8080/guardiao/");
+        response.sendRedirect(Constantes.getAppGuardiaoUrl()+"/logout");
     }
            
 }

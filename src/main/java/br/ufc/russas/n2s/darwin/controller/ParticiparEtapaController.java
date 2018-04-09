@@ -149,6 +149,7 @@ public class ParticiparEtapaController {
     public String participa(@PathVariable long codEtapa, HttpServletRequest request,Model model, MultipartHttpServletRequest r,HttpServletResponse response, @RequestParam("arquivos") List<MultipartFile> documentos) throws IOException {    
         HttpSession session = request.getSession();
         InscricaoBeans etapa = null;
+        System.out.println("teste");
         try {
             etapa = this.etapaServiceIfc.getInscricao(codEtapa);
             SelecaoBeans selecao = this.etapaServiceIfc.getSelecao(etapa);
@@ -178,7 +179,7 @@ public class ParticiparEtapaController {
             Participante participante = new Participante();
             participante.setCandidato((UsuarioDarwin) usuario.toBusiness());
             participante.setData(LocalDateTime.now());
-//            documentacao.setCandidato(participante);
+            documentacao.setCandidato(participante);
             documentacao.setDocumentos(arquivos);
             if (arquivos.size()>0) {
                 etapaServiceIfc.participa(etapa, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
@@ -208,6 +209,7 @@ public class ParticiparEtapaController {
             response.sendRedirect("/Darwin/participarEtapa/inscricao/"+etapa.getCodEtapa());
             return "redirect:/participarEtapa/inscricao/"+etapa.getCodEtapa();
         } catch (Exception e) {
+        	System.out.println("is true");
             e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");

@@ -95,10 +95,11 @@ public class CadastrarSelecaoController {
             }
         }
         try {
+        	File dir = new File (Constantes.getDocumentsDir()+File.separator);
             if (!file.isEmpty()) { // para o edital
                 ArquivoBeans edital = new ArquivoBeans();
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
-                File temp = File.createTempFile(Constantes.getDocumentsDir()+File.separator+file, ".pdf");
+                File temp = File.createTempFile(Constantes.getDocumentsDir()+File.separator+file, ".pdf", dir);
                 InputStream input = new URL(file).openStream();
                 OutputStream output = new FileOutputStream(temp);
                 int read = 0;
@@ -118,7 +119,7 @@ public class CadastrarSelecaoController {
                     System.out.println("\n\n\n");
                     ArquivoBeans anexo = new ArquivoBeans();
                     anexo.setTitulo(nomeAnexos[i]);
-                    File temp = File.createTempFile(Constantes.getDocumentsDir()+File.separator+nomeAnexos[i], ".pdf");
+                    File temp = File.createTempFile(Constantes.getDocumentsDir()+File.separator+nomeAnexos[i], ".pdf", dir);
                     InputStream input = FileManipulation.getStreamFromURL(linkAnexos[i]);
                     OutputStream output = new FileOutputStream(temp);
                     int read = 0;
@@ -140,7 +141,7 @@ public class CadastrarSelecaoController {
                 for (int i=0; i < nomeAditivos.length; i++) {
                     ArquivoBeans aditivo = new ArquivoBeans();
                     aditivo.setTitulo(nomeAditivos[i]);
-                    File temp = File.createTempFile(Constantes.getDocumentsDir()+File.separator+nomeAditivos[i], ".pdf");
+                    File temp = File.createTempFile(Constantes.getDocumentsDir()+File.separator+nomeAditivos[i], ".pdf", dir);
                     InputStream input = FileManipulation.getStreamFromURL(linkAditivos[i]);
                     OutputStream output = new FileOutputStream(temp);
                     int read = 0;

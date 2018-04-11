@@ -11,6 +11,8 @@ import br.ufc.russas.n2s.darwin.beans.PeriodoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
+import br.ufc.russas.n2s.darwin.model.Periodo;
+import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -108,6 +110,18 @@ public class EditarEtapaController {
             
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             etapaBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+            //Verificando se houve conflito com as outras Etapas.
+            List <EtapaBeans> subsequentes = selecao.getEtapas();
+            Periodo novoP = (Periodo) etapaBeans.getPeriodo().toBusiness();
+            for(EtapaBeans sub: subsequentes){
+            	if(sub.getCodEtapa()!=codEtapa) {
+            		Periodo periodo =(Periodo) sub.getPeriodo().toBusiness();
+            		if(periodo.isColide(novoP)) {
+            			System.out.println("Entrou");
+            			throw new IllegalCodeException("Periodo Inválido!");
+            		}
+            		}
+            }
             ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
             if (codAvaliadores != null) {
                 for (String cod : codAvaliadores) {
@@ -146,7 +160,10 @@ public class EditarEtapaController {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
              return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
-        }
+        }catch (IllegalCodeException e) {
+    		e.printStackTrace();
+    		return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
+    	}
          
     }
     
@@ -163,6 +180,17 @@ public class EditarEtapaController {
             inscricaoBeans.setDescricao(inscricao.getDescricao());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             inscricaoBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+            List <EtapaBeans> subsequentes = selecao.getEtapas();
+            Periodo novoP = (Periodo) inscricaoBeans.getPeriodo().toBusiness();
+            for(EtapaBeans sub: subsequentes){
+            	if(sub.getCodEtapa()!=inscricao.getCodEtapa()) {
+            		Periodo periodo =(Periodo) sub.getPeriodo().toBusiness();
+            		if(periodo.isColide(novoP)) {
+            			System.out.println("Entrou");
+            			throw new IllegalCodeException("Periodo Inválido!");
+            		}
+            		}
+            }
             ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
             if (codAvaliadores != null) {
                 for (String cod : codAvaliadores) {
@@ -191,7 +219,10 @@ public class EditarEtapaController {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
             return "redirect:/editarEtapa/" + codSelecao+"/"+codInscricao;
-        }
+        }catch (IllegalCodeException e) {
+    		e.printStackTrace();
+    		return "redirect:/editarEtapa/" +codSelecao+"/"+codInscricao;
+    	}
          
     }
     

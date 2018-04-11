@@ -15,6 +15,7 @@ public class Constantes {
 	private static String SESSION_MSG;
 	private static String DATABASE_CONF_DIR;
 	private static String PRE_URL;
+	private static String DOCUMENTS_DIR;
 	private Constantes() {
 		//
 	}
@@ -31,6 +32,7 @@ public class Constantes {
 		NUMBER_OF_ROWS_PER_PAGE = Integer.valueOf(dotEnv.get("NUMBER_OF_ROWS_PER_PAGE"));
 		SESSION_MSG = dotEnv.get("SESSION_MSG");
 		PRE_URL = dotEnv.get("PRE_URL");
+		DOCUMENTS_DIR = dotEnv.get("DOCUMENTS_DIR");
 	}
 
 	/**
@@ -102,6 +104,11 @@ public class Constantes {
 	public static String getDatabaseConfDir() {
 		return DATABASE_CONF_DIR;
 	}
-
+	/**
+	 * @return the documentsDir
+	 */
+	public static String getDocumentsDir() {
+		return DOCUMENTS_DIR;
+	}
 	
 }

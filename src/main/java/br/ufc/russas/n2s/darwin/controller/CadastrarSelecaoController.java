@@ -15,6 +15,8 @@ import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
+import br.ufc.russas.n2s.darwin.util.Constantes;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -96,7 +98,7 @@ public class CadastrarSelecaoController {
             if (!file.isEmpty()) { // para o edital
                 ArquivoBeans edital = new ArquivoBeans();
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
-                File temp = File.createTempFile("temp", ".pdf");
+                File temp = File.createTempFile(Constantes.getDocumentsDir()+File.separator+file, ".pdf");
                 InputStream input = new URL(file).openStream();
                 OutputStream output = new FileOutputStream(temp);
                 int read = 0;
@@ -116,7 +118,7 @@ public class CadastrarSelecaoController {
                     System.out.println("\n\n\n");
                     ArquivoBeans anexo = new ArquivoBeans();
                     anexo.setTitulo(nomeAnexos[i]);
-                    File temp = File.createTempFile("temp", ".pdf");
+                    File temp = File.createTempFile(Constantes.getDocumentsDir()+File.separator+nomeAnexos[i], ".pdf");
                     InputStream input = FileManipulation.getStreamFromURL(linkAnexos[i]);
                     OutputStream output = new FileOutputStream(temp);
                     int read = 0;
@@ -138,7 +140,7 @@ public class CadastrarSelecaoController {
                 for (int i=0; i < nomeAditivos.length; i++) {
                     ArquivoBeans aditivo = new ArquivoBeans();
                     aditivo.setTitulo(nomeAditivos[i]);
-                    File temp = File.createTempFile("temp", ".pdf");
+                    File temp = File.createTempFile(Constantes.getDocumentsDir()+File.separator+nomeAditivos[i], ".pdf");
                     InputStream input = FileManipulation.getStreamFromURL(linkAditivos[i]);
                     OutputStream output = new FileOutputStream(temp);
                     int read = 0;

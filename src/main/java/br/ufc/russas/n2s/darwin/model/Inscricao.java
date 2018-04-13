@@ -27,7 +27,7 @@ import org.hibernate.annotations.FetchMode;
 public class Inscricao extends Etapa { 
 
     
-    @ManyToMany(targetEntity = Participante.class, fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = Participante.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "candidatos_selecao", joinColumns = {@JoinColumn(name = "etapaInscricao", referencedColumnName = "codEtapa")},
     inverseJoinColumns = {@JoinColumn(name = "participante", referencedColumnName = "codParticipante")})

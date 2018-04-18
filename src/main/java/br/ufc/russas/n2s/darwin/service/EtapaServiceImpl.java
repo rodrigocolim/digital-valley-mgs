@@ -239,7 +239,8 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         UsuarioDarwin u = (UsuarioDarwin) usuario.toBusiness();
         Object[] situacao = e.getSituacao(u);
         if (situacao != null) {
-            situacao[0] = (ParticipanteBeans) new ParticipanteBeans().toBeans(situacao[0]);
+        	Object[] s1 = (Object[])situacao[0];
+            situacao[0] = (ParticipanteBeans) new ParticipanteBeans().toBeans(s1[0]);
         }
         return situacao;
     }

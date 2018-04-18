@@ -207,7 +207,7 @@ public class ParticiparEtapaController {
             e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
-            response.sendRedirect("/Darwin/participarEtapa/inscricao/"+inscricao.getCodEtapa());
+            //response.sendRedirect("/Darwin/participarEtapa/inscricao/"+inscricao.getCodEtapa());
             return "redirect:/participarEtapa/inscricao/"+inscricao.getCodEtapa();
         } catch (Exception e) {
         	System.out.println("is true");

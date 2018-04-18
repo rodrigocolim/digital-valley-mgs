@@ -29,7 +29,7 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
         public EnumEstadoSelecao execute(Selecao selecao){
             LocalDate inicio = selecao.getInscricao().getPeriodo().getInicio();
             LocalDate termino = selecao.getInscricao().getPeriodo().getTermino();
-            if ((inicio.isBefore(LocalDate.now()) || inicio.equals(LocalDate.now())) && termino.isAfter(LocalDate.now())) {
+            if ((inicio.isBefore(LocalDate.now()) || inicio.isEqual(LocalDate.now())) && (termino.isAfter(LocalDate.now()) || termino.isEqual(LocalDate.now()))) {
                 return this;
             } else {
                 return ANDAMENTO.execute(selecao);
@@ -40,7 +40,7 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
         @Override
         public EnumEstadoSelecao execute(Selecao selecao){
             LocalDate termino = selecao.getInscricao().getPeriodo().getTermino();
-            if (termino.isBefore(LocalDate.now()) && (selecao.getUltimaEtapa().getPeriodo().getTermino().isAfter(LocalDate.now()) || selecao.getUltimaEtapa().getPeriodo().getTermino().equals(LocalDate.now()))) {
+            if (termino.isBefore(LocalDate.now()) && (selecao.getUltimaEtapa().getPeriodo().getTermino().isAfter(LocalDate.now()) || selecao.getUltimaEtapa().getPeriodo().getTermino().isEqual(LocalDate.now()))) {
                 return this;
             } else {
                 return FINALIZADA.execute(selecao);
@@ -50,7 +50,7 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
     FINALIZADA(4){
         @Override
         public EnumEstadoSelecao execute(Selecao selecao){
-            if(selecao.getUltimaEtapa().getPeriodo().getTermino().isBefore(LocalDate.now()) || selecao.getUltimaEtapa().getPeriodo().getTermino().isEqual(LocalDate.now())){
+            if(selecao.getUltimaEtapa().getPeriodo().getTermino().isBefore(LocalDate.now()) ){
                 return this;
             } else {
                 return this;

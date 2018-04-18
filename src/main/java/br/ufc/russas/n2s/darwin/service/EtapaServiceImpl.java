@@ -181,10 +181,11 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         Inscricao i = (Inscricao) inscricao.toBusiness();
         Documentacao d = (Documentacao) documentacao.toBusiness();
         Participante p = (Participante) participante.toBusiness();
+        i.participa(p);
         d.setCandidato(p);
         i.anexaDocumentacao(d);
-        this.etapaDAOIfc.atualizaEtapa(i);
-        i.participa(p);
+        //this.etapaDAOIfc.atualizaEtapa(i);
+       
         this.etapaDAOIfc.atualizaEtapa(i);
     }
 

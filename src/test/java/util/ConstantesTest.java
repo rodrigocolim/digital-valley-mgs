@@ -1,10 +1,9 @@
 package util;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import br.ufc.russas.n2s.darwin.util.Constantes;
+import util.Constantes;
 
 
 

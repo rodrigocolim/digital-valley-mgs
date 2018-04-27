@@ -11,7 +11,7 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
-import br.ufc.russas.n2s.darwin.util.Constantes;
+import util.Constantes;
 
 import java.io.IOException;
 import java.util.ArrayList;

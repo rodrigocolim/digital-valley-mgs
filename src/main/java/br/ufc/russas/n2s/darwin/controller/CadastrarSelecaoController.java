@@ -15,7 +15,7 @@ import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
-import br.ufc.russas.n2s.darwin.util.Constantes;
+import util.Constantes;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

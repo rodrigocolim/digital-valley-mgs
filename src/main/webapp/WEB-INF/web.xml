@@ -153,7 +153,7 @@
        <filter-name>encodingFilter</filter-name>  
        <url-pattern>/*</url-pattern>  
     </filter-mapping>
-    
+     
     <error-page>
         <error-code>500</error-code>
         <location>/WEB-INF/view/elements/error500.jsp</location>

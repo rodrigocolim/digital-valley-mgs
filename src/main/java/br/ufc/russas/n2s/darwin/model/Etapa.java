@@ -346,7 +346,8 @@ public class Etapa implements Serializable, Atualizavel {
 	public Object[] getSituacao(UsuarioDarwin usuario) {
 		List<Object[]> resultado = getResultado();
 		for (Object[] participante : resultado) {
-			if (((Participante) participante[0]).getCandidato().equals(usuario)) {
+			Object[] p1 = (Object[]) participante[0];
+			if (((Participante) p1[0]).getCandidato().equals(usuario)) {
 				return participante;
 			}
 		}

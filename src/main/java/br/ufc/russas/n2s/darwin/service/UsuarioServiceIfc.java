@@ -18,6 +18,7 @@ public interface UsuarioServiceIfc extends ServiceIfc{
     UsuarioBeans atualizaUsuario(UsuarioBeans usuario);
     void removeUsuario(UsuarioBeans usuario);
     List<UsuarioBeans> listaTodosUsuarios();
+    List<UsuarioBeans> listaUsuariosPeloNome(String nome);
     UsuarioBeans getUsuario(long codUsuario, long codUsuarioControleDeAcesso);
     UsuarioBeans getUsuarioControleDeAcesso(long codUsuarioControleDeAcesso);
     void adicionaNivel(UsuarioBeans usuario, EnumPermissao permissao) throws IllegalAccessException;

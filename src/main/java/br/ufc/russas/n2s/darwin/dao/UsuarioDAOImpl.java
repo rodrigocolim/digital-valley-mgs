@@ -7,6 +7,8 @@ package br.ufc.russas.n2s.darwin.dao;
 
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import java.util.List;
+
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
@@ -44,6 +46,24 @@ public class UsuarioDAOImpl implements UsuarioDAOIfc{
     @Override
     public List<UsuarioDarwin> listaUsuarios(UsuarioDarwin usuario) {
         return this.daoImpl.lista(usuario);
+    }
+    
+    @Override
+    public List<UsuarioDarwin> listaUsuariosPeloNome(String busca) {
+    	  Session session = this.daoImpl.getSessionFactory().openSession();
+          Transaction t = session.beginTransaction();
+          try {
+        	  Query query = session.createQuery("from UsuarioDarwin u where lower(u.nome) like :nome");
+        	  query.setParameter("nome", '%'+busca.toLowerCase()+'%');
+              List<UsuarioDarwin> objetos = query.list();
+              t.commit();
+              return objetos;
+          } catch (RuntimeException e) {
+              t.rollback();
+              throw e;
+          } finally {
+              session.close();
+          }   
     }
 
     @Override

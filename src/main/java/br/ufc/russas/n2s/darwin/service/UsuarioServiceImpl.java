@@ -66,6 +66,18 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
     }
 
     @Override
+    public List<UsuarioBeans> listaUsuariosPeloNome(String nome) {
+    	UsuarioDarwin user = new UsuarioDarwin();
+    	user.setNome(nome);
+        List<UsuarioDarwin> result = this.getUsuarioDAOIfc().listaUsuariosPeloNome(nome);
+        List<UsuarioBeans> usuarios = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
+        for(UsuarioDarwin usuario : result){
+            usuarios.add((UsuarioBeans) new UsuarioBeans().toBeans(usuario));
+        }
+        return usuarios;
+    }
+    
+    @Override
     public UsuarioBeans getUsuario(long codUsuario, long codUsuarioControleDeAcesso) {
         UsuarioDarwin usuario = new UsuarioDarwin();
         usuario.setCodUsuario(codUsuario);

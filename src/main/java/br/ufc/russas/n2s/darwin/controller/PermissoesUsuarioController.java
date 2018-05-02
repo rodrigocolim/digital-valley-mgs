@@ -46,6 +46,15 @@ public class PermissoesUsuarioController {
         return "acessarPermissoes"; 
     }
     
+    
+    @RequestMapping(value = "/busca", method = RequestMethod.GET)
+    public String getIndexBusca(Model model, HttpServletRequest request) {
+    	
+        model.addAttribute("usuarios", this.usuarioServiceIfc.listaUsuariosPeloNome(request.getParameter("nomeUsuario")));
+        //model.addAttribute("usuarioSelecionado", this.usuarioServiceIfc.getUsuario(Long.parseLong(request.getParameter("usuario")), 0));
+        return "acessarPermissoes"; 
+    }
+    
     @RequestMapping(value = "/atualizar", method = RequestMethod.POST)
     public String adiciona(@RequestParam("codUsuario") long codUsuario, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();

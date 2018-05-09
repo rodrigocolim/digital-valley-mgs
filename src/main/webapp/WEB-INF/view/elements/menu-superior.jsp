@@ -7,7 +7,7 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="br.ufc.russas.n2s.darwin.beans.UsuarioBeans"%>
-<%@page import="br.ufc.russas.n2s.darwin.util.Constantes"%>
+<%@page import="util.Constantes"%>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="<%=Constantes.getAppUrl() %>">
         <img src="${pageContext.request.contextPath}/resources/img/logoDarwin.png" width="30" height="30" class="d-inline-block align-top" alt="Logo do módulo Darwin">

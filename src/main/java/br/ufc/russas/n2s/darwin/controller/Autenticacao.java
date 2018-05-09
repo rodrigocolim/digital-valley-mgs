@@ -18,6 +18,7 @@ import dao.UsuarioDAO;
 import model.Usuario;
 import dao.DAOFactory;
 import util.Facade;
+import util.Constantes;
 
 public class Autenticacao extends HttpServlet{
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

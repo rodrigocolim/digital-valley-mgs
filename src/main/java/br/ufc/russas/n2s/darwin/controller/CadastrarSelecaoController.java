@@ -15,7 +15,7 @@ import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
-import br.ufc.russas.n2s.darwin.util.Constantes;
+import util.Constantes;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -95,7 +95,9 @@ public class CadastrarSelecaoController {
             }
         }
         try {
-        	File dir = new File (Constantes.getDocumentsDir()+File.separator);
+        	//File dir = new File (Constantes.getDocumentsDir()+File.separator);
+        	File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator);
+            dir.mkdir();
             if (!file.isEmpty()) { // para o edital
                 ArquivoBeans edital = new ArquivoBeans();
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));

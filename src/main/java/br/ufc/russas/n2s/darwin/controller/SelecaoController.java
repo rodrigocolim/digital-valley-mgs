@@ -1,11 +1,19 @@
 package br.ufc.russas.n2s.darwin.controller;
 
+import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.dao.AvaliacaoDAOIfc;
+import br.ufc.russas.n2s.darwin.model.Avaliacao;
+import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
+import br.ufc.russas.n2s.darwin.service.AvaliacaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+
+import java.awt.List;
+import java.util.Collection;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,6 +36,8 @@ public class SelecaoController {
     
     private SelecaoServiceIfc selecaoServiceIfc;
     private EtapaServiceIfc etapaServiceIfc;
+    private AvaliacaoServiceIfc avaliacaoServiceIfc;
+    private AvaliacaoDAOIfc avaliacaoDAOIfc;
     
     @Autowired(required = true)
     public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc")SelecaoServiceIfc selecaoServiceIfc){
@@ -37,6 +47,16 @@ public class SelecaoController {
     @Autowired(required = true)
     public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc")EtapaServiceIfc etapaServiceIfc) {
     this.etapaServiceIfc = etapaServiceIfc;
+    }
+    
+    @Autowired(required = true)
+    public void setAvaliacaoServiceIfc(@Qualifier("avaliacaoServiceIfc")AvaliacaoServiceIfc avaliacaoServiceIfc) {
+    this.avaliacaoServiceIfc = avaliacaoServiceIfc;
+    }
+    
+    @Autowired(required = true)
+    public void setAvaliacaoDAOIfc(@Qualifier("avaliacaoDAOIfc")AvaliacaoDAOIfc avaliacaoDAOIfc) {
+    this.avaliacaoDAOIfc = avaliacaoDAOIfc;
     }
 
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
@@ -54,8 +74,21 @@ public class SelecaoController {
         } else if(selecao.isDivulgada()) {
             HashMap<EtapaBeans, Object[]> situacao = new HashMap<>();
             situacao.put(selecao.getInscricao(), this.etapaServiceIfc.getSituacao(selecao.getInscricao(), usuario));
+            int i = 0;
             for (EtapaBeans etapa : selecao.getEtapas()) {
+            	Etapa etapabusiness = (Etapa) etapaServiceIfc.getEtapa(etapa.getCodEtapa()).toBusiness();
+            	Avaliacao avl = new Avaliacao();
+            	Collection<Avaliacao> avaliacoes = avaliacaoDAOIfc.getAvaliacao2(etapabusiness);
+            	etapa.getAvaliacoes().removeAll(etapa.getAvaliacoes());
+            	for(Avaliacao avaliacao:avaliacoes) {
+            		AvaliacaoBeans avli = new AvaliacaoBeans();
+            		avli.toBeans(avaliacao);
+            		etapa.getAvaliacoes().add(avli);
+            	}
+            	selecao.getEtapas().remove(i);
+            	selecao.getEtapas().add(i, etapa);
                 situacao.put(etapa, this.etapaServiceIfc.getSituacao(etapa, usuario));
+                i++;
             }
             model.addAttribute("situacao", situacao);
             model.addAttribute("selecao", selecao);        

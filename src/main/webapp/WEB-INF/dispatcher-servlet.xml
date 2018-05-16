@@ -51,6 +51,7 @@
     <bean name="indexController"  class = "br.ufc.russas.n2s.darwin.controller.IndexController" />
     <bean name="selecaoServiceIfc"  class = "br.ufc.russas.n2s.darwin.service.SelecaoServiceImpl" />
     <bean name="usuarioServiceIfc"  class = "br.ufc.russas.n2s.darwin.service.UsuarioServiceImpl" />
+    <bean name="avaliacaoServiceIfc"  class = "br.ufc.russas.n2s.darwin.service.AvaliacaoServiceImpl" />
     <bean name="etapaServiceIfc"  class = "br.ufc.russas.n2s.darwin.service.EtapaServiceImpl" />
     <bean name="participanteServiceIfc"  class = "br.ufc.russas.n2s.darwin.service.ParticipanteServiceImpl" />
     <bean name="VisualizarDocumentacao"  class = "br.ufc.russas.n2s.darwin.controller.VisualizarDocumentacao" />

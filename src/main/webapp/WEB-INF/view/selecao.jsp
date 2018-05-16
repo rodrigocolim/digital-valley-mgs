@@ -193,6 +193,37 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
+                                                        
+                                                        <table class="table table-condensed">
+                                                        	<thead>
+																<tr>
+																	<th >Nome </th>
+																	<th >Situação </th>
+																</tr>	
+															</thead>	
+															<tbody>
+																<c:forEach var="etapa" items="${selecao.etapas}">
+																	<c:if test="${etapa.avaliacoes != null}">
+																	<c:forEach var="avaliacao" items="${etapa.avaliacoes}">
+																		<tr>
+																			<td>${avaliacao.participante.candidato.nome}</td>
+																			<td>
+																				<c:if test="${avaliacao.estado.nivel==2}">Pendente</c:if>
+																				<c:if test="${avaliacao.estado.nivel==1 && avaliacao.aprovado==true}">Aprovado</c:if>
+																				<c:if test="${avaliacao.estado.nivel==1 && avaliacao.aprovado==false}">Reprovado</c:if>
+																			</td>
+																		</tr>
+																	</c:forEach>
+																	</c:if>
+																	<c:if test="${etapa.avaliacoes == null}">
+																		<tr>
+																			<td>Não há</td>
+																			<td>resultados</td>
+																		</tr>
+																	</c:if>
+																</c:forEach>
+															</tbody>
+														</table>
                                                             <p>
                                                                  
                                                                 
@@ -265,7 +296,7 @@
                                     </c:if>
                                     <c:if test="${((estado == 3) and (etapa.divulgadoResultado)) or (isResponsavel and (estado == 3)) or (fn:contains(permissoes, 'ADMINISTRADOR') and (estado == 3))}">
                                         <a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-                                            Ver resultados
+                                            Ver Resultados
                                         </a>
                                     </c:if>
                                 </div>

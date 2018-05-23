@@ -209,9 +209,11 @@ public class EditarEtapaController {
             }
             inscricaoBeans.setAvaliadores(avaliadores);
             this.getSelecaoServiceIfc().setUsuario(usuario);
-            
             selecao.setInscricao(inscricaoBeans);
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+            model.addAttribute("selecao", selecao);
+            model.addAttribute("mensagem", "Etapa atualizada com sucesso!");
+            model.addAttribute("status", "success");
             session.setAttribute("selecao", selecao);
             session.setAttribute("mensagem", "Etapa atualizada com sucesso!");
             session.setAttribute("status", "success");
@@ -222,6 +224,78 @@ public class EditarEtapaController {
         }catch (IllegalCodeException e) {
     		e.printStackTrace();
     		return "redirect:/editarEtapa/" +codSelecao+"/"+codInscricao;
+    	}
+         
+    }
+    
+    @RequestMapping(value="/divulgarResultado/{codSelecao}/{codInscricao}", method = RequestMethod.GET)
+    public String divulgaResultado(@PathVariable long codSelecao, @PathVariable long codEtapa, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
+        try{
+            HttpSession session = request.getSession();
+            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
+            etapa = etapaServiceIfc.getEtapa(codEtapa);
+            etapa.setDivulgaResultado(true);
+            int index=0;
+            this.getSelecaoServiceIfc().setUsuario(usuario);
+            for(EtapaBeans etapaIterator :selecao.getEtapas()) {
+            	if(etapaIterator.getCodEtapa()==etapa.getCodEtapa()) {
+            		selecao.getEtapas().remove(etapaIterator);
+            		selecao.getEtapas().add(index, etapa);
+            		break;
+            	}
+            	index++;
+            }
+            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+            session.setAttribute("selecao", selecao);
+            session.setAttribute("mensagem", "Etapa divulgada com sucesso!");
+            session.setAttribute("status", "success");
+            return "redirect:/selecao/" + selecao.getCodSelecao();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return "redirect:/selecao/" + codSelecao;
+        }catch (IllegalCodeException e) {
+    		e.printStackTrace();
+    		return "redirect:/selecao/" + codSelecao;
+    	}
+         
+    }
+    
+    @RequestMapping(value="/divulgarResultadoInscricao/{codSelecao}/{codInscricao}", method = RequestMethod.GET)
+    public String divulgaResultadoInscricao(@PathVariable long codSelecao, @PathVariable long codInscricao, Model model, HttpServletRequest request) {
+        try{
+            HttpSession session = request.getSession();
+            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
+           // InscricaoBeans inscricao = etapaServiceIfc.getInscricao(codInscricao);
+            //inscricao.setDivulgaResultado(true);
+            this.getSelecaoServiceIfc().setUsuario(usuario);
+           // if(selecao.getInscricao().getCodEtapa() == inscricao.getCodEtapa()) {
+           // 	selecao.setInscricao(inscricao);
+            	//etapaServiceIfc.atualizaEtapa(selecao, inscricao);
+          //  	selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+            //}
+            	 System.out.println("\n\n");
+                 
+            //     System.out.println(inscricao.isDivulgadoResultado());
+             //    System.out.println("\n\n");
+            	 System.out.println("\n\naqui");
+            selecao.getInscricao().setDivulgaResultado(true);
+            System.out.println(selecao.getInscricao().isDivulgadoResultado()+"\n\n");
+            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+            System.out.println(selecao.getInscricao().isDivulgadoResultado());
+           
+            System.out.println("\n\n");
+            session.setAttribute("selecao", selecao);
+            session.setAttribute("mensagem", "Resultado da etapa divulgada com sucesso!");
+            session.setAttribute("status", "success");
+            return "redirect:/selecao/" + selecao.getCodSelecao();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return "redirect:/selecao/" + codSelecao;
+        }catch (IllegalCodeException e) {
+    		e.printStackTrace();
+    		return "redirect:/selecao/" + codSelecao;
     	}
          
     }

@@ -180,10 +180,14 @@
                                                 Avaliar
                                             </a>
                                         </c:if>
-
-                                        <c:if test="${((estadoInscricao == 3) and (not selecao.inscricao.divulgadoResultado))}">
-                                            <input type="button" style="font-size: 15px;" class="btn btn-primary btn-sm" value="Ver resultado" data-toggle="modal" data-target="#resultadoEtapa" >
-                                            <div class="modal fade" id="resultadoEtapa" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+										<c:if test="${(estadoInscricao == 3) and (!selecao.inscricao.divulgadoResultado)}">
+											<a href="/Darwin/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+												Divulgar Resultado
+											</a>
+										</c:if>
+                                        <c:if test="${((estadoInscricao == 3) and (selecao.inscricao.divulgadoResultado))}">
+                                            <input type="button" style="font-size: 15px;" class="btn btn-primary btn-sm" value="Ver resultado" data-toggle="modal" data-target="#resultadoInscricao" >
+                                            <div class="modal fade" id="resultadoInscricao" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -193,46 +197,34 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                        
-                                                        <table class="table table-condensed">
-                                                        	<thead>
-																<tr>
-																	<th >Nome </th>
-																	<th >Situação </th>
-																</tr>	
-															</thead>	
-															<tbody>
-																<c:forEach var="etapa" items="${selecao.etapas}">
-																	<c:if test="${etapa.avaliacoes != null}">
-																	<c:forEach var="avaliacao" items="${etapa.avaliacoes}">
-																		<tr>
-																			<td>${avaliacao.participante.candidato.nome}</td>
-																			<td>
-																				<c:if test="${avaliacao.estado.nivel==2}">Pendente</c:if>
-																				<c:if test="${avaliacao.estado.nivel==1 && avaliacao.aprovado==true}">Aprovado</c:if>
-																				<c:if test="${avaliacao.estado.nivel==1 && avaliacao.aprovado==false}">Reprovado</c:if>
-																			</td>
-																		</tr>
-																	</c:forEach>
-																	</c:if>
-																	<c:if test="${etapa.avaliacoes == null}">
-																		<tr>
-																			<td>Não há</td>
-																			<td>resultados</td>
-																		</tr>
-																	</c:if>
-																</c:forEach>
-															</tbody>
-														</table>
-                                                            <p>
-                                                                 
-                                                                
-                                                                Colocar o resultado aqui!!!!!!!!!!!
-                                                                
-                                                                
-                                                                
-                                                                
-                                                            </p>
+	                                                        <table class="table table-condensed">
+	                                                        	<thead>
+																	<tr>
+																		<th >Nome </th>
+																		<th >Situação </th>
+																	</tr>	
+																</thead>	
+																<tbody>
+																	<c:if test="${not empty selecao.inscricao.avaliacoes}">
+																		<c:forEach var="avaliacao" items="${selecao.inscricao.avaliacoes}">
+																			<tr>
+																				<td>${avaliacao.participante.candidato.nome}</td>
+																				<td>
+																					<c:if test="${avaliacao.estado.nivel==2}">Pendente</c:if>
+																					<c:if test="${avaliacao.estado.nivel==1 && avaliacao.aprovado==true}">Aprovado</c:if>
+																					<c:if test="${avaliacao.estado.nivel==1 && avaliacao.aprovado==false}">Reprovado</c:if>
+																				</td>
+																			</tr>
+																		</c:forEach>
+																		</c:if>
+																		<c:if test="${ empty selecao.etapas[0].avaliacoes}">
+																			<tr>
+																				<td>Não há</td>
+																				<td>resultados</td>
+																			</tr>
+																		</c:if>
+																</tbody>
+															</table>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -267,6 +259,7 @@
                                     </p>
                                 </div>
                                 <div class="timeline-body" >
+                                	<input name = "etapa_atual" type = "hidden" value = "${etapa.codEtapa}">
                                     <p class="text-justify">${etapa.descricao}</p>
                                     <br>
                                     <b>CRITÉRIO DE AVALIAÇÃO: </b> ${etapa.criterioDeAvaliacao}<br>
@@ -294,10 +287,59 @@
                                             Avaliar
                                         </a>
                                     </c:if>
-                                    <c:if test="${((estado == 3) and (etapa.divulgadoResultado)) or (isResponsavel and (estado == 3)) or (fn:contains(permissoes, 'ADMINISTRADOR') and (estado == 3))}">
-                                        <a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+                                    <c:if test="${(estado == 3) and (!etapa.divulgadoResultado)}">
+											<a href="/Darwin/editarEtapa/divulgarResultado/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+												Divulgar Resultado
+											</a>
+									</c:if>
+                                    <c:if test="${(etapa.divulgadoResultado) and ((isResponsavel and (estado == 3)) or (fn:contains(permissoes, 'ADMINISTRADOR') and (estado == 3)) or (fn:contains(permissoes, 'PARTICIPANTE') and (estado == 3))) and (not empty etapa.avaliacoes)}">
+                                    	<input type="button" style="font-size: 15px;" class="btn btn-primary btn-sm" value="Ver resultado" data-toggle="modal" data-target="#resultadoEtapa" >
+                                    	<div class="modal fade" id="resultadoEtapa" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalLabel">Resultado da avaliação</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+	                                                        <table class="table table-condensed">
+	                                                        	<thead>
+																	<tr>
+																		<th >Nome </th>
+																		<th >Situação </th>
+																	</tr>	
+																</thead>	
+																<tbody>
+																		<c:if test="${(selecao.inscricao.codEtapa ne etapa.codEtapa) and (etapa_atual eq etapa.codEtapa) and (not empty etapa.avaliacoes)}">
+																		<c:forEach var="avaliacao" items="${etapa.avaliacoes}">
+																			<tr>
+																				<td>${avaliacao.participante.candidato.nome}</td>
+																				<td>
+																					<c:if test="${avaliacao.estado.nivel==2}">Pendente</c:if>
+																					<c:if test="${avaliacao.estado.nivel==1 && avaliacao.aprovado==true}">Aprovado</c:if>
+																					<c:if test="${avaliacao.estado.nivel==1 && avaliacao.aprovado==false}">Reprovado</c:if>
+																				</td>
+																			</tr>
+																		</c:forEach>
+																		</c:if>
+																		<c:if test="${(selecao.inscricao.codEtapa ne etapa.codEtapa) and (etapa_atual eq etapa.codEtapa) and (empty etapa.avaliacoes)}">
+																			<tr>
+																				<td>Não há</td>
+																				<td>resultados</td>
+																			</tr>
+																		</c:if>
+																</tbody>
+															</table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <!-- <a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                             Ver Resultados
                                         </a>
+                                         -->
                                     </c:if>
                                 </div>
                             </div>

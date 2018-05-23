@@ -45,6 +45,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
 
     @Override
     public Selecao atualizaSelecao(Selecao selecao) {
+    	System.out.println("aqui:  "+selecao.getInscricao().isDivulgadoResultado());
         return this.daoImpl.atualiza(selecao);
     }
 

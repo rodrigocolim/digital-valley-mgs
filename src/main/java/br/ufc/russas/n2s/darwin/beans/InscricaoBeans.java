@@ -84,7 +84,7 @@ public class InscricaoBeans extends EtapaBeans{
             }
         }
         etapa.setDocumentacoes(documentacoes);
-
+        etapa.setDivulgadoResultado(this.isDivulgadoResultado());
         return etapa;
     }
 
@@ -153,7 +153,7 @@ public class InscricaoBeans extends EtapaBeans{
                     }
                 }
                 this.setDocumentacoes(documentacoes);
-
+                this.setDivulgaResultado(etapa.isDivulgadoResultado());
                 return this;
             } else {
                 throw new IllegalArgumentException("O objeto a ser adicionado não é uma Etapa!");

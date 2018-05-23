@@ -186,6 +186,7 @@ public class SelecaoBeans implements Beans {
         selecao.setTitulo(this.getTitulo());
         selecao.setDescricao(this.getDescricao());
         if (this.getInscricao() != null) {
+        	 System.out.println("Olhe aqui oh:  "+this.getInscricao().isDivulgadoResultado());
             selecao.setInscricao((Inscricao) this.getInscricao().toBusiness());
         }
         if(this.vagasRemuneradas >= 0) selecao.setVagasRemuneradas(this.getVagasRemuneradas());
@@ -194,6 +195,7 @@ public class SelecaoBeans implements Beans {
         selecao.setAreaDeConcentracao(this.getAreaDeConcentracao());
         selecao.setCategoria(this.getCategoria());
         selecao.setEstado(this.getEstado());
+       
         selecao.setDivulgada(this.isDivulgada());
         if (this.getEdital() != null) {
             selecao.setEdital((Arquivo) this.getEdital().toBusiness());

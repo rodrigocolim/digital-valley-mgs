@@ -74,7 +74,7 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     }
 
     @Override
-    public EtapaBeans atualizaEtapa(SelecaoBeans selecao, EtapaBeans etapa) throws IllegalAccessException {
+    public EtapaBeans atualizaEtapa(SelecaoBeans selecao, EtapaBeans etapa, UsuarioBeans usuario) throws IllegalAccessException {
         UsuarioDarwin u = (UsuarioDarwin) usuario.toBusiness();
         SelecaoProxy sp = new SelecaoProxy(u);
         Etapa e = sp.atualizaEtapa((Selecao) selecao.toBusiness(), (Etapa) etapa.toBusiness());

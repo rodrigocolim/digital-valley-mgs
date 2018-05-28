@@ -185,8 +185,11 @@
 												Divulgar Resultado
 											</a>
 										</c:if>
-                                        <c:if test="${((estadoInscricao == 3) and (selecao.inscricao.divulgadoResultado))}">
-                                            <input type="button" style="font-size: 15px;" class="btn btn-primary btn-sm" value="Ver resultado" data-toggle="modal" data-target="#resultadoInscricao" >
+                                        <c:if test="${(estadoInscricao == 3) and (selecao.inscricao.divulgadoResultado) and (not empty selecao.inscricao.avaliacoes)}">
+                                        <a href="/Darwin/resultadoEtapa/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+                                            Ver Resultado
+                                        </a>
+                                           <!-- <input type="button" style="font-size: 15px;" class="btn btn-primary btn-sm" value="Ver resultado" data-toggle="modal" data-target="#resultadoInscricao" >
                                             <div class="modal fade" id="resultadoInscricao" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
@@ -228,7 +231,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </c:if>
                                     </div>
                                 </div>
@@ -287,13 +290,17 @@
                                             Avaliar
                                         </a>
                                     </c:if>
-                                    <c:if test="${(estado == 3) and (!etapa.divulgadoResultado)}">
+                                    <c:if test="${(estado == 3) and (!etapa.divulgadoResultado) and (not empty etapa.avaliacoes)}">
 											<a href="/Darwin/editarEtapa/divulgarResultado/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
 												Divulgar Resultado
 											</a>
 									</c:if>
                                     <c:if test="${(etapa.divulgadoResultado) and ((isResponsavel and (estado == 3)) or (fn:contains(permissoes, 'ADMINISTRADOR') and (estado == 3)) or (fn:contains(permissoes, 'PARTICIPANTE') and (estado == 3))) and (not empty etapa.avaliacoes)}">
-                                    	<input type="button" style="font-size: 15px;" class="btn btn-primary btn-sm" value="Ver resultado" data-toggle="modal" data-target="#resultadoEtapa" >
+                                     	<a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+                                            Ver Resultado
+                                        </a>
+                                         
+                                    	<!-- <input type="button" style="font-size: 15px;" class="btn btn-primary btn-sm" value="Ver resultado" data-toggle="modal" data-target="#resultadoEtapa" >
                                     	<div class="modal fade" id="resultadoEtapa" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
@@ -335,11 +342,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        <!-- <a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-                                            Ver Resultados
-                                        </a>
-                                         -->
+                                            </div> 
+                                            -->
                                     </c:if>
                                 </div>
                             </div>

@@ -30,7 +30,7 @@
                     <nav class="breadcrumb">
                         <span class="breadcrumb-item">Você está em:</span> 
                         <a class="breadcrumb-item" href="/Darwin">Início</a>
-                        <a class="breadcrumb-item" href="${selecao.codSelecao}">${selecao.titulo}</a>
+                        <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
                         <a class="breadcrumb-item" href="${etapa.codEtapa}">${etapa.titulo}</a>
                         <a class="breadcrumb-item active" href="#">Resultado</a>
                     </nav>
@@ -53,26 +53,42 @@
                             <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
                                 <th scope="col">Nota</th>
                             </c:if>
+                            	<th scope="col">Resultado</th>
                             </tr>
                         </thead>
                         <tbody>
                             <c:forEach var="participante" items="${participantesEtapa}">
                             <c:set var = "avaliacaoParticipante" value = "${null}"/>
                             <tr>
-                                <td>${participante[0].candidato.nome}</td>
+                                <td>${participante.candidato.nome}</td>
                                 <c:if test="${not empty etapa.avaliacoes}">
                                     <c:forEach var="avaliacao" items="${etapa.avaliacoes}">
-                                            <c:if test="${(avaliacao.participante.codParticipante == participante[0].codParticipante) and (avaliacao.avaliador.codUsuario == avaliador.codUsuario)}">
+                                            <c:if test="${avaliacao.participante.codParticipante == participante.codParticipante}">
                                                 <td>${avaliacao.estado}</td>
                                                 <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
-                                                    <td>${avaliacao.aprovado}</td>
+                                                	<c:if test="${avaliacao.aprovado}">
+                                                		<td>Aprovado</td>
+                                                	</c:if>
+                                                	<c:if test="${not avaliacao.aprovado}">
+                                                		<td>Reprovado</td>
+                                                	</c:if>
                                                     <td>${participante[1]}</td>
                                                 </c:if>
                                                 <c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
-                                                    <td>${avaliacao.aprovado}</td>
+                                                    <c:if test="${avaliacao.aprovado}">
+                                                		<td>Aprovado</td>
+                                                	</c:if>
+                                                	<c:if test="${not avaliacao.aprovado}">
+                                                		<td>Reprovado</td>
+                                                	</c:if>
                                                 </c:if>
                                                 <c:if test="${(etapa.criterioDeAvaliacao.criterio == 3)}">
-                                                    <td>${avaliacao.aprovado}</td>
+                                                    <c:if test="${avaliacao.aprovado}">
+                                                		<td>Aprovado</td>
+                                                	</c:if>
+                                                	<c:if test="${not avaliacao.aprovado}">
+                                                		<td>Reprovado</td>
+                                                	</c:if>
                                                 </c:if>
                                             </c:if>
                                    </c:forEach>

@@ -73,12 +73,19 @@ public class SelecaoController {
             return "selecao";
         } else if(selecao.isDivulgada()) {
             HashMap<EtapaBeans, Object[]> situacao = new HashMap<>();
-            situacao.put(selecao.getInscricao(), this.etapaServiceIfc.getSituacao(selecao.getInscricao(), usuario));
             int i = 0;
-            for (EtapaBeans etapa : selecao.getEtapas()) {
-            	Etapa etapabusiness = (Etapa) etapaServiceIfc.getEtapa(etapa.getCodEtapa()).toBusiness();
-            	Avaliacao avl = new Avaliacao();
-            	Collection<Avaliacao> avaliacoes = avaliacaoDAOIfc.getAvaliacao2(etapabusiness);
+            Etapa etapabusiness = (Etapa) etapaServiceIfc.getEtapa(selecao.getInscricao().getCodEtapa()).toBusiness();
+            selecao.getInscricao().getAvaliacoes().removeAll(selecao.getInscricao().getAvaliacoes());
+            for(Avaliacao avaliacao:etapabusiness.getAvaliacoes()) {
+            	AvaliacaoBeans avli = new AvaliacaoBeans();
+        		avli.toBeans(avaliacao);
+        		selecao.getInscricao().getAvaliacoes().add(avli);
+            }
+            situacao.put(selecao.getInscricao(), this.etapaServiceIfc.getSituacao(selecao.getInscricao(), usuario));
+            for (i = 0; i<selecao.getEtapas().size(); i++) {
+            	EtapaBeans etapa = selecao.getEtapas().get(i);
+            	etapabusiness = (Etapa) etapaServiceIfc.getEtapa(etapa.getCodEtapa()).toBusiness();
+            	Collection<Avaliacao>avaliacoes = avaliacaoDAOIfc.getAvaliacao2(etapabusiness);
             	etapa.getAvaliacoes().removeAll(etapa.getAvaliacoes());
             	for(Avaliacao avaliacao:avaliacoes) {
             		AvaliacaoBeans avli = new AvaliacaoBeans();

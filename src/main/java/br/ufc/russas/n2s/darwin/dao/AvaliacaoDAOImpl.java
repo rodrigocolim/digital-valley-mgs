@@ -62,7 +62,7 @@ public class AvaliacaoDAOImpl implements AvaliacaoDAOIfc{
     
     @Override
     public List<Avaliacao> getAvaliacao2 (Etapa etapa) {
-    	String hql = "SELECT avaliacao FROM Avaliacao as avaliacao, Avaliacoes as avaliacoes WHERE avaliacoes.etapa = "+(etapa.getCodEtapa()-1)+" AND avaliacao.codAvaliacao = avaliacoes.avaliacao";
+    	String hql = "SELECT avaliacao FROM Avaliacao as avaliacao, Avaliacoes as avaliacoes WHERE avaliacoes.etapa = "+etapa.getCodEtapa()+" AND avaliacao.codAvaliacao = avaliacoes.avaliacao";
     	Session session = this.daoImpl.getSessionFactory().openSession();
     	Query query = session.createQuery(hql);
     	Transaction t = session.beginTransaction();

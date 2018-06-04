@@ -102,9 +102,7 @@ public class ParticiparEtapaController {
     List<Arquivo> arquivos = Collections.synchronizedList(new ArrayList<Arquivo>());
     for (int i = 0; i < documentos.length;i++) {
     String nome = nomeDocumento[i];
-    System.out.println(nome);
     MultipartFile file = documentos[i];
-    System.out.println(file.getOriginalFilename());
     if (!file.isEmpty()) {
     Arquivo documento = new Arquivo();
     java.io.File convFile = new java.io.File(file.getOriginalFilename());
@@ -120,7 +118,6 @@ public class ParticiparEtapaController {
     }
     Documentacao documentacao = new  Documentacao();
     Participante participante = (Participante) this.etapaServiceIfc.getParticipante(etapa, usuario).toBusiness();
-    System.out.println(participante);
     documentacao.setCandidato(participante);
     documentacao.setDocumentos(arquivos);
     this.etapaServiceIfc.anexaDocumentacao(etapa, (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
@@ -149,7 +146,6 @@ public class ParticiparEtapaController {
     public String participa(@PathVariable long codEtapa, HttpServletRequest request,Model model, MultipartHttpServletRequest r,HttpServletResponse response, @RequestParam("arquivos") List<MultipartFile> documentos) throws IOException {    
         HttpSession session = request.getSession();
         InscricaoBeans inscricao = null;
-        System.out.println("teste");
         try {
             inscricao = this.etapaServiceIfc.getInscricao(codEtapa);
            // SelecaoBeans selecao = this.etapaServiceIfc.getSelecao(inscricao);
@@ -159,9 +155,7 @@ public class ParticiparEtapaController {
             String[] nomeDocumento = request.getParameterValues("nomeDocumento");            
             for (int i = 0; i < documentos.size();i++) {
                 String nome = nomeDocumento[i];
-                System.out.println(nome);
                 MultipartFile file = documentos.get(i);
-                System.out.println(file.getOriginalFilename());
                 if (!file.equals(null)) {
                     Arquivo documento = new Arquivo();
                     java.io.File convFile = new java.io.File(file.getOriginalFilename());
@@ -210,7 +204,6 @@ public class ParticiparEtapaController {
             //response.sendRedirect("/Darwin/participarEtapa/inscricao/"+inscricao.getCodEtapa());
             return "redirect:/participarEtapa/inscricao/"+inscricao.getCodEtapa();
         } catch (Exception e) {
-        	System.out.println("is true");
             e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
@@ -230,9 +223,7 @@ public class ParticiparEtapaController {
             List<Arquivo> arquivos = Collections.synchronizedList(new ArrayList<Arquivo>());
             for (int i = 0; i < documentos.length;i++) {
                 String nome = nomeDocumento[i];
-                System.out.println(nome);
                 MultipartFile file = documentos[i];
-                System.out.println(file.getOriginalFilename());
                 if (!file.isEmpty()) {
                     Arquivo documento = new Arquivo();
                     java.io.File convFile = new java.io.File(file.getOriginalFilename());

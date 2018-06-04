@@ -81,7 +81,6 @@ public class FileManipulation {
             try {
                 for (int readNum; (readNum = fis.read(buf)) != -1;) {
                     bos.write(buf, 0, readNum); //no doubt here is 0
-                    System.out.println("read " + readNum + " bytes,");
                 }
             } catch (IOException ex) {
                ex.printStackTrace();

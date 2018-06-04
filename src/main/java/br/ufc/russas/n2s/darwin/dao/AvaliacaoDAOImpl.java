@@ -84,7 +84,6 @@ public class AvaliacaoDAOImpl implements AvaliacaoDAOIfc{
 		etapa.setCodEtapa(7);
 		List<Avaliacao> lista = avaliacao.getAvaliacao2(etapa);
 		for(Avaliacao item:lista) {
-			System.out.println(item.getCodAvaliacao());
 		}
 	}
 	*/

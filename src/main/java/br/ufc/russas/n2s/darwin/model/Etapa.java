@@ -363,14 +363,11 @@ public class Etapa implements Serializable, Atualizavel {
 	}
 
 	public boolean isParticipante(Participante participante) {
-		System.out.println("chamou metodo");
 		if (this.getPrerequisito() != null) {
-			System.out.println("entrou if");
 			// List<Object[]> aprovados = this.getPrerequisito().getAprovados();
 			// return aprovados.contains(participante);
 			return true;
 		} else {
-			System.out.println("entrou else");
 			return true;
 		}
 	}

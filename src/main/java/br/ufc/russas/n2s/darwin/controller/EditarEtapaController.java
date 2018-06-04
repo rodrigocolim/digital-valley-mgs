@@ -75,7 +75,6 @@ public class EditarEtapaController {
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
        
         List<UsuarioBeans> avaliadores = usuarioServiceIfc.listaAvaliadores();
-        System.out.println("\n\n"+avaliadores.size()+"\n\n\n\n\n");
         if (etapaBeans.getCodEtapa() == selecao.getInscricao().getCodEtapa()) {
             model.addAttribute("tipo", "inscricao"); 
         } else {
@@ -117,7 +116,6 @@ public class EditarEtapaController {
             	if(sub.getCodEtapa()!=codEtapa) {
             		Periodo periodo =(Periodo) sub.getPeriodo().toBusiness();
             		if(periodo.isColide(novoP)) {
-            			System.out.println("Entrou");
             			throw new IllegalCodeException("Periodo Inválido!");
             		}
             		}
@@ -186,7 +184,6 @@ public class EditarEtapaController {
             	if(sub.getCodEtapa()!=inscricao.getCodEtapa()) {
             		Periodo periodo =(Periodo) sub.getPeriodo().toBusiness();
             		if(periodo.isColide(novoP)) {
-            			System.out.println("Entrou");
             			throw new IllegalCodeException("Periodo Inválido!");
             		}
             		}
@@ -275,17 +272,9 @@ public class EditarEtapaController {
             	//etapaServiceIfc.atualizaEtapa(selecao, inscricao);
           //  	selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
             //}
-            	 System.out.println("\n\n");
                  
-            //     System.out.println(inscricao.isDivulgadoResultado());
-             //    System.out.println("\n\n");
-            	 System.out.println("\n\naqui");
             selecao.getInscricao().setDivulgaResultado(true);
-            System.out.println(selecao.getInscricao().isDivulgadoResultado()+"\n\n");
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-            System.out.println(selecao.getInscricao().isDivulgadoResultado());
-           
-            System.out.println("\n\n");
             session.setAttribute("selecao", selecao);
             session.setAttribute("mensagem", "Resultado da etapa divulgada com sucesso!");
             session.setAttribute("status", "success");

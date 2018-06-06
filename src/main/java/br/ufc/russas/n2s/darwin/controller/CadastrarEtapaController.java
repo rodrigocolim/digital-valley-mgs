@@ -16,6 +16,9 @@ import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
+import util.Constantes;
+
+import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -84,6 +87,8 @@ public class CadastrarEtapaController {
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
+            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator+"Etapa_"+etapa.getTitulo()+File.separator);
+            dir.mkdir();
             model.addAttribute("selecao", selecao);
             String[] codAvaliadores = request.getParameterValues("codAvaliadores");
             String[] documentosExigidos = request.getParameterValues("documentosExigidos");
@@ -148,6 +153,8 @@ public class CadastrarEtapaController {
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
+            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator+"Etapa_"+etapa.getTitulo()+File.separator);
+            dir.mkdir();
             model.addAttribute("selecao", selecao);
             String[] codAvaliadores = request.getParameterValues("codAvaliadores");
             String[] documentosExigidos = request.getParameterValues("documentosExigidos");

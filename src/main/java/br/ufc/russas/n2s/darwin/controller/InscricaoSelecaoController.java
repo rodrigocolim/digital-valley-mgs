@@ -45,6 +45,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
+import util.Constantes;
 import util.Facade;
 
 /**
@@ -90,6 +92,8 @@ public class InscricaoSelecaoController extends HttpServlet {
                 int k=0;
                 String nomeCampo = "";
                 String valorCampo = "Documento";
+                File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator+"Etapa_"+etapa.getTitulo()+File.separator+"Candidato_"+usuario.getCodUsuario()+File.separator);
+                dir.mkdir();
                 for(int i=0;i<itens.size();i++){
                      FileItem item = (FileItem) itens.get(i);
                      String campo = item.getFieldName();
@@ -101,7 +105,7 @@ public class InscricaoSelecaoController extends HttpServlet {
                      }else{
                          //Escolhe o que vai fazer com os campos files
                          if(item.get().length>0){
-                            File temp = File.createTempFile("temp", ".pdf");
+                            File temp = File.createTempFile("temp", ".pdf", dir);
                             InputStream input = item.getInputStream();
                             OutputStream output = new FileOutputStream(temp);
                             int read = 0;

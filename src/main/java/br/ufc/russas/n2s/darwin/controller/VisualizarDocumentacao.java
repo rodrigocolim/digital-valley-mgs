@@ -31,7 +31,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
  *
  * @author Wallison Carlos
  */
-@WebServlet(name = "VisualizarEdital", urlPatterns = {"/visualizarArquivo"})
+@WebServlet(name = "VisualizarDocumentacao", urlPatterns = {"/visualizarArquivo"})
 public class VisualizarDocumentacao extends HttpServlet {
     
     private SelecaoServiceIfc selecaoServiceIfc;

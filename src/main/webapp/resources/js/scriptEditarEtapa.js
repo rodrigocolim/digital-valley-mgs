@@ -62,7 +62,9 @@
           }
           atualizaDocumentos();
       }
-        var codAvaliadores = [];
+       
+      
+      var codAvaliadores = [];
         var listaAvaliadores = [];
         var numAvaliadores = 0;
         var listaAInputs = document.getElementById("listaAvaliadores").getElementsByTagName("input");
@@ -74,10 +76,8 @@
           var codAvaliador = avaliadorInput.substring(0, avaliadorInput.indexOf("-"));
           listaAvaliadores[l] = nomeAvaliador;
 
-          codAvaliadores[l] = codAvaliador;
-  
-        atualizaAvaliadores();
-  }
+          codAvaliadores[l] = codAvaliador        
+         }
 
       function adicionaAvaliador(){
         var avaliadorInput = document.getElementById("avaliadorInput").value;

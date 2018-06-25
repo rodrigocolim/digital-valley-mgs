@@ -400,7 +400,7 @@
                             <li class="list-group-item disabled">
                                 <fmt:parseDate value="${anexo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
                                 <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
-                                <a href="/Darwin/visualizarArquvio?selecao=${selecao.codSelecao}&tipo=anexo&anexo=${anexo.codArquivo}" target="_blank">(${dataAditivo}) ${anexo.titulo}</a>
+                                <a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=anexo&anexo=${anexo.codArquivo}" target="_blank">(${dataAditivo}) ${anexo.titulo}</a>
                             </li>
                         </c:forEach>
                     </ul>

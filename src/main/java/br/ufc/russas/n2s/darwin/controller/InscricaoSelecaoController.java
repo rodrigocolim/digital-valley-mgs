@@ -74,7 +74,6 @@ public class InscricaoSelecaoController extends HttpServlet {
             throws ServletException, IOException {
         boolean isMultiPart = org.apache.commons.fileupload.FileUpload.isMultipartContent(request);
         if(isMultiPart){
-            System.out.println("dioasdjaoooooooooooooooooooooooooooooooooodsdmas dmas dsa dasd\ndjaskldjalkd\ndlakjdlkajdjlj");
             try{
                 DiskFileItemFactory factory = new DiskFileItemFactory();
                 ServletFileUpload upload = new ServletFileUpload(factory);
@@ -92,20 +91,15 @@ public class InscricaoSelecaoController extends HttpServlet {
                 String nomeCampo = "";
                 String valorCampo = "Documento";
                 for(int i=0;i<itens.size();i++){
-                    System.out.println("oi");
                      FileItem item = (FileItem) itens.get(i);
                      String campo = item.getFieldName();
                      String valor = item.getString();
 
-                     System.out.println(campo);
                      if(item.isFormField()){
-                         System.out.println("oi de novo");
                          //Escolhe o que vai fazer com os campos normais
                          nomeCampo = item.getFieldName();
                          valorCampo = item.getString();
-                         System.out.println(valorCampo);
                      }else{
-                         System.out.println("olá");
                          //Escolhe o que vai fazer com os campos files
                          if(item.get().length>0){
                             File temp = File.createTempFile("temp", ".pdf");
@@ -128,7 +122,6 @@ public class InscricaoSelecaoController extends HttpServlet {
                          }
                      }
                  }
-                System.out.println("dasdadasdaqdjkahd");
                 DocumentacaoBeans documentacao = new  DocumentacaoBeans();
                 ParticipanteBeans participante = new ParticipanteBeans();
                 participante.setCandidato((UsuarioDarwin) usuario.toBusiness());

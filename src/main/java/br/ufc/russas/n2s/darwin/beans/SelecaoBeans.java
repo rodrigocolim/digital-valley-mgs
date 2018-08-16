@@ -186,7 +186,6 @@ public class SelecaoBeans implements Beans {
         selecao.setTitulo(this.getTitulo());
         selecao.setDescricao(this.getDescricao());
         if (this.getInscricao() != null) {
-        	 System.out.println("Olhe aqui oh:  "+this.getInscricao().isDivulgadoResultado());
             selecao.setInscricao((Inscricao) this.getInscricao().toBusiness());
         }
         if(this.vagasRemuneradas >= 0) selecao.setVagasRemuneradas(this.getVagasRemuneradas());

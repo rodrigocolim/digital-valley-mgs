@@ -189,13 +189,19 @@ public class EditarEtapaController {
             		}
             }
             ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
-            if (codAvaliadores != null) {
-                for (String cod : codAvaliadores) {
-                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
-                    if (u != null) {
-                        avaliadores.add(u);
-                    }
-                }
+            try {
+	            if (codAvaliadores != null) {
+	                for (String cod : codAvaliadores) {
+	                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+	                    if (u != null) {
+	                        avaliadores.add(u);
+	                    }
+	                }
+	            }
+            } catch (NumberFormatException e) {
+            	model.addAttribute("mensagem", "Avaliador(es) inválido(s)!");
+                model.addAttribute("status", "error");
+            	return "redirect:/editarEtapa/" + codSelecao+"/"+codInscricao;
             }
             if (documentosExigidos != null) {
                 ArrayList<String> docs = new ArrayList<>();
@@ -208,9 +214,6 @@ public class EditarEtapaController {
             this.getSelecaoServiceIfc().setUsuario(usuario);
             selecao.setInscricao(inscricaoBeans);
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-            model.addAttribute("selecao", selecao);
-            model.addAttribute("mensagem", "Etapa atualizada com sucesso!");
-            model.addAttribute("status", "success");
             session.setAttribute("selecao", selecao);
             session.setAttribute("mensagem", "Etapa atualizada com sucesso!");
             session.setAttribute("status", "success");

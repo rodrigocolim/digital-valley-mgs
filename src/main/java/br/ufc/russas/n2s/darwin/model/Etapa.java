@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.model;
 
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -422,6 +423,8 @@ public class Etapa implements Serializable, Atualizavel {
 			this.getAvaliacoes().add(avaliacao);
 		}
 	}
+	
+	
 
 	/**
 	 * Verifica se o usuário passado é um avaliador.

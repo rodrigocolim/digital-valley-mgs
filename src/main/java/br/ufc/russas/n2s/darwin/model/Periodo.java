@@ -150,5 +150,7 @@ public class Periodo implements AttributeConverter<LocalDate, Date> {
     public Duration getTempoRestante() {
         return Duration.between(LocalDateTime.now(), termino);
     }
+    
+    
 
 }

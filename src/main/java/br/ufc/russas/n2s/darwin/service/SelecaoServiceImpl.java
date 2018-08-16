@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
+import br.ufc.russas.n2s.darwin.beans.InscricaoBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
@@ -15,6 +16,7 @@ import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
+import br.ufc.russas.n2s.darwin.model.Inscricao;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
@@ -136,17 +138,20 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList());
         List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         List<SelecaoBeans> resultadoDivulgadas = this.listaTodasSelecoes();
+    	
         for (Selecao s : resultadoNaoDivulgadas) {
-            if (s.getResponsaveis().contains(user)) {
+        	Inscricao i = s.getInscricao();
+            if (s.getResponsaveis().contains(user) || (i != null && i.isCanditado((UsuarioDarwin)usuario.toBusiness()))) {
                 selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
             } 
         }
-        for (SelecaoBeans s : resultadoDivulgadas) {
-            if (s.getResponsaveis().contains(usuario)) {
+        for (SelecaoBeans s : resultadoDivulgadas) {        	
+        	Inscricao i = (Inscricao) s.getInscricao().toBusiness();
+            if (s.getResponsaveis().contains(usuario) || (i != null && i.isCanditado((UsuarioDarwin)usuario.toBusiness()))) {
                 selecoes.add(s);
             }
         }
-       
+               
         return this.ordenaSelecoesPorData(selecoes);
     }
 

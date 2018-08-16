@@ -186,7 +186,6 @@
                                                 Avaliar
                                             </a>
                                         </c:if>
-<<<<<<< HEAD
 										<c:if test="${(estadoInscricao == 3) and (!selecao.inscricao.divulgadoResultado) and ((fn:contains(permissoes, 'ADMINISTRADOR')) or (isResponsavel))}">
 											<c:set var="pendente" value="false"></c:set>
 											<c:forEach var="avaliacao" items="${selecao.inscricao.avaliacoes}">
@@ -201,9 +200,6 @@
 											</a>
 											</c:if>
 											<c:if test="${not pendente}">
-=======
-										<c:if test="${(estadoInscricao == 3) and (!selecao.inscricao.divulgadoResultado) }">
->>>>>>> c1ca02689a0f6b8344769e1d45328b508afccfee
 											<a href="/Darwin/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
 												Divulgar Resultado
 											</a>
@@ -228,8 +224,6 @@
 						                            </div>
 						                        </div>
 						                    </div>
-											
-											
 										</c:if>
                                         <c:if test="${(estadoInscricao == 3) and (selecao.inscricao.divulgadoResultado) and (not empty selecao.inscricao.avaliacoes)}">
                                         <a href="/Darwin/resultadoEtapa/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">

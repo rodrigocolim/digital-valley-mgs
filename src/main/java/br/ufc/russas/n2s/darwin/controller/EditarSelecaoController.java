@@ -71,10 +71,6 @@ public class EditarSelecaoController {
         HttpSession session = request.getSession();
         
         
-        System.out.println("\n\n\n");
-        System.out.println(selecao.getTitulo());
-        System.out.println(selecao.getDescricao());
-        System.out.println("\n\n\n");
         if (selecao != null) {}
         try{
             selecaoBeans.setTitulo(selecao.getTitulo());

@@ -99,7 +99,7 @@
                                                     <c:forEach var="documentacao" items="${etapa.documentacoes}">
                                                         <c:if test="${documentacao.candidato.codParticipante == participante[0].codParticipante}">
                                                             <c:forEach var="documento" items="${documentacao.documentos}">
-                                                    <p><b>${documento.titulo}:</b><a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&etapa=${etapa.codEtapa}&documento=${documento.codArquivo}">Ver</a></p>
+                                                    <p><b>${documento.titulo}:</b><a href="/Darwin/visualizarDocumentacao?selecao=${selecao.codSelecao}&etapa=${etapa.codEtapa}&documento=${documento.codArquivo}">Ver</a></p>
                                                             </c:forEach>
                                                         </c:if>
                                                     </c:forEach>

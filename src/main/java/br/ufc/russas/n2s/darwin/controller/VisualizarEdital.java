@@ -28,7 +28,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
  *
  * @author Wallison Carlos
  */
-@WebServlet(name = "VisualizarEdital", urlPatterns = {"/visualizarArquvio"})
+@WebServlet(name = "VisualizarEdital", urlPatterns = {"/visualizarArquivo"})
 public class VisualizarEdital extends HttpServlet {
     
     private SelecaoServiceIfc selecaoServiceIfc;
@@ -96,7 +96,6 @@ public class VisualizarEdital extends HttpServlet {
         response.addHeader("Content-Disposition", "inline; filename=" + selecao.getEdital().getTitulo()+".pdf");
         response.setContentLength((int) file.length());
         FileInputStream fileInputStream = new FileInputStream(file.getAbsoluteFile());
-        System.out.println(fileInputStream);
         OutputStream responseOutputStream = response.getOutputStream();
         int bytes;
         while ((bytes = fileInputStream.read()) != -1) {

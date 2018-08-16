@@ -75,7 +75,6 @@ public class EditarEtapaController {
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
        
         List<UsuarioBeans> avaliadores = usuarioServiceIfc.listaAvaliadores();
-        System.out.println("\n\n"+avaliadores.size()+"\n\n\n\n\n");
         if (etapaBeans.getCodEtapa() == selecao.getInscricao().getCodEtapa()) {
             model.addAttribute("tipo", "inscricao"); 
         } else {
@@ -117,7 +116,6 @@ public class EditarEtapaController {
             	if(sub.getCodEtapa()!=codEtapa) {
             		Periodo periodo =(Periodo) sub.getPeriodo().toBusiness();
             		if(periodo.isColide(novoP)) {
-            			System.out.println("Entrou");
             			throw new IllegalCodeException("Periodo Inválido!");
             		}
             		}
@@ -186,7 +184,6 @@ public class EditarEtapaController {
             	if(sub.getCodEtapa()!=inscricao.getCodEtapa()) {
             		Periodo periodo =(Periodo) sub.getPeriodo().toBusiness();
             		if(periodo.isColide(novoP)) {
-            			System.out.println("Entrou");
             			throw new IllegalCodeException("Periodo Inválido!");
             		}
             		}
@@ -267,11 +264,9 @@ public class EditarEtapaController {
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-            this.getSelecaoServiceIfc().setUsuario(usuario);
-                 
+            this.getSelecaoServiceIfc().setUsuario(usuario);  
             selecao.getInscricao().setDivulgaResultado(true);
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-           
             session.setAttribute("selecao", selecao);
             session.setAttribute("mensagem", "Resultado da etapa divulgada com sucesso!");
             session.setAttribute("status", "success");

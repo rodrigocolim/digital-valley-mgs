@@ -116,9 +116,6 @@ public class CadastrarSelecaoController {
             if (nomeAnexos != null && linkAnexos != null) { // para anexos
                 ArrayList<ArquivoBeans> anexos = new ArrayList<>();
                 for (int i=0; i < nomeAnexos.length; i++) {
-                    System.out.println("\n\n\n");
-                    System.out.println("Aqui 2");
-                    System.out.println("\n\n\n");
                     ArquivoBeans anexo = new ArquivoBeans();
                     anexo.setTitulo(nomeAnexos[i]);
                     File temp = File.createTempFile(Constantes.getDocumentsDir()+File.separator+nomeAnexos[i], ".pdf", dir);
@@ -131,9 +128,6 @@ public class CadastrarSelecaoController {
                     }
                     anexo.setArquivo(temp);
                     anexo.setData(LocalDateTime.now());
-                     System.out.println("\n\n\n");
-                     System.out.println(anexo.getTitulo());
-                     System.out.println("\n\n\n");
                     anexos.add(anexo);
                 }
                 selecao.setAnexos(anexos);

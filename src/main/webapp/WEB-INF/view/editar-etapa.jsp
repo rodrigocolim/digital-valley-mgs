@@ -142,16 +142,16 @@
                                     <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar">                            
                                 </div>
                                 <br>
-                                <ul class="list-group col-md-8 " id="listaAvaliadores">
+                                 <ul class="list-group col-md-8" id="listaAvaliadores"> 
                                     <c:forEach var="avaliador" items="${etapa.avaliadores}">
-                                        <li class="list-group-item">
+                                       	<li class="list-group-item">
                                             <input type="hidden" name="codAvaliadores" value="${avaliador.codUsuario}-${avaliador.nome}" style="display: none;"/>
                                             ${avaliador.nome}
                                             <button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador('${avaliador.nome}')">clear</button>
-                                            
-                                        </li>
+                                        </li>    
+                                       
                                     </c:forEach>
-                                </ul>
+                                 </ul> 
                                 <br>
                             </div>
                         </div>

@@ -19,6 +19,9 @@ import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
+import util.Constantes;
+
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -102,9 +105,7 @@ public class ParticiparEtapaController {
     List<Arquivo> arquivos = Collections.synchronizedList(new ArrayList<Arquivo>());
     for (int i = 0; i < documentos.length;i++) {
     String nome = nomeDocumento[i];
-    System.out.println(nome);
     MultipartFile file = documentos[i];
-    System.out.println(file.getOriginalFilename());
     if (!file.isEmpty()) {
     Arquivo documento = new Arquivo();
     java.io.File convFile = new java.io.File(file.getOriginalFilename());
@@ -120,7 +121,6 @@ public class ParticiparEtapaController {
     }
     Documentacao documentacao = new  Documentacao();
     Participante participante = (Participante) this.etapaServiceIfc.getParticipante(etapa, usuario).toBusiness();
-    System.out.println(participante);
     documentacao.setCandidato(participante);
     documentacao.setDocumentos(arquivos);
     this.etapaServiceIfc.anexaDocumentacao(etapa, (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
@@ -149,29 +149,29 @@ public class ParticiparEtapaController {
     public String participa(@PathVariable long codEtapa, HttpServletRequest request,Model model, MultipartHttpServletRequest r,HttpServletResponse response, @RequestParam("arquivos") List<MultipartFile> documentos) throws IOException {    
         HttpSession session = request.getSession();
         InscricaoBeans inscricao = null;
-        System.out.println("teste");
         try {
             inscricao = this.etapaServiceIfc.getInscricao(codEtapa);
-           // SelecaoBeans selecao = this.etapaServiceIfc.getSelecao(inscricao);
+            SelecaoBeans selecao = this.etapaServiceIfc.getSelecao(inscricao);
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator+"Etapa_"+inscricao.getTitulo()+File.separator+"Candidato_"+usuario.getCodUsuario()+File.separator);
+            if(!dir.exists()) {
+            	dir.mkdir();
+            }
             this.etapaServiceIfc.setUsuario(usuario);
             List<Arquivo> arquivos = new ArrayList<Arquivo>();
             String[] nomeDocumento = request.getParameterValues("nomeDocumento");            
             for (int i = 0; i < documentos.size();i++) {
                 String nome = nomeDocumento[i];
-                System.out.println(nome);
                 MultipartFile file = documentos.get(i);
-                System.out.println(file.getOriginalFilename());
                 if (!file.equals(null)) {
                     Arquivo documento = new Arquivo();
-                    java.io.File convFile = new java.io.File(file.getOriginalFilename());
-                    convFile.createNewFile(); 
+                    java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(), ".pdf", dir);
                     FileOutputStream fos = new FileOutputStream(convFile); 
                     fos.write(file.getBytes());
                     fos.close(); 
                     documento.setTitulo(nome);
                     documento.setData(LocalDateTime.now());
-                    documento.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
+                    documento.setArquivo(convFile);
                     arquivos.add(documento);
                 }        
             }
@@ -210,7 +210,6 @@ public class ParticiparEtapaController {
             //response.sendRedirect("/Darwin/participarEtapa/inscricao/"+inscricao.getCodEtapa());
             return "redirect:/participarEtapa/inscricao/"+inscricao.getCodEtapa();
         } catch (Exception e) {
-        	System.out.println("is true");
             e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
@@ -226,23 +225,22 @@ public class ParticiparEtapaController {
             etapa = this.etapaServiceIfc.getEtapa(codEtapa);
             SelecaoBeans selecao = this.etapaServiceIfc.getSelecao(etapa);
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator+"Etapa_"+etapa.getTitulo()+File.separator+"Candidato_"+usuario.getCodUsuario()+File.separator);
+            dir.mkdir();
             this.etapaServiceIfc.setUsuario(usuario);
             List<Arquivo> arquivos = Collections.synchronizedList(new ArrayList<Arquivo>());
             for (int i = 0; i < documentos.length;i++) {
                 String nome = nomeDocumento[i];
-                System.out.println(nome);
                 MultipartFile file = documentos[i];
-                System.out.println(file.getOriginalFilename());
                 if (!file.isEmpty()) {
-                    Arquivo documento = new Arquivo();
-                    java.io.File convFile = new java.io.File(file.getOriginalFilename());
-                    convFile.createNewFile(); 
+                	Arquivo documento = new Arquivo();
+                    java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(), ".pdf", dir);
                     FileOutputStream fos = new FileOutputStream(convFile); 
                     fos.write(file.getBytes());
                     fos.close(); 
                     documento.setTitulo(nome);
                     documento.setData(LocalDateTime.now());
-                    documento.setArquivo(FileManipulation.getFileStream(file.getInputStream(), ".pdf"));
+                    documento.setArquivo(convFile);
                     arquivos.add(documento);
                 }        
             }

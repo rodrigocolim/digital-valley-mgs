@@ -40,7 +40,7 @@ public class Facade {
 			//		"RESULTADO_"+nomeSelecao+"_ETAPA"+"_"+etapa.getTitulo()+LocalDateTime.now().format(DateTimeFormatter.ofPattern("ddMMyyyyhhmmss")) +".pdf"));
 			PdfWriter.getInstance(document, new FileOutputStream(name));
 			document.open();
-			Image image = Image.getInstance(Constantes.getDocumentsDir());
+			Image image = Image.getInstance(Constantes.getLOGO_UFC());
 			//Image image = Image.getInstance(Constantes.getLOGO_UFC());
 			image.setAlignment(Image.MIDDLE);
 			image.scaleAbsoluteWidth(50);

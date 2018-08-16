@@ -276,7 +276,7 @@
                                     </div>
                                 </div>
                             </li>
-                            </c:if>
+                          </c:if>
                     <c:set var="i" value="1"></c:set>
                     
                     <c:forEach var="etapa" begin="0" items="${selecao.etapas}">
@@ -480,7 +480,7 @@
                         </c:forEach>
                     </ul>
                 </div>
-                </c:if>
+              </c:if>
             </div>
         </div>
         <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  

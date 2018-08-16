@@ -94,6 +94,7 @@ public class InscricaoSelecaoController extends HttpServlet {
                      FileItem item = (FileItem) itens.get(i);
                      String campo = item.getFieldName();
                      String valor = item.getString();
+
                      if(item.isFormField()){
                          //Escolhe o que vai fazer com os campos normais
                          nomeCampo = item.getFieldName();

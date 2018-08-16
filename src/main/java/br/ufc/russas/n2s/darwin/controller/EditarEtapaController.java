@@ -267,15 +267,7 @@ public class EditarEtapaController {
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-           // InscricaoBeans inscricao = etapaServiceIfc.getInscricao(codInscricao);
-            //inscricao.setDivulgaResultado(true);
-            this.getSelecaoServiceIfc().setUsuario(usuario);
-           // if(selecao.getInscricao().getCodEtapa() == inscricao.getCodEtapa()) {
-           // 	selecao.setInscricao(inscricao);
-            	//etapaServiceIfc.atualizaEtapa(selecao, inscricao);
-          //  	selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-            //}
-                 
+            this.getSelecaoServiceIfc().setUsuario(usuario);  
             selecao.getInscricao().setDivulgaResultado(true);
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
             session.setAttribute("selecao", selecao);

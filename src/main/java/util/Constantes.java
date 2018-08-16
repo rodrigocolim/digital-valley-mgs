@@ -15,7 +15,9 @@ public class Constantes {
 	private static String SESSION_MSG;
 	private static String DATABASE_CONF_DIR;
 	private static String PRE_URL;
+	private static String LOGO_UFC;
 	private static String DOCUMENTS_DIR;
+	private static String TEMP_DIR;
 	private Constantes() {
 		//
 	}
@@ -32,7 +34,9 @@ public class Constantes {
 		NUMBER_OF_ROWS_PER_PAGE = Integer.valueOf(dotEnv.get("NUMBER_OF_ROWS_PER_PAGE"));
 		SESSION_MSG = dotEnv.get("SESSION_MSG");
 		PRE_URL = dotEnv.get("PRE_URL");
+		LOGO_UFC = dotEnv.get("LOGO_UFC");
 		DOCUMENTS_DIR = dotEnv.get("DOCUMENTS_DIR");
+		TEMP_DIR = dotEnv.get("TEMP_DIR");
 	}
 
 	/**
@@ -105,10 +109,22 @@ public class Constantes {
 		return DATABASE_CONF_DIR;
 	}
 	/**
+	 * @return the logoUFC
+	 */
+	public static String getLOGO_UFC() {
+		return LOGO_UFC;
+	}
+	/**
 	 * @return the documentsDir
 	 */
 	public static String getDocumentsDir() {
 		return DOCUMENTS_DIR;
+	}
+	/**
+	 * @return the TempsDir
+	 */
+	public static String getTemp() {
+		return TEMP_DIR;
 	}
 	
 }

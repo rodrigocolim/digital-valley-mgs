@@ -42,8 +42,12 @@
                         </button>
                     </div>
                 </c:if>
-                
-                    <h1>Resultado</h1>
+                <div class="row" style="padding-left: 15px;">
+                    <h1>Resultado</h1><!-- <a href="${etapa.codEtapa}/imprimir">Imprimir</a>  -->
+                    <a href="${etapa.codEtapa}/imprimir" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;" >
+                        <span>Gerar PDF do resultado</span>
+                    </a>
+                   </div>
                     <br>
                     <table class="table table-responsive">
                         <thead>
@@ -101,6 +105,9 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+          </div>
+        </div>
         <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>

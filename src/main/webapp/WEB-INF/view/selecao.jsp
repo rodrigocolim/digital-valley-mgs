@@ -1,3 +1,5 @@
+<%@page import="br.ufc.russas.n2s.darwin.beans.SelecaoBeans"%>
+<%@page import="java.time.LocalDate"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="util.Constantes"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -97,7 +99,7 @@
                 </c:if>
                 <div class="row" style="padding-left: 15px;">
                     <h1 class="text-uppercase" style="font-size: 20px;">${selecao.titulo}</h1>
-                    <a href="/Darwin/visualizarArquvio?selecao=${selecao.codSelecao}&tipo=edital" target="_blank" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;" >
+                    <a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=edital" target="_blank" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;" >
                         <span>Visualizar edital</span>
                     </a>
                 <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
@@ -170,20 +172,58 @@
                                         <c:if test="${(estadoInscricao == 2) and (not isResponsavel) and (not fn:contains(permissoes, 'ADMINISTRADOR')) and (not fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
                                             <a href="/Darwin/participarEtapa/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Inscrever-se</a>
                                         </c:if>
-                                        <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
-                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
-                                                Editar etapa
-                                            </a>   
-                                        </c:if>
+                                        	<jsp:useBean id="now" class="java.util.Date" />
+											<fmt:formatDate var="dateAgora" value="${now}" pattern="ddMMyyyy" />
+											<fmt:formatDate value="${parseDataInicio}"  pattern="ddMMyyyy" var="Inicio"/>											                                      
+                                            <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and (dateAgora < Inicio) }">
+	                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
+	                                                Editar etapa
+	                                            </a>   
+	                                        </c:if>
+                                       	
                                         <c:if test="${((estadoInscricao == 2) or (estadoInscricao == 3)) and (not selecao.inscricao.divulgadoResultado) and (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
                                             <a href="/Darwin/avaliar/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                                 Avaliar
                                             </a>
                                         </c:if>
-										<c:if test="${(estadoInscricao == 3) and (!selecao.inscricao.divulgadoResultado)}">
+										<c:if test="${(estadoInscricao == 3) and (!selecao.inscricao.divulgadoResultado) and ((fn:contains(permissoes, 'ADMINISTRADOR')) or (isResponsavel))}">
+											<c:set var="pendente" value="false"></c:set>
+											<c:forEach var="avaliacao" items="${selecao.inscricao.avaliacoes}">
+												<c:if test="${avaliacao.estado eq 'PENDENTE'}">
+													<c:set var="pendente" value="true"></c:set>
+												</c:if>
+											</c:forEach>
+											
+											<c:if test="${pendente}">
+											<a href="" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultados">
+												Divulgar Resultado
+											</a>
+											</c:if>
+											<c:if test="${not pendente}">
 											<a href="/Darwin/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
 												Divulgar Resultado
 											</a>
+											</c:if>
+											<!-- divulgação de resultados -->
+						                    <div class="modal fade" id="divulgaresultados" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+						                        <div class="modal-dialog" role="document">
+						                            <div class="modal-content">
+						                                <div class="modal-header">
+						                                    <h5 class="modal-title" id="modalLabel">Divulgar resultados</h5>
+						                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						                                        <span aria-hidden="true">&times;</span>
+						                                    </button>
+						                                </div>
+						                                <div class="modal-body">
+						                                    <p>Esta etapa possui participantes pendentes. Se continuar com a divulgação, estes participantes serão indeferidos automaticamente. Deseja continuar? </p>
+						                                </div>
+						                                <div class="modal-footer">
+						                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+						                                    <a class="btn btn-sm btn-primary" href="/Darwin/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}"> Continuar</a>
+						                                </div>
+						                            </div>
+						                        </div>
+						                    </div>
 										</c:if>
                                         <c:if test="${(estadoInscricao == 3) and (selecao.inscricao.divulgadoResultado) and (not empty selecao.inscricao.avaliacoes)}">
                                         <a href="/Darwin/resultadoEtapa/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
@@ -275,12 +315,13 @@
                                     </ul>
                                     </c:if>
                                     <hr>
-                                    <c:if test="${(not empty etapa.documentacaoExigida) and (estado == 2) and (fn:contains(permissoes, 'PARTICIPANTE'))}">
+                                    <c:if test="${(not empty etapa.documentacaoExigida) and (estado == 2) and (fn:contains(permissoes, 'PARTICIPANTE')) }">
                                         <a href="/Darwin/participarEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                             Enviar documentação
                                         </a>
                                     </c:if>
-                                    <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                                 
+                                    <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and (dateAgora < Inicio)  }">
                                         <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
                                             Editar etapa
                                         </a>   
@@ -291,9 +332,43 @@
                                         </a>
                                     </c:if>
                                     <c:if test="${(estado == 3) and (!etapa.divulgadoResultado) and (not empty etapa.avaliacoes)}">
+											<c:set var="pendente" value="false"></c:set>
+											<c:forEach var="avaliacao" items="${etapa.avaliacoes}">
+												<c:if test="${avaliacao.estado eq 'PENDENTE'}">
+													<c:set var="pendente" value="true"></c:set>
+												</c:if>
+											</c:forEach>
+											<c:if test="${pendente}">
+											<a href="" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultadoetapa">
+												Divulgar Resultado
+											</a>
+											</c:if>
+											<c:if test="${not pendente}">
 											<a href="/Darwin/editarEtapa/divulgarResultado/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
 												Divulgar Resultado
 											</a>
+											</c:if>
+											
+											<!-- divulgação de resultados -->
+						                    <div class="modal fade" id="divulgaresultadoetapa" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+						                        <div class="modal-dialog" role="document">
+						                            <div class="modal-content">
+						                                <div class="modal-header">
+						                                    <h5 class="modal-title" id="modalLabel">Divulgar resultados</h5>
+						                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						                                        <span aria-hidden="true">&times;</span>
+						                                    </button>
+						                                </div>
+						                                <div class="modal-body">
+						                                    <p>Esta etapa possui participantes pendentes. Se continuar com a divulgação, estes participantes serão indeferidos automaticamente. Deseja continuar? </p>
+						                                </div>
+						                                <div class="modal-footer">
+						                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+						                                    <a class="btn btn-sm btn-primary" href="/Darwin/editarEtapa/divulgarResultado/${selecao.codSelecao}/${etapa.codEtapa}"> Continuar</a>
+						                                </div>
+						                            </div>
+						                        </div>
+						                    </div>
 									</c:if>
                                     <c:if test="${(etapa.divulgadoResultado) and ((isResponsavel and (estado == 3)) or (fn:contains(permissoes, 'ADMINISTRADOR') and (estado == 3)) or (fn:contains(permissoes, 'PARTICIPANTE') and (estado == 3))) and (not empty etapa.avaliacoes)}">
                                      	<a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
@@ -383,7 +458,7 @@
                             <li class="list-group-item disabled">
                                 <fmt:parseDate value="${aditivo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
                                 <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
-                                <a href="/Darwin/visualizarArquvio?selecao=${selecao.codSelecao}&tipo=aditivo&aditivo=${aditivo.codArquivo}" target="_blank">(${dataAditivo}) ${aditivo.titulo}</a>
+                                <a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=aditivo&aditivo=${aditivo.codArquivo}" target="_blank">(${dataAditivo}) ${aditivo.titulo}</a>
                             </li>
                         </c:forEach>
                     </ul>
@@ -400,7 +475,7 @@
                             <li class="list-group-item disabled">
                                 <fmt:parseDate value="${anexo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
                                 <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
-                                <a href="/Darwin/visualizarArquvio?selecao=${selecao.codSelecao}&tipo=anexo&anexo=${anexo.codArquivo}" target="_blank">(${dataAditivo}) ${anexo.titulo}</a>
+                                <a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=anexo&anexo=${anexo.codArquivo}" target="_blank">(${dataAditivo}) ${anexo.titulo}</a>
                             </li>
                         </c:forEach>
                     </ul>

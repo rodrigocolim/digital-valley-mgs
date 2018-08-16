@@ -72,10 +72,10 @@
                                     <th  scope="row">${usuario.nome}</th>
                                     <td>
                                         <center><input class="form-check-input" type="checkbox" value="1" name="codPermissao" onclick="submeteAtualizacaoDePermissao('permissaoUser-${usuario.codUsuario}')" ${(fn:contains(permissoes, 'PARTICIPANTE') ? 'checked': '')}/></center>
-                                    </td>
+                         	       </td>
                                     <td>
                                         <center><input class="form-check-input" type="checkbox" value="2" name="codPermissao" onclick="submeteAtualizacaoDePermissao('permissaoUser-${usuario.codUsuario}')" ${(fn:contains(permissoes, 'AVALIADOR') ? 'checked': '')}/></center>
-                                    </td>
+              	                   </td>
                                     <td>
                                         <center><input class="form-check-input" type="checkbox" value="3" name="codPermissao" onclick="submeteAtualizacaoDePermissao('permissaoUser-${usuario.codUsuario}')" ${(fn:contains(permissoes, 'RESPONSAVEL') ? 'checked': '')}/></center>
                                     </td>

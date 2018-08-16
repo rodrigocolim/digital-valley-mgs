@@ -175,7 +175,7 @@
                                         	<jsp:useBean id="now" class="java.util.Date" />
 											<fmt:formatDate var="dateAgora" value="${now}" pattern="ddMMyyyy" />
 											<fmt:formatDate value="${parseDataInicio}"  pattern="ddMMyyyy" var="Inicio"/>											                                      
-                                            <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and (dateAgora < Inicio) }">
+                                            <c:if test="${((isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))) and (dateAgora < Inicio) }">
 	                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
 	                                                Editar etapa
 	                                            </a>   
@@ -321,7 +321,7 @@
                                         </a>
                                     </c:if>
                                  
-                                    <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and (dateAgora < Inicio)  }">
+                                    <c:if test="${((isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))) and (dateAgora < Inicio)  }">
                                         <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
                                             Editar etapa
                                         </a>   

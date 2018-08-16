@@ -93,68 +93,73 @@ public class EditarEtapaController {
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
             EtapaBeans etapaBeans= this.etapaServiceIfc.getEtapa(codEtapa);
-            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
-            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
-            int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
-            if (criterio == 1) {
-                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
-            } else if(criterio == 2) {
-                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
-            } else if(criterio == 3) {
-                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
+            if (etapaBeans.getPeriodo().getInicio().isAfter(LocalDate.now())) {
+	            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
+	            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
+	            int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
+	            if (criterio == 1) {
+	                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
+	            } else if(criterio == 2) {
+	                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
+	            } else if(criterio == 3) {
+	                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
+	            }
+	            etapaBeans.setTitulo(etapa.getTitulo());
+	            etapaBeans.setDescricao(etapa.getDescricao());
+	            etapaBeans.setPrerequisito(etapa.getPrerequisito());
+	            
+	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	            etapaBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+	            //Verificando se houve conflito com as outras Etapas.
+	            List <EtapaBeans> subsequentes = selecao.getEtapas();
+	            Periodo novoP = (Periodo) etapaBeans.getPeriodo().toBusiness();
+	            for(EtapaBeans sub: subsequentes){
+	            	if(sub.getCodEtapa()!=codEtapa) {
+	            		Periodo periodo =(Periodo) sub.getPeriodo().toBusiness();
+	            		if(periodo.isColide(novoP)) {
+	            			throw new IllegalCodeException("Periodo Inválido!");
+	            		}
+	            		}
+	            }
+	            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
+	            if (codAvaliadores != null) {
+	                for (String cod : codAvaliadores) {
+	                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+	                    if (u != null) {
+	                        avaliadores.add(u);
+	                    }
+	                }
+	            }
+	            if (documentosExigidos != null) {
+	                ArrayList<String> docs = new ArrayList<>();
+	                for(String documento : documentosExigidos){
+	                    docs.add(documento);
+	                }
+	                etapaBeans.setDocumentacaoExigida(docs);
+	            }
+	            etapaBeans.setAvaliadores(avaliadores);
+	            this.getSelecaoServiceIfc().setUsuario(usuario);
+	            
+	            int index=0;
+	            
+	            for(EtapaBeans etapaIterator :selecao.getEtapas()) {
+	            	if(etapaIterator.getCodEtapa()==etapaBeans.getCodEtapa()) {
+	            		selecao.getEtapas().remove(etapaIterator);
+	            		selecao.getEtapas().add(index, etapaBeans);
+	            		break;
+	            	}
+	            	index++;
+	            }
+	            
+	            
+	            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+	            //this.etapaServiceIfc.atualizaEtapa(selecao, etapaBeans);
+	            model.addAttribute("selecao", selecao);
+	            return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
+            } else {
+            	model.addAttribute("selecao", selecao); 
+            	return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
             }
-            etapaBeans.setTitulo(etapa.getTitulo());
-            etapaBeans.setDescricao(etapa.getDescricao());
-            etapaBeans.setPrerequisito(etapa.getPrerequisito());
-            
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            etapaBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
-            //Verificando se houve conflito com as outras Etapas.
-            List <EtapaBeans> subsequentes = selecao.getEtapas();
-            Periodo novoP = (Periodo) etapaBeans.getPeriodo().toBusiness();
-            for(EtapaBeans sub: subsequentes){
-            	if(sub.getCodEtapa()!=codEtapa) {
-            		Periodo periodo =(Periodo) sub.getPeriodo().toBusiness();
-            		if(periodo.isColide(novoP)) {
-            			throw new IllegalCodeException("Periodo Inválido!");
-            		}
-            		}
-            }
-            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
-            if (codAvaliadores != null) {
-                for (String cod : codAvaliadores) {
-                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
-                    if (u != null) {
-                        avaliadores.add(u);
-                    }
-                }
-            }
-            if (documentosExigidos != null) {
-                ArrayList<String> docs = new ArrayList<>();
-                for(String documento : documentosExigidos){
-                    docs.add(documento);
-                }
-                etapaBeans.setDocumentacaoExigida(docs);
-            }
-            etapaBeans.setAvaliadores(avaliadores);
-            this.getSelecaoServiceIfc().setUsuario(usuario);
-            
-            int index=0;
-            
-            for(EtapaBeans etapaIterator :selecao.getEtapas()) {
-            	if(etapaIterator.getCodEtapa()==etapaBeans.getCodEtapa()) {
-            		selecao.getEtapas().remove(etapaIterator);
-            		selecao.getEtapas().add(index, etapaBeans);
-            		break;
-            	}
-            	index++;
-            }
-            
-            
-            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-            //this.etapaServiceIfc.atualizaEtapa(selecao, etapaBeans);
-            model.addAttribute("selecao", selecao);
-            return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
         } catch (IllegalAccessException e) {
             e.printStackTrace();
              return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
@@ -172,52 +177,59 @@ public class EditarEtapaController {
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = this.getSelecaoServiceIfc().getSelecao(codSelecao);
             InscricaoBeans inscricaoBeans = this.getEtapaServiceIfc().getInscricao(codInscricao);
-            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
-            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
-            inscricaoBeans.setTitulo(inscricao.getTitulo());
-            inscricaoBeans.setDescricao(inscricao.getDescricao());
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            inscricaoBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
-            List <EtapaBeans> subsequentes = selecao.getEtapas();
-            Periodo novoP = (Periodo) inscricaoBeans.getPeriodo().toBusiness();
-            for(EtapaBeans sub: subsequentes){
-            	if(sub.getCodEtapa()!=inscricao.getCodEtapa()) {
-            		Periodo periodo =(Periodo) sub.getPeriodo().toBusiness();
-            		if(periodo.isColide(novoP)) {
-            			throw new IllegalCodeException("Periodo Inválido!");
-            		}
-            		}
-            }
-            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
-            try {
-	            if (codAvaliadores != null) {
-	                for (String cod : codAvaliadores) {
-	                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
-	                    if (u != null) {
-	                        avaliadores.add(u);
-	                    }
-	                }
+            if (inscricaoBeans.getPeriodo().getInicio().isAfter(LocalDate.now())) {
+	            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
+	            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
+	            inscricaoBeans.setTitulo(inscricao.getTitulo());
+	            inscricaoBeans.setDescricao(inscricao.getDescricao());
+	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	            inscricaoBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+	            List <EtapaBeans> subsequentes = selecao.getEtapas();
+	            Periodo novoP = (Periodo) inscricaoBeans.getPeriodo().toBusiness();
+	            for(EtapaBeans sub: subsequentes){
+	            	if(sub.getCodEtapa()!=inscricao.getCodEtapa()) {
+	            		Periodo periodo =(Periodo) sub.getPeriodo().toBusiness();
+	            		if(periodo.isColide(novoP)) {
+	            			throw new IllegalCodeException("Periodo Inválido!");
+	            		}
+	            		}
 	            }
-            } catch (NumberFormatException e) {
-            	model.addAttribute("mensagem", "Avaliador(es) inválido(s)!");
-                model.addAttribute("status", "error");
-            	return "redirect:/editarEtapa/" + codSelecao+"/"+codInscricao;
+	            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
+	            try {
+		            if (codAvaliadores != null) {
+		                for (String cod : codAvaliadores) {
+		                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+		                    if (u != null) {
+		                        avaliadores.add(u);
+		                    }
+		                }
+		            }
+	            } catch (NumberFormatException e) {
+	            	model.addAttribute("mensagem", "Avaliador(es) inválido(s)!");
+	                model.addAttribute("status", "error");
+	            	return "redirect:/editarEtapa/" + codSelecao+"/"+codInscricao;
+	            }
+	            if (documentosExigidos != null) {
+	                ArrayList<String> docs = new ArrayList<>();
+	                for (String documento : documentosExigidos) {
+	                    docs.add(documento);
+	                }
+	                inscricaoBeans.setDocumentacaoExigida(docs);
+	            }
+	            inscricaoBeans.setAvaliadores(avaliadores);
+	            this.getSelecaoServiceIfc().setUsuario(usuario);
+	            selecao.setInscricao(inscricaoBeans);
+	            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+	            session.setAttribute("selecao", selecao);
+	            session.setAttribute("mensagem", "Etapa atualizada com sucesso!");
+	            session.setAttribute("status", "success");
+	            return "redirect:/editarEtapa/" + selecao.getCodSelecao()+"/"+codInscricao;
+            } else {
+            	session.setAttribute("selecao", selecao);
+            	session.setAttribute("mensagem", "Etapa iniciada, não é mais possível realizar edições!");
+	            session.setAttribute("status", "error");
+	            return "redirect:/editarEtapa/" + selecao.getCodSelecao()+"/"+codInscricao;
             }
-            if (documentosExigidos != null) {
-                ArrayList<String> docs = new ArrayList<>();
-                for (String documento : documentosExigidos) {
-                    docs.add(documento);
-                }
-                inscricaoBeans.setDocumentacaoExigida(docs);
-            }
-            inscricaoBeans.setAvaliadores(avaliadores);
-            this.getSelecaoServiceIfc().setUsuario(usuario);
-            selecao.setInscricao(inscricaoBeans);
-            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-            session.setAttribute("selecao", selecao);
-            session.setAttribute("mensagem", "Etapa atualizada com sucesso!");
-            session.setAttribute("status", "success");
-            return "redirect:/editarEtapa/" + selecao.getCodSelecao()+"/"+codInscricao;
         } catch (IllegalAccessException e) {
             e.printStackTrace();
             return "redirect:/editarEtapa/" + codSelecao+"/"+codInscricao;

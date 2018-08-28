@@ -111,6 +111,8 @@ public class CadastrarEtapaController {
                         avaliadores.add(u);
                     }
                 }
+            } else {
+            	avaliadores.add(usuario);
             }
             if (selecao.getInscricao() != null) {
                 EtapaBeans pre = etapaServiceIfc.getEtapa(codPrerequisito);

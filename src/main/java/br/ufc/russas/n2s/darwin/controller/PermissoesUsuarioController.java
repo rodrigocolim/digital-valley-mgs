@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,6 +38,12 @@ public class PermissoesUsuarioController {
     public String getIndex(Model model, HttpServletRequest request) {
         model.addAttribute("usuarios", this.usuarioServiceIfc.listaTodosUsuarios());
         return "acessarPermissoes"; 
+    }
+    
+    @RequestMapping(value="/busca",method = RequestMethod.GET)
+    public String getCampoDeBusca(Model model, @RequestParam("nomeUsuario") String nome) {
+    	model.addAttribute("usuarios", this.usuarioServiceIfc.BuscaUsuariosPorNome(nome));
+    	return "acessarPermissoes";
     }
     
     @RequestMapping(method = RequestMethod.POST)

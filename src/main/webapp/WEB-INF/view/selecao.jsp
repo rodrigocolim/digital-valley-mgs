@@ -175,7 +175,7 @@
                                         	<jsp:useBean id="now" class="java.util.Date" />
 											<fmt:formatDate var="dateAgora" value="${now}" pattern="ddMMyyyy" />
 											<fmt:formatDate value="${parseDataInicio}"  pattern="ddMMyyyy" var="Inicio"/>											                                      
-                                            <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and (dateAgora < Inicio) }">
+                                            <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and ((dateAgora < Inicio) or (not selecao.divulgada)) }">
 	                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
 	                                                Editar etapa
 	                                            </a>   
@@ -226,52 +226,9 @@
 						                    </div>
 										</c:if>
                                         <c:if test="${(estadoInscricao == 3) and (selecao.inscricao.divulgadoResultado) and (not empty selecao.inscricao.avaliacoes)}">
-                                        <a href="/Darwin/resultadoEtapa/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-                                            Ver Resultado
-                                        </a>
-                                           <!-- <input type="button" style="font-size: 15px;" class="btn btn-primary btn-sm" value="Ver resultado" data-toggle="modal" data-target="#resultadoInscricao" >
-                                            <div class="modal fade" id="resultadoInscricao" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalLabel">Resultado da avaliação</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-	                                                        <table class="table table-condensed">
-	                                                        	<thead>
-																	<tr>
-																		<th >Nome </th>
-																		<th >Situação </th>
-																	</tr>	
-																</thead>	
-																<tbody>
-																	<c:if test="${not empty selecao.inscricao.avaliacoes}">
-																		<c:forEach var="avaliacao" items="${selecao.inscricao.avaliacoes}">
-																			<tr>
-																				<td>${avaliacao.participante.candidato.nome}</td>
-																				<td>
-																					<c:if test="${avaliacao.estado.nivel==2}">Pendente</c:if>
-																					<c:if test="${avaliacao.estado.nivel==1 && avaliacao.aprovado==true}">Aprovado</c:if>
-																					<c:if test="${avaliacao.estado.nivel==1 && avaliacao.aprovado==false}">Reprovado</c:if>
-																				</td>
-																			</tr>
-																		</c:forEach>
-																		</c:if>
-																		<c:if test="${ empty selecao.etapas[0].avaliacoes}">
-																			<tr>
-																				<td>Não há</td>
-																				<td>resultados</td>
-																			</tr>
-																		</c:if>
-																</tbody>
-															</table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
+	                                        <a href="/Darwin/resultadoEtapa/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+	                                            Ver Resultado
+	                                        </a>
                                         </c:if>
                                     </div>
                                 </div>
@@ -321,11 +278,37 @@
                                         </a>
                                     </c:if>
                                  
-                                    <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and (dateAgora < Inicio)  }">
+                                    <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and ((dateAgora < Inicio) or (not selecao.divulgada))}">
                                         <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
                                             Editar etapa
                                         </a>   
                                     </c:if>
+                                    <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and (dateAgora < Inicio)  }">
+                                        <a href="/Darwin/removerEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#removerEtapa" style="height: 30px;">
+                                            Remover etapa
+                                        </a>
+                                    </c:if>
+                                       <!-- remover etapa -->
+					                    <div class="modal fade" id="removerEtapa" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+					                        <div class="modal-dialog" role="document">
+					                            <div class="modal-content">
+					                                <div class="modal-header">
+					                                    <h5 class="modal-title" id="modalLabel">Remover etapa</h5>
+					                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					                                        <span aria-hidden="true">&times;</span>
+					                                    </button>
+					                                </div>
+					                                <div class="modal-body">
+					                                    <p>Esta etapa será removida. Deseja continuar? </p>
+					                                </div>
+					                                <div class="modal-footer">
+					                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+					                                    <a class="btn btn-sm btn-primary" href="/Darwin/editarEtapa/removerEtapa/${selecao.codSelecao}/${etapa.codEtapa}"> Continuar</a>
+					                                </div>
+					                            </div>
+					                        </div>
+					                    </div>
+					                   <!-- remover etapa -->
                                     <c:if test="${((estado == 2) or (estado == 3)) and (not etapa.divulgadoResultado) and (fn:contains(etapa.avaliadores, sessionScope.usuarioDarwin))}">
                                         <a href="/Darwin/avaliar/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                             Avaliar
@@ -370,55 +353,11 @@
 						                        </div>
 						                    </div>
 									</c:if>
-                                    <c:if test="${(etapa.divulgadoResultado) and ((isResponsavel and (estado == 3)) or (fn:contains(permissoes, 'ADMINISTRADOR') and (estado == 3)) or (fn:contains(permissoes, 'PARTICIPANTE') and (estado == 3))) and (not empty etapa.avaliacoes)}">
+                                    <c:if test="${(etapa.divulgadoResultado) and ((isResponsavel and (estado == 3)) or (fn:contains(permissoes, 'ADMINISTRADOR') and (estado == 3)) or (fn:contains(permissoes, 'PARTICIPANTE') and (estado == 3))) or  (not empty etapa.avaliacoes)}">
                                      	<a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                             Ver Resultado
                                         </a>
                                          
-                                    	<!-- <input type="button" style="font-size: 15px;" class="btn btn-primary btn-sm" value="Ver resultado" data-toggle="modal" data-target="#resultadoEtapa" >
-                                    	<div class="modal fade" id="resultadoEtapa" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalLabel">Resultado da avaliação</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-	                                                        <table class="table table-condensed">
-	                                                        	<thead>
-																	<tr>
-																		<th >Nome </th>
-																		<th >Situação </th>
-																	</tr>	
-																</thead>	
-																<tbody>
-																		<c:if test="${(selecao.inscricao.codEtapa ne etapa.codEtapa) and (etapa_atual eq etapa.codEtapa) and (not empty etapa.avaliacoes)}">
-																		<c:forEach var="avaliacao" items="${etapa.avaliacoes}">
-																			<tr>
-																				<td>${avaliacao.participante.candidato.nome}</td>
-																				<td>
-																					<c:if test="${avaliacao.estado.nivel==2}">Pendente</c:if>
-																					<c:if test="${avaliacao.estado.nivel==1 && avaliacao.aprovado==true}">Aprovado</c:if>
-																					<c:if test="${avaliacao.estado.nivel==1 && avaliacao.aprovado==false}">Reprovado</c:if>
-																				</td>
-																			</tr>
-																		</c:forEach>
-																		</c:if>
-																		<c:if test="${(selecao.inscricao.codEtapa ne etapa.codEtapa) and (etapa_atual eq etapa.codEtapa) and (empty etapa.avaliacoes)}">
-																			<tr>
-																				<td>Não há</td>
-																				<td>resultados</td>
-																			</tr>
-																		</c:if>
-																</tbody>
-															</table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> 
-                                            -->
                                     </c:if>
                                 </div>
                             </div>
@@ -482,6 +421,7 @@
                 </div>
               </c:if>
             </div>
+        </div>
         </div>
         <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

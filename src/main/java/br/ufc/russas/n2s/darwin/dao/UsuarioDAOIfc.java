@@ -32,11 +32,16 @@ public interface UsuarioDAOIfc {
     void removeUsuario(UsuarioDarwin usuario);
 
     /**
-     * Método resposável por fazer a listagem de todas as etapas.
+     * Método resposável por fazer a listagem de todas os usuários.
      * @return List<Etapa>
      */
     List<UsuarioDarwin> listaUsuarios(UsuarioDarwin usuario);
 
+    /**
+     * Método resposável por fazer a listagem de todas os usuários.
+     * @return List<Etapa>
+     */
+    List<UsuarioDarwin> BuscaUsuariosPorNome(String nome);
     /**
      * Método resposável por pegar do banco de dados uma etapa a partir do
      * código informado.

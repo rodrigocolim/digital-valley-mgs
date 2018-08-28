@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
- * @author Lavínia Matoso
+ * @author Gilberto Lima
  */
 @Controller("editarEtapaController")
 @RequestMapping("/editarEtapa")
@@ -74,6 +74,7 @@ public class EditarEtapaController {
         EtapaBeans etapaBeans = this.etapaServiceIfc.getEtapa(codEtapa);
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
        
+        List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaTodosUsuarios();
         List<UsuarioBeans> avaliadores = usuarioServiceIfc.listaAvaliadores();
         if (etapaBeans.getCodEtapa() == selecao.getInscricao().getCodEtapa()) {
             model.addAttribute("tipo", "inscricao"); 
@@ -82,14 +83,15 @@ public class EditarEtapaController {
         }
         model.addAttribute("selecao", selecao);
         model.addAttribute("etapa", etapaBeans);
+        model.addAttribute("usuarios", usuarios);
         model.addAttribute("avaliadores", avaliadores);
         return "editar-etapa";
     }
 
     @RequestMapping(value="/{codSelecao}/{codEtapa}", method = RequestMethod.POST)
     public String atualiza(@PathVariable long codSelecao, @PathVariable long codEtapa, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
-        try{
-            HttpSession session = request.getSession();
+    	HttpSession session = request.getSession();
+    	try{
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
             EtapaBeans etapaBeans= this.etapaServiceIfc.getEtapa(codEtapa);
@@ -153,13 +155,17 @@ public class EditarEtapaController {
             
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
             //this.etapaServiceIfc.atualizaEtapa(selecao, etapaBeans);
-            model.addAttribute("selecao", selecao);
+            session.setAttribute("mensagem", "Etapa atualizada com sucesso!");
+            session.setAttribute("status", "success");
+            session.setAttribute("selecao", selecao);
             return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
-             return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
+        	session.setAttribute("mensagem", e.getMessage());
+        	session.setAttribute("status", "danger");
+            return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
         }catch (IllegalCodeException e) {
-    		e.printStackTrace();
+        	session.setAttribute("mensagem", "Etapa não pode ser atualizada! Verifique o conflito entre periodos com outras etapas!");
+            session.setAttribute("status", "warning");
     		return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
     	}
          
@@ -167,8 +173,8 @@ public class EditarEtapaController {
     
     @RequestMapping(value="/{codSelecao}/inscricao/{codInscricao}", method = RequestMethod.POST)
     public String atualizaInscricao(@PathVariable long codSelecao, @PathVariable long codInscricao, InscricaoBeans inscricao, BindingResult result, Model model, HttpServletRequest request) {
-        try{
-            HttpSession session = request.getSession();
+    	HttpSession session = request.getSession();
+    	try{
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = this.getSelecaoServiceIfc().getSelecao(codSelecao);
             InscricaoBeans inscricaoBeans = this.getEtapaServiceIfc().getInscricao(codInscricao);
@@ -180,13 +186,13 @@ public class EditarEtapaController {
             inscricaoBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
             List <EtapaBeans> subsequentes = selecao.getEtapas();
             Periodo novoP = (Periodo) inscricaoBeans.getPeriodo().toBusiness();
-            for(EtapaBeans sub: subsequentes){
-            	if(sub.getCodEtapa()!=inscricao.getCodEtapa()) {
-            		Periodo periodo =(Periodo) sub.getPeriodo().toBusiness();
+            for (EtapaBeans sub: subsequentes) {
+            	if (sub.getCodEtapa()!=inscricao.getCodEtapa()) {
+            		Periodo periodo = (Periodo) sub.getPeriodo().toBusiness();
             		if(periodo.isColide(novoP)) {
             			throw new IllegalCodeException("Periodo Inválido!");
             		}
-            		}
+        		}
             }
             ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
             if (codAvaliadores != null) {
@@ -211,15 +217,17 @@ public class EditarEtapaController {
             model.addAttribute("selecao", selecao);
             model.addAttribute("mensagem", "Etapa atualizada com sucesso!");
             model.addAttribute("status", "success");
-            session.setAttribute("selecao", selecao);
-            session.setAttribute("mensagem", "Etapa atualizada com sucesso!");
-            session.setAttribute("status", "success");
+          //  session.setAttribute("selecao", selecao);
+          //  session.setAttribute("mensagem", "Etapa atualizada com sucesso!");
+          //  session.setAttribute("status", "success");
             return "redirect:/editarEtapa/" + selecao.getCodSelecao()+"/"+codInscricao;
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        	session.setAttribute("mensagem", e.getMessage());
+        	session.setAttribute("status", "danger");
             return "redirect:/editarEtapa/" + codSelecao+"/"+codInscricao;
         }catch (IllegalCodeException e) {
-    		e.printStackTrace();
+        	session.setAttribute("mensagem", "Etapa não pode ser atualizada! Verifique o conflito entre periodos com outras etapas!");
+            session.setAttribute("status", "warning");
     		return "redirect:/editarEtapa/" +codSelecao+"/"+codInscricao;
     	}
          
@@ -227,8 +235,8 @@ public class EditarEtapaController {
     
     @RequestMapping(value="/divulgarResultado/{codSelecao}/{codInscricao}", method = RequestMethod.GET)
     public String divulgaResultado(@PathVariable long codSelecao, @PathVariable long codEtapa, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
-        try{
-            HttpSession session = request.getSession();
+    	HttpSession session = request.getSession();
+    	try{
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
             etapa = etapaServiceIfc.getEtapa(codEtapa);
@@ -280,6 +288,35 @@ public class EditarEtapaController {
     	}
          
     }
+    
+    @RequestMapping(value="/removerEtapa/{codSelecao}/{codEtapa}", method = RequestMethod.GET)
+    public String removerEtapa(@PathVariable long codSelecao, @PathVariable long codEtapa, Model model, HttpServletRequest request) {
+        try{
+            HttpSession session = request.getSession();
+            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+            SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
+            this.getSelecaoServiceIfc().setUsuario(usuario);
+            EtapaBeans etapa = this.getEtapaServiceIfc().getEtapa(codEtapa);
+            List<EtapaBeans> etapas = selecao.getEtapas();
+            etapas.remove(etapa);
+            selecao.setEtapas(etapas);
+            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+            this.getEtapaServiceIfc().removeEtapa(etapa);
+            session.setAttribute("selecao", selecao);
+            session.setAttribute("mensagem", "Etapa removida com sucesso!");
+            session.setAttribute("status", "success");
+            return "redirect:/selecao/" + selecao.getCodSelecao();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return "redirect:/selecao/" + codSelecao;
+        }catch (IllegalCodeException e) {
+    		e.printStackTrace();
+    		return "redirect:/selecao/" + codSelecao;
+    	}
+         
+    }
+    
+    
     
 
 }

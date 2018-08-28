@@ -36,9 +36,7 @@
                 </div>
             </div>
             </c:if>
-            
         </div>
-        
     </div>
     <a class="btn-sm btn-light text-right" href="<%=Constantes.getAppUrl() %>/sair">Sair</a>
 </nav>         

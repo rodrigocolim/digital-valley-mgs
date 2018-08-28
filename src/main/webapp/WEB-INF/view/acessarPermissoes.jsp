@@ -45,7 +45,7 @@
                 </c:if>                   
                     <div class="row">
                         <h1 class="col-sm-8">Gerenciar Permissões</h1>
-                        <form class="form-inline">
+                        <form class="form-inline" action="/Darwin/permissoes/busca" method="get">
                             <input class="form-control" style="width: 250px;" type="search" name="nomeUsuario" placeholder="Nome do usuário">&nbsp;
                             <button class="btn btn-sm btn-primary" type="submit">Procurar</button>
                         </form>

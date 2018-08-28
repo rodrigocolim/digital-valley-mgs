@@ -5,20 +5,17 @@
  */
 package br.ufc.russas.n2s.darwin.controller;
 
-import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
-import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
-import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.model.FileManipulation;
-import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
-import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -29,6 +26,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
+import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.FileManipulation;
+import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 
 /**
  *
@@ -69,8 +73,6 @@ public class EditarSelecaoController {
     public String atualiza(@PathVariable long codSelecao, @ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") String file, Model model, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
         SelecaoBeans selecaoBeans = this.getSelecaoServiceIfc().getSelecao(codSelecao);
         HttpSession session = request.getSession();
-        
-        
         if (selecao != null) {}
         try{
             selecaoBeans.setTitulo(selecao.getTitulo());
@@ -108,12 +110,17 @@ public class EditarSelecaoController {
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         try{
-            selecaoServiceIfc.setUsuario(usuario);
-            selecao.setDivulgada(true);
-            selecao = selecaoServiceIfc.atualizaSelecao(selecao);
-            request.getSession().setAttribute("selecao", selecao);
-            return "redirect:/selecao/" + selecao.getCodSelecao();
-            
+        	if (selecao.getInscricao().getPeriodo().getTermino().isBefore(LocalDate.now())) {
+        		session.setAttribute("mensagem", "Esta Seleção não pode ser divulgada! Verifique o periodo de inscrição.");
+                session.setAttribute("status", "warning");
+        		return "redirect:/selecao/" + selecao.getCodSelecao();
+        	} else {
+	            selecaoServiceIfc.setUsuario(usuario);
+	            selecao.setDivulgada(true);
+	            selecao = selecaoServiceIfc.atualizaSelecao(selecao);
+	            request.getSession().setAttribute("selecao", selecao);
+	            return "redirect:/selecao/" + selecao.getCodSelecao();
+        	}
         }catch(IllegalAccessException e){
             e.printStackTrace();
             return "redirect:/selecao/" + selecao.getCodSelecao();

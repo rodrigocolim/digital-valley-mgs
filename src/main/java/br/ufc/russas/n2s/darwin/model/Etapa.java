@@ -233,7 +233,7 @@ public class Etapa implements Serializable, Atualizavel {
 			this.prerequisito = prerequisito;
 		} else {
 			throw new IllegalArgumentException(
-					"Essa etapa não pode ser pré-requisito da etapa " + this.getTitulo() + " pois não ocorre antes!");
+					"A etapa " + prerequisito.getTitulo() +" não pode ser pré-requisito da etapa " + this.getTitulo() + " pois não ocorre antes!");
 		}
 	}
 
@@ -449,4 +449,6 @@ public class Etapa implements Serializable, Atualizavel {
 	public void atualiza() {
 		// Chama o dao atualiza etapa
 	}
+	
+	
 }

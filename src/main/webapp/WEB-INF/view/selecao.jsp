@@ -65,7 +65,7 @@
                         </div>
                     </div>
                 </c:if>
-                <!-- Mensagem de solicitando a divulgação da seleção -->
+                <!-- Mensagem solicitando a divulgação da seleção -->
                 <c:if test="${(not empty selecao.inscricao) and ((isResponsavel || fn:contains(permissoes, 'ADMINISTRADOR'))) and (not selecao.divulgada)}">
                     <div class="jumbotron jumbotron-fluid" style="padding-top: 40px; padding-bottom: 30px; ">
                         <div class="container">
@@ -114,6 +114,9 @@
                 </p>
                 <p class="text-justify">
                     <hr>
+                    <c:if test="${not empty selecao.categoria}">
+                    <b>CATEGORIA: </b> ${selecao.categoria}<br/><br/>
+                    </c:if>
                     <c:if test="${not empty selecao.areaDeConcentracao}">
                     <b>ÁREA DE CONCENTRAÇÃO: </b> ${selecao.areaDeConcentracao}<br/><br/>
                     </c:if>
@@ -186,6 +189,32 @@
                                                 Avaliar
                                             </a>
                                         </c:if>
+                                        <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and (dateAgora < Inicio)  }">
+						                      <a href="/Darwin/removerEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#removerInscricao" style="height: 30px;">
+						                          Remover etapa
+						                      </a>
+						                 </c:if>
+                                  <!-- remover etapa -->
+				                    <div class="modal fade" id="removerInscricao" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+				                        <div class="modal-dialog" role="document">
+				                            <div class="modal-content">
+				                                <div class="modal-header">
+				                                    <h5 class="modal-title" id="modalLabel">Remover etapa</h5>
+				                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                                        <span aria-hidden="true">&times;</span>
+				                                    </button>
+				                                </div>
+				                                <div class="modal-body">
+				                                    <p>A etapa de inscrição será removida. Deseja continuar? </p>
+				                                </div>
+				                                <div class="modal-footer">
+				                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+				                                    <a class="btn btn-sm btn-primary" href="/Darwin/editarEtapa/removerEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}"> Continuar</a>
+				                                </div>
+				                            </div>
+				                        </div>
+				                    </div>
+				                   <!-- remover etapa -->
 										<c:if test="${(estadoInscricao == 3) and (!selecao.inscricao.divulgadoResultado) and ((fn:contains(permissoes, 'ADMINISTRADOR')) or (isResponsavel))}">
 											<c:set var="pendente" value="false"></c:set>
 											<c:forEach var="avaliacao" items="${selecao.inscricao.avaliacoes}">
@@ -260,8 +289,8 @@
                                 </div>
                                 <div class="timeline-body" >
                                 	<input name = "etapa_atual" type = "hidden" value = "${etapa.codEtapa}">
-                                    <p class="text-justify">${etapa.descricao}</p>
-                                    <br>
+                                    <p class="text-justify">${etapa.descricao}</p><br>
+                                    <b>ETAPA DE PRÉ-REQUISITO: </b> ${etapa.prerequisito.titulo}<br>
                                     <b>CRITÉRIO DE AVALIAÇÃO: </b> ${etapa.criterioDeAvaliacao}<br>
                                     <c:if test="${not empty etapa.documentacaoExigida}">
                                     <b>DOCUMENTAÇÃO EXIGIDA: </b> 

@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author Wallison Carlos
+ * @author Wallison Carlos, Gilberto Lima
  */
 @Service("etapaServiceIfc")
 public class EtapaServiceImpl implements EtapaServiceIfc {
@@ -83,6 +83,11 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
 
     @Override
     public void removeEtapa(EtapaBeans etapa) {
+        this.getEtapaDAOIfc().removeEtapa((Etapa) etapa.toBusiness());
+    }
+    
+    @Override
+    public void removeInscricao(InscricaoBeans etapa) {
         this.getEtapaDAOIfc().removeEtapa((Etapa) etapa.toBusiness());
     }
 
@@ -199,10 +204,10 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     @Override
     public List<EtapaBeans> ordenaEtapasPorData(List<EtapaBeans> etapas) {
         EtapaBeans aux;
-        for (int i=0;i<etapas.size()-1;i++) {
-            for (int j=i;j<etapas.size()-1;j++) {
+        for (int i=0;i<etapas.size();i++) {
+            for (int j=0;j<etapas.size()-1;j++) {
                 if (etapas.get(j).getPeriodo().getInicio().isAfter(etapas.get(j+1).getPeriodo().getInicio())) {
-                    aux = etapas.get(j);
+                	aux = etapas.get(j);
                     etapas.set(j, etapas.get(j+1));
                     etapas.set(j+1, aux);
                 }

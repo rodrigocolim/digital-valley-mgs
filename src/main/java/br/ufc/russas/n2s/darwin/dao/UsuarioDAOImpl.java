@@ -12,6 +12,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -88,6 +89,20 @@ public class UsuarioDAOImpl implements UsuarioDAOIfc{
         }
     }
     
-    
+    @Override
+    public List<UsuarioDarwin> ListaEmOdermAlfabetica() {
+    	Session session = this.daoImpl.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            List<UsuarioDarwin> usuarios = (List<UsuarioDarwin>) session.createCriteria(UsuarioDarwin.class).addOrder(Order.asc("nome")).list();
+            t.commit();
+            return usuarios;
+        } catch(RuntimeException e) {
+            t.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
     
 }

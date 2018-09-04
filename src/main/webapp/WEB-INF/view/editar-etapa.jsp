@@ -59,7 +59,7 @@
                         <label for="descricaoInput"><input type="checkbox" onclick="habilitaEdicao('descricaoInput')"> Descrição*</label>
                         <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" value="${etapa.descricao}" readonly="true" required>${etapa.descricao}</textarea>
                         <c:if test="${tipo eq 'etapa'}">
-                            <c:if test="${not empty selecao.inscricao}">
+                            <c:if test="${not empty selecao.inscricao}"> <br>
                         <label for="etapaAnteriorInput">Etapa anterior*</label>
                         <select name="prerequisito" class="form-control col-md-8"  id="etapaAnteriorInput" required>
                             <option value="0" selected="selected" disabled="disabled">Selecione a etapa anterior a esta</option>
@@ -217,7 +217,17 @@
     <script>
     var listaAvaliadores = ${etapa.avaliadores};
     var codAvaliadores = [];
-    var numAvaliadores = ${etapa.avaliadores.size()};
+    var numAvaliadores = []; //${etapa.avaliadores.size()};
+    
+    $(document).ready(function() { 
+    	for (i=0;i < listaAvaliadores.length;i++) {
+    		var nomeAvaliador = listaAvaliadores[i].nome;
+    		document.getElementById("avaliadorOption-"+nomeAvaliador+"").disabled = "disabled";
+    		codAvaliadores[i] = listaAvaliadores[i].nome.substring(0, avaliadorInput.indexOf("-"));
+    		numAvaliadores++;
+    	}
+    	alert(numAvaliadores);
+    });
     
     function adicionaAvaliador(){
     	alert(numAvaliadores);

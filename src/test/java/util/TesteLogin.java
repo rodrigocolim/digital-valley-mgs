@@ -38,7 +38,7 @@ public class TesteLogin {
 		acessaDarwin();
 		acessarMinhasSelecoes();
 		cadastrarEtapaDeInscricao();
-		
+		//removerEtapaDeInscricao();
 	}
 	
 	public void acessaDarwin() {
@@ -47,16 +47,21 @@ public class TesteLogin {
 	}
 	
 	public void acessarMinhasSelecoes() {
-		driver.findElement(By.linkText("Minhas seleções")).click();
-		
+		WebElement minhasSelecoes =  driver.findElement(By.linkText("Minhas seleções"));
+		minhasSelecoes.click();
 		List<WebElement> elementos = driver.findElements(By.className("card-body"));
 		
 		for(WebElement we : elementos) {
-			if (we.findElement(By.className("card-title")).getText().equals("TESTE")) {
+			if (we.findElement(By.className("card-title")).getText().equals("BOLSA DE EXTENSÃO")) {
 				we.findElement(By.linkText("Mais informações")).click();
 			}
 		}
 	}
+	
+	public void removerEtapaDeInscricao() {
+		driver.findElement(By.linkText("Remover etapa")).click();
+	}
+	
 	
 	public void cadastrarEtapaDeInscricao() {
 		 WebElement linkCadInscri = driver.findElement(By.linkText("Cadastrar etapa de inscrição"));
@@ -70,9 +75,10 @@ public class TesteLogin {
 				 
 		 
 		 descricao.sendKeys("Etapa para entrega da documentação.");
-		 dataInicio.sendKeys("28/08/2018");
-		 dataTermino.clear();
-		 dataTermino.sendKeys("29/08/2018");
+		 dataInicio.clear();
+		 dataInicio.sendKeys("02/09/2018");
+		// dataTermino.clear();
+		// dataTermino.sendKeys("05/09/2018");
 		 criterioDeAvaliacao.selectByVisibleText("Deferimento");
 		
 		 WebElement botaoAcessar = driver.findElement(By.className("btn-primary"));

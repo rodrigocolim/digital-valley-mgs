@@ -57,7 +57,7 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
 
     @Override
     public List<UsuarioBeans> listaTodosUsuarios() {
-        List<UsuarioDarwin> result = this.getUsuarioDAOIfc().listaUsuarios(new UsuarioDarwin());
+        List<UsuarioDarwin> result = this.getUsuarioDAOIfc().ListaEmOdermAlfabetica();
         List<UsuarioBeans> usuarios = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
         for(UsuarioDarwin usuario : result){
             usuarios.add((UsuarioBeans) new UsuarioBeans().toBeans(usuario));

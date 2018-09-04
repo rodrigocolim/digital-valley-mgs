@@ -70,16 +70,16 @@ public class EditarSelecaoController {
     }
     
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.POST)
-    public String atualiza(@PathVariable long codSelecao, @ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") String file, Model model, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
+    public String atualiza(@PathVariable long codSelecao, @ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") String file, @RequestParam("categoria") String categoria, Model model, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
         SelecaoBeans selecaoBeans = this.getSelecaoServiceIfc().getSelecao(codSelecao);
         HttpSession session = request.getSession();
-        if (selecao != null) {}
+        
         try{
             selecaoBeans.setTitulo(selecao.getTitulo());
             selecaoBeans.setDescricao(selecao.getDescricao());
             selecaoBeans.setDescricaoPreRequisitos(selecao.getDescricaoPreRequisitos());
             selecaoBeans.setAreaDeConcentracao(selecao.getAreaDeConcentracao());
-            selecaoBeans.setCategoria(selecao.getCategoria());
+            selecaoBeans.setCategoria(categoria);
             selecaoBeans.setVagasRemuneradas(selecao.getVagasRemuneradas());
             selecaoBeans.setVagasVoluntarias(selecao.getVagasVoluntarias());
             if (!file.isEmpty()) {
@@ -105,11 +105,11 @@ public class EditarSelecaoController {
     }
     
     @RequestMapping(value = "/divulga/{codSelecao}", method = RequestMethod.GET)
-    public String divulga(@PathVariable long codSelecao, Model model, HttpServletRequest request){
+    public String divulga(@PathVariable long codSelecao, Model model, HttpServletRequest request) {
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        try{
+        try {
         	if (selecao.getInscricao().getPeriodo().getTermino().isBefore(LocalDate.now())) {
         		session.setAttribute("mensagem", "Esta Seleção não pode ser divulgada! Verifique o periodo de inscrição.");
                 session.setAttribute("status", "warning");
@@ -121,10 +121,10 @@ public class EditarSelecaoController {
 	            request.getSession().setAttribute("selecao", selecao);
 	            return "redirect:/selecao/" + selecao.getCodSelecao();
         	}
-        }catch(IllegalAccessException e){
+        } catch(IllegalAccessException e) {
             e.printStackTrace();
             return "redirect:/selecao/" + selecao.getCodSelecao();
-        }catch(Exception e){
+        } catch(Exception e) {
             e.printStackTrace();
              return "redirect:/selecao/" + selecao.getCodSelecao();
         }

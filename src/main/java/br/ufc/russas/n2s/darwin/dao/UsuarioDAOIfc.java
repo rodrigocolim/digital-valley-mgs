@@ -57,4 +57,6 @@ public interface UsuarioDAOIfc {
      * @return Etapa
      */
     UsuarioDarwin getUsuarioControleDeAcesso(UsuarioDarwin usuario);
+    
+    List<UsuarioDarwin> ListaEmOdermAlfabetica();
 }

@@ -37,7 +37,7 @@ import br.ufc.russas.n2s.darwin.model.Participante;
 
 /**
  *
- * @author Lavínia Matoso
+ * @author Gilberto Lima, Wallison Rocha
  */
 @Entity
 @Table(name = "etapa")

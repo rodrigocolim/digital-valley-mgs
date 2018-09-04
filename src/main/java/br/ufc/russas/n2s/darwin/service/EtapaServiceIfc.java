@@ -22,6 +22,7 @@ public interface EtapaServiceIfc extends ServiceIfc{
     EtapaBeans adicionaEtapa(SelecaoBeans selecao, EtapaBeans etapa) throws IllegalAccessException;
     EtapaBeans atualizaEtapa(SelecaoBeans selecao, EtapaBeans etapa) throws IllegalAccessException;
     void removeEtapa(EtapaBeans etapa);
+    void removeInscricao(InscricaoBeans etapa);
     List<EtapaBeans> listaTodasEtapas();
     EtapaBeans getEtapa(long codEtapa);
     InscricaoBeans getInscricao(long codInscricao);

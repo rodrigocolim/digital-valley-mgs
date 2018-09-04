@@ -30,6 +30,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -89,7 +90,7 @@ public class EditarEtapaController {
     }
 
     @RequestMapping(value="/{codSelecao}/{codEtapa}", method = RequestMethod.POST)
-    public String atualiza(@PathVariable long codSelecao, @PathVariable long codEtapa, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
+    public String atualiza(@PathVariable long codSelecao, @PathVariable long codEtapa, EtapaBeans etapa, @RequestParam("prerequisito") long prerequisito, BindingResult result, Model model, HttpServletRequest request) {
     	HttpSession session = request.getSession();
     	try{
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
@@ -107,7 +108,12 @@ public class EditarEtapaController {
             }
             etapaBeans.setTitulo(etapa.getTitulo());
             etapaBeans.setDescricao(etapa.getDescricao());
-            etapaBeans.setPrerequisito(etapa.getPrerequisito());
+            
+            if (prerequisito > 0) {
+            	EtapaBeans preRequisito = this.etapaServiceIfc.getEtapa(prerequisito);
+            	etapaBeans.setPrerequisito(preRequisito);
+            }
+            
             
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             etapaBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
@@ -125,7 +131,10 @@ public class EditarEtapaController {
             ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
             if (codAvaliadores != null) {
                 for (String cod : codAvaliadores) {
-                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+                	if (cod.contains("-")) {
+                		cod = cod.substring(0, cod.indexOf("-"));
+                	}
+            		UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
                     if (u != null) {
                         avaliadores.add(u);
                     }
@@ -297,6 +306,13 @@ public class EditarEtapaController {
             SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
             this.getSelecaoServiceIfc().setUsuario(usuario);
             EtapaBeans etapa = this.getEtapaServiceIfc().getEtapa(codEtapa);
+            
+          /*  if (recebido instanceof InscricaoBeans) {
+            	selecao.setInscricao(null);
+            	selecao.setDivulgada(false);
+            	this.getEtapaServiceIfc().removeInscricao((InscricaoBeans)recebido);
+            }
+            EtapaBeans etapa = (EtapaBeans) recebido;*/
             List<EtapaBeans> etapas = selecao.getEtapas();
             etapas.remove(etapa);
             selecao.setEtapas(etapas);

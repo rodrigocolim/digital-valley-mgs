@@ -98,7 +98,7 @@ public class Etapa implements Serializable, Atualizavel {
 		if (codEtapa > 0) {
 			this.codEtapa = codEtapa;
 		} else {
-			throw new IllegalCodeException("Código de etapa deve ser maior que zero!");
+			//throw new IllegalCodeException("Código de etapa deve ser maior que zero!");
 		}
 	}
 
@@ -230,7 +230,9 @@ public class Etapa implements Serializable, Atualizavel {
 	 * @param prerequisito
 	 */
 	public void setPrerequisito(Etapa prerequisito) throws IllegalArgumentException {
-		if (prerequisito.getPeriodo().isAntes(this.getPeriodo())) {
+		if (prerequisito == null) {
+			throw new NullPointerException("Deve ser selecionado uma etapa de pré-requisito!");
+		} else if (prerequisito.getPeriodo().isAntes(this.getPeriodo())) {
 			this.prerequisito = prerequisito;
 		} else {
 			throw new IllegalArgumentException(
@@ -238,6 +240,7 @@ public class Etapa implements Serializable, Atualizavel {
 		}
 	}
 
+	
 	/**
 	 *
 	 * @param maisDocumentacao

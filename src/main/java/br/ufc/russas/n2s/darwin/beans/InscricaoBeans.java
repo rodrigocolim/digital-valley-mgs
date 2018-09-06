@@ -50,9 +50,6 @@ public class InscricaoBeans extends EtapaBeans{
         etapa.setCriterioDeAvaliacao(this.getCriterioDeAvaliacao());
         etapa.setEstado(this.getEstado());
         etapa.setPeriodo((Periodo) this.getPeriodo().toBusiness());
-        if(this.getPrerequisito() != null){
-            etapa.setPrerequisito((Etapa) this.getPrerequisito().toBusiness());
-        }
         List<UsuarioDarwin> avaliadores = Collections.synchronizedList(new ArrayList<UsuarioDarwin>());
         if (this.getAvaliadores() != null) {
             for (UsuarioBeans avaliador : this.getAvaliadores()) {
@@ -106,12 +103,6 @@ public class InscricaoBeans extends EtapaBeans{
                 this.setPeriodo(pb);
 
                 this.setCriterioDeAvaliacao(etapa.getCriterioDeAvaliacao());
-
-                EtapaBeans eb = null;
-                if (etapa.getPrerequisito() != null) {
-                   eb = (EtapaBeans) (new EtapaBeans().toBeans(etapa.getPrerequisito()));
-                }
-                this.setPrerequisito(eb);
 
                 List<UsuarioBeans> avaliadoresBeans = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
                 UsuarioBeans ubs;

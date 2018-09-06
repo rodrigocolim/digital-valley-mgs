@@ -19,7 +19,7 @@ import java.util.List;
 public class ParticipanteBeans implements Beans {
 
     private long codParticipante;
-    private UsuarioDarwin candidato;
+    private UsuarioBeans candidato;
     private boolean deferido;
     private LocalDateTime data;
     private boolean notificado;
@@ -27,7 +27,7 @@ public class ParticipanteBeans implements Beans {
     public ParticipanteBeans(){
     }
 
-    public ParticipanteBeans(long codParticipante, UsuarioDarwin candidato, boolean deferido, LocalDateTime data, boolean notificado) {
+    public ParticipanteBeans(long codParticipante, UsuarioBeans candidato, boolean deferido, LocalDateTime data, boolean notificado) {
         this.codParticipante = codParticipante;
         this.candidato = candidato;
         this.deferido = deferido;
@@ -43,11 +43,11 @@ public class ParticipanteBeans implements Beans {
         this.codParticipante = codParticipante;
     }
 
-    public UsuarioDarwin getCandidato() {
+    public UsuarioBeans getCandidato() {
         return candidato;
     }
 
-    public void setCandidato(UsuarioDarwin candidato) {
+    public void setCandidato(UsuarioBeans candidato) {
         this.candidato = candidato;
     }
 
@@ -82,7 +82,7 @@ public class ParticipanteBeans implements Beans {
         if (this.getCodParticipante() > 0) {
             participante.setCodParticipante(this.getCodParticipante());
         }
-        participante.setCandidato(this.getCandidato());
+        participante.setCandidato((UsuarioDarwin)this.getCandidato().toBusiness());
         participante.setData(this.getData());
         participante.setDeferido(this.isDeferido());
         participante.setNotificado(this.isNotificado());
@@ -95,7 +95,7 @@ public class ParticipanteBeans implements Beans {
             if (object instanceof Participante) {
                 Participante participante = (Participante) object;
                 this.setCodParticipante(participante.getCodParticipante());
-                this.setCandidato(participante.getCandidato());
+                this.setCandidato((UsuarioBeans)new UsuarioBeans().toBeans(participante.getCandidato()));
                 this.setData(participante.getData());
                 this.setDeferido(participante.isDeferido());
                 this.setNotificado(isNotificado());

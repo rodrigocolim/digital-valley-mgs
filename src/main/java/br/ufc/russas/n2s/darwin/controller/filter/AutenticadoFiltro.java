@@ -86,7 +86,7 @@ public class AutenticadoFiltro implements Filter {
                                 ((HttpServletResponse) response).sendRedirect(Constantes.getAppUrl());
                             }
                     }else if(session.getAttribute("usuarioDarwin")!= null && session.getAttribute("usuario")!= null && DAOFactory.criarUsuarioDAO().buscarTokenTemp(((Usuario)session.getAttribute("usuario")).getPessoa().getId())!=null && ((Usuario)session.getAttribute("usuario")).getTokenUsuario().equals(DAOFactory.criarUsuarioDAO().buscarTokenTemp(((Usuario)session.getAttribute("usuario")).getPessoa().getId()))){
-                            chain.doFilter(request, response);
+                    	chain.doFilter(request, response);
                     }else {
                             ((HttpServletResponse) response).sendRedirect(Constantes.getAppUrl());
                     }

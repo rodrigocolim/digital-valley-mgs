@@ -77,6 +77,16 @@
             <value> /WEB-INF/hibernate.cfg.xml</value>
         </property>
     </bean>
+    <!--  
+    <bean id="dozerBeanMapper" class="org.dozer.DozerBeanMapper">
+        <property name="mappingFiles">
+            <list>
+                <value>dozer-mappings/arquivo-mapping.xml</value>
+                <value>dozer-mappings/usuario-mapping.xml</value>
+            </list>
+        </property>
+    </bean>-->
+    
     <bean id="transactionManager"
         class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />

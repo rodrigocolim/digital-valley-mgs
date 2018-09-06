@@ -12,6 +12,7 @@ import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 import java.io.File;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -61,7 +62,8 @@ public class VisualizarEdital extends HttpServlet {
             } else if (tipo.equals("anexo")) {
                 if (request.getParameter("anexo") != null) {
                     long codAnexo = Long.parseLong(request.getParameter("anexo"));
-                    for (ArquivoBeans anexo : selecao.getAnexos()) {
+                    List<ArquivoBeans> anexos = selecao.getAnexos();
+                    for (ArquivoBeans anexo : anexos) {
                         if (anexo.getCodArquivo() == codAnexo) {
                             file = anexo.getArquivo();
                             break;
@@ -73,7 +75,8 @@ public class VisualizarEdital extends HttpServlet {
             } else if (tipo.equals("aditivo")) {
                 if (request.getParameter("aditivo") != null) {
                     long codAditivo = Long.parseLong(request.getParameter("aditivo"));
-                    for (ArquivoBeans aditivo : selecao.getAditivos()) {
+                    List<ArquivoBeans> aditivos = selecao.getAditivos();
+                    for (ArquivoBeans aditivo : aditivos) {
                         if (aditivo.getCodArquivo() == codAditivo) {
                             file = aditivo.getArquivo();
                             break;

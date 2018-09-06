@@ -112,19 +112,15 @@ public class CadastrarEtapaController {
                     }
                 }
             }
-            if (selecao.getInscricao() != null) {
-                EtapaBeans pre = etapaServiceIfc.getEtapa(codPrerequisito);
-                etapa.setPrerequisito(pre);
-            }
+            EtapaBeans pre = etapaServiceIfc.getEtapa(codPrerequisito);
+            System.out.println("Etapa achada:"+ pre);
+            etapa.setPrerequisito(pre);
             if (documentosExigidos != null) {
                 ArrayList<String> docs = new ArrayList<>();
                 for(String documento : documentosExigidos){
                     docs.add(documento);
                 }
                 etapa.setDocumentacaoExigida(docs);
-            }
-            if (codPrerequisito > 0) {
-                etapa.setPrerequisito(this.getEtapaServiceIfc().getEtapa(codPrerequisito));
             }
             etapa.setAvaliadores(avaliadores);
             selecao.getEtapas().add(etapa);
@@ -133,13 +129,15 @@ public class CadastrarEtapaController {
             session.setAttribute("mensagem", "Etapa cadastrada com sucesso!");
             session.setAttribute("status", "success");
             return ("redirect:/selecao/" + selecao.getCodSelecao());
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+        } catch (NullPointerException | NumberFormatException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
             return "cadastrar-etapa";
         } catch (IllegalArgumentException | IllegalAccessException e) {
-            e.printStackTrace();
+            model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("status", "danger");
+            return "cadastrar-etapa";
+        } catch (Exception e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
             return "cadastrar-etapa";
@@ -205,13 +203,15 @@ public class CadastrarEtapaController {
             session.setAttribute("mensagem", "Etapa cadastrada com sucesso!");
             session.setAttribute("status", "success");
             return ("redirect:/selecao/" + selecao.getCodSelecao());
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+        } catch (NullPointerException | NumberFormatException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
             return "cadastrar-etapa";
         } catch (IllegalArgumentException | IllegalAccessException e) {
-            e.printStackTrace();
+            model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("status", "danger");
+            return "cadastrar-etapa";
+        }  catch (Exception e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
             return "cadastrar-etapa";

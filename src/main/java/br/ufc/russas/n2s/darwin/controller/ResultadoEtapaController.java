@@ -55,7 +55,8 @@ public class ResultadoEtapaController {
     public String resultadoDaEtapa(@PathVariable long codEtapa, Model model){
         EtapaBeans etapa  = etapaServiceIfc.getEtapa(codEtapa);
         List<ParticipanteBeans> participantesEtapa = new ArrayList<ParticipanteBeans>();
-        for(AvaliacaoBeans avaliacao:etapa.getAvaliacoes()) {
+        List<AvaliacaoBeans> avaliacoes = etapa.getAvaliacoes();
+        for(AvaliacaoBeans avaliacao : avaliacoes) {
         	participantesEtapa.add(avaliacao.getParticipante());
         }
         model.addAttribute("participantesEtapa", participantesEtapa);
@@ -66,9 +67,11 @@ public class ResultadoEtapaController {
     public String imprimiresultadoDaEtapa(@PathVariable long codEtapa, Model model, HttpServletRequest request, HttpServletResponse response){
         EtapaBeans etapa  = etapaServiceIfc.getEtapa(codEtapa);
         List<ParticipanteBeans> participantesEtapa = new ArrayList<ParticipanteBeans>();
-        for(AvaliacaoBeans avaliacao:etapa.getAvaliacoes()) {
+        List<AvaliacaoBeans> avaliacoes = etapa.getAvaliacoes();
+        for(AvaliacaoBeans avaliacao : avaliacoes) {
         	participantesEtapa.add(avaliacao.getParticipante());
         }
+        
         try {
 	        String caminho = Facade.gerarPDFDosResultados(etapa, participantesEtapa, ((SelecaoBeans)request.getSession().getAttribute("selecao")).getTitulo());
 	        File file = new File(caminho);

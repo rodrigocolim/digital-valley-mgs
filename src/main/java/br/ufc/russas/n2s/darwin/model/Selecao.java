@@ -91,11 +91,11 @@ public class Selecao {
     }
 
     public void setCodSelecao(long codSelecao) {
-        if (codSelecao > 0) {
+        //if (codSelecao > 0) {
             this.codSelecao = codSelecao;
-        } else {
-            throw new IllegalCodeException("Código da seleção deve ser maior que zero!");
-        }
+        //} else {
+        //    throw new IllegalCodeException("Código da seleção deve ser maior que zero!");
+        //}
     }
 
     public final String getTitulo() {
@@ -106,7 +106,7 @@ public class Selecao {
         if (titulo != null) {
             this.titulo = titulo;
         } else {
-            throw new IllegalArgumentException("Titulo da seleção não pode ser vazio!");
+            //throw new IllegalArgumentException("Titulo da seleção não pode ser vazio!");
         }
     }
 
@@ -353,14 +353,20 @@ public class Selecao {
     }
 
     public Etapa getEtapaAtual() {
-        if (this.etapas != null && !this.etapas.isEmpty()) {
-            for (Etapa e: etapas) {
-                if (e.getPeriodo().getInicio().isBefore(LocalDate.now()) && e.getPeriodo().getTermino().isAfter(LocalDate.now())) {
-                    return e;
-                }
-            }
-        } 
-        return null;
+    	Etapa etapa = this.getUltimaEtapa();
+    	if (this.getInscricao() != null && ((this.getInscricao().getPeriodo().getInicio().isBefore(LocalDate.now()) || this.getInscricao().getPeriodo().getInicio().isEqual(LocalDate.now())) && (this.getInscricao().getPeriodo().getTermino().isAfter(LocalDate.now()) || this.getInscricao().getPeriodo().getTermino().isEqual(LocalDate.now())))) {
+    		etapa = this.getInscricao();
+    	} else {
+	        if (this.etapas != null && !this.etapas.isEmpty()) {
+	            for (Etapa e: etapas) {
+	                if ((e.getPeriodo().getInicio().isBefore(LocalDate.now()) || e.getPeriodo().getInicio().isEqual(LocalDate.now())) && (e.getPeriodo().getTermino().isAfter(LocalDate.now()) || e.getPeriodo().getTermino().isEqual(LocalDate.now()))) {
+	                	etapa = e;
+	                	break;
+	                }
+	            }
+	        } 
+    	}
+        return etapa;
     }
     
     public Etapa getUltimaEtapa() {
@@ -376,7 +382,7 @@ public class Selecao {
             }
         } else {
             if (getInscricao() == null) {
-                throw new RuntimeException("Não existe etapa!");
+                //throw new RuntimeException("Não existe etapa!");
             } else {
                 return getInscricao();
             }
@@ -411,4 +417,12 @@ public class Selecao {
         }
     }
     
+    public String toString() {
+    	return (getCodSelecao()) +"\n"+
+    	(getTitulo())+"\n"+
+    	(getDescricao())+"\n"+
+    	(getInscricao())+"\n"+
+    	(getResponsaveis());
+
+    }
 }

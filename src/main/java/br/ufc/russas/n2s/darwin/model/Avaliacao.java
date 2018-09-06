@@ -54,7 +54,7 @@ public class Avaliacao implements Serializable {
         if (codAvaliacao > 0) {
             this.codAvaliacao = codAvaliacao;
         } else {
-            throw new IllegalCodeException("Código de avaliação deve ser maior que zero!");
+            //throw new IllegalCodeException("Código de avaliação deve ser maior que zero!");
         }
     }
 

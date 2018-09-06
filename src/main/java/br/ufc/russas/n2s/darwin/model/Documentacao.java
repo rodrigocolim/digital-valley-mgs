@@ -53,7 +53,7 @@ public class Documentacao {
         if (codDocumentacao > 0) {
             this.codDocumentacao = codDocumentacao;
         } else {
-            throw new IllegalCodeException("Código da documentação deve ser maior que zero!");
+            //throw new IllegalCodeException("Código da documentação deve ser maior que zero!");
         }
     }
 

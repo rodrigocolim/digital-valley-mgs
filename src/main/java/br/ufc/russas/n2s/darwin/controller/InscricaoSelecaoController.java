@@ -124,7 +124,7 @@ public class InscricaoSelecaoController extends HttpServlet {
                  }
                 DocumentacaoBeans documentacao = new  DocumentacaoBeans();
                 ParticipanteBeans participante = new ParticipanteBeans();
-                participante.setCandidato((UsuarioDarwin) usuario.toBusiness());
+                participante.setCandidato(usuario);
                 participante.setData(LocalDateTime.now());
                 documentacao.setCandidato(participante);
                 documentacao.setDocumentos(arquivos);

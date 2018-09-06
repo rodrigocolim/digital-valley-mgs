@@ -141,8 +141,8 @@ public class EditarEtapaController {
 	            this.getSelecaoServiceIfc().setUsuario(usuario);
 	            
 	            int index=0;
-	            
-	            for(EtapaBeans etapaIterator :selecao.getEtapas()) {
+	            List<EtapaBeans> etapas = selecao.getEtapas();
+	            for(EtapaBeans etapaIterator : etapas) {
 	            	if(etapaIterator.getCodEtapa()==etapaBeans.getCodEtapa()) {
 	            		selecao.getEtapas().remove(etapaIterator);
 	            		selecao.getEtapas().add(index, etapaBeans);
@@ -250,7 +250,8 @@ public class EditarEtapaController {
             etapa.setDivulgaResultado(true);
             int index=0;
             this.getSelecaoServiceIfc().setUsuario(usuario);
-            for(EtapaBeans etapaIterator :selecao.getEtapas()) {
+            List<EtapaBeans> etapas = selecao.getEtapas();
+            for(EtapaBeans etapaIterator : etapas) {
             	if(etapaIterator.getCodEtapa()==etapa.getCodEtapa()) {
             		selecao.getEtapas().remove(etapaIterator);
             		selecao.getEtapas().add(index, etapa);

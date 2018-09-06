@@ -65,6 +65,12 @@ public class Inscricao extends Etapa {
         }
         return false;
     }
+    
+
+    public void setPrerequisito(Etapa prerequisito) throws IllegalArgumentException {
+    	// TODO Auto-generated method stub
+    	//super.setPrerequisito(prerequisito);
+    }
         
     @Override
     public boolean isParticipante(Participante participante) {
@@ -97,8 +103,7 @@ public class Inscricao extends Etapa {
         }
         return participantes;
     } 
-    
-    
+        
     @Override
     public List<Object[]> getAprovados() {
         List<Object[]> aprovados = Collections.synchronizedList(new ArrayList<Object[]>());
@@ -122,5 +127,17 @@ public class Inscricao extends Etapa {
             }
         }
         return aprovados;
+    }
+    
+    @Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 37 * hash + (int) (this.getCodEtapa() ^ (this.getCodEtapa() >>> 32));
+		return hash;
+	}
+    
+    @Override
+    public boolean equals(Object o) {
+    	return this.getCodEtapa() == ((Inscricao) o).getCodEtapa();
     }
 }

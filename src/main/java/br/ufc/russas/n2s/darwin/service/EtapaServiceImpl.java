@@ -101,7 +101,23 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     public EtapaBeans getEtapa(long codEtapa) {
         Etapa etp = new Etapa();
         etp.setCodEtapa(codEtapa);
-        return (EtapaBeans) new EtapaBeans().toBeans(this.getEtapaDAOIfc().getEtapa(etp));
+        System.out.println("Código etapa: "+codEtapa);
+        Etapa e = this.getEtapaDAOIfc().getEtapa(etp);
+        System.out.println(e);
+        if (e != null) {
+        	return (EtapaBeans) new EtapaBeans().toBeans(e);
+        } else {
+        	Inscricao is = new Inscricao();
+        	is.setCodEtapa(codEtapa);
+        	is = this.getEtapaDAOIfc().getEtapaInscricao(is);
+        	if (is != null) {
+        		System.out.println(is);
+        		return (EtapaBeans) new InscricaoBeans().toBeans(is);
+        	} else {
+        		System.out.println("NULL carai");
+        		return null;
+        	}
+        }
     }
 
     @Override

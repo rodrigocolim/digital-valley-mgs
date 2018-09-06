@@ -152,12 +152,11 @@ public class EtapaBeans implements Beans {
         this.divulgadoResultado = divulgadoResultado;
     }
     
-    
+
     
     @Override
     public Object toBusiness() {
         Etapa etapa = new Etapa();
-
         if (this.getCodEtapa() > 0) {
             etapa.setCodEtapa(this.getCodEtapa());
         }
@@ -167,9 +166,13 @@ public class EtapaBeans implements Beans {
         etapa.setCriterioDeAvaliacao(this.getCriterioDeAvaliacao());
         etapa.setEstado(this.getEstado());
         etapa.setPeriodo((Periodo) this.getPeriodo().toBusiness());
-        if(this.getPrerequisito() != null){
-            etapa.setPrerequisito((Etapa) this.getPrerequisito().toBusiness());
+        Etapa prerequisito = null;
+        if (this.getPrerequisito() != null) {
+        	System.out.println("prerequisito não nulo");
+        	prerequisito = (Etapa) this.getPrerequisito().toBusiness();        	
         }
+        System.out.println("prerequisito: "+prerequisito);
+        etapa.setPrerequisito(prerequisito);
         List<UsuarioDarwin> avaliadores = Collections.synchronizedList(new ArrayList<UsuarioDarwin>());
         if (this.getAvaliadores() != null) {
             for (UsuarioBeans avaliador : this.getAvaliadores()) {
@@ -265,5 +268,11 @@ public class EtapaBeans implements Beans {
         }
 
     }
+    
+    
+    @Override
+	public boolean equals(final Object o) {
+		return (this.getCodEtapa() == ((EtapaBeans) o).getCodEtapa());
+	}
 
 }

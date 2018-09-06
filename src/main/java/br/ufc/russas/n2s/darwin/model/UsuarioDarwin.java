@@ -51,8 +51,8 @@ public class UsuarioDarwin {
     public void setCodUsuario(long codUsuario) {
         if(codUsuario>0)
             this.codUsuario = codUsuario;
-        else
-            throw new IllegalCodeException("Código de usuário deve ser maior de zero!");
+
+            //throw new IllegalCodeException("Código de usuário deve ser maior de zero!");
     }
 
     public List<EnumPermissao> getPermissoes() {

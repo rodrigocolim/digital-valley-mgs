@@ -53,7 +53,7 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
             if(selecao.getUltimaEtapa().getPeriodo().getTermino().isBefore(LocalDate.now()) ){
                 return this;
             } else {
-                return this;
+                return ABERTA.execute(selecao);
             } 
         }
     };

@@ -6,7 +6,6 @@
 package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
-import br.ufc.russas.n2s.darwin.beans.InscricaoBeans;
 import br.ufc.russas.n2s.darwin.beans.PeriodoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
@@ -171,12 +170,12 @@ public class EditarEtapaController {
     }
     
     @RequestMapping(value="/{codSelecao}/inscricao/{codInscricao}", method = RequestMethod.POST)
-    public String atualizaInscricao(@PathVariable long codSelecao, @PathVariable long codInscricao, InscricaoBeans inscricao, BindingResult result, Model model, HttpServletRequest request) {
+    public String atualizaInscricao(@PathVariable long codSelecao, @PathVariable long codInscricao, EtapaBeans inscricao, BindingResult result, Model model, HttpServletRequest request) {
         try{
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = this.getSelecaoServiceIfc().getSelecao(codSelecao);
-            InscricaoBeans inscricaoBeans = this.getEtapaServiceIfc().getInscricao(codInscricao);
+            EtapaBeans inscricaoBeans = this.getEtapaServiceIfc().getEtapa(codInscricao);
             if (inscricaoBeans.getPeriodo().getInicio().isAfter(LocalDate.now())) {
 	            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
 	            String[] documentosExigidos = request.getParameterValues("documentosExigidos");

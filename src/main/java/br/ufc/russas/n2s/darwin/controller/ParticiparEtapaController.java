@@ -7,7 +7,6 @@ package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
-import br.ufc.russas.n2s.darwin.beans.InscricaoBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
@@ -148,9 +147,9 @@ public class ParticiparEtapaController {
     @RequestMapping(value="/inscricao/{codEtapa}", method = RequestMethod.POST)
     public String participa(@PathVariable long codEtapa, HttpServletRequest request,Model model, MultipartHttpServletRequest r,HttpServletResponse response, @RequestParam("arquivos") List<MultipartFile> documentos) throws IOException {    
         HttpSession session = request.getSession();
-        InscricaoBeans inscricao = null;
+        EtapaBeans inscricao = null;
         try {
-            inscricao = this.etapaServiceIfc.getInscricao(codEtapa);
+            inscricao = this.etapaServiceIfc.getEtapa(codEtapa);
             SelecaoBeans selecao = this.etapaServiceIfc.getSelecao(inscricao);
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator+"Etapa_"+inscricao.getTitulo()+File.separator+"Candidato_"+usuario.getCodUsuario()+File.separator);

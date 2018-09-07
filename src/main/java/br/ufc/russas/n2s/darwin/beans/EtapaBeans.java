@@ -10,6 +10,7 @@ import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
 import br.ufc.russas.n2s.darwin.model.Etapa;
+import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Periodo;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import java.util.ArrayList;
@@ -37,7 +38,9 @@ public class EtapaBeans implements Beans {
     private float notaMinima;
     private int limiteClassificados;
     private boolean divulgadoResultado;
+    private List<ParticipanteBeans> participantes;
     
+		    
     public EtapaBeans(){}
 
     public long getCodEtapa() {
@@ -152,6 +155,14 @@ public class EtapaBeans implements Beans {
         this.divulgadoResultado = divulgadoResultado;
     }
     
+    public List<ParticipanteBeans> getParticipantes() {
+    	return this.participantes;
+    }
+    
+    public void setParticipantes(List<ParticipanteBeans> participantes) {
+		this.participantes = participantes;
+	}
+    
 
     
     @Override
@@ -166,13 +177,10 @@ public class EtapaBeans implements Beans {
         etapa.setCriterioDeAvaliacao(this.getCriterioDeAvaliacao());
         etapa.setEstado(this.getEstado());
         etapa.setPeriodo((Periodo) this.getPeriodo().toBusiness());
-        Etapa prerequisito = null;
         if (this.getPrerequisito() != null) {
-        	System.out.println("prerequisito não nulo");
-        	prerequisito = (Etapa) this.getPrerequisito().toBusiness();        	
-        }
-        System.out.println("prerequisito: "+prerequisito);
-        etapa.setPrerequisito(prerequisito);
+        	Etapa prerequisito = (Etapa) this.getPrerequisito().toBusiness();
+    		etapa.setPrerequisito(prerequisito);
+    	}
         List<UsuarioDarwin> avaliadores = Collections.synchronizedList(new ArrayList<UsuarioDarwin>());
         if (this.getAvaliadores() != null) {
             for (UsuarioBeans avaliador : this.getAvaliadores()) {
@@ -180,6 +188,14 @@ public class EtapaBeans implements Beans {
             }
         }
         etapa.setAvaliadores(avaliadores);
+        
+        List<Participante> participantes = Collections.synchronizedList(new ArrayList<Participante>());
+        if (this.getParticipantes() != null) {
+            for (ParticipanteBeans participante : this.getParticipantes()) {
+            	participantes.add((Participante) participante.toBusiness());
+            }
+        }
+        etapa.setParticipantes(participantes);
 
         List<Avaliacao> avaliacoes = Collections.synchronizedList(new ArrayList<Avaliacao>());
         if (this.getAvaliacoes() != null) {
@@ -220,12 +236,10 @@ public class EtapaBeans implements Beans {
                 this.setPeriodo(pb);
 
                 this.setCriterioDeAvaliacao(etapa.getCriterioDeAvaliacao());
-
-                EtapaBeans eb = null;
+                
                 if (etapa.getPrerequisito() != null) {
-                   eb = (EtapaBeans) (new EtapaBeans().toBeans(etapa.getPrerequisito()));
-                }
-                this.setPrerequisito(eb);
+            		this.setPrerequisito((EtapaBeans) new EtapaBeans().toBeans(etapa.getPrerequisito()));
+                }     
 
                 List<UsuarioBeans> avaliadoresBeans = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
                 UsuarioBeans ubs;
@@ -236,6 +250,16 @@ public class EtapaBeans implements Beans {
                     }
                 }
                 this.setAvaliadores(avaliadoresBeans);
+                
+                List<ParticipanteBeans> participantes = Collections.synchronizedList(new ArrayList<ParticipanteBeans>());
+                ParticipanteBeans p;
+                if (etapa.getParticipantes() != null) {
+                    for (Participante participante : etapa.getParticipantes()) {
+                        p = (ParticipanteBeans) (new ParticipanteBeans().toBeans(participante));
+                        participantes.add(p);
+                    }
+                }
+                this.setParticipantes(participantes);
 
                 List<AvaliacaoBeans> avaliacoesBeans = Collections.synchronizedList(new ArrayList<AvaliacaoBeans>());
                 AvaliacaoBeans ab = null;

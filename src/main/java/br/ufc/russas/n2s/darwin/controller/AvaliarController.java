@@ -7,7 +7,6 @@ package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
-import br.ufc.russas.n2s.darwin.beans.InscricaoBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
@@ -58,7 +57,7 @@ public class AvaliarController {
     
     @RequestMapping(value = "/inscricao/{codEtapa}", method = RequestMethod.GET)
     public String getIndexInscricao(@PathVariable long codEtapa, Model model, HttpServletRequest request) {
-        InscricaoBeans etapa = etapaServiceIfc.getInscricao(codEtapa);
+        EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
         HttpSession session = request.getSession();
         UsuarioBeans avaliador = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         model.addAttribute("avaliador", avaliador);
@@ -71,9 +70,9 @@ public class AvaliarController {
     public String avaliarInscricao(@PathVariable long codEtapa, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         UsuarioBeans avaliador = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        InscricaoBeans etapa = null;
+        EtapaBeans etapa = null;
         try {
-            etapa = etapaServiceIfc.getInscricao(codEtapa);
+            etapa = etapaServiceIfc.getEtapa(codEtapa);
             AvaliacaoBeans avaliacao = new AvaliacaoBeans();
             if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO) {
                 avaliacao.setAprovado((Integer.parseInt(request.getParameter("aprovacao")) == 1));
@@ -137,7 +136,7 @@ public class AvaliarController {
     @RequestMapping(value = "/{codEtapa}", method = RequestMethod.POST)
     public String avaliarEtapa(@PathVariable long codEtapa, HttpServletRequest request, Model model) {
         try {
-            EtapaBeans etapa = etapaServiceIfc.getInscricao(codEtapa);
+            EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
             AvaliacaoBeans avaliacao = new AvaliacaoBeans();
             if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO) {
                 avaliacao.setAprovado((Integer.parseInt(request.getParameter("aprovacao")) == 1));

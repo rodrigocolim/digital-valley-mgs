@@ -6,7 +6,6 @@
 package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
-import br.ufc.russas.n2s.darwin.beans.InscricaoBeans;
 import br.ufc.russas.n2s.darwin.beans.PeriodoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
@@ -17,7 +16,6 @@ import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import util.Constantes;
-
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -84,51 +82,59 @@ public class CadastrarEtapaController {
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
     public String adiciona(@PathVariable long codSelecao, @RequestParam("prerequisito") long codPrerequisito, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
         try {
-            HttpSession session = request.getSession();
-            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-            SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
-            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator+"Etapa_"+etapa.getTitulo()+File.separator);
-            dir.mkdir();
-            model.addAttribute("selecao", selecao);
-            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
-            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
-            int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
-            if (criterio == 1) {
-                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
-            } else if(criterio == 2) {
-                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
-            } else if(criterio == 3) {
-                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
+        	if (codPrerequisito > 0) {
+	            HttpSession session = request.getSession();
+	            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+	            SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
+	            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator+"Etapa_"+etapa.getTitulo()+File.separator);
+	            dir.mkdir();
+	            model.addAttribute("selecao", selecao);
+	            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
+	            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
+	            int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
+	            if (criterio == 1) {
+	                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
+	            } else if(criterio == 2) {
+	                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
+	            } else if(criterio == 3) {
+	                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
+	            }
+	            etapa.setEstado(EnumEstadoEtapa.ESPERA);
+	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	            etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+	            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
+	            if (codAvaliadores != null) {
+	                for (String cod : codAvaliadores) {
+	                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+	                    if (u != null) {
+	                        avaliadores.add(u);
+	                    }
+	                }
+	            }
+	           
+
+            	EtapaBeans pre = etapaServiceIfc.getEtapa(codPrerequisito);
+	            etapa.setPrerequisito(pre);
+	            
+	            if (documentosExigidos != null) {
+	                ArrayList<String> docs = new ArrayList<>();
+	                for(String documento : documentosExigidos){
+	                    docs.add(documento);
+	                }
+	                etapa.setDocumentacaoExigida(docs);
+	            }
+	            etapa.setAvaliadores(avaliadores);
+	            selecao.getEtapas().add(etapa);
+	            this.selecaoServiceIfc.setUsuario(usuario);
+	            this.selecaoServiceIfc.atualizaSelecao(selecao);
+	            session.setAttribute("mensagem", "Etapa cadastrada com sucesso!");
+	            session.setAttribute("status", "success");
+	            return ("redirect:/selecao/" + selecao.getCodSelecao());
+        	} else {
+            	model.addAttribute("mensagem", "Selecione uma etapa para pré-requisito!");
+                model.addAttribute("status", "danger");
+                return "cadastrar-etapa";
             }
-            etapa.setEstado(EnumEstadoEtapa.ESPERA);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
-            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
-            if (codAvaliadores != null) {
-                for (String cod : codAvaliadores) {
-                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
-                    if (u != null) {
-                        avaliadores.add(u);
-                    }
-                }
-            }
-            EtapaBeans pre = etapaServiceIfc.getEtapa(codPrerequisito);
-            System.out.println("Etapa achada:"+ pre);
-            etapa.setPrerequisito(pre);
-            if (documentosExigidos != null) {
-                ArrayList<String> docs = new ArrayList<>();
-                for(String documento : documentosExigidos){
-                    docs.add(documento);
-                }
-                etapa.setDocumentacaoExigida(docs);
-            }
-            etapa.setAvaliadores(avaliadores);
-            selecao.getEtapas().add(etapa);
-            this.selecaoServiceIfc.setUsuario(usuario);
-            this.selecaoServiceIfc.atualizaSelecao(selecao);
-            session.setAttribute("mensagem", "Etapa cadastrada com sucesso!");
-            session.setAttribute("status", "success");
-            return ("redirect:/selecao/" + selecao.getCodSelecao());
         } catch (NullPointerException | NumberFormatException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
@@ -146,7 +152,7 @@ public class CadastrarEtapaController {
     
     
     @RequestMapping(value="/inscricao/{codSelecao}", method = RequestMethod.POST)
-    public String adicionaInscricao(@PathVariable long codSelecao, @RequestParam("prerequisito") long codPrerequisito, InscricaoBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
+    public String adicionaInscricao(@PathVariable long codSelecao, @RequestParam("prerequisito") long codPrerequisito, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
         try {
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
@@ -177,10 +183,7 @@ public class CadastrarEtapaController {
                     }
                 }
             }
-            if (selecao.getInscricao() != null) {
-                EtapaBeans pre = etapaServiceIfc.getEtapa(codSelecao);
-                etapa.setPrerequisito(pre);
-            }
+            
             if (documentosExigidos != null) {
                 ArrayList<String> docs = new ArrayList<>();
                 for(String documento : documentosExigidos){

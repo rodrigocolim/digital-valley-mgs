@@ -8,7 +8,6 @@ package br.ufc.russas.n2s.darwin.service;
 import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
-import br.ufc.russas.n2s.darwin.beans.InscricaoBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
@@ -17,7 +16,6 @@ import br.ufc.russas.n2s.darwin.model.Avaliacao;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.EtapaProxy;
-import br.ufc.russas.n2s.darwin.model.Inscricao;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
@@ -101,22 +99,11 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     public EtapaBeans getEtapa(long codEtapa) {
         Etapa etp = new Etapa();
         etp.setCodEtapa(codEtapa);
-        System.out.println("Código etapa: "+codEtapa);
         Etapa e = this.getEtapaDAOIfc().getEtapa(etp);
-        System.out.println(e);
         if (e != null) {
         	return (EtapaBeans) new EtapaBeans().toBeans(e);
         } else {
-        	Inscricao is = new Inscricao();
-        	is.setCodEtapa(codEtapa);
-        	is = this.getEtapaDAOIfc().getEtapaInscricao(is);
-        	if (is != null) {
-        		System.out.println(is);
-        		return (EtapaBeans) new InscricaoBeans().toBeans(is);
-        	} else {
-        		System.out.println("NULL carai");
-        		return null;
-        	}
+        	return null;
         }
     }
 
@@ -153,25 +140,12 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     }
 
     @Override
-    public List<Object[]> getParticipantes(EtapaBeans etapa) {
-        List<Object[]> participantes = Collections.synchronizedList(new ArrayList<Object[]>());
+    public List<Object[]> getParticipantes(EtapaBeans etapa) {     
+    	List<Object[]> participantes = Collections.synchronizedList(new ArrayList<Object[]>());
         List<Object[]> p = null;        
-        if (etapa instanceof InscricaoBeans) {
-            Inscricao i = (Inscricao) ((InscricaoBeans) etapa).toBusiness();
-            p = Collections.synchronizedList(i.getParticipantes());
-        } else {
-            Etapa e = (Etapa) etapa.toBusiness();
-            p = Collections.synchronizedList(e.getParticipantes());
-        }
-        
-        if(p != null) {
-            for (Object[] participante : p) {
-                participante[0] =  (ParticipanteBeans) (new ParticipanteBeans().toBeans((Participante) participante[0]));
-                participantes.add(participante);
-            }
-            return participantes;
-        }
-        return null;
+        Etapa e = (Etapa) etapa.toBusiness();
+        p = e.getResultado();
+        return p;
     }
 
     @Override
@@ -186,30 +160,21 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     }
     
     @Override
-    public void participa(InscricaoBeans inscricao, ParticipanteBeans participante) throws IllegalAccessException {
-        Inscricao i = (Inscricao) inscricao.toBusiness();
-        i.participa((Participante) participante.toBusiness());
+    public void participa(EtapaBeans inscricao, ParticipanteBeans participante) throws IllegalAccessException {
+        Etapa i = (Etapa) inscricao.toBusiness();
+        i.getParticipantes().add((Participante) participante.toBusiness());
         this.etapaDAOIfc.atualizaEtapa(i);
     }
 
     @Override
-    public void participa(InscricaoBeans inscricao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException {
-        Inscricao i = (Inscricao) inscricao.toBusiness();
+    public void participa(EtapaBeans inscricao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException {
+        Etapa i = (Etapa) inscricao.toBusiness();
         Documentacao d = (Documentacao) documentacao.toBusiness();
         Participante p = (Participante) participante.toBusiness();
-        i.participa(p);
+        i.getParticipantes().add(p);
         d.setCandidato(p);
         i.anexaDocumentacao(d);
-        //this.etapaDAOIfc.atualizaEtapa(i);
-       
         this.etapaDAOIfc.atualizaEtapa(i);
-    }
-
-    @Override
-    public InscricaoBeans getInscricao(long codInscricao) {
-        Inscricao ins = new Inscricao();
-        ins.setCodEtapa(codInscricao);
-        return (InscricaoBeans) new InscricaoBeans().toBeans(this.getEtapaDAOIfc().getEtapaInscricao(ins));
     }
     
     @Override
@@ -229,6 +194,7 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
 
     @Override
     public List<Object[]> getAprovados(EtapaBeans etapa) {
+    	/*
        List<Object[]> participantes = Collections.synchronizedList(new ArrayList<Object[]>());
         List<Object[]> p = null;        
         if (etapa instanceof InscricaoBeans) {
@@ -245,7 +211,7 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
                 participantes.add(participante);
             }
             return participantes;
-        }
+        }*/
         return null;
     }
 

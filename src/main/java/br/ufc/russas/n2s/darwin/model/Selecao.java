@@ -55,7 +55,7 @@ public class Selecao {
     private Periodo periodo;
     @ManyToOne(targetEntity = Etapa.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "etapa_inscricao", referencedColumnName = "codEtapa")
-    private Inscricao inscricao;
+    private Etapa inscricao;
     @ManyToMany(targetEntity = Etapa.class,  cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "etapas_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
@@ -146,11 +146,11 @@ public class Selecao {
         }
     }
 
-    public Inscricao getInscricao() {
+    public Etapa getInscricao() {
         return inscricao;
     }
 
-    public void setInscricao(Inscricao inscricao) {
+    public void setInscricao(Etapa inscricao) {
         if (inscricao != null) {
             this.inscricao = inscricao;
         } else {
@@ -391,7 +391,7 @@ public class Selecao {
     }
     
     public void resultado () {
-        List<Object[]> aprovados = getUltimaEtapa().getAprovados();
+        List<Object[]> aprovados = getUltimaEtapa().getResultado();
         int limiteClassificados =  getVagasRemuneradas() + getVagasVoluntarias();
         int n = aprovados.size();
         for (int gap = n/2; gap > 0; gap /= 2) {

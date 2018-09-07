@@ -11,7 +11,6 @@ import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
-import br.ufc.russas.n2s.darwin.model.Inscricao;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +26,7 @@ public class SelecaoBeans implements Beans {
     private String titulo;
     private String descricao;
     private List<UsuarioBeans> responsaveis = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
-    private InscricaoBeans inscricao;
+    private EtapaBeans inscricao;
     private List<EtapaBeans> etapas;
    // @Min(0)
     private int vagasRemuneradas;
@@ -79,11 +78,11 @@ public class SelecaoBeans implements Beans {
         this.responsaveis = usuario;
     }
 
-    public InscricaoBeans getInscricao() {
+    public EtapaBeans getInscricao() {
         return inscricao;
     }
 
-    public void setInscricao(InscricaoBeans inscricao) {
+    public void setInscricao(EtapaBeans inscricao) {
         this.inscricao = inscricao;
     }
 
@@ -186,7 +185,7 @@ public class SelecaoBeans implements Beans {
         selecao.setTitulo(this.getTitulo());
         selecao.setDescricao(this.getDescricao());
         if (this.getInscricao() != null) {
-            selecao.setInscricao((Inscricao) this.getInscricao().toBusiness());
+            selecao.setInscricao((Etapa) this.getInscricao().toBusiness());
         }
         if(this.vagasRemuneradas >= 0) selecao.setVagasRemuneradas(this.getVagasRemuneradas());
         if(this.vagasVoluntarias >= 0) selecao.setVagasVoluntarias(this.getVagasVoluntarias());
@@ -251,9 +250,9 @@ public class SelecaoBeans implements Beans {
                 this.setCategoria(selecao.getCategoria());
                 this.setEstado(selecao.getEstado());
                 this.setDivulgada(selecao.isDivulgada());
-                InscricaoBeans eb = null;
+                EtapaBeans eb = null;
                 if(selecao.getInscricao()!=null){
-                   eb = (InscricaoBeans) (new InscricaoBeans().toBeans(selecao.getInscricao()));
+                   eb = (EtapaBeans) (new EtapaBeans().toBeans(selecao.getInscricao()));
                 }
                 this.setInscricao(eb);
                 ArquivoBeans ab = null;

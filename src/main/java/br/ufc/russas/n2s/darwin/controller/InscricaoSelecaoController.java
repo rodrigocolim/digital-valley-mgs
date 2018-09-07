@@ -7,14 +7,13 @@ package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
-import br.ufc.russas.n2s.darwin.beans.InscricaoBeans;
+import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Arquivo;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
-import br.ufc.russas.n2s.darwin.model.Inscricao;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
@@ -83,7 +82,7 @@ public class InscricaoSelecaoController extends HttpServlet {
                 Selecao selecao = new Selecao();
                 HttpSession session = request.getSession();
                 SelecaoBeans sb = new SelecaoBeans();
-                InscricaoBeans etapa = etapaServiceIfc.getInscricao(Long.parseLong(request.getParameter("etapa")));
+                EtapaBeans etapa = etapaServiceIfc.getEtapa(Long.parseLong(request.getParameter("etapa")));
                 UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
                 this.etapaServiceIfc.setUsuario(usuario);
                 List<ArquivoBeans> arquivos = Collections.synchronizedList(new ArrayList<ArquivoBeans>());

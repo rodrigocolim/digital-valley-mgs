@@ -69,7 +69,6 @@
                 <value>br.ufc.russas.n2s.darwin.model.Avaliacao</value>
                 <value>br.ufc.russas.n2s.darwin.model.Avaliacoes</value>
                 <value>br.ufc.russas.n2s.darwin.model.Etapa</value>
-                <value>br.ufc.russas.n2s.darwin.model.Inscricao</value>
                 <value>br.ufc.russas.n2s.darwin.model.Selecao</value>
             </list>
         </property>        

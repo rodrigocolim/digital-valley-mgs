@@ -49,7 +49,7 @@
                     <form method="POST" action="/Darwin/cadastrarEtapa/${selecao.codSelecao}" accept-charset="UTF-8" id="needs-validation" novalidate>
                     </c:if>
                     <c:if test="${empty selecao.inscricao}">
-                    <form method="POST" action="/Darwin/cadastrarEtapa/inscricao/${selecao.codSelecao}" accept-charset="UTF-8"  id="needs-validation" novalidate>
+                    <form id="form" method="POST" action="/Darwin/cadastrarEtapa/inscricao/${selecao.codSelecao}" accept-charset="UTF-8"  id="needs-validation" novalidate>
                     </c:if>    
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" value="${empty selecao.inscricao ? 'Inscrição': ''}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" ${empty selecao.inscricao ? 'readonly': ''} required>
@@ -204,11 +204,7 @@
 
     function habilitaEdicao(){
   	  document.getElementById('avaliadorInput').disabled = false;
-       // if(){
-       //     input.removeAttr('readonly');
-       // }else{
-       //     input.attr('readonly',true);
-       // }
+       
     }
     
     var datas = [];

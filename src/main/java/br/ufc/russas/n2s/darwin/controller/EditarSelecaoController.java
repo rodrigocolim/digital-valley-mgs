@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +38,7 @@ import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 
 /**
  *
- * @author Alex Felipe
+ * @author Gilberto
  */
 @Controller("editarSelecaoController")
 @RequestMapping("/editarSelecao")
@@ -65,7 +67,12 @@ public class EditarSelecaoController {
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
+        List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaTodosUsuarios();
+        List<UsuarioBeans> responsaveis = selecao.getResponsaveis();
         request.getSession().setAttribute("selecao", selecao);
+        request.getSession().setAttribute("usuarios", usuarios);
+        request.getSession().setAttribute("responsaveis", responsaveis);
+ 
         return "editar-selecao";
     }
     
@@ -118,7 +125,9 @@ public class EditarSelecaoController {
 	            selecaoServiceIfc.setUsuario(usuario);
 	            selecao.setDivulgada(true);
 	            selecao = selecaoServiceIfc.atualizaSelecao(selecao);
-	            request.getSession().setAttribute("selecao", selecao);
+	            session.setAttribute("selecao", selecao);
+	            session.setAttribute("mensagem", "Seleção divulgada com sucesso!");
+                session.setAttribute("status", "success");
 	            return "redirect:/selecao/" + selecao.getCodSelecao();
         	}
         } catch(IllegalAccessException e) {
@@ -130,9 +139,27 @@ public class EditarSelecaoController {
         }
     }
     
-    /*
-    @RequestMapping(value = "/{codSelecao}", method = RequestMethod.PUT)
-    public String 
-*/
+    
+    @RequestMapping(value = "/remove/{codSelecao}", method = RequestMethod.GET)
+    public String removeSelecao(@PathVariable long codSelecao, Model model, HttpServletRequest request) {
+    	 HttpSession session = request.getSession();
+    	 UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+    	 try {
+	    	 if (usuario != null) {
+	    		 SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
+	    		 selecaoServiceIfc.setUsuario(usuario);
+	    		 selecaoServiceIfc.removeSelecao(selecao);
+	    		 session.setAttribute("mensagem", "Seleção removida com sucesso!");
+	             session.setAttribute("status", "success");
+	    	 }
+    	 } catch (Exception e) {
+    		 e.printStackTrace();
+    		 session.setAttribute("mensagem", e.getMessage());
+             session.setAttribute("status", "danger");
+             return "minhas-selecoes";
+		}
+    	return "minhas-selecoes";
+    }
+
     
 }

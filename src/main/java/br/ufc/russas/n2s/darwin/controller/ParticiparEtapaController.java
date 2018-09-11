@@ -204,10 +204,8 @@ public class ParticiparEtapaController {
             session.setAttribute("status", "danger");
             return "redirect:/participarEtapa/inscricao/"+inscricao.getCodEtapa();
         } catch (IllegalArgumentException | NullPointerException | IllegalAccessException e) {
-            e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
-            //response.sendRedirect("/Darwin/participarEtapa/inscricao/"+inscricao.getCodEtapa());
             return "redirect:/participarEtapa/inscricao/"+inscricao.getCodEtapa();
         } catch (Exception e) {
             e.printStackTrace();

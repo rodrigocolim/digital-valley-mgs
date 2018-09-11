@@ -75,8 +75,6 @@ public class UsuarioDAOImpl implements UsuarioDAOIfc{
     	Session session = this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         try {
-        	
-        	
         	String busca  = "from Usuario where lower(nome) = lower('%"+nome+"%')";
             List<UsuarioDarwin> usuarios = (List<UsuarioDarwin>) session.createQuery(busca).list();
             t.commit();

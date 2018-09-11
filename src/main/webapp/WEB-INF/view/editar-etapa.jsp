@@ -217,7 +217,7 @@
     <script>
     var listaAvaliadores = ${etapa.avaliadores};
     var codAvaliadores = [];
-    var numAvaliadores = []; //${etapa.avaliadores.size()};
+    var numAvaliadores = [];
     
     $(document).ready(function() { 
     	for (i=0;i < listaAvaliadores.length;i++) {
@@ -226,7 +226,6 @@
     		codAvaliadores[i] = listaAvaliadores[i].nome.substring(0, avaliadorInput.indexOf("-"));
     		numAvaliadores++;
     	}
-    	alert(numAvaliadores);
     });
     
     function adicionaAvaliador(){

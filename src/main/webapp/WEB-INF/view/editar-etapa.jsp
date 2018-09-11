@@ -139,7 +139,7 @@
                                         </c:forEach>
                                     </select>
                                     &nbsp;&nbsp;
-                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar">                            
+                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar"/>                            
                                 </div>
                                 <br>
                                  <ul class="list-group col-md-8" id="listaAvaliadores"> 
@@ -195,7 +195,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js" ></script>
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.pt-BR.min.js" ></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
-    <script src="${pageContext.request.contextPath}/resources/js/scriptEditarEtapa.js" ></script>
+   <!--   <script src="${pageContext.request.contextPath}/resources/js/scriptEditarEtapa.js" ></script>  -->
     <script type="text/javascript">
     $('#sandbox-container .input-daterange').datepicker({
         format: "dd/mm/yyyy",
@@ -217,7 +217,7 @@
     <script>
     var listaAvaliadores = ${etapa.avaliadores};
     var codAvaliadores = [];
-    var numAvaliadores = [];
+    var numAvaliadores = 0;
     
     $(document).ready(function() { 
     	for (i=0;i < listaAvaliadores.length;i++) {
@@ -229,7 +229,6 @@
     });
     
     function adicionaAvaliador(){
-    	alert(numAvaliadores);
       var avaliadorInput = document.getElementById("avaliadorInput").value;
       var nomeAvaliador = avaliadorInput.substring(avaliadorInput.indexOf("-") + 1, avaliadorInput.lenght);
       var codAvaliador = avaliadorInput.substring(0, avaliadorInput.indexOf("-"));
@@ -244,6 +243,7 @@
       
     }
     function atualizaAvaliadores(){
+    	alert("teste");
         var list = document.getElementById("listaAvaliadores");
         list.innerHTML = "";
         for(i = 0;i < listaAvaliadores.length;i++){

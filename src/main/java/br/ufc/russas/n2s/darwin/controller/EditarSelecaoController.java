@@ -69,9 +69,9 @@ public class EditarSelecaoController {
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
         List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaTodosUsuarios();
         List<UsuarioBeans> responsaveis = selecao.getResponsaveis();
-        request.getSession().setAttribute("selecao", selecao);
-        request.getSession().setAttribute("usuarios", usuarios);
-        request.getSession().setAttribute("responsaveis", responsaveis);
+        model.addAttribute("selecao", selecao);
+        model.addAttribute("usuarios", usuarios);
+        model.addAttribute("responsaveis", responsaveis);
  
         return "editar-selecao";
     }

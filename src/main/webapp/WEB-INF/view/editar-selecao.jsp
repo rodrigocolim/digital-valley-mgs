@@ -56,7 +56,7 @@
                         <br>
 
                         <label for="descricaoInput"> <input type="checkbox" onclick="habilitaEdicao('descricaoInput')"> Descrição*</label>
-                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" readonly="true" required>${selecao.descricao}</textarea>
+                        <textarea class="form-control" rows="6" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" readonly="true" required>${selecao.descricao}</textarea>
                         <div class="invalid-feedback">
                             
                         </div>
@@ -162,25 +162,26 @@
                             <div class="card-body">
 			                        <div class="form-row">
 			                            <select id="responsavelInput" class="form-control col-md-8" style="margin-left: 3px">
-			                                <option value="" selected="selected" disabled="disabled">Selecione os responsáveis por esta seleção</option>
+			                                <option selected="selected" disabled="disabled">Selecione os responsáveis por esta seleção</option>
 			                                <c:forEach items="${usuarios}" var="usuario">
 			                                     <option id="responsavelOption-${usuario.nome}" value="${usuario.codUsuario}-${usuario.nome}">${usuario.nome}</option>
 			                                 </c:forEach>
 			                            </select>
 			                            &nbsp;&nbsp;
-			                            <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaResponsavel()" value="Adicionar">                            
+			                            <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaResponsavel()" value="Adicionar"/>
 			                        </div>
 			                        <br>
 			                        <ul class="list-group col-md-8" id="listaResponsaveis">
-			                        	<c:forEach var="responsavel" items="${responsaveis}">
+			                        	<c:forEach items="${selecao.responsaveis}" var="responsavel" >
 			                                	<li class="list-group-item">
 			                                     <input type="hidden" name="codResponsaveis" value="${responsavel.codUsuario}-${responsavel.nome}" style="display: none;"/>
 			                                     ${responsavel.nome}
-			                                     <button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeResponsaveis('${responsavel.nome}');">clear</button>
+			                                     <button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeResponsavel('${responsavel.nome}');">clear</button>
 			                                 </li>    
 			                             </c:forEach>
 			                        </ul>
                         			<br>
+                        			
                         	</div>
                         </div>
                         <br>
@@ -208,8 +209,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
+                        </div> 
                     </form>
                 </div>
             </div>
@@ -220,58 +220,8 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
+    <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>  
   	<script>
-      var listaResponsaveis = ${responsaveis};
-      var codResponsaveis = [];
-      var numResponsaveis = 0;
-      
-      $(document).ready(function() { 
-      	for (i=0;i < listaResponsaveis.length;i++) {
-      		var nomeResponsavel = listaResponsaveis[i].nome;
-      		document.getElementById("responsavelOption-"+nomeResponsavel+"").disabled = "disabled";
-      		codResponsaveis[i] = listaResponsaveis[i].nome.substring(0, responsavelInput.indexOf("-"));
-      		numResponsaveis++;
-      	}
-      });
-      
-      function adicionaResponsavel(){
-    	  alert("reiureryewur");
-        var responsavelInput = document.getElementById("responsavelInput").value;
-        var nomeResponsavel= responsavelInput.substring(responsavelInput.indexOf("-") + 1, responsavelInput.lenght);
-        var codResponsavel = responsavelInput.substring(0, responsavelInput.indexOf("-"));
-        if(nomeResponsavel !== ""){
-            listaResponsaveis[numResponsaveis] = nomeResponsavel;
-            codResponsaveis[numResponsaveis] = codResponsavel;
-            document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "disabled";
-            numResponsaveis++;
-        }
-        document.getElementById("responsavelInput").value = "";
-        atualizaResponsaveis();
-        
-      }
-      function atualizaResponsaveis(){
-          var list = document.getElementById("listaResponsaveis");
-          list.innerHTML = "";
-          for(i = 0;i < listaResponsaveis.length;i++){
-            if(listaResponsaveis[i] !== ""){
-                list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codResponsaveis" value="'+codResponsaveis[i]+'" style="display: none;"> '+ listaResponsaveis[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeResponsaveis(\''+codResponsaveis[i]+'\')">clear</button></li>';
-            }
-          }
-      }
-      function removeResponsaveis(codResponsavel){
-    	  alert("reiureryewur");
-          for(i = 0;i < listaResponsaveis.length;i++){
-              if(codResponsaveis[i] === codResponsavel){
-                  document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "";
-                  listaResponsaveis[i] = "";
-                  codResponsaveis[i] = "";
-                  
-              }
-          }
-          atualizaResponsaveis();
-      }
-
     function habilitaCampoVagas(){
 	if(! document.getElementById('isVagasLimitadasInput').checked){
 		document.getElementById('vagasRemuneradasInput').disabled = true;
@@ -326,8 +276,6 @@
           atualizaAnexo();
       }
       
-
-
       var listaNomeAditivo = [];
       var listaLinkAditivo = [];
       var numAditivo = 0;
@@ -362,6 +310,59 @@
           atualizaAditivo();
       }
       </script>
+      <script>
+    var listaResponsaveis = ${selecao.responsaveis};
+    var codResponsaveis = [];
+    var numResponsaveis = 0;
+    
+    
+    $(document).ready(function() { 
+    	alert("adiciona");
+    	for (i=0;i < listaResponsaveis.length;i++) {
+    		var nomeResponsavel = listaResponsaveis[i].nome;
+    		alert(nomeResponsavel);
+    		document.getElementById("responsavelOption-"+nomeResponsavel+"").disabled = "disabled";
+    		codResponsaveis[i] = listaResponsaveis[i].nome.substring(0, responsavelInput.indexOf("-"));
+    		numResponsaveis++;
+    	}
+    });
+    
+    function adicionaResponsavel(){
+  	  alert("adiciona");
+      var responsavelInput = document.getElementById("responsavelInput").value;
+      var nomeResponsavel= responsavelInput.substring(responsavelInput.indexOf("-") + 1, responsavelInput.lenght);
+      var codResponsavel = responsavelInput.substring(0, responsavelInput.indexOf("-"));
+      if(nomeResponsavel !== ""){
+          listaResponsaveis[numResponsaveis] = nomeResponsavel;
+          codResponsaveis[numResponsaveis] = codResponsavel;
+          document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "disabled";
+          numResponsaveis++;
+      }
+      document.getElementById("responsavelInput").value = "";
+      atualizaResponsaveis();
+      
+    }
+    function atualizaResponsaveis(){
+        var list = document.getElementById("listaResponsaveis");
+        list.innerHTML = "";
+        for(i = 0;i < listaResponsaveis.length;i++){
+          if(listaResponsaveis[i] !== ""){
+              list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codResponsaveis" value="'+codResponsaveis[i]+'" style="display: none;"> '+ listaResponsaveis[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeResponsavel(\''+codResponsaveis[i]+'\')">clear</button></li>';
+          }
+        }
+    }
+    function removeResponsavel(codResponsavel){
+  	  alert("remove");
+        for(i = 0;i < listaResponsaveis.length;i++){
+            if(codResponsaveis[i] === codResponsavel){
+                document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "";
+                listaResponsaveis[i] = "";
+                codResponsaveis[i] = "";
+            }
+        }
+        atualizaResponsaveis();
+    }
+	</script> 
       
 </body>
 </html>

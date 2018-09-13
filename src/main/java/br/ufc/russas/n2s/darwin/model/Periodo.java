@@ -61,7 +61,7 @@ public class Periodo implements AttributeConverter<LocalDate, Date> {
         if (codPeriodo > 0) {
             this.codPeriodo = codPeriodo;
         } else {
-            throw new IllegalCodeException("Código do periodo deve ser maior que zero!");
+            //throw new IllegalCodeException("Código do periodo deve ser maior que zero!");
         }
     }
 
@@ -154,5 +154,7 @@ public class Periodo implements AttributeConverter<LocalDate, Date> {
     public Duration getTempoRestante() {
         return Duration.between(LocalDateTime.now(), termino);
     }
+    
+    
 
 }

@@ -6,7 +6,6 @@
 package br.ufc.russas.n2s.darwin.dao;
 
 import br.ufc.russas.n2s.darwin.model.Etapa;
-import br.ufc.russas.n2s.darwin.model.Inscricao;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,18 +21,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class EtapaDAOImpl implements EtapaDAOIfc{
 
     private DAOIfc<Etapa> daoImpl;
-    private DAOIfc<Inscricao> daoIns;
 
     @Autowired(required = true)
     public void setDAOIfc(@Qualifier("daoImpl")DAOIfc<Etapa> dao){
         this.daoImpl = dao;
     }
     
-    @Autowired(required = true)
-    public void setDAOIns(@Qualifier("daoImpl")DAOIfc<Inscricao> dao){
-        this.daoIns = dao;
-    }
-
     @Override
     public Etapa adicionaEtapa(Etapa etapa) {
         return this.daoImpl.adiciona(etapa);
@@ -59,8 +52,4 @@ public class EtapaDAOImpl implements EtapaDAOIfc{
         return this.daoImpl.getObject(etapa, etapa.getCodEtapa());
     }
 
-    @Override
-    public Inscricao getEtapaInscricao(Inscricao inscricao) {
-        return this.daoIns.getObject(inscricao, inscricao.getCodEtapa());
-    }
 }

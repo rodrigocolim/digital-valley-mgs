@@ -5,17 +5,14 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
-import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -24,70 +21,82 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import br.ufc.russas.n2s.darwin.model.Participante;
 
 /**
- *
- * @author Gilberto Lima, Wallison Rocha
+ * @author Wallison Carlos, Gilberto Lima
  */
 @Entity
 @Table(name = "etapa")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo", length = 1, discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("E")
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name = "tipo", length = 1, discriminatorType = DiscriminatorType.STRING)
+//@DiscriminatorValue("E")
 public class Etapa implements Serializable, Atualizavel {
 	@Id
 	@Column(name = "codEtapa")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long codEtapa;
 	private String titulo;
+	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "periodo", referencedColumnName = "codPeriodo")
 	private Periodo periodo;
 	private String descricao;
+	
 	@ManyToMany(targetEntity = UsuarioDarwin.class, fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SUBSELECT)
 	@JoinTable(name = "avaliadores", joinColumns = {
 			@JoinColumn(name = "etapa", referencedColumnName = "codEtapa") }, inverseJoinColumns = {
 					@JoinColumn(name = "avaliador", referencedColumnName = "codUsuario") })
 	private List<UsuarioDarwin> avaliadores;
+	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SUBSELECT)
 	@CollectionTable(name = "documentacoes_exigidas", joinColumns = @JoinColumn(name = "codEtapa"))
 	@Column(name = "documentacao_exigida")
 	private List<String> documentacaoExigida;
+	
 	@Column(name = "criterio_de_avaliacao")
 	@Enumerated(EnumType.ORDINAL)
 	private EnumCriterioDeAvaliacao criterioDeAvaliacao;
+	
 	@ManyToMany(targetEntity = Avaliacao.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(FetchMode.SUBSELECT)
 	@JoinTable(name = "avaliacoes", joinColumns = {
 			@JoinColumn(name = "etapa", referencedColumnName = "codEtapa") }, inverseJoinColumns = {
 					@JoinColumn(name = "avaliacao", referencedColumnName = "codAvaliacao") })
 	private List<Avaliacao> avaliacoes;
+	
 	@ManyToMany(targetEntity = Documentacao.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(FetchMode.SUBSELECT)
 	@JoinTable(name = "documentacoes", joinColumns = {
 			@JoinColumn(name = "etapa", referencedColumnName = "codEtapa") }, inverseJoinColumns = {
 					@JoinColumn(name = "documentacao", referencedColumnName = "codDocumentacao") })
 	private List<Documentacao> documentacoes;
+	
 	@Enumerated(EnumType.ORDINAL)
 	private EnumEstadoEtapa estado;
+	
 	@ManyToOne
 	@JoinColumn(name = "prerequisito", referencedColumnName = "codEtapa")
 	private Etapa prerequisito;
 	private float notaMinima;
 	private int limiteClassificados;
 	private boolean divulgadoResultado;
+	
+	@ManyToMany(targetEntity = Participante.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@Fetch(FetchMode.SUBSELECT)
+	@JoinTable(name = "participantes_etapa", joinColumns = {
+			@JoinColumn(name = "etapa", referencedColumnName = "codEtapa") }, inverseJoinColumns = {
+					@JoinColumn(name = "participante", referencedColumnName = "codParticipante") })
+	private List<Participante> participantes;
 
 	public long getCodEtapa() {
 		return codEtapa;
@@ -97,7 +106,7 @@ public class Etapa implements Serializable, Atualizavel {
 		if (codEtapa > 0) {
 			this.codEtapa = codEtapa;
 		} else {
-			throw new IllegalCodeException("Código de etapa deve ser maior que zero!");
+			//throw new IllegalCodeException("Código de etapa deve ser maior que zero!");
 		}
 	}
 
@@ -190,6 +199,8 @@ public class Etapa implements Serializable, Atualizavel {
 	public Etapa getPrerequisito() {
 		return prerequisito;
 	}
+	
+	
 
 	public float getNotaMinima() {
 		return notaMinima;
@@ -223,13 +234,22 @@ public class Etapa implements Serializable, Atualizavel {
 	public void setDivulgadoResultado(boolean divulgadoResultado) {
 		this.divulgadoResultado = divulgadoResultado;
 	}
+	
+	public List<Participante> getParticipantes() {
+		return this.participantes;
+	}
+	
+	public void setParticipantes(List<Participante> participantes) {
+		this.participantes = participantes;
+	}
+	
 
 	/**
 	 *
 	 * @param prerequisito
 	 */
 	public void setPrerequisito(Etapa prerequisito) throws IllegalArgumentException {
-		if (prerequisito.getPeriodo().isAntes(this.getPeriodo())) {
+		if (prerequisito != null && prerequisito.getPeriodo().isAntes(this.getPeriodo())) {
 			this.prerequisito = prerequisito;
 		} else {
 			throw new IllegalArgumentException(
@@ -237,6 +257,7 @@ public class Etapa implements Serializable, Atualizavel {
 		}
 	}
 
+	
 	/**
 	 *
 	 * @param maisDocumentacao
@@ -286,19 +307,19 @@ public class Etapa implements Serializable, Atualizavel {
 		}
 	}
 
-	public List<Object[]> getAprovados() {
-		List<Object[]> aprovados = Collections.synchronizedList(new ArrayList<Object[]>());
+	public List<Participante> getAprovados() {
+		List<Participante> aprovados = Collections.synchronizedList(new ArrayList<Participante>());
 		if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO
 				|| getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
 			for (Object[] p : getResultado()) {
-				if (((int) p[1]) >= ((int) p[2])) {
-					aprovados.add(p);
+				if (((Avaliacao) p[1]).isAprovado()) {
+					aprovados.add((Participante) p[0]);
 				}
 			}
 		} else if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
 			for (Object[] participante : getResultado()) {
 				if (((float) participante[1]) >= getNotaMinima()) {
-					aprovados.add(participante);
+					aprovados.add((Participante) participante[0]);
 				}
 			}
 		}
@@ -309,28 +330,24 @@ public class Etapa implements Serializable, Atualizavel {
 		List<Object[]> resultado = Collections.synchronizedList(new ArrayList<Object[]>());
 		if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO
 				|| getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
-			for (Object[] p : getParticipantes()) {
+			for (Participante p : listParticipantes()) {
 				int aprovacao = 0;
 				int reprovacao = 0;
 				for (Avaliacao a : getAvaliacoes()) {
-					if (a.getParticipante().equals(((Participante) p[0]))) {
-						if (a.isAprovado()) {
-							aprovacao++;
-						} else {
-							reprovacao++;
-						}
-					}
+					if (a.getParticipante().equals(p)) {
+						Object[] aprovado = {p, a};
+						resultado.add(aprovado);
+					}		
 				}
-				Object[] aprovado = { p, aprovacao, reprovacao };
-				resultado.add(aprovado);
+
 			}
 		} else if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
-			for (Object[] participante : getParticipantes()) {
+			for (Participante participante : listParticipantes()) {
 				float media = 0;
 				float soma = 0;
 				int count = 0;
 				for (Avaliacao avaliacao : getAvaliacoes()) {
-					if (avaliacao.getParticipante().equals(((Participante) participante[1]))) {
+					if (avaliacao.getParticipante().equals(participante)) {
 						soma += avaliacao.getNota();
 						count++;
 					}
@@ -344,47 +361,34 @@ public class Etapa implements Serializable, Atualizavel {
 	}
 
 	public Object[] getSituacao(UsuarioDarwin usuario) {
-		List<Object[]> resultado = getResultado();
-		for (Object[] participante : resultado) {
-			Object[] p1 = (Object[]) participante[0];
-			if (((Participante) p1[0]).getCandidato().equals(usuario)) {
+		for (Object[] participante : getResultado()) {
+			if (((Participante) participante[0]).getCandidato().equals(usuario)) {
 				return participante;
 			}
 		}
 		return null;
 	}
 
-	public List<Object[]> getParticipantes() {
-		if (getPrerequisito() != null) {
-			return getPrerequisito().getAprovados();
+	public List<Participante> listParticipantes() {
+		if (this.getPrerequisito() != null) {
+			this.setParticipantes(this.getPrerequisito().getAprovados());
+			return this.getParticipantes();
 		} else {
-			return new ArrayList<>();
+			return this.getParticipantes();
 		}
 	}
 
 	public boolean isParticipante(Participante participante) {
-		if (this.getPrerequisito() != null) {
-			// List<Object[]> aprovados = this.getPrerequisito().getAprovados();
-			// return aprovados.contains(participante);
-			return true;
-		} else {
-			return true;
-		}
+		return this.getParticipantes().contains(participante);
 	}
 
 	public boolean foiAprovado(Participante participante) {
-		if (this.getPrerequisito() != null) {
-			List<Object[]> aprovados = this.getPrerequisito().getAprovados();
-			return aprovados.contains(participante);
-		} else {
-			return true;
-		}
-
+		return this.getAprovados().contains(participante);
 	}
 
 	public boolean isParticipante(UsuarioDarwin participante) {
-		for (Object[] p : this.getPrerequisito().getAprovados()) {
-			if (((Participante) p[0]).equals(participante)) {
+		for (Participante p : this.getParticipantes()) {
+			if (p.getCandidato().equals(participante)) {
 				return true;
 			}
 		}
@@ -392,12 +396,14 @@ public class Etapa implements Serializable, Atualizavel {
 	}
 
 	public Participante getParticipante(UsuarioDarwin usuario) {
-		for (Object[] p : getAprovados()) {
-			if (usuario.equals(((Participante) p[0]).getCandidato())) {
-				return ((Participante) p[0]);
+		Participante participante = null;
+		for (Participante p : this.getParticipantes()) {
+			if (p.getCandidato().equals(usuario)) {
+				participante = p;
+				break;
 			}
 		}
-		return null;
+		return participante;
 	}
 
 	public void anexaDocumentacao(Documentacao documentacao) throws IllegalAccessException {
@@ -422,6 +428,8 @@ public class Etapa implements Serializable, Atualizavel {
 			this.getAvaliacoes().add(avaliacao);
 		}
 	}
+	
+	
 
 	/**
 	 * Verifica se o usuário passado é um avaliador.

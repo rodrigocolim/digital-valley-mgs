@@ -69,7 +69,8 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     public SelecaoBeans atualizaSelecao(SelecaoBeans selecao) throws IllegalAccessException{
         UsuarioDarwin usuario = (UsuarioDarwin) this.usuario.toBusiness();
         SelecaoProxy sp = new SelecaoProxy(usuario);
-        Selecao s = getSelecaoDAOIfc().atualizaSelecao(sp.atualizaSelecao((Selecao) selecao.toBusiness()));
+        Selecao s = (Selecao) selecao.toBusiness();       
+        s = getSelecaoDAOIfc().atualizaSelecao(sp.atualizaSelecao(s));
         return (SelecaoBeans) new SelecaoBeans().toBeans(s);
     }
 
@@ -110,7 +111,6 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         selecao.setDivulgada(true);
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
-        System.out.println(resultado.size());
         for (Selecao s : resultado) {
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }

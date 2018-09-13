@@ -47,10 +47,21 @@
                                 ${selecao.titulo}
                             </h2>
                             <h3 class="card-subtitle mb-2 text-muted">
-                                ${selecao.inscricao.titulo} - 
-                                <b>${selecao.inscricao.periodo.dataInicio}</b>
-                                até 
-                                <b>${selecao.inscricao.periodo.dataTermino}</b>
+                            	<c:if test="${selecao.inscricao.periodo.dataTermino >= agora}">
+                            	dasddasd
+                            		${agora }
+	                                ${selecao.inscricao.titulo} - 
+	                                <b>${selecao.inscricao.periodo.dataInicio}</b>
+	                                até 
+	                                <b>${selecao.inscricao.periodo.dataTermino}</b>
+                                </c:if>
+                                <c:if test="${selecao.inscricao.periodo.dataTermino < agora}">
+                                dasdsasds
+                                	${etapasAtuais[selecao].titulo} - 
+	                                <b>${etapasAtuais[selecao].periodo.dataInicio}</b>
+	                                até 
+	                                <b>${etapasAtuais[selecao].periodo.dataTermino}</b>
+                                </c:if>
                             </h3>
                             <p class="card-text text-justify">
                                 ${fn:substring(selecao.descricao, 0, 400)}

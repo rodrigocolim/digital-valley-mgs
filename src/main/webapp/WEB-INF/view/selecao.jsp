@@ -1,7 +1,7 @@
-<%@page import="br.ufc.russas.n2s.darwin.beans.SelecaoBeans"%>
-<%@page import="java.time.LocalDate"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="util.Constantes"%>
+<%@ page import="br.ufc.russas.n2s.darwin.beans.SelecaoBeans" %>
+<%@ page import="java.time.LocalDate"%>
+<%@ page import="util.Constantes"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
@@ -136,6 +136,7 @@
                     <hr/>
                 </p>
                 <br/>
+                <!-- <c:if test="${(not empty selecao.etapas) or (not empty selecao.inscricao)}"> -->
                     <c:if test="${(not empty selecao.etapas) or (not empty selecao.inscricao)}">
                         <ul class="timeline">
                             <c:if test="${not empty selecao.inscricao}">
@@ -224,9 +225,9 @@
 											</c:forEach>
 											
 											<c:if test="${pendente}">
-											<a href="" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultados">
-												Divulgar Resultado
-											</a>
+												<a href="" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultados">
+													Divulgar Resultado
+												</a>
 											</c:if>
 											<c:if test="${not pendente}">
 											<a href="/Darwin/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
@@ -386,7 +387,6 @@
                                      	<a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                             Ver Resultado
                                         </a>
-                                         
                                     </c:if>
                                 </div>
                             </div>
@@ -410,46 +410,45 @@
                             </a>
                         </li>                        
                     </c:if>
-                        
                     </ul>
                 </c:if>
                 <br>
             </div>
             <div class="col-sm-2 sidebar-offcanvas">
                 <c:if test="${not empty selecao.aditivos}">
-                <div class="card" >
-                    <div class="card-body">
-                        <h2 style="font-size: 15px; font-weight: bold;" class="text-center">ADITIVOS</h2>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <c:forEach var="aditivo" items="${selecao.aditivos}">
-                            <li class="list-group-item disabled">
-                                <fmt:parseDate value="${aditivo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
-                                <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
-                                <a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=aditivo&aditivo=${aditivo.codArquivo}" target="_blank">(${dataAditivo}) ${aditivo.titulo}</a>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
+	                <div class="card" >
+	                    <div class="card-body">
+	                        <h2 style="font-size: 15px; font-weight: bold;" class="text-center">ADITIVOS</h2>
+	                    </div>
+	                    <ul class="list-group list-group-flush">
+	                        <c:forEach var="aditivo" items="${selecao.aditivos}">
+	                            <li class="list-group-item disabled">
+	                                <fmt:parseDate value="${aditivo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
+	                                <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
+	                                <a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=aditivo&aditivo=${aditivo.codArquivo}" target="_blank">(${dataAditivo}) ${aditivo.titulo}</a>
+	                            </li>
+	                        </c:forEach>
+	                    </ul>
+	                </div>
                 </c:if>
                 <br>
                 <c:if test="${not empty selecao.anexos}">
-                <div class="card" >
-                    <div class="card-body">
-                        <h2 style="font-size: 15px; font-weight: bold;" class="text-center">ANEXOS</h2>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <c:forEach var="anexo" items="${selecao.anexos}">
-                            <li class="list-group-item disabled">
-                                <fmt:parseDate value="${anexo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
-                                <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
-                                <a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=anexo&anexo=${anexo.codArquivo}" target="_blank">(${dataAditivo}) ${anexo.titulo}</a>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
-              </c:if>
-            </div>
+	                <div class="card" >
+	                    <div class="card-body">
+	                        <h2 style="font-size: 15px; font-weight: bold;" class="text-center">ANEXOS</h2>
+	                    </div>
+	                    <ul class="list-group list-group-flush">
+	                        <c:forEach var="anexo" items="${selecao.anexos}">
+	                            <li class="list-group-item disabled">
+	                                <fmt:parseDate value="${anexo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
+	                                <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
+	                                <a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=anexo&anexo=${anexo.codArquivo}" target="_blank">(${dataAditivo}) ${anexo.titulo}</a>
+	                            </li>
+	                        </c:forEach>
+	                    </ul>
+	                </div>
+              	</c:if>
+           	 </div>
         </div>
         </div>
         <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  

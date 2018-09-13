@@ -87,10 +87,11 @@
                                 
                             </div>
                             <h3 class="card-subtitle mb-2 text-muted">
-                                ${selecao.inscricao.titulo} - 
-                                <b>${selecao.inscricao.periodo.dataInicio}</b>
+                            <c:set var = "codSelecao" value = "${selecao.codSelecao + 0}"/>
+                                <c:out value="${etapasAtuais[codSelecao+0].titulo}" /> - 
+                                <b>${etapasAtuais[codSelecao].periodo.dataInicio}</b>
                                 até 
-                                <b>${selecao.inscricao.periodo.dataTermino}</b>
+                                <b>${etapasAtuais[codSelecao].periodo.dataTermino}</b>
                             </h3>
                             <p class="card-text text-justify">
                                 ${fn:substring(selecao.descricao, 0, 400)}

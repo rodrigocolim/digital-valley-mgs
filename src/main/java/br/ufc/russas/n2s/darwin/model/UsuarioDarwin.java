@@ -26,7 +26,7 @@ import org.hibernate.annotations.FetchMode;
 
 /**
  *
- * @author Lavínia Matoso
+ * @author Gilberto, Wallison
  */
 @Entity
 @Table(name="usuario")
@@ -51,8 +51,8 @@ public class UsuarioDarwin {
     public void setCodUsuario(long codUsuario) {
         if(codUsuario>0)
             this.codUsuario = codUsuario;
-        else
-            throw new IllegalCodeException("Código de usuário deve ser maior de zero!");
+
+            //throw new IllegalCodeException("Código de usuário deve ser maior de zero!");
     }
 
     public List<EnumPermissao> getPermissoes() {
@@ -79,21 +79,31 @@ public class UsuarioDarwin {
         this.nome = nome;
     }
     
-    public UsuarioDarwin adicionaNivel(UsuarioDarwin usuario, EnumPermissao permisao) throws IllegalAccessException{
-        if (!usuario.getPermissoes().contains(permisao)) {
-            usuario.getPermissoes().add(permisao);
+    public UsuarioDarwin adicionaNivel(UsuarioDarwin usuario, EnumPermissao permissao) throws IllegalAccessException{
+        if (!usuario.getPermissoes().contains(permissao)) {
+            usuario.getPermissoes().add(permissao);
             return usuario;
         } else {
-            throw new IllegalArgumentException("Usuário já possui a permição de ".concat(permisao.toString()));
+            throw new IllegalArgumentException("O Usuário "+usuario.getNome()+" já possui a permissão de ".concat(permissao.toString()));
         }
     }
     
-    public UsuarioDarwin removeNivel(UsuarioDarwin usuario, EnumPermissao permisao) throws IllegalAccessException{
-        if (usuario.getPermissoes().contains(permisao)) {
-            usuario.getPermissoes().remove(permisao);
+    public UsuarioDarwin atualizaNiveis(UsuarioDarwin usuario, List<EnumPermissao> permissoes) throws IllegalAccessException{
+        if (usuario!= null && permissoes!= null) {
+            usuario.setPermissoes(permissoes);
             return usuario;
         } else {
-            throw new IllegalArgumentException("Usuário não possui a permição de ".concat(permisao.toString()));
+            throw new IllegalArgumentException("Erro ao tentar atualizar as permissões do usuário");
+        }
+    }
+    
+   
+    public UsuarioDarwin removeNivel(UsuarioDarwin usuario, EnumPermissao permissao) throws IllegalAccessException{
+        if (usuario.getPermissoes().contains(permissao)) {
+            usuario.getPermissoes().remove(permissao);
+            return usuario;
+        } else {
+            throw new IllegalArgumentException("O Usuário "+usuario.getNome()+" não possui a permissão de ".concat(permissao.toString()));
         }
     }
     

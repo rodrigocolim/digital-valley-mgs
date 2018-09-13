@@ -8,7 +8,6 @@ package br.ufc.russas.n2s.darwin.service;
 import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
-import br.ufc.russas.n2s.darwin.beans.InscricaoBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
@@ -22,10 +21,8 @@ public interface EtapaServiceIfc extends ServiceIfc{
     EtapaBeans adicionaEtapa(SelecaoBeans selecao, EtapaBeans etapa) throws IllegalAccessException;
     EtapaBeans atualizaEtapa(SelecaoBeans selecao, EtapaBeans etapa) throws IllegalAccessException;
     void removeEtapa(EtapaBeans etapa);
-    void removeInscricao(InscricaoBeans etapa);
     List<EtapaBeans> listaTodasEtapas();
     EtapaBeans getEtapa(long codEtapa);
-    InscricaoBeans getInscricao(long codInscricao);
     boolean isParticipante(ParticipanteBeans participante);
     boolean isParticipante(UsuarioBeans participante);
     ParticipanteBeans getParticipante(EtapaBeans etapa, UsuarioBeans usuario);
@@ -34,8 +31,8 @@ public interface EtapaServiceIfc extends ServiceIfc{
     List<Object[]> getParticipantes(EtapaBeans etapa);
     List<Object[]> getAprovados(EtapaBeans etapa);
     SelecaoBeans getSelecao(EtapaBeans etapa);
-    void participa(InscricaoBeans inscricao, ParticipanteBeans participante) throws IllegalAccessException;
-    void participa(InscricaoBeans inscricao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException; 
+    void participa(EtapaBeans inscricao, ParticipanteBeans participante) throws IllegalAccessException;
+    void participa(EtapaBeans inscricao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException; 
     Object[] getSituacao(EtapaBeans etapa, UsuarioBeans usuario);
     List<EtapaBeans> ordenaEtapasPorData(List<EtapaBeans> etapas);
 }

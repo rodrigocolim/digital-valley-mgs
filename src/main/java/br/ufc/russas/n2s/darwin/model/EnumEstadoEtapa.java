@@ -28,7 +28,8 @@ public enum EnumEstadoEtapa implements EstadoEtapa{
         public EnumEstadoEtapa execute(Etapa etapa){
             if((etapa.getPeriodo().getInicio().isBefore(LocalDate.now()) || etapa.getPeriodo().getInicio().isEqual(LocalDate.now()))
                     && (etapa.getPeriodo().getTermino().isAfter(LocalDate.now())) || etapa.getPeriodo().getTermino().equals(LocalDate.now())){
-                return this;
+                etapa.listParticipantes();
+            	return this;
             }else{
                 return FINALIZADA.execute(etapa);
             }

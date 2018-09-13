@@ -1,3 +1,5 @@
+
+/*
 package util;
 
 import static org.junit.Assert.assertTrue;
@@ -86,10 +88,11 @@ public class TesteLogin {
 	}
 	
 	
-	/*
-	@After
-	public void finaliza() {
-		driver.quit();
-	}
-	*/
+	
+	//@After
+	//public void finaliza() {
+	//	driver.quit();
+	//}
+	
 }
+*/

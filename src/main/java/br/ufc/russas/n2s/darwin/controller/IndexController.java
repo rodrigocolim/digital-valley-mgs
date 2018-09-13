@@ -14,6 +14,7 @@ import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import util.Constantes;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -51,13 +52,14 @@ public class IndexController {
     @RequestMapping(method = RequestMethod.GET)
     public String getIndex(Model model) {
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaTodasSelecoes();
-        HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
+        HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
-            etapasAtuais.put(s, this.getSelecaoServiceIfc().getEtapaAtual(s));
+            etapasAtuais.put(s.getCodSelecao(), this.getSelecaoServiceIfc().getEtapaAtual(s));
         }
         model.addAttribute("categoria", "Início");
         model.addAttribute("estado", "início");
-        model.addAttribute("selecoes", selecoes);        
+        model.addAttribute("selecoes", selecoes); 
+        model.addAttribute("agora", LocalDate.now());
         model.addAttribute("etapasAtuais", etapasAtuais);        
         return "index";
     }
@@ -118,6 +120,8 @@ public class IndexController {
         }
         model.addAttribute("categoria", "Minhas seleções");
         model.addAttribute("selecoes", selecoes);
+        model.addAttribute("agora", LocalDate.now());
+        LocalDate.now().toEpochDay();
         model.addAttribute("etapasAtuais", etapasAtuais);
         return "index";
     }

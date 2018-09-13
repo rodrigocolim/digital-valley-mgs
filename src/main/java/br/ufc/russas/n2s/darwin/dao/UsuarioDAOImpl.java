@@ -5,16 +5,18 @@
  */
 package br.ufc.russas.n2s.darwin.dao;
 
-import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
-import model.Usuario;
-
 import java.util.List;
+
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 
 /**
  *
@@ -75,9 +77,16 @@ public class UsuarioDAOImpl implements UsuarioDAOIfc{
     	Session session = this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         try {
-        	String busca  = "from Usuario where lower(nome) = lower('%"+nome+"%')";
-            List<UsuarioDarwin> usuarios = (List<UsuarioDarwin>) session.createQuery(busca).list();
-            t.commit();
+            List<UsuarioDarwin> usuarios;
+            System.out.println("\n\n ESTE é o nome :"+nome);
+            Criteria c = session.createCriteria(UsuarioDarwin.class);
+        	c.add(Restrictions.ilike("nome", "%"+nome+"%"));
+        	c.addOrder(Order.asc("nome"));
+        	usuarios = (List<UsuarioDarwin>) c.list();
+        	
+        	for (UsuarioDarwin usuarioDarwin : usuarios) {
+				System.out.println(usuarioDarwin.getNome());
+			}
             return usuarios;
         } catch(RuntimeException e) {
             t.rollback();

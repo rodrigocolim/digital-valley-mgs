@@ -107,6 +107,14 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
         usuario  = (UsuarioBeans) usuario.toBeans(up.adicionaNivel((UsuarioDarwin)usuario.toBusiness(), permissao));
         atualizaUsuario(usuario);
     }
+    
+    @Override
+    public void atualizaNiveis(UsuarioBeans usuario, List<EnumPermissao> permissoes) throws IllegalAccessException {
+        UsuarioDarwin u = (UsuarioDarwin) this.usuario.toBusiness();
+        UsuarioDarwinProxy up = new UsuarioDarwinProxy(u);
+        usuario  = (UsuarioBeans) usuario.toBeans(up.atualizaNiveis((UsuarioDarwin)usuario.toBusiness(), permissoes));
+        atualizaUsuario(usuario);
+    }
 
     @Override
     public void removeNivel(UsuarioBeans usuario, EnumPermissao permissao) throws IllegalAccessException {

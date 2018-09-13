@@ -5,6 +5,8 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import java.util.List;
+
 /**
  *
  * @author Wallison Carlos
@@ -36,6 +38,17 @@ public class UsuarioDarwinProxy extends UsuarioDarwin{
             throw new IllegalAccessException("Você não é um administrador do Darwin!");
         }
     }
+    
+    @Override
+    public UsuarioDarwin atualizaNiveis(UsuarioDarwin usuario, List<EnumPermissao> permissoes) throws IllegalAccessException{
+        if (getUsuario().getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+        	permissoes.add(EnumPermissao.PARTICIPANTE);
+            return super.atualizaNiveis(usuario, permissoes);
+        } else {
+            throw new IllegalAccessException("Você não é um administrador do Darwin!");
+        }
+    }
+    
     
     @Override
     public UsuarioDarwin removeNivel(UsuarioDarwin usuario, EnumPermissao permissao) throws IllegalAccessException{

@@ -43,6 +43,7 @@
     <bean name="daoImpl"  class = "br.ufc.russas.n2s.darwin.dao.DAOImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
+    
     <bean name="selecaoDAOIfc"  class = "br.ufc.russas.n2s.darwin.dao.SelecaoDAOImpl" />
     <bean name="usuarioDAOIfc"  class = "br.ufc.russas.n2s.darwin.dao.UsuarioDAOImpl" />
     <bean name="avaliacaoDAOIfc"  class = "br.ufc.russas.n2s.darwin.dao.AvaliacaoDAOImpl" />

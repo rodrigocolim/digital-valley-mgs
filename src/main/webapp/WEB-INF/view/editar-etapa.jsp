@@ -59,7 +59,7 @@
                         <label for="descricaoInput"><input type="checkbox" onclick="habilitaEdicao('descricaoInput')"> Descrição*</label>
                         <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" value="${etapa.descricao}" readonly="true" required>${etapa.descricao}</textarea>
                         <c:if test="${tipo eq 'etapa'}">
-                            <c:if test="${not empty selecao.inscricao}">
+                            <c:if test="${not empty selecao.inscricao}"> <br>
                         <label for="etapaAnteriorInput">Etapa anterior*</label>
                         <select name="prerequisito" class="form-control col-md-8"  id="etapaAnteriorInput" required>
                             <option value="0" selected="selected" disabled="disabled">Selecione a etapa anterior a esta</option>
@@ -134,12 +134,12 @@
                                 <div class="form-row">
                                     <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px" readonly="true">
                                         <option selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
-                                        <c:forEach items="${avaliadores}" var="avaliador">
-                                            <option id="avaliadorOption-${avaliador.nome}" value="${avaliador.codUsuario}-${avaliador.nome}">${avaliador.nome}</option>
+                                        <c:forEach items="${usuarios}" var="usuario">
+                                            <option id="avaliadorOption-${usuario.nome}" value="${usuario.codUsuario}-${usuario.nome}">${usuario.nome}</option>
                                         </c:forEach>
                                     </select>
                                     &nbsp;&nbsp;
-                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar">                            
+                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar"/>                            
                                 </div>
                                 <br>
                                  <ul class="list-group col-md-8" id="listaAvaliadores"> 
@@ -149,7 +149,6 @@
                                             ${avaliador.nome}
                                             <button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador('${avaliador.nome}')">clear</button>
                                         </li>    
-                                       
                                     </c:forEach>
                                  </ul> 
                                 <br>
@@ -196,7 +195,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js" ></script>
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.pt-BR.min.js" ></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
-    <script src="${pageContext.request.contextPath}/resources/js/scriptEditarEtapa.js" ></script>
+   <!--   <script src="${pageContext.request.contextPath}/resources/js/scriptEditarEtapa.js" ></script>  -->
     <script type="text/javascript">
     $('#sandbox-container .input-daterange').datepicker({
         format: "dd/mm/yyyy",
@@ -216,7 +215,54 @@
     }
     </script>
     <script>
-
+    var listaAvaliadores = ${etapa.avaliadores};
+    var codAvaliadores = [];
+    var numAvaliadores = 0;
+    
+    $(document).ready(function() { 
+    	for (i=0;i < listaAvaliadores.length;i++) {
+    		var nomeAvaliador = listaAvaliadores[i].nome;
+    		document.getElementById("avaliadorOption-"+nomeAvaliador+"").disabled = "disabled";
+    		codAvaliadores[i] = listaAvaliadores[i].nome.substring(0, avaliadorInput.indexOf("-"));
+    		numAvaliadores++;
+    	}
+    });
+    
+    function adicionaAvaliador(){
+      var avaliadorInput = document.getElementById("avaliadorInput").value;
+      var nomeAvaliador = avaliadorInput.substring(avaliadorInput.indexOf("-") + 1, avaliadorInput.lenght);
+      var codAvaliador = avaliadorInput.substring(0, avaliadorInput.indexOf("-"));
+      if(nomeAvaliador !== ""){
+          listaAvaliadores[numAvaliadores] = nomeAvaliador;
+          codAvaliadores[numAvaliadores] = codAvaliador;
+          document.getElementById("avaliadorOption-"+nomeAvaliador+"").disabled = "disabled";
+          numAvaliadores++;
+      }
+      document.getElementById("avaliadorInput").value = "";
+      atualizaAvaliadores();
+      
+    }
+    function atualizaAvaliadores(){
+    	alert("teste");
+        var list = document.getElementById("listaAvaliadores");
+        list.innerHTML = "";
+        for(i = 0;i < listaAvaliadores.length;i++){
+          if(listaAvaliadores[i] !== ""){
+              list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codAvaliadores" value="'+codAvaliadores[i]+'" style="display: none;"> '+ listaAvaliadores[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(\''+listaAvaliadores[i]+'\')">clear</button></li>';
+          }
+        }
+    }
+    function removeAvaliador(codAvaliador){
+        for(i = 0;i < listaAvaliadores.length;i++){
+            if(listaAvaliadores[i] === codAvaliador){
+                document.getElementById("avaliadorOption-"+codAvaliador+"").disabled = "";
+                listaAvaliadores[i] = "";
+                codAvaliadores[i] = "";
+                
+            }
+        }
+        atualizaAvaliadores();
+    }
     </script>
 
 </body>

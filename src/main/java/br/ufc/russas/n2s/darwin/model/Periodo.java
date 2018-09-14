@@ -5,11 +5,11 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
-import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.sql.Date;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 import javax.persistence.AttributeConverter;
 import javax.persistence.Column;
 import javax.persistence.Converter;
@@ -18,6 +18,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 
 
 /**

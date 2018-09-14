@@ -49,7 +49,7 @@
                     <form method="POST" action="/Darwin/cadastrarEtapa/${selecao.codSelecao}" accept-charset="UTF-8" id="needs-validation" novalidate>
                     </c:if>
                     <c:if test="${empty selecao.inscricao}">
-                    <form method="POST" action="/Darwin/cadastrarEtapa/inscricao/${selecao.codSelecao}" accept-charset="UTF-8"  id="needs-validation" novalidate>
+                    <form id="form" method="POST" action="/Darwin/cadastrarEtapa/inscricao/${selecao.codSelecao}" accept-charset="UTF-8"  id="needs-validation" novalidate>
                     </c:if>    
                         <label for="tituloInput">Titulo*</label>
                         <input type="text" name="titulo" value="${empty selecao.inscricao ? 'Inscrição': ''}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" ${empty selecao.inscricao ? 'readonly': ''} required>
@@ -144,7 +144,7 @@
                                 <br>
                                 <label for="AvaliadoresInput">Avaliadores*</label>                           
                                 <div class="form-row">
-                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px">
+                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px" disabled>
                                         <option value="" selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
                                         <c:forEach items="${avaliadores}" var="avaliador">
                                             <option id="avaliadorOption-${avaliador.nome}" value="${avaliador.codUsuario}-${avaliador.nome}">${avaliador.nome}</option>
@@ -202,6 +202,11 @@
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
     <script>
 
+    function habilitaEdicao(){
+  	  document.getElementById('avaliadorInput').disabled = false;
+       
+    }
+    
     var datas = [];
     <c:forEach var="etapa" items="${selecao.etapas}">
         <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
@@ -224,6 +229,7 @@
         $("#sandbox-container .input-daterange").datepicker("startDate", document.getElementById('dataTerminoEtapaAnt-'+$(this).val()).value);
       });
     });
+    
 
     function getListaAvaliadores() {
         ordenaLista();
@@ -340,6 +346,9 @@
       }
 
       function  atualizaCampoNotaMinima(){
+    	  if (document.getElementById("criterioInput").value === '1' || document.getElementById("criterioInput").value === '2' || document.getElementById("criterioInput").value === '3') {
+         	 document.getElementById('avaliadorInput').disabled = false;
+          } 
           if(document.getElementById("criterioInput").value === '1'){
               adicionaCampoNotaMinima();
           }else{
@@ -348,12 +357,13 @@
       }
       function adicionaCampoNotaMinima(){
          if(document.getElementById("criterioInput").value === '1'){
-            document.getElementById("campoNotaMinima").innerHTML = "Nota mínima: <input type='text' name='notaMinima' style='width: 150px' class='form-control' placeholder='Nota miníma requerida' required>";
-        }
+             document.getElementById("campoNotaMinima").innerHTML = "Nota mínima: <input type='text' name='notaMinima' style='width: 150px' class='form-control' placeholder='Nota miníma requerida' required>";
+         }
     }
       function removeCampoNotaMinima(){
           document.getElementById("campoNotaMinima").innerHTML = "";
       }
+      
     </script>
 </body>
 </html>

@@ -5,18 +5,14 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
-import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -25,19 +21,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import br.ufc.russas.n2s.darwin.model.Participante;
 
 /**
- *
  * @author Wallison Carlos, Gilberto Lima
  */
 @Entity
@@ -258,6 +251,9 @@ public class Etapa implements Serializable, Atualizavel {
 	public void setPrerequisito(Etapa prerequisito) throws IllegalArgumentException {
 		if (prerequisito != null && prerequisito.getPeriodo().isAntes(this.getPeriodo())) {
 			this.prerequisito = prerequisito;
+		} else {
+			throw new IllegalArgumentException(
+					"A etapa " + prerequisito.getTitulo() +" não pode ser pré-requisito da etapa " + this.getTitulo() + " pois não ocorre antes!");
 		}
 	}
 
@@ -478,4 +474,6 @@ public class Etapa implements Serializable, Atualizavel {
 	public void atualiza() {
 		// Chama o dao atualiza etapa
 	}
+	
+	
 }

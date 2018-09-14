@@ -57,7 +57,17 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
 
     @Override
     public List<UsuarioBeans> listaTodosUsuarios() {
-        List<UsuarioDarwin> result = this.getUsuarioDAOIfc().listaUsuarios(new UsuarioDarwin());
+        List<UsuarioDarwin> result = this.getUsuarioDAOIfc().ListaEmOdermAlfabetica();
+        List<UsuarioBeans> usuarios = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
+        for(UsuarioDarwin usuario : result){
+            usuarios.add((UsuarioBeans) new UsuarioBeans().toBeans(usuario));
+        }
+        return usuarios;
+    }
+    
+    @Override
+    public List<UsuarioBeans> BuscaUsuariosPorNome(String nome) {
+        List<UsuarioDarwin> result = this.getUsuarioDAOIfc().BuscaUsuariosPorNome(nome);
         List<UsuarioBeans> usuarios = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
         for(UsuarioDarwin usuario : result){
             usuarios.add((UsuarioBeans) new UsuarioBeans().toBeans(usuario));
@@ -69,7 +79,7 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
     public UsuarioBeans getUsuario(long codUsuario, long codUsuarioControleDeAcesso) {
         UsuarioDarwin usuario = new UsuarioDarwin();
         usuario.setCodUsuario(codUsuario);
-        usuario.setCodUsuarioControleDeAcesso(codUsuarioControleDeAcesso);
+        //usuario.setCodUsuarioControleDeAcesso(codUsuarioControleDeAcesso);
         UsuarioDarwin u = this.getUsuarioDAOIfc().getUsuario(usuario);
         if(u != null){
             return (UsuarioBeans) new UsuarioBeans().toBeans(u);
@@ -95,6 +105,14 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
         UsuarioDarwin u = (UsuarioDarwin) this.usuario.toBusiness();
         UsuarioDarwinProxy up = new UsuarioDarwinProxy(u);
         usuario  = (UsuarioBeans) usuario.toBeans(up.adicionaNivel((UsuarioDarwin)usuario.toBusiness(), permissao));
+        atualizaUsuario(usuario);
+    }
+    
+    @Override
+    public void atualizaNiveis(UsuarioBeans usuario, List<EnumPermissao> permissoes) throws IllegalAccessException {
+        UsuarioDarwin u = (UsuarioDarwin) this.usuario.toBusiness();
+        UsuarioDarwinProxy up = new UsuarioDarwinProxy(u);
+        usuario  = (UsuarioBeans) usuario.toBeans(up.atualizaNiveis((UsuarioDarwin)usuario.toBusiness(), permissoes));
         atualizaUsuario(usuario);
     }
 

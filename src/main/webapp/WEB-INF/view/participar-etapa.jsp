@@ -45,6 +45,12 @@
                     <c:set scope="session" var="status" value=""></c:set>
                 </c:if>               
                 <h1>Enviar documentação</h1>
+                
+                <c:if test="${empty etapa.documentacaoExigida}">
+                <p>Atenção: esta seleção não solicita nehuma documentação para ser enviada!</p>
+                <br>
+                </c:if>
+                <c:if test="${not empty etapa.documentacaoExigida}">
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 <br>
                 <div class="form-group">
@@ -86,6 +92,7 @@
                         </div>
                     </form>
                 </div>
+                </c:if>
             </div>
         </div>
     </div>

@@ -5,6 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.dao;
 
+import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
@@ -61,6 +62,8 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     public Selecao getSelecao(Selecao selecao) {
         return this.daoImpl.getObject(selecao, selecao.getCodSelecao());
     }
+    
+    
     
     /*    @Override
     public List<Selecao> getMinhasSelecoes(UsuarioDarwin responsavel){

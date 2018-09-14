@@ -29,10 +29,9 @@ import util.Constantes;
 
 
 public class Facade {
-	
-	
-	
+
 	public static String gerarPDFDosResultados(EtapaBeans etapa, List<Object[]> resultado, String nomeSelecao) {
+
 		try {
 			Document document = new Document();
 			String name = Constantes.getDocumentsDir()+File.separator+"Seleção_"+nomeSelecao+File.separator+
@@ -41,8 +40,7 @@ public class Facade {
 			//		"RESULTADO_"+nomeSelecao+"_ETAPA"+"_"+etapa.getTitulo()+LocalDateTime.now().format(DateTimeFormatter.ofPattern("ddMMyyyyhhmmss")) +".pdf"));
 			PdfWriter.getInstance(document, new FileOutputStream(name));
 			document.open();
-			
-			Image image = Image.getInstance(Constantes.getDocumentsDir());
+			Image image = Image.getInstance(Constantes.getLOGO_UFC());
 			//Image image = Image.getInstance(Constantes.getLOGO_UFC());
 			image.setAlignment(Image.MIDDLE);
 			image.scaleAbsoluteWidth(50);

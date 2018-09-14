@@ -45,7 +45,7 @@
                 </c:if>                   
                     <div class="row">
                         <h1 class="col-sm-8">Gerenciar Permissões</h1>
-                        <form class="form-inline">
+                        <form class="form-inline" action="/Darwin/permissoes/busca" method="get">
                             <input class="form-control" style="width: 250px;" type="search" name="nomeUsuario" placeholder="Nome do usuário">&nbsp;
                             <button class="btn btn-sm btn-primary" type="submit">Procurar</button>
                         </form>
@@ -55,7 +55,7 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center" scope="col">Usuário</th>
-                                <th class="text-center" scope="col">Participante</th>
+                            <!--     <th class="text-center" scope="col">Participante</th>  -->
                                 <th class="text-center" scope="col">Avaliador</th>
                                 <th class="text-center" scope="col">Responsável</th>
                                 <th class="text-center" scope="col">Administrador</th>
@@ -70,9 +70,9 @@
                                 <form method="POST" id="permissaoUser-${usuario.codUsuario}" action="/Darwin/permissoes/atualizar" enctype="multipart/form-data">
                                     <input type="hidden" value="${usuario.codUsuario}" name="codUsuario"/>
                                     <th  scope="row">${usuario.nome}</th>
-                                    <td>
+                           <!--            <td>
                                         <center><input class="form-check-input" type="checkbox" value="1" name="codPermissao" onclick="submeteAtualizacaoDePermissao('permissaoUser-${usuario.codUsuario}')" ${(fn:contains(permissoes, 'PARTICIPANTE') ? 'checked': '')}/></center>
-                         	       </td>
+                         	       </td> -->
                                     <td>
                                         <center><input class="form-check-input" type="checkbox" value="2" name="codPermissao" onclick="submeteAtualizacaoDePermissao('permissaoUser-${usuario.codUsuario}')" ${(fn:contains(permissoes, 'AVALIADOR') ? 'checked': '')}/></center>
               	                   </td>
@@ -109,11 +109,11 @@
       var listaPermissoes = [];
       var codPermissoes = [];
       var numPermissoes = 0;
-      function adicionaPermissao(){
+      function adicionaPermissao() {
         var PermissaoInput = document.getElementById("PermissaoInput").value;
         var nomePermissao = PermissaoInput.substring(PermissaoInput.indexOf("-") + 1, PermissaoInput.lenght);
         var codPermissao = PermissaoInput.substring(0, PermissaoInput.indexOf("-"));
-        if(nomePermissao !== ""){
+        if (nomePermissao !== "") {
             listaPermissoes[numPermissoes] = nomePermissao;
             codPermissoes[numPermissoes] = codPermissao;
             document.getElementById("PermissaoOption-"+codPermissao+"").disabled = "disabled";
@@ -123,18 +123,18 @@
         atualizaPermissoes();
         
       }
-      function atualizaPermissoes(){
+      function atualizaPermissoes() {
           var list = document.getElementById("listaPermissoes");
           list.innerHTML = "";
-          for(i = 0;i < listaPermissoes.length;i++){
-            if(listaPermissoes[i] !== ""){
+          for (i = 0;i < listaPermissoes.length;i++) {
+            if (listaPermissoes[i] !== "") { 
                 list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codPermissoes" value="'+codPermissoes[i]+'" style="display: none;"> '+ listaPermissoes[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removePermissao(\''+listaPermissoes[i]+'\')">clear</button></li>';
             }
           }
       }
       function removePermissao(codPermissao){
-          for(i = 0;i < listaPermissoes.length;i++){
-              if(listaPermissoes[i] === codPermissao){
+          for (i = 0;i < listaPermissoes.length;i++) {
+              if(listaPermissoes[i] === codPermissao) {
                   document.getElementById("PermissaoOption-"+codPermissao+"").disabled = "";
                   listaPermissoes[i] = "";
                   codPermissoes[i] = "";

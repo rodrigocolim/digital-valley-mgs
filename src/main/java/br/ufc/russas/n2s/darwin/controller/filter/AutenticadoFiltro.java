@@ -78,6 +78,7 @@ public class AutenticadoFiltro implements Filter {
                                         ArrayList<EnumPermissao> permissoes = new ArrayList<>();
                                         permissoes.add(EnumPermissao.PARTICIPANTE);
                                         u.setPermissoes(permissoes);
+                                        u.setEmail(user.getEmail());
                                         this.getUsuarioServiceIfc().adicionaUsuario(u);
                                     }
                                     session.setAttribute("usuarioDarwin", this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(user.getId()));

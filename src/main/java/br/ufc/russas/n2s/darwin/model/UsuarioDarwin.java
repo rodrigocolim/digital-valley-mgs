@@ -38,6 +38,7 @@ public class UsuarioDarwin {
     @Column(name = "codUsuarioControleDeAcesso")
     private long codUsuarioControleDeAcesso;
     private String nome;
+    private String email;
     @Column
     @Enumerated
     @ElementCollection(targetClass = EnumPermissao.class, fetch = FetchType.EAGER)
@@ -77,6 +78,18 @@ public class UsuarioDarwin {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+    
+    public String getEmail() {
+    	return this.email;
+    }
+    
+    public void setEmail(String email) {
+    	if (email != null) {
+    		this.email = email;
+    	} else {
+    		throw new NullPointerException("E-mail não pode ser vazio!");
+    	}
     }
     
     public UsuarioDarwin adicionaNivel(UsuarioDarwin usuario, EnumPermissao permisao) throws IllegalAccessException{

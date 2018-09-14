@@ -18,6 +18,7 @@ public class UsuarioBeans implements Beans{
     private long codUsuario;
     private long codUsuarioControleDeAcesso;
     private String nome;
+    private String email;
     private List<EnumPermissao> permissoes;
 
     public long getCodUsuario() {
@@ -51,8 +52,14 @@ public class UsuarioBeans implements Beans{
     public void setNome(String nome) {
         this.nome = nome;
     }
-        
     
+    public String getEmail() {
+    	return this.email;
+    }
+        
+    public void setEmail(String email) {
+    	this.email = email;
+    }
     
     @Override
     public Object toBusiness() {
@@ -64,6 +71,7 @@ public class UsuarioBeans implements Beans{
             usuario.setCodUsuarioControleDeAcesso(this.getCodUsuarioControleDeAcesso());
         }
         usuario.setNome(this.getNome());
+        usuario.setEmail(this.getEmail());
         usuario.setPermissoes(this.getPermissoes());
         return usuario;
     }
@@ -77,6 +85,7 @@ public class UsuarioBeans implements Beans{
                 this.setPermissoes(usuario.getPermissoes());
                 this.setCodUsuarioControleDeAcesso(usuario.getCodUsuarioControleDeAcesso());
                 this.setNome(usuario.getNome());
+                this.setEmail(usuario.getEmail());
                 return this;
             }else{
                 throw new IllegalArgumentException("Isso não é um usuário!");

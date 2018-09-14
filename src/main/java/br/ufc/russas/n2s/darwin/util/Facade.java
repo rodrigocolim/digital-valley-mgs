@@ -28,9 +28,7 @@ import util.Constantes;
 
 
 public class Facade {
-	
-	
-	
+
 	public static String gerarPDFDosResultados(EtapaBeans etapa, List<ParticipanteBeans> participantes, String nomeSelecao) {
 		try {
 			Document document = new Document();

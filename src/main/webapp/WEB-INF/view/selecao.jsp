@@ -1,7 +1,7 @@
+<%@page import="br.ufc.russas.n2s.darwin.beans.SelecaoBeans"%>
+<%@page import="java.time.LocalDate"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="br.ufc.russas.n2s.darwin.beans.SelecaoBeans" %>
-<%@ page import="java.time.LocalDate"%>
-<%@ page import="util.Constantes"%>
+<%@page import="util.Constantes"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
@@ -136,7 +136,6 @@
                     <hr/>
                 </p>
                 <br/>
-                <!-- <c:if test="${(not empty selecao.etapas) or (not empty selecao.inscricao)}"> -->
                     <c:if test="${(not empty selecao.etapas) or (not empty selecao.inscricao)}">
                         <ul class="timeline">
                             <c:if test="${not empty selecao.inscricao}">

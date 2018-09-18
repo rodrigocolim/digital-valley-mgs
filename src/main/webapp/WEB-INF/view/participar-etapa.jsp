@@ -47,11 +47,12 @@
                 <h1>Enviar documentação</h1>
                 
                 <c:if test="${empty etapa.documentacaoExigida}">
-                <p>Atenção: esta seleção não solicita nehuma documentação para ser enviada!</p>
+                <p>Atenção: esta seleção não solicita nenhuma documentação para ser enviada! Por favor, apenas confirme sua inscrição.</p>
                 <br>
                 </c:if>
                 <c:if test="${not empty etapa.documentacaoExigida}">
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
+                </c:if>
                 <br>
                 <div class="form-group">
                     <form method="POST" action="" enctype="multipart/form-data">
@@ -65,6 +66,7 @@
                         <br>
                         <c:set var = "i" value = "${i + 1}"/>
                     </c:forEach>
+                    
                         <a href="/Darwin/selecao/${selecao.codSelecao}" class="btn btn-secondary btn-sm">
                             Cancelar
                         </a>
@@ -92,7 +94,7 @@
                         </div>
                     </form>
                 </div>
-                </c:if>
+              
             </div>
         </div>
     </div>

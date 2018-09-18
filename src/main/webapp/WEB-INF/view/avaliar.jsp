@@ -42,6 +42,9 @@
                     </div>
                 </c:if>                           
                     <h1>Avaliar participantes</h1>
+                    <c:if test="${empty participantesEtapa}">
+                    	<p class="text-muted">Esta etapa ainda não possui candidatos cadastrados!</p>
+                       </c:if>
                     <br>
                     <table class="table table-responsive">
                         <thead>
@@ -51,106 +54,109 @@
                                 <th scope="col">Opção</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <c:forEach var="participante" items="${participantesEtapa}">
-                            <c:set var = "avaliado" value = "${false}"/>
-                            <c:set var = "avaliacaoParticipante" value = "${null}"/>
-                            <tr>
-                                <td>${participante.candidato.nome}</td>
-                                <c:if test="${not empty etapa.avaliacoes}">
-                                    <c:forEach var="avaliacao" items="${etapa.avaliacoes}">
-                                            <c:if test="${(avaliacao.participante.codParticipante == participante.codParticipante) and (avaliacao.avaliador.codUsuario == avaliador.codUsuario)}">
-                                                <c:set var = "avaliacaoParticipante" value = "${avaliacao}"/>
-                                                <td>${avaliacao.estado}</td>
-                                                <c:if test="${avaliacao.estado == 'PENDENTE'}">
-                                                    <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#avaliar${participante.candidato.codUsuario}">Avaliar</button></td>
-                                                    <c:set var = "avaliado" value = "${false}"/>
-                                                </c:if>
-                                                <c:if test="${avaliacao.estado != 'PENDENTE'}">
-                                                    <c:set var = "avaliado" value = "${true}"/>
-                                                    <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#avaliar${participante.candidato.codUsuario}">Ver Avaliação</button></td>
-                                                </c:if>
-                                            </c:if>
-                                   </c:forEach>
-                                </c:if>
-                                    <c:if test="${empty etapa.avaliacoes}">
-                                        <c:set var = "avaliado" value = "${false}"/>
-                                        <td>Pendente</td>
-                                        <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#avaliar${participante.candidato.codUsuario}">Avaliar</button></td>
-                                    </c:if>    
-                                
-                            </tr>
-                            <div class="modal fade" id="avaliar${participante.candidato.codUsuario}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <form action="" method="post" accept-charset="UTF-8">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="modalLabel">${avaliado ? "Avaliação Candidato" : "Avaliar Candidato"}</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-
-                                        <div class="modal-body">
-
-                                                <input type="hidden" name="participante" value="${participante.codParticipante}">
-                                                <div class="form-group">
-                                                    <label for="recipient-name" class="form-control-label">Documentação:</label>
-                                                    <c:forEach var="documentacao" items="${etapa.documentacoes}">
-                                                        <c:if test="${documentacao.candidato.codParticipante == participante.codParticipante}">
-                                                            <c:forEach var="documento" items="${documentacao.documentos}">
-                                                    <p><b>${documento.titulo}:</b><a href="/Darwin/visualizarDocumentacao?selecao=${selecao.codSelecao}&etapa=${etapa.codEtapa}&documento=${documento.codArquivo}">Ver</a></p>
-                                                            </c:forEach>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="message-text" class="form-control-label">Avaliação:</label>
-                                                    <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
-                                                        <input type="number" name="nota" class="form-control col-sm-2 disabled" id="notaInput" value="${(avaliado and (not empty avaliacaoParticipante)) ? avaliacaoParticipante.nota : '0'}" min="0" max="10" ${avaliado ? "disabled='disabled'" : ""}>
-                                                    </c:if>
-                                                    <c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
-                                                        <div class="form-check form-check-inline">
-                                                            <label class="form-check-label">
-                                                                <input class="form-check-input" type="radio" name="aprovacao" id="aprovadoOpcao" value="1" > Aprovado
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <label class="form-check-label">
-                                                                <input class="form-check-input" type="radio" name="aprovacao" id="reprovadoOpcao" value="0"> Reprovado
-                                                            </label>
-                                                        </div>
-                                                    </c:if>
-                                                    <c:if test="${(etapa.criterioDeAvaliacao.criterio == 3)}">
-                                                        <div class="form-check form-check-inline">
-                                                            <label class="form-check-label">
-                                                                <input class="form-check-input" type="radio" name="deferimento" id="deferidoOpcao" value="1" ${(avaliado and (not empty avaliacaoParticipante) and avaliacaoParticipante.aprovado) ? "checked='checked'" : ""} ${avaliado ? "disabled='disabled'" : ""}> Deferido
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <label class="form-check-label">
-                                                                <input class="form-check-input" type="radio" name="deferimento" id="indeferidoOpcao" value="0" ${(avaliado and (not empty avaliacaoParticipante) and (not avaliacaoParticipante.aprovado)) ? "checked='checked'" : ""} ${avaliado ? "disabled='disabled'" : ""}> Indeferido
-                                                            </label>
-                                                        </div>
-                                                    </c:if>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="message-text" class="form-control-label">Observações:</label>
-                                                    <textarea class="form-control" id="message-text" name="observacoes" ${ avaliado ? "disabled='disabled'" : ""} value="${(avaliado and (not empty avaliacaoParticipante) and not empty avaliacaoParticipante.observacao) ? avaliacaoParticipante.observacao : ''}">${(avaliado and (not empty avaliacaoParticipante) and not empty avaliacaoParticipante.observacao) ? avaliacaoParticipante.observacao : ''}</textarea>
-                                                </div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                            <c:if test="${not avaliado}">
-                                                <button type="submit" class="btn btn-primary">Salvar</button>
-                                            </c:if>
-                                        </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </tbody>
+                        
+                        <c:if test="${not empty participantesEtapa}">
+	                        <tbody>
+	                            <c:forEach var="participante" items="${participantesEtapa}">
+	                            <c:set var = "avaliado" value = "${false}"/>
+	                            <c:set var = "avaliacaoParticipante" value = "${null}"/>
+	                            <tr>
+	                                <td>${participante.candidato.nome}</td>
+	                                <c:if test="${not empty etapa.avaliacoes}">
+	                                    <c:forEach var="avaliacao" items="${etapa.avaliacoes}">
+	                                            <c:if test="${(avaliacao.participante.codParticipante == participante.codParticipante) and (avaliacao.avaliador.codUsuario == avaliador.codUsuario)}">
+	                                                <c:set var = "avaliacaoParticipante" value = "${avaliacao}"/>
+	                                                <td>${avaliacao.estado}</td>
+	                                                <c:if test="${avaliacao.estado == 'PENDENTE'}">
+	                                                    <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#avaliar${participante.candidato.codUsuario}">Avaliar</button></td>
+	                                                    <c:set var = "avaliado" value = "${false}"/>
+	                                                </c:if>
+	                                                <c:if test="${avaliacao.estado != 'PENDENTE'}">
+	                                                    <c:set var = "avaliado" value = "${true}"/>
+	                                                    <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#avaliar${participante.candidato.codUsuario}">Ver Avaliação</button></td>
+	                                                </c:if>
+	                                            </c:if>
+	                                   </c:forEach>
+	                                </c:if>
+	                                    <c:if test="${empty etapa.avaliacoes}">
+	                                        <c:set var = "avaliado" value = "${false}"/>
+	                                        <td>Pendente</td>
+	                                        <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#avaliar${participante.candidato.codUsuario}">Avaliar</button></td>
+	                                    </c:if>    
+	                                
+	                            </tr>
+	                            <div class="modal fade" id="avaliar${participante.candidato.codUsuario}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+	                                <div class="modal-dialog" role="document">
+	                                    <div class="modal-content">
+	                                        <form action="" method="post" accept-charset="UTF-8">
+	                                        <div class="modal-header">
+	                                            <h5 class="modal-title" id="modalLabel">${avaliado ? "Avaliação Candidato" : "Avaliar Candidato"}</h5>
+	                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                                                <span aria-hidden="true">&times;</span>
+	                                            </button>
+	                                        </div>
+	
+	                                        <div class="modal-body">
+	
+	                                                <input type="hidden" name="participante" value="${participante.codParticipante}">
+	                                                <div class="form-group">
+	                                                    <label for="recipient-name" class="form-control-label">Documentação:</label>
+	                                                    <c:forEach var="documentacao" items="${etapa.documentacoes}">
+	                                                        <c:if test="${documentacao.candidato.codParticipante == participante.codParticipante}">
+	                                                            <c:forEach var="documento" items="${documentacao.documentos}">
+	                                                    <p><b>${documento.titulo}:</b><a href="/Darwin/visualizarDocumentacao?selecao=${selecao.codSelecao}&etapa=${etapa.codEtapa}&documento=${documento.codArquivo}">Ver</a></p>
+	                                                            </c:forEach>
+	                                                        </c:if>
+	                                                    </c:forEach>
+	                                                </div>
+	                                                <div class="form-group">
+	                                                    <label for="message-text" class="form-control-label">Avaliação:</label>
+	                                                    <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
+	                                                        <input type="number" name="nota" class="form-control col-sm-2 disabled" id="notaInput" value="${(avaliado and (not empty avaliacaoParticipante)) ? avaliacaoParticipante.nota : '0'}" min="0" max="10" ${avaliado ? "disabled='disabled'" : ""}>
+	                                                    </c:if>
+	                                                    <c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
+	                                                        <div class="form-check form-check-inline">
+	                                                            <label class="form-check-label">
+	                                                                <input class="form-check-input" type="radio" name="aprovacao" id="aprovadoOpcao" value="1" > Aprovado
+	                                                            </label>
+	                                                        </div>
+	                                                        <div class="form-check form-check-inline">
+	                                                            <label class="form-check-label">
+	                                                                <input class="form-check-input" type="radio" name="aprovacao" id="reprovadoOpcao" value="0"> Reprovado
+	                                                            </label>
+	                                                        </div>
+	                                                    </c:if>
+	                                                    <c:if test="${(etapa.criterioDeAvaliacao.criterio == 3)}">
+	                                                        <div class="form-check form-check-inline">
+	                                                            <label class="form-check-label">
+	                                                                <input class="form-check-input" type="radio" name="deferimento" id="deferidoOpcao" value="1" ${(avaliado and (not empty avaliacaoParticipante) and avaliacaoParticipante.aprovado) ? "checked='checked'" : ""} ${avaliado ? "disabled='disabled'" : ""}> Deferido
+	                                                            </label>
+	                                                        </div>
+	                                                        <div class="form-check form-check-inline">
+	                                                            <label class="form-check-label">
+	                                                                <input class="form-check-input" type="radio" name="deferimento" id="indeferidoOpcao" value="0" ${(avaliado and (not empty avaliacaoParticipante) and (not avaliacaoParticipante.aprovado)) ? "checked='checked'" : ""} ${avaliado ? "disabled='disabled'" : ""}> Indeferido
+	                                                            </label>
+	                                                        </div>
+	                                                    </c:if>
+	                                                </div>
+	                                                <div class="form-group">
+	                                                    <label for="message-text" class="form-control-label">Observações:</label>
+	                                                    <textarea class="form-control" id="message-text" name="observacoes" ${ avaliado ? "disabled='disabled'" : ""} value="${(avaliado and (not empty avaliacaoParticipante) and not empty avaliacaoParticipante.observacao) ? avaliacaoParticipante.observacao : ''}">${(avaliado and (not empty avaliacaoParticipante) and not empty avaliacaoParticipante.observacao) ? avaliacaoParticipante.observacao : ''}</textarea>
+	                                                </div>
+	
+	                                        </div>
+	                                        <div class="modal-footer">
+	                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+	                                            <c:if test="${not avaliado}">
+	                                                <button type="submit" class="btn btn-primary">Salvar</button>
+	                                            </c:if>
+	                                        </div>
+	                                        </form>
+	                                    </div>
+	                                </div>
+	                            </c:forEach>
+	                        </tbody>
+                        </c:if>
                     </table>
                     <a href="/Darwin/selecao/${selecao.codSelecao}" class="btn btn-secondary btn-sm">
                         Cancelar

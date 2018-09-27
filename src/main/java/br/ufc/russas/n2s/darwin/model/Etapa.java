@@ -365,10 +365,8 @@ public class Etapa implements Serializable, Atualizavel {
 	}
 
 	public Object[] getSituacao(UsuarioDarwin usuario) {
-		List<Object[]> resultado = getResultado();
-		for (Object[] participante : resultado) {
-			Object[] p1 = (Object[]) participante[0];
-			if (((Participante) p1[0]).getCandidato().equals(usuario)) {
+		for (Object[] participante : getResultado()) {
+			if (((Participante) participante[0]).getCandidato().equals(usuario)) {
 				return participante;
 			}
 		}
@@ -388,8 +386,12 @@ public class Etapa implements Serializable, Atualizavel {
 		return this.getParticipantes().contains(participante);
 	}
 
-	public boolean foiAprovado(Participante participante) {
-		return this.getAprovados().contains(participante);
+	public boolean wasAprovado(Participante participante) {
+		if (this.getPrerequisito() != null) {
+			return this.getPrerequisito().getAprovados().contains(participante);
+		} else {
+			return true;
+		}
 	}
 
 	public boolean isParticipante(UsuarioDarwin participante) {
@@ -417,9 +419,8 @@ public class Etapa implements Serializable, Atualizavel {
 			throw new NullPointerException("Documentacao não pode ser vazia!");
 		} else {
 			Participante par = documentacao.getCandidato();
-			if (!foiAprovado(par)) {
+			if (!wasAprovado(par)) {
 				throw new IllegalAccessException("Você não é um participante desta Etapa");
-
 			} else {
 				this.getDocumentacoes().add(documentacao);
 			}

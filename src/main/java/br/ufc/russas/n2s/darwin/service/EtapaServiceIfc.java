@@ -20,6 +20,7 @@ import java.util.List;
 public interface EtapaServiceIfc extends ServiceIfc{
     EtapaBeans adicionaEtapa(SelecaoBeans selecao, EtapaBeans etapa) throws IllegalAccessException;
     EtapaBeans atualizaEtapa(SelecaoBeans selecao, EtapaBeans etapa) throws IllegalAccessException;
+    EtapaBeans atualizaEtapa(EtapaBeans etepa);
     void removeEtapa(EtapaBeans etapa);
     List<EtapaBeans> listaTodasEtapas();
     EtapaBeans getEtapa(long codEtapa);
@@ -30,6 +31,7 @@ public interface EtapaServiceIfc extends ServiceIfc{
     void avalia(EtapaBeans etapa, AvaliacaoBeans avaliacao) throws IllegalAccessException;
     List<Object[]> getParticipantes(EtapaBeans etapa);
     List<Object[]> getAprovados(EtapaBeans etapa);
+    List<Object[]> getResultado(EtapaBeans etapa);
     SelecaoBeans getSelecao(EtapaBeans etapa);
     void participa(EtapaBeans inscricao, ParticipanteBeans participante) throws IllegalAccessException;
     void participa(EtapaBeans inscricao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException; 

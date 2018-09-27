@@ -50,7 +50,7 @@ public class AvaliarController {
         HttpSession session = request.getSession();
         UsuarioBeans avaliador = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         model.addAttribute("etapa", etapa);
-        model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
+        model.addAttribute("participantesEtapa", etapa.getParticipantes());
         model.addAttribute("avaliador", avaliador);
         return "avaliar";
     }
@@ -62,7 +62,7 @@ public class AvaliarController {
         UsuarioBeans avaliador = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         model.addAttribute("avaliador", avaliador);
         model.addAttribute("etapa", etapa);
-        model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
+        model.addAttribute("participantesEtapa", etapa.getParticipantes());
         return "avaliar";
     }
     
@@ -96,9 +96,10 @@ public class AvaliarController {
             avaliacao.setEstado(EnumEstadoAvaliacao.AVALIADO);
             etapaServiceIfc.setUsuario(avaliador);
             etapaServiceIfc.avalia(etapa, avaliacao);
+            System.out.println(etapa.getParticipantes());
             model.addAttribute("etapa", etapa);
             model.addAttribute("avaliador", avaliador);
-            model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
+            model.addAttribute("participantesEtapa", etapa.getParticipantes());
             model.addAttribute("mensagem", "Participante avaliado com sucesso!");
             model.addAttribute("status", "success");
             return "avaliar";
@@ -106,28 +107,28 @@ public class AvaliarController {
             e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("avaliador", avaliador);
-            model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
+            model.addAttribute("participantesEtapa", etapa.getParticipantes());
             model.addAttribute("status", "danger");
             return "avaliar";
         } catch (NumberFormatException e) {
             e.printStackTrace();
             model.addAttribute("mensagem", "Isso não é um número!");
             model.addAttribute("avaliador", avaliador);
-            model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
+            model.addAttribute("participantesEtapa", etapa.getParticipantes());
             model.addAttribute("status", "danger");
             return "avaliar";
         } catch (NullPointerException | IllegalArgumentException e) {
             e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("avaliador", avaliador);
-            model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
+            model.addAttribute("participantesEtapa", etapa.getParticipantes());
             model.addAttribute("status", "danger");
             return "avaliar";
         }  catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("avaliador", avaliador);
-            model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
+            model.addAttribute("participantesEtapa", etapa.getParticipantes());
             model.addAttribute("status", "danger");
             return "avaliar";
         }
@@ -162,7 +163,7 @@ public class AvaliarController {
             etapaServiceIfc.setUsuario(avaliador);
             etapaServiceIfc.avalia(etapa, avaliacao);
             model.addAttribute("etapa", etapa);
-            model.addAttribute("participantesEtapa", etapaServiceIfc.getParticipantes(etapa));
+            model.addAttribute("participantesEtapa", etapa.getParticipantes());
             model.addAttribute("mensagem", "Participante avaliado com sucesso!");
             model.addAttribute("status", "success");
             return "avaliar";

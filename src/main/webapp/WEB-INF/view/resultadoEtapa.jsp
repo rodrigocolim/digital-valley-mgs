@@ -76,7 +76,7 @@
                                                 	<c:if test="${not avaliacao.aprovado}">
                                                 		<td>Reprovado</td>
                                                 	</c:if>
-                                                    <td>${participante[1]}</td>
+                                                    
                                                 </c:if>
                                                 <c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
                                                     <c:if test="${avaliacao.aprovado}">

@@ -78,6 +78,14 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         Etapa e = sp.atualizaEtapa((Selecao) selecao.toBusiness(), (Etapa) etapa.toBusiness());
         return (EtapaBeans) etapa.toBeans(e);
     }
+    
+    @Override
+    public EtapaBeans atualizaEtapa(EtapaBeans etapa) {
+        UsuarioDarwin u = (UsuarioDarwin) usuario.toBusiness();
+        Etapa e = (Etapa) etapa.toBusiness();
+        etapaDAOIfc.atualizaEtapa(e);
+        return (EtapaBeans) etapa.toBeans(e);
+    }
 
     @Override
     public void removeEtapa(EtapaBeans etapa) {
@@ -226,6 +234,18 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         }
         return situacao;
     }
+
+	@Override
+	public List<Object[]> getResultado(EtapaBeans etapa) {
+		Etapa e = (Etapa) etapa.toBusiness();
+		List<Object[]> resultado = e.getResultado();
+		for (int i = 0;i < resultado.size();i++) {
+			Object[] r = resultado.get(i);
+			r[0] =  (ParticipanteBeans) (new ParticipanteBeans().toBeans((Participante) r[0]));
+			resultado.set(i, r);
+		}
+	   return resultado;
+	}
     
 
 }

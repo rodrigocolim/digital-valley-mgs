@@ -344,7 +344,7 @@
 											</a>
 											</c:if>
 											<c:if test="${not pendente}">
-											<a href="/Darwin/editarEtapa/divulgarResultado/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+											<a href="/Darwin/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
 												Divulgar Resultado
 											</a>
 											</c:if>

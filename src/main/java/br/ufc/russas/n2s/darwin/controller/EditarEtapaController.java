@@ -240,32 +240,20 @@ public class EditarEtapaController {
     }
     
     @RequestMapping(value="/divulgarResultado/{codSelecao}/{codInscricao}", method = RequestMethod.GET)
-    public String divulgaResultado(@PathVariable long codSelecao, @PathVariable long codEtapa, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
+    public String divulgaResultado(@PathVariable long codSelecao, @PathVariable long codEtapa, BindingResult result, Model model, HttpServletRequest request) {
         try{
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-            etapa = etapaServiceIfc.getEtapa(codEtapa);
+            EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
             etapa.setDivulgaResultado(true);
-            int index=0;
-            this.getSelecaoServiceIfc().setUsuario(usuario);
-            List<EtapaBeans> etapas = selecao.getEtapas();
-            for(EtapaBeans etapaIterator : etapas) {
-            	if(etapaIterator.getCodEtapa()==etapa.getCodEtapa()) {
-            		selecao.getEtapas().remove(etapaIterator);
-            		selecao.getEtapas().add(index, etapa);
-            		break;
-            	}
-            	index++;
-            }
-            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+            etapaServiceIfc.atualizaEtapa(etapa);
             session.setAttribute("selecao", selecao);
+            session.setAttribute("etapa", etapa);
+            session.setAttribute("resultado", etapaServiceIfc.getResultado(etapa));
             session.setAttribute("mensagem", "Etapa divulgada com sucesso!");
             session.setAttribute("status", "success");
             return "redirect:/selecao/" + selecao.getCodSelecao();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return "redirect:/selecao/" + codSelecao;
         }catch (IllegalCodeException e) {
     		e.printStackTrace();
     		return "redirect:/selecao/" + codSelecao;
@@ -279,17 +267,17 @@ public class EditarEtapaController {
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-            this.getSelecaoServiceIfc().setUsuario(usuario);  
-            selecao.getInscricao().setDivulgaResultado(true);
-            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+            EtapaBeans etapa = etapaServiceIfc.getEtapa(codInscricao);
+            this.etapaServiceIfc.setUsuario(usuario);
+            etapa.setDivulgaResultado(true);
+            etapa = etapaServiceIfc.atualizaEtapa(etapa);
             session.setAttribute("selecao", selecao);
+            session.setAttribute("etapa", etapa);
+            session.setAttribute("resultado", etapaServiceIfc.getResultado(etapa));
             session.setAttribute("mensagem", "Resultado da etapa divulgada com sucesso!");
             session.setAttribute("status", "success");
             return "redirect:/selecao/" + selecao.getCodSelecao();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return "redirect:/selecao/" + codSelecao;
-        }catch (IllegalCodeException e) {
+        } catch (IllegalCodeException e) {
     		e.printStackTrace();
     		return "redirect:/selecao/" + codSelecao;
     	}

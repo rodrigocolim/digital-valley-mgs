@@ -41,6 +41,7 @@ public class Facade {
 			//		"RESULTADO_"+nomeSelecao+"_ETAPA"+"_"+etapa.getTitulo()+LocalDateTime.now().format(DateTimeFormatter.ofPattern("ddMMyyyyhhmmss")) +".pdf"));
 			PdfWriter.getInstance(document, new FileOutputStream(name));
 			document.open();
+			
 			Image image = Image.getInstance(Constantes.getDocumentsDir());
 			//Image image = Image.getInstance(Constantes.getLOGO_UFC());
 			image.setAlignment(Image.MIDDLE);
@@ -62,8 +63,8 @@ public class Facade {
 			com.itextpdf.text.Font f = FontFactory.getFont("SANS_SERIF", 10, Font.BOLD, new BaseColor(0, 0, 255));
             PdfPTable t = new PdfPTable(3);
             PdfPCell cell = new PdfPCell();
-          cell.setBorder(PdfPCell.NO_BORDER);
-              cell.addElement(image);
+            cell.setBorder(PdfPCell.NO_BORDER);
+            cell.addElement(image);
             t.addCell(cell);
             PdfPCell cell1 = new PdfPCell();
             cell1.setBorder(PdfPCell.NO_BORDER);

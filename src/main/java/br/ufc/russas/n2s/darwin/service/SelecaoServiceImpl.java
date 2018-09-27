@@ -143,7 +143,14 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
             } 
         }
         for (SelecaoBeans s : resultadoDivulgadas) {
-            if (s.getResponsaveis().contains(usuario)) {
+        	boolean isParticipante = false;
+        	for (ParticipanteBeans p : s.getInscricao().getParticipantes()) {
+        		if (p.getCandidato().getCodUsuario() == usuario.getCodUsuario()) {
+        			isParticipante = true;
+        			break;
+        		}
+        	}
+            if (s.getResponsaveis().contains(usuario) || isParticipante) {
                 selecoes.add(s);
             }
         }

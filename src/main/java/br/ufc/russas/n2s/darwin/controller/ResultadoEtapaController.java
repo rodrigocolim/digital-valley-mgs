@@ -61,14 +61,8 @@ public class ResultadoEtapaController {
 	@RequestMapping(value = "/{codEtapa}/imprimir", method = RequestMethod.GET)
     public String imprimiresultadoDaEtapa(@PathVariable long codEtapa, Model model, HttpServletRequest request, HttpServletResponse response){
         EtapaBeans etapa  = etapaServiceIfc.getEtapa(codEtapa);
-        List<ParticipanteBeans> participantesEtapa = new ArrayList<ParticipanteBeans>();
-        List<AvaliacaoBeans> avaliacoes = etapa.getAvaliacoes();
-        for(AvaliacaoBeans avaliacao : avaliacoes) {
-        	participantesEtapa.add(avaliacao.getParticipante());
-        }
-        
         try {
-	        String caminho = Facade.gerarPDFDosResultados(etapa, participantesEtapa, ((SelecaoBeans)request.getSession().getAttribute("selecao")).getTitulo());
+	        String caminho = Facade.gerarPDFDosResultados(etapa, etapaServiceIfc.getResultado(etapa), ((SelecaoBeans)request.getSession().getAttribute("selecao")).getTitulo());
 	        File file = new File(caminho);
 	        response.setContentType("application/pdf");
 	        response.addHeader("Content-Disposition", "attachment; filename=" + file.getName()+".pdf");
@@ -91,7 +85,7 @@ public class ResultadoEtapaController {
 			// TODO: handle exception
 		}
         
-        model.addAttribute("participantesEtapa", participantesEtapa);
+        model.addAttribute("participantesEtapa", etapaServiceIfc.getResultado(etapa));
         model.addAttribute("etapa", etapa);
         model.addAttribute("mensagem", "Resultado gerado com sucesso!");
         model.addAttribute("status", "success");

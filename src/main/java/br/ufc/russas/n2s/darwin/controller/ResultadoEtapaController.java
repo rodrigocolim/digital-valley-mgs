@@ -54,12 +54,7 @@ public class ResultadoEtapaController {
 	@RequestMapping(value = "/{codEtapa}", method = RequestMethod.GET)
     public String resultadoDaEtapa(@PathVariable long codEtapa, Model model){
         EtapaBeans etapa  = etapaServiceIfc.getEtapa(codEtapa);
-        List<ParticipanteBeans> participantesEtapa = new ArrayList<ParticipanteBeans>();
-        List<AvaliacaoBeans> avaliacoes = etapa.getAvaliacoes();
-        for(AvaliacaoBeans avaliacao : avaliacoes) {
-        	participantesEtapa.add(avaliacao.getParticipante());
-        }
-        model.addAttribute("participantesEtapa", participantesEtapa);
+        model.addAttribute("participantesEtapa", etapaServiceIfc.getResultado(etapa));
         model.addAttribute("etapa", etapa);
         return "/resultadoEtapa";
     }

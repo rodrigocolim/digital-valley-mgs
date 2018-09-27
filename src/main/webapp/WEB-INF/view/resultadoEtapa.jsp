@@ -64,39 +64,18 @@
                             <c:forEach var="participante" items="${participantesEtapa}">
                             <c:set var = "avaliacaoParticipante" value = "${null}"/>
                             <tr>
-                                <td>${participante.candidato.nome}</td>
-                                <c:if test="${not empty etapa.avaliacoes}">
-                                    <c:forEach var="avaliacao" items="${etapa.avaliacoes}">
-                                            <c:if test="${avaliacao.participante.codParticipante == participante.codParticipante}">
-                                                <td>${avaliacao.estado}</td>
+                                <td>${participante[0].candidato.nome}</td>
+                                                <td>${participante[1]}</td>
                                                 <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
-                                                	<c:if test="${avaliacao.aprovado}">
-                                                		<td>Aprovado</td>
-                                                	</c:if>
-                                                	<c:if test="${not avaliacao.aprovado}">
-                                                		<td>Reprovado</td>
-                                                	</c:if>
-                                                    
+                                             	<td>${participante[3]}</td>
+                                             	<td>${participante[2]}</td>
                                                 </c:if>
                                                 <c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
-                                                    <c:if test="${avaliacao.aprovado}">
-                                                		<td>Aprovado</td>
-                                                	</c:if>
-                                                	<c:if test="${not avaliacao.aprovado}">
-                                                		<td>Reprovado</td>
-                                                	</c:if>
+                                                    <td>${participante[2]}</td>
                                                 </c:if>
                                                 <c:if test="${(etapa.criterioDeAvaliacao.criterio == 3)}">
-                                                    <c:if test="${avaliacao.aprovado}">
-                                                		<td>Aprovado</td>
-                                                	</c:if>
-                                                	<c:if test="${not avaliacao.aprovado}">
-                                                		<td>Reprovado</td>
-                                                	</c:if>
+                                                    <td>${participante[2]}</td>
                                                 </c:if>
-                                            </c:if>
-                                   </c:forEach>
-                                </c:if>
                                 <c:if test="${empty etapa.avaliacoes}">
                                     <td>Aguardando avaliação</td>
                                 </c:if>

@@ -23,6 +23,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
+import br.ufc.russas.n2s.darwin.model.Participante;
 import util.Constantes;
 
 
@@ -31,7 +32,7 @@ public class Facade {
 	
 	
 	
-	public static String gerarPDFDosResultados(EtapaBeans etapa, List<ParticipanteBeans> participantes, String nomeSelecao) {
+	public static String gerarPDFDosResultados(EtapaBeans etapa, List<Object[]> resultado, String nomeSelecao) {
 		try {
 			Document document = new Document();
 			String name = Constantes.getDocumentsDir()+File.separator+"Seleção_"+nomeSelecao+File.separator+
@@ -62,7 +63,7 @@ public class Facade {
             PdfPTable t = new PdfPTable(3);
             PdfPCell cell = new PdfPCell();
           cell.setBorder(PdfPCell.NO_BORDER);
-                cell.addElement(image);
+              cell.addElement(image);
             t.addCell(cell);
             PdfPCell cell1 = new PdfPCell();
             cell1.setBorder(PdfPCell.NO_BORDER);
@@ -83,14 +84,10 @@ public class Facade {
             table.setWidths(new int[]{450, 200});
             table.addCell(coluna1);
             table.addCell(coluna2);
-        	for (int i=0;i<participantes.size();i++) {
-				ParticipanteBeans participante = participantes.get(i);
-				for(AvaliacaoBeans avaliacao : etapa.getAvaliacoes()) {
-					if (participante.getCodParticipante() == avaliacao.getParticipante().getCodParticipante()) {
-		                table.addCell(participante.getCandidato().getNome().toUpperCase());
-		                table.addCell((avaliacao.isAprovado()?"APROVADO":"REPROVADO"));
-					}
-				}
+        	for (int i=0;i<resultado.size();i++) {
+				Object[] participante = resultado.get(i);
+				table.addCell(((Participante) participante[0]).getCandidato().getNome().toUpperCase());
+                table.addCell(participante[2].toString().toLowerCase());
 			}
             document.add(table);
             Paragraph assAluno = new Paragraph(

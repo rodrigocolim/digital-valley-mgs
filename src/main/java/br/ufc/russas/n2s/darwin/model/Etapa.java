@@ -316,13 +316,13 @@ public class Etapa implements Serializable, Atualizavel {
 		if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO
 				|| getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
 			for (Object[] p : getResultado()) {
-				if (((Avaliacao) p[1]).isAprovado()) {
+				if (p[3] != null && ((Avaliacao) p[3]).isAprovado()) {
 					aprovados.add((Participante) p[0]);
 				}
 			}
 		} else if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
 			for (Object[] participante : getResultado()) {
-				if (((float) participante[1]) >= getNotaMinima()) {
+				if (((float) participante[3]) >= getNotaMinima()) {
 					aprovados.add((Participante) participante[0]);
 				}
 			}
@@ -337,12 +337,20 @@ public class Etapa implements Serializable, Atualizavel {
 			for (Participante p : listParticipantes()) {
 				int aprovacao = 0;
 				int reprovacao = 0;
+				String situacao = "NÃO AVALIADO";
+				Avaliacao avaliacao = null;
 				for (Avaliacao a : getAvaliacoes()) {
 					if (a.getParticipante().equals(p)) {
-						Object[] aprovado = {p, a};
-						resultado.add(aprovado);
+						avaliacao = a;
+						situacao = "AVALIADO";
 					}		
 				}
+				String status = "Reprovado";
+				if (avaliacao != null && avaliacao.isAprovado()) {
+					status = "Aprovado";
+				}
+				Object[] aprovado = {p, situacao, status, avaliacao};
+				resultado.add(aprovado);
 
 			}
 		} else if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
@@ -350,14 +358,20 @@ public class Etapa implements Serializable, Atualizavel {
 				float media = 0;
 				float soma = 0;
 				int count = 0;
+				String situacao = "NÃO AVALIADO";
 				for (Avaliacao avaliacao : getAvaliacoes()) {
 					if (avaliacao.getParticipante().equals(participante)) {
 						soma += avaliacao.getNota();
+						situacao = "AVALIADO";
 						count++;
 					}
 				}
 				media = soma / count;
-				Object[] aprovado = { participante, media };
+				String status = "Aprovado";
+				if (media < getNotaMinima()) {
+					status = "Reprovado";
+				}
+				Object[] aprovado = {participante, situacao, status, media};
 				resultado.add(aprovado);
 			}
 		}

@@ -5,8 +5,11 @@
  */
 package br.ufc.russas.n2s.darwin.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,6 +39,7 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
+import util.Constantes;
 
 /**
  *
@@ -93,6 +97,15 @@ public class EditarSelecaoController {
             selecaoBeans.setCategoria(categoria);
             selecaoBeans.setVagasRemuneradas(selecao.getVagasRemuneradas());
             selecaoBeans.setVagasVoluntarias(selecao.getVagasVoluntarias());
+            
+            String[] nomeAnexos = request.getParameterValues("listaNomeAnexos");
+            String[] nomeAditivos = request.getParameterValues("listaNomeAditivos");
+            String[] linkAnexos = request.getParameterValues("listaLinkAnexos");
+            String[] linkAditivos = request.getParameterValues("listaLinkAditivos");
+            
+            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator);
+            dir.mkdir();
+            
             if (!file.isEmpty()) {
                 ArquivoBeans edital = new ArquivoBeans();
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
@@ -101,6 +114,48 @@ public class EditarSelecaoController {
                 edital.setArquivo(FileManipulation.getFileStream(inputStream, ".pdf"));
                 selecaoBeans.setEdital(edital);
             }
+            
+            if (nomeAnexos != null && linkAnexos != null) {
+            	ArrayList<ArquivoBeans> anexos = new ArrayList<>();
+                for (int i=0; i < nomeAnexos.length; i++) {
+                    ArquivoBeans anexo = new ArquivoBeans();
+                    anexo.setTitulo(nomeAnexos[i]);
+                    File temp = File.createTempFile(Constantes.getDocumentsDir()+File.separator+nomeAnexos[i], ".pdf", dir);
+                    InputStream input = FileManipulation.getStreamFromURL(linkAnexos[i]);
+                    OutputStream output = new FileOutputStream(temp);
+                    int read = 0;
+                    byte[] bytes = new byte[1024];
+                    while ((read = input.read(bytes)) != -1) {
+                        output.write(bytes, 0, read);
+                    }
+                    anexo.setArquivo(temp);
+                    anexo.setData(LocalDateTime.now());
+                    anexos.add(anexo);
+                }
+                selecaoBeans.setAnexos(anexos);
+            	
+            }
+            
+            if (nomeAditivos != null && linkAditivos != null) {
+            	ArrayList<ArquivoBeans> aditivos = new ArrayList<>();
+                for (int i=0; i < nomeAditivos.length; i++) {
+                    ArquivoBeans aditivo = new ArquivoBeans();
+                    aditivo.setTitulo(nomeAditivos[i]);
+                    File temp = File.createTempFile(Constantes.getDocumentsDir()+File.separator+nomeAditivos[i], ".pdf", dir);
+                    InputStream input = FileManipulation.getStreamFromURL(linkAditivos[i]);
+                    OutputStream output = new FileOutputStream(temp);
+                    int read = 0;
+                    byte[] bytes = new byte[1024];
+                    while ((read = input.read(bytes)) != -1) {
+                        output.write(bytes, 0, read);
+                    }
+                    aditivo.setArquivo(temp);
+                    aditivo.setData(LocalDateTime.now());
+                    aditivos.add(aditivo);
+                }
+                selecaoBeans.setAditivos(aditivos);
+            }
+
             String[] codResponsaveis = request.getParameterValues("codResponsaveis");
             ArrayList<UsuarioBeans> responsaveis = new ArrayList<>();
             if (codResponsaveis != null) {

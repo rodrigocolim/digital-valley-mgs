@@ -95,13 +95,7 @@ public class SelecaoController {
             for (i = 0; i<selecao.getEtapas().size(); i++) {
             	EtapaBeans etapa = (EtapaBeans) selecao.getEtapas().get(i);
             	etapabusiness = (Etapa) etapaServiceIfc.getEtapa(etapa.getCodEtapa()).toBusiness();
-            	Collection<Avaliacao>avaliacoes = avaliacaoDAOIfc.getAvaliacao2(etapabusiness);
             	etapa.getAvaliacoes().removeAll(etapa.getAvaliacoes());
-            	for(Avaliacao avaliacao:avaliacoes) {
-            		AvaliacaoBeans avli = new AvaliacaoBeans();
-            		avli.toBeans(avaliacao);
-            		etapa.getAvaliacoes().add(avli);
-            	}
             	selecao.getEtapas().remove(i);
             	selecao.getEtapas().add(i, etapa);
                 situacao.put(etapa, this.etapaServiceIfc.getSituacao(etapa, usuario));

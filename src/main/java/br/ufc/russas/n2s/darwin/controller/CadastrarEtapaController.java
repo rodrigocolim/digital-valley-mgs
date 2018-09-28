@@ -12,6 +12,7 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Email;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
@@ -76,7 +77,7 @@ public class CadastrarEtapaController {
     public String getIndex(@PathVariable long codSelecao, Model model) {
         SelecaoBeans selecaoBeans = this.selecaoServiceIfc.getSelecao(codSelecao);
         model.addAttribute("selecao", selecaoBeans);
-        List<UsuarioBeans> avaliadores = this.getUsuarioServiceIfc().listaTodosUsuarios();
+        List<UsuarioBeans> avaliadores = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.AVALIADOR);
         model.addAttribute("avaliadores", avaliadores);
         return "cadastrar-etapa";
     }

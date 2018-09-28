@@ -39,6 +39,7 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Email;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -75,7 +76,7 @@ public class EditarSelecaoController {
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-        List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaTodosUsuarios();
+        List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.RESPONSAVEL);
         List<UsuarioBeans> responsaveis = selecao.getResponsaveis();
         for (UsuarioBeans usuarioBeans : responsaveis) {
 			System.out.println(usuarioBeans.getNome());

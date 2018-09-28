@@ -12,6 +12,7 @@ import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Email;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.Periodo;
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
@@ -80,8 +81,7 @@ public class EditarEtapaController {
         EtapaBeans etapaBeans = this.etapaServiceIfc.getEtapa(codEtapa);
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
        
-        List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaTodosUsuarios();
-        List<UsuarioBeans> avaliadores = usuarioServiceIfc.listaAvaliadores();
+        List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.AVALIADOR);
         if (etapaBeans.getCodEtapa() == selecao.getInscricao().getCodEtapa()) {
             model.addAttribute("tipo", "inscricao"); 
         } else {
@@ -90,7 +90,6 @@ public class EditarEtapaController {
         model.addAttribute("selecao", selecao);
         model.addAttribute("etapa", etapaBeans);
         model.addAttribute("usuarios", usuarios);
-        model.addAttribute("avaliadores", avaliadores);
         return "editar-etapa";
     }
 

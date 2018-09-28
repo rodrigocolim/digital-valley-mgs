@@ -11,6 +11,7 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.dao.DocumentacaoDAOIfc;
 import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Avaliacao;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
@@ -35,6 +36,7 @@ import org.springframework.stereotype.Service;
 public class EtapaServiceImpl implements EtapaServiceIfc {
 
     private EtapaDAOIfc etapaDAOIfc;
+    private DocumentacaoDAOIfc documentacaoDAOIfc;
     private SelecaoServiceIfc selecaoServiceIfc;
 
     private UsuarioBeans usuario;
@@ -51,6 +53,11 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     @Autowired(required = true)
     public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc")SelecaoServiceIfc selecaoServiceIfc){
         this.selecaoServiceIfc = selecaoServiceIfc;
+    }
+    
+    @Autowired(required = true)
+    public void setDocumentacaoServiceIfc(@Qualifier("documentacaoDAOIfc")DocumentacaoDAOIfc documentacaoDAOIfc){
+        this.documentacaoDAOIfc = documentacaoDAOIfc;
     }
     
     
@@ -134,8 +141,19 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     @Override
     public void anexaDocumentacao(EtapaBeans etapa, DocumentacaoBeans documentacao) throws IllegalAccessException {
         Etapa e = (Etapa) etapa.toBusiness();
-        e.anexaDocumentacao((Documentacao) documentacao.toBusiness()); 
-        getEtapaDAOIfc().atualizaEtapa(e);
+        Documentacao d = (Documentacao) documentacao.toBusiness();
+        Participante p = d.getCandidato();
+        if (p.getCodParticipante() != 0) {
+        	d.setCandidato(null);
+        	e.anexaDocumentacao(d); 
+            getEtapaDAOIfc().atualizaEtapa(e);
+            d.setCandidato(p);
+            documentacaoDAOIfc.atualizaDocumentacao(d);
+        } else {
+        	e.anexaDocumentacao(d); 
+            getEtapaDAOIfc().atualizaEtapa(e);
+        }
+        
     }
 
     @Override
@@ -158,7 +176,7 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
 
     @Override
     public SelecaoBeans getSelecao(EtapaBeans etapa) {
-        List<SelecaoBeans> selecoes = selecaoServiceIfc.listaTodasSelecoes();       
+        List<SelecaoBeans> selecoes = selecaoServiceIfc.listaTodasSelecoes();
         for (SelecaoBeans selecao : selecoes) {            
             if (selecao.getEtapas().contains(etapa) || (selecao.getInscricao() != null && selecao.getInscricao().getCodEtapa() == etapa.getCodEtapa())) {
                 return selecao;

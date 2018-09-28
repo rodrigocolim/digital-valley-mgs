@@ -243,7 +243,6 @@
       
     }
     function atualizaAvaliadores(){
-    	alert("teste");
         var list = document.getElementById("listaAvaliadores");
         list.innerHTML = "";
         for(i = 0;i < listaAvaliadores.length;i++){

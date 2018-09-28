@@ -46,7 +46,7 @@ public class SelecaoProxy extends Selecao{
     }
      
     public Selecao adicionaSelecao(Selecao selecao) throws IllegalAccessException {
-        if (this.getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL)) {
+        if (this.getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL) || this.getUsuario().getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
             return selecao.adicionaSelecao();
         } else {
             throw new IllegalAccessException("Você não é o responsável por esta seleção: <b> ".concat(selecao.getTitulo()).concat("</b>"));

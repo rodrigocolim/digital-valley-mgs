@@ -45,7 +45,7 @@
                 <div class="form-group">
                     <form method="POST" action="cadastrarSelecao" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate> 
                         <label for="tituloInput">Titulo*</label>
-                        <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" required>
+                        <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" value="${not (novaSelecao.titulo eq '') ? novaSelecao.titulo : ''}" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>
                         <div class="invalid-feedback">
                             
@@ -53,30 +53,29 @@
                         <br>
 
                         <label for="descricaoInput">Descrição*</label>
-                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" required></textarea>
+                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" required>${not (novaSelecao.descricao eq '') ? novaSelecao.descricao : ''}</textarea>
                         <div class="invalid-feedback">
                             
                         </div>
                         <br>
 
                         <label for="preRequisitosInput">Pré Requisitos</label>
-                        <textarea name="descricaoPreRequisitos" class="form-control" id="preRequisitosInput" placeholder="Digite uma breve descrição sobre os pré requisitos para participar da seleção"></textarea>
+                        <textarea name="descricaoPreRequisitos" class="form-control" id="preRequisitosInput" placeholder="Digite uma breve descrição sobre os pré requisitos para participar da seleção">${not (novaSelecao.descricaoPreRequisitos eq '') ? novaSelecao.descricaoPreRequisitos : ''}</textarea>
                         <br>
 
                         <label for="categoriaInput">Categoria*</label>
                         <select type="text" name="categoria" class="form-control custom-select" id="categoriaInput" required>
-                            <option value="" selected="selected" disabled="disabled">Selecione a categoria da seleção</option>
-                            <option>Assistência Estudantil</option>
-                            <option>Seleções para Discentes</option>
-                            <option>Cargos de Docente</option>
-                            <option>Cargos de Técnicos Admin</option>
-                            <option>Professores Substitutos</option>
+                            <option value="" ${novaSelecao.categoria eq '' ? 'selected="selected"' : ''} disabled="disabled">Selecione a categoria da seleção</option>
+                            <option ${novaSelecao.categoria eq 'Assitência Estudantil' ? 'selected="selected"' : ''}>Assistência Estudantil</option>
+                            <option ${novaSelecao.categoria eq 'Bolsas para Discentes' ? 'selected="selected"' : ''}>Seleções para Discentes</option>
+                            <option ${novaSelecao.categoria eq 'Cargos de Docente' ? 'selected="selected' : ''}>Cargos de Docente</option>
+                            <option ${novaSelecao.categoria eq 'Cargos de Técnicos Admin' ? 'selected="selected"' : ''}>Cargos de Técnicos Admin</option>
+                            <option ${novaSelecao.categoria eq 'Professores Substitutos' ? 'selected="selected"' : ''}>Professores Substitutos</option>
                         </select>
                         <br>
-
                         <br>
                         <label for="areaDeConcentracaoInput">Área de Concentração</label>
-                        <input type="text" name="areaDeConcentracao" class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração">
+                        <input type="text" name="areaDeConcentracao" class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração" value="${not (novaSelecao.areaDeConcentracao eq '') ? novaSelecao.areaDeConcentracao : ''}">
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Computação, Engenharia Mecânica, LINCE</small>
                         <div class="invalid-feedback">
                             
@@ -95,14 +94,14 @@
                             
                             <div class="card-body">
                                 <label for="vagasRemuneradasInput">Número de vagas remuneradas</label>
-                                <input type="number" name="vagasRemuneradas" class="form-control col-sm-2 disabled" id="vagasRemuneradasInput" value="0" min="0" max="100" disabled>
+                                <input type="number" name="vagasRemuneradas" class="form-control col-sm-2 disabled" id="vagasRemuneradasInput" value="${not (novaSelecao.vagasRemuneradas eq '0') ? novaSelecao.vagasRemuneradas : '0'}" min="0" max="100" disabled>
                                 <div class="invalid-feedback" >
                                     
                                 </div>
                                 <br>
 
                                 <label for="vagasVoluntariasInput">Número de vagas voluntárias</label>
-                                <input type="number" name="vagasVoluntarias" class="form-control col-sm-2 disabled" id="vagasVoluntariasInput" value="0" min="0" max="100" disabled>
+                                <input type="number" name="vagasVoluntarias" class="form-control col-sm-2 disabled" id="vagasVoluntariasInput" value="${not (novaSelecao.vagasVoluntarias eq '0') ? novaSelecao.vagasVoluntarias : '0'}" min="0" max="100" disabled>
                                 <div class="invalid-feedback">
                                     
                                 </div>
@@ -116,7 +115,7 @@
 
                             <div class="card-body">
                                 <label for="editalInput">Edital*</label>
-                                <input type="text" name="file" class="form-control" id="arquivoInput" aria-describedby="editalHelp" placeholder="Adicione aqui o link para o edital da seleção"  accept="application/pdf" required>
+                                <input type="text" name="file" class="form-control" id="arquivoInput" aria-describedby="editalHelp" placeholder="Adicione aqui o link para o edital da seleção" accept="application/pdf" required value="${not (novaSelecao.edital eq '') ? novaSelecao.edital : ''}">
                                 <small id="tituloHelp" class="form-text text-muted">Ex. http://www.campusrussas.ufc.br/docs/edital.pdf</small>
                                 <div class="invalid-feedback">
 

@@ -172,7 +172,11 @@
                                             </ul>
                                         </c:if>
                                         <hr>
-                                        <c:if test="${not fn:contains(selecao.inscricao.participantes, sessionScope.usuarioDarwin)}">
+                                        <c:if test="${not (isParticipante)}">
+                                        	${not (isParticipante)}
+                                        <c:forEach var="teste" items="${selecao.inscricao.participantes}">
+                                        	${teste.candidato.nome}
+                                        </c:forEach>
 	                                        <c:if test="${(estadoInscricao == 2) and (not isResponsavel) and (not fn:contains(permissoes, 'ADMINISTRADOR')) and (not fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
 	                                            <a href="/Darwin/participarEtapa/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Inscrever-se</a>
 	                                        </c:if>

@@ -68,11 +68,11 @@
 
                         <label for="categoriaInput"> <input type="checkbox" onclick="habilitaEdicao('categoriaInput')"> Categoria*</label>
                         <select type="text" name="categoria" class="form-control custom-select" id="categoriaInput" readonly="true" required>
-                            <option selected="${selecao.categoria eq 'Assistência Estudantil' ? 'selected' : ''}">Assistência Estudantil</option>
-                            <option selected="${selecao.categoria eq 'Bolsas para Discentes' ? 'selected' : ''}">Seleções para Discentes</option>
-                            <option selected="${selecao.categoria eq 'Cargos de Docente' ? 'selected' : ''}">Cargos de Docente</option>
-                            <option selected="${selecao.categoria eq 'Cargos de Técnicos Admin' ? 'selected' : ''}">Cargos de Técnicos Admin</option>
-                            <option selected="${selecao.categoria eq 'Professores Substitutos' ? 'selected' : ''}">Professores Substitutos</option>
+                            <option ${selecao.categoria eq 'Assistência Estudantil' ? 'selected="selected"' : ''}>Assistência Estudantil</option>
+                            <option ${selecao.categoria eq 'Bolsas para Discentes' ? 'selected="selected"' : ''}>Seleções para Discentes</option>
+                            <option ${selecao.categoria eq 'Cargos de Docente' ? 'selected="selected"' : ''}>Cargos de Docente</option>
+                            <option ${selecao.categoria eq 'Cargos de Técnicos Admin' ? 'selected="selected"' : ''}>Cargos de Técnicos Admin</option>
+                            <option ${selecao.categoria eq 'Professores Substitutos' ? 'selected="selected"' : ''}>Professores Substitutos</option>
                         </select>
                         <br>
 
@@ -222,14 +222,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>  
   	<script>
-    function habilitaCampoVagas(){
-	if(! document.getElementById('isVagasLimitadasInput').checked){
-		document.getElementById('vagasRemuneradasInput').disabled = true;
-                document.getElementById('vagasVoluntariasInput').disabled = true;
-	} else {
-		document.getElementById('vagasRemuneradasInput').disabled = false;
-                document.getElementById('vagasVoluntariasInput').disabled = false;
-	}
+     function habilitaCampoVagas(){
+		if(! document.getElementById('isVagasLimitadasInput').checked){
+			document.getElementById('vagasRemuneradasInput').disabled = true;
+	                document.getElementById('vagasVoluntariasInput').disabled = true;
+		} else {
+			document.getElementById('vagasRemuneradasInput').disabled = false;
+	                document.getElementById('vagasVoluntariasInput').disabled = false;
+		}
     }
     
     function habilitaEdicao(id){
@@ -311,57 +311,54 @@
       }
       </script>
       <script>
-    var listaResponsaveis = ${selecao.responsaveis};
-    var codResponsaveis = [];
-    var numResponsaveis = 0;
-    
-    
-    $(document).ready(function() { 
-    	alert("adiciona");
-    	for (i=0;i < listaResponsaveis.length;i++) {
-    		var nomeResponsavel = listaResponsaveis[i].nome;
-    		alert(nomeResponsavel);
-    		document.getElementById("responsavelOption-"+nomeResponsavel+"").disabled = "disabled";
-    		codResponsaveis[i] = listaResponsaveis[i].nome.substring(0, responsavelInput.indexOf("-"));
-    		numResponsaveis++;
-    	}
-    });
-    
-    function adicionaResponsavel(){
-  	  alert("adiciona");
-      var responsavelInput = document.getElementById("responsavelInput").value;
-      var nomeResponsavel= responsavelInput.substring(responsavelInput.indexOf("-") + 1, responsavelInput.lenght);
-      var codResponsavel = responsavelInput.substring(0, responsavelInput.indexOf("-"));
-      if(nomeResponsavel !== ""){
-          listaResponsaveis[numResponsaveis] = nomeResponsavel;
-          codResponsaveis[numResponsaveis] = codResponsavel;
-          document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "disabled";
-          numResponsaveis++;
-      }
-      document.getElementById("responsavelInput").value = "";
-      atualizaResponsaveis();
-      
-    }
-    function atualizaResponsaveis(){
-        var list = document.getElementById("listaResponsaveis");
-        list.innerHTML = "";
-        for(i = 0;i < listaResponsaveis.length;i++){
-          if(listaResponsaveis[i] !== ""){
-              list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codResponsaveis" value="'+codResponsaveis[i]+'" style="display: none;"> '+ listaResponsaveis[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeResponsavel(\''+codResponsaveis[i]+'\')">clear</button></li>';
-          }
-        }
-    }
-    function removeResponsavel(codResponsavel){
-  	  alert("remove");
-        for(i = 0;i < listaResponsaveis.length;i++){
-            if(codResponsaveis[i] === codResponsavel){
-                document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "";
-                listaResponsaveis[i] = "";
-                codResponsaveis[i] = "";
-            }
-        }
-        atualizaResponsaveis();
-    }
+	    var listaResponsaveis = [];//${responsaveis};
+	    var codResponsaveis = [];
+	    var numResponsaveis = 0;
+	    
+	    
+	    $(document).ready(function() { 
+	    	alerta(teste)
+	    	for (i=0;i < listaResponsaveis.length;i++) {
+	    		var nomeResponsavel = listaResponsaveis[i].nome;
+	    		document.getElementById("responsavelOption-"+nomeResponsavel+"").disabled = "disabled";
+	    		codResponsaveis[i] = listaResponsaveis[i].nome.substring(0, responsavelInput.indexOf("-"));
+	    		numResponsaveis++;
+	    	}
+	    });
+	    
+	    function adicionaResponsavel(){
+	      var responsavelInput = document.getElementById("responsavelInput").value;
+	      var nomeResponsavel= responsavelInput.substring(responsavelInput.indexOf("-") + 1, responsavelInput.lenght);
+	      var codResponsavel = responsavelInput.substring(0, responsavelInput.indexOf("-"));
+	      if(nomeResponsavel !== ""){
+	          listaResponsaveis[numResponsaveis] = nomeResponsavel;
+	          codResponsaveis[numResponsaveis] = codResponsavel;
+	          document.getElementById("responsavelOption-"+nomeResponsavel+"").disabled = "disabled";
+	          numResponsaveis++;
+	      }
+	      document.getElementById("responsavelInput").value = "";
+	      atualizaResponsaveis();
+	      
+	    }
+	    function atualizaResponsaveis() {
+	        var list = document.getElementById("listaResponsaveis");
+	        list.innerHTML = "";
+	        for (i = 0;i < listaResponsaveis.length;i++) {
+	          if (listaResponsaveis[i] !== "") {
+	              list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codResponsaveis" value="'+codResponsaveis[i]+'" style="display: none;"> '+ listaResponsaveis[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeResponsavel(\''+listaResponsaveis[i]+'\')">clear</button></li>';
+	          }
+	        }
+	    }
+	    function removeResponsavel(codResponsavel) {
+	        for (i = 0;i < listaResponsaveis.length;i++) {
+	            if (listaResponsaveis[i] === codResponsavel) {
+	                document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "";
+	                listaResponsaveis[i] = "";
+	                codResponsaveis[i] = "";
+	            }
+	        }
+	    	atualizaResponsaveis();
+	    }
 	</script> 
       
 </body>

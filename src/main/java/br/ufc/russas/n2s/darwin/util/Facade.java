@@ -83,10 +83,15 @@ public class Facade {
             table.setWidths(new int[]{450, 200});
             table.addCell(coluna1);
             table.addCell(coluna2);
+            
         	for (int i=0;i<resultado.size();i++) {
 				Object[] participante = resultado.get(i);
-				table.addCell(((Participante) participante[0]).getCandidato().getNome().toUpperCase());
-                table.addCell(participante[2].toString().toLowerCase());
+				table.addCell(((ParticipanteBeans) participante[0]).getCandidato().getNome().toUpperCase());
+				
+				PdfPCell resu  = new PdfPCell(new Paragraph(participante[2].toString().toLowerCase()));
+				resu.setHorizontalAlignment(Element.ALIGN_CENTER);
+				table.addCell(resu);
+                //table.addCell(participante[2].toString().toLowerCase());
 			}
             document.add(table);
             Paragraph assAluno = new Paragraph(
@@ -99,10 +104,12 @@ public class Facade {
 			return name;
 		} catch (DocumentException | IOException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
 			System.out.println("ERRO ERRO ERRO");
 			System.out.println(Constantes.getTemp());
 			e.printStackTrace();
 		} catch (Exception e) {
+			e.printStackTrace();
 			// TODO: handle exception
 			System.out.println("ERRO ERRO ERRO");
 			System.out.println(Constantes.getTemp());

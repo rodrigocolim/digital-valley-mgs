@@ -48,9 +48,9 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:postgresql://192.169.1.2:5432/n2s-ufc</property>
     <property name="hibernate.connection.username">n2s</property>
     <property name="hibernate.connection.password">N2S@UFC</property>
-    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.show_sql">false</property>
     <property name="hibernate.event.merge.entity_copy_observer">allow</property>
-    <property name="hibernate.hbm2ddl.auto">create</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
     <mapping/>
     <mapping resource="../java/br/ufc/russas/n2s/darwin/util/hibernate.hbm.xml"/>
   </session-factory>

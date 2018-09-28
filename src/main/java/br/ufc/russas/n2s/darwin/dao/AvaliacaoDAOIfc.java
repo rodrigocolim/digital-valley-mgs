@@ -49,6 +49,4 @@ public interface AvaliacaoDAOIfc {
      */
     Avaliacao getAvaliacao(Avaliacao avaliacao);
 
-	List<Avaliacao> getAvaliacao2(Etapa etapa);
-
 }

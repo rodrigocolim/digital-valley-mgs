@@ -101,10 +101,10 @@ public class EditarSelecaoController {
             selecaoBeans.setVagasRemuneradas(selecao.getVagasRemuneradas());
             selecaoBeans.setVagasVoluntarias(selecao.getVagasVoluntarias());
             
-            String[] nomeAnexos = request.getParameterValues("listaNomeAnexos");
-            String[] nomeAditivos = request.getParameterValues("listaNomeAditivos");
-            String[] linkAnexos = request.getParameterValues("listaLinkAnexos");
-            String[] linkAditivos = request.getParameterValues("listaLinkAditivos");
+            String[] nomeAnexos = request.getParameterValues("listaNomeAnexo");
+            String[] nomeAditivos = request.getParameterValues("listaNomeAditivo");
+            String[] linkAnexos = request.getParameterValues("listaLinkAnexo");
+            String[] linkAditivos = request.getParameterValues("listaLinkAditivo");
             
             File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator);
             dir.mkdir();

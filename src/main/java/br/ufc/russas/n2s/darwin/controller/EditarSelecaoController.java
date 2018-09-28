@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.mail.EmailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -30,8 +31,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
+import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.Email;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -77,7 +80,7 @@ public class EditarSelecaoController {
     }
     
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.POST)
-    public String atualiza(@PathVariable long codSelecao, @ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") String file, @RequestParam("categoria") String categoria, Model model, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException {
+    public String atualiza(@PathVariable long codSelecao, @ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") String file, @RequestParam("categoria") String categoria, Model model, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException, EmailException {
         SelecaoBeans selecaoBeans = this.getSelecaoServiceIfc().getSelecao(codSelecao);
         HttpSession session = request.getSession();
         
@@ -100,6 +103,14 @@ public class EditarSelecaoController {
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             this.getSelecaoServiceIfc().setUsuario(usuario);
             selecaoBeans = this.getSelecaoServiceIfc().atualizaSelecao(selecaoBeans);
+            EtapaBeans etapaAtual = this.getSelecaoServiceIfc().getEtapaAtual(selecaoBeans);
+            Email email = new Email();
+            if (etapaAtual != null) {
+            	for (int i = 0;i < etapaAtual.getParticipantes().size();i++) {
+            		email.sendHtmlEmail(etapaAtual.getParticipantes().get(i).getCandidato(), "Modificação em Seleção!", "Seleção "+selecao.getTitulo()+" foi modificada!", selecao.getDescricao());
+            	}
+            }
+            email.sendHtmlEmail(selecaoBeans.getResponsaveis(), "Modificação em Seleção!", "Seleção "+selecao.getTitulo()+" foi modificada!", selecao.getDescricao());
             session.setAttribute("selecao", selecaoBeans);
             session.setAttribute("mensagem", "Seleção atualizada com sucesso!");
             session.setAttribute("status", "success");
@@ -125,6 +136,8 @@ public class EditarSelecaoController {
 	            selecaoServiceIfc.setUsuario(usuario);
 	            selecao.setDivulgada(true);
 	            selecao = selecaoServiceIfc.atualizaSelecao(selecao);
+	            Email email = new Email();
+	            email.sendHtmlEmail(usuarioServiceIfc.listaTodosUsuarios(), "Nova seleção divulgada!", "Seleção "+selecao.getTitulo(), selecao.getDescricao());
 	            session.setAttribute("selecao", selecao);
 	            session.setAttribute("mensagem", "Seleção divulgada com sucesso!");
                 session.setAttribute("status", "success");

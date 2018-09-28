@@ -9,6 +9,7 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.PeriodoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.Email;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
 import br.ufc.russas.n2s.darwin.model.Etapa;
@@ -103,16 +104,16 @@ public class CadastrarEtapaController {
 	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	            etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
 	            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
+	            Email email = new Email();
 	            if (codAvaliadores != null) {
 	                for (String cod : codAvaliadores) {
 	                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
 	                    if (u != null) {
-	                        avaliadores.add(u);
+	                        avaliadores.add(u);	                        
 	                    }
 	                }
 	            }
-	           
-
+	            
             	EtapaBeans pre = etapaServiceIfc.getEtapa(codPrerequisito);
 	            etapa.setPrerequisito(pre);
 	            
@@ -124,6 +125,7 @@ public class CadastrarEtapaController {
 	                etapa.setDocumentacaoExigida(docs);
 	            }
 	            etapa.setAvaliadores(avaliadores);
+	            email.sendHtmlEmail(avaliadores, "Avaliador de seleção", "Avaliador da Seleção "+selecao.getTitulo(), "Olá!<br /> O Sr. agora é uma avaliador da <b>Etapa de "+etapa.getTitulo()+"</b> da <b>Seleção "+selecao.getTitulo()+"</b>.");
 	            selecao.getEtapas().add(etapa);
 	            this.selecaoServiceIfc.setUsuario(usuario);
 	            this.selecaoServiceIfc.atualizaSelecao(selecao);
@@ -138,6 +140,7 @@ public class CadastrarEtapaController {
         } catch (NullPointerException | NumberFormatException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
+            e.printStackTrace();
             return "cadastrar-etapa";
         } catch (IllegalArgumentException | IllegalAccessException e) {
             model.addAttribute("mensagem", e.getMessage());
@@ -175,6 +178,7 @@ public class CadastrarEtapaController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
             ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
+            Email email = new Email();
             if (codAvaliadores != null) {
                 for (String cod : codAvaliadores) {
                     UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
@@ -183,7 +187,8 @@ public class CadastrarEtapaController {
                     }
                 }
             }
-            
+            email.sendHtmlEmail(avaliadores, "Avaliador de seleção", "Avaliador da Seleção "+selecao.getTitulo(), "Olá Sr. agora é uma avaliador da Seleção"+selecao.getTitulo()+", etapa "+etapa.getTitulo()+".");
+
             if (documentosExigidos != null) {
                 ArrayList<String> docs = new ArrayList<>();
                 for(String documento : documentosExigidos){
@@ -209,6 +214,7 @@ public class CadastrarEtapaController {
         } catch (NullPointerException | NumberFormatException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
+            e.printStackTrace();
             return "cadastrar-etapa";
         } catch (IllegalArgumentException | IllegalAccessException e) {
             model.addAttribute("mensagem", e.getMessage());

@@ -77,7 +77,12 @@
                                         <c:set var = "avaliado" value = "${false}"/>
                                         <td>Pendente</td>
                                         <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#avaliar${participante.candidato.codUsuario}">Avaliar</button></td>
-                                    </c:if>    
+                                    </c:if>
+                                    <c:if test="${not empty etapa.avaliacoes and avaliado == false}">
+                                        <c:set var = "avaliado" value = "${false}"/>
+                                        <td>Pendente</td>
+                                        <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#avaliar${participante.candidato.codUsuario}">Avaliar</button></td>
+                                    </c:if>      
                                 
                             </tr>
                             <div class="modal fade" id="avaliar${participante.candidato.codUsuario}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">

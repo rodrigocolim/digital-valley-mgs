@@ -6,21 +6,27 @@
 package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
+import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.PeriodoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.Email;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.Periodo;
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
+
+import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.mail.EmailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -269,7 +275,7 @@ public class EditarEtapaController {
     }
     
     @RequestMapping(value="/divulgarResultadoInscricao/{codSelecao}/{codInscricao}", method = RequestMethod.GET)
-    public String divulgaResultadoInscricao(@PathVariable long codSelecao, @PathVariable long codInscricao, Model model, HttpServletRequest request) {
+    public String divulgaResultadoInscricao(@PathVariable long codSelecao, @PathVariable long codInscricao, Model model, HttpServletRequest request) throws MalformedURLException, EmailException {
         try{
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
@@ -278,6 +284,10 @@ public class EditarEtapaController {
             this.etapaServiceIfc.setUsuario(usuario);
             etapa.setDivulgaResultado(true);
             etapa = etapaServiceIfc.atualizaEtapa(etapa);
+            Email email = new Email();
+            for (ParticipanteBeans p : etapa.getParticipantes()) {
+            	email.sendHtmlEmail(p.getCandidato(), "Resuldato de etapa divulgado!", "Resultaod de etapa divulgado", "O resultado da <b>Etapa de "+etapa.getTitulo()+"</b> da <b>Seleção "+selecao.getTitulo()+"</b> foi divulgado!");
+            }
             session.setAttribute("selecao", selecao);
             session.setAttribute("etapa", etapa);
             session.setAttribute("resultado", etapaServiceIfc.getResultado(etapa));

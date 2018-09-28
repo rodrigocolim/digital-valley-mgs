@@ -44,6 +44,7 @@ public class Selecao {
     @Column(name = "codSelecao")
     private long codSelecao;
     private String titulo;
+    @Column(columnDefinition = "TEXT")
     private String descricao;
     @ManyToMany(targetEntity = UsuarioDarwin.class, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)

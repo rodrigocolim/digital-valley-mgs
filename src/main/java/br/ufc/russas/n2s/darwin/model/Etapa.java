@@ -48,6 +48,7 @@ public class Etapa implements Serializable, Atualizavel {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "periodo", referencedColumnName = "codPeriodo")
 	private Periodo periodo;
+	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	
 	@ManyToMany(targetEntity = UsuarioDarwin.class, fetch = FetchType.EAGER)

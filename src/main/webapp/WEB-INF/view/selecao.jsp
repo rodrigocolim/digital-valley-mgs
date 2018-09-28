@@ -177,6 +177,9 @@
 	                                            <a href="/Darwin/participarEtapa/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Inscrever-se</a>
 	                                        </c:if>
                                         </c:if>
+                                        <c:if test="${(isParticipante)}">
+	                                            <button disabled class="btn btn-secondary btn-sm" role="button" aria-pressed="true">Inscrito</button>
+                                        </c:if>
                                         	<jsp:useBean id="now" class="java.util.Date" />
 											<fmt:formatDate var="dateAgora" value="${now}" pattern="ddMMyyyy" />
 											<fmt:formatDate value="${parseDataInicio}"  pattern="ddMMyyyy" var="Inicio"/>											                                      

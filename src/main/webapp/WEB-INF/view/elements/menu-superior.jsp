@@ -38,6 +38,6 @@
             </c:if>
         </div>
     </div>
-    <div style="color: #fff;margin-right: 1%;width: auto;text-align: center;"><i class="fa fa-user-circle" aria-hidden="true"></i><span>${sessionScope.usuarioDarwin.nome}</span></div>
+    <div style="color: #fff;margin-right: 1%;width: auto;text-align: center;"></i><span>${sessionScope.usuarioDarwin.nome}</span></div>
     <a class="btn-sm btn-light text-right" href="<%=Constantes.getAppUrl() %>/sair">Sair</a>
 </nav>         

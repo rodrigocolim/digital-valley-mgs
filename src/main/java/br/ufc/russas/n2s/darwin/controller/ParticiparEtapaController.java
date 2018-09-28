@@ -81,7 +81,7 @@ public class ParticiparEtapaController {
     
     
     @RequestMapping(value="/{codEtapa}", method = RequestMethod.GET)
-    public String getIndex(@PathVariable long codEtapa, Model model) {
+    public String getIndex(@PathVariable long codEtapa, Model model, HttpServletRequest request) {
         EtapaBeans etapaBeans = this.etapaServiceIfc.getEtapa(codEtapa);
         model.addAttribute("etapa", etapaBeans);
         return "participar-etapa";
@@ -114,6 +114,8 @@ public class ParticiparEtapaController {
                 MultipartFile file = documentos.get(i);
                 if (!file.equals(null)) {
                     Arquivo documento = new Arquivo();
+                    System.out.println(file.getOriginalFilename());
+                    System.out.println("\n\n");
                     java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(), ".pdf", dir);
                     FileOutputStream fos = new FileOutputStream(convFile); 
                     fos.write(file.getBytes());

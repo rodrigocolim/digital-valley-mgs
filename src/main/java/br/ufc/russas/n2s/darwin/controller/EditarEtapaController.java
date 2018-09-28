@@ -161,16 +161,19 @@ public class EditarEtapaController {
 	            
 	            
 	            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-	            //this.etapaServiceIfc.atualizaEtapa(selecao, etapaBeans);
+	            model.addAttribute("status", "success");
+	            model.addAttribute("mensagem", "Etapa atualizada com sucesso!");
 	            model.addAttribute("selecao", selecao);
 	            return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
             } else {
             	model.addAttribute("selecao", selecao); 
-            	return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
+            	session.setAttribute("mensagem", "Etapa não pode ser atualizada! Pois ela já foi iniciada!");
+                session.setAttribute("status", "warning");
+        		return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
             }
         } catch (IllegalAccessException e) {
-        	session.setAttribute("mensagem", e.getMessage());
-        	session.setAttribute("status", "danger");
+        	model.addAttribute("mensagem", e.getMessage());
+        	model.addAttribute("status", "danger");
             return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
         }catch (IllegalCodeException e) {
         	session.setAttribute("mensagem", "Etapa não pode ser atualizada! Verifique o conflito entre periodos com outras etapas!");
@@ -208,6 +211,9 @@ public class EditarEtapaController {
 	            try {
 		            if (codAvaliadores != null) {
 		                for (String cod : codAvaliadores) {
+		                	if (cod.contains("-")) {
+		                		cod = cod.substring(0,cod.indexOf("-"));
+		                	}
 		                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
 		                    if (u != null) {
 		                        avaliadores.add(u);
@@ -215,8 +221,8 @@ public class EditarEtapaController {
 		                }
 		            }
 	            } catch (NumberFormatException e) {
-	            	model.addAttribute("mensagem", "Avaliador(es) inválido(s)!");
-	                model.addAttribute("status", "error");
+	            	session.setAttribute("mensagem", "Ocorreu um erro ao cadastrar avaliador(es)!");
+	                session.setAttribute("status", "danger");
 	            	return "redirect:/editarEtapa/" + codSelecao+"/"+codInscricao;
 	            }
 	            if (documentosExigidos != null) {
@@ -231,13 +237,13 @@ public class EditarEtapaController {
 	            selecao.setInscricao(inscricaoBeans);
 	            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
 	            session.setAttribute("selecao", selecao);
-	            session.setAttribute("mensagem", "Etapa atualizada com sucesso!");
+	            session.setAttribute("mensagem", "Etapa "+inscricaoBeans.getTitulo()+" atualizada com sucesso!");
 	            session.setAttribute("status", "success");
-	            return "redirect:/editarEtapa/" + selecao.getCodSelecao()+"/"+codInscricao;
+	            return "redirect:/selecao/" + selecao.getCodSelecao();
             } else {
             	session.setAttribute("selecao", selecao);
-            	session.setAttribute("mensagem", "Etapa iniciada, não é mais possível realizar edições!");
-	            session.setAttribute("status", "error");
+            	session.setAttribute("mensagem", "Etapa já foi iniciada, não é mais possível realizar edições!");
+	            session.setAttribute("status", "warning");
 	            return "redirect:/editarEtapa/" + selecao.getCodSelecao()+"/"+codInscricao;
             }
         }catch (IllegalCodeException e) {

@@ -45,4 +45,7 @@ public interface ParticipanteDAOIfc {
      * @return
      */
     Participante getParticipante(Participante participante);
+    
+    
+    List<Participante> listaParticipantesPorEtapa(int codEtapa); 
 }

@@ -5,27 +5,23 @@
  */
 package br.ufc.russas.n2s.darwin.controller;
 
-import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
-import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
-import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.model.Arquivo;
-import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
-import br.ufc.russas.n2s.darwin.model.EnumPermissao;
-import br.ufc.russas.n2s.darwin.model.FileManipulation;
-import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
-import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
-import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
-import util.Constantes;
-
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -35,12 +31,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.io.File;
-import java.net.URL;
-import java.util.ArrayList;
+
+import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
+import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
+import br.ufc.russas.n2s.darwin.model.FileManipulation;
+import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
+import util.Constantes;
 /**
  *
- * @author Wallison Carlos
+ * @author Wallison Carlos, Gilberto Lima
  */
 @Controller("cadastrarSelecaoController")
 @RequestMapping("/cadastrarSelecao")
@@ -48,6 +51,8 @@ public class CadastrarSelecaoController {
 
     private SelecaoServiceIfc selecaoServiceIfc;
     private UsuarioServiceIfc usuarioServiceIfc;
+    
+    List<UsuarioBeans> responsaveis = new ArrayList	();
     
     public SelecaoServiceIfc getSelecaoServiceIfc() {
         return selecaoServiceIfc;
@@ -60,7 +65,8 @@ public class CadastrarSelecaoController {
     
     @RequestMapping(method = RequestMethod.GET)
     public String getIndex(Model model) {
-        model.addAttribute("responsaveis", usuarioServiceIfc.listaTodosUsuarios());
+    	responsaveis = usuarioServiceIfc.listaTodosUsuarios();
+        model.addAttribute("responsaveis", responsaveis);
         return "cadastrar-selecao";
     }
 
@@ -167,25 +173,26 @@ public class CadastrarSelecaoController {
             session.setAttribute("mensagem", "Seleção cadastrada com sucesso!");
             session.setAttribute("status", "success");
             return ("redirect:selecao/" + selecao.getCodSelecao());
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            model.addAttribute("mensagem", e.getMessage());
+        } catch (FileNotFoundException e) {
+            model.addAttribute("novaSelecao", selecao);
+            model.addAttribute("responsaveis", responsaveis);
+            model.addAttribute("mensagem", "Verifique se o caminho do arquivo "+e.getMessage()+" está correto!");
             model.addAttribute("status", "danger");
             return ("cadastrar-selecao");
-        } catch (IllegalArgumentException | NullPointerException | IllegalAccessException e) {
+        }  catch (IllegalArgumentException | NullPointerException | IllegalAccessException e) {
             e.printStackTrace();
+            model.addAttribute("novaSelecao", selecao);
+            model.addAttribute("responsaveis", responsaveis);
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
             return ("cadastrar-selecao");
         } catch (Exception e) {
             e.printStackTrace();
+            model.addAttribute("novaSelecao", selecao);
+            model.addAttribute("responsaveis", responsaveis);
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
             return ("cadastrar-selecao");
         }
-
     }
-
-    
-    
 }

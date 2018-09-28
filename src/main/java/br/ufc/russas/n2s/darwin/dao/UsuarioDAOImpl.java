@@ -78,15 +78,10 @@ public class UsuarioDAOImpl implements UsuarioDAOIfc{
         Transaction t = session.beginTransaction();
         try {
             List<UsuarioDarwin> usuarios;
-            System.out.println("\n\n ESTE é o nome :"+nome);
             Criteria c = session.createCriteria(UsuarioDarwin.class);
         	c.add(Restrictions.ilike("nome", "%"+nome+"%"));
         	c.addOrder(Order.asc("nome"));
         	usuarios = (List<UsuarioDarwin>) c.list();
-        	
-        	for (UsuarioDarwin usuarioDarwin : usuarios) {
-				System.out.println(usuarioDarwin.getNome());
-			}
             return usuarios;
         } catch(RuntimeException e) {
             t.rollback();

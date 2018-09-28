@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -72,6 +73,9 @@ public class EditarSelecaoController {
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
         List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaTodosUsuarios();
         List<UsuarioBeans> responsaveis = selecao.getResponsaveis();
+        for (UsuarioBeans usuarioBeans : responsaveis) {
+			System.out.println(usuarioBeans.getNome());
+		}
         model.addAttribute("selecao", selecao);
         model.addAttribute("usuarios", usuarios);
         model.addAttribute("responsaveis", responsaveis);
@@ -100,6 +104,23 @@ public class EditarSelecaoController {
                 edital.setArquivo(FileManipulation.getFileStream(inputStream, ".pdf"));
                 selecaoBeans.setEdital(edital);
             }
+            String[] codResponsaveis = request.getParameterValues("codResponsaveis");
+            ArrayList<UsuarioBeans> responsaveis = new ArrayList<>();
+            if (codResponsaveis != null) {
+            	
+                for (String cod : codResponsaveis) {
+                	System.out.println(cod);
+                	if (cod.contains("-")) {
+                		cod = cod.substring(0,cod.indexOf("-"));
+                	}
+                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+                    System.out.println("usuario retornado: "+u.getNome());
+                    if (u != null) {
+                    	responsaveis.add(u);
+                    }
+                }
+            }
+            selecaoBeans.setResponsaveis(responsaveis);
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             this.getSelecaoServiceIfc().setUsuario(usuario);
             selecaoBeans = this.getSelecaoServiceIfc().atualizaSelecao(selecaoBeans);
@@ -114,7 +135,7 @@ public class EditarSelecaoController {
             session.setAttribute("selecao", selecaoBeans);
             session.setAttribute("mensagem", "Seleção atualizada com sucesso!");
             session.setAttribute("status", "success");
-            return ("editar-selecao");
+            return "redirect:/selecao/" + selecaoBeans.getCodSelecao();
         }catch(IOException | IllegalAccessException e){
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");

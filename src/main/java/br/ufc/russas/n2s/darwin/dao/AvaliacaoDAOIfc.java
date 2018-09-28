@@ -6,7 +6,6 @@
 package br.ufc.russas.n2s.darwin.dao;
 
 import br.ufc.russas.n2s.darwin.model.Avaliacao;
-import br.ufc.russas.n2s.darwin.model.Avaliacoes;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 
 import java.util.List;

@@ -98,7 +98,7 @@ public class IndexController {
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
         List<EtapaBeans> etapasAtuais = Collections.synchronizedList(new ArrayList<EtapaBeans>());
         for (SelecaoBeans s : selecoes) {
-        etapasAtuais.add(this.getSelecaoServiceIfc().getEtapaAtual(s));
+        	etapasAtuais.add(this.getSelecaoServiceIfc().getEtapaAtual(s));
         }
         
         model.addAttribute("estado", e);
@@ -116,6 +116,7 @@ public class IndexController {
         
         HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
+        	//System.out.println(this.getSelecaoServiceIfc().getEtapaAtual(s).getTitulo());
             etapasAtuais.put(s, this.getSelecaoServiceIfc().getEtapaAtual(s));
         }
         model.addAttribute("categoria", "Minhas seleções");

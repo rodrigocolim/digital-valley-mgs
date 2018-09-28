@@ -42,6 +42,9 @@
                     </div>
                 </c:if>                           
                     <h1>Avaliar participantes</h1>
+                    <c:if test="${empty participantesEtapa}">
+                    	<p class="text-muted">Esta etapa ainda não possui candidatos cadastrados!</p>
+                       </c:if>
                     <br>
                     <table class="table table-responsive">
                         <thead>
@@ -156,6 +159,7 @@
                                 </div>
                             </c:forEach>
                         </tbody>
+
                     </table>
                     <a href="/Darwin/selecao/${selecao.codSelecao}" class="btn btn-secondary btn-sm">
                         Cancelar

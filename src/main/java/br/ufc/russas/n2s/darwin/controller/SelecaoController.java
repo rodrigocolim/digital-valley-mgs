@@ -1,22 +1,11 @@
 package br.ufc.russas.n2s.darwin.controller;
 
-import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
-import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
-import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
-import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.dao.AvaliacaoDAOIfc;
-import br.ufc.russas.n2s.darwin.model.Avaliacao;
-import br.ufc.russas.n2s.darwin.model.Etapa;
-import br.ufc.russas.n2s.darwin.model.FileManipulation;
-import br.ufc.russas.n2s.darwin.service.AvaliacaoServiceIfc;
-import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
-import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
-
-import java.awt.List;
 import java.util.Collection;
 import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -25,6 +14,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
+import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
+import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
+import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.dao.AvaliacaoDAOIfc;
+import br.ufc.russas.n2s.darwin.model.Avaliacao;
+import br.ufc.russas.n2s.darwin.model.Etapa;
+import br.ufc.russas.n2s.darwin.service.AvaliacaoServiceIfc;
+import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
+import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 
 /**
  *
@@ -64,7 +65,16 @@ public class SelecaoController {
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-
+        boolean isParticipante = false;
+        if (selecao.getInscricao() != null && selecao.getInscricao().getParticipantes() != null) {
+        	for (ParticipanteBeans participante : selecao.getInscricao().getParticipantes()) {
+            	System.out.println(participante.getCandidato().getNome());
+    			if (participante.getCandidato().getCodUsuario() == usuario.getCodUsuario()) {
+    				isParticipante = true;
+    			}
+    		}
+        }
+        model.addAttribute("isParticipante", isParticipante);
         if (!selecao.isDivulgada() && selecao.getResponsaveis().contains(usuario)) {
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
@@ -108,18 +118,6 @@ public class SelecaoController {
             return "elements/error404";
         }
     }
-   
-    /*@RequestMapping(value = "/editar-selecao/{codSelecao}", method = RequestMethod.POST)
-    public String atualiza(@PathVariable String selecaoCodigo, SelecaoBeans selecao, Model model, BindingResult result, HttpServletRequest request){
-    if(result.hasErrors()){
-    return "selecao";
-    }
-    selecao = this.selecaoServiceIfc.atualizaSelecao(selecao);
-    request.getSession().setAttribute("selecao", selecao);
-    return "selecao";
-    }*/
-   
-   
     
     @RequestMapping(value = "/editar-selecao/{codSelecao}", method = RequestMethod.GET)
     public String remove(@PathVariable String selecaoCodigo, SelecaoBeans selecao, Model model, BindingResult result, HttpServletRequest request){

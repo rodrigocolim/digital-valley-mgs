@@ -19,6 +19,7 @@ import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import util.Constantes;
 import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,6 +104,9 @@ public class CadastrarEtapaController {
 	            etapa.setEstado(EnumEstadoEtapa.ESPERA);
 	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	            etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+	            if (etapa.getPeriodo().getInicio().isBefore(LocalDate.now())) {
+	            	throw new IllegalArgumentException("A data selecionada para o inicio da atividade já passou!");
+	            }
 	            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
 	            Email email = new Email();
 	            if (codAvaliadores != null) {

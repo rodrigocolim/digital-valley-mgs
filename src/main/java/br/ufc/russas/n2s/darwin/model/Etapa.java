@@ -67,6 +67,9 @@ public class Etapa implements Serializable, Atualizavel {
 	@Column(name = "criterio_de_avaliacao")
 	@Enumerated(EnumType.ORDINAL)
 	private EnumCriterioDeAvaliacao criterioDeAvaliacao;
+	private float pesoNota = 1;
+	private boolean criterioDesempate;
+	private int posiscaoCriterioDesempate;
 	
 	@ManyToMany(targetEntity = Avaliacao.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(FetchMode.SUBSELECT)
@@ -173,6 +176,34 @@ public class Etapa implements Serializable, Atualizavel {
 		}
 	}
 
+	public float getPesoNota() {
+		return pesoNota;
+	}
+	
+	public void setPesoNota(float pesoNota) {
+		if (pesoNota >= 1) {
+			this.pesoNota = pesoNota;
+		} else {
+			throw new IllegalArgumentException("Peso de nota deve ser maior igual a 1!");
+		}
+	}
+	
+	public boolean isCriterioDesempate() {
+		return criterioDesempate;
+	}
+	
+	public void setCriterioDesempate(boolean criterioDesempate) {
+		this.criterioDesempate = criterioDesempate;
+	}
+	
+	public int getPosiscaoCriterioDesempate() {
+		return posiscaoCriterioDesempate;
+	}
+	
+	public void setPosiscaoCriterioDesempate(int posiscaoCriterioDesempate) {
+		this.posiscaoCriterioDesempate = posiscaoCriterioDesempate;
+	}
+	
 	public List<Avaliacao> getAvaliacoes() {
 		return avaliacoes;
 	}

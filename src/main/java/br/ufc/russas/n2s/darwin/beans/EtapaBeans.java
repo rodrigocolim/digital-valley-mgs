@@ -38,6 +38,9 @@ public class EtapaBeans implements Beans {
     private float notaMinima;
     private int limiteClassificados;
     private boolean divulgadoResultado;
+    private float pesoNota = 1;
+	private boolean criterioDesempate;
+	private int posiscaoCriterioDesempate;
     private List<ParticipanteBeans> participantes;
     
 		    
@@ -98,6 +101,30 @@ public class EtapaBeans implements Beans {
     public void setCriterioDeAvaliacao(EnumCriterioDeAvaliacao criterioDeAvaliacao) {
         this.criterioDeAvaliacao = criterioDeAvaliacao;
     }
+    
+    public float getPesoNota() {
+		return pesoNota;
+	}
+	
+	public void setPesoNota(float pesoNota) {
+		this.pesoNota = pesoNota;
+	}
+	
+	public boolean isCriterioDesempate() {
+		return criterioDesempate;
+	}
+	
+	public void setCriterioDesempate(boolean criterioDesempate) {
+		this.criterioDesempate = criterioDesempate;
+	}
+	
+	public int getPosiscaoCriterioDesempate() {
+		return posiscaoCriterioDesempate;
+	}
+	
+	public void setPosiscaoCriterioDesempate(int posiscaoCriterioDesempate) {
+		this.posiscaoCriterioDesempate = posiscaoCriterioDesempate;
+	}
 
     public List<AvaliacaoBeans> getAvaliacoes() {
         return avaliacoes;
@@ -212,6 +239,9 @@ public class EtapaBeans implements Beans {
             }
         }
         etapa.setDocumentacoes(documentacoes);
+        etapa.setCriterioDesempate(this.isCriterioDesempate());
+        etapa.setPesoNota(this.getPesoNota());
+        etapa.setPosiscaoCriterioDesempate(this.getPosiscaoCriterioDesempate());
         etapa.setNotaMinima(this.getNotaMinima());
         etapa.setLimiteClassificados(this.getLimiteClassificados());
         etapa.setDivulgadoResultado(this.isDivulgadoResultado());
@@ -283,6 +313,9 @@ public class EtapaBeans implements Beans {
                 this.setNotaMinima(etapa.getNotaMinima());
                 this.setLimiteClassificados(etapa.getLimiteClassificados());
                 this.setDivulgaResultado(etapa.isDivulgadoResultado());
+                this.setPesoNota(etapa.getPesoNota());
+                this.setCriterioDesempate(etapa.isCriterioDesempate());
+                this.setPosiscaoCriterioDesempate(etapa.getPosiscaoCriterioDesempate());
                 return this;
             } else {
                 throw new IllegalArgumentException("O objeto a ser adicionado não é uma Etapa!");

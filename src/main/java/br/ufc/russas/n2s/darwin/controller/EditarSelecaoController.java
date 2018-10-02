@@ -216,8 +216,17 @@ public class EditarSelecaoController {
 	            	EtapaBeans e = selecao.getEtapas().get(i);
 	            	avaliadoresSet.addAll(e.getAvaliadores());
 	            }
-	            email.sendHtmlEmail(avaliadoresSet, "Avaliador de Etapa!", "Avaliador de Etapa", "Você é avaliador de etapas da <b>Selção"+selecao.getTitulo()+"</b>!");
-	            session.setAttribute("selecao", selecao);
+	            for(Iterator<UsuarioBeans> iter = avaliadoresSet.iterator(); iter.hasNext();) {
+	            	UsuarioBeans u = iter.next();
+                  	if (u.isRecebeEmail()) {
+                  		String etapasAvaliador = "";
+                  		for (int i = 0;i < selecao.getEtapas().size();i++) {
+                  			etapasAvaliador += "<b>"+selecao.getEtapas().get(i).getTitulo()+"</b><br />";
+                  		}
+                  		email.sendHtmlEmail(u, "Avaliador de Etapa!", "Avaliador de Etapa", "Você é avaliador de etapas da <b>Selção"+selecao.getTitulo()+"</b>:"+etapasAvaliador);
+                  	}
+	            }
+	            	            session.setAttribute("selecao", selecao);
 	            session.setAttribute("mensagem", "Seleção divulgada com sucesso!");
                 session.setAttribute("status", "success");
 	            return "redirect:/selecao/" + selecao.getCodSelecao();

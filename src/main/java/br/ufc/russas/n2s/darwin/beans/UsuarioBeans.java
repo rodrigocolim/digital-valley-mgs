@@ -20,7 +20,8 @@ public class UsuarioBeans implements Beans{
     private String nome;
     private String email;
     private List<EnumPermissao> permissoes;
-
+    private boolean recebeEmail;
+    
     public long getCodUsuario() {
         return codUsuario;
     }
@@ -61,6 +62,15 @@ public class UsuarioBeans implements Beans{
     	this.email = email;
     }
     
+    
+    public boolean isRecebeEmail() {
+		return recebeEmail;
+	}
+    
+    public void setRecebeEmail(boolean recebeEmail) {
+		this.recebeEmail = recebeEmail;
+	}
+    
     @Override
     public Object toBusiness() {
         UsuarioDarwin usuario = new UsuarioDarwin();
@@ -73,6 +83,7 @@ public class UsuarioBeans implements Beans{
         usuario.setNome(this.getNome());
         usuario.setEmail(this.getEmail());
         usuario.setPermissoes(this.getPermissoes());
+        usuario.setRecebeEmail(this.isRecebeEmail());
         return usuario;
     }
 
@@ -86,6 +97,7 @@ public class UsuarioBeans implements Beans{
                 this.setCodUsuarioControleDeAcesso(usuario.getCodUsuarioControleDeAcesso());
                 this.setNome(usuario.getNome());
                 this.setEmail(usuario.getEmail());
+                this.setRecebeEmail(usuario.isRecebeEmail());
                 return this;
             }else{
                 throw new IllegalArgumentException("Isso não é um usuário!");

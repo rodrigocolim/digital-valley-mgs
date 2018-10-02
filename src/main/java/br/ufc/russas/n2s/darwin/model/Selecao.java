@@ -11,7 +11,12 @@ import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOImpl;
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Converter;
@@ -391,7 +396,38 @@ public class Selecao {
         return etapa;
     }
     
-    public void resultado () {
+    public void resultado () throws IllegalAccessException {
+    	Etapa ultima = this.getUltimaEtapa();
+    	if (ultima.getPeriodo().getTermino().isBefore(LocalDate.now())) {
+    		//{participante, situacao, status, avaliacao}
+    		//{participante, situacao, status, media}
+    		List<Object[]> resultadoEtapaFinal = ultima.getResultado();
+    		List<Object[]> resultadoSelecao = Collections.synchronizedList(new ArrayList<Object[]>());
+    		List<Etapa> porNotas = this.getEtapas().stream()
+                    .filter( EtapaPredicates.isNota())
+                    .collect(Collectors.<Etapa>toList());
+    		List<Etapa> porAprovacaoDeferimento = this.getEtapas().stream()
+                    .filter( EtapaPredicates.isAprovacaoDeferimento())
+                    .collect(Collectors.<Etapa>toList());
+    		for (int i = 0;i < resultadoEtapaFinal.size();i++) {
+    			Object[] r = resultadoEtapaFinal.get(i);
+    			Participante p = (Participante) r[0];
+    			float mediaGeral = 0;
+    			float sumGeral = 0;
+    			for (int j = 0;j < porNotas.size();j++) {
+    				Etapa etapa = porNotas.get(i);
+    				for (int k = 0;k < etapa.getResultado().size();k++) {
+    					Object[] resultadoParticipante = etapa.getResultado().get(i);
+    					if (p.equals((Participante) resultadoParticipante[0])) {
+    						sumGeral += (float) resultadoParticipante[3];
+    					}
+    				}
+    			}
+    		}
+    	} else {
+    		throw new IllegalAccessException("A seleção ainda não terminou! Só será possível divulgar o resultado após o termino da última etapa!");
+    	}
+    	
         List<Object[]> aprovados = getUltimaEtapa().getResultado();
         int limiteClassificados =  getVagasRemuneradas() + getVagasVoluntarias();
         int n = aprovados.size();

@@ -65,7 +65,7 @@ public class CadastrarSelecaoController {
     
     @RequestMapping(method = RequestMethod.GET)
     public String getIndex(Model model) {
-    	responsaveis = usuarioServiceIfc.listaTodosUsuarios();
+    	responsaveis = usuarioServiceIfc.listaUsuariosComPermissao(EnumPermissao.RESPONSAVEL);
         model.addAttribute("responsaveis", responsaveis);
         return "cadastrar-selecao";
     }

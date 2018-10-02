@@ -65,7 +65,7 @@
 
                         <label for="categoriaInput">Categoria*</label>
                         <select type="text" name="categoria" class="form-control custom-select" id="categoriaInput" required>
-                            <option value="" ${novaSelecao.categoria eq '' ? 'selected="selected"' : ''} disabled="disabled">Selecione a categoria da seleção</option>
+                            <option value=""${(not novaSelecao.categoria) ? 'selected="selected"' : ''} disabled="disabled">Selecione a categoria da seleção</option>
                             <option ${novaSelecao.categoria eq 'Assitência Estudantil' ? 'selected="selected"' : ''}>Assistência Estudantil</option>
                             <option ${novaSelecao.categoria eq 'Bolsas para Discentes' ? 'selected="selected"' : ''}>Seleções para Discentes</option>
                             <option ${novaSelecao.categoria eq 'Cargos de Docente' ? 'selected="selected' : ''}>Cargos de Docente</option>

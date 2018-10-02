@@ -38,6 +38,10 @@
             </c:if>
         </div>
     </div>
+<<<<<<< HEAD
+    <div style="color: #fff;margin-right: 1%;width: auto;text-align: center;"></i><span>${sessionScope.usuarioDarwin.nome}</span></div>
+    <a class="btn-sm btn-light text-right" href="<%=Constantes.getAppUrl() %>/sair">Sair</a>
+=======
     <div class="btn-group dropleft" style="margin-right:5%;">
 	<button type="button" class="btn btn-link dropdown-toggle" style="color: #fff;margin-right: 1%;width: auto;text-align: center;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	  ${sessionScope.usuarioDarwin.nome}
@@ -52,4 +56,5 @@
 	  <a class="dropdown-item" href="<%=Constantes.getAppUrl() %>/sair">Sair</a>
 	</div>
 </div>
+>>>>>>> 57f7d79b09ba9425b965c0b5f174e33e4075e193
 </nav>         

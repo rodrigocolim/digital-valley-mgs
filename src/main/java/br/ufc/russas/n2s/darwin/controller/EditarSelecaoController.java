@@ -42,6 +42,7 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Email;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -78,7 +79,7 @@ public class EditarSelecaoController {
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-        List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaTodosUsuarios();
+        List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.RESPONSAVEL);
         List<UsuarioBeans> responsaveis = selecao.getResponsaveis();
         for (UsuarioBeans usuarioBeans : responsaveis) {
 			System.out.println(usuarioBeans.getNome());
@@ -104,10 +105,10 @@ public class EditarSelecaoController {
             selecaoBeans.setVagasRemuneradas(selecao.getVagasRemuneradas());
             selecaoBeans.setVagasVoluntarias(selecao.getVagasVoluntarias());
             
-            String[] nomeAnexos = request.getParameterValues("listaNomeAnexos");
-            String[] nomeAditivos = request.getParameterValues("listaNomeAditivos");
-            String[] linkAnexos = request.getParameterValues("listaLinkAnexos");
-            String[] linkAditivos = request.getParameterValues("listaLinkAditivos");
+            String[] nomeAnexos = request.getParameterValues("listaNomeAnexo");
+            String[] nomeAditivos = request.getParameterValues("listaNomeAditivo");
+            String[] linkAnexos = request.getParameterValues("listaLinkAnexo");
+            String[] linkAditivos = request.getParameterValues("listaLinkAditivo");
             
             File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator);
             dir.mkdir();

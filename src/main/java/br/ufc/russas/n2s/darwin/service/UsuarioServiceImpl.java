@@ -124,16 +124,16 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
         atualizaUsuario(usuario);
     }
     
-    public List<UsuarioBeans> listaAvaliadores() {
-        List<UsuarioBeans> avaliadores = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
+    @Override
+    public List<UsuarioBeans> listaUsuariosComPermissao(EnumPermissao permissao) {
+        List<UsuarioBeans> lista = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
         List<UsuarioBeans> resultado = this.listaTodosUsuarios();
-        
         for (UsuarioBeans ub : resultado) {
-            if (ub.getPermissoes().contains(EnumPermissao.AVALIADOR)) {
-                avaliadores.add(ub);
+            if (ub.getPermissoes().contains(permissao)) {
+                lista.add(ub);
             }
         }
-        return avaliadores;
+        return lista;
     }
     
     

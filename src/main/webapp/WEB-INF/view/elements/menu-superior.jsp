@@ -39,17 +39,17 @@
         </div>
     </div>
     <div class="btn-group dropleft" style="margin-right:5%;">
-	<button type="button" class="btn btn-link dropdown-toggle" style="color: #fff;margin-right: 1%;width: auto;text-align: center;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	  ${sessionScope.usuarioDarwin.nome}
-	</button>
-	<div class="dropdown-menu">
-	<c:if test="${sessionScope.usuarioDarwin.recebeEmail}">
-     <a class="dropdown-item" href="<%=Constantes.getAppUrl() %>/usuario/recebeEmail">Deixar de receber e-mails</a>
-     </c:if>
-     <c:if test="${not sessionScope.usuarioDarwin.recebeEmail}">
-     <a class="dropdown-item" href="<%=Constantes.getAppUrl() %>/usuario/recebeEmail">Receber e-mails</a>
-     </c:if>
-	  <a class="dropdown-item" href="<%=Constantes.getAppUrl() %>/sair">Sair</a>
+		<button type="button" class="btn btn-link dropdown-toggle" style="color: #fff;margin-right: 1%;width: auto;text-align: center;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		  ${sessionScope.usuarioDarwin.nome}
+		</button>
+		<div class="dropdown-menu">
+		<c:if test="${sessionScope.usuarioDarwin.recebeEmail}">
+	     <a class="dropdown-item" href="<%=Constantes.getAppUrl() %>/usuario/recebeEmail">Deixar de receber e-mails</a>
+	     </c:if>
+	     <c:if test="${not sessionScope.usuarioDarwin.recebeEmail}">
+	     <a class="dropdown-item" href="<%=Constantes.getAppUrl() %>/usuario/recebeEmail">Receber e-mails</a>
+	     </c:if>
+		  <a class="dropdown-item" href="<%=Constantes.getAppUrl() %>/sair">Sair</a>
 	</div>
 </div>
 </nav>         

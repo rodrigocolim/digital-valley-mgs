@@ -44,6 +44,7 @@ public class UsuarioDarwin {
     @ElementCollection(targetClass = EnumPermissao.class, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     private List<EnumPermissao> permissoes;
+    private boolean recebeEmail;
 
     public long getCodUsuario() {
         return codUsuario;
@@ -90,6 +91,14 @@ public class UsuarioDarwin {
     	} else {
     		throw new NullPointerException("E-mail não pode ser vazio!");
     	}
+    }
+    
+    public boolean isRecebeEmail() {
+    	return this.recebeEmail;
+    }
+    
+    public void setRecebeEmail(boolean recebeEmail) {
+    	this.recebeEmail = recebeEmail;
     }
     
     public UsuarioDarwin adicionaNivel(UsuarioDarwin usuario, EnumPermissao permissao) throws IllegalAccessException{

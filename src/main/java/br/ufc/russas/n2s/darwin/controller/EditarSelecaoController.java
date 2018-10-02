@@ -14,8 +14,11 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -181,13 +184,6 @@ public class EditarSelecaoController {
             this.getSelecaoServiceIfc().setUsuario(usuario);
             selecaoBeans = this.getSelecaoServiceIfc().atualizaSelecao(selecaoBeans);
             EtapaBeans etapaAtual = this.getSelecaoServiceIfc().getEtapaAtual(selecaoBeans);
-            Email email = new Email();
-            if (etapaAtual != null) {
-            	for (int i = 0;i < etapaAtual.getParticipantes().size();i++) {
-            		email.sendHtmlEmail(etapaAtual.getParticipantes().get(i).getCandidato(), "Modificação em Seleção!", "Seleção "+selecao.getTitulo()+" foi modificada!", selecao.getDescricao());
-            	}
-            }
-            email.sendHtmlEmail(selecaoBeans.getResponsaveis(), "Modificação em Seleção!", "Seleção "+selecao.getTitulo()+" foi modificada!", selecao.getDescricao());
             session.setAttribute("selecao", selecaoBeans);
             session.setAttribute("mensagem", "Seleção atualizada com sucesso!");
             session.setAttribute("status", "success");
@@ -215,6 +211,12 @@ public class EditarSelecaoController {
 	            selecao = selecaoServiceIfc.atualizaSelecao(selecao);
 	            Email email = new Email();
 	            email.sendHtmlEmail(usuarioServiceIfc.listaTodosUsuarios(), "Nova seleção divulgada!", "Seleção "+selecao.getTitulo(), selecao.getDescricao());
+	            Set<UsuarioBeans> avaliadoresSet = Collections.synchronizedSet(new HashSet<UsuarioBeans>());
+	            for (int i =0;i < selecao.getEtapas().size();i++) {
+	            	EtapaBeans e = selecao.getEtapas().get(i);
+	            	avaliadoresSet.addAll(e.getAvaliadores());
+	            }
+	            email.sendHtmlEmail(avaliadoresSet, "Avaliador de Etapa!", "Avaliador de Etapa", "Você é avaliador de etapas da <b>Selção"+selecao.getTitulo()+"</b>!");
 	            session.setAttribute("selecao", selecao);
 	            session.setAttribute("mensagem", "Seleção divulgada com sucesso!");
                 session.setAttribute("status", "success");

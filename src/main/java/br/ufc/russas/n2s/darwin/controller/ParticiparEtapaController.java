@@ -12,6 +12,7 @@ import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Arquivo;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
+import br.ufc.russas.n2s.darwin.model.Email;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
@@ -140,7 +141,8 @@ public class ParticiparEtapaController {
             }            
             session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(inscricao.getTitulo()));
             List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
-
+            Email email = new Email();
+            email.sendHtmlEmail(usuario, "Inscrição em seleção!", "Inscrição em seleção", "Sua inscrição na <b>Seleção "+selecao.getTitulo()+"</b> foi realizada com sucesso!");
             HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
             for (SelecaoBeans s : selecoes) {
                 etapasAtuais.put(s, this.getSelecaoServiceIfc().getEtapaAtual(s));
@@ -198,7 +200,9 @@ public class ParticiparEtapaController {
             participante.setData(LocalDateTime.now());
             documentacao.setCandidato(participante);
             documentacao.setDocumentos(arquivos);
-            this.etapaServiceIfc.anexaDocumentacao(etapa, (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));           
+            this.etapaServiceIfc.anexaDocumentacao(etapa, (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
+            Email email = new Email();
+            email.sendHtmlEmail(usuario, "Inscrição em seleção!", "Inscrição em seleção", "Sua inscrição na <b>Seleção "+selecao.getTitulo()+"</b> foi realizada com sucesso!");
             session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(etapa.getTitulo()));
             session.setAttribute("status", "success");
             response.sendRedirect("/Darwin/minhas_Selecoes");

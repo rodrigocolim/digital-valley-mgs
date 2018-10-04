@@ -15,6 +15,7 @@ import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
+import br.ufc.russas.n2s.darwin.model.EtapaPredicates;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
@@ -23,6 +24,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -230,4 +233,30 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
             return null;
         }
     }
+
+	@Override
+	public List<EtapaBeans> getEtapasNota(SelecaoBeans selecao) {
+		Selecao s = (Selecao) selecao.toBusiness();
+		List<Etapa> porNotas = s.getEtapas().stream()
+                .filter( EtapaPredicates.isNota())
+                .collect(Collectors.<Etapa>toList());
+		List<EtapaBeans> etapas = Collections.synchronizedList(new ArrayList<EtapaBeans>());
+		for (int i = 0;i < porNotas.size();i++) {
+			etapas.add((EtapaBeans) new EtapaBeans().toBeans(porNotas.get(i)));
+		}
+		return etapas;
+	}
+
+	@Override
+	public List<List<Object>> getResultado(SelecaoBeans selecao) throws IllegalAccessException {
+		Selecao s = (Selecao) selecao.toBusiness();
+		List<List<Object>> resultado = s.resultado();
+		for (int i = 0;i < resultado.size();i++) {
+			List<Object> r = resultado.get(i);
+			ParticipanteBeans  p = (ParticipanteBeans) new ParticipanteBeans().toBeans(r.get(0));
+			r.set(0, p);
+			resultado.set(i, r);
+		}
+		return resultado;
+	}
 }

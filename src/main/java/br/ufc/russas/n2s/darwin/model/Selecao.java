@@ -395,7 +395,14 @@ public class Selecao {
         }
         return etapa;
     }
-    
+    /**
+     * Método resposável por calcular o resultado de uma seleção 
+     * @param 
+     * @return List<List<Object>>
+     * List<List<Object>> - Uma tabela (ou matriz) usando a estrutura de dados List,
+     * sendo cada linha o resultado de um participante onde as colunas são: 
+     * Objeto Participante | (float) Nota etapa com nota 1 | (float) Nota etapa com nota 2 | ... | (float) Nota etapa com nota N | (float) Média geral | (int) Colocação | (String) Situação
+     */        
     public List<List<Object>> resultado () throws IllegalAccessException {
     	Etapa ultima = this.getUltimaEtapa();
     	if (ultima.getPeriodo().getTermino().isBefore(LocalDate.now())) {
@@ -476,7 +483,8 @@ public class Selecao {
     			p++;
     		}
     		for (int i = 0; i< resultadoSelecao.size();i++) {
-    			if (i < (getVagasRemuneradas()+getVagasVoluntarias())) {
+    			List<Object> r = resultadoSelecao.get(i);
+    			if ((int) r.get(porNotas.size()+1) <= (getVagasRemuneradas()+getVagasVoluntarias())) {
     				resultadoSelecao.get(i).add("APROVADO");
     			} else {
     				resultadoSelecao.get(i).add("REPROVADO");

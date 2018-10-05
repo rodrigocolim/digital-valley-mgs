@@ -451,19 +451,29 @@ public class Selecao {
     				}
     			}
     		}
-    		
+    		int p = 1;
     		for (int i = 0;i<resultadoSelecao.size()-1;i++) {
     			List<Object> r1 = resultadoSelecao.get(i);
     			List<Object> r2 = resultadoSelecao.get(i+1);
-    			if ((float) r1.get(r1.size()-1) == (float) r2.get(r2.size()-1)) {
+    			int k = 1;
+    			if ((float) r1.get(r1.size()-1) == (float) r2.get(r2.size()-1)) {    				
 	    			for (int j = 1;j < porNotas.size()+1;j++) {
 	    				if (porNotas.get(i).isCriterioDesempate() && (float) r1.get(j) < (float) r2.get(j)) {
 	    					resultadoSelecao.set(i, r2);
 	    					resultadoSelecao.set(i+1, r1);
 	    					break;
 	    				}
+	    				k++;
 	    			}
     			}
+    			if (k == porNotas.size()) {
+    				resultadoSelecao.get(i).add(p);
+    				resultadoSelecao.get(i+1).add(p);
+    			} else {
+    				resultadoSelecao.get(i).add(p);
+    				resultadoSelecao.get(i+1).add(p+1);
+    			}
+    			p++;
     		}
     		for (int i = 0; i< resultadoSelecao.size();i++) {
     			if (i < (getVagasRemuneradas()+getVagasVoluntarias())) {

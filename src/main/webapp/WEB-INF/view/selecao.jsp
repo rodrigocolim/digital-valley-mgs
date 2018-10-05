@@ -107,6 +107,11 @@
                         Editar seleção
                     </a>                    
                 </c:if>
+                <c:if test="${(isResponsavel and (selecao.estado eq 'FINALIZADA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                    <a href="/Darwin/resultadoSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
+                        Resultado seleção
+                    </a>                    
+                </c:if>
                 </div>
                 <br>
                 <p class="text-justify">

@@ -44,12 +44,12 @@
 		</button>
 		<div class="dropdown-menu">
 		<c:if test="${sessionScope.usuarioDarwin.recebeEmail}">
-	     <a class="dropdown-item" href="<%=Constantes.getAppUrl() %>/usuario/recebeEmail">Deixar de receber e-mails</a>
+		     <a class="dropdown-item" href="<%=Constantes.getAppUrl() %>/usuario/recebeEmail">Deixar de receber e-mails</a>
+		     </c:if>
+		     <c:if test="${not sessionScope.usuarioDarwin.recebeEmail}">
+		     <a class="dropdown-item" href="<%=Constantes.getAppUrl() %>/usuario/recebeEmail">Receber e-mails</a>
 	     </c:if>
-	     <c:if test="${not sessionScope.usuarioDarwin.recebeEmail}">
-	     <a class="dropdown-item" href="<%=Constantes.getAppUrl() %>/usuario/recebeEmail">Receber e-mails</a>
-	     </c:if>
-		  <a class="dropdown-item" href="<%=Constantes.getAppUrl() %>/sair">Sair</a>
+		 <a class="dropdown-item" href="<%=Constantes.getAppUrl() %>/sair">Sair</a>
 	</div>
 </div>
 </nav>         

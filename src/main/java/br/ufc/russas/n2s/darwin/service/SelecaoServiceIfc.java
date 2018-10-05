@@ -84,10 +84,24 @@ public interface SelecaoServiceIfc extends ServiceIfc{
     EtapaBeans getUltimaEtapa(SelecaoBeans selecao);
     
     /**
+    *
+    * @param selecao
+    * 
+    */
+   List<EtapaBeans> getEtapasNota(SelecaoBeans selecao);
+    
+    /**
      * 
      * @param selecoes
      * @return List
      */
     List<SelecaoBeans> ordenaSelecoesPorData(List<SelecaoBeans> selecoes);
+    
+    /**
+     * 
+     * @param selecoes
+     * @return List
+     */
+    List<List<Object>> getResultado(SelecaoBeans selecoes)  throws IllegalAccessException;
 
 }

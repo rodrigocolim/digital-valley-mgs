@@ -43,15 +43,15 @@ public class UsuarioController {
 				 session.setAttribute("mensagem", "Agora você não receberá atualizações por e-mail!");
 			 }
 			 session.setAttribute("status", "success");
-			 response.sendRedirect("./");
+			 response.sendRedirect("/Darwin");
 		 } catch (NullPointerException e) {
 			 session.setAttribute("mensagem", e.getMessage());
 			 session.setAttribute("status", "danger");
-			 response.sendRedirect("./");
+			 response.sendRedirect("/Dawrin");
 		 } catch (Exception e) {
 			 session.setAttribute("mensagem", e.getMessage());
 			 session.setAttribute("status", "danger");
-			 response.sendRedirect("./");
+			 response.sendRedirect("/Darwin");
 		 }
 	 }
 }

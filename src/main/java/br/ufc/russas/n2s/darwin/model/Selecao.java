@@ -401,7 +401,7 @@ public class Selecao {
      * @return List<List<Object>>
      * List<List<Object>> - Uma tabela (ou matriz) usando a estrutura de dados List,
      * sendo cada linha o resultado de um participante onde as colunas são: 
-     * Objeto Participante | (float) Nota etapa com nota 1 | (float) Nota etapa com nota 2 | ... | (float) Nota etapa com nota N | (float) Média geral | (int) Colocação | (String) Situação
+     * Objeto Participante | (float) Nota etapa 1 com nota | (float) Nota etapa 2 com nota | ... | (float) Nota etapa N com nota | (float) Média geral | (int) Colocação | (String) Situação
      */        
     public List<List<Object>> resultado () throws IllegalAccessException {
     	Etapa ultima = this.getUltimaEtapa();

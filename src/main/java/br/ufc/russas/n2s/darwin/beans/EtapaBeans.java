@@ -40,7 +40,7 @@ public class EtapaBeans implements Beans {
     private boolean divulgadoResultado;
     private float pesoNota = 1;
 	private boolean criterioDesempate;
-	private int posiscaoCriterioDesempate;
+	private int posicaoCriterioDesempate;
     private List<ParticipanteBeans> participantes;
     
 		    
@@ -118,12 +118,12 @@ public class EtapaBeans implements Beans {
 		this.criterioDesempate = criterioDesempate;
 	}
 	
-	public int getPosiscaoCriterioDesempate() {
-		return posiscaoCriterioDesempate;
+	public int getPosicaoCriterioDesempate() {
+		return posicaoCriterioDesempate;
 	}
 	
-	public void setPosiscaoCriterioDesempate(int posiscaoCriterioDesempate) {
-		this.posiscaoCriterioDesempate = posiscaoCriterioDesempate;
+	public void setPosicaoCriterioDesempate(int posiscaoCriterioDesempate) {
+		this.posicaoCriterioDesempate = posiscaoCriterioDesempate;
 	}
 
     public List<AvaliacaoBeans> getAvaliacoes() {
@@ -241,7 +241,7 @@ public class EtapaBeans implements Beans {
         etapa.setDocumentacoes(documentacoes);
         etapa.setCriterioDesempate(this.isCriterioDesempate());
         etapa.setPesoNota(this.getPesoNota());
-        etapa.setPosiscaoCriterioDesempate(this.getPosiscaoCriterioDesempate());
+        etapa.setPosiscaoCriterioDesempate(this.getPosicaoCriterioDesempate());
         etapa.setNotaMinima(this.getNotaMinima());
         etapa.setLimiteClassificados(this.getLimiteClassificados());
         etapa.setDivulgadoResultado(this.isDivulgadoResultado());
@@ -315,7 +315,7 @@ public class EtapaBeans implements Beans {
                 this.setDivulgaResultado(etapa.isDivulgadoResultado());
                 this.setPesoNota(etapa.getPesoNota());
                 this.setCriterioDesempate(etapa.isCriterioDesempate());
-                this.setPosiscaoCriterioDesempate(etapa.getPosiscaoCriterioDesempate());
+                this.setPosicaoCriterioDesempate(etapa.getPosiscaoCriterioDesempate());
                 return this;
             } else {
                 throw new IllegalArgumentException("O objeto a ser adicionado não é uma Etapa!");

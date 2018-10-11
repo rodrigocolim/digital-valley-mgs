@@ -69,7 +69,7 @@ public class AutenticadoFiltro implements Filter {
                             int id = Integer.parseInt(request.getParameter("id"));
                             Pessoa user = Facade.buscarPessoaPorId(id);
                             if (token.equals(user.getUsuario().getTokenUsuario()) && id == user.getId() && !token.equals("null")) {
-                                    UsuarioDAO userDAO = DAOFactory.criarUsuarioDAO();
+                                   // UsuarioDAO userDAO = DAOFactory.criarUsuarioDAO();
                                     session.setAttribute("usuario", user.getUsuario());
                                     UsuarioBeans u = new UsuarioBeans();
                                     if(this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(user.getId()) == null){

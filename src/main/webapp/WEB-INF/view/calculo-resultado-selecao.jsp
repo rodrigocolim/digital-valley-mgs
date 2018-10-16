@@ -41,52 +41,46 @@
                         <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
                         <a class="breadcrumb-item active" href="#">Resultado</a>
                     </nav>
-                <c:if test="${not empty mensagem}">
-                    <div class="alert alert-${status} alert-dismissible fade show" role="alert">
-                        ${mensagem}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                </c:if>
-                <div class="row" style="padding-left: 15px;">
-                    <h1>Calculo do Resultado</h1><br>
-                   </div>
+	                <c:if test="${not empty mensagem}">
+	                    <div class="alert alert-${status} alert-dismissible fade show" role="alert">
+	                        ${mensagem}
+	                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	                            <span aria-hidden="true">&times;</span>
+	                        </button>
+	                    </div>
+	                </c:if>
+               
+                    <h1>Cálculo do Resultado</h1>
+                    <p>*A seguir são apresentadas apenas as etapas que foram definidas com nota no metodo de avaliação no momento do cadastro.</p>
+                
                    <br>
                     <div>
-                    	<table class="table table-striped  table-responsive">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center" scope="col">Atividade</th>
-                                <th class="text-center" scope="col">Peso</th>
-                                <th class="text-center" scope="col">Prioridade</th>
-                                <th class="text-center" scope="col">Utilização para Desempate</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                         <form method="POST" action="/Darwin/resultadoSelecao/${selecao.codSelecao}">
-	                       <c:forEach items="${etapas}" var="etapa">
-	                            <tr>
-                                   <th  scope="row">${etapa.titulo}</th>
-                                   <td>
-                                       <center>
-                                       	<select class="form-control">
-                                       	 <option>teste 1</option>
-                                       	 <option>teste 2</option>
-                                       	</select>
-                                       </center>
-             	                   </td>
-                                   <td>
-                                       <center><input class="form-check-input" type="number" value="0" name="codPermissao" /></center>
-                                   </td>
-                                   <td>
-                                       <center><input class="form-check-input" type="checkbox" name="codPermissao" checked="checked"/></center>
-                                   </td>
-	                            </tr>
-	                        </c:forEach>
+                
+                         <form method="POST" action="/Darwin/resultadoSelecao/salvar/${selecao.codSelecao}" modelAttribute="resultadoSelecaoForm">
+	                        <table class="table table-bordered">
+								<tr>
+									<th>No. </th>
+									<th>Titulo da Etapa</th>
+									<th>Peso</th>
+									<th>Prioridade</th>
+									<th>Utilização Para Desempate</th>
+								</tr>
+								<c:forEach items="${resultadoSelecaoForm.etapas}" var="etapas" varStatus="status">
+									<input type="hidden" name="etapas[${status.index}].codEtapa" value="${etapas.codEtapa}" />
+									<tr>
+										<td align="center">${status.count}</td>
+										<td>${etapas.titulo}</td> 
+										<td><input class="form-control" name="etapas[${status.index}].pesoNota" type="number" min="0" max="10" value="${etapas.pesoNota}"/></td>
+										<td><input class="form-control" name="etapas[${status.index}].posicaoCriterioDesempate" type="number" min="0" value="${etapas.posicaoCriterioDesempate}"/></td>
+										<td><input class="form-control" name="etapas[${status.index}].criterioDesempate" type="checkbox" ${etapas.criterioDesempate eq true ? 'checked' : '' } /></td>
+									</tr>
+								</c:forEach>
+							</table>	
+							<br/>
+							<input class="btn btn-primary float-right" type="submit" value="Salvar" />
+	                        
                          </form>
-                        </tbody>
-                    </table>
+                   
 					</div>
 					</div>
 					

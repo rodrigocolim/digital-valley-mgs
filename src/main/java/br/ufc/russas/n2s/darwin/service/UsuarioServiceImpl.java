@@ -93,9 +93,7 @@ public class UsuarioServiceImpl implements UsuarioServiceIfc {
         UsuarioDarwin usuario = new UsuarioDarwin();
         usuario.setCodUsuarioControleDeAcesso(codUsuarioControleDeAcesso);
         UsuarioDarwin u = this.getUsuarioDAOIfc().getUsuarioControleDeAcesso(usuario);
-        
         if(u != null){
-        	System.out.println("Nome: "+u.getNome()+" Cod: "+u.getCodUsuario()+" cod controle: "+u.getCodUsuarioControleDeAcesso());
             return (UsuarioBeans) new UsuarioBeans().toBeans(u);
         }else{
             return null;

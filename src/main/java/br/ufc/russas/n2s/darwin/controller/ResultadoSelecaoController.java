@@ -41,7 +41,7 @@ public class ResultadoSelecaoController {
         return etapaServiceIfc;
     }
     @Autowired(required = true)
-    public void setEtapaServiceIfc(@Qualifier("selecaoServiceIfc")EtapaServiceIfc etapaServiceIfc) {
+    public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc")EtapaServiceIfc etapaServiceIfc) {
         this.etapaServiceIfc = etapaServiceIfc;
     }
     

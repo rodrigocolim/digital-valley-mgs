@@ -5,11 +5,10 @@
  */
 package br.ufc.russas.n2s.darwin.service;
 
-import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
-import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.ResultadoParticipanteSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import java.util.List;
 
@@ -102,6 +101,6 @@ public interface SelecaoServiceIfc extends ServiceIfc{
      * @param selecoes
      * @return List
      */
-    List<List<Object>> getResultado(SelecaoBeans selecoes)  throws IllegalAccessException;
+    List<ResultadoParticipanteSelecao> getResultado(SelecaoBeans selecoes)  throws IllegalAccessException;
 
 }

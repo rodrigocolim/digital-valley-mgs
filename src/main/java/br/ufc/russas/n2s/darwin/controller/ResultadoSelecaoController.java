@@ -70,24 +70,23 @@ public class ResultadoSelecaoController {
         UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
         this.getEtapaServiceIfc().setUsuario(usuario);
         this.getSelecaoServiceIfc().setUsuario(usuario);
+
         List<EtapaBeans> etapas = new ArrayList<>();
         etapas = resultadoForm.getEtapas();
         EtapaBeans etapaAux;
         if (etapas != null && etapas.size() > 0) {
-        	for (EtapaBeans eb : etapas) {   		
+        	for (EtapaBeans eb : etapas) {
         		etapaAux = this.getEtapaServiceIfc().getEtapa(eb.getCodEtapa());
         		etapaAux.setPesoNota(eb.getPesoNota());
         		etapaAux.setPosicaoCriterioDesempate(eb.getPosicaoCriterioDesempate());
-        		etapaAux.setCriterioDesempate(eb.isCriterioDesempate());
-        		
-        		this.getEtapaServiceIfc().atualizaEtapa(etapaAux);
-        		
+        		etapaAux.setCriterioDesempate(eb.isCriterioDesempate());     		
+        		this.getEtapaServiceIfc().atualizaEtapa(etapaAux);      		
         	}
         }
                 
         selecao = this.getSelecaoServiceIfc().getSelecao(selecao.getCodSelecao());
         resultadoForm.setEtapas(selecao.getEtapas());
-        model.addAttribute("resultadoSelecaoForm", resultadoForm);
+        model.addAttribute("resultadoSelecaoForm", resultadoForm);      
         model.addAttribute("status", "success");
         model.addAttribute("mensagem", "Cálculo do resultado definido com sucesso!");
         return "calculo-resultado-selecao";

@@ -69,9 +69,9 @@ public class IndexController {
         Selecao selecao = new Selecao();
         selecao.setCategoria(categoria.replace("_", " "));
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
-        HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
+        HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
-            etapasAtuais.put(s, this.getSelecaoServiceIfc().getEtapaAtual(s));
+            etapasAtuais.put(s.getCodSelecao(), this.getSelecaoServiceIfc().getEtapaAtual(s));
         }
         model.addAttribute("categoria", categoria);
        
@@ -96,9 +96,9 @@ public class IndexController {
         }
         selecao.setEstado(e);
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
-        List<EtapaBeans> etapasAtuais = Collections.synchronizedList(new ArrayList<EtapaBeans>());
+        HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
-        	etapasAtuais.add(this.getSelecaoServiceIfc().getEtapaAtual(s));
+            etapasAtuais.put(s.getCodSelecao(), this.getSelecaoServiceIfc().getEtapaAtual(s));
         }
         
         model.addAttribute("estado", e);
@@ -114,10 +114,9 @@ public class IndexController {
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
         
-        HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
+        HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
-        	//System.out.println(this.getSelecaoServiceIfc().getEtapaAtual(s).getTitulo());
-            etapasAtuais.put(s, this.getSelecaoServiceIfc().getEtapaAtual(s));
+            etapasAtuais.put(s.getCodSelecao(), this.getSelecaoServiceIfc().getEtapaAtual(s));
         }
         model.addAttribute("categoria", "Minhas seleções");
         model.addAttribute("selecoes", selecoes);

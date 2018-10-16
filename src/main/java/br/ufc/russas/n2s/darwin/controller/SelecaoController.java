@@ -74,6 +74,7 @@ public class SelecaoController {
     			}
     		}
         }
+        selecao.setEtapas(this.etapaServiceIfc.ordenaEtapasPorData(selecao.getEtapas()));
         model.addAttribute("isParticipante", isParticipante);
         if (!selecao.isDivulgada() && selecao.getResponsaveis().contains(usuario)) {
             model.addAttribute("selecao", selecao);        
@@ -101,7 +102,6 @@ public class SelecaoController {
                 situacao.put(etapa, this.etapaServiceIfc.getSituacao(etapa, usuario));
                 i++;
             }
-            selecao.setEtapas(this.etapaServiceIfc.ordenaEtapasPorData(selecao.getEtapas()));
             model.addAttribute("situacao", situacao);
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));

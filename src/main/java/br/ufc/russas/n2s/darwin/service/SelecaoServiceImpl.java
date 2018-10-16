@@ -8,6 +8,7 @@ package br.ufc.russas.n2s.darwin.service;
 import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
+import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteSelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
@@ -17,6 +18,7 @@ import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.EtapaPredicates;
 import br.ufc.russas.n2s.darwin.model.Participante;
+import br.ufc.russas.n2s.darwin.model.ResultadoParticipanteSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
@@ -248,15 +250,13 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	}
 
 	@Override
-	public List<List<Object>> getResultado(SelecaoBeans selecao) throws IllegalAccessException {
+	public List<ResultadoParticipanteSelecaoBeans> getResultado(SelecaoBeans selecao) throws IllegalAccessException {
 		Selecao s = (Selecao) selecao.toBusiness();
-		List<List<Object>> resultado = s.resultado();
-		for (int i = 0;i < resultado.size();i++) {
-			List<Object> r = resultado.get(i);
-			ParticipanteBeans  p = (ParticipanteBeans) new ParticipanteBeans().toBeans(r.get(0));
-			r.set(0, p);
-			resultado.set(i, r);
+		List<ResultadoParticipanteSelecao> resultado = s.resultado();
+		List<ResultadoParticipanteSelecaoBeans> rb = Collections.synchronizedList(new ArrayList<>());
+		for (ResultadoParticipanteSelecao r : resultado) {
+			rb.add((ResultadoParticipanteSelecaoBeans) new ResultadoParticipanteSelecaoBeans().toBeans(r));
 		}
-		return resultado;
+		return rb;
 	}
 }

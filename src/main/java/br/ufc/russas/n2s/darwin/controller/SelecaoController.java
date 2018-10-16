@@ -124,8 +124,7 @@ public class SelecaoController {
     public String resultado(@PathVariable long codSelecao, Model model) {
     	SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
     	try {
-	        model.addAttribute("quantidadeEtapasPorNota", selecaoServiceIfc.getEtapasNota(selecao).size());
-	        model.addAttribute("etapasPorNota", selecaoServiceIfc.getEtapasNota(selecao));
+	        model.addAttribute("etapasComNota", selecaoServiceIfc.getEtapasNota(selecao));
 	        model.addAttribute("selecao", selecao);
 	        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));
 	        return "resultado";

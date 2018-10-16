@@ -241,9 +241,22 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 		for (int i = 0;i < porNotas.size();i++) {
 			etapas.add((EtapaBeans) new EtapaBeans().toBeans(porNotas.get(i)));
 		}
-		return etapas;
+		return ordenaPorPrioridade(etapas);
 	}
 
+	private List<EtapaBeans> ordenaPorPrioridade(List<EtapaBeans> etapas) {
+		EtapaBeans aux;
+		for (int i=0;i<etapas.size()-1;i++) {
+			if (etapas.get(i).getPosicaoCriterioDesempate() > etapas.get(i+1).getPosicaoCriterioDesempate()) {
+				aux = etapas.get(i);
+				etapas.set(i,etapas.get(i+1));
+				etapas.set(i+1, aux);
+			}
+		}
+		
+		return etapas;
+	}
+	
 	@Override
 	public List<ResultadoParticipanteSelecao> getResultado(SelecaoBeans selecao) throws IllegalAccessException {
 		Selecao s = (Selecao) selecao.toBusiness();

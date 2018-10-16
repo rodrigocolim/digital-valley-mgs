@@ -48,33 +48,19 @@
 	                            <span aria-hidden="true">&times;</span>
 	                        </button>
 	                    </div>
-	                </c:if>
-               
-<<<<<<< HEAD
+	                </c:if>              
                     <h1>Cálculo do Resultado</h1>
-=======
-                    <h1>Calculo do Resultado</h1>
->>>>>>> b0fe6a457e1186fb11fe3b3d1b20fbfc8c6a37cf
-                    <p>*A seguir são apresentadas apenas as etapas que foram definidas com nota no metodo de avaliação no momento do cadastro.</p>
-                
+                    <p>*A seguir são apresentadas apenas as etapas que foram definidas com nota no metodo de avaliação no momento do cadastro.</p>           
                    <br>
                     <div>
-                
                          <form method="POST" action="/Darwin/resultadoSelecao/salvar/${selecao.codSelecao}" modelAttribute="resultadoSelecaoForm">
 	                        <table class="table table-bordered">
 								<tr>
 									<th>No. </th>
-<<<<<<< HEAD
 									<th>Titulo da Etapa</th>
-									<th>Peso</th>
-									<th>Prioridade</th>
+									<th>Peso (0-10)</th>
+									<th>Prioridade (ordem)</th>
 									<th>Utilização Para Desempate</th>
-=======
-									<th>Etapa</th>
-									<th>Peso</th>
-									<th>Prioridade</th>
-									<th>Utilização para desempate</th>
->>>>>>> b0fe6a457e1186fb11fe3b3d1b20fbfc8c6a37cf
 								</tr>
 								<c:forEach items="${resultadoSelecaoForm.etapas}" var="etapas" varStatus="status">
 									<input type="hidden" name="etapas[${status.index}].codEtapa" value="${etapas.codEtapa}" />
@@ -82,12 +68,8 @@
 										<td align="center">${status.count}</td>
 										<td>${etapas.titulo}</td> 
 										<td><input class="form-control" name="etapas[${status.index}].pesoNota" type="number" min="0" max="10" value="${etapas.pesoNota}"/></td>
-										<td><input class="form-control" name="etapas[${status.index}].posicaoCriterioDesempate" type="number" min="0" value="${etapas.posicaoCriterioDesempate}"/></td>
-<<<<<<< HEAD
+										<td><input class="form-control" name="etapas[${status.index}].posicaoCriterioDesempate" type="number" min="1" value="${etapas.posicaoCriterioDesempate}"/></td>
 										<td><input class="form-control" name="etapas[${status.index}].criterioDesempate" type="checkbox" ${etapas.criterioDesempate eq true ? 'checked' : '' } /></td>
-=======
-										<td><input class="form-control" name="etapas[${status.index}].criterioDesempate" type="checkbox" value="${etapas.criterioDesempate}"/></td>
->>>>>>> b0fe6a457e1186fb11fe3b3d1b20fbfc8c6a37cf
 									</tr>
 								</c:forEach>
 							</table>	

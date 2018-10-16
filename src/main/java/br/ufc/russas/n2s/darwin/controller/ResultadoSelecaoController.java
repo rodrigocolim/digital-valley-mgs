@@ -57,9 +57,9 @@ public class ResultadoSelecaoController {
     
 	@RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getResultadoDaselecao(@PathVariable long codSelecao, Model model){
-        SelecaoBeans selecao  = selecaoServiceIfc.getSelecao(codSelecao);
+        SelecaoBeans selecao  = this.getSelecaoServiceIfc().getSelecao(codSelecao);
         ResultadoSelecaoForm resultadoForm = new ResultadoSelecaoForm();
-        resultadoForm.setEtapas(selecao.getEtapas());
+        resultadoForm.setEtapas( this.getSelecaoServiceIfc().getEtapasNota(selecao));
         model.addAttribute("resultadoSelecaoForm", resultadoForm);
         return "calculo-resultado-selecao";
     }
@@ -85,7 +85,7 @@ public class ResultadoSelecaoController {
         }
                 
         selecao = this.getSelecaoServiceIfc().getSelecao(selecao.getCodSelecao());
-        resultadoForm.setEtapas(selecao.getEtapas());
+        resultadoForm.setEtapas(this.getSelecaoServiceIfc().getEtapasNota(selecao));
         model.addAttribute("resultadoSelecaoForm", resultadoForm);      
         model.addAttribute("status", "success");
         model.addAttribute("mensagem", "Cálculo do resultado definido com sucesso!");

@@ -41,43 +41,30 @@
                         </button>
                     </div>
                 </c:if>  
-                    <h1>Resultado</h1>
+                    <h1>Resultado da Seleção</h1>
                     <br>
                     <table class="table table-responsive">
                         <thead>
                             <tr>
+                            	<th scope="col">Colocação</th>
                                 <th scope="col">Candidato</th>
+                                <c:forEach var="etapa" items="etapasComNota">                              	
+                                	<th scope="col"> ${etapa.titulo} - ${etapa.pesoNota}</th>
+                                </c:forEach>
+                                <th scope="col">Média Geral</th>
                                 <th scope="col">Situação</th>
-                            <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
-                                <th scope="col">Nota</th>
-                            </c:if>
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="participante" items="${participantesEtapa}">
-                            <c:set var = "avaliacaoParticipante" value = "${null}"/>
+                            <c:forEach var="resultado" items="${resultadosSelecao}">
                             <tr>
-                                <td>${participante[0].candidato.nome}</td>
-                                <c:if test="${not empty etapa.avaliacoes}">
-                                    <c:forEach var="avaliacao" items="${etapa.avaliacoes}">
-                                            <c:if test="${(avaliacao.participante.codParticipante == participante[0].codParticipante) and (avaliacao.avaliador.codUsuario == avaliador.codUsuario)}">
-                                                <td>${avaliacao.estado}</td>
-                                                <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
-                                                    <td>${avaliacao.aprovado}</td>
-                                                    <td>${participante[1]}</td>
-                                                </c:if>
-                                                <c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
-                                                    <td>${avaliacao.aprovado}</td>
-                                                </c:if>
-                                                <c:if test="${(etapa.criterioDeAvaliacao.criterio == 3)}">
-                                                    <td>${avaliacao.aprovado}</td>
-                                                </c:if>
-                                            </c:if>
-                                   </c:forEach>
-                                </c:if>
-                                <c:if test="${empty etapa.avaliacoes}">
-                                    <td>Aguardando avaliação</td>
-                                </c:if>
+                                <td>${resultado.colocacao}</td>
+                                <td>${resultado.participante.candidato.nome}</td>
+                                 <c:forEach var="nota" items="${resultado.notasEtapas}">
+                                	<th scope="col">${nota}</th>
+                                </c:forEach>
+                                <td>${resultado.mediaGeral}</td>
+                                <td> <c:if test="${resultado.aprovado eq 'true'? 'CLASSIFICADO':'DESCLASSIFICADO'}"></c:if> </td>
                             </tr>
                         </c:forEach>
                         </tbody>

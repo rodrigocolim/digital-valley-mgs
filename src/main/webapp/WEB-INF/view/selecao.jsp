@@ -107,11 +107,18 @@
                         Editar seleção
                     </a>                    
                 </c:if>
-                <c:if test="${(isResponsavel and (selecao.estado eq 'FINALIZADA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                <c:if test="${(isResponsavel) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
                     <a href="/Darwin/resultadoSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
-                        Resultado seleção
+                        Cálculo Resultado
                     </a>                    
                 </c:if>
+                <!--  and (selecao.estado eq 'FINALIZADA') -->
+                <c:if test="${(isResponsavel) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                    <a href="/Darwin/resultadoSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
+                        Visualizar Resultado
+                    </a>                    
+                </c:if>
+                
                 </div>
                 <br>
                 <p class="text-justify">
@@ -264,11 +271,16 @@
 						                        </div>
 						                    </div>
 										</c:if>
-                                        <c:if test="${(estadoInscricao == 3) and (selecao.inscricao.divulgadoResultado) and (not empty selecao.inscricao.avaliacoes)}">
+                                       <!--  <c:if test="${(estadoInscricao == 3) and (selecao.inscricao.divulgadoResultado) and (not empty selecao.inscricao.avaliacoes)}">
 	                                        <a href="/Darwin/resultadoEtapa/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
 	                                            Ver Resultado
 	                                        </a>
-                                        </c:if>
+                                        </c:if> -->
+                                       
+	                                        <a href="/Darwin/resultadoEtapa/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+	                                            Ver Resultado
+	                                        </a>
+                                      
                                     </div>
                                 </div>
                             </li>

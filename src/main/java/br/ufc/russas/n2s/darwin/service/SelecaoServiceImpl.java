@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
+import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteSelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
@@ -258,15 +259,13 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	}
 	
 	@Override
-	public List<ResultadoParticipanteSelecao> getResultado(SelecaoBeans selecao) throws IllegalAccessException {
+	public List<ResultadoParticipanteSelecaoBeans> getResultado(SelecaoBeans selecao) throws IllegalAccessException {
 		Selecao s = (Selecao) selecao.toBusiness();
 		List<ResultadoParticipanteSelecao> resultado = s.resultado();
-		/*for (int i = 0;i < resultado.size();i++) {
-			ResultadoParticipanteSelecao r =  resultado.get(i);
-			ParticipanteBeans  p =  new ParticipanteBeans().toBeans(r.getParticipante());
-			r.setParticipante(p);
-			resultado.set(i, r);
-		}*/
-		return resultado;
+		List<ResultadoParticipanteSelecaoBeans> rb = Collections.synchronizedList(new ArrayList<>());
+		for (ResultadoParticipanteSelecao r : resultado) {
+			rb.add((ResultadoParticipanteSelecaoBeans) new ResultadoParticipanteSelecaoBeans().toBeans(r));
+		}
+		return rb;
 	}
 }

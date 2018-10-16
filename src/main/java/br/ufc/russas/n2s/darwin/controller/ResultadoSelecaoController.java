@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.ResultadoSelecaoForm;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
@@ -66,28 +67,26 @@ public class ResultadoSelecaoController {
 	@RequestMapping(value = "/salvar/{codSelecao}", method = RequestMethod.POST)
     public String calculaResultadoDaselecao(@PathVariable long codSelecao, Model model, HttpServletRequest request, @ModelAttribute("resultadoSelecaoForm") ResultadoSelecaoForm resultadoForm) {
         SelecaoBeans selecao  = selecaoServiceIfc.getSelecao(codSelecao);
+        UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
+        this.getEtapaServiceIfc().setUsuario(usuario);
+        this.getSelecaoServiceIfc().setUsuario(usuario);
+
         List<EtapaBeans> etapas = new ArrayList<>();
         etapas = resultadoForm.getEtapas();
         EtapaBeans etapaAux;
         if (etapas != null && etapas.size() > 0) {
         	for (EtapaBeans eb : etapas) {
-        		/*etapaAux = this.getEtapaServiceIfc().getEtapa(eb.getCodEtapa());
+        		etapaAux = this.getEtapaServiceIfc().getEtapa(eb.getCodEtapa());
         		etapaAux.setPesoNota(eb.getPesoNota());
         		etapaAux.setPosicaoCriterioDesempate(eb.getPosicaoCriterioDesempate());
-        		etapaAux.setCriterioDesempate(eb.isCriterioDesempate());
-        		
-        		this.getEtapaServiceIfc().atualizaEtapa(etapaAux);
-        		*/
-        		System.out.print(eb.getCodEtapa()+" - ");
-        		System.out.println(eb.getPesoNota());
-        		System.out.println(eb.isCriterioDesempate());
-        		System.out.println(eb.getPosicaoCriterioDesempate());
+        		etapaAux.setCriterioDesempate(eb.isCriterioDesempate());     		
+        		this.getEtapaServiceIfc().atualizaEtapa(etapaAux);      		
         	}
         }
-        
-        
-        
-        model.addAttribute("etapas",selecao.getEtapas());
+                
+        selecao = this.getSelecaoServiceIfc().getSelecao(selecao.getCodSelecao());
+        resultadoForm.setEtapas(selecao.getEtapas());
+        model.addAttribute("resultadoSelecaoForm", resultadoForm);      
         model.addAttribute("status", "success");
         model.addAttribute("mensagem", "Cálculo do resultado definido com sucesso!");
         return "calculo-resultado-selecao";

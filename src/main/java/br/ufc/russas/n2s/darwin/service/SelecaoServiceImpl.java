@@ -5,7 +5,6 @@
  */
 package br.ufc.russas.n2s.darwin.service;
 
-import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteSelecaoBeans;
@@ -13,16 +12,13 @@ import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
-import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.EtapaPredicates;
-import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.ResultadoParticipanteSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -139,7 +135,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     public List<SelecaoBeans> listaSelecoesAssociada(UsuarioBeans usuario) {
         Selecao selecao = new Selecao();
         UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
-        List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList());
+        List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
         List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         List<SelecaoBeans> resultadoDivulgadas = this.listaTodasSelecoes();
         for (Selecao s : resultadoNaoDivulgadas) {

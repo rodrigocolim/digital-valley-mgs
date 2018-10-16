@@ -122,8 +122,8 @@ public class EtapaBeans implements Beans {
 		return posicaoCriterioDesempate;
 	}
 	
-	public void setPosicaoCriterioDesempate(int posiscaoCriterioDesempate) {
-		this.posicaoCriterioDesempate = posiscaoCriterioDesempate;
+	public void setPosicaoCriterioDesempate(int posicaoCriterioDesempate) {
+		this.posicaoCriterioDesempate = posicaoCriterioDesempate;
 	}
 
     public List<AvaliacaoBeans> getAvaliacoes() {

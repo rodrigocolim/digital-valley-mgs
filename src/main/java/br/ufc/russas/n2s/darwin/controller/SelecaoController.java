@@ -1,7 +1,7 @@
 package br.ufc.russas.n2s.darwin.controller;
 
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
+import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteSelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.AvaliacaoDAOIfc;
@@ -124,7 +125,13 @@ public class SelecaoController {
     public String resultado(@PathVariable long codSelecao, Model model) {
     	SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
     	try {
-	        model.addAttribute("etapasComNota", selecaoServiceIfc.getEtapasNota(selecao));
+    		List<ResultadoParticipanteSelecaoBeans> resultado = selecaoServiceIfc.getResultado(selecao);
+    		List<EtapaBeans> etapasComNota = selecaoServiceIfc.getEtapasNota(selecao);
+    		model.addAttribute("resultadosSelecao", resultado);
+    		if (!resultado.isEmpty()) {
+    			etapasComNota = resultado.get(0).getEtapas();
+    		}	
+	        model.addAttribute("etapasComNota", etapasComNota);
 	        model.addAttribute("selecao", selecao);
 	        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));
 	        return "resultado";

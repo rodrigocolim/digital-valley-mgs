@@ -114,7 +114,7 @@
                 </c:if>
                 <!--  and (selecao.estado eq 'FINALIZADA') -->
                 <c:if test="${(isResponsavel) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
-                    <a href="/Darwin/resultadoSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
+                    <a href="/Darwin/selecao/${selecao.codSelecao}/resultado" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
                         Visualizar Resultado
                     </a>                    
                 </c:if>

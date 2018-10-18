@@ -102,7 +102,7 @@ public class CadastrarSelecaoController {
         }
         try {
         	//File dir = new File (Constantes.getDocumentsDir()+File.separator);
-        	File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator);
+        	File dir = new File(Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getTitulo()+File.separator);
             dir.mkdir();
             if (!file.isEmpty()) { // para o edital
                 ArquivoBeans edital = new ArquivoBeans();

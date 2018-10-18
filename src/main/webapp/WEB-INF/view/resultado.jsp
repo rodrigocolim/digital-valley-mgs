@@ -48,7 +48,7 @@
                             <tr>
                             	<th scope="col">Colocação</th>
                                 <th scope="col">Candidato</th>
-                                <c:forEach var="etapa" items="etapasComNota">                              	
+                                <c:forEach var="etapa" items="${etapasComNota}">                              	
                                 	<th scope="col"> ${etapa.titulo} - ${etapa.pesoNota}</th>
                                 </c:forEach>
                                 <th scope="col">Média Geral</th>

@@ -30,7 +30,7 @@
                     <nav class="breadcrumb">
                         <span class="breadcrumb-item">Você está em:</span> 
                         <a class="breadcrumb-item" href="/Darwin">Início</a>
-                        <a class="breadcrumb-item" href="${selecao.codSelecao}">${selecao.titulo}</a>
+                        <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
                         <a class="breadcrumb-item active" href="#">Resultado</a>
                     </nav>
                 <c:if test="${not empty mensagem}">
@@ -64,11 +64,12 @@
                                 	<th scope="col">${nota}</th>
                                 </c:forEach>
                                 <td>${resultado.mediaGeral}</td>
-                                <td> <c:if test="${resultado.aprovado eq 'true'? 'CLASSIFICADO':'DESCLASSIFICADO'}"></c:if> </td>
+                                <td>${resultado.aprovado == true ? 'CLASSIFICADO':'DESCLASSIFICADO'}</td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
+                    <br>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#divulgarResultados">Divulgar Resultado</button>
                     <div class="modal fade" id="divulgarResultados" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">

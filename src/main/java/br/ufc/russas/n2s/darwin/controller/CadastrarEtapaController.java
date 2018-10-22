@@ -89,8 +89,7 @@ public class CadastrarEtapaController {
 	            HttpSession session = request.getSession();
 	            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
 	            SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
-	            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator+"Etapa_"+etapa.getTitulo()+File.separator);
-	            dir.mkdir();
+	            
 	            model.addAttribute("selecao", selecao);
 	            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
 	            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
@@ -117,7 +116,7 @@ public class CadastrarEtapaController {
 	                    }
 	                }
 	            }
-	            
+	            this.etapaServiceIfc.setUsuario(usuario);
             	EtapaBeans pre = etapaServiceIfc.getEtapa(codPrerequisito);
 	            etapa.setPrerequisito(pre);
 	            
@@ -128,9 +127,19 @@ public class CadastrarEtapaController {
 	                }
 	                etapa.setDocumentacaoExigida(docs);
 	            }
+	            
 	            selecao.getEtapas().add(etapa);
 	            this.selecaoServiceIfc.setUsuario(usuario);
 	            this.selecaoServiceIfc.atualizaSelecao(selecao);
+	            selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
+	           
+	            for (EtapaBeans et : selecao.getEtapas()) {
+	            	File dir = new File(Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator+"Etapa_"+et.getCodEtapa()+File.separator);
+		            if (!dir.exists()) {
+		            	dir.mkdir();
+		            }
+	            }
+	            
 	            session.setAttribute("mensagem", "Etapa cadastrada com sucesso!");
 	            session.setAttribute("status", "success");
 	            return ("redirect:/selecao/" + selecao.getCodSelecao());
@@ -142,7 +151,6 @@ public class CadastrarEtapaController {
         } catch (NullPointerException | NumberFormatException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
-            e.printStackTrace();
             return "cadastrar-etapa";
         } catch (IllegalArgumentException | IllegalAccessException e) {
             model.addAttribute("mensagem", e.getMessage());
@@ -162,8 +170,8 @@ public class CadastrarEtapaController {
             HttpSession session = request.getSession();
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
-            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator+"Etapa_"+etapa.getTitulo()+File.separator);
-            dir.mkdir();
+        
+            
             model.addAttribute("selecao", selecao);
             String[] codAvaliadores = request.getParameterValues("codAvaliadores");
             String[] documentosExigidos = request.getParameterValues("documentosExigidos");
@@ -188,13 +196,6 @@ public class CadastrarEtapaController {
                     }
                 }
             }
-            if (documentosExigidos != null) {
-                ArrayList<String> docs = new ArrayList<>();
-                for(String documento : documentosExigidos){
-                    docs.add(documento);
-                }
-                etapa.setDocumentacaoExigida(docs);
-            }
             if (codPrerequisito > 0) {
                 etapa.setPrerequisito(this.getEtapaServiceIfc().getEtapa(codPrerequisito));
             }
@@ -205,15 +206,30 @@ public class CadastrarEtapaController {
             } else {
                 selecao.setInscricao(etapa);
             }
+           
+            if (documentosExigidos != null) {
+                ArrayList<String> docs = new ArrayList<>();
+                for(String documento : documentosExigidos){
+                    docs.add(documento);
+                }
+                etapa.setDocumentacaoExigida(docs);
+            }
+            
             this.selecaoServiceIfc.setUsuario(usuario);
             this.selecaoServiceIfc.atualizaSelecao(selecao);
+            
+            selecao =  selecaoServiceIfc.getSelecao(selecao.getCodSelecao());
+            
+            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator+"Etapa_"+selecao.getInscricao().getCodEtapa()+File.separator);
+            if (!dir.exists()) {
+            	dir.mkdir();
+            }
             session.setAttribute("mensagem", "Etapa cadastrada com sucesso!");
             session.setAttribute("status", "success");
             return ("redirect:/selecao/" + selecao.getCodSelecao());
         } catch (NullPointerException | NumberFormatException e) {
             model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
-            e.printStackTrace();
             return "cadastrar-etapa";
         } catch (IllegalArgumentException | IllegalAccessException e) {
             model.addAttribute("mensagem", e.getMessage());

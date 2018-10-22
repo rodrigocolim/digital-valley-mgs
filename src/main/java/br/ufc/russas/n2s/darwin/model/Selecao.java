@@ -413,18 +413,18 @@ public class Selecao {
     		List<Etapa> porNotas = this.getEtapas().stream()
                     .filter( EtapaPredicates.isNota())
                     .collect(Collectors.<Etapa>toList());
-    		
-    		for (int i =0 ;i < porNotas.size();i++) {
+    		for (int i =0 ;i < porNotas.size()-1;i++) {
     			Etapa e = porNotas.get(i);
+    			int menor = i;
     			for (int j = i+1;j<porNotas.size();j++) {
-    				Etapa aux = porNotas.get(j);
-    				if (aux.getPosiscaoCriterioDesempate() < e.getPosiscaoCriterioDesempate()) {
-    					porNotas.set(j, e);
-    					porNotas.set(i, aux);
+    				if (porNotas.get(j).getPosiscaoCriterioDesempate() < e.getPosiscaoCriterioDesempate()) {
+    					menor = j;
     				}
     			}
+    			Etapa aux = porNotas.get(menor);
+    			porNotas.set(menor, e);
+				porNotas.set(i, aux);
     		}
-    		
     		for (int i = 0;i < resultadoEtapaFinal.size();i++) {
     			Object[] r = resultadoEtapaFinal.get(i);
     			Participante p = (Participante) r[0];
@@ -433,16 +433,16 @@ public class Selecao {
     			ResultadoParticipanteSelecao resultadoParticipanteFinal = new ResultadoParticipanteSelecao();
     			resultadoParticipanteFinal.setParticipante(p);
     			for (int j = 0;j < porNotas.size();j++) {
-    				Etapa etapa = porNotas.get(i);
+    				Etapa etapa = porNotas.get(j);
     				for (int k = 0;k < etapa.getResultado().size();k++) {
     					Object[] resultadoParticipante = etapa.getResultado().get(k);
     					if (p.equals((Participante) resultadoParticipante[0])) {
-    						resultadoParticipanteFinal.getEtapas().add(etapa);
     						resultadoParticipanteFinal.getNotasEtapas().add((float) resultadoParticipante[3]);
     						sumGeral += (float) resultadoParticipante[3] * etapa.getPesoNota();
     						break;
     					}
     				}
+    				resultadoParticipanteFinal.getEtapas().add(etapa);
     				contadorGeral +=  etapa.getPesoNota();
     			}
     			resultadoParticipanteFinal.setMediaGeral(sumGeral/contadorGeral);
@@ -465,7 +465,7 @@ public class Selecao {
     			ResultadoParticipanteSelecao r2 = resultadoSelecao.get(i+1);
     			int k = 1;
     			if ((float) r1.getMediaGeral() == (float) r2.getMediaGeral()) {    				
-	    			for (int j = 0;j < r1.getEtapas().size()+1;j++) {
+	    			for (int j = 0;j < r1.getEtapas().size();j++) {
 	    				if (r1.getEtapas().get(i).isCriterioDesempate() && (float) r1.getNotasEtapas().get(j) < (float) r2.getNotasEtapas().get(j)) {
 	    					resultadoSelecao.set(i, r2);
 	    					resultadoSelecao.set(i+1, r1);
@@ -485,11 +485,13 @@ public class Selecao {
     		}
     		for (int i = 0; i< resultadoSelecao.size();i++) {
     			ResultadoParticipanteSelecao r = resultadoSelecao.get(i);
-    			if ((int) r.getColocacao() <= (getVagasRemuneradas()+getVagasVoluntarias())) {
+    			System.out.println("coloação: "+r.getColocacao()+"\n soma das vagas:" + (getVagasRemuneradas()+getVagasVoluntarias()));
+    			if ((int) r.getColocacao() <= (getVagasRemuneradas()+getVagasVoluntarias()) || (getVagasRemuneradas()+getVagasVoluntarias())==0) {
     				resultadoSelecao.get(i).setAprovado(true);
     			} else {
     				resultadoSelecao.get(i).setAprovado(false);
     			}
+    			System.out.println(resultadoSelecao.get(i).isAprovado());
     		}
     		return resultadoSelecao;
     	} else {

@@ -64,11 +64,12 @@
                                 	<th scope="col">${nota}</th>
                                 </c:forEach>
                                 <td>${resultado.mediaGeral}</td>
-                                <td> <c:if test="${resultado.aprovado eq 'true'? 'CLASSIFICADO':'DESCLASSIFICADO'}"></c:if> </td>
+                                <td>${resultado.aprovado == true ? 'CLASSIFICADO':'DESCLASSIFICADO'}</td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
+                    <br>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#divulgarResultados">Divulgar Resultado</button>
                     <div class="modal fade" id="divulgarResultados" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">

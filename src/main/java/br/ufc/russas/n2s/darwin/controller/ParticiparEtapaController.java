@@ -103,7 +103,7 @@ public class ParticiparEtapaController {
             inscricao = this.etapaServiceIfc.getEtapa(codEtapa);
             SelecaoBeans selecao = this.etapaServiceIfc.getSelecao(inscricao);
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator+"Etapa_"+inscricao.getTitulo()+File.separator+"Candidato_"+usuario.getCodUsuario()+File.separator);
+            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator+"Etapa_"+inscricao.getCodEtapa()+File.separator+"Candidato_"+usuario.getCodUsuario()+File.separator);
             if(!dir.exists()) {
             	dir.mkdir();
             }
@@ -175,7 +175,7 @@ public class ParticiparEtapaController {
             etapa = this.etapaServiceIfc.getEtapa(codEtapa);
             SelecaoBeans selecao = this.etapaServiceIfc.getSelecao(etapa);
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator+"Etapa_"+etapa.getTitulo()+File.separator+"Candidato_"+usuario.getCodUsuario()+File.separator);
+            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator+"Etapa_"+etapa.getCodEtapa()+File.separator+"Candidato_"+usuario.getCodUsuario()+File.separator);
             dir.mkdir();
             this.etapaServiceIfc.setUsuario(usuario);
             List<Arquivo> arquivos = Collections.synchronizedList(new ArrayList<Arquivo>());

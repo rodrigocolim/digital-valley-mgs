@@ -106,7 +106,7 @@ public class EditarSelecaoController {
             String[] linkAnexos = request.getParameterValues("listaLinkAnexo");
             String[] linkAditivos = request.getParameterValues("listaLinkAditivo");
             
-            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Seleção_"+selecao.getTitulo()+File.separator);
+            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator);
             dir.mkdir();
             
             if (!file.isEmpty()) {

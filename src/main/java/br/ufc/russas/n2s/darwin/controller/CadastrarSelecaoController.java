@@ -100,9 +100,10 @@ public class CadastrarSelecaoController {
                 }
             }
         }
+        selecao.setEstado(EnumEstadoSelecao.ESPERA);
+        selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         try {
-        	//File dir = new File (Constantes.getDocumentsDir()+File.separator);
-        	File dir = new File(Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getTitulo()+File.separator);
+        	File dir = new File(Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator);
             dir.mkdir();
             if (!file.isEmpty()) { // para o edital
                 ArquivoBeans edital = new ArquivoBeans();
@@ -157,19 +158,13 @@ public class CadastrarSelecaoController {
                 }
                 selecao.setAditivos(aditivos);
             }
-            
-            selecao.setEstado(EnumEstadoSelecao.ESPERA);
-            selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
-            System.out.println(selecao.toString());
+           
             if(!usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)){
                 usuario.getPermissoes().add(EnumPermissao.RESPONSAVEL);
             }
             selecao.setResponsaveis(responsaveis);
-            System.out.println(responsaveis.size());
-            System.out.println(selecao.getResponsaveis());
             selecao.getResponsaveis().add(usuario);
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-            System.out.println(selecao.toString());
             session.setAttribute("mensagem", "Seleção cadastrada com sucesso!");
             session.setAttribute("status", "success");
             return ("redirect:selecao/" + selecao.getCodSelecao());

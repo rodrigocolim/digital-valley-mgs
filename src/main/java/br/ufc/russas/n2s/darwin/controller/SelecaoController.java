@@ -129,13 +129,18 @@ public class SelecaoController {
     		List<EtapaBeans> etapasComNota = selecaoServiceIfc.getEtapasNota(selecao);
     		model.addAttribute("resultadosSelecao", resultado);
     		if (!resultado.isEmpty()) {
+    			System.out.println("Aqui naõ papai");
     			etapasComNota = resultado.get(0).getEtapas();
-    		}	
+    		}
+    		
+    		for (EtapaBeans e : etapasComNota) System.out.println(e.getTitulo());
+    		
 	        model.addAttribute("etapasComNota", etapasComNota);
 	        model.addAttribute("selecao", selecao);
 	        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));
 	        return "resultado";
     	} catch (Exception e) {
+    		e.printStackTrace();
  	        model.addAttribute("quantidadeEtapasPorNota", selecaoServiceIfc.getEtapasNota(selecao).size());
  	        model.addAttribute("selecao", selecao);
  	        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));

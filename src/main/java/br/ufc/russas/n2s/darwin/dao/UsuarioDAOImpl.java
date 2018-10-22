@@ -61,7 +61,7 @@ public class UsuarioDAOImpl implements UsuarioDAOIfc{
         Session session = this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         try {
-            Example example = Example.create(usuario).excludeProperty("recebeEmail");
+            Example example = Example.create(usuario).excludeProperty("recebeEmail").excludeProperty("CPF");
             usuario = (UsuarioDarwin) session.createCriteria(UsuarioDarwin.class).add(example).uniqueResult();
             t.commit();
             return usuario;

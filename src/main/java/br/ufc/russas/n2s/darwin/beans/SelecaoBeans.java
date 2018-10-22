@@ -43,6 +43,7 @@ public class SelecaoBeans implements Beans {
     private ArquivoBeans edital;
     private EnumEstadoSelecao estado;
     private boolean divulgada;
+    private boolean divulgadoResultado;
     
     public SelecaoBeans(){}
 
@@ -174,6 +175,13 @@ public class SelecaoBeans implements Beans {
         this.divulgada = divulgada;
     }
     
+    public boolean isDivulgadoResultado() {
+		return divulgadoResultado;
+	}
+    
+    public void setDivulgadoResultado(boolean divulgadoResultado) {
+		this.divulgadoResultado = divulgadoResultado;
+	}
     
     @Override
     public Object toBusiness() { //Esse método transforma uma Beans em um objeto seleção
@@ -193,7 +201,7 @@ public class SelecaoBeans implements Beans {
         selecao.setAreaDeConcentracao(this.getAreaDeConcentracao());
         selecao.setCategoria(this.getCategoria());
         selecao.setEstado(this.getEstado());
-       
+        selecao.setDivulgadoResultado(this.isDivulgadoResultado());
         selecao.setDivulgada(this.isDivulgada());
         if (this.getEdital() != null) {
             selecao.setEdital((Arquivo) this.getEdital().toBusiness());
@@ -250,6 +258,7 @@ public class SelecaoBeans implements Beans {
                 this.setCategoria(selecao.getCategoria());
                 this.setEstado(selecao.getEstado());
                 this.setDivulgada(selecao.isDivulgada());
+                this.setDivulgadoResultado(selecao.isDivulgadoResultado());
                 EtapaBeans eb = null;
                 if(selecao.getInscricao()!=null){
                    eb = (EtapaBeans) (new EtapaBeans().toBeans(selecao.getInscricao()));

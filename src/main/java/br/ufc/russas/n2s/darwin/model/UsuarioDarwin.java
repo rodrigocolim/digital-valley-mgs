@@ -39,6 +39,7 @@ public class UsuarioDarwin {
     private long codUsuarioControleDeAcesso;
     private String nome;
     private String email;
+    private String CPF;
     @Column
     @Enumerated
     @ElementCollection(targetClass = EnumPermissao.class, fetch = FetchType.EAGER)
@@ -92,6 +93,14 @@ public class UsuarioDarwin {
     		throw new NullPointerException("E-mail não pode ser vazio!");
     	}
     }
+    
+    public String getCPF() {
+		return CPF;
+	}
+    
+    public void setCPF(String CPF) {
+		this.CPF = CPF;
+	}
     
     public boolean isRecebeEmail() {
     	return this.recebeEmail;

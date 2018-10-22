@@ -19,6 +19,7 @@ public class UsuarioBeans implements Beans{
     private long codUsuarioControleDeAcesso;
     private String nome;
     private String email;
+    private String CPF;
     private List<EnumPermissao> permissoes;
     private boolean recebeEmail;
     
@@ -71,6 +72,14 @@ public class UsuarioBeans implements Beans{
 		this.recebeEmail = recebeEmail;
 	}
     
+    public String getCPF() {
+		return CPF;
+	}
+    
+    public void setCPF(String CPF) {
+		this.CPF = CPF;
+	}
+    
     @Override
     public Object toBusiness() {
         UsuarioDarwin usuario = new UsuarioDarwin();
@@ -84,6 +93,7 @@ public class UsuarioBeans implements Beans{
         usuario.setEmail(this.getEmail());
         usuario.setPermissoes(this.getPermissoes());
         usuario.setRecebeEmail(this.isRecebeEmail());
+        usuario.setCPF(this.getCPF());
         return usuario;
     }
 
@@ -98,6 +108,7 @@ public class UsuarioBeans implements Beans{
                 this.setNome(usuario.getNome());
                 this.setEmail(usuario.getEmail());
                 this.setRecebeEmail(usuario.isRecebeEmail());
+                this.setCPF(usuario.getCPF());
                 return this;
             }else{
                 throw new IllegalArgumentException("Isso não é um usuário!");

@@ -88,7 +88,8 @@ public class Selecao {
     @Enumerated(EnumType.ORDINAL)
     private EnumEstadoSelecao estado;
     private boolean divulgada;
-
+    private boolean divulgadoResultado;
+    
     public Selecao() {
     }
 
@@ -276,6 +277,14 @@ public class Selecao {
         this.divulgada = divulgada;
     }
         
+    public boolean isDivulgadoResultado() {
+		return divulgadoResultado;
+	}
+    
+    public void setDivulgadoResultado(boolean divulgadoResultado) {
+		this.divulgadoResultado = divulgadoResultado;
+	}
+    
     public Selecao adicionaSelecao() {
         return this;
     }

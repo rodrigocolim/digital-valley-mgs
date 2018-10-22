@@ -87,6 +87,7 @@ public class EditarEtapaController {
         } else {
             model.addAttribute("tipo", "etapa");
         }
+        
         model.addAttribute("selecao", selecao);
         model.addAttribute("etapa", etapaBeans);
         model.addAttribute("usuarios", usuarios);

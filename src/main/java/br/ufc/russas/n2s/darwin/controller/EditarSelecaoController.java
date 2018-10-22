@@ -81,13 +81,9 @@ public class EditarSelecaoController {
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
         List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.RESPONSAVEL);
         List<UsuarioBeans> responsaveis = selecao.getResponsaveis();
-        for (UsuarioBeans usuarioBeans : responsaveis) {
-			System.out.println(usuarioBeans.getNome());
-		}
         model.addAttribute("selecao", selecao);
         model.addAttribute("usuarios", usuarios);
         model.addAttribute("responsaveis", responsaveis);
- 
         return "editar-selecao";
     }
     

@@ -109,8 +109,6 @@ public class Etapa implements Serializable, Atualizavel {
 	public void setCodEtapa(long codEtapa) {
 		if (codEtapa > 0) {
 			this.codEtapa = codEtapa;
-		} else {
-			//throw new IllegalCodeException("Código de etapa deve ser maior que zero!");
 		}
 	}
 
@@ -181,7 +179,7 @@ public class Etapa implements Serializable, Atualizavel {
 	}
 	
 	public void setPesoNota(float pesoNota) {
-		if (pesoNota >= 1) {
+		if (pesoNota >= 0) {
 			this.pesoNota = pesoNota;
 		} else {
 			throw new IllegalArgumentException("Peso de nota deve ser maior igual a 1!");

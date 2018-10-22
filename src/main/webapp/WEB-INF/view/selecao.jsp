@@ -206,32 +206,7 @@
                                                 Avaliar
                                             </a>
                                         </c:if>
-                                        <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and (dateAgora < Inicio)  }">
-						                      <a href="/Darwin/removerEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#removerInscricao" style="height: 30px;">
-						                          Remover etapa
-						                      </a>
-						                 </c:if>
-                                  <!-- remover etapa -->
-				                    <div class="modal fade" id="removerInscricao" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-				                        <div class="modal-dialog" role="document">
-				                            <div class="modal-content">
-				                                <div class="modal-header">
-				                                    <h5 class="modal-title" id="modalLabel">Remover etapa</h5>
-				                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				                                        <span aria-hidden="true">&times;</span>
-				                                    </button>
-				                                </div>
-				                                <div class="modal-body">
-				                                    <p>A etapa de inscrição será removida. Deseja continuar? </p>
-				                                </div>
-				                                <div class="modal-footer">
-				                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-				                                    <a class="btn btn-sm btn-primary" href="/Darwin/editarEtapa/removerEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}"> Continuar</a>
-				                                </div>
-				                            </div>
-				                        </div>
-				                    </div>
-				                   <!-- remover etapa -->
+                                       
 										<c:if test="${(estadoInscricao == 3) and (!selecao.inscricao.divulgadoResultado) and ((fn:contains(permissoes, 'ADMINISTRADOR')) or (isResponsavel))}">
 											<c:set var="pendente" value="false"></c:set>
 											<c:forEach var="avaliacao" items="${selecao.inscricao.avaliacoes}">

@@ -21,7 +21,7 @@
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.standalone.css" />
     </head>
-    <body onload="inicializa()">
+    <body >
     <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
     <div class="container-fluid">
         <div class="row row-offcanvas row-offcanvas-right">

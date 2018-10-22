@@ -67,7 +67,7 @@
                         <select type="text" name="categoria" class="form-control custom-select" id="categoriaInput" required>
                             <option value=""${(not novaSelecao.categoria) ? 'selected="selected"' : ''} disabled="disabled">Selecione a categoria da seleção</option>
                             <option ${novaSelecao.categoria eq 'Assitência Estudantil' ? 'selected="selected"' : ''}>Assistência Estudantil</option>
-                            <option ${novaSelecao.categoria eq 'Bolsas para Discentes' ? 'selected="selected"' : ''}>Seleções para Discentes</option>
+                            <option ${novaSelecao.categoria eq 'Seleção para Discentes' ? 'selected="selected"' : ''}>Seleção para Discentes</option>
                             <option ${novaSelecao.categoria eq 'Cargos de Docente' ? 'selected="selected' : ''}>Cargos de Docente</option>
                             <option ${novaSelecao.categoria eq 'Cargos de Técnicos Admin' ? 'selected="selected"' : ''}>Cargos de Técnicos Admin</option>
                             <option ${novaSelecao.categoria eq 'Professores Substitutos' ? 'selected="selected"' : ''}>Professores Substitutos</option>

@@ -112,7 +112,7 @@ public class EditarEtapaController {
     }
 
     @RequestMapping(value="/{codSelecao}/{codEtapa}", method = RequestMethod.POST)
-    public String atualiza(@PathVariable long codSelecao, @PathVariable long codEtapa, EtapaBeans etapa, @RequestParam("prerequisito") long prerequisito, BindingResult result, Model model, HttpServletRequest request) {
+    public String atualiza(@PathVariable long codSelecao, @PathVariable long codEtapa, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
     	HttpSession session = request.getSession();
     	try{
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
@@ -121,7 +121,7 @@ public class EditarEtapaController {
             if (etapaBeans.getPeriodo().getInicio().isAfter(LocalDate.now())) {
 	            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
 	            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
-	            int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
+	            int criterio = Integer.parseInt(request.getParameter("criterio"));
 	            if (criterio == 1) {
 	                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
 	            } else if(criterio == 2) {
@@ -129,15 +129,11 @@ public class EditarEtapaController {
 	            } else if(criterio == 3) {
 	                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
 	            }
-	            if (etapa.getTitulo()!= null)
-	            	etapaBeans.setTitulo(etapa.getTitulo());
-	            if (etapa.getDescricao()!= null)
-	            	etapaBeans.setDescricao(etapa.getDescricao());
-	            if (prerequisito >0) {
-	            	EtapaBeans pr = this.etapaServiceIfc.getEtapa(prerequisito); 
-	            	etapaBeans.setPrerequisito(pr);
-	            	
-	            }
+	            etapaBeans.setTitulo(etapa.getTitulo());
+	            etapaBeans.setDescricao(etapa.getDescricao());
+	            long codPrerequisito = Long.parseLong(request.getParameter("prereq"));
+	            EtapaBeans pre = this.etapaServiceIfc.getEtapa(codPrerequisito);
+	            etapaBeans.setPrerequisito(pre);
 	            
 	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	            etapaBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
@@ -150,7 +146,7 @@ public class EditarEtapaController {
 	            		if(periodo.isColide(novoP)) {
 	            			throw new IllegalCodeException("Periodo Inválido!");
 	            		}
-	            		}
+            		}
 	            }
 	            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
 	            if (codAvaliadores != null) {
@@ -184,22 +180,31 @@ public class EditarEtapaController {
 	            
 	            
 	            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-	            model.addAttribute("status", "success");
-	            model.addAttribute("mensagem", "Etapa atualizada com sucesso!");
-	            model.addAttribute("selecao", selecao);
+	            session.setAttribute("status", "success");
+	            session.setAttribute("mensagem", "Etapa atualizada com sucesso!");
+	            session.setAttribute("selecao", selecao);
 	            return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
             } else {
-            	model.addAttribute("selecao", selecao); 
+            	session.setAttribute("selecao", selecao); 
             	session.setAttribute("mensagem", "Etapa não pode ser atualizada! Pois ela já foi iniciada!");
                 session.setAttribute("status", "warning");
         		return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
             }
         } catch (IllegalAccessException e) {
+        	e.printStackTrace();
         	model.addAttribute("mensagem", e.getMessage());
         	model.addAttribute("status", "danger");
             return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
         }catch (IllegalCodeException e) {
         	session.setAttribute("mensagem", "Etapa não pode ser atualizada! Verifique o conflito entre periodos com outras etapas!");
+            session.setAttribute("status", "warning");
+    		return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
+    	} catch (IllegalArgumentException e) {
+        	session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "warning");
+    		return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
+    	} catch (Exception e) {
+        	session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "warning");
     		return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
     	}

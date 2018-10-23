@@ -116,6 +116,7 @@ public class CadastrarEtapaController {
 	                    }
 	                }
 	            }
+	           
 	            this.etapaServiceIfc.setUsuario(usuario);
 	            long codPrerequisito = Long.parseLong(request.getParameter("prereq"));
             	EtapaBeans pre = etapaServiceIfc.getEtapa(codPrerequisito);

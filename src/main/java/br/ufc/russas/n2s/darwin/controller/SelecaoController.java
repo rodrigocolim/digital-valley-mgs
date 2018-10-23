@@ -69,7 +69,6 @@ public class SelecaoController {
         boolean isParticipante = false;
         if (selecao.getInscricao() != null && selecao.getInscricao().getParticipantes() != null) {
         	for (ParticipanteBeans participante : selecao.getInscricao().getParticipantes()) {
-            	System.out.println(participante.getCandidato().getNome());
     			if (participante.getCandidato().getCodUsuario() == usuario.getCodUsuario()) {
     				isParticipante = true;
     			}
@@ -129,17 +128,18 @@ public class SelecaoController {
     		List<EtapaBeans> etapasComNota = selecaoServiceIfc.getEtapasNota(selecao);
     		model.addAttribute("resultadosSelecao", resultado);
     		if (!resultado.isEmpty()) {
-    			System.out.println("Aqui naõ papai");
     			etapasComNota = resultado.get(0).getEtapas();
     		}
-    		
-    		for (EtapaBeans e : etapasComNota) System.out.println(e.getTitulo());
     		
 	        model.addAttribute("etapasComNota", etapasComNota);
 	        model.addAttribute("selecao", selecao);
 	        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));
 	        return "resultado";
-    	} catch (Exception e) {
+    	} catch (NullPointerException e) {
+			model.addAttribute("mensagem", "Não foram encontrados resultados disponíveis!");
+            model.addAttribute("status", "warning");
+            return "resultado";
+		} catch (Exception e) {
     		e.printStackTrace();
  	        model.addAttribute("quantidadeEtapasPorNota", selecaoServiceIfc.getEtapasNota(selecao).size());
  	        model.addAttribute("selecao", selecao);

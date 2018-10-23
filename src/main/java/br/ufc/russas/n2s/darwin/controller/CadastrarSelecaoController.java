@@ -62,13 +62,6 @@ public class CadastrarSelecaoController {
     public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc")SelecaoServiceIfc selecaoServiceIfc){
         this.selecaoServiceIfc = selecaoServiceIfc;
     }
-    
-    @RequestMapping(method = RequestMethod.GET)
-    public String getIndex(Model model) {
-    	responsaveis = usuarioServiceIfc.listaUsuariosComPermissao(EnumPermissao.RESPONSAVEL);
-        model.addAttribute("responsaveis", responsaveis);
-        return "cadastrar-selecao";
-    }
 
     public UsuarioServiceIfc getUsuarioServiceIfc() {
         return usuarioServiceIfc;
@@ -76,6 +69,17 @@ public class CadastrarSelecaoController {
     @Autowired(required = true)
     public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc) {
         this.usuarioServiceIfc = usuarioServiceIfc;
+    }
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public String getIndex(Model model, HttpServletRequest request) {
+    	UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
+    	if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)) {
+    		System.out.println("não devia");
+    		responsaveis = usuarioServiceIfc.listaUsuariosComPermissao(EnumPermissao.RESPONSAVEL);
+            model.addAttribute("responsaveis", responsaveis);
+            return "cadastrar-selecao";
+    	} else {return "error/404";}
     }
     
    @RequestMapping(method = RequestMethod.POST)

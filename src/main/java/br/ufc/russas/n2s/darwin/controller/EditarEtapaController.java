@@ -43,7 +43,7 @@ import com.google.gson.Gson;
 
 /**
  *
- * @author Gilberto Lima
+ * @author Gilberto
  */
 @Controller("editarEtapaController")
 @RequestMapping("/editarEtapa")
@@ -80,33 +80,35 @@ public class EditarEtapaController {
            
     
     @RequestMapping(value="/{codSelecao}/{codEtapa}", method = RequestMethod.GET)
-    public String getIndex(@PathVariable long codSelecao, @PathVariable long codEtapa, Model model) {
+    public String getIndex(@PathVariable long codSelecao, @PathVariable long codEtapa, Model model, HttpServletRequest request) {
         EtapaBeans etapaBeans = this.etapaServiceIfc.getEtapa(codEtapa);
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-       
-        List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.AVALIADOR);
-        if (etapaBeans.getCodEtapa() == selecao.getInscricao().getCodEtapa()) {
-            model.addAttribute("tipo", "inscricao"); 
-        } else {
-            model.addAttribute("tipo", "etapa");
-        }
-        
-        List<Long> codAvaliadores = Collections.synchronizedList(new ArrayList<>());
-        List<String> nomeAvaliadores = Collections.synchronizedList(new ArrayList<>());
-        
-        for (UsuarioBeans avaliador : etapaBeans.getAvaliadores()) {
-        	codAvaliadores.add(avaliador.getCodUsuario());
-        	nomeAvaliadores.add(avaliador.getNome());
-        }
-        String json = new Gson().toJson(nomeAvaliadores);
-        model.addAttribute("selecao", selecao);
-        model.addAttribute("etapa", etapaBeans);
-        model.addAttribute("codAvaliadores", codAvaliadores);
-        model.addAttribute("nomeAvaliadores", json);
-        model.addAttribute("listaDocumentos", new Gson().toJson(etapaBeans.getDocumentacaoExigida()));
-        model.addAttribute("listaNumeroDocumentos", etapaBeans.getDocumentacaoExigida().size());
-        model.addAttribute("usuarios", usuarios);
-        return "editar-etapa";
+        UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
+        if (selecao.getResponsaveis().contains(usuario)) {
+	        List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.AVALIADOR);
+	        if (etapaBeans.getCodEtapa() == selecao.getInscricao().getCodEtapa()) {
+	            model.addAttribute("tipo", "inscricao"); 
+	        } else {
+	            model.addAttribute("tipo", "etapa");
+	        }
+	        
+	        List<Long> codAvaliadores = Collections.synchronizedList(new ArrayList<>());
+	        List<String> nomeAvaliadores = Collections.synchronizedList(new ArrayList<>());
+	        
+	        for (UsuarioBeans avaliador : etapaBeans.getAvaliadores()) {
+	        	codAvaliadores.add(avaliador.getCodUsuario());
+	        	nomeAvaliadores.add(avaliador.getNome());
+	        }
+	        String json = new Gson().toJson(nomeAvaliadores);
+	        model.addAttribute("selecao", selecao);
+	        model.addAttribute("etapa", etapaBeans);
+	        model.addAttribute("codAvaliadores", codAvaliadores);
+	        model.addAttribute("nomeAvaliadores", json);
+	        model.addAttribute("listaDocumentos", new Gson().toJson(etapaBeans.getDocumentacaoExigida()));
+	        model.addAttribute("listaNumeroDocumentos", etapaBeans.getDocumentacaoExigida().size());
+	        model.addAttribute("usuarios", usuarios);
+	        return "editar-etapa";
+        } else { return "error/404";}
     }
 
     @RequestMapping(value="/{codSelecao}/{codEtapa}", method = RequestMethod.POST)
@@ -130,8 +132,6 @@ public class EditarEtapaController {
 	            etapaBeans.setTitulo(etapa.getTitulo());
 	            etapaBeans.setDescricao(etapa.getDescricao());
 	            long codPrerequisito = Long.parseLong(request.getParameter("prereq"));
-	            System.out.println(codPrerequisito);
-	            System.out.println(etapaBeans.getCodEtapa());
 	            EtapaBeans pre = this.etapaServiceIfc.getEtapa(codPrerequisito);
 	            etapaBeans.setPrerequisito(pre);
 	            
@@ -146,7 +146,7 @@ public class EditarEtapaController {
 	            		if(periodo.isColide(novoP)) {
 	            			throw new IllegalCodeException("Periodo Inválido!");
 	            		}
-	            		}
+            		}
 	            }
 	            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
 	            if (codAvaliadores != null) {
@@ -288,21 +288,25 @@ public class EditarEtapaController {
     
     @RequestMapping(value="/divulgarResultado/{codSelecao}/{codInscricao}", method = RequestMethod.GET)
     public String divulgaResultado(@PathVariable long codSelecao, @PathVariable long codEtapa, BindingResult result, Model model, HttpServletRequest request) {
-        try{
-            HttpSession session = request.getSession();
+    	HttpSession session = request.getSession();
+    	try{
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-            EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
-            etapa.setDivulgaResultado(true);
-            etapaServiceIfc.atualizaEtapa(etapa);
-            session.setAttribute("selecao", selecao);
-            session.setAttribute("etapa", etapa);
-            session.setAttribute("resultado", etapaServiceIfc.getResultado(etapa));
-            session.setAttribute("mensagem", "Etapa divulgada com sucesso!");
-            session.setAttribute("status", "success");
-            return "redirect:/selecao/" + selecao.getCodSelecao();
+            if (selecao.getResponsaveis().contains(usuario)) {
+	            EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
+	            etapa.setDivulgaResultado(true);
+	            etapaServiceIfc.atualizaEtapa(etapa);
+	            session.setAttribute("selecao", selecao);
+	            session.setAttribute("etapa", etapa);
+	            session.setAttribute("resultado", etapaServiceIfc.getResultado(etapa));
+	            session.setAttribute("mensagem", "Etapa divulgada com sucesso!");
+	            session.setAttribute("status", "success");
+	            return "redirect:/selecao/" + selecao.getCodSelecao();
+            } else { return "error/404";}
         }catch (IllegalCodeException e) {
-    		e.printStackTrace();
+    		//e.printStackTrace();
+    		session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
     		return "redirect:/selecao/" + codSelecao;
     	}
          
@@ -310,26 +314,31 @@ public class EditarEtapaController {
     
     @RequestMapping(value="/divulgarResultadoInscricao/{codSelecao}/{codInscricao}", method = RequestMethod.GET)
     public String divulgaResultadoInscricao(@PathVariable long codSelecao, @PathVariable long codInscricao, Model model, HttpServletRequest request) throws MalformedURLException, EmailException {
-        try{
-            HttpSession session = request.getSession();
+    	HttpSession session = request.getSession();
+    	try{
+            
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-            EtapaBeans etapa = etapaServiceIfc.getEtapa(codInscricao);
-            this.etapaServiceIfc.setUsuario(usuario);
-            etapa.setDivulgaResultado(true);
-            etapa = etapaServiceIfc.atualizaEtapa(etapa);
-            Email email = new Email();
-            for (ParticipanteBeans p : etapa.getParticipantes()) {
-            	email.sendHtmlEmail(p.getCandidato(), "Resuldato de etapa divulgado!", "Resultaod de etapa divulgado", "O resultado da <b>Etapa de "+etapa.getTitulo()+"</b> da <b>Seleção "+selecao.getTitulo()+"</b> foi divulgado!");
-            }
-            session.setAttribute("selecao", selecao);
-            session.setAttribute("etapa", etapa);
-            session.setAttribute("resultado", etapaServiceIfc.getResultado(etapa));
-            session.setAttribute("mensagem", "Resultado da etapa divulgada com sucesso!");
-            session.setAttribute("status", "success");
-            return "redirect:/selecao/" + selecao.getCodSelecao();
+            if (selecao.getResponsaveis().contains(usuario)) {
+	            EtapaBeans etapa = etapaServiceIfc.getEtapa(codInscricao);
+	            this.etapaServiceIfc.setUsuario(usuario);
+	            etapa.setDivulgaResultado(true);
+	            etapa = etapaServiceIfc.atualizaEtapa(etapa);
+	            Email email = new Email();
+	            for (ParticipanteBeans p : etapa.getParticipantes()) {
+	            	email.sendHtmlEmail(p.getCandidato(), "Resuldato de etapa divulgado!", "Resultaod de etapa divulgado", "O resultado da <b>Etapa de "+etapa.getTitulo()+"</b> da <b>Seleção "+selecao.getTitulo()+"</b> foi divulgado!");
+	            }
+	            session.setAttribute("selecao", selecao);
+	            session.setAttribute("etapa", etapa);
+	            session.setAttribute("resultado", etapaServiceIfc.getResultado(etapa));
+	            session.setAttribute("mensagem", "Resultado da etapa divulgada com sucesso!");
+	            session.setAttribute("status", "success");
+	            return "redirect:/selecao/" + selecao.getCodSelecao();
+            } else { return "error/404";}
         } catch (IllegalCodeException e) {
-    		e.printStackTrace();
+    		//e.printStackTrace();
+    		session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
     		return "redirect:/selecao/" + codSelecao;
     	}
          
@@ -337,39 +346,34 @@ public class EditarEtapaController {
     
     @RequestMapping(value="/removerEtapa/{codSelecao}/{codEtapa}", method = RequestMethod.GET)
     public String removerEtapa(@PathVariable long codSelecao, @PathVariable long codEtapa, Model model, HttpServletRequest request) {
-        try{
-            HttpSession session = request.getSession();
+    	 HttpSession session = request.getSession();
+    	try{
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-            this.getSelecaoServiceIfc().setUsuario(usuario);
-            EtapaBeans etapa = this.getEtapaServiceIfc().getEtapa(codEtapa);
-            
-          /*  if (recebido instanceof InscricaoBeans) {
-            	selecao.setInscricao(null);
-            	selecao.setDivulgada(false);
-            	this.getEtapaServiceIfc().removeInscricao((InscricaoBeans)recebido);
-            }
-            EtapaBeans etapa = (EtapaBeans) recebido;*/
-            List<EtapaBeans> etapas = selecao.getEtapas();
-            etapas.remove(etapa);
-            selecao.setEtapas(etapas);
-            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-            this.getEtapaServiceIfc().removeEtapa(etapa);
-            session.setAttribute("selecao", selecao);
-            session.setAttribute("mensagem", "Etapa removida com sucesso!");
-            session.setAttribute("status", "success");
-            return "redirect:/selecao/" + selecao.getCodSelecao();
+            if (selecao.getResponsaveis().contains(usuario)) {
+	            this.getSelecaoServiceIfc().setUsuario(usuario);
+	            EtapaBeans etapa = this.getEtapaServiceIfc().getEtapa(codEtapa);
+	            List<EtapaBeans> etapas = selecao.getEtapas();
+	            etapas.remove(etapa);
+	            selecao.setEtapas(etapas);
+	            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+	            this.getEtapaServiceIfc().removeEtapa(etapa);
+	            session.setAttribute("selecao", selecao);
+	            session.setAttribute("mensagem", "Etapa removida com sucesso!");
+	            session.setAttribute("status", "success");
+	            return "redirect:/selecao/" + selecao.getCodSelecao();
+            } else {return "error/404";}
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+        	session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
             return "redirect:/selecao/" + codSelecao;
         }catch (IllegalCodeException e) {
-    		e.printStackTrace();
+    		//e.printStackTrace();
+        	session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
     		return "redirect:/selecao/" + codSelecao;
     	}
-         
     }
-    
-    
-    
 
 }

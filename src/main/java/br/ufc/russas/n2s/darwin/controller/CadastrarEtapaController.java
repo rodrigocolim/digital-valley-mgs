@@ -5,27 +5,15 @@
  */
 package br.ufc.russas.n2s.darwin.controller;
 
-import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
-import br.ufc.russas.n2s.darwin.beans.PeriodoBeans;
-import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
-import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.model.Email;
-import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
-import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
-import br.ufc.russas.n2s.darwin.model.EnumPermissao;
-import br.ufc.russas.n2s.darwin.model.Etapa;
-import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
-import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
-import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
-import util.Constantes;
 import java.io.File;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -35,6 +23,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
+import br.ufc.russas.n2s.darwin.beans.PeriodoBeans;
+import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
+import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
+import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
+import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
+import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
+import util.Constantes;
 /**
  *
  * @author Wallison Carlos
@@ -74,12 +74,15 @@ public class CadastrarEtapaController {
            
     
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.GET)
-    public String getIndex(@PathVariable long codSelecao, Model model) {
-        SelecaoBeans selecaoBeans = this.selecaoServiceIfc.getSelecao(codSelecao);
-        model.addAttribute("selecao", selecaoBeans);
-        List<UsuarioBeans> avaliadores = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.AVALIADOR);
-        model.addAttribute("avaliadores", avaliadores);
-        return "cadastrar-etapa";
+    public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request) {
+    	UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
+    	if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)) {
+	        SelecaoBeans selecaoBeans = this.selecaoServiceIfc.getSelecao(codSelecao);
+	        model.addAttribute("selecao", selecaoBeans);
+	        List<UsuarioBeans> avaliadores = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.AVALIADOR);
+	        model.addAttribute("avaliadores", avaliadores);
+	        return "cadastrar-etapa";
+    	} else {return "error/404";}
     }
 
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)

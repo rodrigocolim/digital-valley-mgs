@@ -51,10 +51,12 @@ public class AvaliarController {
         EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
         HttpSession session = request.getSession();
         UsuarioBeans avaliador = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        model.addAttribute("etapa", etapa);
-        model.addAttribute("participantesEtapa", etapa.getParticipantes());
-        model.addAttribute("avaliador", avaliador);
-        return "avaliar";
+        if (etapa.getAvaliadores().contains(avaliador)) {
+	        model.addAttribute("etapa", etapa);
+	        model.addAttribute("participantesEtapa", etapa.getParticipantes());
+	        model.addAttribute("avaliador", avaliador);
+	        return "avaliar";
+        } else {return "error/404";}
     }
     
     @RequestMapping(value = "/inscricao/{codEtapa}", method = RequestMethod.GET)
@@ -62,10 +64,12 @@ public class AvaliarController {
         EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
         HttpSession session = request.getSession();
         UsuarioBeans avaliador = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        model.addAttribute("avaliador", avaliador);
-        model.addAttribute("etapa", etapa);
-        model.addAttribute("participantesEtapa", etapa.getParticipantes());
-        return "avaliar";
+        if (etapa.getAvaliadores().contains(avaliador)) {
+	        model.addAttribute("avaliador", avaliador);
+	        model.addAttribute("etapa", etapa);
+	        model.addAttribute("participantesEtapa", etapa.getParticipantes());
+	        return "avaliar";
+        } else {return "error/404";}
     }
     
     @RequestMapping(value = "/inscricao/{codEtapa}", method = RequestMethod.POST)

@@ -39,8 +39,11 @@ public class PermissoesUsuarioController {
     }
     @RequestMapping(method = RequestMethod.GET)
     public String getIndex(Model model, HttpServletRequest request) {
-        model.addAttribute("usuarios", this.usuarioServiceIfc.listaTodosUsuarios());
-        return "acessarPermissoes"; 
+    	UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
+    	if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+	        model.addAttribute("usuarios", this.usuarioServiceIfc.listaTodosUsuarios());
+	        return "acessarPermissoes";
+    	} else {return "error/404";}
     }
     
     @RequestMapping(value="/busca",method = RequestMethod.GET)
@@ -51,9 +54,10 @@ public class PermissoesUsuarioController {
     
     @RequestMapping(method = RequestMethod.POST)
     public String getIndexSelectedUser(Model model, HttpServletRequest request) {
-        model.addAttribute("usuarios", this.usuarioServiceIfc.listaTodosUsuarios());
-        model.addAttribute("usuarioSelecionado", this.usuarioServiceIfc.getUsuario(Long.parseLong(request.getParameter("usuario")), 0));
-        return "acessarPermissoes"; 
+	        model.addAttribute("usuarios", this.usuarioServiceIfc.listaTodosUsuarios());
+	        model.addAttribute("usuarioSelecionado", this.usuarioServiceIfc.getUsuario(Long.parseLong(request.getParameter("usuario")), 0));
+	        return "acessarPermissoes"; 
+    	
     }
     
     @RequestMapping(value = "/atualizar", method = RequestMethod.POST)

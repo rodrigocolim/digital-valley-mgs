@@ -76,29 +76,52 @@ public class ResultadoSelecaoController {
     public String calculaResultadoDaselecao(@PathVariable long codSelecao, Model model, HttpServletRequest request, @ModelAttribute("resultadoSelecaoForm") ResultadoSelecaoForm resultadoForm) {
         SelecaoBeans selecao  = selecaoServiceIfc.getSelecao(codSelecao);
         UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
-        this.getEtapaServiceIfc().setUsuario(usuario);
-        this.getSelecaoServiceIfc().setUsuario(usuario);
-
-        List<EtapaBeans> etapas = new ArrayList<>();
-        etapas = resultadoForm.getEtapas();
-        EtapaBeans etapaAux;
-        if (etapas != null && etapas.size() > 0) {
-        	for (EtapaBeans eb : etapas) {
-        		etapaAux = this.getEtapaServiceIfc().getEtapa(eb.getCodEtapa());
-        		etapaAux.setPesoNota(eb.getPesoNota());
-        		etapaAux.setPosicaoCriterioDesempate(eb.getPosicaoCriterioDesempate());
-        		etapaAux.setCriterioDesempate(eb.isCriterioDesempate());     		
-        		this.getEtapaServiceIfc().atualizaEtapa(etapaAux);      		
-        	}
-        }
-                
-        selecao = this.getSelecaoServiceIfc().getSelecao(selecao.getCodSelecao());
-        resultadoForm.setEtapas(this.getSelecaoServiceIfc().getEtapasNota(selecao));
-        model.addAttribute("resultadoSelecaoForm", resultadoForm);      
-        model.addAttribute("status", "success");
-        model.addAttribute("mensagem", "Cálculo do resultado definido com sucesso!");
-        return "calculo-resultado-selecao";
+        if (selecao.getResponsaveis().contains(usuario)) {
+	        this.getEtapaServiceIfc().setUsuario(usuario);
+	        this.getSelecaoServiceIfc().setUsuario(usuario);
+	
+	        List<EtapaBeans> etapas = new ArrayList<>();
+	        etapas = resultadoForm.getEtapas();
+	        EtapaBeans etapaAux;
+	        if (etapas != null && etapas.size() > 0) {
+	        	for (EtapaBeans eb : etapas) {
+	        		etapaAux = this.getEtapaServiceIfc().getEtapa(eb.getCodEtapa());
+	        		etapaAux.setPesoNota(eb.getPesoNota());
+	        		etapaAux.setPosicaoCriterioDesempate(eb.getPosicaoCriterioDesempate());
+	        		etapaAux.setCriterioDesempate(eb.isCriterioDesempate());     		
+	        		this.getEtapaServiceIfc().atualizaEtapa(etapaAux);      		
+	        	}
+	        }
+	                
+	        selecao = this.getSelecaoServiceIfc().getSelecao(selecao.getCodSelecao());
+	        resultadoForm.setEtapas(this.getSelecaoServiceIfc().getEtapasNota(selecao));
+	        model.addAttribute("resultadoSelecaoForm", resultadoForm);      
+	        model.addAttribute("status", "success");
+	        model.addAttribute("mensagem", "Cálculo do resultado definido com sucesso!");
+	        return "calculo-resultado-selecao";
+        } else {return "error/404";}
     }
+	
+	@RequestMapping(value="/{codSelecao}/divulgaResultado", method = RequestMethod.GET)
+	public String divulgaResultadoSelecao(@PathVariable long codSelecao, Model model, HttpServletRequest request) {
+		SelecaoBeans selecao = this.getSelecaoServiceIfc().getSelecao(codSelecao);
+		 UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
+		 if (selecao.getResponsaveis().contains(usuario)) {
+			try {
+				selecao.setDivulgadoResultado(true);
+				this.getSelecaoServiceIfc().setUsuario(usuario);
+				this.selecaoServiceIfc.atualizaSelecao(selecao);
+				model.addAttribute("mensagem", "Resultado divulgado com sucesso!");
+		        model.addAttribute("status", "success");
+		        return "redirect:/selecao/"+selecao.getCodSelecao()+"/resultado";
+			} catch (Exception e) {
+				model.addAttribute("mensagem", e.getMessage());
+		        model.addAttribute("status", "danger");
+		        return "redirect:/selecao/"+selecao.getCodSelecao()+"/resultado";
+			}
+		 } else {return "error/404";}
+	}
+	
 	
 	
 	@RequestMapping(value = "/{codSelecao}/imprimir", method = RequestMethod.GET)

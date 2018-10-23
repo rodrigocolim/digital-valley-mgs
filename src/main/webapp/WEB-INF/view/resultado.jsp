@@ -20,6 +20,8 @@
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/design.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.standalone.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+        
     </head>
     <body>
         <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
@@ -61,7 +63,7 @@
                                 <td>${resultado.colocacao}</td>
                                 <td>${resultado.participante.candidato.nome}</td>
                                  <c:forEach var="nota" items="${resultado.notasEtapas}">
-                                	<th scope="col">${nota}</th>
+                                	<th class="text-center" scope="col">${nota}</th>
                                 </c:forEach>
                                 <td>${resultado.mediaGeral}</td>
                                 <td>${resultado.aprovado == true ? 'CLASSIFICADO':'DESCLASSIFICADO'}</td>
@@ -70,36 +72,33 @@
                         </tbody>
                     </table>
                     <br>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#divulgarResultados">Divulgar Resultado</button>
-                    <div class="modal fade" id="divulgarResultados" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                    <a href="" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultados">
+						<i class="fas fa-bullhorn"></i> Divulgar Resultado
+					</a>
+					<a href="/Darwin/resultadoSelecao/${selecao.codSelecao}/imprimir" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" >
+						<i class="fas fa-file-pdf"></i> Gerar PDF
+					</a>
+					<!-- divulgação de resultados -->
+                    <div class="modal fade" id="divulgaresultados" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalLabel">Divulgar Resultado</h5>
+                                    <h5 class="modal-title" id="modalLabel">Divulgar resultados</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    Selecione os candidatos que você deseja divulgar:
-                                    <div class="form-check form-check-inline">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="todos"> Todos
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="aprovados"> Somente os aprovados
-                                        </label>
-                                    </div>
+                                    <p>Esta etapa possui participantes pendentes. Se continuar com a divulgação, estes participantes serão indeferidos automaticamente. Deseja continuar? </p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-primary">Divulgar Resultado</button>
+                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                                    <a class="btn btn-sm btn-primary" href="/Darwin/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}"> Continuar</a>
                                 </div>
                             </div>
                         </div>
                     </div>
+						                    
                 </div>
             </div>
         </div>

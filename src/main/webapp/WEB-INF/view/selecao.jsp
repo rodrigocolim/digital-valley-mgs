@@ -21,6 +21,8 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/design.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/timeline.css" />
+        
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
         <style>
         ul {
             display: block;
@@ -100,22 +102,22 @@
                 <div class="row" style="padding-left: 15px;">
                     <h1 class="text-uppercase" style="font-size: 20px;">${selecao.titulo}</h1>
                     <a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=edital" target="_blank" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;" >
-                        <span>Visualizar edital</span>
+                        <i class="fas fa-file-pdf"></i><span> Visualizar Edital</span>
                     </a>
                 <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
                     <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
-                        Editar seleção
+                        <i class="fas fa-edit"></i> Editar seleção
                     </a>                    
                 </c:if>
                 <c:if test="${(isResponsavel) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
                     <a href="/Darwin/resultadoSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
-                        Cálculo Resultado
+                        <i class="fas fa-cog"></i> Cálculo Resultado
                     </a>                    
                 </c:if>
                 <!--  and (selecao.estado eq 'FINALIZADA') -->
                 <c:if test="${(isResponsavel) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
                     <a href="/Darwin/selecao/${selecao.codSelecao}/resultado" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
-                        Visualizar Resultado
+                        <i class="fas fa-eye"></i> Resultado
                     </a>                    
                 </c:if>
                 

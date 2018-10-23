@@ -68,7 +68,7 @@
                         <fmt:parseDate value="${selecao.inscricao.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTerminoIncricao" type="date" />
                         <fmt:formatDate value="${parseDataTerminoIncricao}"  pattern="dd/MM/yyyy" var="dataTerminoIncricao" type="date"/>
                         <label for="etapaAnteriorInput">Etapa anterior*</label>
-                        <select name="prerequisito" id="etapaPreRequisito" class="form-control col-md-8"  id="etapaAnteriorInput" required>
+                        <select name="prereq" id="etapaPreRequisito" class="form-control col-md-8"  id="etapaAnteriorInput" required>
                             <option value="0" selected="selected" disabled="disabled">Selecione a etapa anterior a esta</option>
                             <option value="${selecao.inscricao.codEtapa}">${selecao.inscricao.titulo}</option>
                             <c:forEach var="etapa" items="${selecao.etapas}">

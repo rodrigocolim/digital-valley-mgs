@@ -83,9 +83,9 @@ public class CadastrarEtapaController {
     }
 
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
-    public String adiciona(@PathVariable long codSelecao, @RequestParam("prerequisito") long codPrerequisito, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
+    public String adiciona(@PathVariable long codSelecao, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
         try {
-        	if (codPrerequisito > 0) {
+        	if (request.getParameter("prereq") != null && Long.parseLong(request.getParameter("prereq")) > 0) {
 	            HttpSession session = request.getSession();
 	            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
 	            SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
@@ -117,6 +117,7 @@ public class CadastrarEtapaController {
 	                }
 	            }
 	            this.etapaServiceIfc.setUsuario(usuario);
+	            long codPrerequisito = Long.parseLong(request.getParameter("prereq"));
             	EtapaBeans pre = etapaServiceIfc.getEtapa(codPrerequisito);
 	            etapa.setPrerequisito(pre);
 	            etapa.setAvaliadores(avaliadores);

@@ -61,15 +61,15 @@
                         <c:if test="${tipo eq 'etapa'}">
                             <c:if test="${not empty selecao.inscricao}"> <br>
                         <label for="etapaAnteriorInput">Etapa anterior*</label>
-                        <select name="prerequisito" class="form-control col-md-8"  id="etapaAnteriorInput" required>
+                        <select name="prereq" class="form-control col-md-8"  id="etapaAnteriorInput" required>
                             <option value="0" selected="selected" disabled="disabled">Selecione a etapa anterior a esta</option>
                             <fmt:parseDate value="${selecao.inscricao.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTerminoIncricao" type="date" />
                             <fmt:formatDate value="${parseDataTerminoIncricao}"  pattern="dd/MM/yyyy" var="dataTerminoIncricao" type="date"/>
-                            <option value="${selecao.inscricao.codEtapa}" onclick="atualizaDataMinimaPermitida('${dataTerminoIncricao}')">${selecao.inscricao.titulo}</option>
-                            <c:forEach var="etapa" items="${selecao.etapas}">
+                            <option value="${selecao.inscricao.codEtapa}" onclick="atualizaDataMinimaPermitida('${dataTerminoIncricao}')" ${(etapa.prerequisito.codEtapa == selecao.inscricao.codEtapa) ? "selected='selected'" : ""} >${selecao.inscricao.titulo}</option>
+                            <c:forEach var="e" items="${selecao.etapas}">
                             <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
                             <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
-                            <option value="${etapa.codEtapa}" onclick="atualizaDataMinimaPermitida('${dataTermino}')">${etapa.titulo}</option>
+                            <option value="${e.codEtapa}" onclick="atualizaDataMinimaPermitida('${dataTermino}')" ${(etapa.prerequisito.codEtapa == e.codEtapa) ? "selected='selected'" : ""} >${e.titulo}</option>
                             </c:forEach>
                         </select>
                         <div class="invalid-feedback">
@@ -97,7 +97,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-row">
-                                    <input type="text" name="documento" class="form-control col-md-8" id="documentoInput" placeholder="Digite o nome do documento exigido para esta etapa" readonly="true">&nbsp;&nbsp;
+                                    <input type="text" class="form-control col-md-8" id="documentoInput" placeholder="Digite o nome do documento exigido para esta etapa" readonly="true">&nbsp;&nbsp;
                                     <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaDocumento()" value="Adicionar">                            
                                 </div>
                                 <br>
@@ -120,7 +120,7 @@
                                 <c:if test="${tipo eq 'etapa'}">
                                     <br>
                                     <label for="criterioDeAvaliacaoInput"><input type="checkbox" onclick="habilitaEdicao('criterioInput')"> Critério de Avaliação*</label>
-                                    <select name="criterioDeAvaliacao" class="form-control col-md-8"  class="criterioInput" id="criterioInput" onchange="atualizaCampoNotaMinima()" readonly="true" required>
+                                    <select name="criterio" class="form-control col-md-8"  class="criterioInput" id="criterioInput" onchange="atualizaCampoNotaMinima()" readonly="true" required>
                                         <option ${(etapa.criterioDeAvaliacao.criterio == 1 ? "selected" : "")} value="1">Nota</option>
                                         <option ${(etapa.criterioDeAvaliacao.criterio == 2 ? "selected" : "")} value="2" >Aprovação</option>
                                         <option ${(etapa.criterioDeAvaliacao.criterio == 3 ? "selected" : "")} value="3" >Deferimento</option>
@@ -151,7 +151,7 @@
                                  <ul class="list-group col-md-8" id="listaAvaliadores"> 
                                     <c:forEach var="avaliador" items="${etapa.avaliadores}">
                                        	<li class="list-group-item">
-                                            <input type="hidden" name="codAvaliadores" value="${avaliador.codUsuario}-${avaliador.nome}" style="display: none;"/>
+                                            <input type="hidden" name="codAvaliadores" value="${avaliador.codUsuario}" style="display: none;"/>
                                             ${avaliador.nome}
                                             <button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador('${avaliador.nome}')">clear</button>
                                         </li>    

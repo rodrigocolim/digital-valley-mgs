@@ -50,7 +50,7 @@ import util.Constantes;
 
 /**
  *
- * @author Gilberto
+ * @author Gilberto, Wallison
  */
 @Controller("editarSelecaoController")
 @RequestMapping("/editarSelecao")
@@ -78,20 +78,22 @@ public class EditarSelecaoController {
 
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
+    	UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-        List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.RESPONSAVEL);
-        List<UsuarioBeans> responsaveis = selecao.getResponsaveis();
-        model.addAttribute("selecao", selecao);
-        model.addAttribute("usuarios", usuarios);
-        model.addAttribute("responsaveis", responsaveis);
-        return "editar-selecao";
+        if (selecao.getResponsaveis().contains(usuario)) {
+	        List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.RESPONSAVEL);
+	        List<UsuarioBeans> responsaveis = selecao.getResponsaveis();
+	        model.addAttribute("selecao", selecao);
+	        model.addAttribute("usuarios", usuarios);
+	        model.addAttribute("responsaveis", responsaveis);
+	        return "editar-selecao";
+        } else {return "error/404";}
     }
     
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.POST)
     public String atualiza(@PathVariable long codSelecao, @ModelAttribute("selecao") @Valid SelecaoBeans selecao, BindingResult result, @RequestParam("file") String file, @RequestParam("categoria") String categoria, Model model, HttpServletResponse response, HttpServletRequest request) throws IOException, IllegalAccessException, EmailException {
         SelecaoBeans selecaoBeans = this.getSelecaoServiceIfc().getSelecao(codSelecao);
         HttpSession session = request.getSession();
-        
         try{
             selecaoBeans.setTitulo(selecao.getTitulo());
             selecaoBeans.setDescricao(selecao.getDescricao());
@@ -196,47 +198,49 @@ public class EditarSelecaoController {
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        try {
-        	if (selecao.getInscricao().getPeriodo().getTermino().isBefore(LocalDate.now())) {
-        		session.setAttribute("mensagem", "Esta Seleção não pode ser divulgada! Verifique o periodo de inscrição.");
-                session.setAttribute("status", "warning");
-        		return "redirect:/selecao/" + selecao.getCodSelecao();
-        	} else {
-	            selecaoServiceIfc.setUsuario(usuario);
-	            selecao.setDivulgada(true);
-	            selecao = selecaoServiceIfc.atualizaSelecao(selecao);
-	            Email email = new Email();
-	            email.sendHtmlEmail(usuarioServiceIfc.listaTodosUsuarios(), "Nova seleção divulgada!", "Seleção "+selecao.getTitulo(), selecao.getDescricao());
-	            Set<UsuarioBeans> avaliadoresSet = Collections.synchronizedSet(new HashSet<UsuarioBeans>());
-	            for (int i =0;i < selecao.getEtapas().size();i++) {
-	            	EtapaBeans e = selecao.getEtapas().get(i);
-	            	avaliadoresSet.addAll(e.getAvaliadores());
-	            }
-	            for(Iterator<UsuarioBeans> iter = avaliadoresSet.iterator(); iter.hasNext();) {
-	            	UsuarioBeans u = iter.next();
-                  	if (u.isRecebeEmail()) {
-                  		String etapasAvaliador = "";
-                  		for (int i = 0;i < selecao.getEtapas().size();i++) {
-                  			etapasAvaliador += "<b>"+selecao.getEtapas().get(i).getTitulo()+"</b><br />";
-                  		}
-                  		email.sendHtmlEmail(u, "Avaliador de Etapa!", "Avaliador de Etapa", "Você é avaliador de etapas da <b>Selção"+selecao.getTitulo()+"</b>:"+etapasAvaliador);
-                  	}
-	            }
-	            	            session.setAttribute("selecao", selecao);
-	            session.setAttribute("mensagem", "Seleção divulgada com sucesso!");
-                session.setAttribute("status", "success");
+        if (selecao.getResponsaveis().contains(usuario)) {
+	        try {
+	        	if (selecao.getInscricao().getPeriodo().getTermino().isBefore(LocalDate.now())) {
+	        		session.setAttribute("mensagem", "Esta Seleção não pode ser divulgada! Verifique o periodo de inscrição.");
+	                session.setAttribute("status", "warning");
+	        		return "redirect:/selecao/" + selecao.getCodSelecao();
+	        	} else {
+		            selecaoServiceIfc.setUsuario(usuario);
+		            selecao.setDivulgada(true);
+		            selecao = selecaoServiceIfc.atualizaSelecao(selecao);
+		            Email email = new Email();
+		            email.sendHtmlEmail(usuarioServiceIfc.listaTodosUsuarios(), "Nova seleção divulgada!", "Seleção "+selecao.getTitulo(), selecao.getDescricao());
+		            Set<UsuarioBeans> avaliadoresSet = Collections.synchronizedSet(new HashSet<UsuarioBeans>());
+		            for (int i =0;i < selecao.getEtapas().size();i++) {
+		            	EtapaBeans e = selecao.getEtapas().get(i);
+		            	avaliadoresSet.addAll(e.getAvaliadores());
+		            }
+		            for(Iterator<UsuarioBeans> iter = avaliadoresSet.iterator(); iter.hasNext();) {
+		            	UsuarioBeans u = iter.next();
+	                  	if (u.isRecebeEmail()) {
+	                  		String etapasAvaliador = "";
+	                  		for (int i = 0;i < selecao.getEtapas().size();i++) {
+	                  			etapasAvaliador += "<b>"+selecao.getEtapas().get(i).getTitulo()+"</b><br />";
+	                  		}
+	                  		email.sendHtmlEmail(u, "Avaliador de Etapa!", "Avaliador de Etapa", "Você é avaliador de etapas da <b>Selção"+selecao.getTitulo()+"</b>:"+etapasAvaliador);
+	                  	}
+		            }
+    	            session.setAttribute("selecao", selecao);
+		            session.setAttribute("mensagem", "Seleção divulgada com sucesso!");
+	                session.setAttribute("status", "success");
+		            return "redirect:/selecao/" + selecao.getCodSelecao();
+	        	}
+	        } catch(IllegalAccessException e) {
+	            e.printStackTrace();
 	            return "redirect:/selecao/" + selecao.getCodSelecao();
-        	}
-        } catch(IllegalAccessException e) {
-            e.printStackTrace();
-            return "redirect:/selecao/" + selecao.getCodSelecao();
-        } catch(Exception e) {
-            e.printStackTrace();
-             return "redirect:/selecao/" + selecao.getCodSelecao();
-        }
+	        } catch(Exception e) {
+	            e.printStackTrace();
+	             return "redirect:/selecao/" + selecao.getCodSelecao();
+	        }
+        } else {return "error/404";}
     }
     
-    
+    /*
     @RequestMapping(value = "/remove/{codSelecao}", method = RequestMethod.GET)
     public String removeSelecao(@PathVariable long codSelecao, Model model, HttpServletRequest request) {
     	 HttpSession session = request.getSession();
@@ -257,6 +261,7 @@ public class EditarSelecaoController {
 		}
     	return "minhas-selecoes";
     }
+    */
 
     
 }

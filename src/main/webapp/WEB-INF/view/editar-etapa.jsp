@@ -65,7 +65,7 @@
                             <option value="0" selected="selected" disabled="disabled">Selecione a etapa anterior a esta</option>
                             <fmt:parseDate value="${selecao.inscricao.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTerminoIncricao" type="date" />
                             <fmt:formatDate value="${parseDataTerminoIncricao}"  pattern="dd/MM/yyyy" var="dataTerminoIncricao" type="date"/>
-                            <option value="${selecao.inscricao.codEtapa}" onclick="atualizaDataMinimaPermitida('${dataTerminoIncricao}')">${selecao.inscricao.titulo}</option>
+                            <option value="${selecao.inscricao.codEtapa}"  onclick="atualizaDataMinimaPermitida('${dataTerminoIncricao}')">${selecao.inscricao.titulo}</option>
                             <c:forEach var="etapa" items="${selecao.etapas}">
                             <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
                             <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>

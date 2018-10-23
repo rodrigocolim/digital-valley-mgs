@@ -74,12 +74,15 @@ public class CadastrarEtapaController {
            
     
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.GET)
-    public String getIndex(@PathVariable long codSelecao, Model model) {
-        SelecaoBeans selecaoBeans = this.selecaoServiceIfc.getSelecao(codSelecao);
-        model.addAttribute("selecao", selecaoBeans);
-        List<UsuarioBeans> avaliadores = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.AVALIADOR);
-        model.addAttribute("avaliadores", avaliadores);
-        return "cadastrar-etapa";
+    public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request) {
+    	UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
+    	if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)) {
+	        SelecaoBeans selecaoBeans = this.selecaoServiceIfc.getSelecao(codSelecao);
+	        model.addAttribute("selecao", selecaoBeans);
+	        List<UsuarioBeans> avaliadores = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.AVALIADOR);
+	        model.addAttribute("avaliadores", avaliadores);
+	        return "cadastrar-etapa";
+    	} else {return "error/404";}
     }
 
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)

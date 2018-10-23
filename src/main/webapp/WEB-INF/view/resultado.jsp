@@ -89,7 +89,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Esta etapa possui participantes pendentes. Se continuar com a divulgação, estes participantes serão indeferidos automaticamente. Deseja continuar? </p>
+                                    <p>Ao divulgar o resultado da seleção, todos poderão ver. Deseja continuar? </p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>

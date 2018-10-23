@@ -24,6 +24,8 @@ import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.model.Participante;
+import br.ufc.russas.n2s.darwin.model.ResultadoParticipanteSelecao;
+import br.ufc.russas.n2s.darwin.model.Selecao;
 import util.Constantes;
 
 
@@ -99,8 +101,6 @@ public class Facade {
 			assAluno.setAlignment(Paragraph.ALIGN_CENTER);
 			document.add(assAluno);
 			document.close();				
-			
-			System.out.println("tudo certo aqui");
 			return name;
 		} catch (DocumentException | IOException e) {
 			// TODO Auto-generated catch block
@@ -115,11 +115,5 @@ public class Facade {
 			System.out.println(Constantes.getTemp());
 		}
 		return null;
-		
 	}
-	
-	
-	
-	
-	
 }

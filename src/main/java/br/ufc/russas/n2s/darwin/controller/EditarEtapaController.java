@@ -23,6 +23,7 @@ import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -37,6 +38,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.google.gson.Gson;
 
 /**
  *
@@ -88,8 +91,20 @@ public class EditarEtapaController {
             model.addAttribute("tipo", "etapa");
         }
         
+        List<Long> codAvaliadores = Collections.synchronizedList(new ArrayList<>());
+        List<String> nomeAvaliadores = Collections.synchronizedList(new ArrayList<>());
+        
+        for (UsuarioBeans avaliador : etapaBeans.getAvaliadores()) {
+        	codAvaliadores.add(avaliador.getCodUsuario());
+        	nomeAvaliadores.add(avaliador.getNome());
+        }
+        String json = new Gson().toJson(nomeAvaliadores);
         model.addAttribute("selecao", selecao);
         model.addAttribute("etapa", etapaBeans);
+        model.addAttribute("codAvaliadores", codAvaliadores);
+        model.addAttribute("nomeAvaliadores", json);
+        model.addAttribute("listaDocumentos", new Gson().toJson(etapaBeans.getDocumentacaoExigida()));
+        model.addAttribute("listaNumeroDocumentos", etapaBeans.getDocumentacaoExigida().size());
         model.addAttribute("usuarios", usuarios);
         return "editar-etapa";
     }

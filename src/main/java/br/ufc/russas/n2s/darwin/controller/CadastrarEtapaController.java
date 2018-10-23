@@ -119,7 +119,7 @@ public class CadastrarEtapaController {
 	            this.etapaServiceIfc.setUsuario(usuario);
             	EtapaBeans pre = etapaServiceIfc.getEtapa(codPrerequisito);
 	            etapa.setPrerequisito(pre);
-	            
+	            etapa.setAvaliadores(avaliadores);
 	            if (documentosExigidos != null) {
 	                ArrayList<String> docs = new ArrayList<>();
 	                for(String documento : documentosExigidos){

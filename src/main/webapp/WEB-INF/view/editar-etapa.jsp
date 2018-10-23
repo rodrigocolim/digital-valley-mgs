@@ -76,9 +76,6 @@
                         </div>
                         <br>
                         </c:if>
-                        <c:if test="${empty selecao.etapas}">
-                            <input type="hidden" value="0" name="prerequisito">
-                        </c:if>
                         </c:if>
                         <br>
                         <label for="periodoInput"><input type="checkbox" onclick="habilitaEdicao('periodoInput1');habilitaEdicao('periodoInput2')"> Período*</label>
@@ -122,20 +119,29 @@
                             <div class="card-body">
                                 <c:if test="${tipo eq 'etapa'}">
                                     <br>
-                                    <label for="criterioDeAvaliacaoInput"><input type="checkbox" onclick="habilitaEdicao('criterioDeAvaliacaoInput')"> Critério de Avaliação*</label>
-                                    <select name="criterioDeAvaliacao" value="${etapa.criterioDeAvaliacao}"  class="form-control col-md-8"  id="criterioDeAvaliacaoInput" readonly="true" required>
+                                    <label for="criterioDeAvaliacaoInput"><input type="checkbox" onclick="habilitaEdicao('criterioInput')"> Critério de Avaliação*</label>
+                                    <select name="criterioDeAvaliacao" class="form-control col-md-8"  class="criterioInput" id="criterioInput" onchange="atualizaCampoNotaMinima()" readonly="true" required>
                                         <option ${(etapa.criterioDeAvaliacao.criterio == 1 ? "selected" : "")} value="1">Nota</option>
                                         <option ${(etapa.criterioDeAvaliacao.criterio == 2 ? "selected" : "")} value="2" >Aprovação</option>
                                         <option ${(etapa.criterioDeAvaliacao.criterio == 3 ? "selected" : "")} value="3" >Deferimento</option>
                                     </select>
                                 </c:if>
+                                <span id="campoNotaMinima">
+									<c:if test="${etapa.criterioDeAvaliacao.criterio == 1}">
+										Nota mínima: <input type='text' name='notaMinima' value="${etapa.notaMinima}"style='width: 150px' class='form-control criterioInput' id="nota_minima" placeholder='Nota miníma requerida' readonly required>
+									</c:if>
+                                </span>
+                                    
+                                <div class="invalid-feedback">
+                                </div>
+                                
                                 <br>
                                 <label for="AvaliadoresInput"><input type="checkbox" onclick="habilitaEdicao('avaliadorInput')"> Avaliadores*</label>                           
                                 <div class="form-row">
                                     <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px" readonly="true">
                                         <option selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
                                         <c:forEach items="${usuarios}" var="usuario">
-                                            <option id="avaliadorOption-${usuario.nome}" value="${usuario.codUsuario}-${usuario.nome}">${usuario.nome}</option>
+                                            <option id="avaliadorOption-${usuario.codUsuario}" value="${usuario.codUsuario}">${usuario.nome}</option>
                                         </c:forEach>
                                     </select>
                                     &nbsp;&nbsp;
@@ -212,30 +218,43 @@
         }else{
             input.attr('readonly',true);
         }
+        if (id == "criterioInput") {
+        	habilitaNotaMinima();
+        }
+    }
+    function habilitaNotaMinima(){
+        var input = $("#nota_minima");
+		var attr = input.attr('readonly');
+        if(typeof attr !== typeof undefined && attr !== false){
+            input.removeAttr('readonly');
+        }else{
+            input.attr('readonly',true);
+        }
     }
     </script>
     <script>
-    var listaAvaliadores = ${etapa.avaliadores};
+    var listaCodAvaliadores = ${codAvaliadores};
+    var listaNomeAvaliadores = ${nomeAvaliadores};
     var codAvaliadores = [];
+    var nomeAvaliadores = [];
     var numAvaliadores = 0;
     
     $(document).ready(function() { 
-    	for (i=0;i < listaAvaliadores.length;i++) {
-    		var nomeAvaliador = listaAvaliadores[i].nome;
-    		document.getElementById("avaliadorOption-"+nomeAvaliador+"").disabled = "disabled";
-    		codAvaliadores[i] = listaAvaliadores[i].nome.substring(0, avaliadorInput.indexOf("-"));
+    	for (i=0;i < listaCodAvaliadores.length;i++) {
+    		document.getElementById("avaliadorOption-"+listaCodAvaliadores[i]+"").disabled = "disabled";
+    		codAvaliadores[i] = listaCodAvaliadores[i];
+    		nomeAvaliadores[i] = listaNomeAvaliadores[i];
     		numAvaliadores++;
     	}
     });
     
     function adicionaAvaliador(){
-      var avaliadorInput = document.getElementById("avaliadorInput").value;
-      var nomeAvaliador = avaliadorInput.substring(avaliadorInput.indexOf("-") + 1, avaliadorInput.lenght);
-      var codAvaliador = avaliadorInput.substring(0, avaliadorInput.indexOf("-"));
+      var codAvaliador = document.getElementById("avaliadorInput").value;
+      var nomeAvaliador = document.getElementById("avaliadorOption-"+codAvaliador+"").textContent;
       if(nomeAvaliador !== ""){
-          listaAvaliadores[numAvaliadores] = nomeAvaliador;
-          codAvaliadores[numAvaliadores] = codAvaliador;
-          document.getElementById("avaliadorOption-"+nomeAvaliador+"").disabled = "disabled";
+          codAvaliadores[numAvaliadores] = Number(codAvaliador);
+          nomeAvaliadores[numAvaliadores] = nomeAvaliador;
+          document.getElementById("avaliadorOption-"+codAvaliador+"").disabled = "disabled";
           numAvaliadores++;
       }
       document.getElementById("avaliadorInput").value = "";
@@ -245,22 +264,71 @@
     function atualizaAvaliadores(){
         var list = document.getElementById("listaAvaliadores");
         list.innerHTML = "";
-        for(i = 0;i < listaAvaliadores.length;i++){
-          if(listaAvaliadores[i] !== ""){
-              list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codAvaliadores" value="'+codAvaliadores[i]+'" style="display: none;"> '+ listaAvaliadores[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(\''+listaAvaliadores[i]+'\')">clear</button></li>';
+        for(i = 0;i < codAvaliadores.length;i++){
+          if(codAvaliadores[i] !== ""){
+              list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codAvaliadores" value="'+codAvaliadores[i]+'" style="display: none;"> '+ nomeAvaliadores[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador(\''+codAvaliadores[i]+'\')">clear</button></li>';
           }
         }
     }
     function removeAvaliador(codAvaliador){
-        for(i = 0;i < listaAvaliadores.length;i++){
-            if(listaAvaliadores[i] === codAvaliador){
+    	codAvaliador = Number(codAvaliador);
+        for(i = 0;i < codAvaliadores.length;i++){
+            if(codAvaliadores[i] === codAvaliador){
                 document.getElementById("avaliadorOption-"+codAvaliador+"").disabled = "";
-                listaAvaliadores[i] = "";
                 codAvaliadores[i] = "";
                 
             }
         }
         atualizaAvaliadores();
+    }
+    
+    
+    var listaDocumentos = ${listaDocumentos};
+    var numDocumentos = ${listaNumeroDocumentos};
+    function adicionaDocumento(){
+      var nomeDocumento = document.getElementById("documentoInput").value;
+      if(nomeDocumento !== ""){
+          listaDocumentos[numDocumentos] = nomeDocumento;
+          numDocumentos++;
+      }
+      document.getElementById("documentoInput").value = "";
+      atualizaDocumentos();
+      
+    }
+    function atualizaDocumentos(){
+        var list = document.getElementById("listaDocumentos");
+        list.innerHTML = "";
+        for(i = 0;i < listaDocumentos.length;i++){
+          if(listaDocumentos[i] !== ""){
+              list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="documentosExigidos" value="'+listaDocumentos[i]+'" style="display: none;"> '+ listaDocumentos[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumento(\''+listaDocumentos[i]+'\')">clear</button></li>';
+          }
+        }
+    }
+    function removeDocumento(nome){
+        for(i = 0;i < listaDocumentos.length;i++){
+            if(listaDocumentos[i] === nome){
+                listaDocumentos[i] = "";
+            }
+        }
+        atualizaDocumentos();
+    }
+    function  atualizaCampoNotaMinima(){
+  	  if (document.getElementById("criterioInput").value === '1' || document.getElementById("criterioInput").value === '2' || document.getElementById("criterioInput").value === '3') {
+       	 document.getElementById('avaliadorInput').disabled = false;
+        } 
+        if(document.getElementById("criterioInput").value === '1'){
+            adicionaCampoNotaMinima();
+        }else{
+            removeCampoNotaMinima();
+        }
+    }
+    function adicionaCampoNotaMinima(){
+       if(document.getElementById("criterioInput").value === '1'){
+           document.getElementById("campoNotaMinima").innerHTML = "Nota mínima: <input type='text' name='notaMinima' style='width: 150px' class='form-control' placeholder='Nota miníma requerida' required>";
+       }
+  }
+    function removeCampoNotaMinima(){
+        document.getElementById("campoNotaMinima").innerHTML = "";
     }
     </script>
 

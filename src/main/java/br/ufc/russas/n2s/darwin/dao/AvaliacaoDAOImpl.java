@@ -58,16 +58,5 @@ public class AvaliacaoDAOImpl implements AvaliacaoDAOIfc{
     public Avaliacao getAvaliacao(Avaliacao avaliacao) {
         return this.daoImpl.getObject(avaliacao, avaliacao.getCodAvaliacao());
     }
-    
-    /*
-    public static void main(String[] args) {
-		AvaliacaoDAOImpl avaliacao = new AvaliacaoDAOImpl();
-		Etapa etapa = new Etapa();
-		etapa.setCodEtapa(7);
-		List<Avaliacao> lista = avaliacao.getAvaliacao2(etapa);
-		for(Avaliacao item:lista) {
-		}
-	}
-	*/
-    
+        
 }

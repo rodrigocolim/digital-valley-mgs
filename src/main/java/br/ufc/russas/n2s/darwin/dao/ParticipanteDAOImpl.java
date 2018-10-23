@@ -59,7 +59,8 @@ public class ParticipanteDAOImpl implements ParticipanteDAOIfc{
     	Session session = this.daoImpl.getSessionFactory().openSession();
     	Transaction t = session.beginTransaction();
     	try {
-    		List<Participante> participantes = (List<Participante>) session.createQuery("from participante where etapa ="+codEtapa).list();
+    		List<Participante> list = (List<Participante>) session.createQuery("from participante where etapa = ?").setInteger(0, codEtapa).list();
+			List<Participante> participantes = list;
             t.commit();
             return participantes;
     	} catch (Exception e) {

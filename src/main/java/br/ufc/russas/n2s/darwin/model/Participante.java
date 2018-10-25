@@ -5,12 +5,11 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
-import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
+
 import javax.persistence.AttributeConverter;
 import javax.persistence.Column;
 import javax.persistence.Converter;
@@ -19,8 +18,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -32,7 +29,10 @@ import javax.persistence.Table;
 @Table(name = "participante")
 @Converter(autoApply = true)
 public class Participante implements AttributeConverter<LocalDateTime, Timestamp>, Serializable{
-    @Id
+   
+	private static final long serialVersionUID = 4998989508085194954L;
+	
+	@Id
     @Column(name = "codParticipante")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long codParticipante;
@@ -116,9 +116,13 @@ public class Participante implements AttributeConverter<LocalDateTime, Timestamp
     
     @Override
     public boolean equals(Object o){
-        Participante participante = (Participante) o;
-        return (participante.getCandidato().equals(this.getCandidato()));
-    }
+    	if (o != null) {
+	        Participante participante = (Participante) o;
+	        return (participante.getCandidato().equals(this.getCandidato()));
+    	} else {
+    		return false;
+    	}
+	}
 
     @Override
     public int hashCode() {

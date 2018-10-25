@@ -5,11 +5,9 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
-import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.dao.UsuarioDAOIfc;
-import br.ufc.russas.n2s.darwin.dao.UsuarioDAOImpl;
-import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
+import java.io.Serializable;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -18,9 +16,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -30,8 +27,11 @@ import org.hibernate.annotations.FetchMode;
  */
 @Entity
 @Table(name="usuario")
-public class UsuarioDarwin {
-    @Id
+public class UsuarioDarwin implements Serializable {
+    
+	private static final long serialVersionUID = 4086941463497231249L;
+	
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codUsuario")
     private long codUsuario;

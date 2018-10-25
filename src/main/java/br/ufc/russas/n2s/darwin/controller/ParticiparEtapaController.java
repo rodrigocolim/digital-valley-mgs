@@ -113,7 +113,7 @@ public class ParticiparEtapaController {
             for (int i = 0; i < documentos.size();i++) {
                 String nome = nomeDocumento[i];
                 MultipartFile file = documentos.get(i);
-                if (!file.equals(null)) {
+                if (file != null) {
                     Arquivo documento = new Arquivo();
                     System.out.println(file.getOriginalFilename());
                     System.out.println("\n\n");

@@ -7,15 +7,22 @@ package br.ufc.russas.n2s.darwin.beans;
 
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author Lavínia Matoso
  */
-public class UsuarioBeans implements Beans{
+public class UsuarioBeans implements Beans, Serializable{
     
-    private long codUsuario;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7618752980671884090L;
+	
+	private long codUsuario;
     private long codUsuarioControleDeAcesso;
     private String nome;
     private String email;

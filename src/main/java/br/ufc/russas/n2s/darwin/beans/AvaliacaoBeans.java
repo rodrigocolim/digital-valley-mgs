@@ -5,6 +5,8 @@
  */
 package br.ufc.russas.n2s.darwin.beans;
 
+import java.io.Serializable;
+
 import br.ufc.russas.n2s.darwin.model.Avaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoAvaliacao;
 import br.ufc.russas.n2s.darwin.model.Participante;
@@ -14,9 +16,14 @@ import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
  *
  * @author Lavínia Matoso
  */
-public class AvaliacaoBeans implements Beans {
+public class AvaliacaoBeans implements Beans, Serializable {
 
-    private long codAvaliacao;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -484502680222142796L;
+	
+	private long codAvaliacao;
     private ParticipanteBeans participante;
     private float nota;
     private boolean aprovado;

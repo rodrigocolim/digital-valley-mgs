@@ -97,7 +97,11 @@ public class VisualizarEdital extends HttpServlet {
         }
         response.setContentType("application/pdf");
         response.addHeader("Content-Disposition", "inline; filename=" + selecao.getEdital().getTitulo()+".pdf");
-        response.setContentLength((int) file.length());
+        if (file != null) {
+        	response.setContentLength((int) file.length());
+        } else {
+        	response.setContentLength(0);
+        }
         FileInputStream fileInputStream = new FileInputStream(file.getAbsoluteFile());
         OutputStream responseOutputStream = response.getOutputStream();
         int bytes;

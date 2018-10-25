@@ -48,17 +48,17 @@ public class SelecaoController {
     
     @Autowired(required = true)
     public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc")EtapaServiceIfc etapaServiceIfc) {
-    this.etapaServiceIfc = etapaServiceIfc;
+    	this.etapaServiceIfc = etapaServiceIfc;
     }
     
     @Autowired(required = true)
     public void setAvaliacaoServiceIfc(@Qualifier("avaliacaoServiceIfc")AvaliacaoServiceIfc avaliacaoServiceIfc) {
-    this.avaliacaoServiceIfc = avaliacaoServiceIfc;
+    	this.avaliacaoServiceIfc = avaliacaoServiceIfc;
     }
     
     @Autowired(required = true)
     public void setAvaliacaoDAOIfc(@Qualifier("avaliacaoDAOIfc")AvaliacaoDAOIfc avaliacaoDAOIfc) {
-    this.avaliacaoDAOIfc = avaliacaoDAOIfc;
+    	this.avaliacaoDAOIfc = avaliacaoDAOIfc;
     }
 
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)

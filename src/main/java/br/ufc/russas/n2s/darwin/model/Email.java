@@ -31,12 +31,8 @@ import javax.activation.FileDataSource;
 
 
 public class Email {
-	private SimpleEmail simple = new SimpleEmail();
-	private HtmlEmail html = new HtmlEmail();
 	private String from = "n2s.mensageiro@gmail.com";
 	private String pass = "n2s@m@1ls3rv1c3";
-	private String server = "smtp.gmail.com";
-	private int port = 465;
 	private Session session;
 	
 	public Email () {

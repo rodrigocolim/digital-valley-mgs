@@ -78,10 +78,8 @@ public class InscricaoSelecaoController extends HttpServlet {
                 ServletFileUpload upload = new ServletFileUpload(factory);
                 upload.setFileItemFactory(factory);
                 List itens = upload.parseRequest(request);
-
-                Selecao selecao = new Selecao();
+                
                 HttpSession session = request.getSession();
-                SelecaoBeans sb = new SelecaoBeans();
                 EtapaBeans etapa = etapaServiceIfc.getEtapa(Long.parseLong(request.getParameter("etapa")));
                 UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
                 this.etapaServiceIfc.setUsuario(usuario);

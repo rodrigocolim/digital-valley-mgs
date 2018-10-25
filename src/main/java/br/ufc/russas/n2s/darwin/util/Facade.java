@@ -52,9 +52,6 @@ public class Facade {
 			cabecalho.setAlignment(Paragraph.ALIGN_CENTER);
 			document.add(cabecalho);
 			
-			Font bold = new Font(FontFamily.UNDEFINED, 12, Font.BOLD, BaseColor.BLACK);
-			Font normal = new Font(FontFamily.UNDEFINED, 12, Font.NORMAL, BaseColor.BLACK);
-			
 			//Paragraph conteudo = new Paragraph();
 			
 			//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,12 +131,6 @@ public class Facade {
 							+ "Resultado da seleção do edital "+selecao.getTitulo()+"\n\n\n");
 			cabecalho.setAlignment(Paragraph.ALIGN_CENTER);
 			document.add(cabecalho);
-			
-			Font bold = new Font(FontFamily.UNDEFINED, 12, Font.BOLD, BaseColor.BLACK);
-			Font normal = new Font(FontFamily.UNDEFINED, 12, Font.NORMAL, BaseColor.BLACK);
-			
-			
-			
 			//////////////////////////////////////////////////////////////////////////////////////////////////
 			com.itextpdf.text.Font f = FontFactory.getFont("SANS_SERIF", 10, Font.BOLD, new BaseColor(0, 0, 255));
             PdfPTable t = new PdfPTable(3); //3

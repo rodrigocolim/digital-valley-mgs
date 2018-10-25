@@ -11,7 +11,12 @@ package br.ufc.russas.n2s.darwin.model;
  */
 public class EtapaProxy extends Etapa{
     
-    private UsuarioDarwin usuario;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3448530419349667202L;
+	
+	private UsuarioDarwin usuario;
     
     public EtapaProxy(UsuarioDarwin usuario) {
         setUsuario(usuario);

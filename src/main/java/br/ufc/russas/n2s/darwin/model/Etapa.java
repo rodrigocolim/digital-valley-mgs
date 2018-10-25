@@ -282,8 +282,12 @@ public class Etapa implements Serializable, Atualizavel {
 		if (prerequisito != null && prerequisito.getPeriodo().isAntes(this.getPeriodo())) {
 			this.prerequisito = prerequisito;
 		} else {
+			if (prerequisito != null) {
 			throw new IllegalArgumentException(
 					"A etapa " + prerequisito.getTitulo() +" não pode ser pré-requisito da etapa " + this.getTitulo() + " pois não ocorre antes!");
+			} else {
+				throw new NullPointerException("Deve ser adicionada uma etapa de pré-requisito!");
+			}
 		}
 	}
 

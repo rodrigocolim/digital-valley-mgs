@@ -88,7 +88,6 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     
     @Override
     public EtapaBeans atualizaEtapa(EtapaBeans etapa) {
-        UsuarioDarwin u = (UsuarioDarwin) usuario.toBusiness();
         Etapa e = (Etapa) etapa.toBusiness();
         etapaDAOIfc.atualizaEtapa(e);
         return (EtapaBeans) etapa.toBeans(e);
@@ -167,7 +166,6 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
 
     @Override
     public List<Object[]> getParticipantes(EtapaBeans etapa) {     
-    	List<Object[]> participantes = Collections.synchronizedList(new ArrayList<Object[]>());
         List<Object[]> p = null;        
         Etapa e = (Etapa) etapa.toBusiness();
         p = e.getResultado();

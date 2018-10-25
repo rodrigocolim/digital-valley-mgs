@@ -36,10 +36,7 @@ import org.springframework.stereotype.Service;
 public class AvaliacaoServiceImpl implements AvaliacaoServiceIfc {
 
     private AvaliacaoDAOIfc avaliacaoDAOIfc;
-    private SelecaoServiceIfc selecaoServiceIfc;
 
-    private UsuarioBeans usuario;
-    
     public AvaliacaoDAOIfc getAvaliacaoDAOIfc() {
         return avaliacaoDAOIfc;
     }
@@ -49,15 +46,9 @@ public class AvaliacaoServiceImpl implements AvaliacaoServiceIfc {
         this.avaliacaoDAOIfc = avaliacaoDAOIfc;
     }
     
-    @Autowired(required = true)
-    public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc")SelecaoServiceIfc selecaoServiceIfc){
-        this.selecaoServiceIfc = selecaoServiceIfc;
-    }
-    
     
     @Override
     public void setUsuario(UsuarioBeans usuario) {
-        this.usuario = usuario;
     }
     
 

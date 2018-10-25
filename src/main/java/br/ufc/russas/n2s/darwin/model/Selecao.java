@@ -5,16 +5,10 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
-import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
-import br.ufc.russas.n2s.darwin.dao.EtapaDAOImpl;
-import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
-import br.ufc.russas.n2s.darwin.dao.SelecaoDAOImpl;
-import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
@@ -32,8 +26,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+
+import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
+import br.ufc.russas.n2s.darwin.dao.EtapaDAOImpl;
+import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
+import br.ufc.russas.n2s.darwin.dao.SelecaoDAOImpl;
 
 /**
  *

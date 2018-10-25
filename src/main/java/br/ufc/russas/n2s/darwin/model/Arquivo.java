@@ -5,11 +5,11 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
-import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import java.io.File;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+
 import javax.persistence.AttributeConverter;
 import javax.persistence.Column;
 import javax.persistence.Converter;
@@ -28,7 +28,10 @@ import javax.persistence.Table;
 @Converter(autoApply = true)
 
 public class Arquivo implements AttributeConverter<LocalDateTime, Timestamp>, Serializable {
-    @Id
+    
+	private static final long serialVersionUID = 3401820503669532090L;
+	
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codArquivo")
     private long codArquivo;

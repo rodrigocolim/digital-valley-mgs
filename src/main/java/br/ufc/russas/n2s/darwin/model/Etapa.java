@@ -39,6 +39,9 @@ import org.hibernate.annotations.FetchMode;
 //@DiscriminatorColumn(name = "tipo", length = 1, discriminatorType = DiscriminatorType.STRING)
 //@DiscriminatorValue("E")
 public class Etapa implements Serializable, Atualizavel {
+	
+	private static final long serialVersionUID = -5159380096393806738L;
+	
 	@Id
 	@Column(name = "codEtapa")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

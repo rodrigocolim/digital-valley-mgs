@@ -18,15 +18,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 
 
 /**
  *
- * @author N2S-PC03
+ * @author Gilberto, Wallison
  */
 @Converter(autoApply = true)
 @Entity

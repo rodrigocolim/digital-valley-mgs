@@ -329,7 +329,11 @@ public class EtapaBeans implements Beans {
     
     @Override
 	public boolean equals(final Object o) {
-		return (this.getCodEtapa() == ((EtapaBeans) o).getCodEtapa());
+    	if (o != null) {
+    		return (this.getCodEtapa() == ((EtapaBeans) o).getCodEtapa());
+    	} else {
+    		return false;
+    	}
 	}
 
 }

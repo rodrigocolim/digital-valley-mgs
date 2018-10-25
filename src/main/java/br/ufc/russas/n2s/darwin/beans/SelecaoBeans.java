@@ -11,6 +11,8 @@ import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,9 +21,14 @@ import java.util.List;
  *
  * @author Lavínia Matoso
  */
-public class SelecaoBeans implements Beans {
+public class SelecaoBeans implements Beans, Serializable {
 
-    private long codSelecao;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7834513120454258554L;
+	
+	private long codSelecao;
     //@NotNull @Size(min = 5)
     private String titulo;
     private String descricao;

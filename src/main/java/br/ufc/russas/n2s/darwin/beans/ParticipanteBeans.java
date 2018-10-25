@@ -5,20 +5,23 @@
  */
 package br.ufc.russas.n2s.darwin.beans;
 
-import br.ufc.russas.n2s.darwin.model.Documentacao;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 /**
  *
  * @author N2S-PC03
  */
-public class ParticipanteBeans implements Beans {
+public class ParticipanteBeans implements Beans, Serializable {
 
-    private long codParticipante;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7716688766048886533L;
+	
+	private long codParticipante;
     private UsuarioBeans candidato;
     private boolean deferido;
     private LocalDateTime data;

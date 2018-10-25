@@ -8,6 +8,8 @@ package br.ufc.russas.n2s.darwin.beans;
 import br.ufc.russas.n2s.darwin.model.Arquivo;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.Participante;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,9 +18,14 @@ import java.util.List;
  *
  * @author Lavínia Matoso
  */
-public class DocumentacaoBeans implements Beans {
+public class DocumentacaoBeans implements Beans, Serializable {
 
-    private long codDocumentacao;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 484935922477100156L;
+	
+	private long codDocumentacao;
     private ParticipanteBeans candidato;
     private List<ArquivoBeans> documentos;
 

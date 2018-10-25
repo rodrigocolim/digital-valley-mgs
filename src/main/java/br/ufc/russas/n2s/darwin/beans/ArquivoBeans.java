@@ -7,15 +7,21 @@ package br.ufc.russas.n2s.darwin.beans;
 
 import br.ufc.russas.n2s.darwin.model.Arquivo;
 import java.io.File;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  *
  * @author Lavínia Matoso
  */
-public class ArquivoBeans implements Beans {
+public class ArquivoBeans implements Beans, Serializable {
 
-    private long codArquivo;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8480576039354785084L;
+	
+	private long codArquivo;
     private String titulo;
     private File arquivo;
     private LocalDateTime data;

@@ -191,7 +191,7 @@ public class Facade {
         		
 				//	add cpf
 				String s = rps.getParticipante().getCandidato().getCPF();
-				s.replace(s.substring(3, 8), "*****");
+				s = s.replace(s.substring(3, 8), "*****");
 				//replace(participante[0].candidato.CPF, fn:substring(participante[0].candidato.CPF,5,11),"******")
 				table.addCell(s);
 				

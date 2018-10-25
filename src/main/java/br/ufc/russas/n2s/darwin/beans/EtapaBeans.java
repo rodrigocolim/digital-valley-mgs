@@ -13,6 +13,8 @@ import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Periodo;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,10 +23,15 @@ import java.util.List;
  *
  * @author Wallison Carlos, Gilberto
  */
-public class EtapaBeans implements Beans {
+public class EtapaBeans implements Beans, Serializable {
 
 
-    private long codEtapa;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -882881109373083344L;
+	
+	private long codEtapa;
     private String titulo;
     private PeriodoBeans periodo;
     private String descricao;

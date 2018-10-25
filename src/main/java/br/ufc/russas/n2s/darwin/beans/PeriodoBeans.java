@@ -5,19 +5,25 @@
  */
 package br.ufc.russas.n2s.darwin.beans;
 
-import br.ufc.russas.n2s.darwin.model.Periodo;
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+
+import br.ufc.russas.n2s.darwin.model.Periodo;
 
 /**
  *
  * @author Lavínia Matoso
  */
-public class PeriodoBeans implements Beans{
+public class PeriodoBeans implements Beans, Serializable{
 
-    private long codPeriodo;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4072483774813824199L;
+	
+	private long codPeriodo;
     private LocalDate inicio;
     private LocalDate termino;
     

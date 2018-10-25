@@ -45,7 +45,7 @@ public class AvaliacaoServiceImpl implements AvaliacaoServiceIfc {
     }
 
     @Autowired(required = true)
-    public void setEtapaDAOIfc(@Qualifier("avaliacaoDAOIfc")AvaliacaoDAOIfc etapaDAOIfc) {
+    public void setEtapaDAOIfc(@Qualifier("avaliacaoDAOIfc")AvaliacaoDAOIfc avaliacaoDAOIfc) {
         this.avaliacaoDAOIfc = avaliacaoDAOIfc;
     }
     

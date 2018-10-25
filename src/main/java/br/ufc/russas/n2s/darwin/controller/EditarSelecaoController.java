@@ -171,7 +171,6 @@ public class EditarSelecaoController {
                 		cod = cod.substring(0,cod.indexOf("-"));
                 	}
                     UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
-                    System.out.println("usuario retornado: "+u.getNome());
                     if (u != null) {
                     	responsaveis.add(u);
                     }

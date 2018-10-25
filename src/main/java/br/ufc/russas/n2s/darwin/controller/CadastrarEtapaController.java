@@ -81,7 +81,7 @@ public class CadastrarEtapaController {
 	        model.addAttribute("selecao", selecaoBeans);
 	        List<UsuarioBeans> avaliadores = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.AVALIADOR);
 	        model.addAttribute("avaliadores", avaliadores);
-	        return "cadastrar-etapa";
+	        return "cadastrar-etapa"; 
     	} else {return "error/404";}
     }
 

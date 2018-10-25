@@ -75,7 +75,6 @@ public class CadastrarSelecaoController {
     public String getIndex(Model model, HttpServletRequest request) {
     	UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
     	if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)) {
-    		System.out.println("não devia");
     		responsaveis = usuarioServiceIfc.listaUsuariosComPermissao(EnumPermissao.RESPONSAVEL);
             model.addAttribute("responsaveis", responsaveis);
             return "cadastrar-selecao";
@@ -109,7 +108,7 @@ public class CadastrarSelecaoController {
         try {
         	File dir = new File(Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator);
             dir.mkdir();
-            if (!file.isEmpty()) { // para o edital
+            if (file != null && !file.isEmpty()) { // para o edital
                 ArquivoBeans edital = new ArquivoBeans();
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
                 File temp = File.createTempFile(Constantes.getDocumentsDir()+File.separator+file, ".pdf", dir);

@@ -96,21 +96,12 @@ public class EtapaController {
         }
         etapa.setAvaliadores(avaliadores);
         try {
-            //etapa = getEtapaServiceIfc().adicionaEtapa(etapa);
-            //selecao.getEtapas().add((Etapa)etapa.toBusiness());
-            //this.selecaoServiceIfc.atualizaSelecao(selecao);
             this.getEtapaServiceIfc().atualizaEtapa(selecao, etapa);
         }
         catch (IllegalAccessException ex) {
             Logger.getLogger(EtapaController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        /*if (!result.hasErrors()) {
-        etapas.add(this.getEtapaServiceIfc().adicionaEtapa(etapa));
-        model.addAttribute("etapas", etapas);
-        }*/
-
+       
         return "editar-etapa";
 
     }

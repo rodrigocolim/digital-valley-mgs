@@ -38,8 +38,6 @@ public class SelecaoController {
     
     private SelecaoServiceIfc selecaoServiceIfc;
     private EtapaServiceIfc etapaServiceIfc;
-    private AvaliacaoServiceIfc avaliacaoServiceIfc;
-    private AvaliacaoDAOIfc avaliacaoDAOIfc;
     
     @Autowired(required = true)
     public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc")SelecaoServiceIfc selecaoServiceIfc){
@@ -51,15 +49,7 @@ public class SelecaoController {
     	this.etapaServiceIfc = etapaServiceIfc;
     }
     
-    @Autowired(required = true)
-    public void setAvaliacaoServiceIfc(@Qualifier("avaliacaoServiceIfc")AvaliacaoServiceIfc avaliacaoServiceIfc) {
-    	this.avaliacaoServiceIfc = avaliacaoServiceIfc;
-    }
     
-    @Autowired(required = true)
-    public void setAvaliacaoDAOIfc(@Qualifier("avaliacaoDAOIfc")AvaliacaoDAOIfc avaliacaoDAOIfc) {
-    	this.avaliacaoDAOIfc = avaliacaoDAOIfc;
-    }
 
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){

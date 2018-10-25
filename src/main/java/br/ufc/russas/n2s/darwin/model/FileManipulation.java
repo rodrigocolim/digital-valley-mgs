@@ -68,7 +68,7 @@ public class FileManipulation {
     public static byte[] getBytes(File file) throws FileNotFoundException, IOException {
         byte[] bytesArray = new byte[(int) file.length()];
         FileInputStream fis = new FileInputStream(file);
-        fis.read(bytesArray); //read file into bytes[]
+        fis.read(bytesArray);
         fis.close();
         return bytesArray;
     } 
@@ -80,20 +80,13 @@ public class FileManipulation {
             byte[] buf = new byte[1024];
             try {
                 for (int readNum; (readNum = fis.read(buf)) != -1;) {
-                    bos.write(buf, 0, readNum); //no doubt here is 0
+                    bos.write(buf, 0, readNum);
                 }
             } catch (IOException ex) {
                ex.printStackTrace();
             }
             byte[] bytes = bos.toByteArray();
 
-            //below is the different part
-           /* File someFile = new File("java2.pdf");
-            FileOutputStream fos = new FileOutputStream(file);
-           // fos.write(bytes);
-            fos.flush();
-            fos.close();
-            */
             return  bytes;
         } catch (IOException e) {
             e.printStackTrace();
@@ -101,12 +94,6 @@ public class FileManipulation {
         e.printStackTrace();}
         return null;
     }
-    
-     public static File getFile(byte[] bytes) { 
-         
-         
-         
-         return null;
-     }
+
     
 }

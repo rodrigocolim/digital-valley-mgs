@@ -166,7 +166,6 @@ public class EditarSelecaoController {
             if (codResponsaveis != null) {
             	
                 for (String cod : codResponsaveis) {
-                	System.out.println(cod);
                 	if (cod.contains("-")) {
                 		cod = cod.substring(0,cod.indexOf("-"));
                 	}

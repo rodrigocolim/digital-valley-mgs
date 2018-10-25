@@ -69,7 +69,6 @@ public class PermissoesUsuarioController {
             usuarioServiceIfc.setUsuario(autenticado);
             UsuarioBeans usuario = usuarioServiceIfc.getUsuario(codUsuario, 0);
             String[] permissoes  = request.getParameterValues("codPermissao");
-           // String[] permissoes  = request.getParameterValues("codPermissoes");
             List<EnumPermissao> permisoesAtualizadas = new ArrayList<>();
             if (permissoes != null) {
             	 EnumPermissao p = null;

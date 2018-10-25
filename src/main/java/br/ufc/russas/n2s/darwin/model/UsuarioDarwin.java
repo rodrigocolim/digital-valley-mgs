@@ -52,10 +52,9 @@ public class UsuarioDarwin implements Serializable {
     }
 
     public void setCodUsuario(long codUsuario) {
-        if(codUsuario>0)
+        if(codUsuario>0) {
             this.codUsuario = codUsuario;
-
-            //throw new IllegalCodeException("Código de usuário deve ser maior de zero!");
+        }
     }
 
     public List<EnumPermissao> getPermissoes() {

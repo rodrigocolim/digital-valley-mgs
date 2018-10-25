@@ -137,7 +137,6 @@ public class EditarEtapaController {
 	            
 	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	            etapaBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
-	            //Verificando se houve conflito com as outras Etapas.
 	            List <EtapaBeans> subsequentes = selecao.getEtapas();
 	            Periodo novoP = (Periodo) etapaBeans.getPeriodo().toBusiness();
 	            for(EtapaBeans sub: subsequentes){
@@ -304,7 +303,6 @@ public class EditarEtapaController {
 	            return "redirect:/selecao/" + selecao.getCodSelecao();
             } else { return "error/404";}
         }catch (IllegalCodeException e) {
-    		//e.printStackTrace();
     		session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
     		return "redirect:/selecao/" + codSelecao;
@@ -336,7 +334,6 @@ public class EditarEtapaController {
 	            return "redirect:/selecao/" + selecao.getCodSelecao();
             } else { return "error/404";}
         } catch (IllegalCodeException e) {
-    		//e.printStackTrace();
     		session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
     		return "redirect:/selecao/" + codSelecao;
@@ -364,12 +361,10 @@ public class EditarEtapaController {
 	            return "redirect:/selecao/" + selecao.getCodSelecao();
             } else {return "error/404";}
         } catch (IllegalAccessException e) {
-            //e.printStackTrace();
         	session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
             return "redirect:/selecao/" + codSelecao;
         }catch (IllegalCodeException e) {
-    		//e.printStackTrace();
         	session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
     		return "redirect:/selecao/" + codSelecao;

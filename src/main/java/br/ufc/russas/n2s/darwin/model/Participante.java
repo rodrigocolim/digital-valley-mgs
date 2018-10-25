@@ -51,8 +51,6 @@ public class Participante implements AttributeConverter<LocalDateTime, Timestamp
     public void setCodParticipante(long codParticipante) {
         if(codParticipante>0){
             this.codParticipante = codParticipante;
-        }else{
-            //throw new IllegalCodeException("Código de participante deve ser maior que zero!");
         }
     }
 

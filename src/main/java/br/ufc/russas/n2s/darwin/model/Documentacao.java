@@ -5,6 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -32,9 +33,11 @@ import org.hibernate.annotations.FetchMode;
 @Converter(autoApply = true)
 @Entity
 @Table(name = "documentacao")
-public class Documentacao {
+public class Documentacao implements Serializable {
 
-    @Id
+	private static final long serialVersionUID = 8809104404601007805L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codDocumentacao")
     private long codDocumentacao;

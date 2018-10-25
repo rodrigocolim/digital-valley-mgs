@@ -25,10 +25,6 @@ import java.util.List;
  */
 public class EtapaBeans implements Beans, Serializable {
 
-
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -882881109373083344L;
 	
 	private long codEtapa;
@@ -333,14 +329,21 @@ public class EtapaBeans implements Beans, Serializable {
 
     }
     
+    @Override
+   	public boolean equals(final Object o) {
+       	if (o != null) {
+       		return (this.getCodEtapa() == ((EtapaBeans) o).getCodEtapa());
+       	} else {
+       		return false;
+       	}
+   	}
     
     @Override
-	public boolean equals(final Object o) {
-    	if (o != null) {
-    		return (this.getCodEtapa() == ((EtapaBeans) o).getCodEtapa());
-    	} else {
-    		return false;
-    	}
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (codEtapa ^ (codEtapa >>> 32));
+		return result;
 	}
 
 }

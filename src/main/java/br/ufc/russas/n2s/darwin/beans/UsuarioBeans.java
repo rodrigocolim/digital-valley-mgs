@@ -106,8 +106,8 @@ public class UsuarioBeans implements Beans, Serializable{
 
     @Override
     public Beans toBeans(Object object) {
-        if(object != null){
-            if(object instanceof UsuarioDarwin){
+        if (object != null) {
+            if (object instanceof UsuarioDarwin) {
                 UsuarioDarwin usuario = (UsuarioDarwin) object;
                 this.setCodUsuario(usuario.getCodUsuario());
                 this.setPermissoes(usuario.getPermissoes());
@@ -117,17 +117,21 @@ public class UsuarioBeans implements Beans, Serializable{
                 this.setRecebeEmail(usuario.isRecebeEmail());
                 this.setCPF(usuario.getCPF());
                 return this;
-            }else{
+            } else {
                 throw new IllegalArgumentException("Isso não é um usuário!");
             }
-        }else{
+        } else {
             throw new NullPointerException("Usuário não pode ser vazio!");
         }  
     }
     
     @Override
     public boolean equals(Object o) {
-        return this.getCodUsuario() == ((UsuarioBeans) o).getCodUsuario() ;
+    	if (o != null) { 
+    		return this.getCodUsuario() == ((UsuarioBeans) o).getCodUsuario();
+    	} else {
+    		return false;
+    	}
     }
 
     @Override

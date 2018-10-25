@@ -500,7 +500,11 @@ public class Etapa implements Serializable, Atualizavel {
 
 	@Override
 	public boolean equals(final Object o) {
-		return (this.getCodEtapa() == ((Etapa) o).getCodEtapa());
+		if (o != null) {
+			return (this.getCodEtapa() == ((Etapa) o).getCodEtapa());
+		} else {
+			return false;
+		}
 	}
 
 	@Override

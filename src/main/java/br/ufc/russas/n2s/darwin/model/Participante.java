@@ -116,9 +116,13 @@ public class Participante implements AttributeConverter<LocalDateTime, Timestamp
     
     @Override
     public boolean equals(Object o){
-        Participante participante = (Participante) o;
-        return (participante.getCandidato().equals(this.getCandidato()));
-    }
+    	if (o != null) {
+	        Participante participante = (Participante) o;
+	        return (participante.getCandidato().equals(this.getCandidato()));
+    	} else {
+    		return false;
+    	}
+	}
 
     @Override
     public int hashCode() {

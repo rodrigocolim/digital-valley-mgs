@@ -77,6 +77,10 @@ public class AutenticadoFiltro implements Filter {
                                         u.setNome(user.getNome());
                                         ArrayList<EnumPermissao> permissoes = new ArrayList<>();
                                         permissoes.add(EnumPermissao.PARTICIPANTE);
+                                        if (user.getUsuario().getLogin().equalsIgnoreCase("admin")) {
+                                        	permissoes.add(EnumPermissao.ADMINISTRADOR);
+                                        	permissoes.add(EnumPermissao.RESPONSAVEL);
+                                        }
                                         u.setPermissoes(permissoes);
                                         u.setEmail(user.getEmail());
                                         u.setCPF(user.getCpf());

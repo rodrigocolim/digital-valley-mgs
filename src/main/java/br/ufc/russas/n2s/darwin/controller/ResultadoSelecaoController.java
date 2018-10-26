@@ -163,9 +163,6 @@ public class ResultadoSelecaoController {
             model.addAttribute("status", "danger");
             return "redirect:/selecao/"+selecao.getCodSelecao()+"/resultado";
 		}
-        
-        //model.addAttribute("participantesEtapa", etapaServiceIfc.getResultado(etapa));
-       // model.addAttribute("etapa", etapa);
         model.addAttribute("mensagem", "Resultado gerado com sucesso!");
         model.addAttribute("status", "success");
         return "redirect:/selecao/"+selecao.getCodSelecao()+"/resultado";

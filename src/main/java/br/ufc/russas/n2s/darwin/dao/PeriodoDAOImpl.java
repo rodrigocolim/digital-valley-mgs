@@ -5,18 +5,12 @@
  */
 package br.ufc.russas.n2s.darwin.dao;
 
-import br.ufc.russas.n2s.darwin.util.HibernateUtil;
-import br.ufc.russas.n2s.darwin.model.Periodo;
-import br.ufc.russas.n2s.darwin.model.Selecao;
-import java.util.Collections;
 import java.util.List;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
+import br.ufc.russas.n2s.darwin.model.Periodo;
 
 /**
  *

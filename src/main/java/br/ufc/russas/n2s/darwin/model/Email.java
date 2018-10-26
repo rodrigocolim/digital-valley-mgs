@@ -23,20 +23,14 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.HtmlEmail;
-import org.apache.commons.mail.SimpleEmail;
 
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import util.Constantes;
 
 
 public class Email {
-	private SimpleEmail simple = new SimpleEmail();
-	private HtmlEmail html = new HtmlEmail();
 	private String from = "n2s.mensageiro@gmail.com";
 	private String pass = "n2s@m@1ls3rv1c3";
-	private String server = "smtp.gmail.com";
-	private int port = 465;
 	private Session session;
 	
 	public Email () {
@@ -45,14 +39,11 @@ public class Email {
 	
 	public void config() {
 		Properties props = new Properties();
-        /** Parâmetros de conexão com servidor Gmail */
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.port", "587");
-		//props.put("mail.debug", "true");
-
         session = Session.getDefaultInstance(props,
                     new javax.mail.Authenticator() {
                          protected PasswordAuthentication getPasswordAuthentication() 
@@ -61,26 +52,22 @@ public class Email {
                          }
                     });
 
-        /** Ativa Debug para sessão */
-        //session.setDebug(true);
 	}
 	
 	public void sendSimpleMail(UsuarioBeans u) throws EmailException {
 		try {
 			 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(from)); //Remetente
+            message.setFrom(new InternetAddress(from));
 
-            Address[] toUser = InternetAddress //Destinatário(s)
+            Address[] toUser = InternetAddress 
                        .parse("wallisonrocha2008@gmail.com");  
 
             message.setRecipients(Message.RecipientType.TO, toUser);
-            message.setSubject("Enviando email com JavaMail");//Assunto
+            message.setSubject("Enviando email com JavaMail");
             message.setText("Enviei este email utilizando JavaMail com minha conta GMail!");
-            /**Método para enviar a mensagem criada*/
             Transport.send(message);
 
-            System.out.println("Feito!!!");
 
        } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -88,11 +75,10 @@ public class Email {
 	}
 
 	public void sendHtmlEmail(List<UsuarioBeans> to, String assunto, String titulo, String msg) throws EmailException, MalformedURLException {
-		// Cria o e-mail
 		try {
 			if (!to.isEmpty()) { 
 	            Message message = new MimeMessage(session);
-	            message.setFrom(new InternetAddress(from)); //Remetente
+	            message.setFrom(new InternetAddress(from)); 
 	            String emails = "";
 	            for (int i = 0;i <  to.size();i++) {
 	            	UsuarioBeans u = to.get(i);
@@ -103,12 +89,9 @@ public class Email {
 		            	}
 	            	}
 	            }
-	            Address[] toUser = InternetAddress //Destinatário(s)
+	            Address[] toUser = InternetAddress
 	                       .parse(emails);  
-	         // This mail has 2 part, the BODY and the embedded image
 	            MimeMultipart multipart = new MimeMultipart("related");
-	
-	            // first part (the html)
 	            BodyPart messageBodyPart = new MimeBodyPart();
 	            String htmlText = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n" + 
 	    				"<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n" + 
@@ -258,10 +241,9 @@ public class Email {
 	    				"</body>\r\n" + 
 	    				"</html>";
 	            messageBodyPart.setContent(htmlText, "text/html");
-	            // add it
+
 	            multipart.addBodyPart(messageBodyPart);
 	
-	            // second part (the image)
 	            messageBodyPart = new MimeBodyPart();
 	            DataSource logoDarwin = new FileDataSource(
 	               Constantes.getLOGO_DARWIN());
@@ -284,19 +266,16 @@ public class Email {
 		              messageBodyPart.setDataHandler(new DataHandler(logoUFC));
 		              messageBodyPart.addHeader("Content-ID", "<logoUFC>");
 	
-	            // add image to the multipart
 	            multipart.addBodyPart(messageBodyPart);
 	
-	            // put everything together
 	            message.setContent(multipart);
 	
-	            Address[] toSend = InternetAddress //Destinatário(s)
+	            Address[] toSend = InternetAddress
 	                       .parse(from);  
 	            message.setRecipients(Message.RecipientType.TO, toSend);
 	            message.setRecipients(Message.RecipientType.BCC, toUser);
-	            message.setSubject(assunto);//Assunto
+	            message.setSubject(assunto);
 	            message.setContent(multipart);
-	            /**Método para enviar a mensagem criada*/
 	            Transport.send(message);
 			}
 
@@ -308,11 +287,10 @@ public class Email {
 	}
 	
 	public void sendHtmlEmail(Set<UsuarioBeans> to, String assunto, String titulo, String msg) throws EmailException, MalformedURLException {
-		// Cria o e-mail
 		try {
 			if (!to.isEmpty()) { 
 	            Message message = new MimeMessage(session);
-	            message.setFrom(new InternetAddress(from)); //Remetente
+	            message.setFrom(new InternetAddress(from));
 	            String emails = "";
 	            int i = 0;
 	            for(Iterator<UsuarioBeans> iter = to.iterator(); iter.hasNext();) {
@@ -325,12 +303,10 @@ public class Email {
                   	}
                   	i++;
 	            }
-	            Address[] toUser = InternetAddress //Destinatário(s)
+	            Address[] toUser = InternetAddress
 	                       .parse(emails);  
-	         // This mail has 2 part, the BODY and the embedded image
 	            MimeMultipart multipart = new MimeMultipart("related");
 	
-	            // first part (the html)
 	            BodyPart messageBodyPart = new MimeBodyPart();
 	            String htmlText = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n" + 
 	    				"<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n" + 
@@ -506,19 +482,16 @@ public class Email {
 		              messageBodyPart.setDataHandler(new DataHandler(logoUFC));
 		              messageBodyPart.addHeader("Content-ID", "<logoUFC>");
 	
-	            // add image to the multipart
 	            multipart.addBodyPart(messageBodyPart);
 	
-	            // put everything together
 	            message.setContent(multipart);
 	
-	            Address[] toSend = InternetAddress //Destinatário(s)
+	            Address[] toSend = InternetAddress
 	                       .parse(from);  
 	            message.setRecipients(Message.RecipientType.TO, toSend);
 	            message.setRecipients(Message.RecipientType.BCC, toUser);
-	            message.setSubject(assunto);//Assunto
+	            message.setSubject(assunto);
 	            message.setContent(multipart);
-	            /**Método para enviar a mensagem criada*/
 	            Transport.send(message);
 			}
 
@@ -530,17 +503,14 @@ public class Email {
 	}
 	
 	public void sendHtmlEmail(UsuarioBeans to, String assunto, String titulo, String msg) throws EmailException, MalformedURLException {
-		// Cria o e-mail
 		try {
 			if (to != null) { 
 	            Message message = new MimeMessage(session);
-	            message.setFrom(new InternetAddress(from)); //Remetente
-	            Address[] toUser = InternetAddress //Destinatário(s)
+	            message.setFrom(new InternetAddress(from));
+	            Address[] toUser = InternetAddress
 	                       .parse(to.getEmail());  
-	         // This mail has 2 part, the BODY and the embedded image
 	            MimeMultipart multipart = new MimeMultipart("related");
-	
-	            // first part (the html)
+
 	            BodyPart messageBodyPart = new MimeBodyPart();
 	            String htmlText = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n" + 
 	    				"<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n" + 
@@ -690,10 +660,9 @@ public class Email {
 	    				"</body>\r\n" + 
 	    				"</html>";
 	            messageBodyPart.setContent(htmlText, "text/html");
-	            // add it
+
 	            multipart.addBodyPart(messageBodyPart);
-	
-	            // second part (the image)
+
 	            messageBodyPart = new MimeBodyPart();
 	            DataSource logoDarwin = new FileDataSource(
 	               Constantes.getLOGO_DARWIN());
@@ -716,17 +685,14 @@ public class Email {
 		              messageBodyPart.setDataHandler(new DataHandler(logoUFC));
 		              messageBodyPart.addHeader("Content-ID", "<logoUFC>");
 	
-	            // add image to the multipart
 	            multipart.addBodyPart(messageBodyPart);
 	
-	            // put everything together
 	            message.setContent(multipart);
 	
 	            
 	            message.setRecipients(Message.RecipientType.TO, toUser);
-	            message.setSubject(assunto);//Assunto
+	            message.setSubject(assunto);
 	            message.setContent(multipart);
-	            /**Método para enviar a mensagem criada*/
 	            Transport.send(message);
 			}
 

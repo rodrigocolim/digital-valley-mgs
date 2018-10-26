@@ -35,10 +35,7 @@ import org.hibernate.annotations.FetchMode;
  */
 @Entity
 @Table(name = "etapa")
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-//@DiscriminatorColumn(name = "tipo", length = 1, discriminatorType = DiscriminatorType.STRING)
-//@DiscriminatorValue("E")
-public class Etapa implements Serializable, Atualizavel {
+public class Etapa implements Serializable {
 	
 	private static final long serialVersionUID = -5159380096393806738L;
 	
@@ -285,8 +282,12 @@ public class Etapa implements Serializable, Atualizavel {
 		if (prerequisito != null && prerequisito.getPeriodo().isAntes(this.getPeriodo())) {
 			this.prerequisito = prerequisito;
 		} else {
+			if (prerequisito != null) {
 			throw new IllegalArgumentException(
 					"A etapa " + prerequisito.getTitulo() +" não pode ser pré-requisito da etapa " + this.getTitulo() + " pois não ocorre antes!");
+			} else {
+				throw new NullPointerException("Deve ser adicionada uma etapa de pré-requisito!");
+			}
 		}
 	}
 
@@ -313,10 +314,15 @@ public class Etapa implements Serializable, Atualizavel {
 			this.setAvaliadores(sync);
 		}
 		if (!this.getAvaliadores().contains(usuario)) {
-			// Falta adicionar uma verificação para saber se o usuário está inscrito ou não
-			// na seleção
-			this.getAvaliadores().add(usuario);
-			atualiza();
+			Etapa inscricao = this;
+			while (inscricao.getPrerequisito() != null) {
+				inscricao = inscricao.getPrerequisito();
+			}
+			if (!inscricao.isParticipante(usuario)) {
+				this.getAvaliadores().add(usuario);
+			} else  {
+				throw new IllegalArgumentException("Este usuário está participando desta seleção. Portanto, não poderá avaliar nenhuma atividade desta seleção!");
+			}
 		} else {
 			throw new IllegalArgumentException("Esse usuário já é avaliador desssa etapa!");
 		}
@@ -331,7 +337,6 @@ public class Etapa implements Serializable, Atualizavel {
 		if (this.getAvaliadores() != null) {
 			if (this.getAvaliadores().contains(usuario)) {
 				this.getAvaliadores().remove(usuario);
-				atualiza();
 			} else {
 				throw new IllegalArgumentException("Usuário não é avaliador dessa etapa!");
 			}
@@ -364,8 +369,6 @@ public class Etapa implements Serializable, Atualizavel {
 		if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO
 				|| getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
 			for (Participante p : listParticipantes()) {
-				int aprovacao = 0;
-				int reprovacao = 0;
 				String situacao = "NÃO AVALIADO";
 				Avaliacao avaliacao = null;
 				for (Avaliacao a : getAvaliacoes()) {
@@ -501,16 +504,10 @@ public class Etapa implements Serializable, Atualizavel {
 	@Override
 	public boolean equals(final Object o) {
 		if (o != null) {
-			return (this.getCodEtapa() == ((Etapa) o).getCodEtapa());
+			return (o instanceof Etapa && this.getCodEtapa() == ((Etapa) o).getCodEtapa());
 		} else {
 			return false;
 		}
 	}
-
-	@Override
-	public void atualiza() {
-		// Chama o dao atualiza etapa
-	}
-	
 	
 }

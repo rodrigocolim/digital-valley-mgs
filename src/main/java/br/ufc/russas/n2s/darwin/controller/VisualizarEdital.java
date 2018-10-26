@@ -102,16 +102,18 @@ public class VisualizarEdital extends HttpServlet {
         } else {
         	response.setContentLength(0);
         }
-        FileInputStream fileInputStream = new FileInputStream(file.getAbsoluteFile());
-        OutputStream responseOutputStream = response.getOutputStream();
-        int bytes;
-        while ((bytes = fileInputStream.read()) != -1) {
-                responseOutputStream.write(bytes);
+        if (file != null) {
+	        FileInputStream fileInputStream = new FileInputStream(file.getAbsoluteFile());
+	        OutputStream responseOutputStream = response.getOutputStream();
+	        int bytes;
+	        while ((bytes = fileInputStream.read()) != -1) {
+	                responseOutputStream.write(bytes);
+	        }
+	        fileInputStream.close();
+	        responseOutputStream.flush();
+	        responseOutputStream.close();
+	        response.flushBuffer();
         }
-        fileInputStream.close();
-        responseOutputStream.flush();
-        responseOutputStream.close();
-        response.flushBuffer();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

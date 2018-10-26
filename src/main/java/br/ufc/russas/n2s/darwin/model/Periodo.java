@@ -5,6 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -27,8 +28,14 @@ import javax.persistence.Table;
 @Converter(autoApply = true)
 @Entity
 @Table(name = "periodo")
-public class Periodo implements AttributeConverter<LocalDate, Date> {
-    @Id
+public class Periodo implements AttributeConverter<LocalDate, Date>, Serializable {
+	
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5267338567480459181L;
+	
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codPeriodo")
     private long codPeriodo;
@@ -56,8 +63,6 @@ public class Periodo implements AttributeConverter<LocalDate, Date> {
     public void setCodPeriodo(long codPeriodo) {
         if (codPeriodo > 0) {
             this.codPeriodo = codPeriodo;
-        } else {
-            //throw new IllegalCodeException("Código do periodo deve ser maior que zero!");
         }
     }
 

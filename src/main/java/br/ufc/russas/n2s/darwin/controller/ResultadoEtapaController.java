@@ -82,7 +82,8 @@ public class ResultadoEtapaController {
         	model.addAttribute("mensagem", "Arqivo não pode ser gerado!");
             model.addAttribute("status", "danger");
 		} catch (Exception e) {
-			// TODO: handle exception
+			model.addAttribute("mensagem", e.getMessage());
+            model.addAttribute("status", "danger");
 		}
         
         model.addAttribute("participantesEtapa", etapaServiceIfc.getResultado(etapa));

@@ -98,11 +98,9 @@ public class Selecao {
     }
 
     public void setCodSelecao(long codSelecao) {
-        //if (codSelecao > 0) {
+        if (codSelecao > 0) {
             this.codSelecao = codSelecao;
-        //} else {
-        //    throw new IllegalCodeException("Código da seleção deve ser maior que zero!");
-        //}
+        }
     }
 
     public final String getTitulo() {
@@ -112,8 +110,6 @@ public class Selecao {
     public void setTitulo(String titulo) {
         if (titulo != null) {
             this.titulo = titulo;
-        } else {
-            //throw new IllegalArgumentException("Titulo da seleção não pode ser vazio!");
         }
     }
 
@@ -397,7 +393,7 @@ public class Selecao {
             }
         } else {
             if (getInscricao() == null) {
-                //throw new RuntimeException("Não existe etapa!");
+                
             } else {
                 return getInscricao();
             }
@@ -494,14 +490,12 @@ public class Selecao {
     		}
     		for (int i = 0; i< resultadoSelecao.size();i++) {
     			ResultadoParticipanteSelecao r = resultadoSelecao.get(i);
-    			System.out.println("coloação: "+r.getColocacao()+"\n soma das vagas:" + (getVagasRemuneradas()+getVagasVoluntarias()));
     			if ((int) r.getColocacao() <= (getVagasRemuneradas()+getVagasVoluntarias()) || (getVagasRemuneradas()+getVagasVoluntarias())==0) {
     				resultadoSelecao.get(i).setAprovado(true);
     			} else {
     				resultadoSelecao.get(i).setAprovado(false);
     			}
-    			System.out.println(resultadoSelecao.get(i).isAprovado());
-    		}
+			}
     		return resultadoSelecao;
     	} else {
     		throw new IllegalAccessException("A seleção ainda não terminou! Só será possível divulgar o resultado após o termino da última etapa!");

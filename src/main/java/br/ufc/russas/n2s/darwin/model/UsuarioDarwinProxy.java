@@ -5,14 +5,20 @@
  */
 package br.ufc.russas.n2s.darwin.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author Wallison Carlos
  */
-public class UsuarioDarwinProxy extends UsuarioDarwin{
-    private UsuarioDarwin usuario;
+public class UsuarioDarwinProxy extends UsuarioDarwin implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 950458079620457641L;
+	
+	private UsuarioDarwin usuario;
     
     public UsuarioDarwinProxy(UsuarioDarwin usuario) {
         setUsuario(usuario);

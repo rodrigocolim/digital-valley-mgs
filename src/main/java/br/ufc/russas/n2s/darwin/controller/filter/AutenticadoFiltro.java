@@ -20,7 +20,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import dao.UsuarioDAO;
 import model.Pessoa;
 import model.Usuario;
 import dao.DAOFactory;
@@ -53,7 +52,6 @@ public class AutenticadoFiltro implements Filter {
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -69,7 +67,6 @@ public class AutenticadoFiltro implements Filter {
                             int id = Integer.parseInt(request.getParameter("id"));
                             Pessoa user = Facade.buscarPessoaPorId(id);
                             if (token.equals(user.getUsuario().getTokenUsuario()) && id == user.getId() && !token.equals("null")) {
-                                   // UsuarioDAO userDAO = DAOFactory.criarUsuarioDAO();
                                     session.setAttribute("usuario", user.getUsuario());
                                     UsuarioBeans u = new UsuarioBeans();
                                     if(this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(user.getId()) == null){
@@ -77,6 +74,12 @@ public class AutenticadoFiltro implements Filter {
                                         u.setNome(user.getNome());
                                         ArrayList<EnumPermissao> permissoes = new ArrayList<>();
                                         permissoes.add(EnumPermissao.PARTICIPANTE);
+                                        
+                                        if (user.getUsuario().getLogin().equalsIgnoreCase("admin")) {
+                                        	permissoes.add(EnumPermissao.ADMINISTRADOR);
+                                        	permissoes.add(EnumPermissao.RESPONSAVEL);
+                                        }
+                                        
                                         u.setPermissoes(permissoes);
                                         u.setEmail(user.getEmail());
                                         u.setCPF(user.getCpf());

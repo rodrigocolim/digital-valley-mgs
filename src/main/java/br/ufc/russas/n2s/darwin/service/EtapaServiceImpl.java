@@ -219,28 +219,6 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         return etapas;
     }
 
-    @Override
-    public List<Object[]> getAprovados(EtapaBeans etapa) {
-    	/*
-       List<Object[]> participantes = Collections.synchronizedList(new ArrayList<Object[]>());
-        List<Object[]> p = null;        
-        if (etapa instanceof InscricaoBeans) {
-            Inscricao i = (Inscricao) ((InscricaoBeans) etapa).toBusiness();
-            p = Collections.synchronizedList(i.getAprovados());
-        } else {
-            Etapa e = (Etapa) etapa.toBusiness();
-            p = Collections.synchronizedList(e.getAprovados());
-        }
-        
-        if(p != null) {
-            for (Object[] participante : p) {
-                participante[0] =  (ParticipanteBeans) (new ParticipanteBeans().toBeans((Participante) participante[0]));
-                participantes.add(participante);
-            }
-            return participantes;
-        }*/
-        return null;
-    }
 
     @Override
     public Object[] getSituacao(EtapaBeans etapa, UsuarioBeans usuario) {

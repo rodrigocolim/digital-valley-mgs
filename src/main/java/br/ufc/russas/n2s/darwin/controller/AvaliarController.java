@@ -102,9 +102,7 @@ public class AvaliarController {
             avaliacao.setEstado(EnumEstadoAvaliacao.AVALIADO);
             etapaServiceIfc.setUsuario(avaliador);
             etapaServiceIfc.avalia(etapa, avaliacao);
-            Email email = new Email();
-            SelecaoBeans selecao = etapaServiceIfc.getSelecao(etapa);
-            email.sendHtmlEmail(participante.getCandidato(), "Inscrição avaliada!", "Inscrição avaliada", "Sua inscrição na <b>Seleção "+selecao.getTitulo()+"</b> foi avaliada! Você pode conferir acessando o sistema Darwin após a divulgação do resultado!");
+            etapa = this.etapaServiceIfc.getEtapa(etapa.getCodEtapa());
             model.addAttribute("etapa", etapa);
             model.addAttribute("avaliador", avaliador);
             model.addAttribute("participantesEtapa", etapa.getParticipantes());
@@ -170,9 +168,7 @@ public class AvaliarController {
             avaliacao.setEstado(EnumEstadoAvaliacao.AVALIADO);
             etapaServiceIfc.setUsuario(avaliador);
             etapaServiceIfc.avalia(etapa, avaliacao);
-            Email email = new Email();
-            SelecaoBeans selecao = etapaServiceIfc.getSelecao(etapa);
-            email.sendHtmlEmail(participante.getCandidato(), "Etapa avaliada!", "Etapa avaliada", "Sua <b>Etapa de "+etapa.getTitulo()+"</b> na <b>Seleção "+selecao.getTitulo()+"</b> foi avaliada! Você pode conferir acessando o sistema Darwin após a divulgação do resultado!");
+            etapa = this.etapaServiceIfc.getEtapa(etapa.getCodEtapa());            
             model.addAttribute("etapa", etapa);
             model.addAttribute("participantesEtapa", etapa.getParticipantes());
             model.addAttribute("mensagem", "Participante avaliado com sucesso!");

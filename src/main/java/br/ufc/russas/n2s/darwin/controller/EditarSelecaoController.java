@@ -206,7 +206,6 @@ public class EditarSelecaoController {
 		            selecaoServiceIfc.setUsuario(usuario);
 		            selecao.setDivulgada(true);
 		            selecao = selecaoServiceIfc.atualizaSelecao(selecao);
-		            Email email = new Email();
 		            Thread sendEmail = new Thread(new Email(usuarioServiceIfc.listaTodosUsuarios(), "Nova seleção divulgada!", "Seleção "+selecao.getTitulo(), selecao.getDescricao()));
 		            sendEmail.start();
 		            Set<UsuarioBeans> avaliadoresSet = Collections.synchronizedSet(new HashSet<UsuarioBeans>());

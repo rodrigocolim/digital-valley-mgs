@@ -223,7 +223,7 @@ public class EditarSelecaoController {
 	                  			etapasAvaliador += "<b>"+selecao.getEtapas().get(i).getTitulo()+"</b><br />";
 	                  		}
 	                  		threadsEmail.add(new Thread(new Email(u, "Avaliador de Etapa!", "Avaliador de Etapa", "Você é avaliador de etapas da <b>Selção"+selecao.getTitulo()+"</b>:"+etapasAvaliador)));
-	                  		threadsEmail.get(threadsEmail.size()-1);
+	                  		threadsEmail.get(threadsEmail.size()-1).start();
 	                  	}
 		            }
     	            session.setAttribute("selecao", selecao);

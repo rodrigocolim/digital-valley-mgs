@@ -141,8 +141,8 @@ public class ParticiparEtapaController {
             }            
             session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(inscricao.getTitulo()));
             List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
-            Email email = new Email();
-            email.sendHtmlEmail(usuario, "Inscrição em seleção!", "Inscrição em seleção", "Sua inscrição na <b>Seleção "+selecao.getTitulo()+"</b> foi realizada com sucesso!");
+            Thread sendEmail = new Thread(new Email(usuario, "Inscrição em seleção!", "Inscrição em seleção", "Sua inscrição na <b>Seleção "+selecao.getTitulo()+"</b> foi realizada com sucesso!"));
+            sendEmail.start();
             HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
             for (SelecaoBeans s : selecoes) {
                 etapasAtuais.put(s, this.getSelecaoServiceIfc().getEtapaAtual(s));
@@ -201,8 +201,8 @@ public class ParticiparEtapaController {
             documentacao.setCandidato(participante);
             documentacao.setDocumentos(arquivos);
             this.etapaServiceIfc.anexaDocumentacao(etapa, (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
-            Email email = new Email();
-            email.sendHtmlEmail(usuario, "Inscrição em seleção!", "Inscrição em seleção", "Sua inscrição na <b>Seleção "+selecao.getTitulo()+"</b> foi realizada com sucesso!");
+            Thread sendEmail = new Thread(new Email(usuario, "Inscrição em seleção!", "Inscrição em seleção", "Sua inscrição na <b>Seleção "+selecao.getTitulo()+"</b> foi realizada com sucesso!"));
+            sendEmail.start();
             session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(etapa.getTitulo()));
             session.setAttribute("status", "success");
             response.sendRedirect("/Darwin/minhas_Selecoes");

@@ -28,15 +28,100 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import util.Constantes;
 
 
-public class Email {
+public class Email implements Runnable{
 	private String from = "n2s.mensageiro@gmail.com";
 	private String pass = "n2s@m@1ls3rv1c3";
 	private Session session;
+	private List<UsuarioBeans> to;
+	private Set<UsuarioBeans> toSet;
+	UsuarioBeans toUsuario;
+	private String assunto;
+	private String titulo;
+	private String msg;
+	private int TYPE_EMAIL;
 	
 	public Email () {
 		config();
 	}
 	
+	public Email(List<UsuarioBeans> to, String assunto, String titulo, String msg) {
+		this();
+		setTo(to);
+		setTitulo(titulo);
+		setAssunto(assunto);
+		setMsg(msg);
+		TYPE_EMAIL = 1;
+	}
+	
+	public Email(Set<UsuarioBeans> to, String assunto, String titulo, String msg) {
+		this();
+		setToSet(to);
+		setTitulo(titulo);
+		setAssunto(assunto);
+		setMsg(msg);
+		TYPE_EMAIL = 2;
+	}
+	
+	public Email(UsuarioBeans to, String assunto, String titulo, String msg) {
+		this();
+		setToUsuario(to);
+		setTitulo(titulo);
+		setAssunto(assunto);
+		setMsg(msg);
+		TYPE_EMAIL = 3;
+	}
+	
+	
+	public List<UsuarioBeans> getTo() {
+		return to;
+	}
+
+	public void setTo(List<UsuarioBeans> to) {
+		this.to = to;
+	}
+
+	public String getAssunto() {
+		return assunto;
+	}
+
+	public void setAssunto(String assunto) {
+		this.assunto = assunto;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	public Set<UsuarioBeans> getToSet() {
+		return toSet;
+	}
+
+	public void setToSet(Set<UsuarioBeans> toSet) {
+		this.toSet = toSet;
+	}
+
+	
+	
+	public UsuarioBeans getToUsuario() {
+		return toUsuario;
+	}
+
+	public void setToUsuario(UsuarioBeans toUsuario) {
+		this.toUsuario = toUsuario;
+	}
+
 	public void config() {
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -74,7 +159,7 @@ public class Email {
        }
 	}
 
-	public void sendHtmlEmail(List<UsuarioBeans> to, String assunto, String titulo, String msg) throws EmailException, MalformedURLException {
+	public void sendHtmlEmail() throws EmailException, MalformedURLException {
 		try {
 			if (!to.isEmpty()) { 
 	            Message message = new MimeMessage(session);
@@ -286,9 +371,9 @@ public class Email {
 		
 	}
 	
-	public void sendHtmlEmail(Set<UsuarioBeans> to, String assunto, String titulo, String msg) throws EmailException, MalformedURLException {
+	public void sendHtmlEmailSet() throws EmailException, MalformedURLException {
 		try {
-			if (!to.isEmpty()) { 
+			if (!toSet.isEmpty()) { 
 	            Message message = new MimeMessage(session);
 	            message.setFrom(new InternetAddress(from));
 	            String emails = "";
@@ -297,7 +382,7 @@ public class Email {
 	            	UsuarioBeans u = iter.next();
                   	if (u.isRecebeEmail()) {
                 	  emails += (u.getEmail());
-	            		if (i + 1 != to.size()) {
+	            		if (i + 1 != toSet.size()) {
 	            			emails += (",");
 	            		}
                   	}
@@ -502,13 +587,13 @@ public class Email {
 		
 	}
 	
-	public void sendHtmlEmail(UsuarioBeans to, String assunto, String titulo, String msg) throws EmailException, MalformedURLException {
+	public void sendHtmlEmailUsuario() throws EmailException, MalformedURLException {
 		try {
-			if (to != null) { 
+			if (toUsuario != null) { 
 	            Message message = new MimeMessage(session);
 	            message.setFrom(new InternetAddress(from));
 	            Address[] toUser = InternetAddress
-	                       .parse(to.getEmail());  
+	                       .parse(toUsuario.getEmail());  
 	            MimeMultipart multipart = new MimeMultipart("related");
 
 	            BodyPart messageBodyPart = new MimeBodyPart();
@@ -700,6 +785,33 @@ public class Email {
     	   	e.printStackTrace();
             throw new RuntimeException(e);
        }
+		
+	}
+
+	@Override
+	public void run() {
+		if (TYPE_EMAIL == 1) {
+			try {
+				this.sendHtmlEmail();
+			} catch (MalformedURLException | EmailException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if (TYPE_EMAIL == 2) {
+			try {
+				this.sendHtmlEmailSet();
+			} catch (MalformedURLException | EmailException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				this.sendHtmlEmailUsuario();
+			} catch (MalformedURLException | EmailException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
 }

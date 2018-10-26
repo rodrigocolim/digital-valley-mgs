@@ -207,12 +207,14 @@ public class EditarSelecaoController {
 		            selecao.setDivulgada(true);
 		            selecao = selecaoServiceIfc.atualizaSelecao(selecao);
 		            Email email = new Email();
-		            email.sendHtmlEmail(usuarioServiceIfc.listaTodosUsuarios(), "Nova seleção divulgada!", "Seleção "+selecao.getTitulo(), selecao.getDescricao());
+		            Thread sendEmail = new Thread(new Email(usuarioServiceIfc.listaTodosUsuarios(), "Nova seleção divulgada!", "Seleção "+selecao.getTitulo(), selecao.getDescricao()));
+		            sendEmail.start();
 		            Set<UsuarioBeans> avaliadoresSet = Collections.synchronizedSet(new HashSet<UsuarioBeans>());
 		            for (int i =0;i < selecao.getEtapas().size();i++) {
 		            	EtapaBeans e = selecao.getEtapas().get(i);
 		            	avaliadoresSet.addAll(e.getAvaliadores());
 		            }
+		            List<Thread> threadsEmail = Collections.synchronizedList(new ArrayList<>());
 		            for(Iterator<UsuarioBeans> iter = avaliadoresSet.iterator(); iter.hasNext();) {
 		            	UsuarioBeans u = iter.next();
 	                  	if (u.isRecebeEmail()) {
@@ -220,7 +222,8 @@ public class EditarSelecaoController {
 	                  		for (int i = 0;i < selecao.getEtapas().size();i++) {
 	                  			etapasAvaliador += "<b>"+selecao.getEtapas().get(i).getTitulo()+"</b><br />";
 	                  		}
-	                  		email.sendHtmlEmail(u, "Avaliador de Etapa!", "Avaliador de Etapa", "Você é avaliador de etapas da <b>Selção"+selecao.getTitulo()+"</b>:"+etapasAvaliador);
+	                  		threadsEmail.add(new Thread(new Email(u, "Avaliador de Etapa!", "Avaliador de Etapa", "Você é avaliador de etapas da <b>Selção"+selecao.getTitulo()+"</b>:"+etapasAvaliador)));
+	                  		threadsEmail.get(threadsEmail.size()-1);
 	                  	}
 		            }
     	            session.setAttribute("selecao", selecao);

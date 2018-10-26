@@ -188,18 +188,18 @@
                                         <hr>
                                         <c:if test="${not (isParticipante)}">
 	                                        <c:if test="${(estadoInscricao == 2) and (not isResponsavel) and (not fn:contains(permissoes, 'ADMINISTRADOR')) and (not fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
-	                                            <a href="/Darwin/participarEtapa/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Inscrever-se</a>
+	                                            <a href="/Darwin/participarEtapa/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" role="button" aria-pressed="true"><i class="fas fa-user-edit"></i> Inscrever-se</a>
 	                                        </c:if>
                                         </c:if>
                                         <c:if test="${(isParticipante)}">
-	                                            <button disabled class="btn btn-secondary btn-sm" role="button" aria-pressed="true">Inscrito</button>
+	                                            <button disabled class="btn btn-secondary btn-sm" role="button" aria-pressed="true"><i class="fas fa-user-check"></i> Inscrito</button>
                                         </c:if>
                                         	<jsp:useBean id="now" class="java.util.Date" />
 											<fmt:formatDate var="dateAgora" value="${now}" pattern="ddMMyyyy" />
 											<fmt:formatDate value="${parseDataInicio}"  pattern="ddMMyyyy" var="Inicio"/>											                                      
                                             <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA') and ((dateAgora < Inicio) or (not selecao.divulgada))) or (fn:contains(permissoes, 'ADMINISTRADOR')) }">
 	                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
-	                                                Editar etapa
+	                                               <i class="fas fa-edit"></i> Editar etapa
 	                                            </a>   
 	                                        </c:if>
                                        	
@@ -248,15 +248,12 @@
 						                        </div>
 						                    </div>
 										</c:if>
-                                       <!--  <c:if test="${(estadoInscricao == 3) and (selecao.inscricao.divulgadoResultado) and (not empty selecao.inscricao.avaliacoes)}">
+                                        <c:if test="${(estadoInscricao == 3) and (selecao.inscricao.divulgadoResultado) and (not empty selecao.inscricao.avaliacoes)}">
 	                                        <a href="/Darwin/resultadoEtapa/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
 	                                            Ver Resultado
 	                                        </a>
-                                        </c:if> -->
-                                       
-	                                        <a href="/Darwin/resultadoEtapa/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-	                                            Ver Resultado
-	                                        </a>
+                                        </c:if> 
+                                      
                                       
                                     </div>
                                 </div>
@@ -300,7 +297,7 @@
                                     </ul>
                                     </c:if>
                                     <hr>
-                                    <c:if test="${(not empty etapa.documentacaoExigida) and (estado == 2) and (fn:contains(permissoes, 'PARTICIPANTE')) }">
+                                    <c:if test="${(not empty etapa.documentacaoExigida) and (estado == 2) and (fn:contains(classificados[etapa.codEtapa], sessionScope.usuarioDarwin)) }">
                                         <a href="/Darwin/participarEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                             Enviar documentação
                                         </a>
@@ -308,7 +305,7 @@
                                  
                                     <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and ((dateAgora < Inicio) or (not selecao.divulgada))}">
                                         <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
-                                            Editar etapa
+                                           <i class="fas fa-edit"></i> Editar etapa
                                         </a>   
                                     </c:if>
                                     <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and (dateAgora < Inicio)  }">
@@ -383,7 +380,7 @@
 									</c:if>
                                     <c:if test="${(etapa.divulgadoResultado) and ((isResponsavel and (estado == 3)) or (fn:contains(permissoes, 'ADMINISTRADOR') and (estado == 3)) or (fn:contains(permissoes, 'PARTICIPANTE') and (estado == 3))) or  (not empty etapa.avaliacoes)}">
                                      	<a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-                                            Ver Resultado
+                                           <i class="fas fa-eye"></i> Ver Resultado
                                         </a>
                                     </c:if>
                                 </div>

@@ -1,5 +1,7 @@
 package br.ufc.russas.n2s.darwin.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,6 +58,16 @@ public class SelecaoController {
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        HashMap<Long, List<UsuarioBeans>> classificados = new HashMap<>();
+        for(EtapaBeans et : selecao.getEtapas()) {
+        	List<UsuarioBeans> usuarios = Collections.synchronizedList(new ArrayList<>());
+        	for (ParticipanteBeans pb : et.getParticipantes()) {
+        		usuarios.add(pb.getCandidato());
+        	}
+        	classificados.put(et.getCodEtapa(), usuarios);
+        }
+        
+        
         boolean isParticipante = false;
         if (selecao.getInscricao() != null && selecao.getInscricao().getParticipantes() != null) {
         	for (ParticipanteBeans participante : selecao.getInscricao().getParticipantes()) {
@@ -92,6 +104,7 @@ public class SelecaoController {
                 situacao.put(etapa, this.etapaServiceIfc.getSituacao(etapa, usuario));
                 i++;
             }
+            model.addAttribute("classificados", classificados);
             model.addAttribute("situacao", situacao);
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));

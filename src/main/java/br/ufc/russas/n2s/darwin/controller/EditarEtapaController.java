@@ -327,7 +327,7 @@ public class EditarEtapaController {
 	            for (int i =0;i < etapa.getParticipantes().size();i++) {
 	            	ParticipanteBeans p = etapa.getParticipantes().get(i);
 	            	threadsEmail.add(new Thread(new Email(p.getCandidato(), "Resuldato de etapa divulgado!", "Resultaod de etapa divulgado", "O resultado da <b>Etapa de "+etapa.getTitulo()+"</b> da <b>Seleção "+selecao.getTitulo()+"</b> foi divulgado!")));
-	            	threadsEmail.get(0).start();
+	            	threadsEmail.get(i).start();
 	            }
 	            session.setAttribute("selecao", selecao);
 	            session.setAttribute("etapa", etapa);

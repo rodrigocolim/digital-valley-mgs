@@ -41,7 +41,7 @@
     </div>
     <div class="btn-group dropleft" style="margin-right:5%;">
 		<button type="button" class="btn btn-link dropdown-toggle" style="color: #fff;margin-right: 1%;width: auto;text-align: center;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		  ${sessionScope.usuarioDarwin.email}
+		  ${sessionScope.usuarioDarwin.nome}
 		</button>
 		<div class="dropdown-menu">
 		<c:if test="${sessionScope.usuarioDarwin.recebeEmail}">

@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-                                    <a class="btn btn-sm btn-primary" href="/Darwin/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}"> Continuar</a>
+                                    <a class="btn btn-sm btn-primary" href="/Darwin/resultadoSelecao/${selecao.codSelecao}/divulgaResultado"> Continuar</a>
                                 </div>
                             </div>
                         </div>

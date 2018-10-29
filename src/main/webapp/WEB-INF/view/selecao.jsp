@@ -339,7 +339,7 @@
                                             Avaliar
                                         </a>
                                     </c:if>
-                                    <c:if test="${(estado == 3) and (!etapa.divulgadoResultado) and (not empty etapa.avaliacoes)}">
+                                    <c:if test="${(estado == 3) and (!etapa.divulgadoResultado) and (not empty etapa.avaliacoes) and ((fn:contains(permissoes, 'ADMINISTRADOR')) or (isResponsavel))}">
 											<c:set var="pendente" value="false"></c:set>
 											<c:forEach var="avaliacao" items="${etapa.avaliacoes}">
 												<c:if test="${avaliacao.estado eq 'PENDENTE'}">

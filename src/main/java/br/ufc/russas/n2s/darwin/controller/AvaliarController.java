@@ -168,12 +168,12 @@ public class AvaliarController {
             avaliacao.setEstado(EnumEstadoAvaliacao.AVALIADO);
             etapaServiceIfc.setUsuario(avaliador);
             etapaServiceIfc.avalia(etapa, avaliacao);
-            etapa = this.etapaServiceIfc.getEtapa(etapa.getCodEtapa());            
-            model.addAttribute("etapa", etapa);
-            model.addAttribute("participantesEtapa", etapa.getParticipantes());
-            model.addAttribute("mensagem", "Participante avaliado com sucesso!");
-            model.addAttribute("status", "success");
-            return "avaliar";
+            //etapa = this.etapaServiceIfc.getEtapa(etapa.getCodEtapa());            
+            //model.addAttribute("etapa", etapa);
+            //model.addAttribute("participantesEtapa", etapa.getParticipantes());
+            session.setAttribute("mensagem", "Participante avaliado com sucesso!");
+            session.setAttribute("status", "success");
+            return "redirect: /Darwin/avaliar/"+etapa.getCodEtapa();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());

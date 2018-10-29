@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,7 +24,6 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteSelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.model.ResultadoParticipanteSelecao;
 import br.ufc.russas.n2s.darwin.model.ResultadoSelecaoForm;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
@@ -104,24 +104,25 @@ public class ResultadoSelecaoController {
 	
 	@RequestMapping(value="/{codSelecao}/divulgaResultado", method = RequestMethod.GET)
 	public String divulgaResultadoSelecao(@PathVariable long codSelecao, Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
 		SelecaoBeans selecao = this.getSelecaoServiceIfc().getSelecao(codSelecao);
-		 UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
+		 UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
 		 if (selecao.getResponsaveis().contains(usuario)) {
 			try {
 				selecao.setDivulgadoResultado(true);
 				this.getSelecaoServiceIfc().setUsuario(usuario);
 				this.selecaoServiceIfc.atualizaSelecao(selecao);
-				model.addAttribute("mensagem", "Resultado divulgado com sucesso!");
-		        model.addAttribute("status", "success");
+				session.setAttribute("mensagem", "Resultado da seleção divulgado com sucesso!");
+		        session.setAttribute("status", "success");
 		        return "redirect:/selecao/"+selecao.getCodSelecao()+"/resultado";
 			} catch (Exception e) {
-				model.addAttribute("mensagem", e.getMessage());
-		        model.addAttribute("status", "danger");
+				e.printStackTrace();
+				session.setAttribute("mensagem", e.getMessage());
+				session.setAttribute("status", "danger");
 		        return "redirect:/selecao/"+selecao.getCodSelecao()+"/resultado";
 			}
 		 } else {return "error/404";}
 	}
-	
 	
 	
 	@RequestMapping(value = "/{codSelecao}/imprimir", method = RequestMethod.GET)

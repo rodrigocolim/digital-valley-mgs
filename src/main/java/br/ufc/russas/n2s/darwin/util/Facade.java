@@ -145,30 +145,41 @@ public class Facade {
             situacao.setBackgroundColor(BaseColor.LIGHT_GRAY);
             situacao.setHorizontalAlignment(Element.ALIGN_CENTER);
             
-            table.setWidths(new int[]{20,200,450,100,200});
+            table.setWidths(new int[]{50,130,260,100,150});
             table.addCell(posicao);
             table.addCell(cpf);
             table.addCell(nome);
             table.addCell(mediaGeral);
             table.addCell(situacao);
-            int i=1;
+            f.setSize(8);
         	for (ResultadoParticipanteSelecaoBeans rps : resultado) {
-        		PdfPCell posi  = new PdfPCell(new Paragraph(i));i++;
+        		PdfPCell posi = new PdfPCell(new Paragraph(rps.getColocacao()+"",f));
 				posi.setHorizontalAlignment(Element.ALIGN_CENTER);
-        		
+				table.addCell(posi);
+				
 				String s = rps.getParticipante().getCandidato().getCPF();
-				s = s.replace(s.substring(3, 8), "*****");
-				table.addCell(s);
+				String nova = "";
+				for (int j=0;j<s.length();j++) {
+					if (j >2 && j <8) {
+						nova +="*";
+					} else {
+						nova += s.charAt(j);
+					}
+				}
+				PdfPCell cpfCelu = new PdfPCell(new Paragraph(nova,f));
+				table.addCell(cpfCelu);
 				
-        		table.addCell(rps.getParticipante().getCandidato().getNome().toUpperCase());
+				PdfPCell nomeCelu = new PdfPCell(new Paragraph(rps.getParticipante().getCandidato().getNome().toUpperCase(),f));
+        		table.addCell(nomeCelu);
 				
-				PdfPCell mg  = new PdfPCell(new Paragraph(rps.getMediaGeral()));
+				
+				PdfPCell mg  = new PdfPCell(new Paragraph(rps.getMediaGeral()+"",f));
 				mg.setHorizontalAlignment(Element.ALIGN_CENTER);
 				table.addCell(mg);
 				
 				if (rps.isAprovado()) s = "CLASSIFICADO"; else s = "DESCLASSIFICADO";
 
-				PdfPCell situ  = new PdfPCell(new Paragraph(s));
+				PdfPCell situ  = new PdfPCell(new Paragraph(s,f));
 				situ.setHorizontalAlignment(Element.ALIGN_CENTER);
 				table.addCell(situ);
 				

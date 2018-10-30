@@ -13,13 +13,17 @@
         <link rel="icon" href="favicon.ico">
         <title>Darwin - Sistema de Gerenciamento de Seleções</title>
 
-
+	
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/design.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.standalone.css" />
+    	<!-- Include Editor style. -->
+		<link href='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/css/froala_editor.min.css' rel='stylesheet' type='text/css' />
+		<link href='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/css/froala_style.min.css' rel='stylesheet' type='text/css' />
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/texteditor.css" />    	
     </head>
     <body >
     <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
@@ -56,7 +60,7 @@
                         <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" readonly="true" required>
                         
                         <br>
-                        <label for="descricaoInput"><input type="checkbox" onclick="habilitaEdicao('descricaoInput')"> Descrição*</label>
+                        <label for="descricaoInput"> Descrição*</label>
                         <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" value="${etapa.descricao}" readonly="true" required>${etapa.descricao}</textarea>
                         <c:if test="${tipo eq 'etapa'}">
                             <c:if test="${not empty selecao.inscricao}"> <br>
@@ -103,7 +107,7 @@
                                 <br>
                                 <ul class="list-group col-md-8 " id="listaDocumentos">
                                     <c:forEach var="documento" items="${etapa.documentacaoExigida}">
-                                        <li class="list-group-item" >
+                                     <li class="list-group-item" >
                                             <input type="hidden" name="documentosExigidos" value="${documento}" style="display: none;">${documento}<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumento(${documento})">clear</button>
                                         </li>
                                     </c:forEach>
@@ -201,6 +205,8 @@
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js" ></script>
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.pt-BR.min.js" ></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
+    <!-- Include JS file. -->
+	<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/js/froala_editor.min.js'></script>
    <!--   <script src="${pageContext.request.contextPath}/resources/js/scriptEditarEtapa.js" ></script>  -->
     <script type="text/javascript">
     $('#sandbox-container .input-daterange').datepicker({
@@ -331,6 +337,18 @@
         document.getElementById("campoNotaMinima").innerHTML = "";
     }
     </script>
-
+    <script src="${pageContext.request.contextPath}/resources/js/cazary.min.js" ></script>
+	<script type="text/javascript">
+		(function($, window)
+		{
+			$(function($)
+			{
+				$("textarea#descricaoInput").cazary({
+					commands: "FULL"
+				});
+				
+			});
+		})(jQuery, window);
+		</script>
 </body>
 </html>

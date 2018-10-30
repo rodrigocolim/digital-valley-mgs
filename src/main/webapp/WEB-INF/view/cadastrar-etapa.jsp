@@ -20,6 +20,7 @@
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/design.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.standalone.css" />
+    	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/texteditor.css" />
     </head>
     <body onload="adicionaCampoNotaMinima()">
     <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
@@ -365,6 +366,19 @@
       }
       
     </script>
+    <script src="${pageContext.request.contextPath}/resources/js/cazary.min.js" ></script>
+	<script type="text/javascript">
+		(function($, window)
+		{
+			$(function($)
+			{
+				$("textarea#descricaoInput").cazary({
+					commands: "FULL"
+				});
+				
+			});
+		})(jQuery, window);
+		</script>
 </body>
 </html>
 

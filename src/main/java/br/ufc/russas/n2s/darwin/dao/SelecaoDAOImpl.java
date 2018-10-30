@@ -5,22 +5,18 @@
  */
 package br.ufc.russas.n2s.darwin.dao;
 
-import br.ufc.russas.n2s.darwin.model.Etapa;
-import br.ufc.russas.n2s.darwin.model.Participante;
-import br.ufc.russas.n2s.darwin.model.Selecao;
-import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import java.util.List;
-import static jdk.nashorn.tools.ShellFunctions.input;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import br.ufc.russas.n2s.darwin.model.Selecao;
 
 /**
  *
@@ -65,17 +61,18 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     
     
     
-    /*    @Override
-    public List<Selecao> getMinhasSelecoes(UsuarioDarwin responsavel){
-    Session session;
-    session = this.daoImpl.getSessionFactory().openSession();
-    Transaction t = session.beginTransaction();
-    Criteria cr = session.createCriteria(Selecao.class);
-    cr.add(Restrictions.eq("responsaveis.usuario", responsavel.getCodUsuario()));
-    List<Selecao> selecoes = cr.list();
-    t.commit();
-    return selecoes;
-    }*/
+    @Override
+    public List<Selecao> getSelecoesDivulgadas(){
+	    Session session;
+	    session = this.daoImpl.getSessionFactory().openSession();
+	    Transaction t = session.beginTransaction();
+	    Criteria cr = session.createCriteria(Selecao.class);
+	    cr.add(Restrictions.eq("divulgada", true));
+	    List<Selecao> selecoes = cr.list();
+	    t.commit();
+	    session.close();
+	    return selecoes;
+    }
     
 
 }

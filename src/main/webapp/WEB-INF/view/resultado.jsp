@@ -72,33 +72,48 @@
                         </tbody>
                     </table>
                     <br>
-                    <a href="" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultados">
-						<i class="fas fa-bullhorn"></i> Divulgar Resultado
-					</a>
-					<a href="/Darwin/resultadoSelecao/${selecao.codSelecao}/imprimir" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" >
-						<i class="fas fa-file-pdf"></i> Gerar PDF
-					</a>
-					<!-- divulgação de resultados -->
-                    <div class="modal fade" id="divulgaresultados" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modalLabel">Divulgar resultados</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Ao divulgar o resultado da seleção, todos poderão ver. Deseja continuar? </p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-                                    <a class="btn btn-sm btn-primary" href="/Darwin/resultadoSelecao/${selecao.codSelecao}/divulgaResultado"> Continuar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-						                    
+                    <c:set var="estado" value="${selecao.estado.estado}"></c:set>
+                    <c:if test="${estado == 4}">
+	                    <c:if test="${(not selecao.divulgadoResultado)}">
+	                    	<a href="" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultados">
+								<i class="fas fa-bullhorn"></i> Divulgar Resultado
+							</a>
+	                    </c:if>
+	                    <c:if test="${(selecao.divulgadoResultado)}">
+	                    	<button disabled class="btn btn-secondary btn-sm" role="button" aria-pressed="true"><i class="fas fa-user-check"></i> Divulgado</button>
+	                    </c:if>
+						<a href="/Darwin/resultadoSelecao/${selecao.codSelecao}/imprimir" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" >
+							<i class="fas fa-file-pdf"></i> Gerar PDF
+						</a>
+						<!-- divulgação de resultados -->
+	                    <div class="modal fade" id="divulgaresultados" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+	                        <div class="modal-dialog" role="document">
+	                            <div class="modal-content">
+	                                <div class="modal-header">
+	                                    <h5 class="modal-title" id="modalLabel">Divulgar resultados</h5>
+	                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                                        <span aria-hidden="true">&times;</span>
+	                                    </button>
+	                                </div>
+	                                <div class="modal-body">
+	                                    <p>Ao divulgar o resultado da seleção, todos poderão ver. Deseja continuar? </p>
+	                                </div>
+	                                <div class="modal-footer">
+	                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+	                                    <a class="btn btn-sm btn-primary" href="/Darwin/resultadoSelecao/${selecao.codSelecao}/divulgaResultado"> Continuar</a>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+					</c:if>
+					<c:if test="${estado != 4}">
+						<div class="text-center">
+							<p >Os resultados aparecerão após a finalização da última etapa</p>
+							<a href="/Darwin/selecao/${selecao.codSelecao}" type="button" id="enviar" class="btn btn-secondary">
+	                           	<i class="fas fa-arrow-left"></i> Voltar
+	                       	</a>
+                       	</div>
+					</c:if>	                    
                 </div>
             </div>
         </div>

@@ -115,8 +115,9 @@ public class ParticiparEtapaController {
                 MultipartFile file = documentos.get(i);
                 if (file != null) {
                     Arquivo documento = new Arquivo();
-                    System.out.println(file.getOriginalFilename());
-                    System.out.println("\n\n");
+                    String aux = file.getOriginalFilename();
+                    String expressao = aux.substring(aux.lastIndexOf("."), aux.length());
+                    if (!expressao.equals(".pdf")) {throw new IllegalArgumentException("Formato de arquivo enviado não é .pdf");}
                     java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(), ".pdf", dir);
                     FileOutputStream fos = new FileOutputStream(convFile); 
                     fos.write(file.getBytes());
@@ -184,6 +185,9 @@ public class ParticiparEtapaController {
                 MultipartFile file = documentos[i];
                 if (!file.isEmpty()) {
                 	Arquivo documento = new Arquivo();
+                	String aux = file.getOriginalFilename();
+                    String expressao = aux.substring(aux.lastIndexOf("."), aux.length());
+                    if (!expressao.equals(".pdf")) {throw new IllegalArgumentException("Formato de arquivo enviado não é .pdf");}
                     java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(), ".pdf", dir);
                     FileOutputStream fos = new FileOutputStream(convFile); 
                     fos.write(file.getBytes());

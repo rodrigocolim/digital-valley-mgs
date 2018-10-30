@@ -83,10 +83,10 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Override
     @Transactional
     public List<SelecaoBeans> listaTodasSelecoes() {
-        Selecao selecao = new Selecao();
-        selecao.setDivulgada(true);
+        //Selecao selecao = new Selecao();
+       // selecao.setDivulgada(true);
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
-        List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
+        List<Selecao> resultado = this.getSelecaoDAOIfc().getSelecoesDivulgadas(); //listaSelecoes(selecao);
         for (Selecao s : resultado) {
             if (s.getInscricao() != null) {
                 s.getInscricao().setEstado(s.getInscricao().getEstado().execute(s.getInscricao()));

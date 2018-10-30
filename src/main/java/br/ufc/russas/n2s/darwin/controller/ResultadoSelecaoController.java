@@ -65,6 +65,7 @@ public class ResultadoSelecaoController {
     
 	@RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getResultadoDaselecao(@PathVariable long codSelecao, Model model){
+		
         SelecaoBeans selecao  = this.getSelecaoServiceIfc().getSelecao(codSelecao);
         ResultadoSelecaoForm resultadoForm = new ResultadoSelecaoForm();
         resultadoForm.setEtapas( this.getSelecaoServiceIfc().getEtapasNota(selecao));

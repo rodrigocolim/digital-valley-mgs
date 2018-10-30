@@ -73,9 +73,21 @@
 									</tr>
 								</c:forEach>
 							</table>	
-							<br/>
-							<input class="btn btn-primary float-right" type="submit" value="Salvar" />
-	                        
+							<br>
+							<c:if test="${empty resultadoSelecaoForm.etapas}">
+								<div class="text-center">
+									<p >Esta seleção não possui etapas com o critério de aprovação por notas definido.</p>
+									<a href="/Darwin/selecao/${selecao.codSelecao}" type="button" id="enviar" class="btn btn-secondary">
+		                            	<i class="fas fa-arrow-left"></i> Voltar
+		                        	</a>
+	                        	</div>
+							</c:if>
+							<c:if test="${not empty resultadoSelecaoForm.etapas}">	
+								<a href="/Darwin/selecao/${selecao.codSelecao}" type="button" id="enviar" class="btn btn-secondary">
+	                            Cancelar
+	                        	</a>
+								<input class="btn btn-primary" type="submit" value="Salvar" />
+	                        </c:if>
                          </form>
                    
 					</div>

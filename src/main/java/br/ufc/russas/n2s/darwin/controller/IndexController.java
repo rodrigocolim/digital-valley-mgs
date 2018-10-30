@@ -60,7 +60,7 @@ public class IndexController {
         model.addAttribute("estado", "início");
         model.addAttribute("selecoes", selecoes); 
         model.addAttribute("agora", LocalDate.now());
-        model.addAttribute("etapasAtuais", etapasAtuais);        
+        model.addAttribute("etapasAtuais", etapasAtuais); 
         return "index";
     }
     
@@ -93,6 +93,10 @@ public class IndexController {
         } else if (estado.equals("finalizada")) {
             e = EnumEstadoSelecao.FINALIZADA;
             model.addAttribute("categoria", "Seleções finalizadas");
+        } else {
+        	System.out.println("espera");
+        	 e = EnumEstadoSelecao.ESPERA;
+             model.addAttribute("categoria", "Seleções em espera");
         }
         selecao.setEstado(e);
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);

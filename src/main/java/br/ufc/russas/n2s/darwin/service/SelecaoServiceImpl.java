@@ -110,8 +110,12 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Transactional
     public List<SelecaoBeans> listaSelecoes(Selecao selecao) {
         selecao.setDivulgada(true);
+        selecao.setDivulgadoResultado(false);
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
+        
+        selecao.setDivulgadoResultado(true);
+        resultado.addAll(this.getSelecaoDAOIfc().listaSelecoes(selecao));
         for (Selecao s : resultado) {
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }

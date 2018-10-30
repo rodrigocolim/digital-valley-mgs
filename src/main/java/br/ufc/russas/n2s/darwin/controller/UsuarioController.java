@@ -47,7 +47,7 @@ public class UsuarioController {
 		 } catch (NullPointerException e) {
 			 session.setAttribute("mensagem", e.getMessage());
 			 session.setAttribute("status", "danger");
-			 response.sendRedirect("/Dawrin");
+			 response.sendRedirect("/Darwin");
 		 } catch (Exception e) {
 			 session.setAttribute("mensagem", e.getMessage());
 			 session.setAttribute("status", "danger");

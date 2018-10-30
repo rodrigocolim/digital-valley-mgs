@@ -87,12 +87,11 @@ public class CadastrarEtapaController {
 
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.POST)
     public String adiciona(@PathVariable long codSelecao, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
-        try {
+    	HttpSession session = request.getSession();
+    	try {
         	if (request.getParameter("prereq") != null && Long.parseLong(request.getParameter("prereq")) > 0) {
-	            HttpSession session = request.getSession();
 	            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
 	            SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
-	            
 	            model.addAttribute("selecao", selecao);
 	            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
 	            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
@@ -144,35 +143,34 @@ public class CadastrarEtapaController {
 		            	dir.mkdir();
 		            }
 	            }
-	            
 	            session.setAttribute("mensagem", "Etapa cadastrada com sucesso!");
 	            session.setAttribute("status", "success");
 	            return ("redirect:/selecao/" + selecao.getCodSelecao());
         	} else {
-            	model.addAttribute("mensagem", "Selecione uma etapa para pré-requisito!");
-                model.addAttribute("status", "danger");
-                return "cadastrar-etapa";
+            	session.setAttribute("mensagem", "Selecione uma etapa para pré-requisito!");
+                session.setAttribute("status", "danger");
+                return ("redirect:/cadastrarEtapa/"+codSelecao);
             }
         } catch (NullPointerException | NumberFormatException e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "cadastrar-etapa";
+        	session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
+            return ("redirect:/cadastrarEtapa/"+codSelecao);
         } catch (IllegalArgumentException | IllegalAccessException e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "cadastrar-etapa";
+        	session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
+            return ("redirect:/cadastrarEtapa/"+codSelecao);
         } catch (Exception e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "cadastrar-etapa";
+            session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
+            return ("redirect:/cadastrarEtapa/"+codSelecao);
         }
     }
     
     
     @RequestMapping(value="/inscricao/{codSelecao}", method = RequestMethod.POST)
     public String adicionaInscricao(@PathVariable long codSelecao, @RequestParam("prerequisito") long codPrerequisito, EtapaBeans etapa, BindingResult result, Model model, HttpServletRequest request) {
-        try {
-            HttpSession session = request.getSession();
+    	HttpSession session = request.getSession();
+    	try {
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         
@@ -233,17 +231,17 @@ public class CadastrarEtapaController {
             session.setAttribute("status", "success");
             return ("redirect:/selecao/" + selecao.getCodSelecao());
         } catch (NullPointerException | NumberFormatException e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "cadastrar-etapa";
+        	session.setAttribute("mensagem", e.getMessage());
+        	session.setAttribute("status", "danger");
+            return "redirect:/cadastrarEtapa/"+codSelecao;
         } catch (IllegalArgumentException | IllegalAccessException e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "cadastrar-etapa";
+        	session.setAttribute("mensagem", e.getMessage());
+        	session.setAttribute("status", "danger");
+            return "redirect:/cadastrarEtapa/"+codSelecao;
         }  catch (Exception e) {
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return "cadastrar-etapa";
+        	session.setAttribute("mensagem", e.getMessage());
+        	session.setAttribute("status", "danger");
+            return "redirect:/cadastrarEtapa/"+codSelecao;
         }
     }
     

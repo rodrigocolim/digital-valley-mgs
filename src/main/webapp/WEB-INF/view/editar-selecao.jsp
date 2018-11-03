@@ -18,6 +18,10 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/design.css" />
+        <!-- Include Editor style. -->
+		<link href='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/css/froala_editor.min.css' rel='stylesheet' type='text/css' />
+		<link href='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/css/froala_style.min.css' rel='stylesheet' type='text/css' />
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/texteditor.css" />        
     </head>
     <body>
     <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
@@ -55,14 +59,14 @@
                         </div>
                         <br>
 
-                        <label for="descricaoInput"> <input type="checkbox" onclick="habilitaEdicao('descricaoInput')"> Descrição*</label>
+                        <label for="descricaoInput"> Descrição*</label>
                         <textarea class="form-control" rows="6" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" readonly="true" required>${selecao.descricao}</textarea>
                         <div class="invalid-feedback">
                             
                         </div>
                         <br>
 
-                        <label for="preRequisitosInput"> <input type="checkbox" onclick="habilitaEdicao('preRequisitosInput')"> Pré Requisitos</label>
+                        <label for="preRequisitosInput"> Pré Requisitos</label>
                         <textarea name="descricaoPreRequisitos" class="form-control" id="preRequisitosInput" placeholder="Digite uma breve descrição sobre os pré requisitos para participar da seleção" readonly="true">${selecao.descricaoPreRequisitos}</textarea>
                         <br>
 
@@ -221,6 +225,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>  
+  	<!-- Include JS file. -->
+	<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/js/froala_editor.min.js'></script>
   	<script>
      function habilitaCampoVagas(){
 		if(! document.getElementById('isVagasLimitadasInput').checked){
@@ -359,6 +365,21 @@
 	    	atualizaResponsaveis();
 	    }
 	</script> 
-      
+      <script src="${pageContext.request.contextPath}/resources/js/cazary.min.js" ></script>
+	<script type="text/javascript">
+		(function($, window)
+		{
+			$(function($)
+			{
+				$("textarea#descricaoInput").cazary({
+					commands: "FULL"
+				});
+				
+				$("textarea#preRequisitosInput").cazary({
+					commands: "FULL"
+				});
+			});
+		})(jQuery, window);
+		</script>
 </body>
 </html>

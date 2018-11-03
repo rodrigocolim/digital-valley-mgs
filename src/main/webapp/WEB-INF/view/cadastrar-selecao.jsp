@@ -17,7 +17,9 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/design.css" />
-    </head>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/texteditor.css" />
+	</head>
     <body>
     <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
     <div class="container-fluid">
@@ -209,6 +211,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
+    
     <script src="${pageContext.request.contextPath}/resources/js/scriptCadastrarSelecao.js" ></script>
+    <!-- Include JS file. -->
+	<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/js/froala_editor.min.js'></script>
+	<script src="${pageContext.request.contextPath}/resources/js/cazary.min.js" ></script>
+	<script type="text/javascript">
+		(function($, window)
+		{
+			$(function($)
+			{
+				$("textarea#descricaoInput").cazary({
+					commands: "FULL"
+				});
+				
+				$("textarea#preRequisitosInput").cazary({
+					commands: "FULL"
+				});
+			});
+		})(jQuery, window);
+		</script>
 </body>
 </html>

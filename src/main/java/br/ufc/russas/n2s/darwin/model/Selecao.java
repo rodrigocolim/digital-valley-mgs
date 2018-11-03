@@ -69,6 +69,7 @@ public class Selecao {
     private List<Etapa> etapas;
     private int vagasRemuneradas;
     private int vagasVoluntarias;
+    @Column(columnDefinition = "TEXT")
     private String descricaoPreRequisitos;
     private String areaDeConcentracao;
     private String categoria;

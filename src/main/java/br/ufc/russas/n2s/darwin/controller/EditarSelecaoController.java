@@ -44,6 +44,10 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Email;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
+import br.ufc.russas.n2s.darwin.model.Log;
+import br.ufc.russas.n2s.darwin.model.Selecao;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
+import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import util.Constantes;
@@ -58,6 +62,7 @@ public class EditarSelecaoController {
 
     private SelecaoServiceIfc selecaoServiceIfc;
     private UsuarioServiceIfc usuarioServiceIfc;
+    private LogServiceIfc logServiceIfc;
     
     public SelecaoServiceIfc getSelecaoServiceIfc() {
         return selecaoServiceIfc;
@@ -75,12 +80,20 @@ public class EditarSelecaoController {
     public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc) {
         this.usuarioServiceIfc = usuarioServiceIfc;
     }
+    
+    public LogServiceIfc getLogServiceIfc() {
+    	return logServiceIfc;
+    }
+    @Autowired
+    public void setLogServiceIfc(@Qualifier("logServiceIfc")LogServiceIfc logServiceIfc) {
+    	this.logServiceIfc = logServiceIfc;
+    }
 
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
     	UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-        if (selecao.getResponsaveis().contains(usuario)) {
+        if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
 	        List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.RESPONSAVEL);
 	        List<UsuarioBeans> responsaveis = selecao.getResponsaveis();
 	        model.addAttribute("selecao", selecao);
@@ -181,6 +194,7 @@ public class EditarSelecaoController {
             selecaoBeans = this.getSelecaoServiceIfc().atualizaSelecao(selecaoBeans);
             EtapaBeans etapaAtual = this.getSelecaoServiceIfc().getEtapaAtual(selecaoBeans);
             session.setAttribute("selecao", selecaoBeans);
+            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecaoBeans.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" editou a seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
             session.setAttribute("mensagem", "Seleção atualizada com sucesso!");
             session.setAttribute("status", "success");
             return "redirect:/selecao/" + selecaoBeans.getCodSelecao();
@@ -196,7 +210,7 @@ public class EditarSelecaoController {
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        if (selecao.getResponsaveis().contains(usuario)) {
+        if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
 	        try {
 	        	if (selecao.getInscricao().getPeriodo().getTermino().isBefore(LocalDate.now())) {
 	        		session.setAttribute("mensagem", "Esta Seleção não pode ser divulgada! Verifique o periodo de inscrição.");
@@ -213,7 +227,7 @@ public class EditarSelecaoController {
 		            	EtapaBeans e = selecao.getEtapas().get(i);
 		            	avaliadoresSet.addAll(e.getAvaliadores());
 		            }
-		            List<Thread> threadsEmail = Collections.synchronizedList(new ArrayList<>());
+		            List<Thread> threadsEmail = Collections.synchronizedList(new ArrayList<Thread>());
 		            for(Iterator<UsuarioBeans> iter = avaliadoresSet.iterator(); iter.hasNext();) {
 		            	UsuarioBeans u = iter.next();
 	                  	if (u.isRecebeEmail()) {
@@ -225,6 +239,7 @@ public class EditarSelecaoController {
 	                  		threadsEmail.get(threadsEmail.size()-1).start();
 	                  	}
 		            }
+		            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" divulgou a seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
     	            session.setAttribute("selecao", selecao);
 		            session.setAttribute("mensagem", "Seleção divulgada com sucesso!");
 	                session.setAttribute("status", "success");

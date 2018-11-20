@@ -61,7 +61,7 @@ public class SelecaoController {
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         HashMap<Long, List<UsuarioBeans>> classificados = new HashMap<>();
         for(EtapaBeans et : selecao.getEtapas()) {
-        	List<UsuarioBeans> usuarios = Collections.synchronizedList(new ArrayList<>());
+        	List<UsuarioBeans> usuarios = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
         	for (ParticipanteBeans pb : et.getParticipantes()) {
         		usuarios.add(pb.getCandidato());
         	}

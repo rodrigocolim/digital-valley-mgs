@@ -31,7 +31,11 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
+import br.ufc.russas.n2s.darwin.model.Log;
+import br.ufc.russas.n2s.darwin.model.Selecao;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
+import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import util.Constantes;
@@ -46,6 +50,7 @@ public class CadastrarEtapaController {
     private EtapaServiceIfc etapaServiceIfc;
     private SelecaoServiceIfc selecaoServiceIfc;
     private UsuarioServiceIfc usuarioServiceIfc;
+    private LogServiceIfc logServiceIfc;
     
     public EtapaServiceIfc getEtapaServiceIfc() {
         return etapaServiceIfc;
@@ -71,7 +76,13 @@ public class CadastrarEtapaController {
     public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc) {
         this.usuarioServiceIfc = usuarioServiceIfc;
     }
-           
+    public LogServiceIfc getLogServiceIfc() {
+    	return logServiceIfc;
+    }
+    @Autowired
+    public void setLogServiceIfc(@Qualifier("logServiceIfc")LogServiceIfc logServiceIfc) {
+    	this.logServiceIfc = logServiceIfc;
+    }       
     
     @RequestMapping(value="/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request) {
@@ -143,6 +154,7 @@ public class CadastrarEtapaController {
 		            	dir.mkdir();
 		            }
 	            }
+	            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" criou a etapa "+etapa.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
 	            session.setAttribute("mensagem", "Etapa cadastrada com sucesso!");
 	            session.setAttribute("status", "success");
 	            return ("redirect:/selecao/" + selecao.getCodSelecao());
@@ -227,6 +239,7 @@ public class CadastrarEtapaController {
             if (!dir.exists()) {
             	dir.mkdir();
             }
+            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" criou a etapa "+etapa.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
             session.setAttribute("mensagem", "Etapa cadastrada com sucesso!");
             session.setAttribute("status", "success");
             return ("redirect:/selecao/" + selecao.getCodSelecao());

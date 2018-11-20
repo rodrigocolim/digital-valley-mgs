@@ -8,8 +8,8 @@ public class ResultadoParticipanteSelecao {
 	
 	private int colocacao;
 	private Participante participante;
-	private List<Etapa> etapas = Collections.synchronizedList(new ArrayList<>());
-	private List<Float> notasEtapas = Collections.synchronizedList(new ArrayList<>());
+	private List<Etapa> etapas = Collections.synchronizedList(new ArrayList<Etapa>());
+	private List<Float> notasEtapas = Collections.synchronizedList(new ArrayList<Float>());
 	private float mediaGeral;
 	private boolean aprovado;
 

@@ -49,8 +49,10 @@
     <bean name="avaliacaoDAOIfc"  class = "br.ufc.russas.n2s.darwin.dao.AvaliacaoDAOImpl" />
     <bean name="documentacaoDAOIfc"  class = "br.ufc.russas.n2s.darwin.dao.DocumentacaoDAOImpl" />
     <bean name="etapaDAOIfc"  class = "br.ufc.russas.n2s.darwin.dao.EtapaDAOImpl" />
+    <bean name="logDAOIfc"  class = "br.ufc.russas.n2s.darwin.dao.LogDAOImpl" />
     <bean name="participanteDAOIfc"  class = "br.ufc.russas.n2s.darwin.dao.ParticipanteDAOImpl" />
     <bean name="indexController"  class = "br.ufc.russas.n2s.darwin.controller.IndexController" />
+    <bean name="avaliarController"  class = "br.ufc.russas.n2s.darwin.controller.AvaliarController" />
     <bean name="usuarioController"  class = "br.ufc.russas.n2s.darwin.controller.UsuarioController" />
     <bean name="resultadoEtapaController"  class = "br.ufc.russas.n2s.darwin.controller.ResultadoEtapaController" />
     <bean name="resultadoSelecaoController"  class = "br.ufc.russas.n2s.darwin.controller.ResultadoSelecaoController" />
@@ -58,6 +60,7 @@
     <bean name="usuarioServiceIfc"  class = "br.ufc.russas.n2s.darwin.service.UsuarioServiceImpl" />
     <bean name="avaliacaoServiceIfc"  class = "br.ufc.russas.n2s.darwin.service.AvaliacaoServiceImpl" />
     <bean name="etapaServiceIfc"  class = "br.ufc.russas.n2s.darwin.service.EtapaServiceImpl" />
+    <bean name="logServiceIfc"  class = "br.ufc.russas.n2s.darwin.service.LogServiceImpl" />
     <bean name="participanteServiceIfc"  class = "br.ufc.russas.n2s.darwin.service.ParticipanteServiceImpl" />
     <bean name="VisualizarDocumentacao"  class = "br.ufc.russas.n2s.darwin.controller.VisualizarDocumentacao" />
 </beans>

@@ -197,7 +197,7 @@
                                         	<jsp:useBean id="now" class="java.util.Date" />
 											<fmt:formatDate var="dateAgora" value="${now}" pattern="ddMMyyyy" />
 											<fmt:formatDate value="${parseDataInicio}"  pattern="ddMMyyyy" var="Inicio"/>											                                      
-                                            <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA') and ((dateAgora < Inicio) or (not selecao.divulgada))) or (fn:contains(permissoes, 'ADMINISTRADOR') and (not selecao.divulgada)) }">
+                                            <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA') and ((dateAgora < Inicio) or (not selecao.divulgada))) or (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) }">
 	                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
 	                                               <i class="fas fa-edit"></i> Editar etapa
 	                                            </a>   
@@ -205,7 +205,7 @@
                                        	
                                         <c:if test="${((estadoInscricao == 2) or (estadoInscricao == 3)) and (not selecao.inscricao.divulgadoResultado) and (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
                                             <a href="/Darwin/avaliar/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-                                                Avaliar
+                                                <i class="fas fa-clipboard-check"></i> Avaliar
                                             </a>
                                         </c:if>
                                        

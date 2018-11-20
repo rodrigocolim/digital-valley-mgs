@@ -13,8 +13,15 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Email;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoAvaliacao;
+import br.ufc.russas.n2s.darwin.model.Log;
+import br.ufc.russas.n2s.darwin.model.Selecao;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
+import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.ParticipanteServiceIfc;
+
+import java.time.LocalDate;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +42,7 @@ public class AvaliarController {
     
     private EtapaServiceIfc etapaServiceIfc;
     private ParticipanteServiceIfc participanteServiceIfc;
+    private LogServiceIfc logServiceIfc;
     
     @Autowired(required = true)
     public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc") EtapaServiceIfc etapaServiceIfc) {
@@ -45,6 +53,13 @@ public class AvaliarController {
     public void setParticipanteServiceIfc(@Qualifier("participanteServiceIfc") ParticipanteServiceIfc participanteServiceIfc) {
         this.participanteServiceIfc = participanteServiceIfc;
     }
+    public LogServiceIfc getLogServiceIfc() {
+    	return logServiceIfc;
+    }
+    @Autowired(required = true)
+    public void setLogServiceIfc(@Qualifier("logServiceIfc") LogServiceIfc logServiceIfc) {
+    	this.logServiceIfc = logServiceIfc;
+    }  
     
     @RequestMapping(value = "/{codEtapa}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codEtapa, Model model, HttpServletRequest request) {
@@ -103,6 +118,7 @@ public class AvaliarController {
             etapaServiceIfc.setUsuario(avaliador);
             etapaServiceIfc.avalia(etapa, avaliacao);
             etapa = this.etapaServiceIfc.getEtapa(etapa.getCodEtapa());
+            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin) avaliador.toBusiness(), (Selecao) ((SelecaoBeans) session.getAttribute("selecao")).toBusiness(), "O(A) usuario(a) "+ avaliador.getNome()+" realizou a avaliação do candidato detentor do CPF: "+participante.getCandidato().getCPF()+" na etapa "+etapa.getTitulo()+" da seleção "+((SelecaoBeans) session.getAttribute("selecao")).getTitulo()+" em "+LocalDate.now()+"."));
             model.addAttribute("etapa", etapa);
             model.addAttribute("avaliador", avaliador);
             model.addAttribute("participantesEtapa", etapa.getParticipantes());

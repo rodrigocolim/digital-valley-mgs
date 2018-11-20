@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +38,10 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
+import br.ufc.russas.n2s.darwin.model.Log;
+import br.ufc.russas.n2s.darwin.model.Selecao;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
+import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import util.Constantes;
@@ -51,6 +55,7 @@ public class CadastrarSelecaoController {
 
     private SelecaoServiceIfc selecaoServiceIfc;
     private UsuarioServiceIfc usuarioServiceIfc;
+    private LogServiceIfc logServiceIfc;
     
     List<UsuarioBeans> responsaveis = new ArrayList	();
     
@@ -69,6 +74,14 @@ public class CadastrarSelecaoController {
     @Autowired(required = true)
     public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc) {
         this.usuarioServiceIfc = usuarioServiceIfc;
+    }
+    
+    public LogServiceIfc getLogServiceIfc() {
+    	return logServiceIfc;
+    }
+    @Autowired
+    public void setLogServiceIfc(@Qualifier("logServiceIfc")LogServiceIfc logServiceIfc) {
+    	this.logServiceIfc = logServiceIfc;
     }
     
     @RequestMapping(method = RequestMethod.GET)
@@ -168,6 +181,7 @@ public class CadastrarSelecaoController {
             selecao.setResponsaveis(responsaveis);
             selecao.getResponsaveis().add(usuario);
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" criou a seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
             session.setAttribute("mensagem", "Seleção cadastrada com sucesso!");
             session.setAttribute("status", "success");
             return ("redirect:selecao/" + selecao.getCodSelecao());

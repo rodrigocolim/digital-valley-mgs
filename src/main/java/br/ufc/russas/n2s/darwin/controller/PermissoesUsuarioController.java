@@ -5,6 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
+import br.ufc.russas.n2s.darwin.model.Log;
+import br.ufc.russas.n2s.darwin.model.Selecao;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
+import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 
 /**
@@ -32,11 +37,21 @@ import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 public class PermissoesUsuarioController {
     
     private UsuarioServiceIfc usuarioServiceIfc;
+    private LogServiceIfc logServiceIfc;
     
     @Autowired(required = true)
     public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc") UsuarioServiceIfc usuarioServiceIfc) {
         this.usuarioServiceIfc = usuarioServiceIfc;
     }
+    
+    public LogServiceIfc getLogServiceIfc() {
+    	return logServiceIfc;
+    }
+    @Autowired(required = true)
+    public void setLogServiceIfc(@Qualifier("logServiceIfc") LogServiceIfc logServiceIfc) {
+    	this.logServiceIfc = logServiceIfc;
+    }
+    
     @RequestMapping(method = RequestMethod.GET)
     public String getIndex(Model model, HttpServletRequest request) {
     	UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
@@ -79,6 +94,8 @@ public class PermissoesUsuarioController {
                 }
             }
             usuarioServiceIfc.atualizaNiveis(usuario, permisoesAtualizadas);
+            UsuarioDarwin us = (UsuarioDarwin)((UsuarioBeans) session.getAttribute("usuarioDarwin")).toBusiness();
+            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(), us, null, "O(A) usuario(a) "+ us.getNome()+" portador do CPF: "+us.getCPF()+", modificou a permissão do usuário detentor do CPF: "+usuario.getCPF()+" em "+LocalDate.now()+"."));
             session.setAttribute("mensagem", "Permissões do usuário '<b>"+usuario.getNome()+"</b>' atualizadas com sucesso!");
             session.setAttribute("status", "success");
             model.addAttribute("usuarios", this.usuarioServiceIfc.listaTodosUsuarios());

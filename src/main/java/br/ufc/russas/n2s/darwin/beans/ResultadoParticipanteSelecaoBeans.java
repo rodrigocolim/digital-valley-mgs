@@ -17,8 +17,8 @@ public class ResultadoParticipanteSelecaoBeans implements Beans, Serializable{
 	
 	private int colocacao;
 	private ParticipanteBeans participante;
-	private List<EtapaBeans> etapas = Collections.synchronizedList(new ArrayList<>());
-	private List<Float> notasEtapas = Collections.synchronizedList(new ArrayList<>());
+	private List<EtapaBeans> etapas = Collections.synchronizedList(new ArrayList<EtapaBeans>());
+	private List<Float> notasEtapas = Collections.synchronizedList(new ArrayList<Float>());
 	private float mediaGeral;
 	private boolean aprovado;
 

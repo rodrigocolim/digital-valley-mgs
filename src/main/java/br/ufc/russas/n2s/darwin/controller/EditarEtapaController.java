@@ -13,9 +13,13 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Email;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
+import br.ufc.russas.n2s.darwin.model.Log;
 import br.ufc.russas.n2s.darwin.model.Periodo;
+import br.ufc.russas.n2s.darwin.model.Selecao;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
+import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 
@@ -52,6 +56,7 @@ public class EditarEtapaController {
     private EtapaServiceIfc etapaServiceIfc;
     private SelecaoServiceIfc selecaoServiceIfc;
     private UsuarioServiceIfc usuarioServiceIfc;
+    private LogServiceIfc logServiceIfc;
     
     public EtapaServiceIfc getEtapaServiceIfc() {
         return etapaServiceIfc;
@@ -77,14 +82,20 @@ public class EditarEtapaController {
     public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc) {
         this.usuarioServiceIfc = usuarioServiceIfc;
     }
-           
+    public LogServiceIfc getLogServiceIfc() {
+    	return logServiceIfc;
+    }
+    @Autowired
+    public void setLogServiceIfc(@Qualifier("logServiceIfc")LogServiceIfc logServiceIfc) {
+    	this.logServiceIfc = logServiceIfc;
+    }       
     
     @RequestMapping(value="/{codSelecao}/{codEtapa}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, @PathVariable long codEtapa, Model model, HttpServletRequest request) {
         EtapaBeans etapaBeans = this.etapaServiceIfc.getEtapa(codEtapa);
         SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
         UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
-        if (selecao.getResponsaveis().contains(usuario)) {
+        if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
 	        List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.AVALIADOR);
 	        if (etapaBeans.getCodEtapa() == selecao.getInscricao().getCodEtapa()) {
 	            model.addAttribute("tipo", "inscricao"); 
@@ -179,6 +190,7 @@ public class EditarEtapaController {
 	            
 	            
 	            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+	            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" modificou a etapa "+etapa.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
 	            session.setAttribute("status", "success");
 	            session.setAttribute("mensagem", "Etapa atualizada com sucesso!");
 	            session.setAttribute("selecao", selecao);
@@ -217,57 +229,68 @@ public class EditarEtapaController {
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = this.getSelecaoServiceIfc().getSelecao(codSelecao);
             EtapaBeans inscricaoBeans = this.getEtapaServiceIfc().getEtapa(codInscricao);
-            if (inscricaoBeans.getPeriodo().getInicio().isAfter(LocalDate.now()) || !selecao.isDivulgada()) {
-	            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
-	            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
-	            inscricaoBeans.setTitulo(inscricao.getTitulo());
-	            inscricaoBeans.setDescricao(inscricao.getDescricao());
-	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || selecao.getResponsaveis().contains(usuario)) {
+            	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	            inscricaoBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
-	            List <EtapaBeans> subsequentes = selecao.getEtapas();
-	            Periodo novoP = (Periodo) inscricaoBeans.getPeriodo().toBusiness();
-	            for(EtapaBeans sub: subsequentes){
-	            	if(sub.getCodEtapa()!=inscricao.getCodEtapa()) {
-	            		Periodo periodo =(Periodo) sub.getPeriodo().toBusiness();
-	            		if(periodo.isColide(novoP)) {
-	            			throw new IllegalCodeException("Periodo Inválido!");
+           
+	            if (inscricaoBeans.getPeriodo().getInicio().isAfter(LocalDate.now()) || !selecao.isDivulgada()) {
+		            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
+		            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
+		            inscricaoBeans.setTitulo(inscricao.getTitulo());
+		            inscricaoBeans.setDescricao(inscricao.getDescricao());
+		            List <EtapaBeans> subsequentes = selecao.getEtapas();
+		            Periodo novoP = (Periodo) inscricaoBeans.getPeriodo().toBusiness();
+		            for(EtapaBeans sub: subsequentes){
+		            	if(sub.getCodEtapa()!=inscricao.getCodEtapa()) {
+		            		Periodo periodo =(Periodo) sub.getPeriodo().toBusiness();
+		            		if(periodo.isColide(novoP)) {
+		            			throw new IllegalCodeException("Periodo Inválido!");
+		            		}
 	            		}
-	            		}
-	            }
-	            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
-	            try {
-		            if (codAvaliadores != null) {
-		                for (String cod : codAvaliadores) {
-		                	if (cod.contains("-")) {
-		                		cod = cod.substring(0,cod.indexOf("-"));
-		                	}
-		                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
-		                    if (u != null) {
-		                        avaliadores.add(u);
-		                    }
-		                }
 		            }
-	            } catch (NumberFormatException e) {
-	            	session.setAttribute("mensagem", "Ocorreu um erro ao cadastrar avaliador(es)!");
-	                session.setAttribute("status", "danger");
-	            	return "redirect:/editarEtapa/" + codSelecao+"/"+codInscricao;
+		            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
+		            try {
+			            if (codAvaliadores != null) {
+			                for (String cod : codAvaliadores) {
+			                	if (cod.contains("-")) {
+			                		cod = cod.substring(0,cod.indexOf("-"));
+			                	}
+			                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+			                    if (u != null) {
+			                        avaliadores.add(u);
+			                    }
+			                }
+			            }
+		            } catch (NumberFormatException e) {
+		            	session.setAttribute("mensagem", "Ocorreu um erro ao cadastrar avaliador(es)!");
+		                session.setAttribute("status", "danger");
+		            	return "redirect:/editarEtapa/" + codSelecao+"/"+codInscricao;
+		            }
+		            if (documentosExigidos != null) {
+		                ArrayList<String> docs = new ArrayList<>();
+		                for (String documento : documentosExigidos) {
+		                    docs.add(documento);
+		                }
+		                inscricaoBeans.setDocumentacaoExigida(docs);
+		            }
+		            inscricaoBeans.setAvaliadores(avaliadores);
+		            this.getSelecaoServiceIfc().setUsuario(usuario);
+		            selecao.setInscricao(inscricaoBeans);
+		            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+		            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" modificou a etapa "+inscricaoBeans.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
+		            session.setAttribute("selecao", selecao);
+		            session.setAttribute("mensagem", "Etapa "+inscricaoBeans.getTitulo()+" atualizada com sucesso!");
+		            session.setAttribute("status", "success");
+		            return "redirect:/selecao/" + selecao.getCodSelecao();
 	            }
-	            if (documentosExigidos != null) {
-	                ArrayList<String> docs = new ArrayList<>();
-	                for (String documento : documentosExigidos) {
-	                    docs.add(documento);
-	                }
-	                inscricaoBeans.setDocumentacaoExigida(docs);
-	            }
-	            inscricaoBeans.setAvaliadores(avaliadores);
 	            this.getSelecaoServiceIfc().setUsuario(usuario);
 	            selecao.setInscricao(inscricaoBeans);
 	            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
 	            session.setAttribute("selecao", selecao);
-	            session.setAttribute("mensagem", "Etapa "+inscricaoBeans.getTitulo()+" atualizada com sucesso!");
+	            session.setAttribute("mensagem", "Data da Etapa "+inscricaoBeans.getTitulo()+" atualizada com sucesso!");
 	            session.setAttribute("status", "success");
 	            return "redirect:/selecao/" + selecao.getCodSelecao();
-            } else {
+	        } else {
             	session.setAttribute("selecao", selecao);
             	session.setAttribute("mensagem", "Etapa já foi iniciada, não é mais possível realizar edições!");
 	            session.setAttribute("status", "warning");
@@ -291,10 +314,11 @@ public class EditarEtapaController {
     	try{
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-            if (selecao.getResponsaveis().contains(usuario)) {
+            if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
 	            EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
 	            etapa.setDivulgaResultado(true);
 	            etapaServiceIfc.atualizaEtapa(etapa);
+	            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" divulgou o resultado da etapa "+etapa.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
 	            session.setAttribute("selecao", selecao);
 	            session.setAttribute("etapa", etapa);
 	            session.setAttribute("resultado", etapaServiceIfc.getResultado(etapa));
@@ -317,20 +341,21 @@ public class EditarEtapaController {
             
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-            if (selecao.getResponsaveis().contains(usuario)) {
+            if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
 	            EtapaBeans etapa = etapaServiceIfc.getEtapa(codInscricao);
 	            this.etapaServiceIfc.setUsuario(usuario);
 	            etapa.setDivulgaResultado(true);
 	            etapa = etapaServiceIfc.atualizaEtapa(etapa);
 	            Email email = new Email();
-	            List<Thread> threadsEmail = Collections.synchronizedList(new ArrayList<>());
+	            List<Thread> threadsEmail = Collections.synchronizedList(new ArrayList<Thread>());
 	            for (int i =0;i < etapa.getParticipantes().size();i++) {
 	            	ParticipanteBeans p = etapa.getParticipantes().get(i);
-	            	threadsEmail.add(new Thread(new Email(p.getCandidato(), "Resuldato de etapa divulgado!", "Resultaod de etapa divulgado", "O resultado da <b>Etapa de "+etapa.getTitulo()+"</b> da <b>Seleção "+selecao.getTitulo()+"</b> foi divulgado!")));
+	            	threadsEmail.add(new Thread(new Email(p.getCandidato(), "Resultado de etapa divulgado!", "Resultaod de etapa divulgado", "O resultado da <b>Etapa de "+etapa.getTitulo()+"</b> da <b>Seleção "+selecao.getTitulo()+"</b> foi divulgado!")));
 	            	if (p.getCandidato().isRecebeEmail()) {
 	            		threadsEmail.get(i).start();
 	            	}
 	            }
+	            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" divulgou o resultado da etapa "+etapa.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
 	            session.setAttribute("selecao", selecao);
 	            session.setAttribute("etapa", etapa);
 	            session.setAttribute("resultado", etapaServiceIfc.getResultado(etapa));
@@ -352,7 +377,7 @@ public class EditarEtapaController {
     	try{
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-            if (selecao.getResponsaveis().contains(usuario)) {
+            if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
 	            this.getSelecaoServiceIfc().setUsuario(usuario);
 	            EtapaBeans etapa = this.getEtapaServiceIfc().getEtapa(codEtapa);
 	            List<EtapaBeans> etapas = selecao.getEtapas();
@@ -360,6 +385,7 @@ public class EditarEtapaController {
 	            selecao.setEtapas(etapas);
 	            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
 	            this.getEtapaServiceIfc().removeEtapa(etapa);
+	            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" removeu a etapa "+etapa.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
 	            session.setAttribute("selecao", selecao);
 	            session.setAttribute("mensagem", "Etapa removida com sucesso!");
 	            session.setAttribute("status", "success");

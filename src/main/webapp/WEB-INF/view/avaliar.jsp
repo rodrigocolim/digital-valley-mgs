@@ -53,7 +53,7 @@
                     <table class="table table-responsive">
                         <thead>
                             <tr>
-                                <th scope="col">Candidato</th>
+                                <th scope="col">Participante</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Opção</th>
                             </tr>
@@ -97,7 +97,7 @@
                                     <div class="modal-content">
                                         <form action="" method="post" accept-charset="UTF-8">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="modalLabel">${avaliado ? "Avaliação Candidato" : "Avaliar Candidato"}</h5>
+                                            <h5 class="modal-title" id="modalLabel">${avaliado ? "Avaliação Participante" : "Avaliar Participante"}</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>

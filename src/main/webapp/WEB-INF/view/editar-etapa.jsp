@@ -61,7 +61,8 @@
                         
                         <br>
                         <label for="descricaoInput"> Descrição*</label>
-                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" value="${etapa.descricao}" readonly="true" required>${etapa.descricao}</textarea>
+                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" readonly="true" required>${etapa.descricao}</textarea>
+                       
                         <c:if test="${tipo eq 'etapa'}">
                             <c:if test="${not empty selecao.inscricao}"> <br>
                         <label for="etapaAnteriorInput">Etapa anterior*</label>
@@ -81,7 +82,7 @@
                         <br>
                         </c:if>
                         </c:if>
-                        <br>
+                        <br> <br>
                         <label for="periodoInput"><input type="checkbox" onclick="habilitaEdicao('periodoInput1');habilitaEdicao('periodoInput2')"> Período*</label>
                         <div id="sandbox-container">
                             <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">

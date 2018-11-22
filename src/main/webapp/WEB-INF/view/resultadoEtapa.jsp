@@ -65,7 +65,7 @@
                             <c:forEach var="participante" items="${participantesEtapa}">
                             <c:set var = "avaliacaoParticipante" value = "${null}"/>
                             <tr>
-                            	<td>${fn:replace(participante[0].candidato.CPF, fn:substring(participante[0].candidato.CPF,5,11),"******")}</td>
+                            	<td>${fn:replace(participante[0].candidato.CPF, fn:substring(participante[0].candidato.CPF,3,9),"******")}</td>
                                 <td>${participante[0].candidato.nome}</td>
                                                 <td>${participante[1]}</td>
                                                 <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">

@@ -303,7 +303,7 @@
                                         </a>
                                     </c:if>
                                  
-                                    <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and ((dateAgora < Inicio) or (not selecao.divulgada))}">
+                                    <c:if test="${((isResponsavel) and ((dateAgora < Inicio) or (not selecao.divulgada))) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
                                         <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
                                            <i class="fas fa-edit"></i> Editar etapa
                                         </a>   

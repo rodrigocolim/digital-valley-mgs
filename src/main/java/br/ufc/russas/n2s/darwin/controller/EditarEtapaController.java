@@ -12,6 +12,7 @@ import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Email;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
+import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.Log;
 import br.ufc.russas.n2s.darwin.model.Periodo;
@@ -129,25 +130,66 @@ public class EditarEtapaController {
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
             EtapaBeans etapaBeans= this.etapaServiceIfc.getEtapa(codEtapa);
-            if (etapaBeans.getPeriodo().getInicio().isAfter(LocalDate.now())) {
-	            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
-	            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
-	            int criterio = Integer.parseInt(request.getParameter("criterio"));
-	            if (criterio == 1) {
-	                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
-	            } else if(criterio == 2) {
-	                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
-	            } else if(criterio == 3) {
-	                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
+            
+            if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || selecao.getResponsaveis().contains(usuario)) {
+            	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            	if (LocalDate.parse(request.getParameter("dataInicio"), formatter).isAfter(LocalDate.now()) && !etapaBeans.getEstado().equals(EnumEstadoEtapa.ESPERA)) {
+            		throw new Exception("Após iniciada a etapa, apenas a data de término pode ser prorrogada.");
+            	}
+            	etapaBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+	            if (etapaBeans.getPeriodo().getInicio().isAfter(LocalDate.now())) {
+		            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
+		            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
+		            int criterio = Integer.parseInt(request.getParameter("criterio"));
+		            if (criterio == 1) {
+		                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
+		            } else if(criterio == 2) {
+		                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
+		            } else if(criterio == 3) {
+		                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
+		            }
+		            etapaBeans.setTitulo(etapa.getTitulo());
+		            etapaBeans.setDescricao(etapa.getDescricao());
+		            long codPrerequisito = Long.parseLong(request.getParameter("prereq"));
+		            EtapaBeans pre = this.etapaServiceIfc.getEtapa(codPrerequisito);
+		            etapaBeans.setPrerequisito(pre);
+		           
+		            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
+		            if (codAvaliadores != null) {
+		                for (String cod : codAvaliadores) {
+		                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+		                    if (u != null) {
+		                        avaliadores.add(u);
+		                    }
+		                }
+		            }
+		            if (documentosExigidos != null) {
+		                ArrayList<String> docs = new ArrayList<>();
+		                for(String documento : documentosExigidos){
+		                    docs.add(documento);
+		                }
+		                etapaBeans.setDocumentacaoExigida(docs);
+		            }
+		            etapaBeans.setAvaliadores(avaliadores);
+		            this.getSelecaoServiceIfc().setUsuario(usuario);
+		            
+		            int index=0;
+		            List<EtapaBeans> etapas = selecao.getEtapas();
+		            for(EtapaBeans etapaIterator : etapas) {
+		            	if(etapaIterator.getCodEtapa()==etapaBeans.getCodEtapa()) {
+		            		selecao.getEtapas().remove(etapaIterator);
+		            		selecao.getEtapas().add(index, etapaBeans);
+		            		break;
+		            	}
+		            	index++;
+		            }
+		            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+		            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" modificou a etapa "+etapa.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
+		            session.setAttribute("status", "success");
+		            session.setAttribute("mensagem", "Etapa atualizada com sucesso!");
+		            session.setAttribute("selecao", selecao);
+		            return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
 	            }
-	            etapaBeans.setTitulo(etapa.getTitulo());
-	            etapaBeans.setDescricao(etapa.getDescricao());
-	            long codPrerequisito = Long.parseLong(request.getParameter("prereq"));
-	            EtapaBeans pre = this.etapaServiceIfc.getEtapa(codPrerequisito);
-	            etapaBeans.setPrerequisito(pre);
-	            
-	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	            etapaBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
 	            List <EtapaBeans> subsequentes = selecao.getEtapas();
 	            Periodo novoP = (Periodo) etapaBeans.getPeriodo().toBusiness();
 	            for(EtapaBeans sub: subsequentes){
@@ -158,49 +200,29 @@ public class EditarEtapaController {
 	            		}
             		}
 	            }
-	            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
-	            if (codAvaliadores != null) {
-	                for (String cod : codAvaliadores) {
-	                    UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
-	                    if (u != null) {
-	                        avaliadores.add(u);
-	                    }
-	                }
-	            }
-	            if (documentosExigidos != null) {
-	                ArrayList<String> docs = new ArrayList<>();
-	                for(String documento : documentosExigidos){
-	                    docs.add(documento);
-	                }
-	                etapaBeans.setDocumentacaoExigida(docs);
-	            }
-	            etapaBeans.setAvaliadores(avaliadores);
-	            this.getSelecaoServiceIfc().setUsuario(usuario);
-	            
-	            int index=0;
-	            List<EtapaBeans> etapas = selecao.getEtapas();
-	            for(EtapaBeans etapaIterator : etapas) {
-	            	if(etapaIterator.getCodEtapa()==etapaBeans.getCodEtapa()) {
-	            		selecao.getEtapas().remove(etapaIterator);
-	            		selecao.getEtapas().add(index, etapaBeans);
-	            		break;
-	            	}
-	            	index++;
-	            }
-	            
-	            
-	            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-	            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" modificou a etapa "+etapa.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
-	            session.setAttribute("status", "success");
-	            session.setAttribute("mensagem", "Etapa atualizada com sucesso!");
-	            session.setAttribute("selecao", selecao);
-	            return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
             } else {
             	session.setAttribute("selecao", selecao); 
             	session.setAttribute("mensagem", "Etapa não pode ser atualizada! Pois ela já foi iniciada!");
                 session.setAttribute("status", "warning");
         		return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
             }
+            this.getSelecaoServiceIfc().setUsuario(usuario);
+            int index=0;
+            List<EtapaBeans> etapas = selecao.getEtapas();
+            for(EtapaBeans etapaIterator : etapas) {
+            	if(etapaIterator.getCodEtapa()==etapaBeans.getCodEtapa()) {
+            		selecao.getEtapas().remove(etapaIterator);
+            		selecao.getEtapas().add(index, etapaBeans);
+            		break;
+            	}
+            	index++;
+            }
+            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" modificou a etapa "+etapa.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
+            session.setAttribute("status", "success");
+            session.setAttribute("mensagem", "Etapa atualizada com sucesso!");
+            session.setAttribute("selecao", selecao);
+            return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
         } catch (IllegalAccessException e) {
         	e.printStackTrace();
         	model.addAttribute("mensagem", e.getMessage());
@@ -231,23 +253,16 @@ public class EditarEtapaController {
             EtapaBeans inscricaoBeans = this.getEtapaServiceIfc().getEtapa(codInscricao);
             if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || selecao.getResponsaveis().contains(usuario)) {
             	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            	if (LocalDate.parse(request.getParameter("dataInicio"), formatter).isAfter(LocalDate.now())) {
+            		throw new Exception("Após iniciada a etapa, apenas a data de término pode ser prorrogada.");
+            	}
 	            inscricaoBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
-           
 	            if (inscricaoBeans.getPeriodo().getInicio().isAfter(LocalDate.now()) || !selecao.isDivulgada()) {
 		            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
 		            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
 		            inscricaoBeans.setTitulo(inscricao.getTitulo());
 		            inscricaoBeans.setDescricao(inscricao.getDescricao());
-		            List <EtapaBeans> subsequentes = selecao.getEtapas();
-		            Periodo novoP = (Periodo) inscricaoBeans.getPeriodo().toBusiness();
-		            for(EtapaBeans sub: subsequentes){
-		            	if(sub.getCodEtapa()!=inscricao.getCodEtapa()) {
-		            		Periodo periodo =(Periodo) sub.getPeriodo().toBusiness();
-		            		if(periodo.isColide(novoP)) {
-		            			throw new IllegalCodeException("Periodo Inválido!");
-		            		}
-	            		}
-		            }
+		            
 		            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
 		            try {
 			            if (codAvaliadores != null) {
@@ -283,6 +298,16 @@ public class EditarEtapaController {
 		            session.setAttribute("status", "success");
 		            return "redirect:/selecao/" + selecao.getCodSelecao();
 	            }
+	            List <EtapaBeans> subsequentes = selecao.getEtapas();
+	            Periodo novoP = (Periodo) inscricaoBeans.getPeriodo().toBusiness();
+	            for (EtapaBeans sub: subsequentes) {
+	            	if (sub.getCodEtapa()!=inscricao.getCodEtapa()) {
+	            		Periodo periodo =(Periodo) sub.getPeriodo().toBusiness();
+	            		if (periodo.isColide(novoP)) {
+	            			throw new IllegalArgumentException("Periodo Inválido!");
+	            		}
+            		}
+	            }
 	            this.getSelecaoServiceIfc().setUsuario(usuario);
 	            selecao.setInscricao(inscricaoBeans);
 	            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
@@ -296,11 +321,11 @@ public class EditarEtapaController {
 	            session.setAttribute("status", "warning");
 	            return "redirect:/editarEtapa/" + selecao.getCodSelecao()+"/"+codInscricao;
             }
-        }catch (IllegalCodeException e) {
+        }catch (IllegalArgumentException e) {
         	session.setAttribute("mensagem", "Etapa não pode ser atualizada! Verifique o conflito entre periodos com outras etapas!");
             session.setAttribute("status", "warning");
     		return "redirect:/editarEtapa/" +codSelecao+"/"+codInscricao;
-    	}catch (IllegalAccessException e) {
+    	}catch (Exception e) {
     		session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
     		return "redirect:/editarEtapa/" +codSelecao+"/"+codInscricao;

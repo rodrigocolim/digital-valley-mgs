@@ -63,7 +63,7 @@
                         <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" required>${etapa.descricao}</textarea>
                         <div class="invalid-feedback">
                         </div>
-                        <br/>
+                        <br>
                         
                         <c:if test="${not empty selecao.inscricao}">
                         <fmt:parseDate value="${selecao.inscricao.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTerminoIncricao" type="date" />
@@ -86,8 +86,8 @@
                             <input type="hidden" value="0" name="prerequisito">
                         </c:if>
                         
-                        
-                        <label for="periodoInput">Período*</label>
+                        <br>
+                        <label for="periodoInput">Período da Etapa*</label>
                         <div id="sandbox-container">
                             <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
                                 <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" name="dataInicio" id="dataInicioInput" required/>
@@ -99,6 +99,30 @@
                             <small id="periodoHelp" class="form-text text-muted">Selecione uma data para início e término</small>
                         </div>
                         <br>
+                        
+                        <!--  -->
+                        <div class="card">
+                            <div class="card-header col-auto">
+                                <label for="periodoRecursoInput">Periodo Destinado Para Recurso</label>
+                            </div>
+		                    <div class="card-body">
+                             <div class="form-row">
+		                        <div id="sandbox-container">
+		                            <div class="input-daterange input-group col-lg-14 align-left" style="padding-left: 0px;" id="datepicker">
+		                                <input type="text" class="form-control text-left" placeholder="Digite a data de início" name="dataInicio" id="dataInicioInput" required/>
+		                                <span class="input-group-addon">até</span>
+		                                <input type="text" class="form-control text-left " placeholder="Digite a data de término" name="dataTermino" id="dataTerminoInput" required/>
+		                                <div class="invalid-feedback">
+		                                </div>
+		                            </div>
+		                            <small id="periodoHelp" class="form-text text-muted">Selecione uma data para início e término</small>
+		                        </div>
+	                        </div>
+	                        </div>
+                        </div>
+                        <br>
+                        
+                        <!--  -->
                         
                         <div class="card">
                             <div class="card-header col-auto">
@@ -161,6 +185,8 @@
                             </div>
                         </div>
                         <br>
+                        
+                        
                         <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
                             Cancelar
                         </a>

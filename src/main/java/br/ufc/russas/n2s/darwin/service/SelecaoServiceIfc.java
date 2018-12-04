@@ -106,4 +106,5 @@ public interface SelecaoServiceIfc extends ServiceIfc{
     List<ResultadoParticipanteSelecaoBeans> getResultado(SelecaoBeans selecoes)  throws IllegalAccessException;
 
 
+    List<SelecaoBeans> listaTodasSelecoesDoBanco();
 }

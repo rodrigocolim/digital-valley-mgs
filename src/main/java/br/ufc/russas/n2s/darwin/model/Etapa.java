@@ -101,6 +101,11 @@ public class Etapa implements Serializable {
 			@JoinColumn(name = "etapa", referencedColumnName = "codEtapa") }, inverseJoinColumns = {
 					@JoinColumn(name = "participante", referencedColumnName = "codParticipante") })
 	private List<Participante> participantes;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "recurso", referencedColumnName = "codRecurso")
+	private Recurso recurso;
+	
 
 	public long getCodEtapa() {
 		return codEtapa;
@@ -135,6 +140,16 @@ public class Etapa implements Serializable {
 			this.periodo = periodo;
 		} else {
 			throw new NullPointerException("Período não pode ser nulo!");
+		}
+	}
+	
+	public Recurso getRecurso() {
+		return this.recurso;
+	}
+
+	public void setPeriodo(Recurso recurso) {
+		if (periodo != null) {
+			this.recurso = recurso;
 		}
 	}
 

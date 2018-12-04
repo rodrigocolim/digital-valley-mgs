@@ -168,7 +168,7 @@
 			                            <select id="responsavelInput" class="form-control col-md-8" style="margin-left: 3px">
 			                                <option selected="selected" disabled="disabled">Selecione os responsáveis por esta seleção</option>
 			                                <c:forEach items="${usuarios}" var="usuario">
-			                                     <option id="responsavelOption-${usuario.nome}" value="${usuario.codUsuario}-${usuario.nome}">${usuario.nome}</option>
+			                                     <option id="responsavelOption-${usuario.codUsuario}" value="${usuario.codUsuario}">${usuario.nome}</option>
 			                                 </c:forEach>
 			                            </select>
 			                            &nbsp;&nbsp;
@@ -178,7 +178,7 @@
 			                        <ul class="list-group col-md-8" id="listaResponsaveis">
 			                        	<c:forEach items="${selecao.responsaveis}" var="responsavel" >
 			                                	<li class="list-group-item">
-			                                     <input type="hidden" name="codResponsaveis" value="${responsavel.codUsuario}-${responsavel.nome}" style="display: none;"/>
+			                                     <input type="hidden" name="codResponsaveis" value="${responsavel.codUsuario}" style="display: none;"/>
 			                                     ${responsavel.nome}
 			                                     <button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeResponsavel('${responsavel.nome}');">clear</button>
 			                                 </li>    
@@ -263,11 +263,11 @@
         document.getElementById("linkAnexoInput").value = "";
         atualizaAnexo();
       }
-      function atualizaAnexo(){
+      function atualizaAnexo() {
           var list = document.getElementById("listaAnexos");
           list.innerHTML = "";
-          for(i = 0;i < listaNomeAnexo.length;i++){
-            if(listaNomeAnexo[i] !== ""){
+          for (i = 0;i < listaNomeAnexo.length;i++) {
+            if (listaNomeAnexo[i] !== "") {
                 list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="listaNomeAnexo" value="'+listaNomeAnexo[i]+'" style="display: none;"> <input type="hidden" name="listaLinkAnexo" value="'+listaLinkAnexo[i]+'" style="display: none;"> <a href="'+listaLinkAnexo[i]+'" target="_blank">'+ listaNomeAnexo[i] +'</a><button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAnexo(\''+listaNomeAnexo[i]+'\')">clear</button></li>';
             }
           }
@@ -317,29 +317,28 @@
       }
       </script>
       <script>
-	    var listaResponsaveis = [];//${responsaveis};
+	    var listaCodResponsaveis = ${codResponsaveis};
+	    var listaNomeResponsaveis = ${nomeResponsaveis};
+	    var nomeResponsaveis = [];//${responsaveis};
 	    var codResponsaveis = [];
 	    var numResponsaveis = 0;
 	    
-	    
 	    $(document).ready(function() { 
-	    	for (i=0;i < listaResponsaveis.length;i++) {
-	    		var nomeResponsavel = listaResponsaveis[i].nome;
-	    		document.getElementById("responsavelOption-"+nomeResponsavel+"").disabled = "disabled";
-	    		codResponsaveis[i] = listaResponsaveis[i].nome.substring(0, responsavelInput.indexOf("-"));
+	    	for (i=0;i < listaCodResponsaveis.length;i++) {
+	    		document.getElementById("responsavelOption-"+listaCodResponsaveis[i]+"").disabled = "disabled";
+	    		codResponsaveis[i] = listaCodResponsaveis[i];
+	    		nomeResponsaveis[i] = listaNomeResponsaveis[i];
 	    		numResponsaveis++;
 	    	}
 	    });
-	    
 	    function adicionaResponsavel(){
-	      var responsavelInput = document.getElementById("responsavelInput").value;
-	      var nomeResponsavel= responsavelInput.substring(responsavelInput.indexOf("-") + 1, responsavelInput.lenght);
-	      var codResponsavel = responsavelInput.substring(0, responsavelInput.indexOf("-"));
+	      var codResponsavel = document.getElementById("responsavelInput").value;
+	      var nomeResponsavel = $("#responsavelOption-"+codResponsavel+"").text();
 	      if(nomeResponsavel !== ""){
-	          listaResponsaveis[numResponsaveis] = nomeResponsavel;
-	          codResponsaveis[numResponsaveis] = codResponsavel;
-	          document.getElementById("responsavelOption-"+nomeResponsavel+"").disabled = "disabled";
-	          numResponsaveis++;
+	    	  codResponsaveis[numResponsaveis] = Number(codResponsavel);
+	            nomeResponsaveis[numResponsaveis] = nomeResponsavel;
+	            document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "disabled";
+	            numResponsaveis++;
 	      }
 	      document.getElementById("responsavelInput").value = "";
 	      atualizaResponsaveis();
@@ -348,17 +347,17 @@
 	    function atualizaResponsaveis() {
 	        var list = document.getElementById("listaResponsaveis");
 	        list.innerHTML = "";
-	        for (i = 0;i < listaResponsaveis.length;i++) {
-	          if (listaResponsaveis[i] !== "") {
-	              list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codResponsaveis" value="'+codResponsaveis[i]+'" style="display: none;"> '+ listaResponsaveis[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeResponsavel(\''+listaResponsaveis[i]+'\')">clear</button></li>';
+	        for (i = 0;i < codResponsaveis.length;i++) {
+	          if (codResponsaveis[i] !== "") {
+	              list.innerHTML += '<li class="list-group-item"><input type="hidden" name="codResponsaveis" value="'+codResponsaveis[i]+'" style="display: none;"> '+ nomeResponsaveis[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeResponsavel(\''+codResponsaveis[i]+'\')">clear</button></li>';
 	          }
 	        }
 	    }
 	    function removeResponsavel(codResponsavel) {
-	        for (i = 0;i < listaResponsaveis.length;i++) {
-	            if (listaResponsaveis[i] === codResponsavel) {
+	    	codResponsavel = Number(codResponsavel);
+	        for (i = 0;i < codResponsaveis.length;i++) {
+	            if (codResponsaveis[i] === codResponsavel) {
 	                document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "";
-	                listaResponsaveis[i] = "";
 	                codResponsaveis[i] = "";
 	            }
 	        }

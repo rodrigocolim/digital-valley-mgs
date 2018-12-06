@@ -104,8 +104,8 @@ public class EditarEtapaController {
 	            model.addAttribute("tipo", "etapa");
 	        }
 	        
-	        List<Long> codAvaliadores = Collections.synchronizedList(new ArrayList<>());
-	        List<String> nomeAvaliadores = Collections.synchronizedList(new ArrayList<>());
+	        List<Long> codAvaliadores = Collections.synchronizedList(new ArrayList<Long>());
+	        List<String> nomeAvaliadores = Collections.synchronizedList(new ArrayList<String>());
 	        
 	        for (UsuarioBeans avaliador : etapaBeans.getAvaliadores()) {
 	        	codAvaliadores.add(avaliador.getCodUsuario());

@@ -364,70 +364,88 @@ public class Etapa implements Serializable {
 		List<Participante> aprovados = Collections.synchronizedList(new ArrayList<Participante>());
 		if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO
 				|| getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
-			for (Object[] p : getResultado()) {
-				if (p[3] != null && ((Avaliacao) p[3]).isAprovado()) {
-					aprovados.add((Participante) p[0]);
+			for (ResultadoParticipanteEtapa p : getResultado()) {
+				if (!p.getAvaliacoes().isEmpty() && p.getAvaliacoes().get(0).isAprovado()) {
+					aprovados.add(p.getParticipante());
 				}
 			}
 		} else if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
-			for (Object[] participante : getResultado()) {
-				if (((float) participante[3]) >= getNotaMinima()) {
-					aprovados.add((Participante) participante[0]);
+			for (ResultadoParticipanteEtapa participante : getResultado()) {
+				if (participante.getMedia() >= getNotaMinima()) {
+					aprovados.add(participante.getParticipante());
 				}
 			}
 		}
 		return aprovados;
 	}
 
-	public List<Object[]> getResultado() {
-		List<Object[]> resultado = Collections.synchronizedList(new ArrayList<Object[]>());
+	public List<ResultadoParticipanteEtapa> getResultado() {
+		List<ResultadoParticipanteEtapa> resultado = Collections.synchronizedList(new ArrayList<>());
 		if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO
 				|| getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
+			
 			for (Participante p : listParticipantes()) {
-				String situacao = "NÃO AVALIADO";
+				ResultadoParticipanteEtapa r = new ResultadoParticipanteEtapa();
+				r.setParticipante(p);
+				r.setAvaliada(false);
 				Avaliacao avaliacao = null;
 				for (Avaliacao a : getAvaliacoes()) {
 					if (a.getParticipante().equals(p)) {
 						avaliacao = a;
-						situacao = "AVALIADO";
+						r.setAvaliada(true);
+						break;
 					}		
 				}
-				String status = "Reprovado";
+				r.setAprovado(false);
 				if (avaliacao != null && avaliacao.isAprovado()) {
-					status = "Aprovado";
+					r.setAprovado(true);
+					r.getAvaliacoes().add(avaliacao);
 				}
-				Object[] aprovado = {p, situacao, status, avaliacao};
-				resultado.add(aprovado);
+				resultado.add(r);
 
 			}
 		} else if (getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
 			for (Participante participante : listParticipantes()) {
+				ResultadoParticipanteEtapa r = new ResultadoParticipanteEtapa();
+				r.setParticipante(participante);
 				float media = 0;
 				float soma = 0;
 				int count = 0;
-				String situacao = "NÃO AVALIADO";
+				r.setAvaliada(false);
 				for (Avaliacao avaliacao : getAvaliacoes()) {
 					if (avaliacao.getParticipante().equals(participante)) {
 						soma += avaliacao.getNota();
-						situacao = "AVALIADO";
+						r.setAvaliada(true);
+						r.getAvaliacoes().add(avaliacao);
 						count++;
 					}
 				}
 				media = soma / count;
+				r.setMedia(media);
 				String status = "Aprovado";
+				r.setAprovado(true);
 				if (media < getNotaMinima()) {
-					status = "Reprovado";
+					r.setAprovado(false);
 				}
-				Object[] aprovado = {participante, situacao, status, media};
-				resultado.add(aprovado);
+				resultado.add(r);
 			}
 		}
 		return resultado;
 	}
 
-	public Object[] getSituacao(UsuarioDarwin usuario) {
-		for (Object[] participante : getResultado()) {
-			if (((Participante) participante[0]).getCandidato().equals(usuario)) {
+	public List<ResultadoParticipanteEtapa> getRecursos() {
+		List<ResultadoParticipanteEtapa> recursos = Collections.synchronizedList(new ArrayList<>());
+		for (ResultadoParticipanteEtapa p : getResultado()) {
+			if (!p.isAvaliada() || !p.isAprovado()) {
+				recursos.add(p);
+			}
+		}
+		return recursos;
+	}
+	
+	public ResultadoParticipanteEtapa getSituacao(UsuarioDarwin usuario) {
+		for (ResultadoParticipanteEtapa participante : getResultado()) {
+			if (participante.getParticipante().getCandidato().equals(usuario)) {
 				return participante;
 			}
 		}

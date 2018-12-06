@@ -414,7 +414,7 @@ public class Selecao {
     	if (ultima.getPeriodo().getTermino().isBefore(LocalDate.now())) {
     		//{participante, situacao, status, avaliacao}
     		//{participante, situacao, status, media}
-    		List<Object[]> resultadoEtapaFinal = ultima.getResultado();
+    		List<ResultadoParticipanteEtapa> resultadoEtapaFinal = ultima.getResultado();
     		List<ResultadoParticipanteSelecao> resultadoSelecao = Collections.synchronizedList(new ArrayList<ResultadoParticipanteSelecao>());
     		List<Etapa> porNotas = this.getEtapas().stream()
                     .filter( EtapaPredicates.isNota())
@@ -432,8 +432,8 @@ public class Selecao {
 				porNotas.set(i, aux);
     		}
     		for (int i = 0;i < resultadoEtapaFinal.size();i++) {
-    			Object[] r = resultadoEtapaFinal.get(i);
-    			Participante p = (Participante) r[0];
+    			ResultadoParticipanteEtapa r = resultadoEtapaFinal.get(i);
+    			Participante p = r.getParticipante();
     			float sumGeral = 0;
     			float contadorGeral = 0;
     			ResultadoParticipanteSelecao resultadoParticipanteFinal = new ResultadoParticipanteSelecao();
@@ -441,10 +441,10 @@ public class Selecao {
     			for (int j = 0;j < porNotas.size();j++) {
     				Etapa etapa = porNotas.get(j);
     				for (int k = 0;k < etapa.getResultado().size();k++) {
-    					Object[] resultadoParticipante = etapa.getResultado().get(k);
-    					if (p.equals((Participante) resultadoParticipante[0])) {
-    						resultadoParticipanteFinal.getNotasEtapas().add((float) resultadoParticipante[3]);
-    						sumGeral += (float) resultadoParticipante[3] * etapa.getPesoNota();
+    					ResultadoParticipanteEtapa resultadoParticipante = etapa.getResultado().get(k);
+    					if (p.equals(resultadoParticipante.getParticipante())) {
+    						resultadoParticipanteFinal.getNotasEtapas().add(resultadoParticipante.getMedia());
+    						sumGeral += (float) resultadoParticipante.getMedia() * etapa.getPesoNota();
     						break;
     					}
     				}

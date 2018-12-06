@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
+import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteEtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteSelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
@@ -86,7 +87,7 @@ public class SelecaoController {
             request.getSession().setAttribute("selecao", selecao);
             return "selecao";
         } else if(selecao.isDivulgada()) {
-            HashMap<EtapaBeans, Object[]> situacao = new HashMap<>();
+            HashMap<EtapaBeans, ResultadoParticipanteEtapaBeans> situacao = new HashMap<>();
             int i = 0;
             Etapa etapabusiness = (Etapa) etapaServiceIfc.getEtapa(selecao.getInscricao().getCodEtapa()).toBusiness();
             selecao.getInscricao().getAvaliacoes().removeAll(selecao.getInscricao().getAvaliacoes());

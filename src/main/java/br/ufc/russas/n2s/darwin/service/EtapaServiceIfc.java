@@ -9,6 +9,7 @@ import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
+import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteEtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import java.util.List;
@@ -29,11 +30,12 @@ public interface EtapaServiceIfc extends ServiceIfc{
     ParticipanteBeans getParticipante(EtapaBeans etapa, UsuarioBeans usuario);
     void anexaDocumentacao(EtapaBeans etapa, DocumentacaoBeans documentacao) throws IllegalAccessException;
     void avalia(EtapaBeans etapa, AvaliacaoBeans avaliacao) throws IllegalAccessException;
-    List<Object[]> getParticipantes(EtapaBeans etapa);
-    List<Object[]> getResultado(EtapaBeans etapa);
+    List<ResultadoParticipanteEtapaBeans> getParticipantes(EtapaBeans etapa);
+    List<ResultadoParticipanteEtapaBeans> getResultado(EtapaBeans etapa);
+    List<ResultadoParticipanteEtapaBeans> getRecursos(EtapaBeans etapa);
     SelecaoBeans getSelecao(EtapaBeans etapa);
     void participa(EtapaBeans inscricao, ParticipanteBeans participante) throws IllegalAccessException;
     void participa(EtapaBeans inscricao, ParticipanteBeans participante, DocumentacaoBeans documentacao) throws IllegalAccessException; 
-    Object[] getSituacao(EtapaBeans etapa, UsuarioBeans usuario);
+    ResultadoParticipanteEtapaBeans getSituacao(EtapaBeans etapa, UsuarioBeans usuario);
     List<EtapaBeans> ordenaEtapasPorData(List<EtapaBeans> etapas);
 }

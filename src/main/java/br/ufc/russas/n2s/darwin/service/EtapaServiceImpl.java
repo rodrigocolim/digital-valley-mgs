@@ -9,6 +9,7 @@ import br.ufc.russas.n2s.darwin.beans.AvaliacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
+import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteEtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.DocumentacaoDAOIfc;
@@ -18,6 +19,7 @@ import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.EtapaProxy;
 import br.ufc.russas.n2s.darwin.model.Participante;
+import br.ufc.russas.n2s.darwin.model.ResultadoParticipanteEtapa;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
@@ -165,11 +167,13 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     }
 
     @Override
-    public List<Object[]> getParticipantes(EtapaBeans etapa) {     
-        List<Object[]> p = null;        
+    public List<ResultadoParticipanteEtapaBeans> getParticipantes(EtapaBeans etapa) {     
+        List<ResultadoParticipanteEtapaBeans> participantes = Collections.synchronizedList(new ArrayList<>());        
         Etapa e = (Etapa) etapa.toBusiness();
-        p = e.getResultado();
-        return p;
+        for (ResultadoParticipanteEtapa r : e.getResultado()) {
+        	participantes.add((ResultadoParticipanteEtapaBeans) new ResultadoParticipanteEtapaBeans().toBeans(r));
+        }
+        return participantes;
     }
 
     @Override
@@ -219,27 +223,34 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
 
 
     @Override
-    public Object[] getSituacao(EtapaBeans etapa, UsuarioBeans usuario) {
+    public ResultadoParticipanteEtapaBeans getSituacao(EtapaBeans etapa, UsuarioBeans usuario) {
         Etapa e = (Etapa) etapa.toBusiness();
         UsuarioDarwin u = (UsuarioDarwin) usuario.toBusiness();
-        Object[] situacao = e.getSituacao(u);
+        ResultadoParticipanteEtapa situacao = e.getSituacao(u);
         if (situacao != null) {
-        	Participante s1 = (Participante)situacao[0];
-            situacao[0] = (ParticipanteBeans) new ParticipanteBeans().toBeans(s1);
+        	return (ResultadoParticipanteEtapaBeans) new ResultadoParticipanteEtapaBeans().toBeans(situacao);
         }
-        return situacao;
+        return null;
     }
 
 	@Override
-	public List<Object[]> getResultado(EtapaBeans etapa) {
+	public List<ResultadoParticipanteEtapaBeans> getResultado(EtapaBeans etapa) {
+		List<ResultadoParticipanteEtapaBeans> resultado = Collections.synchronizedList(new ArrayList<>());    
 		Etapa e = (Etapa) etapa.toBusiness();
-		List<Object[]> resultado = e.getResultado();
-		for (int i = 0;i < resultado.size();i++) {
-			Object[] r = resultado.get(i);
-			r[0] =  (ParticipanteBeans) (new ParticipanteBeans().toBeans((Participante) r[0]));
-			resultado.set(i, r);
-		}
-	   return resultado;
+        for (ResultadoParticipanteEtapa r : e.getResultado()) {
+        	resultado.add((ResultadoParticipanteEtapaBeans) new ResultadoParticipanteEtapaBeans().toBeans(r));
+        }
+        return resultado;
+	}
+
+	@Override
+	public List<ResultadoParticipanteEtapaBeans> getRecursos(EtapaBeans etapa) {
+		List<ResultadoParticipanteEtapaBeans> recursos = Collections.synchronizedList(new ArrayList<>());    
+		Etapa e = (Etapa) etapa.toBusiness();
+        for (ResultadoParticipanteEtapa r : e.getRecursos()) {
+        	recursos.add((ResultadoParticipanteEtapaBeans) new ResultadoParticipanteEtapaBeans().toBeans(r));
+        }
+        return recursos;
 	}
     
 

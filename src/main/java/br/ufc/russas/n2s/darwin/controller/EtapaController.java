@@ -106,5 +106,12 @@ public class EtapaController {
 
     }
 
+    @RequestMapping(value = "/{codEtapa}/recursos", method = RequestMethod.GET)
+    public String recursos(@PathVariable long codEtapa, Model model) {
+    	
+    	EtapaBeans etapa = this.getEtapaServiceIfc().getEtapa(codEtapa);
+    	
+    	return "recursos";
+    }
 
 }

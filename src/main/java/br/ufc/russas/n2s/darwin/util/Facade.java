@@ -24,6 +24,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
+import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteEtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteSelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import util.Constantes;
@@ -32,7 +33,7 @@ import util.Constantes;
 
 public class Facade {
 
-	public static String gerarPDFDosResultados(EtapaBeans etapa, List<Object[]> resultado, String nomeSelecao) throws DocumentException, MalformedURLException, IOException {
+	public static String gerarPDFDosResultados(EtapaBeans etapa, List<ResultadoParticipanteEtapaBeans> resultado, String nomeSelecao) throws DocumentException, MalformedURLException, IOException {
 
 			Document document = new Document();
 			String name = Constantes.getDocumentsDir()+File.separator+"Seleção_"+nomeSelecao+File.separator+
@@ -76,10 +77,14 @@ public class Facade {
             table.addCell(coluna2);
             
         	for (int i=0;i<resultado.size();i++) {
-				Object[] participante = resultado.get(i);
-				table.addCell(((ParticipanteBeans) participante[0]).getCandidato().getNome().toUpperCase());
-				
-				PdfPCell resu  = new PdfPCell(new Paragraph(participante[2].toString().toLowerCase()));
+				ResultadoParticipanteEtapaBeans participante = resultado.get(i);
+				table.addCell(participante.getParticipante().getCandidato().getNome().toUpperCase());
+				PdfPCell resu  = null;
+				if (participante.isAprovado()) {
+					resu  = new PdfPCell(new Paragraph("APROVADO".toString().toLowerCase()));
+				} else  {
+					resu  = new PdfPCell(new Paragraph("REPROVADO".toString().toLowerCase()));
+				}
 				resu.setHorizontalAlignment(Element.ALIGN_CENTER);
 				table.addCell(resu);
 			}

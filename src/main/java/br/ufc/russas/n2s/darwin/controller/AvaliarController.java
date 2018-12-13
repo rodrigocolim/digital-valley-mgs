@@ -16,6 +16,7 @@ import br.ufc.russas.n2s.darwin.model.EnumEstadoAvaliacao;
 import br.ufc.russas.n2s.darwin.model.Log;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
+import br.ufc.russas.n2s.darwin.service.AvaliacaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.ParticipanteServiceIfc;
@@ -23,9 +24,11 @@ import br.ufc.russas.n2s.darwin.service.ParticipanteServiceIfc;
 import java.time.LocalDate;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,12 +44,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AvaliarController {
     
     private EtapaServiceIfc etapaServiceIfc;
+    private AvaliacaoServiceIfc avaliacaoServiceIfc;
     private ParticipanteServiceIfc participanteServiceIfc;
     private LogServiceIfc logServiceIfc;
     
     @Autowired(required = true)
     public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc") EtapaServiceIfc etapaServiceIfc) {
         this.etapaServiceIfc = etapaServiceIfc;
+    }
+    
+    @Autowired(required = true)
+    public void setAvaliacaoServiceIfc(@Qualifier("avaliacaoServiceIfc") AvaliacaoServiceIfc avaliacaoServiceIfc) {
+        this.avaliacaoServiceIfc = avaliacaoServiceIfc;
     }
     
     @Autowired(required = true)
@@ -213,4 +222,23 @@ public class AvaliarController {
         }
     }
     
+    @RequestMapping(value = "/recurso/etapa/{codEtapa}/avaliacao/{codAvaliacao}", method = RequestMethod.POST)
+    public String avaliarRecurso(@PathVariable long codAvaliacao, @PathVariable long codEtapa, HttpServletRequest request, HttpServletResponse response) {
+    	EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
+    	AvaliacaoBeans avaliacao = avaliacaoServiceIfc.getAvaliacao(codAvaliacao);
+    	
+    	if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
+    		float novaNota = Float.parseFloat(request.getParameter("nota"));
+    		avaliacao.setNota(novaNota);
+    		avaliacao.setAprovado(novaNota >= etapa.getNotaMinima());
+    	} else {
+    		boolean novoEstado = (request.getParameter("estado") != null && request.getParameter("estado").equals("1"));
+    		avaliacao.setAprovado(novoEstado);
+    	}
+    	
+    	avaliacaoServiceIfc.atualizarAvaliacao(avaliacao);
+    	
+    	return "redirect: /Darwin/recursoEtapa/"+etapa.getCodEtapa()+"/"+avaliacao.getParticipante().getCodParticipante();
+    }
+
 }

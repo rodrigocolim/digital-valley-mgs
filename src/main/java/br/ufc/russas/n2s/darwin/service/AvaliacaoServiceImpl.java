@@ -75,4 +75,10 @@ public class AvaliacaoServiceImpl implements AvaliacaoServiceIfc {
         return (AvaliacaoBeans) new AvaliacaoBeans().toBeans(this.getAvaliacaoDAOIfc().getAvaliacao(avl));
     }
 
+	@Override
+	public AvaliacaoBeans atualizarAvaliacao(AvaliacaoBeans avaliacao) {
+		Avaliacao a = (Avaliacao) avaliacao.toBusiness();
+		return (AvaliacaoBeans) new AvaliacaoBeans().toBeans(avaliacaoDAOIfc.atualizaAvaliacao(a));
+	}
+
 }

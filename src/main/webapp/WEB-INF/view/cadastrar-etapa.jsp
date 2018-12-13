@@ -103,19 +103,19 @@
                         <!--  -->
                         <div class="card">
                             <div class="card-header col-auto">
-                                <label for="periodoRecursoInput">Periodo Destinado Para Recurso</label>
+                                <label for="periodoRecursoInput">Período Destinado Para Recurso (caso tenha)</label>
                             </div>
 		                    <div class="card-body">
                              <div class="form-row">
-		                        <div id="sandbox-container">
-		                            <div class="input-daterange input-group col-lg-14 align-left" style="padding-left: 0px;" id="datepicker">
-		                                <input type="text" class="form-control text-left" placeholder="Digite a data de início" name="dataInicio" id="dataInicioInput" required/>
+		                        <div id="sandbox-container" style="width: 100%">
+		                            <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
+		                                <input type="text" class="form-control text-left" placeholder="Digite a data de início" name="dataInicioRecurso" id="dataInicioInput" required/>
 		                                <span class="input-group-addon">até</span>
-		                                <input type="text" class="form-control text-left " placeholder="Digite a data de término" name="dataTermino" id="dataTerminoInput" required/>
+		                                <input type="text" class="form-control text-left " placeholder="Digite a data de término" name="dataTerminoRecurso" id="dataTerminoInput" required/>
 		                                <div class="invalid-feedback">
 		                                </div>
 		                            </div>
-		                            <small id="periodoHelp" class="form-text text-muted">Selecione uma data para início e término</small>
+		                            <small id="periodoHelp" class="form-text text-muted">Caso esta etapa tenha a possibilidade de recurso, seleciona o período destinado para isso.</small>
 		                        </div>
 	                        </div>
 	                        </div>

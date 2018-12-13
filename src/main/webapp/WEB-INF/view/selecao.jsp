@@ -163,7 +163,7 @@
                                         <h2 class="timeline-title text-uppercase">${selecao.inscricao.titulo}</h2>
                                         <p>
                                             <small class="text-muted">
-                                                <i class="glyphicon glyphicon-time"></i>                                             
+                                               <i class="far fa-calendar-alt"></i>                                             
                                                 <fmt:parseDate value="${selecao.inscricao.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicio" type="date" />
                                                 <fmt:parseDate value="${selecao.inscricao.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
                                                 <fmt:formatDate value="${parseDataInicio}"  pattern="dd/MMMM/yyyy" var="dataInicio" type="date"/>
@@ -185,6 +185,17 @@
                                                 </c:forEach>
                                             </ul>
                                         </c:if>
+                                        <c:if test="${not empty selecao.inscricao.recurso}">
+                                            <b>PERÍODO PARA RECURSO: </b> 
+                                           		<fmt:parseDate value="${selecao.inscricao.recurso.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicioR" type="date" />
+                                                <fmt:parseDate value="${selecao.inscricao.recurso.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTerminoR" type="date" />
+                                                <fmt:formatDate value="${parseDataInicioR}"  pattern="dd/MMMM/yyyy" var="dataInicioRecurso" type="date"/>
+                                                <fmt:formatDate value="${parseDataTerminoR}"  pattern="dd/MMMM/yyyy" var="dataTerminoRecurso" type="date"/>
+                                                <b>${fn:replace(dataInicioRecurso, "/", " de ")}</b> 
+                                                até 
+                                                <b>${fn:replace(dataTerminoRecurso, "/", " de ")}</b>
+                                        </c:if>
+                                                                                
                                         <hr>
                                         <c:if test="${not (isParticipante)}">
 	                                        <c:if test="${(estadoInscricao == 2) and (not isResponsavel) and (not fn:contains(permissoes, 'ADMINISTRADOR')) and (not fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
@@ -250,7 +261,7 @@
 										</c:if>
                                         <c:if test="${(estadoInscricao == 3) and (selecao.inscricao.divulgadoResultado) and (not empty selecao.inscricao.avaliacoes)}">
 	                                        <a href="/Darwin/resultadoEtapa/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-	                                            Ver Resultado
+	                                            <i class="fas fa-eye"></i> Ver Resultado
 	                                        </a>
                                         </c:if> 
                                       
@@ -272,7 +283,7 @@
                                     <h2 class="timeline-title text-uppercase">${etapa.titulo}</h2>
                                     <p>
                                         <small class="text-muted">
-                                            <i class="glyphicon glyphicon-time"></i>                                             
+                                            <i class="far fa-calendar-alt"></i>                                             
                                             <fmt:parseDate value="${etapa.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicio" type="date" />
                                             <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
                                             <fmt:formatDate value="${parseDataInicio}"  pattern="dd/MMMM/yyyy" var="dataInicio" type="date"/>
@@ -296,6 +307,16 @@
                                         </c:forEach>
                                     </ul>
                                     </c:if>
+                                        <c:if test="${not empty etapa.recurso}">
+                                            <b>PERÍODO PARA RECURSO: </b> 
+                                           		<fmt:parseDate value="${etapa.recurso.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicio" type="date" />
+                                                <fmt:parseDate value="${etapa.recurso.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
+                                                <fmt:formatDate value="${parseDataInicio}"  pattern="dd/MMMM/yyyy" var="dataInicioRecurso" type="date"/>
+                                                <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MMMM/yyyy" var="dataTerminoRecurso" type="date"/>
+                                                <b>${fn:replace(dataInicioRecurso, "/", " de ")}</b> 
+                                                até 
+                                                <b>${fn:replace(dataTerminoRecurso, "/", " de ")}</b>
+                                        </c:if>
                                     <hr>
                                     <c:if test="${(not empty etapa.documentacaoExigida) and (estado == 2) and (fn:contains(classificados[etapa.codEtapa], sessionScope.usuarioDarwin)) }">
                                         <a href="/Darwin/participarEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
@@ -336,7 +357,7 @@
 					                   <!-- remover etapa -->
                                     <c:if test="${((estado == 2) or (estado == 3)) and (not etapa.divulgadoResultado) and (fn:contains(etapa.avaliadores, sessionScope.usuarioDarwin))}">
                                         <a href="/Darwin/avaliar/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-                                            Avaliar
+                                            <i class="fas fa-clipboard-check"></i> Avaliar
                                         </a>
                                     </c:if>
                                     <c:if test="${(estado == 3) and (!etapa.divulgadoResultado) and (not empty etapa.avaliacoes) and ((fn:contains(permissoes, 'ADMINISTRADOR')) or (isResponsavel))}">

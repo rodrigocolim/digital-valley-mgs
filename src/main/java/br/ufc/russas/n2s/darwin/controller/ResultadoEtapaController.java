@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -52,17 +54,23 @@ public class ResultadoEtapaController {
         this.usuarioServiceIfc = usuarioServiceIfc;
     }
 	@RequestMapping(value = "/{codEtapa}", method = RequestMethod.GET)
-    public String resultadoDaEtapa(@PathVariable long codEtapa, Model model){
+    public String resultadoDaEtapa(@PathVariable long codEtapa, Model model, HttpServletRequest request){
+		HttpSession session = request.getSession();
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         EtapaBeans etapa  = etapaServiceIfc.getEtapa(codEtapa);
         model.addAttribute("participantesEtapa", etapaServiceIfc.getResultado(etapa));
         model.addAttribute("etapa", etapa);
+        SelecaoBeans selecao = etapaServiceIfc.getSelecao(etapa);
+        if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+        	model.addAttribute("isResponsavel", true);
+        }
         return "/resultadoEtapa";
     }
 	@RequestMapping(value = "/{codEtapa}/imprimir", method = RequestMethod.GET)
-    public String imprimiresultadoDaEtapa(@PathVariable long codEtapa, Model model, HttpServletRequest request, HttpServletResponse response){
+    public String imprimiresultadoDaEtapa(@PathVariable long codEtapa, Model model, HttpServletRequest request, HttpServletResponse response) {
         EtapaBeans etapa  = etapaServiceIfc.getEtapa(codEtapa);
         try {
-	        String caminho = Facade.gerarPDFDosResultados(etapa, etapaServiceIfc.getResultado(etapa), ((SelecaoBeans)request.getSession().getAttribute("selecao")).getTitulo());
+	        String caminho = Facade.gerarPDFDosResultados(etapa, etapaServiceIfc.getResultado(etapa), ((SelecaoBeans)request.getSession().getAttribute("selecao")));
 	        File file = new File(caminho);
 	        response.setContentType("application/pdf");
 	        response.addHeader("Content-Disposition", "attachment; filename=" + file.getName()+".pdf");

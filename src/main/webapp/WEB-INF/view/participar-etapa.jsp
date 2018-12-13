@@ -70,8 +70,12 @@
                         <a href="/Darwin/selecao/${selecao.codSelecao}" class="btn btn-secondary btn-sm">
                             Cancelar
                         </a>
-                        <input type="button" value="Enviar" id="enviar" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#participarEtapa" >
-                        
+                        <c:if test="${empty etapa.documentacaoExigida}">
+                        	<input type="button" value="Confirmar" id="enviar" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#participarEtapa" >
+                        </c:if>
+                        <c:if test="${not empty etapa.documentacaoExigida}">
+                        	<input type="button" value="Enviar" id="enviar" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#participarEtapa" >
+                        </c:if>
                         <!-- Modal -->
                         <div class="modal fade" id="participarEtapa" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">

@@ -32,6 +32,8 @@ import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.Log;
+import br.ufc.russas.n2s.darwin.model.Periodo;
+import br.ufc.russas.n2s.darwin.model.Recurso;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
@@ -117,6 +119,15 @@ public class CadastrarEtapaController {
 	            etapa.setEstado(EnumEstadoEtapa.ESPERA);
 	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	            etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+	            
+	            if (request.getParameter("dataInicioRecurso")!= null && request.getParameter("dataTerminoRecurso")!= null ) {
+	            	Recurso recurso = new Recurso();
+	            	PeriodoBeans pb =new PeriodoBeans(0,LocalDate.parse(request.getParameter("dataInicioRecurso"), formatter), LocalDate.parse(request.getParameter("dataTerminoRecurso"), formatter));
+	            	recurso.setPeriodo((Periodo) pb.toBusiness());
+	            	etapa.setRecurso(recurso);
+	            }
+	            
+	            
 	            if (etapa.getPeriodo().getInicio().isBefore(LocalDate.now())) {
 	            	throw new IllegalArgumentException("A data selecionada para o inicio da atividade já passou!");
 	            }
@@ -202,6 +213,14 @@ public class CadastrarEtapaController {
             etapa.setEstado(EnumEstadoEtapa.ESPERA);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+            if (request.getParameter("dataInicioRecurso")!= null && request.getParameter("dataTerminoRecurso")!= null ) {
+            	Recurso recurso = new Recurso();
+            	PeriodoBeans pb =new PeriodoBeans(0,LocalDate.parse(request.getParameter("dataInicioRecurso"), formatter), LocalDate.parse(request.getParameter("dataTerminoRecurso"), formatter));
+            	recurso.setPeriodo((Periodo) pb.toBusiness());
+            	etapa.setRecurso(recurso);
+            }
+            
+            
             ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
             if (codAvaliadores != null) {
                 for (String cod : codAvaliadores) {

@@ -1,7 +1,6 @@
 package br.ufc.russas.n2s.darwin.util;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -14,7 +13,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
@@ -32,11 +30,11 @@ import util.Constantes;
 
 public class Facade {
 
-	public static String gerarPDFDosResultados(EtapaBeans etapa, List<Object[]> resultado, String nomeSelecao) throws DocumentException, MalformedURLException, IOException {
+	public static String gerarPDFDosResultados(EtapaBeans etapa, List<Object[]> resultado, SelecaoBeans selecao) throws DocumentException, MalformedURLException, IOException, Exception {
 
 			Document document = new Document();
-			String name = Constantes.getDocumentsDir()+File.separator+"Seleção_"+nomeSelecao+File.separator+
-					"RESULTADO_"+nomeSelecao+"_ETAPA"+"_"+etapa.getTitulo()+LocalDateTime.now().format(DateTimeFormatter.ofPattern("ddMMyyyyhhmmss")) +".pdf";
+			String name = Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator+
+					"RESULTADO_"+selecao.getCodSelecao()+"_ETAPA"+"_"+etapa.getCodEtapa()+"_"+LocalDateTime.now().format(DateTimeFormatter.ofPattern("ddMMyyyyhhmmss")) +".pdf";
 			PdfWriter.getInstance(document, new FileOutputStream(name));
 			document.open();
 			Image image = Image.getInstance(Constantes.getLOGO_UFC());
@@ -46,7 +44,7 @@ public class Facade {
 			document.add(image);
 			Paragraph cabecalho = new Paragraph(
 					"UNIVERSIDADE FEDERAL DO CEARÁ\nCAMPUS DA UFC DE RUSSAS" + "\n\n"
-							+ "Resultado da etapa de "+ etapa.getTitulo()+" do edital "+nomeSelecao+"\n\n\n");
+							+ "Resultado da etapa de "+ etapa.getTitulo()+" do edital "+selecao.getTitulo()+"\n\n\n");
 			cabecalho.setAlignment(Paragraph.ALIGN_CENTER);
 			document.add(cabecalho);
 			
@@ -65,18 +63,36 @@ public class Facade {
             f.setSize(10);
             PdfPTable table = new PdfPTable(2);
 
-            PdfPCell coluna1 = new PdfPCell(new Paragraph("NOME", f));
-            coluna1.setBackgroundColor(BaseColor.LIGHT_GRAY);
-            coluna1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            PdfPCell coluna2 = new PdfPCell(new Paragraph("RESULTADO", f));
-            coluna2.setBackgroundColor(BaseColor.LIGHT_GRAY);
-            coluna2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table.setWidths(new int[]{450, 200});
-            table.addCell(coluna1);
-            table.addCell(coluna2);
+            PdfPCell cpf = new PdfPCell(new Paragraph("CPF", f));
+            cpf.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            cpf.setHorizontalAlignment(Element.ALIGN_CENTER);
+            
+            PdfPCell nome = new PdfPCell(new Paragraph("NOME", f));
+            nome.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            nome.setHorizontalAlignment(Element.ALIGN_CENTER);
+            PdfPCell resultad = new PdfPCell(new Paragraph("RESULTADO", f));
+            resultad.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            resultad.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.setWidths(new int[]{180,400, 160});
+            table.addCell(cpf);
+            table.addCell(nome);
+            table.addCell(resultad);
             
         	for (int i=0;i<resultado.size();i++) {
-				Object[] participante = resultado.get(i);
+        		Object[] participante = resultado.get(i);
+        		String s = ((ParticipanteBeans) participante[0]).getCandidato().getCPF();
+				String nova = "";
+				for (int j=0;j<s.length();j++) {
+					if (j >2 && j <8) {
+						nova +="*";
+					} else {
+						nova += s.charAt(j);
+					}
+				}
+				PdfPCell cpfCelu = new PdfPCell(new Paragraph(nova,f));
+				table.addCell(cpfCelu);
+        		
+			//	Object[] participante = resultado.get(i);
 				table.addCell(((ParticipanteBeans) participante[0]).getCandidato().getNome().toUpperCase());
 				
 				PdfPCell resu  = new PdfPCell(new Paragraph(participante[2].toString().toLowerCase()));

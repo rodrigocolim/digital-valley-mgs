@@ -241,6 +241,19 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
 		}
 	   return resultado;
 	}
+	
+	@Override
+	public List<AvaliacaoBeans> getAvaliacoesParticipante(ParticipanteBeans participante, long codEtapa) {
+		EtapaBeans eb = this.getEtapa(codEtapa);
+		List<AvaliacaoBeans> lista = eb.getAvaliacoes();
+		List<AvaliacaoBeans> listaAvaliacoes = new ArrayList<>(); 
+		for (AvaliacaoBeans a : lista) {
+			if (a.getParticipante().getCodParticipante() == participante.getCodParticipante()) {
+				listaAvaliacoes.add(a);
+			}
+		}
+		return listaAvaliacoes;
+	}
     
 
 }

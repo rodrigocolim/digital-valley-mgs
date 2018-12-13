@@ -5,19 +5,20 @@
  */
 package br.ufc.russas.n2s.darwin.beans;
 
-import br.ufc.russas.n2s.darwin.model.Avaliacao;
-import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
-import br.ufc.russas.n2s.darwin.model.Documentacao;
-import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
-import br.ufc.russas.n2s.darwin.model.Etapa;
-import br.ufc.russas.n2s.darwin.model.Participante;
-import br.ufc.russas.n2s.darwin.model.Periodo;
-import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import br.ufc.russas.n2s.darwin.model.Avaliacao;
+import br.ufc.russas.n2s.darwin.model.Documentacao;
+import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
+import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
+import br.ufc.russas.n2s.darwin.model.Etapa;
+import br.ufc.russas.n2s.darwin.model.Participante;
+import br.ufc.russas.n2s.darwin.model.Periodo;
+import br.ufc.russas.n2s.darwin.model.Recurso;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 
 /**
  *
@@ -45,6 +46,7 @@ public class EtapaBeans implements Beans, Serializable {
 	private boolean criterioDesempate;
 	private int posicaoCriterioDesempate;
     private List<ParticipanteBeans> participantes;
+    private Recurso recurso;
     
 		    
     public EtapaBeans(){}
@@ -193,7 +195,13 @@ public class EtapaBeans implements Beans, Serializable {
 		this.participantes = participantes;
 	}
     
-
+    public void setRecurso(Recurso recurso ) {
+    	this.recurso = recurso;
+    }
+    
+    public Recurso getRecurso() {
+    	return recurso;
+    }
     
     @Override
     public Object toBusiness() {
@@ -207,6 +215,10 @@ public class EtapaBeans implements Beans, Serializable {
         etapa.setCriterioDeAvaliacao(this.getCriterioDeAvaliacao());
         etapa.setEstado(this.getEstado());
         etapa.setPeriodo((Periodo) this.getPeriodo().toBusiness());
+        if (this.getRecurso() != null) {
+        	etapa.setRecurso(this.getRecurso());
+        }
+        
         if (this.getPrerequisito() != null) {
         	Etapa prerequisito = (Etapa) this.getPrerequisito().toBusiness();
     		etapa.setPrerequisito(prerequisito);
@@ -268,6 +280,10 @@ public class EtapaBeans implements Beans, Serializable {
                 }
                 this.setPeriodo(pb);
 
+                if (etapa.getRecurso() != null) {
+                	this.setRecurso(etapa.getRecurso());
+                }
+                
                 this.setCriterioDeAvaliacao(etapa.getCriterioDeAvaliacao());
                 
                 if (etapa.getPrerequisito() != null) {

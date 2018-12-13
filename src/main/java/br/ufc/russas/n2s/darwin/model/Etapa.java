@@ -147,8 +147,8 @@ public class Etapa implements Serializable {
 		return this.recurso;
 	}
 
-	public void setPeriodo(Recurso recurso) {
-		if (periodo != null) {
+	public void setRecurso(Recurso recurso) {
+		if (recurso != null) {
 			this.recurso = recurso;
 		}
 	}

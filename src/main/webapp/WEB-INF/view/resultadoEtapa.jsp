@@ -45,20 +45,24 @@
                 <div class="row" style="padding-left: 15px;">
                     <h1>Resultado</h1><!-- <a href="${etapa.codEtapa}/imprimir">Imprimir</a>  -->
                     <a href="${etapa.codEtapa}/imprimir" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;" >
-                        <span>Gerar PDF do resultado</span>
+                        <span>Gerar PDF</span>
                     </a>
+                    
                    </div>
                     <br>
                     <table class="table table-responsive">
                         <thead>
                             <tr>
-                            	<th scope="col">CPF<th>
+                            	<th scope="col">CPF</th>
                                 <th scope="col">Candidato</th>
                                 <th scope="col">Situação</th>
-                            <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
-                                <th scope="col">Nota</th>
-                            </c:if>
-                            	<th scope="col">Resultado</th>
+	                            <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
+	                                <th scope="col">Nota</th>
+	                            </c:if>
+	                            	<th scope="col">Resultado</th>
+	                            <c:if test="${not empty etapa.recurso}">
+	                            	<th scope="col">Recurso</th>
+	                            </c:if>
                             </tr>
                         </thead>
                         <tbody>
@@ -78,6 +82,11 @@
                                                 <c:if test="${(etapa.criterioDeAvaliacao.criterio == 3)}">
                                                     <td>${participante[2]}</td>
                                                 </c:if>
+                                                <c:if test="${not empty etapa.recurso and isResponsavel}">
+							                    	<td> <a href="/Darwin/recursoEtapa/${etapa.codEtapa}/${participante[0].codParticipante}" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;" >
+							                        	<span>Recurso</span>
+							                    	</a> </td>
+							                    </c:if>
                                 <c:if test="${empty etapa.avaliacoes}">
                                     <td>Aguardando avaliação</td>
                                 </c:if>

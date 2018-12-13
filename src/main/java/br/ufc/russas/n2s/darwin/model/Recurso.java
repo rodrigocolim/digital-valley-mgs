@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "recurso")
 public class Recurso implements Serializable{
-
+	//Esta classe foi criada pensando em futuras manutanções evolutivas
 	private static final long serialVersionUID = -621919222767126918L;
 	
 	@Id

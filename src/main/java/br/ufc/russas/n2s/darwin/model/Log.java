@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.Column;
 import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,6 +31,7 @@ public class Log implements AttributeConverter<LocalDate, Date>{
 	@ManyToOne
     @JoinColumn(name="selecao", referencedColumnName="codSelecao")
 	private Selecao selecao;
+	@Column(columnDefinition = "TEXT")
     private String modificacao;
 	
     public Log(LocalDate data, UsuarioDarwin usuario, Selecao selecao, String modificacao) throws IllegalArgumentException {

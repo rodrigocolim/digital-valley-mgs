@@ -9,6 +9,7 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import util.Constantes;
@@ -116,8 +117,12 @@ public class IndexController {
     public String getMinhasSelecoes(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
-        
+        List<SelecaoBeans> selecoes;
+        if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+        	selecoes = this.getSelecaoServiceIfc().listaTodasSelecoesDoBanco();
+        } else {
+        	selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
+        }
         HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
             etapasAtuais.put(s.getCodSelecao(), this.getSelecaoServiceIfc().getEtapaAtual(s));

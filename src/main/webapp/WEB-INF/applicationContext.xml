@@ -70,6 +70,7 @@
                 <value>br.ufc.russas.n2s.darwin.model.Etapa</value>
                 <value>br.ufc.russas.n2s.darwin.model.Selecao</value>
                 <value>br.ufc.russas.n2s.darwin.model.Log</value>
+                <value>br.ufc.russas.n2s.darwin.model.Recurso</value>
             </list>
         </property>        
         <property name="configLocation">

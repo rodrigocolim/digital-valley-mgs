@@ -79,7 +79,7 @@ public class SelecaoController {
         }
         selecao.setEtapas(this.etapaServiceIfc.ordenaEtapasPorData(selecao.getEtapas()));
         model.addAttribute("isParticipante", isParticipante);
-        if (!selecao.isDivulgada() && selecao.getResponsaveis().contains(usuario)) {
+        if (!selecao.isDivulgada() && selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
             model.addAttribute("isResponsavel", true);

@@ -162,7 +162,25 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
        
         return this.ordenaSelecoesPorData(selecoes);
     }
-
+    
+    @Override
+    public List<SelecaoBeans> listaTodasSelecoesDoBanco() {
+        Selecao selecao = new Selecao();
+       // UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
+        List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
+        List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().listaSelecoes(selecao);
+        List<SelecaoBeans> resultadoDivulgadas = this.listaTodasSelecoes();
+        for (Selecao s : resultadoNaoDivulgadas) {
+                selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+        }
+        for (SelecaoBeans s : resultadoDivulgadas) {
+        	selecoes.add(s);
+        }
+        return this.ordenaSelecoesPorData(selecoes);
+    }
+    
+    
+    
 
     @Override
     public EtapaBeans getEtapaAtual(SelecaoBeans selecao) {

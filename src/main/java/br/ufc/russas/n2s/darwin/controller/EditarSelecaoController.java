@@ -37,6 +37,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.gson.Gson;
+
 import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
@@ -96,6 +98,17 @@ public class EditarSelecaoController {
         if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
 	        List<UsuarioBeans> usuarios = this.getUsuarioServiceIfc().listaUsuariosComPermissao(EnumPermissao.RESPONSAVEL);
 	        List<UsuarioBeans> responsaveis = selecao.getResponsaveis();
+	        
+	        List<Long> codResponsaveis = Collections.synchronizedList(new ArrayList<>());
+	        List<String> nomeResponsaveis = Collections.synchronizedList(new ArrayList<>());
+	        
+	        for (UsuarioBeans responsavel : selecao.getResponsaveis()) {
+	        	codResponsaveis.add(responsavel.getCodUsuario());
+	        	nomeResponsaveis.add(responsavel.getNome());
+	        }
+	        String json = new Gson().toJson(nomeResponsaveis);
+	        model.addAttribute("codResponsaveis", codResponsaveis);
+	        model.addAttribute("nomeResponsaveis", json);
 	        model.addAttribute("selecao", selecao);
 	        model.addAttribute("usuarios", usuarios);
 	        model.addAttribute("responsaveis", responsaveis);
@@ -124,13 +137,23 @@ public class EditarSelecaoController {
             File dir = new File(Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator);
             dir.mkdir();
             
-            if (!file.isEmpty()) {
-                ArquivoBeans edital = new ArquivoBeans();
+            if (file != null && !file.isEmpty()) {
+            	ArquivoBeans edital = new ArquivoBeans();
                 edital.setTitulo("Edital para ".concat(selecao.getTitulo()));
-                edital.setData(LocalDateTime.now());
-                InputStream inputStream = new URL(file).openStream();
-                edital.setArquivo(FileManipulation.getFileStream(inputStream, ".pdf"));
-                selecaoBeans.setEdital(edital);
+                File temp = File.createTempFile(Constantes.getDocumentsDir()+File.separator+file, ".pdf", dir);
+                System.out.println(Constantes.getDocumentsDir()+File.separator+file);
+                InputStream input = new URL(file).openStream();
+                OutputStream output = new FileOutputStream(temp);
+                int read = 0;
+                byte[] bytes = new byte[1024];
+                while ((read = input.read(bytes)) != -1) {
+                    output.write(bytes, 0, read);
+                }
+                
+                selecaoBeans.getEdital().setArquivo(temp);
+                selecaoBeans.getEdital().setData(LocalDateTime.now());
+                //selecaoBeans.setEdital(edital);
+                output.close();
             }
             
             if (nomeAnexos != null && linkAnexos != null) {
@@ -176,8 +199,8 @@ public class EditarSelecaoController {
 
             String[] codResponsaveis = request.getParameterValues("codResponsaveis");
             ArrayList<UsuarioBeans> responsaveis = new ArrayList<>();
-            if (codResponsaveis != null) {
-            	
+            if (codResponsaveis != null && codResponsaveis.length > 0) {
+            	System.out.println(codResponsaveis.length);
                 for (String cod : codResponsaveis) {
                 	if (cod.contains("-")) {
                 		cod = cod.substring(0,cod.indexOf("-"));
@@ -187,7 +210,7 @@ public class EditarSelecaoController {
                     	responsaveis.add(u);
                     }
                 }
-            }
+            } else {throw new IllegalAccessException("A seleção deve possuir no minimo um responsável.");}
             selecaoBeans.setResponsaveis(responsaveis);
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             this.getSelecaoServiceIfc().setUsuario(usuario);
@@ -198,10 +221,10 @@ public class EditarSelecaoController {
             session.setAttribute("mensagem", "Seleção atualizada com sucesso!");
             session.setAttribute("status", "success");
             return "redirect:/selecao/" + selecaoBeans.getCodSelecao();
-        }catch(IOException | IllegalAccessException e){
-            model.addAttribute("mensagem", e.getMessage());
-            model.addAttribute("status", "danger");
-            return ("editar-selecao");
+        } catch (IOException | IllegalAccessException e) {
+        	session.setAttribute("mensagem", e.getMessage());
+        	session.setAttribute("status", "warning");
+            return ("redirect:/editarSelecao/"+codSelecao);
         }
     }
     

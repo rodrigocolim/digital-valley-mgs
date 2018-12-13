@@ -75,7 +75,7 @@ public class DAOImpl<T> implements DAOIfc<T> {
         Transaction t = session.beginTransaction();
         try {
             if (object != null) {
-                session.update(object);
+                session.merge(object);
                 t.commit();
                 return object;
             } else {

@@ -369,7 +369,7 @@
 											</c:forEach>
 											<c:if test="${pendente}">
 											<a href="" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultadoetapa">
-												Divulgar Resultado
+												<i class="fas fa-bullhorn"></i> Divulgar Resultado
 											</a>
 											</c:if>
 											<c:if test="${not pendente}">

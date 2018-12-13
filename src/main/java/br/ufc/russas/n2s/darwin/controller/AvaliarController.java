@@ -224,20 +224,27 @@ public class AvaliarController {
     
     @RequestMapping(value = "/recurso/etapa/{codEtapa}/avaliacao/{codAvaliacao}", method = RequestMethod.POST)
     public String avaliarRecurso(@PathVariable long codAvaliacao, @PathVariable long codEtapa, HttpServletRequest request, HttpServletResponse response) {
+    	HttpSession session = request.getSession();
     	EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
     	AvaliacaoBeans avaliacao = avaliacaoServiceIfc.getAvaliacao(codAvaliacao);
-    	
-    	if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
-    		float novaNota = Float.parseFloat(request.getParameter("nota"));
-    		avaliacao.setNota(novaNota);
-    		avaliacao.setAprovado(novaNota >= etapa.getNotaMinima());
-    	} else {
-    		boolean novoEstado = (request.getParameter("estado") != null && request.getParameter("estado").equals("1"));
-    		avaliacao.setAprovado(novoEstado);
+    	try {
+	    	if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
+	    		float novaNota = Float.parseFloat(request.getParameter("nota"));
+	    		avaliacao.setNota(novaNota);
+	    		avaliacao.setAprovado(novaNota >= etapa.getNotaMinima());
+	    	} else {
+	    		boolean novoEstado = (request.getParameter("estado") != null && request.getParameter("estado").equals("1"));
+	    		avaliacao.setAprovado(novoEstado);
+	    	}
+	    	
+	    	avaliacaoServiceIfc.atualizarAvaliacao(avaliacao);
+	    	 session.setAttribute("mensagem", "Avaliação atualizada com sucesso!");
+	         session.setAttribute("status", "success");
+	    	
+    	} catch (Exception e) {
+    		 session.setAttribute("mensagem", "Erro ao atualizar avaliação!");
+	         session.setAttribute("status", "danger");
     	}
-    	
-    	avaliacaoServiceIfc.atualizarAvaliacao(avaliacao);
-    	
     	return "redirect: /Darwin/recursoEtapa/"+etapa.getCodEtapa()+"/"+avaliacao.getParticipante().getCodParticipante();
     }
 

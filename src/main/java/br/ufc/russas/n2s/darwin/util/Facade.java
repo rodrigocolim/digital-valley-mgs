@@ -61,7 +61,7 @@ public class Facade {
             f.setSize(15);
             t.addCell(cell1);
             f.setSize(10);
-            PdfPTable table = new PdfPTable(2);
+            PdfPTable table = new PdfPTable(3);
 
             PdfPCell cpf = new PdfPCell(new Paragraph("CPF", f));
             cpf.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -70,7 +70,7 @@ public class Facade {
             PdfPCell nome = new PdfPCell(new Paragraph("NOME", f));
             nome.setBackgroundColor(BaseColor.LIGHT_GRAY);
             nome.setHorizontalAlignment(Element.ALIGN_CENTER);
-            PdfPCell resultad = new PdfPCell(new Paragraph("RESULTADO", f));
+            PdfPCell resultad = new PdfPCell(new Paragraph("SITUAÇÃO", f));
             resultad.setBackgroundColor(BaseColor.LIGHT_GRAY);
             resultad.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.setWidths(new int[]{180,400, 160});
@@ -95,7 +95,7 @@ public class Facade {
 			//	Object[] participante = resultado.get(i);
 				table.addCell(((ParticipanteBeans) participante[0]).getCandidato().getNome().toUpperCase());
 				
-				PdfPCell resu  = new PdfPCell(new Paragraph(participante[2].toString().toLowerCase()));
+				PdfPCell resu  = new PdfPCell(new Paragraph(participante[2].toString().toUpperCase()));
 				resu.setHorizontalAlignment(Element.ALIGN_CENTER);
 				table.addCell(resu);
 			}

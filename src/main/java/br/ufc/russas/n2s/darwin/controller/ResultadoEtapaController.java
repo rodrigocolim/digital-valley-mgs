@@ -87,9 +87,11 @@ public class ResultadoEtapaController {
 	        response.flushBuffer();
 	        
         } catch (FileNotFoundException e) {
+        	e.printStackTrace();
         	model.addAttribute("mensagem", "Arqivo não pode ser gerado!");
             model.addAttribute("status", "danger");
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute("mensagem", e.getMessage());
             model.addAttribute("status", "danger");
 		}

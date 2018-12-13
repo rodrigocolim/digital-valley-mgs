@@ -203,7 +203,6 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     
     @Override
     public List<EtapaBeans> ordenaEtapasPorData(List<EtapaBeans> etapas) {
-    	System.out.println("Etrou aqui não");
         EtapaBeans aux;
         for (int i=0;i<etapas.size();i++) {
             for (int j=0;j<etapas.size()-1;j++) {

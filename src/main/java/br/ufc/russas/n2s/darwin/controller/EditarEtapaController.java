@@ -237,6 +237,7 @@ public class EditarEtapaController {
             session.setAttribute("status", "warning");
     		return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
     	} catch (Exception e) {
+    		e.printStackTrace();
         	session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "warning");
     		return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;

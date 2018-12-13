@@ -60,7 +60,7 @@
 	                                <th scope="col">Nota</th>
 	                            </c:if>
 	                            	<th scope="col">Resultado</th>
-	                            <c:if test="${not empty etapa.recurso}">
+	                            <c:if test="${(not empty etapa.recurso) and (isResponsavel)}">
 	                            	<th scope="col">Recurso</th>
 	                            </c:if>
                             </tr>

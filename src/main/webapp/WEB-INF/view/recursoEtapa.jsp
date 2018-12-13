@@ -33,7 +33,7 @@
                         <span class="breadcrumb-item">Você está em:</span> 
                         <a class="breadcrumb-item" href="/Darwin">Início</a>
                         <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
-                        <a class="breadcrumb-item" href="/Darwin/etapa/${etapa.codEtapa}">${etapa.titulo}</a>
+                        <a class="breadcrumb-item" href="/Darwin/resultadoEtapa/${etapa.codEtapa}">${etapa.titulo}</a>
                         <a class="breadcrumb-item active" href="#">Recurso</a>
                     </nav>
                 <c:if test="${not empty mensagem}">
@@ -68,7 +68,7 @@
                                 <td>${participanteEtapa.candidato.nome}</td>
                                 <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
 	                                <c:forEach var="avaliacao" items="${avaliacoes}">
-	                                	<form method="POST" action="/Darwin/recurso/etapa/${etapa.codEtapa}/avaliacao/${avaliacao.codAvaliacao}" accept-charset="UTF-8">                              	
+	                                	<form method="POST" action="/Darwin/avaliar/recurso/etapa/${etapa.codEtapa}/avaliacao/${avaliacao.codAvaliacao}" accept-charset="UTF-8">                              	
 		                                	<td scope="col" style="text-align:center">${avaliacao.avaliador.nome}</td>
 		                                	<td class="text-center" scope="col"><input class="form-control" style="width: 150px"type="number" value="${avaliacao.nota}" name="nota"/> </td>
 	                                		<td scope="col" ><input type="submit" class="btn btn-primary btn-sm" value="Salvar"/> </td>
@@ -78,11 +78,11 @@
                                 <c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
                                 <c:forEach var="avaliacao" items="${avaliacoes}"> 
                                 	<td scope="col" style="text-align:center">${avaliacao.avaliador.nome}</td>
-                                	<form method="POST" action="/Darwin/recurso/etapa/${etapa.codEtapa}/avaliacao/${avaliacao.codAvaliacao}" accept-charset="UTF-8">                              	
+                                	<form method="POST" action="/Darwin/avaliar/recurso/etapa/${etapa.codEtapa}/avaliacao/${avaliacao.codAvaliacao}" accept-charset="UTF-8">                              	
 		                                <td class="text-center" scope="col">
 		                                <select class="form-control" style="width: 150px"type="number" value="${avaliacao.nota}" name="estado">
-	                                		<option value="1">Aprovado</option>
-	                                		<option value="0">Reprovado</option>
+	                                		<option ${(avaliacao.aprovado == true) ? "selected='selected'" : ""} value="1">Aprovado</option>
+	                                		<option ${(avaliacao.aprovado == false) ? "selected='selected'" : ""} value="0">Reprovado</option>
                                 		</select> 
                                 		</td>
                                 		<td scope="col" ><input type="submit" class="btn btn-primary btn-sm" value="Salvar"/> </td>
@@ -92,11 +92,11 @@
                                 <c:if test="${(etapa.criterioDeAvaliacao.criterio == 3)}">
                                 <c:forEach var="avaliacao" items="${avaliacoes}"> 
                                 	<td scope="col" style="text-align:center">${avaliacao.avaliador.nome}</td>
-                                	<form method="POST" action="/Darwin/recurso/etapa/${etapa.codEtapa}/avaliacao/${avaliacao.codAvaliacao}" accept-charset="UTF-8">                              	
+                                	<form method="POST" action="/Darwin/avaliar/recurso/etapa/${etapa.codEtapa}/avaliacao/${avaliacao.codAvaliacao}" accept-charset="UTF-8">                              	
 		                               <td class="text-center" scope="col">
 		                               <select class="form-control" style="width: 150px"type="number" value="${avaliacao.nota}" name="estado">
-	                                		<option value="1">Deferido</option>
-	                                		<option value="0">Indeferido</option>
+	                                		<option ${(avaliacao.aprovado == true) ? "selected='selected'" : ""} value="1">Deferido</option>
+	                                		<option ${(avaliacao.aprovado == false) ? "selected='selected'" : ""} value="0">Indeferido</option>
                                 		</select>
                                 		</td>
                                 		<td scope="col" ><input type="submit" class="btn btn-primary btn-sm" value="Salvar"/> </td>
@@ -108,32 +108,6 @@
                         </tbody>
                     </table>
                     <br>
-                            
-                        <a href="/Darwin/recursoEtapa/${etapa.codEtapa}" type="button" class="btn btn-secondary">
-                            Cancelar
-                        </a>
-                       <input type="button" class="btn btn-primary" value="Salvar" data-toggle="modal" data-target="#divulgaresultados" >
-						<!-- divulgação de resultados -->
-	                    <div class="modal fade" id="divulgaresultados" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-	                        <div class="modal-dialog" role="document">
-	                            <div class="modal-content">
-	                                <div class="modal-header">
-	                                    <h5 class="modal-title" id="modalLabel">Confirmar Alterações</h5>
-	                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	                                        <span aria-hidden="true">&times;</span>
-	                                    </button>
-	                                </div>
-	                                <div class="modal-body">
-	                                    <p>As suas modificações poderão alterar o resultado desta etapa. Deseja continuar? </p>
-	                                </div>
-	                                <div class="modal-footer">
-	                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-	                                    <a class="btn btn-sm btn-primary" href="/Darwin/resultadoEtapa/${etapa.codEtapa}/atualizaRecurso"> Continuar</a>
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
-					
 		                   
                 </div>
             </div>

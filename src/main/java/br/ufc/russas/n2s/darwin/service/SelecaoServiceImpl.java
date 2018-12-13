@@ -284,7 +284,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	public List<ResultadoParticipanteSelecaoBeans> getResultado(SelecaoBeans selecao) throws IllegalAccessException {
 		Selecao s = (Selecao) selecao.toBusiness();
 		List<ResultadoParticipanteSelecao> resultado = s.resultado();
-		List<ResultadoParticipanteSelecaoBeans> rb = Collections.synchronizedList(new ArrayList<>());
+		List<ResultadoParticipanteSelecaoBeans> rb = Collections.synchronizedList(new ArrayList<ResultadoParticipanteSelecaoBeans>());
 		for (ResultadoParticipanteSelecao r : resultado) {
 			rb.add((ResultadoParticipanteSelecaoBeans) new ResultadoParticipanteSelecaoBeans().toBeans(r));
 		}

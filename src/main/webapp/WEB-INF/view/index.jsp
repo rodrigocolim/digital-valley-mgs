@@ -29,7 +29,7 @@
                 <nav class="breadcrumb">
                     <span class="breadcrumb-item">Você está em:</span> 
                     
-                    <a class="breadcrumb-item ${titulo eq 'Início' ? 'active': ''}" href="/Darwin">Início</a>
+                    <a class="breadcrumb-item ${titulo eq 'Início' ? 'active': ''}" href="/Darwin/">Início</a>
                     <c:if test="${not (titulo eq 'Início')}"> 
                     <a class="breadcrumb-item text-capitalize active" href="#">${categoria}</a>
                     </c:if>
@@ -54,7 +54,7 @@
                             <span>Filtrar</span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="/Darwin">Todas as seleções</a>
+                            <a class="dropdown-item" href="/Darwin/">Todas as seleções</a>
                             <a class="dropdown-item" href="/Darwin/estado/aberta">Seleções abertas</a>
                             <a class="dropdown-item" href="/Darwin/estado/andamento">Seleções em andamento</a>
                             <a class="dropdown-item" href="/Darwin/estado/finalizada">Seleções finalizadas</a>

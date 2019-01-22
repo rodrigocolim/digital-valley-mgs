@@ -31,7 +31,7 @@
                 <div class="col-sm-8">
                     <nav class="breadcrumb">
                         <span class="breadcrumb-item">Você está em:</span> 
-                        <a class="breadcrumb-item" href="/Darwin">Início</a>
+                        <a class="breadcrumb-item" href="/Darwin/">Início</a>
                         <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
                         <a class="breadcrumb-item active" href="#">Resultado</a>
                     </nav>
@@ -62,10 +62,15 @@
                             <tr>
                                 <td>${resultado.colocacao}</td>
                                 <td>${resultado.participante.candidato.nome}</td>
-                                 <c:forEach var="nota" items="${resultado.notasEtapas}">
-                                	<th class="text-center" scope="col">${nota}</th>
-                                </c:forEach>
-                                <td>${resultado.mediaGeral}</td>
+                               	<c:forEach var="nota" items="${resultado.notasEtapas}">
+                               		<th class="text-center" scope="col">${nota}</th>
+                               	</c:forEach>
+                                <c:if test="${not empty resultado.notasEtapas}">
+                                	<td>${resultado.mediaGeral}</td>
+                                </c:if>
+                                <c:if test="${empty resultado.notasEtapas}">
+                                	<td> - </td>
+                                </c:if>
                                 <td>${resultado.aprovado == true ? 'CLASSIFICADO':'DESCLASSIFICADO'}</td>
                             </tr>
                         </c:forEach>

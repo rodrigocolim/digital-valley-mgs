@@ -31,7 +31,7 @@
                 <div class="col-sm-8">
                     <nav class="breadcrumb">
                         <span class="breadcrumb-item">Você está em:</span> 
-                        <a class="breadcrumb-item" href="/Darwin">Início</a>
+                        <a class="breadcrumb-item" href="/Darwin/">Início</a>
                         <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
                         <a class="breadcrumb-item" href="/Darwin/resultadoEtapa/${etapa.codEtapa}">${etapa.titulo}</a>
                         <a class="breadcrumb-item active" href="#">Recurso</a>

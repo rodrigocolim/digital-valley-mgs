@@ -188,10 +188,15 @@ public class Facade {
 				PdfPCell nomeCelu = new PdfPCell(new Paragraph(rps.getParticipante().getCandidato().getNome().toUpperCase(),f));
         		table.addCell(nomeCelu);
 				
-				
-				PdfPCell mg  = new PdfPCell(new Paragraph(rps.getMediaGeral()+"",f));
-				mg.setHorizontalAlignment(Element.ALIGN_CENTER);
-				table.addCell(mg);
+				if (rps.getMediaGeral() >= 0) {
+					PdfPCell mg  = new PdfPCell(new Paragraph(rps.getMediaGeral()+"",f));
+					mg.setHorizontalAlignment(Element.ALIGN_CENTER);
+					table.addCell(mg);
+				} else {
+					PdfPCell mg = new PdfPCell(new Paragraph(" - ",f));
+					mg.setHorizontalAlignment(Element.ALIGN_CENTER);
+					table.addCell(mg);
+				}
 				
 				if (rps.isAprovado()) s = "CLASSIFICADO"; else s = "DESCLASSIFICADO";
 

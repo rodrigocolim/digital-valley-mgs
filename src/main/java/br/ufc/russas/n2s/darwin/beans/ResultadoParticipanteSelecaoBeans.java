@@ -105,7 +105,7 @@ public class ResultadoParticipanteSelecaoBeans implements Beans, Serializable{
 					this.setParticipante((ParticipanteBeans) new ParticipanteBeans().toBeans(resultado.getParticipante()));
 				}
 				
-				this.setColocacao(resultado.getColocacao());
+				this.setColocacao(resultado.getColocacao()+1);
 				
 				for (Etapa etapa : resultado.getEtapas()) {
 					this.getEtapas().add((EtapaBeans) new EtapaBeans().toBeans(etapa));	

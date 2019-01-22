@@ -6,5 +6,5 @@
 
 <nav class="navbar navbar-light bg-light" style="bottom: 0px;">
     <a class="navbar-brand" href="#">Darwin</a>
-    <p>© Núcleo de Soluções em Software (N2S), 2018.</p>
+    <p>© Núcleo de Soluções em Software (N2S), 2019.</p>
 </nav>

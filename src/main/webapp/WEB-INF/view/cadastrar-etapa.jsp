@@ -109,9 +109,9 @@
                              <div class="form-row">
 		                        <div id="sandbox-container" style="width: 100%">
 		                            <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
-		                                <input type="text" class="form-control text-left" placeholder="Digite a data de início" name="dataInicioRecurso" id="dataInicioInput" required/>
+		                                <input type="text" class="form-control text-left" placeholder="Digite a data de início" name="dataInicioRecurso" id="dataInicioInput" />
 		                                <span class="input-group-addon">até</span>
-		                                <input type="text" class="form-control text-left " placeholder="Digite a data de término" name="dataTerminoRecurso" id="dataTerminoInput" required/>
+		                                <input type="text" class="form-control text-left " placeholder="Digite a data de término" name="dataTerminoRecurso" id="dataTerminoInput" />
 		                                <div class="invalid-feedback">
 		                                </div>
 		                            </div>

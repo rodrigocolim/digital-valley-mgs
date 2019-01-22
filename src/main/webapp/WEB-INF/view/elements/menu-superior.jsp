@@ -9,7 +9,7 @@
 <%@page import="br.ufc.russas.n2s.darwin.beans.UsuarioBeans"%>
 <%@page import="util.Constantes"%>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="<%=Constantes.getAppUrl() %>">
+    <a class="navbar-brand" href="<%=Constantes.getAppUrl() %>/">
         <img src="${pageContext.request.contextPath}/resources/img/logoDarwin.png" width="30" height="30" class="d-inline-block align-top" alt="Logo do módulo Darwin">
         Darwin
     </a>  
@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <c:set var="permissoes" value="${sessionScope.usuarioDarwin.permissoes}"></c:set>
-            <a class="nav-item nav-link" href="<%=Constantes.getAppUrl()%>">Início</a>
+            <a class="nav-item nav-link" href="<%=Constantes.getAppUrl()%>/">Início</a>
             <a class="nav-item nav-link" href="<%=Constantes.getAppGuardiaoUrl()%>">Guardião</a>
             <a class="nav-item nav-link" href="<%=Constantes.getAppUrl() %>/minhas_Selecoes">Minhas seleções</a>
             <c:if test="${fn:contains(permissoes, 'RESPONSAVEL') or fn:contains(permissoes, 'ADMINISTRADOR')}">

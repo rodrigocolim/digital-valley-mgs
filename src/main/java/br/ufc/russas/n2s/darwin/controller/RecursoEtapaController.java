@@ -56,16 +56,21 @@ public class RecursoEtapaController {
     public String getRecursoDaEtapa(@PathVariable long codEtapa, @PathVariable long codParticipante, Model model, HttpServletRequest request){
 		HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        ParticipanteBeans participante = participanteServiceIfc.getParticipante(codParticipante);
-        EtapaBeans etapa  = etapaServiceIfc.getEtapa(codEtapa);
-        model.addAttribute("avaliacoes", etapaServiceIfc.getAvaliacoesParticipante(participante, etapa.getCodEtapa()));
-        model.addAttribute("participanteEtapa", participante);
-        model.addAttribute("etapa", etapa);
-        SelecaoBeans selecao = etapaServiceIfc.getSelecao(etapa);
-        if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
-        	model.addAttribute("isResponsavel", true);
-        }
-        return "/recursoEtapa";
+        //UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
+    	if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)) {
+	        ParticipanteBeans participante = participanteServiceIfc.getParticipante(codParticipante);
+	        EtapaBeans etapa  = etapaServiceIfc.getEtapa(codEtapa);
+	        model.addAttribute("avaliacoes", etapaServiceIfc.getAvaliacoesParticipante(participante, etapa.getCodEtapa()));
+	        model.addAttribute("participanteEtapa", participante);
+	        model.addAttribute("etapa", etapa);
+	        SelecaoBeans selecao = etapaServiceIfc.getSelecao(etapa);
+	        if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+	        	model.addAttribute("isResponsavel", true);
+	        }
+	        return "/recursoEtapa";
+    	} else {
+    		return "error/404";
+    	}
     }
 	
 	

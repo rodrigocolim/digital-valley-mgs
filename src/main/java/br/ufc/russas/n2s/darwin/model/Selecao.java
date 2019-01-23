@@ -366,7 +366,14 @@ public class Selecao {
 
     public Etapa getEtapaAtual() {
     	Etapa etapa = this.getUltimaEtapa();
-    	if (this.getInscricao() != null && ((this.getInscricao().getPeriodo().getInicio().isBefore(LocalDate.now()) || this.getInscricao().getPeriodo().getInicio().isEqual(LocalDate.now())) && (this.getInscricao().getPeriodo().getTermino().isAfter(LocalDate.now()) || this.getInscricao().getPeriodo().getTermino().isEqual(LocalDate.now()))) || this.getInscricao().getPeriodo().getInicio().isAfter(LocalDate.now())) {
+    	System.out.println(this.getTitulo());
+    	System.out.println("========"+this.getInscricao());
+    	if (this.getInscricao() != null && 
+    			(((this.getInscricao().getPeriodo().getInicio().isBefore(LocalDate.now())
+    					|| this.getInscricao().getPeriodo().getInicio().isEqual(LocalDate.now())) 
+    					&& (this.getInscricao().getPeriodo().getTermino().isAfter(LocalDate.now()) 
+    							|| this.getInscricao().getPeriodo().getTermino().isEqual(LocalDate.now()))) 
+    			|| this.getInscricao().getPeriodo().getInicio().isAfter(LocalDate.now()))) {
     		etapa = this.getInscricao();
     	} else {
 	        if (this.etapas != null && !this.etapas.isEmpty()) {

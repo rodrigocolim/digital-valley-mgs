@@ -24,6 +24,7 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteSelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.ResultadoSelecaoForm;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
@@ -103,27 +104,31 @@ public class ResultadoSelecaoController {
         } else {return "error/404";}
     }
 	
-	@RequestMapping(value="/{codSelecao}/divulgaResultado", method = RequestMethod.GET)
-	public String divulgaResultadoSelecao(@PathVariable long codSelecao, Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		SelecaoBeans selecao = this.getSelecaoServiceIfc().getSelecao(codSelecao);
-		 UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-		 if (selecao.getResponsaveis().contains(usuario)) {
-			try {
-				selecao.setDivulgadoResultado(true);
-				this.getSelecaoServiceIfc().setUsuario(usuario);
-				this.selecaoServiceIfc.atualizaSelecao(selecao);
-				session.setAttribute("mensagem", "Resultado da seleção divulgado com sucesso!");
-		        session.setAttribute("status", "success");
-		        return "redirect:/selecao/"+selecao.getCodSelecao()+"/resultado";
+    @RequestMapping(value = "/{codSelecao}/divulgaResultado", method = RequestMethod.GET)
+    public String divulgaResultadoSelecao(@PathVariable long codSelecao, Model model, HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+    	SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
+    	UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+    	if (!selecao.isDivulgadoResultado() && ((selecao.getResponsaveis().contains(usuario)) || (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)))) {
+	    	try {
+	    		selecao.setDivulgadoResultado(true);
+	    		selecao = selecaoServiceIfc.atualizaSelecao(selecao);
+		        session.setAttribute("selecao", selecao);
+		        session.setAttribute("mensagem","Resultado final divulgado com sucesso!");
+		        session.setAttribute("status","success");
+		        return ("redirect:/selecao/"+selecao.getCodSelecao());
+	    	} catch (NullPointerException e) {
+				model.addAttribute("mensagem", "Não foi possivel divulgar o resultado!");
+	            model.addAttribute("status", "danger");
+	            return "resultado";
 			} catch (Exception e) {
-				e.printStackTrace();
-				session.setAttribute("mensagem", e.getMessage());
-				session.setAttribute("status", "danger");
-		        return "redirect:/selecao/"+selecao.getCodSelecao()+"/resultado";
-			}
-		 } else {return "error/404";}
-	}
+	 	        model.addAttribute("quantidadeEtapasPorNota", selecaoServiceIfc.getEtapasNota(selecao).size());
+	 	        model.addAttribute("selecao", selecao);
+	 	        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));
+	 	        return "resultado";
+	     	}
+    	} else { return "error/404";}
+    }
 	
 	
 	@RequestMapping(value = "/{codSelecao}/imprimir", method = RequestMethod.GET)

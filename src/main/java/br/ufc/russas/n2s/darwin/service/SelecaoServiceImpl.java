@@ -77,7 +77,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 
     @Override
     public void removeSelecao(SelecaoBeans selecao) {
-        this.getSelecaoDAOIfc().adicionaSelecao((Selecao) selecao.toBusiness());
+        this.getSelecaoDAOIfc().removeSelecao((Selecao) selecao.toBusiness());
     }
 
     @Override

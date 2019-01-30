@@ -80,7 +80,7 @@
                     <c:set var="estado" value="${selecao.estado.estado}"></c:set>
                     <c:if test="${estado == 4}">
 	                    <c:if test="${(not selecao.divulgadoResultado)}">
-	                    	<a href="" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultados">
+	                    	<a href="/Darwin/resultadoSelecao/${selecao.codSelecao}/divulgaReultado" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultados">
 								<i class="fas fa-bullhorn"></i> Divulgar Resultado
 							</a>
 	                    </c:if>

@@ -1,5 +1,6 @@
 package br.ufc.russas.n2s.darwin.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,8 +28,12 @@ import br.ufc.russas.n2s.darwin.dao.AvaliacaoDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Avaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
+import br.ufc.russas.n2s.darwin.model.Log;
+import br.ufc.russas.n2s.darwin.model.Selecao;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.AvaliacaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
+import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 
 /**
@@ -41,6 +46,7 @@ public class SelecaoController {
     
     private SelecaoServiceIfc selecaoServiceIfc;
     private EtapaServiceIfc etapaServiceIfc;
+    private LogServiceIfc logServiceIfc;
     
     @Autowired(required = true)
     public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc")SelecaoServiceIfc selecaoServiceIfc){
@@ -52,7 +58,13 @@ public class SelecaoController {
     	this.etapaServiceIfc = etapaServiceIfc;
     }
     
-    
+    public LogServiceIfc getLogServiceIfc() {
+    	return logServiceIfc;
+    }
+    @Autowired
+    public void setLogServiceIfc(@Qualifier("logServiceIfc")LogServiceIfc logServiceIfc) {
+    	this.logServiceIfc = logServiceIfc;
+    }
 
     @RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codSelecao, Model model, HttpServletRequest request){
@@ -153,6 +165,30 @@ public class SelecaoController {
 	     	}
     	} else { return "error/404";}
     }
-
+        
+    //Adicao do novo metodo de remover
+    @RequestMapping(value = "/{codSelecao}/remover", method = RequestMethod.GET)
+    public String removerSelecao(@PathVariable long codSelecao, Model model, HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+    	SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
+    	UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
+    	if (!selecao.isDivulgadoResultado() && (selecao.getResponsaveis().contains(usuario)) || (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR))) {
+    		try {
+    			selecaoServiceIfc.removeSelecao(selecao);
+    			this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" excluiu a seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
+    			session.setAttribute("mensagem", "Seleção excluida com sucesso");
+    			session.setAttribute("status", "success");
+    			return ("redirect:/");
+    		} catch( Exception e) {
+    			model.addAttribute("mensagem", "Não foi possível excluir esta seleção!");
+	            model.addAttribute("status", "danger");
+	            return "selecao";
+    		}
+    		
+    	} else { return "error/404";}
+    	
+    	
+  
+    }
     
 }

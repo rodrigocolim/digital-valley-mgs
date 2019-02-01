@@ -79,12 +79,12 @@
                     <br>
                     <c:set var="estado" value="${selecao.estado.estado}"></c:set>
                     <c:if test="${estado == 4}">
-	                    <c:if test="${(not selecao.divulgadoResultado)}">
-	                    	<a href="/Darwin/resultadoSelecao/${selecao.codSelecao}/divulgaReultado" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultados">
+	                    <c:if test="${(not selecao.divulgadoResultado) and ((fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)))}">
+	                    	<a href="/Darwin/resultadoSelecao/${selecao.codSelecao}/divulgaResultado" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultados">
 								<i class="fas fa-bullhorn"></i> Divulgar Resultado
 							</a>
 	                    </c:if>
-	                    <c:if test="${(selecao.divulgadoResultado)}">
+	                    <c:if test="${(selecao.divulgadoResultado) and ((fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)))}">
 	                    	<button disabled class="btn btn-secondary btn-sm" role="button" aria-pressed="true"><i class="fas fa-user-check"></i> Divulgado</button>
 	                    </c:if>
 						<a href="/Darwin/resultadoSelecao/${selecao.codSelecao}/imprimir" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" >

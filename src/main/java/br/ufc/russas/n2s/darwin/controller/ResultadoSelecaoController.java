@@ -65,11 +65,15 @@ public class ResultadoSelecaoController {
     }
     
 	@RequestMapping(value = "/{codSelecao}", method = RequestMethod.GET)
-    public String getResultadoDaselecao(@PathVariable long codSelecao, Model model){
-		
+    public String getResultadoDaselecao(@PathVariable long codSelecao, Model model, HttpServletRequest request){
+		UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
         SelecaoBeans selecao  = this.getSelecaoServiceIfc().getSelecao(codSelecao);
+        if (!selecao.isDivulgadoResultado() && !selecao.getResponsaveis().contains(usuario) || !usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+        	return "error/404";
+        }
         ResultadoSelecaoForm resultadoForm = new ResultadoSelecaoForm();
         resultadoForm.setEtapas( this.getSelecaoServiceIfc().getEtapasNota(selecao));
+        
         model.addAttribute("resultadoSelecaoForm", resultadoForm);
         return "calculo-resultado-selecao";
     }
@@ -112,6 +116,7 @@ public class ResultadoSelecaoController {
     	if (!selecao.isDivulgadoResultado() && ((selecao.getResponsaveis().contains(usuario)) || (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)))) {
 	    	try {
 	    		selecao.setDivulgadoResultado(true);
+	    		selecaoServiceIfc.setUsuario(usuario);
 	    		selecao = selecaoServiceIfc.atualizaSelecao(selecao);
 		        session.setAttribute("selecao", selecao);
 		        session.setAttribute("mensagem","Resultado final divulgado com sucesso!");

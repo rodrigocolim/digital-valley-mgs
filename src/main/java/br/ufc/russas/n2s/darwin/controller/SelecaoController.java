@@ -148,7 +148,11 @@ public class SelecaoController {
 	    		if (!resultado.isEmpty()) {
 	    			etapasComNota = resultado.get(0).getEtapas();
 	    		}
-	    		
+	    		if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+	            	model.addAttribute("isResponsavel", true);
+	            } else {
+	            	model.addAttribute("isResponsavel", false);
+	            }
 		        model.addAttribute("etapasComNota", etapasComNota);
 		        model.addAttribute("selecao", selecao);
 		        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));

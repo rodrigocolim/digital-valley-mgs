@@ -96,6 +96,47 @@
                             </div>
                         </div>
                         <br>
+                         <!--  -->
+                        <div class="card">
+                            <div class="card-header col-auto">
+                                <label for="periodoRecursoInput">Período Destinado Para Recurso (caso tenha)</label>
+                            </div>
+		                    <div class="card-body">
+                             <div class="form-row">
+		                        <div id="sandbox-container" style="width: 100%">
+		                        <c:if test="${empty etapa.recurso}">
+		                        	<div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
+		                                <input type="text" class="form-control text-left" placeholder="Digite a data de início" name="dataInicioRecurso" id="dataInicioRecursoInput" />
+		                                <span class="input-group-addon">até</span>
+		                                <input type="text" class="form-control text-left " placeholder="Digite a data de término" name="dataTerminoRecurso" id="dataTerminoRecursoInput" />
+		                                <div class="invalid-feedback">
+		                                </div>
+		                            </div>
+		                        
+		                        </c:if>
+		                        <c:if test="${not empty etapa.recurso}">
+			                     	<div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
+		                            	 <fmt:parseDate value="${etapa.recurso.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicioRecurso" type="date" />
+                               			 <fmt:formatDate value="${parseDataInicioRecurso}"  pattern="dd/MM/yyyy" var="dataInicioRecurso" type="date"/>
+			                             <fmt:parseDate value="${etapa.recurso.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTerminoRecurso" type="date" />
+			                             <fmt:formatDate value="${parseDataTerminoRecurso}"  pattern="dd/MM/yyyy" var="dataTerminoRecurso" type="date"/>
+		                                <input type="text" class="form-control text-left" placeholder="Digite a data de início" name="dataInicioRecurso" value="${dataInicioRecurso}" id="dataInicioRecursoInput" />
+		                                <span class="input-group-addon">até</span>
+		                                <input type="text" class="form-control text-left " placeholder="Digite a data de término" name="dataTerminoRecurso" value="${dataTerminoRecurso}" id="dataTerminoRecursoInput" />
+		                                <div class="invalid-feedback">
+		                                </div>
+		                            </div>
+		                        
+		                        </c:if>
+		                            
+		                            <small id="periodoHelp" class="form-text text-muted">Caso esta etapa tenha a possibilidade de recurso, seleciona o período destinado para isso.</small>
+		                        </div>
+	                        </div>
+	                        </div>
+                        </div>
+                        <br>
+                        <!--  -->
+                        
                         <div class="card">
                             <div class="card-header col-auto">
                                 <label for="documentoInput"><input type="checkbox" onclick="habilitaEdicao('documentoInput')"> Documentação Exigida</label>

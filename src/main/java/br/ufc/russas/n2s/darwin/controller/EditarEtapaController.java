@@ -16,6 +16,7 @@ import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.Log;
 import br.ufc.russas.n2s.darwin.model.Periodo;
+import br.ufc.russas.n2s.darwin.model.Recurso;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.model.exception.IllegalCodeException;
@@ -137,7 +138,18 @@ public class EditarEtapaController {
             		throw new Exception("Após iniciada a etapa, apenas a data de término pode ser prorrogada.");
             	}
             	etapaBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
-	            if (etapaBeans.getPeriodo().getInicio().isAfter(LocalDate.now())) {
+	           
+            	 if (request.getParameter("dataInicioRecurso")!= null && (request.getParameter("dataInicioRecurso").length() >= 8 ) && request.getParameter("dataTerminoRecurso")!= null && (request.getParameter("dataTerminoRecurso").length() >= 8)) {
+                 	Recurso recurso = new Recurso();
+                 	DateTimeFormatter formatte = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                 	PeriodoBeans pb =new PeriodoBeans(0,LocalDate.parse(request.getParameter("dataInicioRecurso"), formatte), LocalDate.parse(request.getParameter("dataTerminoRecurso"), formatte));
+                 	recurso.setPeriodo((Periodo) pb.toBusiness());
+                 	etapaBeans.setRecurso(recurso);
+                 } else { 
+                 	etapaBeans.setRecurso(null);
+                 }
+            	 
+            	if (etapaBeans.getPeriodo().getInicio().isAfter(LocalDate.now())) {
 		            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
 		            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
 		            int criterio = Integer.parseInt(request.getParameter("criterio"));
@@ -200,6 +212,8 @@ public class EditarEtapaController {
 	            		}
             		}
 	            }
+	            
+	            
             } else {
             	session.setAttribute("selecao", selecao); 
             	session.setAttribute("mensagem", "Etapa não pode ser atualizada! Pois ela já foi iniciada!");
@@ -217,6 +231,16 @@ public class EditarEtapaController {
             	}
             	index++;
             }
+           /* if (request.getParameter("dataInicioRecurso")!= null && (request.getParameter("dataInicioRecurso").length() >= 8 ) && request.getParameter("dataTerminoRecurso")!= null && (request.getParameter("dataTerminoRecurso").length() >= 8)) {
+            	Recurso recurso = new Recurso();
+            	DateTimeFormatter formatte = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            	PeriodoBeans pb =new PeriodoBeans(0,LocalDate.parse(request.getParameter("dataInicioRecurso"), formatte), LocalDate.parse(request.getParameter("dataTerminoRecurso"), formatte));
+            	recurso.setPeriodo((Periodo) pb.toBusiness());
+            	etapaBeans.setRecurso(recurso);
+            } else { 
+            	etapaBeans.setRecurso(null);
+            }
+            */
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
             this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" modificou a etapa "+etapa.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
             session.setAttribute("status", "success");
@@ -258,6 +282,16 @@ public class EditarEtapaController {
             		throw new Exception("Após iniciada a etapa, apenas a data de término pode ser prorrogada.");
             	}
 	            inscricaoBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+	            if (request.getParameter("dataInicioRecurso")!= null && (request.getParameter("dataInicioRecurso").length() >= 8 ) && request.getParameter("dataTerminoRecurso")!= null && (request.getParameter("dataTerminoRecurso").length() >= 8)) {
+	            	Recurso recurso = new Recurso();
+	            	DateTimeFormatter formatte = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	            	PeriodoBeans pb =new PeriodoBeans(0,LocalDate.parse(request.getParameter("dataInicioRecurso"), formatte), LocalDate.parse(request.getParameter("dataTerminoRecurso"), formatte));
+	            	recurso.setPeriodo((Periodo) pb.toBusiness());
+	            	inscricaoBeans.setRecurso(recurso);
+	            } else { 
+	            	inscricaoBeans.setRecurso(null);
+	            }
+	            
 	            if (inscricaoBeans.getPeriodo().getInicio().isAfter(LocalDate.now()) || !selecao.isDivulgada()) {
 		            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
 		            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
@@ -309,6 +343,17 @@ public class EditarEtapaController {
 	            		}
             		}
 	            }
+	            
+	         /*   if (request.getParameter("dataInicioRecurso")!= null && (request.getParameter("dataInicioRecurso").length() >= 8 ) && request.getParameter("dataTerminoRecurso")!= null && (request.getParameter("dataTerminoRecurso").length() >= 8)) {
+	            	Recurso recurso = new Recurso();
+	            	DateTimeFormatter formatte = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	            	PeriodoBeans pb =new PeriodoBeans(0,LocalDate.parse(request.getParameter("dataInicioRecurso"), formatte), LocalDate.parse(request.getParameter("dataTerminoRecurso"), formatte));
+	            	recurso.setPeriodo((Periodo) pb.toBusiness());
+	            	inscricaoBeans.setRecurso(recurso);
+	            } else { 
+	            	inscricaoBeans.setRecurso(null);
+	            }
+	           */ 
 	            this.getSelecaoServiceIfc().setUsuario(usuario);
 	            selecao.setInscricao(inscricaoBeans);
 	            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);

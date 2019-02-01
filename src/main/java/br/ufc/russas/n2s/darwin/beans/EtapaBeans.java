@@ -217,7 +217,7 @@ public class EtapaBeans implements Beans, Serializable {
         etapa.setPeriodo((Periodo) this.getPeriodo().toBusiness());
         if (this.getRecurso() != null) {
         	etapa.setRecurso(this.getRecurso());
-        }
+        } else {etapa.setRecurso(null);}
         
         if (this.getPrerequisito() != null) {
         	Etapa prerequisito = (Etapa) this.getPrerequisito().toBusiness();
@@ -282,7 +282,7 @@ public class EtapaBeans implements Beans, Serializable {
 
                 if (etapa.getRecurso() != null) {
                 	this.setRecurso(etapa.getRecurso());
-                }
+                } else {this.setRecurso(null);}
                 
                 this.setCriterioDeAvaliacao(etapa.getCriterioDeAvaliacao());
                 

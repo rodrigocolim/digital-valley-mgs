@@ -148,9 +148,7 @@ public class Etapa implements Serializable {
 	}
 
 	public void setRecurso(Recurso recurso) {
-		if (recurso != null) {
-			this.recurso = recurso;
-		}
+		this.recurso = recurso;
 	}
 
 	public String getDescricao() {

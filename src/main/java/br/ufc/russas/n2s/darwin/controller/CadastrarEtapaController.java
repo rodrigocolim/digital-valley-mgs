@@ -120,11 +120,14 @@ public class CadastrarEtapaController {
 	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	            etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
 	            
-	            if (request.getParameter("dataInicioRecurso")!= null && request.getParameter("dataTerminoRecurso")!= null ) {
+	            if (request.getParameter("dataInicioRecurso")!= null && (request.getParameter("dataInicioRecurso").length() >= 8 ) && request.getParameter("dataTerminoRecurso")!= null && (request.getParameter("dataTerminoRecurso").length() >= 8)) {
 	            	Recurso recurso = new Recurso();
-	            	PeriodoBeans pb =new PeriodoBeans(0,LocalDate.parse(request.getParameter("dataInicioRecurso"), formatter), LocalDate.parse(request.getParameter("dataTerminoRecurso"), formatter));
+	            	DateTimeFormatter formatte = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	            	PeriodoBeans pb =new PeriodoBeans(0,LocalDate.parse(request.getParameter("dataInicioRecurso"), formatte), LocalDate.parse(request.getParameter("dataTerminoRecurso"), formatte));
 	            	recurso.setPeriodo((Periodo) pb.toBusiness());
 	            	etapa.setRecurso(recurso);
+	            } else { 
+	            	etapa.setRecurso(null);
 	            }
 	            
 	            
@@ -212,15 +215,18 @@ public class CadastrarEtapaController {
             etapa.setDivulgaResultado(false);
             etapa.setEstado(EnumEstadoEtapa.ESPERA);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            
             etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
-            if (request.getParameter("dataInicioRecurso")!= null && request.getParameter("dataTerminoRecurso")!= null ) {
+            if (request.getParameter("dataInicioRecurso")!= null && (request.getParameter("dataInicioRecurso").length() >= 8 ) && request.getParameter("dataTerminoRecurso")!= null && (request.getParameter("dataTerminoRecurso").length() >= 8)) {
             	Recurso recurso = new Recurso();
-            	PeriodoBeans pb =new PeriodoBeans(0,LocalDate.parse(request.getParameter("dataInicioRecurso"), formatter), LocalDate.parse(request.getParameter("dataTerminoRecurso"), formatter));
+            	DateTimeFormatter formatte = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            	PeriodoBeans pb =new PeriodoBeans(0,LocalDate.parse(request.getParameter("dataInicioRecurso"), formatte), LocalDate.parse(request.getParameter("dataTerminoRecurso"), formatte));
             	recurso.setPeriodo((Periodo) pb.toBusiness());
             	etapa.setRecurso(recurso);
+            } else { 
+            	etapa.setRecurso(null);
             }
-            
-            
+                        
             ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
             if (codAvaliadores != null) {
                 for (String cod : codAvaliadores) {

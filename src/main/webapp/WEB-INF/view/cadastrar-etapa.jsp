@@ -99,7 +99,6 @@
                             <small id="periodoHelp" class="form-text text-muted">Selecione uma data para início e término</small>
                         </div>
                         <br>
-                        
                         <!--  -->
                         <div class="card">
                             <div class="card-header col-auto">
@@ -109,9 +108,9 @@
                              <div class="form-row">
 		                        <div id="sandbox-container" style="width: 100%">
 		                            <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
-		                                <input type="text" class="form-control text-left" placeholder="Digite a data de início" name="dataInicioRecurso" id="dataInicioInput" />
+		                                <input type="text" class="form-control text-left" placeholder="Digite a data de início" name="dataInicioRecurso" id="dataInicioRecursoInput" />
 		                                <span class="input-group-addon">até</span>
-		                                <input type="text" class="form-control text-left " placeholder="Digite a data de término" name="dataTerminoRecurso" id="dataTerminoInput" />
+		                                <input type="text" class="form-control text-left " placeholder="Digite a data de término" name="dataTerminoRecurso" id="dataTerminoRecursoInput" />
 		                                <div class="invalid-feedback">
 		                                </div>
 		                            </div>
@@ -121,9 +120,7 @@
 	                        </div>
                         </div>
                         <br>
-                        
                         <!--  -->
-                        
                         <div class="card">
                             <div class="card-header col-auto">
                                 <label for="documentoInput">Documentação Exigida</label>

@@ -13,6 +13,7 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Email;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoAvaliacao;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.Log;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
@@ -74,11 +75,12 @@ public class AvaliarController {
     public String getIndex(@PathVariable long codEtapa, Model model, HttpServletRequest request) {
         EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
         HttpSession session = request.getSession();
-        UsuarioBeans avaliador = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        if (etapa.getAvaliadores().contains(avaliador)) {
+        SelecaoBeans selecao = (SelecaoBeans) session.getAttribute("selecao");
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        if (etapa.getAvaliadores().contains(usuario) || (selecao.getResponsaveis().contains(usuario)) || (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR))) {
 	        model.addAttribute("etapa", etapa);
 	        model.addAttribute("participantesEtapa", etapa.getParticipantes());
-	        model.addAttribute("avaliador", avaliador);
+	        model.addAttribute("avaliador", usuario);
 	        return "avaliar";
         } else {return "error/404";}
     }
@@ -87,9 +89,10 @@ public class AvaliarController {
     public String getIndexInscricao(@PathVariable long codEtapa, Model model, HttpServletRequest request) {
         EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
         HttpSession session = request.getSession();
-        UsuarioBeans avaliador = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        if (etapa.getAvaliadores().contains(avaliador)) {
-	        model.addAttribute("avaliador", avaliador);
+        SelecaoBeans selecao = (SelecaoBeans) session.getAttribute("selecao");
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        if (etapa.getAvaliadores().contains(usuario) || (selecao.getResponsaveis().contains(usuario)) || (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR))) {
+	        model.addAttribute("avaliador", usuario);
 	        model.addAttribute("etapa", etapa);
 	        model.addAttribute("participantesEtapa", etapa.getParticipantes());
 	        return "avaliar";

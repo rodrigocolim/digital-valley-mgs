@@ -68,7 +68,7 @@ public class ResultadoSelecaoController {
     public String getResultadoDaselecao(@PathVariable long codSelecao, Model model, HttpServletRequest request){
 		UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
         SelecaoBeans selecao  = this.getSelecaoServiceIfc().getSelecao(codSelecao);
-        if (!selecao.isDivulgadoResultado() && !selecao.getResponsaveis().contains(usuario) || !usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+        if (!selecao.getResponsaveis().contains(usuario) && !usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
         	return "error/404";
         }
         ResultadoSelecaoForm resultadoForm = new ResultadoSelecaoForm();
@@ -82,7 +82,7 @@ public class ResultadoSelecaoController {
     public String calculaResultadoDaselecao(@PathVariable long codSelecao, Model model, HttpServletRequest request, @ModelAttribute("resultadoSelecaoForm") ResultadoSelecaoForm resultadoForm) {
         SelecaoBeans selecao  = selecaoServiceIfc.getSelecao(codSelecao);
         UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
-        if (selecao.getResponsaveis().contains(usuario)) {
+        if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
 	        this.getEtapaServiceIfc().setUsuario(usuario);
 	        this.getSelecaoServiceIfc().setUsuario(usuario);
 	

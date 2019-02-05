@@ -78,7 +78,7 @@
                             </p>
                         </div>
                     </div>
-                    <!-- Modal -->
+                    <!-- Modal divulgar -->
                     <div class="modal fade" id="divulgar" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -104,12 +104,22 @@
                     <a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=edital" target="_blank" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;" >
                         <i class="fas fa-file-pdf"></i><span> Visualizar Edital</span>
                     </a>
-                <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                <c:if test="${(isResponsavel) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
                     <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
                         <i class="fas fa-edit"></i> Editar seleção
-                    </a>                    
+                    </a>
+                   <!-- <c:if test="${not selecao.divulgada}">
+	                     <a href="/Darwin/selecao/${selecao.codSelecao}/remover" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
+	                        <i class="fas fa-edit"></i> Remover seleção
+	                    </a>   
+	                    <input type="button" style="font-size: 15px;" class="btn btn-primary" value="remover seleção" data-toggle="modal" data-target="#remover" >                  
+                    </c:if>-->
                 </c:if>
                 <c:if test="${(isResponsavel) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                <a href="/Darwin/selecao/${selecao.codSelecao}/participantes" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
+                        <i class="fas fa-users"></i> Participantes
+                    </a>
+                    
                     <a href="/Darwin/resultadoSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
                         <i class="fas fa-cog"></i> Cálculo Resultado
                     </a>                    
@@ -120,6 +130,26 @@
                         <i class="fas fa-eye"></i> Resultado
                     </a>                    
                 </c:if>
+                 <!-- Modal remover-->
+                    <div class="modal fade" id="remover" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalLabel">Remover seleção</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Após divulgar sua seleção todos os outros usuários poderão visualizar e participar dela. Portanto, verifique se todas as configurações da sua seleção estão de acordo com o edital. </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                                    <a class="btn btn-sm btn-primary" href="/Darwin/selecao/${selecao.codSelecao}/remover"> Remover seleção</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 
                 </div>
                 <br>
@@ -214,9 +244,9 @@
 	                                            </a>   
 	                                        </c:if>
                                        	
-                                        <c:if test="${((estadoInscricao == 2) or (estadoInscricao == 3)) and (not selecao.inscricao.divulgadoResultado) and (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
+                                        <c:if test="${((estadoInscricao == 2) or (estadoInscricao == 3)) and (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
                                             <a href="/Darwin/avaliar/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-                                                <i class="fas fa-clipboard-check"></i> Avaliar
+                                                <i class="fas fa-clipboard-check"></i> Avaliação
                                             </a>
                                         </c:if>
                                        
@@ -355,9 +385,9 @@
 					                        </div>
 					                    </div>
 					                   <!-- remover etapa -->
-                                    <c:if test="${((estado == 2) or (estado == 3)) and (not etapa.divulgadoResultado) and (fn:contains(etapa.avaliadores, sessionScope.usuarioDarwin))}">
+                                    <c:if test="${((estado == 2) or (estado == 3)) and (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
                                         <a href="/Darwin/avaliar/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-                                            <i class="fas fa-clipboard-check"></i> Avaliar
+                                            <i class="fas fa-clipboard-check"></i> Avaliação
                                         </a>
                                     </c:if>
                                     <c:if test="${(estado == 3) and (!etapa.divulgadoResultado) and (not empty etapa.avaliacoes) and ((fn:contains(permissoes, 'ADMINISTRADOR')) or (isResponsavel))}">

@@ -82,6 +82,7 @@ public class SelecaoController {
         
         
         boolean isParticipante = false;
+        boolean isResponsavel = false;
         if (selecao.getInscricao() != null && selecao.getInscricao().getParticipantes() != null) {
         	for (ParticipanteBeans participante : selecao.getInscricao().getParticipantes()) {
     			if (participante.getCandidato().getCodUsuario() == usuario.getCodUsuario()) {
@@ -89,13 +90,17 @@ public class SelecaoController {
     			}
     		}
         }
+        if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+        	isResponsavel = true;
+        }
+        
         selecao.setEtapas(this.etapaServiceIfc.ordenaEtapasPorData(selecao.getEtapas()));
         model.addAttribute("isParticipante", isParticipante);
-        if (!selecao.isDivulgada() && selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+        if (!selecao.isDivulgada()) {
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
-            model.addAttribute("isResponsavel", true);
-            request.getSession().setAttribute("selecao", selecao);
+            model.addAttribute("isResponsavel", isResponsavel);
+            session.setAttribute("selecao", selecao);
             return "selecao";
         } else if(selecao.isDivulgada()) {
             HashMap<EtapaBeans, Object[]> situacao = new HashMap<>();
@@ -121,8 +126,8 @@ public class SelecaoController {
             model.addAttribute("situacao", situacao);
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
-            request.getSession().setAttribute("selecao", selecao);
-            model.addAttribute("isResponsavel", false);
+            session.setAttribute("selecao", selecao);
+            model.addAttribute("isResponsavel", isResponsavel);
             return "selecao";
         } else {
             return "elements/error404";
@@ -169,15 +174,30 @@ public class SelecaoController {
 	     	}
     	} else { return "error/404";}
     }
+    
+    @RequestMapping(value = "/{codSelecao}/participantes", method = RequestMethod.GET)
+    public String getParticipantesInscricao(@PathVariable long codSelecao, Model model, HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+    	SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
+    	UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+     
+        if ((selecao.getResponsaveis().contains(usuario)) || (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR))) {
+	        model.addAttribute("selecao", selecao);
+	        model.addAttribute("participantesEtapa", selecao.getInscricao().getParticipantes());
+	        return "participantes";
+        } else {return "error/404";}
+    }
+    
         
     //Adicao do novo metodo de remover
     @RequestMapping(value = "/{codSelecao}/remover", method = RequestMethod.GET)
     public String removerSelecao(@PathVariable long codSelecao, Model model, HttpServletRequest request) {
     	HttpSession session = request.getSession();
     	SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-    	UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
+    	UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
     	if (!selecao.isDivulgadoResultado() && (selecao.getResponsaveis().contains(usuario)) || (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR))) {
     		try {
+    			selecaoServiceIfc.setUsuario(usuario);
     			selecaoServiceIfc.removeSelecao(selecao);
     			this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" excluiu a seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
     			session.setAttribute("mensagem", "Seleção excluida com sucesso");

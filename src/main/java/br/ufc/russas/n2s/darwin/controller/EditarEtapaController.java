@@ -134,7 +134,7 @@ public class EditarEtapaController {
             
             if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || selecao.getResponsaveis().contains(usuario)) {
             	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            	if (LocalDate.parse(request.getParameter("dataInicio"), formatter).isAfter(LocalDate.now()) && !etapaBeans.getEstado().equals(EnumEstadoEtapa.ESPERA)) {
+            	if (LocalDate.parse(request.getParameter("dataInicio"), formatter).isAfter(LocalDate.now()) && selecao.isDivulgada() && !etapaBeans.getEstado().equals(EnumEstadoEtapa.ESPERA)) {
             		throw new Exception("Após iniciada a etapa, apenas a data de término pode ser prorrogada.");
             	}
             	etapaBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
@@ -278,7 +278,7 @@ public class EditarEtapaController {
             EtapaBeans inscricaoBeans = this.getEtapaServiceIfc().getEtapa(codInscricao);
             if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || selecao.getResponsaveis().contains(usuario)) {
             	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            	if (LocalDate.parse(request.getParameter("dataInicio"), formatter).isAfter(LocalDate.now())) {
+            	if (LocalDate.parse(request.getParameter("dataInicio"), formatter).isAfter(LocalDate.now()) && selecao.isDivulgada()) {
             		throw new Exception("Após iniciada a etapa, apenas a data de término pode ser prorrogada.");
             	}
 	            inscricaoBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));

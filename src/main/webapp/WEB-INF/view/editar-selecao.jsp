@@ -93,7 +93,7 @@
                             <div class="card-header col-auto">
                                 
                                 <label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0" for="isVagasLimitadasInput">
-                                    <input type="checkbox" class="custom-control-input" id="isVagasLimitadasInput" onclick="habilitaCampoVagas()"/>
+                                   <!--  <input type="checkbox" class="custom-control-input" id="isVagasLimitadasInput" onclick="habilitaCampoVagas()"/> -->
                                     <span class="custom-control-indicator"></span>
                                     <span class="custom-control-description" style="margin-top: 4px;">Definir o número de vagas</span>
                                 </label>
@@ -101,14 +101,14 @@
                             
                             <div class="card-body">
                                 <label for="vagasRemuneradasInput">Número de vagas remuneradas</label>
-                                <input type="number" name="vagasRemuneradas" value="${selecao.vagasRemuneradas}" class="form-control col-sm-2 disabled" id="vagasRemuneradasInput" value="0" min="0" max="100" disabled>
+                                <input type="number" name="vagasRemuneradas" value="${selecao.vagasRemuneradas}" class="form-control col-sm-2 disabled" id="vagasRemuneradasInput" value="0" min="0" max="100" >
                                 <div class="invalid-feedback" >
                                     
                                 </div>
                                 <br>
 
                                 <label for="vagasVoluntariasInput">Número de vagas voluntárias</label>
-                                <input type="number" name="vagasVoluntarias" value="${selecao.vagasVoluntarias}" class="form-control col-sm-2 disabled"  id="vagasVoluntariasInput" value="0" min="0" max="100" disabled>
+                                <input type="number" name="vagasVoluntarias" value="${selecao.vagasVoluntarias}" class="form-control col-sm-2 disabled"  id="vagasVoluntariasInput" value="0" min="0" max="100" >
                                 <div class="invalid-feedback">
                                     
                                 </div>

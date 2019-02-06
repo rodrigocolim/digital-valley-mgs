@@ -153,7 +153,7 @@ public class EditarSelecaoController {
                 selecaoBeans.getEdital().setArquivo(temp);
                 selecaoBeans.getEdital().setData(LocalDateTime.now());
                 //selecaoBeans.setEdital(edital);
-                output.close();
+                //output.close();
             }
             
             if (nomeAnexos != null && linkAnexos != null) {
@@ -171,14 +171,15 @@ public class EditarSelecaoController {
                     }
                     anexo.setArquivo(temp);
                     anexo.setData(LocalDateTime.now());
-                    anexos.add(anexo);
+                    selecaoBeans.getAnexos().add(anexo);
                 }
-                selecaoBeans.setAnexos(anexos);
+                //selecaoBeans.setAnexos(anexos);
+                
             	
             }
             
             if (nomeAditivos != null && linkAditivos != null) {
-            	ArrayList<ArquivoBeans> aditivos = new ArrayList<>();
+            	//ArrayList<ArquivoBeans> aditivos = new ArrayList<>();
                 for (int i=0; i < nomeAditivos.length; i++) {
                     ArquivoBeans aditivo = new ArquivoBeans();
                     aditivo.setTitulo(nomeAditivos[i]);
@@ -192,9 +193,10 @@ public class EditarSelecaoController {
                     }
                     aditivo.setArquivo(temp);
                     aditivo.setData(LocalDateTime.now());
-                    aditivos.add(aditivo);
+                    //aditivos.add(aditivo);
+                    selecaoBeans.getAditivos().add(aditivo);
                 }
-                selecaoBeans.setAditivos(aditivos);
+                //selecaoBeans.setAditivos(aditivos);
             }
 
             String[] codResponsaveis = request.getParameterValues("codResponsaveis");

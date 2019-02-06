@@ -278,7 +278,7 @@ public class EditarEtapaController {
             EtapaBeans inscricaoBeans = this.getEtapaServiceIfc().getEtapa(codInscricao);
             if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || selecao.getResponsaveis().contains(usuario)) {
             	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            	if (LocalDate.parse(request.getParameter("dataInicio"), formatter).isAfter(LocalDate.now()) && selecao.isDivulgada()) {
+            	if (LocalDate.parse(request.getParameter("dataInicio"), formatter).isBefore(LocalDate.now()) && selecao.isDivulgada()) {
             		throw new Exception("Após iniciada a etapa, apenas a data de término pode ser prorrogada.");
             	}
 	            inscricaoBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));

@@ -198,6 +198,14 @@ public class SelecaoController {
     	if (!selecao.isDivulgadoResultado() && (selecao.getResponsaveis().contains(usuario)) || (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR))) {
     		try {
     			selecaoServiceIfc.setUsuario(usuario);
+    			etapaServiceIfc.setUsuario(usuario);
+    			
+    			if (selecao.getEtapas() != null) {
+	    			List<EtapaBeans> etapas = selecao.getEtapas();
+	    			for(EtapaBeans e : etapas) {
+	    				etapaServiceIfc.removeEtapa(e);
+	    			}
+    			}    			    			
     			selecaoServiceIfc.removeSelecao(selecao);
     			this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" excluiu a seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
     			session.setAttribute("mensagem", "Seleção excluida com sucesso");

@@ -90,8 +90,10 @@ public class Selecao {
     private EnumEstadoSelecao estado;
     private boolean divulgada;
     private boolean divulgadoResultado;
+    private boolean deletada;
     
-    public Selecao() {
+
+	public Selecao() {
     }
 
     public long getCodSelecao() {
@@ -280,6 +282,14 @@ public class Selecao {
     
     public void setDivulgadoResultado(boolean divulgadoResultado) {
 		this.divulgadoResultado = divulgadoResultado;
+	}
+    
+    public boolean isDeletada() {
+		return deletada;
+	}
+
+	public void setDeletada(boolean deletada) {
+		this.deletada = deletada;
 	}
     
     public Selecao adicionaSelecao() {

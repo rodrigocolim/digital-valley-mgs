@@ -104,32 +104,26 @@
                     <a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=edital" target="_blank" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;" >
                         <i class="fas fa-file-pdf"></i><span> Visualizar Edital</span>
                     </a>
-                <c:if test="${(isResponsavel) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
-                    <a href="/Darwin/editarSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
-                        <i class="fas fa-edit"></i> Editar seleção
-                    </a>
-                   <!-- <c:if test="${not selecao.divulgada}">
-	                     <a href="/Darwin/selecao/${selecao.codSelecao}/remover" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
-	                        <i class="fas fa-edit"></i> Remover seleção
-	                    </a>   
-	                    <input type="button" style="font-size: 15px;" class="btn btn-primary" value="remover seleção" data-toggle="modal" data-target="#remover" >                  
-                    </c:if>-->
-                </c:if>
-                <c:if test="${(isResponsavel) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
-                <a href="/Darwin/selecao/${selecao.codSelecao}/participantes" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
-                        <i class="fas fa-users"></i> Participantes
-                    </a>
-                    
-                    <a href="/Darwin/resultadoSelecao/${selecao.codSelecao}" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
-                        <i class="fas fa-cog"></i> Cálculo Resultado
-                    </a>                    
-                </c:if>
-                <!--  and (selecao.estado eq 'FINALIZADA') -->
                 <c:if test="${((isResponsavel) or (fn:contains(permissoes, 'ADMINISTRADOR'))) or (selecao.divulgadoResultado)}">
                     <a href="/Darwin/selecao/${selecao.codSelecao}/resultado" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
                         <i class="fas fa-eye"></i> Resultado
                     </a>                    
                 </c:if>
+                <c:if test="${(isResponsavel) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                    
+                    <div class="btn-group" role="group">
+					    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="
+   						 height: 33px; margin-left: 30px; margin-top: -4px;"><i class="fas fa-list-ul"></i> Mais opções </button>
+					    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+					      <a class="dropdown-item" href="/Darwin/editarSelecao/${selecao.codSelecao}"> <i class="fas fa-edit"></i> Editar seleção                   </a>
+					      <a class="dropdown-item" href="/Darwin/selecao/${selecao.codSelecao}/participantes"><i class="fas fa-users"></i> Participantes</a>
+					      <a class="dropdown-item" href="/Darwin/resultadoSelecao/${selecao.codSelecao}"><i class="fas fa-cog"></i> Cálculo Resultado</a>
+					      <a class="dropdown-item" href="" data-toggle="modal" data-target="#remover"><i class="fas fa-trash-alt"></i> Excluir Selecao</a>
+					      
+					    </div>
+					  </div>
+                    
+                 </c:if> 
                  <!-- Modal remover-->
                     <div class="modal fade" id="remover" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -141,7 +135,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Após divulgar sua seleção todos os outros usuários poderão visualizar e participar dela. Portanto, verifique se todas as configurações da sua seleção estão de acordo com o edital. </p>
+                                    <p>Tem certeza que deseja excluir esta seleção? Após a confirmação, a ação não poderá ser desfeita! Confirme apenas se tiver absoluta certeza.</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>

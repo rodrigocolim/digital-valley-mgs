@@ -195,18 +195,13 @@ public class SelecaoController {
     	HttpSession session = request.getSession();
     	SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
     	UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-    	if (!selecao.isDivulgadoResultado() && (selecao.getResponsaveis().contains(usuario)) || (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR))) {
+    	if ((selecao.getResponsaveis().contains(usuario)) || (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR))) {
     		try {
     			selecaoServiceIfc.setUsuario(usuario);
     			etapaServiceIfc.setUsuario(usuario);
-    			
-    			if (selecao.getEtapas() != null) {
-	    			List<EtapaBeans> etapas = selecao.getEtapas();
-	    			for(EtapaBeans e : etapas) {
-	    				etapaServiceIfc.removeEtapa(e);
-	    			}
-    			}    			    			
-    			selecaoServiceIfc.removeSelecao(selecao);
+    		
+    			selecao.setDeletada(true);
+    			selecaoServiceIfc.atualizaSelecao(selecao);
     			this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" excluiu a seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
     			session.setAttribute("mensagem", "Seleção excluida com sucesso");
     			session.setAttribute("status", "success");

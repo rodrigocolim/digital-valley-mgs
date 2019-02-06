@@ -78,16 +78,14 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Override
     @Transactional
     public void removeSelecao(SelecaoBeans selecao) {
-        this.getSelecaoDAOIfc().removeSelecao((Selecao) selecao.toBusiness());
+        this.getSelecaoDAOIfc().removerSelecao((Selecao) selecao.toBusiness());
     }
 
     @Override
     @Transactional
     public List<SelecaoBeans> listaTodasSelecoes() {
-        //Selecao selecao = new Selecao();
-       // selecao.setDivulgada(true);
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
-        List<Selecao> resultado = this.getSelecaoDAOIfc().getSelecoesDivulgadas(); //listaSelecoes(selecao);
+        List<Selecao> resultado = this.getSelecaoDAOIfc().getSelecoesDivulgadas();
         for (Selecao s : resultado) {
             if (s.getInscricao() != null) {
                 s.getInscricao().setEstado(s.getInscricao().getEstado().execute(s.getInscricao()));
@@ -112,6 +110,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     public List<SelecaoBeans> listaSelecoes(Selecao selecao) {
         selecao.setDivulgada(true);
         selecao.setDivulgadoResultado(false);
+        selecao.setDeletada(false);
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         
@@ -139,6 +138,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Override
     public List<SelecaoBeans> listaSelecoesAssociada(UsuarioBeans usuario) {
         Selecao selecao = new Selecao();
+        selecao.setDeletada(false);
         UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
         List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().listaSelecoes(selecao);
@@ -167,6 +167,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Override
     public List<SelecaoBeans> listaTodasSelecoesDoBanco() {
         Selecao selecao = new Selecao();
+        selecao.setDeletada(false);
        // UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
         List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().listaSelecoes(selecao);

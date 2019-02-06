@@ -50,5 +50,7 @@ public interface SelecaoDAOIfc {
     Selecao getSelecao(Selecao selecao);
     
     List<Selecao> getSelecoesDivulgadas();
+    
+    void removerSelecao(Selecao selecao);
 
 }

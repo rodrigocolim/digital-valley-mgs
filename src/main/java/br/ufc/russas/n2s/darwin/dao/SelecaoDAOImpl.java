@@ -8,6 +8,7 @@ package br.ufc.russas.n2s.darwin.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -67,11 +68,30 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
 	    session = this.daoImpl.getSessionFactory().openSession();
 	    Transaction t = session.beginTransaction();
 	    Criteria cr = session.createCriteria(Selecao.class);
-	    cr.add(Restrictions.eq("divulgada", true));
+	    cr.add(Restrictions.eq("divulgada", true)).add(Restrictions.eq("deletada",false));
 	    List<Selecao> selecoes = cr.list();
 	    t.commit();
 	    session.close();
 	    return selecoes;
+    }
+    
+    @Override
+    public void removerSelecao(Selecao selecao) {
+    	Session session;
+    	session = this.daoImpl.getSessionFactory().openSession();
+	    Transaction t = session.beginTransaction();    
+	    
+	    try {
+	    	  String hql = "delete from Selecao where codSelecao= :sid";
+	    	  Query query = session.createQuery(hql);
+	    	  
+	    	  query.setString("sid", selecao.getCodSelecao()+"");
+
+	    	  t.commit();
+	    	} catch (Throwable tb) {
+	    	  t.rollback();
+	    	  throw tb;
+	    	}
     }
     
 

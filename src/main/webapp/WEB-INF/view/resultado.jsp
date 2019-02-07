@@ -71,7 +71,17 @@
                                 <c:if test="${empty resultado.notasEtapas}">
                                 	<td> - </td>
                                 </c:if>
-                                <td>${resultado.aprovado == true ? 'CLASSIFICADO':'DESCLASSIFICADO'}</td>
+                               <!--  <td>${resultado.aprovado == true ? 'CLASSIFICADO':'DESCLASSIFICADO'}</td> -->
+                                
+                                 <c:if test="${(resultado.aprovado) and ((resultado.colocacao) <= (selecao.vagasRemuneradas + selecao.vagasVoluntarias))}">
+                                	<td> CLASSIFICADO </td>
+                                </c:if>
+                                <c:if test="${(resultado.aprovado) and ((resultado.colocacao) > (selecao.vagasRemuneradas + selecao.vagasVoluntarias))}">
+                                	<td> CLASSIFICÁVEL </td>
+                                </c:if>
+                                <c:if test="${(not resultado.aprovado)}">
+                                	<td> DESCLASSIFICADO </td>
+                                </c:if>
                             </tr>
                         </c:forEach>
                         </tbody>

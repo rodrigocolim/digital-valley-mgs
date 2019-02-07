@@ -155,11 +155,13 @@ public class EditarEtapaController {
 		            int criterio = Integer.parseInt(request.getParameter("criterio"));
 		            if (criterio == 1) {
 		                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
+		                etapaBeans.setNotaMinima(etapa.getNotaMinima());
 		            } else if(criterio == 2) {
 		                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
 		            } else if(criterio == 3) {
 		                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
 		            }
+		            
 		            etapaBeans.setTitulo(etapa.getTitulo());
 		            etapaBeans.setDescricao(etapa.getDescricao());
 		            long codPrerequisito = Long.parseLong(request.getParameter("prereq"));
@@ -231,16 +233,7 @@ public class EditarEtapaController {
             	}
             	index++;
             }
-           /* if (request.getParameter("dataInicioRecurso")!= null && (request.getParameter("dataInicioRecurso").length() >= 8 ) && request.getParameter("dataTerminoRecurso")!= null && (request.getParameter("dataTerminoRecurso").length() >= 8)) {
-            	Recurso recurso = new Recurso();
-            	DateTimeFormatter formatte = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            	PeriodoBeans pb =new PeriodoBeans(0,LocalDate.parse(request.getParameter("dataInicioRecurso"), formatte), LocalDate.parse(request.getParameter("dataTerminoRecurso"), formatte));
-            	recurso.setPeriodo((Periodo) pb.toBusiness());
-            	etapaBeans.setRecurso(recurso);
-            } else { 
-            	etapaBeans.setRecurso(null);
-            }
-            */
+           
             selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
             this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" modificou a etapa "+etapa.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
             session.setAttribute("status", "success");
@@ -379,7 +372,7 @@ public class EditarEtapaController {
          
     }
     
-    @RequestMapping(value="/divulgarResultado/{codSelecao}/{codInscricao}", method = RequestMethod.GET)
+    @RequestMapping(value="/divulgarResultado/{codSelecao}/{codEtapa}", method = RequestMethod.GET)
     public String divulgaResultado(@PathVariable long codSelecao, @PathVariable long codEtapa, BindingResult result, Model model, HttpServletRequest request) {
     	HttpSession session = request.getSession();
     	try{
@@ -421,7 +414,7 @@ public class EditarEtapaController {
 	            List<Thread> threadsEmail = Collections.synchronizedList(new ArrayList<Thread>());
 	            for (int i =0;i < etapa.getParticipantes().size();i++) {
 	            	ParticipanteBeans p = etapa.getParticipantes().get(i);
-	            	threadsEmail.add(new Thread(new Email(p.getCandidato(), "Resultado de etapa divulgado!", "Resultaod de etapa divulgado", "O resultado da <b>Etapa de "+etapa.getTitulo()+"</b> da <b>Seleção "+selecao.getTitulo()+"</b> foi divulgado!")));
+	            	threadsEmail.add(new Thread(new Email(p.getCandidato(), "Resultado de etapa divulgado!", "Resultado de etapa divulgado", "O resultado da <b>Etapa de "+etapa.getTitulo()+"</b> da <b>Seleção "+selecao.getTitulo()+"</b> foi divulgado!")));
 	            	if (p.getCandidato().isRecebeEmail()) {
 	            		threadsEmail.get(i).start();
 	            	}

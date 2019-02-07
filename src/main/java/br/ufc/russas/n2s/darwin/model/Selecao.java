@@ -449,6 +449,10 @@ public class Selecao {
     		for (int i = 0;i < resultadoEtapaFinal.size();i++) {
     			Object[] r = resultadoEtapaFinal.get(i);
     			Participante p = (Participante) r[0];
+    			
+    		//	System.out.println(p.getCandidato().getNome());
+    			
+    			
     			float sumGeral = 0;
     			float contadorGeral = 0;
     			ResultadoParticipanteSelecao resultadoParticipanteFinal = new ResultadoParticipanteSelecao();
@@ -468,16 +472,25 @@ public class Selecao {
     			}
     			resultadoParticipanteFinal.setMediaGeral(sumGeral/contadorGeral);
     			resultadoSelecao.add(resultadoParticipanteFinal);
+    			//System.out.println(resultadoParticipanteFinal.getParticipante().getCandidato().getNome());
     		}
-    		for (int i =0 ;i < resultadoSelecao.size();i++) {
-    			ResultadoParticipanteSelecao r = resultadoSelecao.get(i);
+    		
+    		for (int i = 0;i < resultadoSelecao.size();i++) {
+    			
+    			int im = i;
     			for (int j = i+1;j<resultadoSelecao.size();j++) {
-    				ResultadoParticipanteSelecao aux = resultadoSelecao.get(j);
-    				if ((float)r.getMediaGeral() < (float)aux.getMediaGeral()) {
-    					resultadoSelecao.set(j, r);
-    					resultadoSelecao.set(i, aux);
+    				//ResultadoParticipanteSelecao aux = resultadoSelecao.get(j);
+    				//ResultadoParticipanteSelecao r = resultadoSelecao.get(i);
+    				if ((float)resultadoSelecao.get(im).getMediaGeral() < (float)resultadoSelecao.get(j).getMediaGeral()) {
+    					//resultadoSelecao.set(j, r);
+    					//resultadoSelecao.set(i, aux);
+    					im = j;
     				}
     			}
+    			ResultadoParticipanteSelecao extra = resultadoSelecao.get(i);
+    			resultadoSelecao.set(i, resultadoSelecao.get(im));
+    			resultadoSelecao.set(im,extra);
+    			//System.out.println(r.getParticipante().getCandidato().getNome());
     		}
     		
     		int p = 1;
@@ -485,15 +498,31 @@ public class Selecao {
     			ResultadoParticipanteSelecao r1 = resultadoSelecao.get(i);
     			ResultadoParticipanteSelecao r2 = resultadoSelecao.get(i+1);
     			int k = 1;
-    			if ((float) r1.getMediaGeral() == (float) r2.getMediaGeral()) {    				
-	    			for (int j = 0;j < r1.getEtapas().size();j++) {
-	    				if (r1.getEtapas().get(i).isCriterioDesempate() && (float) r1.getNotasEtapas().get(j) < (float) r2.getNotasEtapas().get(j)) {
-	    					resultadoSelecao.set(i, r2);
+    			if ((float) r1.getMediaGeral() == (float) r2.getMediaGeral()) {  
+    				if (r1.getEtapas().size() > 1) {
+		    			for (int j = 0;j < r1.getEtapas().size();j++) {
+		    				if (r1.getEtapas().get(i).isCriterioDesempate() && (float) r1.getNotasEtapas().get(j) < (float) r2.getNotasEtapas().get(j)) {
+		    					resultadoSelecao.set(i, r2);
+		    					resultadoSelecao.set(i+1, r1);
+		    					break;
+		    				}
+		    				k++;
+		    			}
+    				} else {
+    					//System.out.println(r1.getParticipante().getCandidato().getNome());
+    					//System.out.println(r2.getParticipante().getCandidato().getNome());
+    					if ((float)r1.getMediaGeral() < (float) r2.getMediaGeral()) {
+    						resultadoSelecao.set(i, r2);
 	    					resultadoSelecao.set(i+1, r1);
-	    					break;
-	    				}
-	    				k++;
-	    			}
+    					}
+    				}
+    			} else {
+    				//System.out.println(r1.getParticipante().getCandidato().getNome());
+    				//System.out.println(r2.getParticipante().getCandidato().getNome());
+    				if ((float)r1.getMediaGeral() < (float) r2.getMediaGeral()) {
+						resultadoSelecao.set(i, r2);
+    					resultadoSelecao.set(i+1, r1);
+					}
     			}
     			if (k == porNotas.size()) {
     				resultadoSelecao.get(i).setColocacao(p);
@@ -505,12 +534,18 @@ public class Selecao {
     			p++;
     		}
     		for (int i = 0; i< resultadoSelecao.size();i++) {
+    			
     			ResultadoParticipanteSelecao r = resultadoSelecao.get(i);
-    			if ((int) r.getColocacao() <= (getVagasRemuneradas()+getVagasVoluntarias()) || (getVagasRemuneradas()+getVagasVoluntarias())==0) {
+    			//if ((int) r.getColocacao() <= (getVagasRemuneradas()+getVagasVoluntarias()) || (getVagasRemuneradas()+getVagasVoluntarias())==0) {
+    			if ((float)r.getMediaGeral() >= this.getUltimaEtapa().getNotaMinima()) {
     				resultadoSelecao.get(i).setAprovado(true);
-    			} else {
+    			} else  {
     				resultadoSelecao.get(i).setAprovado(false);
-    			}
+    			} 
+    			
+
+    			
+    			
 			}
     		return resultadoSelecao;
     	} else {

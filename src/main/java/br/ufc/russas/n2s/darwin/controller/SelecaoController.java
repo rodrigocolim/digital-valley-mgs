@@ -163,10 +163,12 @@ public class SelecaoController {
 		        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));
 		        return "resultado";
 	    	} catch (NullPointerException e) {
+	    		e.printStackTrace();
 				model.addAttribute("mensagem", "Não foram encontrados resultados disponíveis!");
 	            model.addAttribute("status", "warning");
 	            return "resultado";
 			} catch (Exception e) {
+				e.printStackTrace();
 	 	        model.addAttribute("quantidadeEtapasPorNota", selecaoServiceIfc.getEtapasNota(selecao).size());
 	 	        model.addAttribute("selecao", selecao);
 	 	        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));

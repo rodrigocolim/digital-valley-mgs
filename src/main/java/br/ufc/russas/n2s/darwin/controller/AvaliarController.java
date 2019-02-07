@@ -110,7 +110,11 @@ public class AvaliarController {
             if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO) {
                 avaliacao.setAprovado((Integer.parseInt(request.getParameter("aprovacao")) == 1));
             } else if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
-                avaliacao.setAprovado((Integer.parseInt(request.getParameter("deferimento")) == 1));
+            	if (request.getParameter("deferimento") != null) {
+            		avaliacao.setAprovado((Integer.parseInt(request.getParameter("deferimento")) == 1));
+            	} else {
+            		throw new IllegalArgumentException("Não foi selecionado um resultado para o participante!");
+            	}
             } else if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
                 float nota = Float.parseFloat(request.getParameter("nota"));
                 avaliacao.setNota(nota);
@@ -170,24 +174,36 @@ public class AvaliarController {
     
     @RequestMapping(value = "/{codEtapa}", method = RequestMethod.POST)
     public String avaliarEtapa(@PathVariable long codEtapa, HttpServletRequest request, Model model) {
-        try {
+    	HttpSession session = request.getSession();
+    	try {
             EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
             AvaliacaoBeans avaliacao = new AvaliacaoBeans();
             if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO) {
-                avaliacao.setAprovado((Integer.parseInt(request.getParameter("aprovacao")) == 1));
+            	if (request.getParameter("aprovacao") != null) {
+            		avaliacao.setAprovado((Integer.parseInt(request.getParameter("aprovacao")) == 1));
+            	} else {
+            		throw new IllegalArgumentException("Não foi selecionado um resultado para o participante!");
+            	}
             } else if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO) {
-                avaliacao.setAprovado((Integer.parseInt(request.getParameter("deferimento")) == 1));
+            	if (request.getParameter("deferimento") != null) {
+            		avaliacao.setAprovado((Integer.parseInt(request.getParameter("deferimento")) == 1));
+            	} else {
+            		throw new IllegalArgumentException("Não foi selecionado um resultado para o participante!");
+            	}
             } else if (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.NOTA) {
-                float nota = Float.parseFloat(request.getParameter("nota"));
-                avaliacao.setNota(nota);
-                if (nota >= etapa.getNotaMinima()) {
-                    avaliacao.setAprovado(true);
-                } else {
-                    avaliacao.setAprovado(false);
-                }
+            	if (request.getParameter("nota") != null) {
+	                float nota = Float.parseFloat(request.getParameter("nota"));
+	                avaliacao.setNota(nota);
+	                if (nota >= etapa.getNotaMinima()) {
+	                    avaliacao.setAprovado(true);
+	                } else {
+	                    avaliacao.setAprovado(false);
+	                }
+            	} else {
+            		throw new IllegalArgumentException("Não foi selecionado uma nota para o participante!");
+            	}
             }
             
-            HttpSession session = request.getSession();
             UsuarioBeans avaliador = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             avaliacao.setObservacao(request.getParameter("observacoes"));
             ParticipanteBeans participante = participanteServiceIfc.getParticipante(Long.parseLong(request.getParameter("participante")));
@@ -196,9 +212,6 @@ public class AvaliarController {
             avaliacao.setEstado(EnumEstadoAvaliacao.AVALIADO);
             etapaServiceIfc.setUsuario(avaliador);
             etapaServiceIfc.avalia(etapa, avaliacao);
-            //etapa = this.etapaServiceIfc.getEtapa(etapa.getCodEtapa());            
-            //model.addAttribute("etapa", etapa);
-            //model.addAttribute("participantesEtapa", etapa.getParticipantes());
             session.setAttribute("mensagem", "Participante avaliado com sucesso!");
             session.setAttribute("status", "success");
             return "redirect: /Darwin/avaliar/"+etapa.getCodEtapa();

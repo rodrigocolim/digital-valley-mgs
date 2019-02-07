@@ -89,8 +89,18 @@ public class ParticiparEtapaController {
     }
     
     @RequestMapping(value="/inscricao/{codEtapa}", method = RequestMethod.GET)
-    public String getIndexInscricao(@PathVariable long codEtapa, Model model) {
+    public String getIndexInscricao(@PathVariable long codEtapa, Model model, HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+    	boolean isParticipante = false;
+    	UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         EtapaBeans etapaBeans = this.etapaServiceIfc.getEtapa(codEtapa);
+        List<ParticipanteBeans> lista = etapaBeans.getParticipantes();
+        for (ParticipanteBeans pb : lista) {
+        	if (pb.getCandidato().getCodUsuario() == usuario.getCodUsuario()) {
+        		isParticipante = true; break;
+        	}
+        }
+        model.addAttribute("isParticipante", isParticipante);
         model.addAttribute("etapa", etapaBeans);
         return "participar-etapa";
     }

@@ -119,7 +119,7 @@
                                                 <div class="form-group">
                                                     <label for="message-text" class="form-control-label">Avaliação:</label>
                                                     <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
-                                                        <input type="number" name="nota" class="form-control col-sm-2 disabled" id="notaInput" value="${(avaliado and (not empty avaliacaoParticipante)) ? avaliacaoParticipante.nota : '0'}" min="0" max="10" ${avaliado ? "disabled='disabled'" : ""}>
+                                                        <input type="number" name="nota" step="0.01" class="form-control col-sm-2 disabled" id="notaInput" value="${(avaliado and (not empty avaliacaoParticipante)) ? avaliacaoParticipante.nota : '0'}" min="0" max="10" ${avaliado ? "disabled='disabled'" : ""}>
                                                     </c:if>
                                                     <c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
                                                         <div class="form-check form-check-inline">

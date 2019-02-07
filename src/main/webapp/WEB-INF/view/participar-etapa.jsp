@@ -20,6 +20,7 @@
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/design.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.standalone.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     </head>
     <body>
     <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import> 
@@ -70,12 +71,18 @@
                         <a href="/Darwin/selecao/${selecao.codSelecao}" class="btn btn-secondary btn-sm">
                             Cancelar
                         </a>
-                        <c:if test="${empty etapa.documentacaoExigida}">
-                        	<input type="button" value="Confirmar" id="enviar" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#participarEtapa" >
-                        </c:if>
-                        <c:if test="${not empty etapa.documentacaoExigida}">
-                        	<input type="button" value="Enviar" id="enviar" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#participarEtapa" >
-                        </c:if>
+                        <c:if test="${not isParticipante}">
+	                        <c:if test="${empty etapa.documentacaoExigida}">
+	                        	<input type="button" value="Confirmar" id="enviar" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#participarEtapa" >
+	                        </c:if>
+	                        <c:if test="${not empty etapa.documentacaoExigida}">
+	                        	<input type="button" value="Enviar" id="enviar" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#participarEtapa" >
+	                        </c:if>
+	                    </c:if>
+	                    <c:if test="${isParticipante}">
+	                    	<button disabled class="btn btn-secondary btn-sm" role="button" aria-pressed="true"><i class="fas fa-user-check"></i> Inscrito</button>
+	                    </c:if>
+	                    
                         <!-- Modal -->
                         <div class="modal fade" id="participarEtapa" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">

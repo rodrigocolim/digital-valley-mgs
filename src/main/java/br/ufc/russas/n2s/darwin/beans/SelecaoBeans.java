@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  *
- * @author Lavínia Matoso
+ * @author Gilberto Lima, Wallison Rocha
  */
 public class SelecaoBeans implements Beans, Serializable {
 

@@ -17,6 +17,8 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.min.css">
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/design.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+        
     </head>
     <body>
         <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
@@ -62,6 +64,19 @@
                     </div>
                     </c:if>
                 </div>
+                <form method="POST" action="/Darwin/">
+                <div class="center">
+				  <div class="input-group mb-3" style="padding-top: 5px;">
+				  
+					  <input type="text" style="text-align: center;" class="form-control" placeholder="Pesquisar seleções por nome" name="campoBuscaSelecao" aria-describedby="basic-addon2">
+					  <div class="input-group-append">
+					    <button type="submit" class="btn btn-outline-primary" ><i class="fas fa-search"></i> Pesquisar</button>
+					  </div>
+				
+				</div>
+				</div>
+				  </form>
+                
                 <c:if test="${empty selecoes}">
                     <p class="text-muted">Nenhuma seleção cadastrada!</p>
                 </c:if>

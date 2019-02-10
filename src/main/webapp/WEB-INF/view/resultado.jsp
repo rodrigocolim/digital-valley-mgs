@@ -60,7 +60,12 @@
                         <tbody>
                             <c:forEach var="resultado" items="${resultadosSelecao}">
                             <tr>
-                                <td>${resultado.colocacao}</td>
+                            	<c:if test="${(resultado.colocacao == 0)}">
+                            		 <td> - </td>
+                            	</c:if>
+                            	<c:if test="${(resultado.colocacao != 0)}">
+                               	 	<td>${resultado.colocacao}</td>
+                               	 </c:if>
                                 <td>${resultado.participante.candidato.nome}</td>
                                	<c:forEach var="nota" items="${resultado.notasEtapas}">
                                		<th class="text-center" scope="col">${nota}</th>
@@ -71,7 +76,6 @@
                                 <c:if test="${empty resultado.notasEtapas}">
                                 	<td> - </td>
                                 </c:if>
-                               <!--  <td>${resultado.aprovado == true ? 'CLASSIFICADO':'DESCLASSIFICADO'}</td> -->
                                 
                                  <c:if test="${(resultado.aprovado) and ((resultado.colocacao) <= (selecao.vagasRemuneradas + selecao.vagasVoluntarias))}">
                                 	<td> CLASSIFICADO </td>

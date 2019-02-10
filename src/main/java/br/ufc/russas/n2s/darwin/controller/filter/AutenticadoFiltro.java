@@ -86,6 +86,11 @@ public class AutenticadoFiltro implements Filter {
                                         this.getUsuarioServiceIfc().adicionaUsuario(u);
                                     }
                                     session.setAttribute("usuarioDarwin", this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(user.getId()));
+                                    
+                                 /*   for (EnumPermissao e : this.getUsuarioServiceIfc().getUsuarioControleDeAcesso(user.getId()).getPermissoes() ) {
+                                		System.out.println("aqui : "+e.toString());
+                                	}
+                                   */ 
                                     chain.doFilter(request, response);
                             }else {
                                 ((HttpServletResponse) response).sendRedirect(Constantes.getAppUrl());

@@ -68,8 +68,8 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 
     @Override
     public SelecaoBeans atualizaSelecao(SelecaoBeans selecao) throws IllegalAccessException{
-        UsuarioDarwin usuario = (UsuarioDarwin) this.usuario.toBusiness();
-        SelecaoProxy sp = new SelecaoProxy(usuario);
+        UsuarioDarwin usuarioD = (UsuarioDarwin) this.usuario.toBusiness();
+        SelecaoProxy sp = new SelecaoProxy(usuarioD);
         Selecao s = (Selecao) selecao.toBusiness();       
         s = getSelecaoDAOIfc().atualizaSelecao(sp.atualizaSelecao(s));
         return (SelecaoBeans) new SelecaoBeans().toBeans(s);
@@ -78,7 +78,11 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Override
     @Transactional
     public void removeSelecao(SelecaoBeans selecao) {
-        this.getSelecaoDAOIfc().removerSelecao((Selecao) selecao.toBusiness());
+        this.getSelecaoDAOIfc().removeSelecao((Selecao) selecao.toBusiness());
+    }
+    @Override
+    public void divulgaResultadoSelecao(SelecaoBeans selecao) {
+    	this.getSelecaoDAOIfc().divulgaResutadoSelecao((Selecao) selecao.toBusiness());
     }
 
     @Override
@@ -292,4 +296,15 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 		}
 		return rb;
 	}
+	
+	
+	@Override
+	public List<SelecaoBeans> BuscaSelecoesPorNome(String titulo) {
+	    List<Selecao> result = this.getSelecaoDAOIfc().BuscaSelecoesPorNome(titulo);
+	    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
+	    for(Selecao s : result){
+	    	selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+	    }
+	    return selecoes;
+}
 }

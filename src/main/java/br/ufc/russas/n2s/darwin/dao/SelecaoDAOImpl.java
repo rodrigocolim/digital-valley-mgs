@@ -9,15 +9,19 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.object.SqlQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ufc.russas.n2s.darwin.model.Selecao;
+import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 
 /**
  *
@@ -76,22 +80,46 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     }
     
     @Override
-    public void removerSelecao(Selecao selecao) {
+    public void divulgaResutadoSelecao(Selecao selecao) {
     	Session session;
     	session = this.daoImpl.getSessionFactory().openSession();
 	    Transaction t = session.beginTransaction();    
 	    
 	    try {
-	    	  String hql = "delete from Selecao where codSelecao= :sid";
-	    	  Query query = session.createQuery(hql);
+	    	 // String hql = "delete from Selecao where codSelecao= :sid";
+	    	  String hql = "UPDATE darwin.selecao SET divulgadoresultado=:verdade WHERE codselecao=:codS";
 	    	  
-	    	  query.setString("sid", selecao.getCodSelecao()+"");
-
+	    	  SQLQuery query = session.createSQLQuery(hql);// createSqlQuery(hql);
+	    	  query.setParameter("verdade", true);
+	    	  query.setParameter("codS", selecao.getCodSelecao());
+	    	  
+	    	
+	    	  query.executeUpdate();
 	    	  t.commit();
 	    	} catch (Throwable tb) {
 	    	  t.rollback();
 	    	  throw tb;
 	    	}
+    }
+    
+    @Override
+    public List<Selecao> BuscaSelecoesPorNome(String titulo) {
+    	Session session = this.daoImpl.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            List<Selecao> selecoes;
+            Criteria c = session.createCriteria(Selecao.class);
+        	c.add(Restrictions.ilike("titulo", "%"+titulo+"%"));
+        	c.add(Restrictions.eq("deletada", false));
+        	c.addOrder(Order.asc("titulo"));
+        	selecoes = (List<Selecao>) c.list();
+            return selecoes;
+        } catch(RuntimeException e) {
+            t.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
     
 

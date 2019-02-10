@@ -71,6 +71,7 @@ public class SelecaoController {
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        
         HashMap<Long, List<UsuarioBeans>> classificados = new HashMap<>();
         for(EtapaBeans et : selecao.getEtapas()) {
         	List<UsuarioBeans> usuarios = Collections.synchronizedList(new ArrayList<UsuarioBeans>());
@@ -79,7 +80,6 @@ public class SelecaoController {
         	}
         	classificados.put(et.getCodEtapa(), usuarios);
         }
-        
         
         boolean isParticipante = false;
         boolean isResponsavel = false;
@@ -96,10 +96,10 @@ public class SelecaoController {
         
         selecao.setEtapas(this.etapaServiceIfc.ordenaEtapasPorData(selecao.getEtapas()));
         model.addAttribute("isParticipante", isParticipante);
+        model.addAttribute("isResponsavel", isResponsavel);
         if (!selecao.isDivulgada()) {
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
-            model.addAttribute("isResponsavel", isResponsavel);
             session.setAttribute("selecao", selecao);
             return "selecao";
         } else if(selecao.isDivulgada()) {
@@ -127,7 +127,7 @@ public class SelecaoController {
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
             session.setAttribute("selecao", selecao);
-            model.addAttribute("isResponsavel", isResponsavel);
+           // model.addAttribute("isResponsavel", isResponsavel);
             return "selecao";
         } else {
             return "elements/error404";

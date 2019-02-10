@@ -81,6 +81,23 @@ public class IndexController {
         return "index";
     }
     
+    @RequestMapping(method = RequestMethod.POST)
+    public String getPorTitulo(Model model, HttpServletRequest request) {
+      // Selecao selecao = new Selecao();
+      String titulo = (String) request.getParameter("campoBuscaSelecao");
+        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().BuscaSelecoesPorNome(titulo) ;
+        HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();
+        for (SelecaoBeans s : selecoes) {
+            etapasAtuais.put(s.getCodSelecao(), this.getSelecaoServiceIfc().getEtapaAtual(s));
+        }
+        model.addAttribute("categoria", "Resultados para busca por \""+titulo+"\"");
+       
+        model.addAttribute("selecoes", selecoes);
+        model.addAttribute("etapasAtuais", etapasAtuais); 
+        return "index";
+    }
+    
+    
     @RequestMapping(value = "/estado/{estado}", method = RequestMethod.GET)
     public String getEstados(Model model, @PathVariable String estado){
         Selecao selecao = new Selecao();

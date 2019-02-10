@@ -117,16 +117,22 @@ public class ResultadoSelecaoController {
 	    	try {
 	    		selecao.setDivulgadoResultado(true);
 	    		selecaoServiceIfc.setUsuario(usuario);
-	    		selecao = selecaoServiceIfc.atualizaSelecao(selecao);
-		        session.setAttribute("selecao", selecao);
-		        session.setAttribute("mensagem","Resultado final divulgado com sucesso!");
+	    		selecaoServiceIfc.divulgaResultadoSelecao(selecao);
+	    		session.setAttribute("mensagem","Resultado final divulgado com sucesso!");
+		        selecao = selecaoServiceIfc.getSelecao(selecao.getCodSelecao());
+	    		session.setAttribute("selecao", selecao);
 		        session.setAttribute("status","success");
 		        return ("redirect:/selecao/"+selecao.getCodSelecao());
 	    	} catch (NullPointerException e) {
 				model.addAttribute("mensagem", "Não foi possivel divulgar o resultado!");
 	            model.addAttribute("status", "danger");
+	            model.addAttribute("quantidadeEtapasPorNota", selecaoServiceIfc.getEtapasNota(selecao).size());
+	 	        model.addAttribute("selecao", selecao);
+	 	        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));
 	            return "resultado";
 			} catch (Exception e) {
+				model.addAttribute("mensagem", "Não foi possivel divulgar o resultado!");
+	            model.addAttribute("status", "danger");
 	 	        model.addAttribute("quantidadeEtapasPorNota", selecaoServiceIfc.getEtapasNota(selecao).size());
 	 	        model.addAttribute("selecao", selecao);
 	 	        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));

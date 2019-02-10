@@ -434,119 +434,132 @@ public class Selecao {
     		List<Etapa> porNotas = this.getEtapas().stream()
                     .filter( EtapaPredicates.isNota())
                     .collect(Collectors.<Etapa>toList());
-    		for (int i =0 ;i < porNotas.size()-1;i++) {
-    			Etapa e = porNotas.get(i);
-    			int menor = i;
-    			for (int j = i+1;j<porNotas.size();j++) {
-    				if (porNotas.get(j).getPosiscaoCriterioDesempate() < e.getPosiscaoCriterioDesempate()) {
-    					menor = j;
-    				}
-    			}
-    			Etapa aux = porNotas.get(menor);
-    			porNotas.set(menor, e);
-				porNotas.set(i, aux);
-    		}
-    		for (int i = 0;i < resultadoEtapaFinal.size();i++) {
-    			Object[] r = resultadoEtapaFinal.get(i);
-    			Participante p = (Participante) r[0];
-    			
-    		//	System.out.println(p.getCandidato().getNome());
-    			
-    			
-    			float sumGeral = 0;
-    			float contadorGeral = 0;
-    			ResultadoParticipanteSelecao resultadoParticipanteFinal = new ResultadoParticipanteSelecao();
-    			resultadoParticipanteFinal.setParticipante(p);
-    			for (int j = 0;j < porNotas.size();j++) {
-    				Etapa etapa = porNotas.get(j);
-    				for (int k = 0;k < etapa.getResultado().size();k++) {
-    					Object[] resultadoParticipante = etapa.getResultado().get(k);
-    					if (p.equals((Participante) resultadoParticipante[0])) {
-    						resultadoParticipanteFinal.getNotasEtapas().add((float) resultadoParticipante[3]);
-    						sumGeral += (float) resultadoParticipante[3] * etapa.getPesoNota();
-    						break;
-    					}
-    				}
-    				resultadoParticipanteFinal.getEtapas().add(etapa);
-    				contadorGeral +=  etapa.getPesoNota();
-    			}
-    			resultadoParticipanteFinal.setMediaGeral(sumGeral/contadorGeral);
-    			resultadoSelecao.add(resultadoParticipanteFinal);
-    			//System.out.println(resultadoParticipanteFinal.getParticipante().getCandidato().getNome());
-    		}
     		
-    		for (int i = 0;i < resultadoSelecao.size();i++) {
-    			
-    			int im = i;
-    			for (int j = i+1;j<resultadoSelecao.size();j++) {
-    				//ResultadoParticipanteSelecao aux = resultadoSelecao.get(j);
-    				//ResultadoParticipanteSelecao r = resultadoSelecao.get(i);
-    				if ((float)resultadoSelecao.get(im).getMediaGeral() < (float)resultadoSelecao.get(j).getMediaGeral()) {
-    					//resultadoSelecao.set(j, r);
-    					//resultadoSelecao.set(i, aux);
-    					im = j;
-    				}
-    			}
-    			ResultadoParticipanteSelecao extra = resultadoSelecao.get(i);
-    			resultadoSelecao.set(i, resultadoSelecao.get(im));
-    			resultadoSelecao.set(im,extra);
-    			//System.out.println(r.getParticipante().getCandidato().getNome());
-    		}
-    		
-    		int p = 1;
-    		for (int i = 0;i<resultadoSelecao.size()-1;i++) {
-    			ResultadoParticipanteSelecao r1 = resultadoSelecao.get(i);
-    			ResultadoParticipanteSelecao r2 = resultadoSelecao.get(i+1);
-    			int k = 1;
-    			if ((float) r1.getMediaGeral() == (float) r2.getMediaGeral()) {  
-    				if (r1.getEtapas().size() > 1) {
-		    			for (int j = 0;j < r1.getEtapas().size();j++) {
-		    				if (r1.getEtapas().get(i).isCriterioDesempate() && (float) r1.getNotasEtapas().get(j) < (float) r2.getNotasEtapas().get(j)) {
-		    					resultadoSelecao.set(i, r2);
+    		if (porNotas.size() > 0) {
+	    		for (int i =0 ;i < porNotas.size()-1;i++) {
+	    			Etapa e = porNotas.get(i);
+	    			int menor = i;
+	    			for (int j = i+1;j<porNotas.size();j++) {
+	    				if (porNotas.get(j).getPosiscaoCriterioDesempate() < e.getPosiscaoCriterioDesempate()) {
+	    					menor = j;
+	    				}
+	    			}
+	    			Etapa aux = porNotas.get(menor);
+	    			porNotas.set(menor, e);
+					porNotas.set(i, aux);
+	    		}
+	    		for (int i = 0;i < resultadoEtapaFinal.size();i++) {
+	    			Object[] r = resultadoEtapaFinal.get(i);
+	    			Participante p = (Participante) r[0];
+	    			
+	    		//	System.out.println(p.getCandidato().getNome());
+	    			
+	    			
+	    			float sumGeral = 0;
+	    			float contadorGeral = 0;
+	    			ResultadoParticipanteSelecao resultadoParticipanteFinal = new ResultadoParticipanteSelecao();
+	    			resultadoParticipanteFinal.setParticipante(p);
+	    			for (int j = 0;j < porNotas.size();j++) {
+	    				Etapa etapa = porNotas.get(j);
+	    				for (int k = 0;k < etapa.getResultado().size();k++) {
+	    					Object[] resultadoParticipante = etapa.getResultado().get(k);
+	    					if (p.equals((Participante) resultadoParticipante[0])) {
+	    						resultadoParticipanteFinal.getNotasEtapas().add((float) resultadoParticipante[3]);
+	    						sumGeral += (float) resultadoParticipante[3] * etapa.getPesoNota();
+	    						break;
+	    					}
+	    				}
+	    				resultadoParticipanteFinal.getEtapas().add(etapa);
+	    				contadorGeral +=  etapa.getPesoNota();
+	    			}
+	    			resultadoParticipanteFinal.setMediaGeral(sumGeral/contadorGeral);
+	    			resultadoSelecao.add(resultadoParticipanteFinal);
+	    		}
+	    		
+	    		for (int i = 0;i < resultadoSelecao.size();i++) {
+	    			
+	    			int im = i;
+	    			for (int j = i+1;j<resultadoSelecao.size();j++) {
+	    				if ((float)resultadoSelecao.get(im).getMediaGeral() < (float)resultadoSelecao.get(j).getMediaGeral()) {
+	    					im = j;
+	    				}
+	    			}
+	    			ResultadoParticipanteSelecao extra = resultadoSelecao.get(i);
+	    			resultadoSelecao.set(i, resultadoSelecao.get(im));
+	    			resultadoSelecao.set(im,extra);
+	    		}
+	    		
+	    		int p = 1;
+	    		for (int i = 0;i<resultadoSelecao.size()-1;i++) {
+	    			ResultadoParticipanteSelecao r1 = resultadoSelecao.get(i);
+	    			ResultadoParticipanteSelecao r2 = resultadoSelecao.get(i+1);
+	    			int k = 1;
+	    			if ((float) r1.getMediaGeral() == (float) r2.getMediaGeral()) {  
+	    				if (r1.getEtapas().size() > 1) {
+			    			for (int j = 0;j < r1.getEtapas().size();j++) {
+			    				if (r1.getEtapas().get(i).isCriterioDesempate() && (float) r1.getNotasEtapas().get(j) < (float) r2.getNotasEtapas().get(j)) {
+			    					resultadoSelecao.set(i, r2);
+			    					resultadoSelecao.set(i+1, r1);
+			    					break;
+			    				}
+			    				k++;
+			    			}
+	    				} else {
+	    					if ((float)r1.getMediaGeral() < (float) r2.getMediaGeral()) {
+	    						resultadoSelecao.set(i, r2);
 		    					resultadoSelecao.set(i+1, r1);
-		    					break;
-		    				}
-		    				k++;
-		    			}
-    				} else {
-    					//System.out.println(r1.getParticipante().getCandidato().getNome());
-    					//System.out.println(r2.getParticipante().getCandidato().getNome());
-    					if ((float)r1.getMediaGeral() < (float) r2.getMediaGeral()) {
-    						resultadoSelecao.set(i, r2);
+	    					}
+	    				}
+	    			} else {
+	    				if ((float)r1.getMediaGeral() < (float) r2.getMediaGeral()) {
+							resultadoSelecao.set(i, r2);
 	    					resultadoSelecao.set(i+1, r1);
-    					}
-    				}
-    			} else {
-    				//System.out.println(r1.getParticipante().getCandidato().getNome());
-    				//System.out.println(r2.getParticipante().getCandidato().getNome());
-    				if ((float)r1.getMediaGeral() < (float) r2.getMediaGeral()) {
-						resultadoSelecao.set(i, r2);
-    					resultadoSelecao.set(i+1, r1);
-					}
-    			}
-    			if (k == porNotas.size()) {
-    				resultadoSelecao.get(i).setColocacao(p);
-    				resultadoSelecao.get(i+1).setColocacao(p);
-    			} else {
-    				resultadoSelecao.get(i).setColocacao(p);
-    				resultadoSelecao.get(i+1).setColocacao(p+1);
-    			}
-    			p++;
+						}
+	    			}
+	    			if (k == porNotas.size()) {
+	    				resultadoSelecao.get(i).setColocacao(p);
+	    				resultadoSelecao.get(i+1).setColocacao(p+1);
+	    			} else {
+	    				resultadoSelecao.get(i).setColocacao(p);
+	    				resultadoSelecao.get(i+1).setColocacao(p+1);
+	    			}
+	    			p++;
+	    		}
+	    		for (int i = 0; i< resultadoSelecao.size();i++) {
+	    			
+	    			ResultadoParticipanteSelecao r = resultadoSelecao.get(i);
+	    			//if ((int) r.getColocacao() <= (getVagasRemuneradas()+getVagasVoluntarias()) || (getVagasRemuneradas()+getVagasVoluntarias())==0) {
+	    			if ((float)r.getMediaGeral() >= this.getUltimaEtapa().getNotaMinima()) {
+	    				resultadoSelecao.get(i).setAprovado(true);
+	    			} else  {
+	    				resultadoSelecao.get(i).setAprovado(false);
+	    			} 
+	    			
+	
+	    			
+	    			
+				}
+    		} else {
+    			//Etapa uEtapa = getUltimaEtapa();
+    			
+    			for (int i = 0;i < resultadoEtapaFinal.size();i++) {
+	    			Object[] r = resultadoEtapaFinal.get(i);
+	    			Participante p = (Participante) r[0];
+	    			String status = (String) r[2];
+	    			//System.out.println(status);
+	   
+	    			ResultadoParticipanteSelecao resultadoParticipanteFinal = new ResultadoParticipanteSelecao();
+	    			resultadoParticipanteFinal.setParticipante(p);
+	    			if (status.toUpperCase().equals("APROVADO")) {
+	    				resultadoParticipanteFinal.setAprovado(true);
+	    			} else {
+	    				resultadoParticipanteFinal.setAprovado(false);
+	    			}
+	    			//resultadoParticipanteFinal.setColocacao(i+1);
+	    			resultadoSelecao.add(resultadoParticipanteFinal);
+	    		}
+    			
     		}
-    		for (int i = 0; i< resultadoSelecao.size();i++) {
-    			
-    			ResultadoParticipanteSelecao r = resultadoSelecao.get(i);
-    			//if ((int) r.getColocacao() <= (getVagasRemuneradas()+getVagasVoluntarias()) || (getVagasRemuneradas()+getVagasVoluntarias())==0) {
-    			if ((float)r.getMediaGeral() >= this.getUltimaEtapa().getNotaMinima()) {
-    				resultadoSelecao.get(i).setAprovado(true);
-    			} else  {
-    				resultadoSelecao.get(i).setAprovado(false);
-    			} 
-    			
-
-    			
-    			
-			}
     		return resultadoSelecao;
     	} else {
     		throw new IllegalAccessException("A seleção ainda não terminou! Só será possível divulgar o resultado após o termino da última etapa!");

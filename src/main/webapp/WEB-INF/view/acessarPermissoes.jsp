@@ -20,6 +20,8 @@
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/design.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.css" />
         <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.standalone.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+        
     </head>
     <body>
     <c:import url="elements/menu-superior.jsp" charEncoding="UTF-8"></c:import>
@@ -45,11 +47,17 @@
                 </c:if>                   
                     <div class="row">
                         <h1 class="col-sm-8">Gerenciar Permissões</h1>
-                        <form class="form-inline" action="/Darwin/permissoes/busca" method="get">
-                            <input class="form-control" style="width: 250px;" type="search" name="nomeUsuario" placeholder="Nome do usuário">&nbsp;
-                            <button class="btn btn-sm btn-primary" type="submit">Procurar</button>
-                        </form>
                     </div>
+                    <form method="GET" action="/Darwin/permissoes/busca">
+		                <div class="center">
+						  <div class="input-group mb-3" style="padding-top: 5px;">
+							  <input type="text" style="text-align: center;" class="form-control" placeholder="Nome do usuário" name="nomeUsuario" aria-describedby="basic-addon2">
+							  <div class="input-group-append">
+							    <button type="submit" class="btn btn-outline-primary" ><i class="fas fa-search"></i> Pesquisar</button>
+							  </div>
+							</div>
+						</div>
+				  	</form>
                     <br>
                     <table class="table table-striped  table-responsive">
                         <thead class="thead-dark">

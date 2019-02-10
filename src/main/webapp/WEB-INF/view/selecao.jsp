@@ -392,14 +392,14 @@
 												</c:if>
 											</c:forEach>
 											<c:if test="${pendente}">
-											<a href="" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultadoetapa">
-												<i class="fas fa-bullhorn"></i> Divulgar Resultado
-											</a>
+												<a href="" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultadoetapa">
+													<i class="fas fa-bullhorn"></i> Divulgar Resultado
+												</a>
 											</c:if>
 											<c:if test="${not pendente}">
-											<a href="/Darwin/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-												Divulgar Resultado
-											</a>
+												<a href="/Darwin/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+													Divulgar Resultado
+												</a>
 											</c:if>
 											
 											<!-- divulgação de resultados -->
@@ -423,7 +423,7 @@
 						                        </div>
 						                    </div>
 									</c:if>
-                                    <c:if test="${(etapa.divulgadoResultado) and ((isResponsavel and (estado == 3)) or (fn:contains(permissoes, 'ADMINISTRADOR') and (estado == 3)) or (fn:contains(permissoes, 'PARTICIPANTE') and (estado == 3))) or  (not empty etapa.avaliacoes)}">
+                                    <c:if test="${(etapa.divulgadoResultado) and ((isResponsavel and (estado == 3)) or (fn:contains(permissoes, 'ADMINISTRADOR') and (estado == 3)) or (fn:contains(permissoes, 'PARTICIPANTE') and (estado == 3)))}">
                                      	<a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                            <i class="fas fa-eye"></i> Ver Resultado
                                         </a>

@@ -51,6 +51,8 @@ public interface SelecaoDAOIfc {
     
     List<Selecao> getSelecoesDivulgadas();
     
-    void removerSelecao(Selecao selecao);
+    void divulgaResutadoSelecao(Selecao selecao);
+    
+    List<Selecao> BuscaSelecoesPorNome(String titulo);
 
 }

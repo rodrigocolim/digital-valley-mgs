@@ -24,6 +24,7 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteSelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.model.Selecao;
 import util.Constantes;
 
 
@@ -168,8 +169,16 @@ public class Facade {
             table.addCell(mediaGeral);
             table.addCell(situacao);
             f.setSize(8);
+            
+            Selecao sele = (Selecao) selecao.toBusiness();
         	for (ResultadoParticipanteSelecaoBeans rps : resultado) {
-        		PdfPCell posi = new PdfPCell(new Paragraph(rps.getColocacao()+"",f));
+        		String colocacao;
+        		if (rps.getColocacao() > 0) {
+        			colocacao = rps.getColocacao()+"";
+        		} else {
+        			colocacao = " - ";
+        		}
+        		PdfPCell posi = new PdfPCell(new Paragraph(colocacao,f));
 				posi.setHorizontalAlignment(Element.ALIGN_CENTER);
 				table.addCell(posi);
 				
@@ -198,7 +207,15 @@ public class Facade {
 					table.addCell(mg);
 				}
 				
-				if (rps.isAprovado()) s = "CLASSIFICADO"; else s = "DESCLASSIFICADO";
+				if (rps.isAprovado() && rps.getColocacao() <=  (sele.getVagasRemuneradas()+sele.getVagasVoluntarias())) {
+					s = "CLASSIFICADO";
+				} else if (rps.isAprovado() && rps.getColocacao() >  (sele.getVagasRemuneradas()+sele.getVagasVoluntarias())) {
+					s = "CLASSIFICÁVEL";
+				} else {
+					s = "DESCLASSIFICADO";
+				}
+				//sele.getUltimaEtapa().getLimiteClassificados()) {}
+				//if (rps.isAprovado()) s = "CLASSIFICADO"; else 
 
 				PdfPCell situ  = new PdfPCell(new Paragraph(s,f));
 				situ.setHorizontalAlignment(Element.ALIGN_CENTER);

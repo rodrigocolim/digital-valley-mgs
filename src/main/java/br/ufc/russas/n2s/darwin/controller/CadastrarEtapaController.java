@@ -108,6 +108,7 @@ public class CadastrarEtapaController {
 	            model.addAttribute("selecao", selecao);
 	            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
 	            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
+	           // String[] documentosOpcionais = request.getParameterValues("documentosOpcionais");
 	            int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
 	            if (criterio == 1) {
 	                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);

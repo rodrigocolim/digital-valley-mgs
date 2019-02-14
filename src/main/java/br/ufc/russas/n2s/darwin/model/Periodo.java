@@ -135,9 +135,29 @@ public class Periodo implements AttributeConverter<LocalDate, Date>, Serializabl
         }
         return false;
     }
-
+    
+    public final boolean isColide2(final Periodo periodo){
+        //começa depois do inicio e termina antes do fim
+        if ((periodo.getInicio().isAfter(this.getInicio())) && (periodo.getInicio().isBefore(this.getTermino()))) {
+            return true;
+        }
+        //começa antes do inicio e termina depois do inicio
+        if ((periodo.getTermino().isAfter(this.getInicio())) && (periodo.getTermino().isBefore(this.getTermino()))) {
+            return true;
+        }
+        //começa antes do fim e termina depois
+        if ((periodo.getInicio().isBefore(this.getTermino())) && (periodo.getTermino().isAfter(this.getTermino()))) {
+            return true;
+        }
+        //começa antes do inicio e termina depois do fim
+        if ((periodo.getInicio().isBefore(this.getInicio())) && (periodo.getTermino().isAfter(this.getTermino()))) {
+            return true;
+        }
+        return false;
+    }
+    
     public boolean isAntes(Periodo periodo) {
-        return this.getTermino().isBefore(periodo.getInicio());
+        return this.getTermino().isBefore(periodo.getInicio() );
     }
 
     public boolean isDepois(Periodo periodo) {

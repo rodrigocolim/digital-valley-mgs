@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.mail.EmailException;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -149,7 +150,7 @@ public class EditarEtapaController {
                  	etapaBeans.setRecurso(null);
                  }
             	 
-            	if (etapaBeans.getPeriodo().getInicio().isAfter(LocalDate.now())) {
+            	if (etapaBeans.getPeriodo().getInicio().isAfter(LocalDate.now()) || !selecao.isDivulgada()) {
 		            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
 		            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
 		            int criterio = Integer.parseInt(request.getParameter("criterio"));
@@ -408,6 +409,9 @@ public class EditarEtapaController {
             if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
 	            EtapaBeans etapa = etapaServiceIfc.getEtapa(codInscricao);
 	            this.etapaServiceIfc.setUsuario(usuario);
+	            if (etapa.getAvaliacoes() == null) {
+	            	throw new Exception("Não existem avaliações para serem divulgadas!");
+	            }
 	            etapa.setDivulgaResultado(true);
 	            etapa = etapaServiceIfc.atualizaEtapa(etapa);
 	            Email email = new Email();
@@ -427,7 +431,7 @@ public class EditarEtapaController {
 	            session.setAttribute("status", "success");
 	            return "redirect:/selecao/" + selecao.getCodSelecao();
             } else { return "error/404";}
-        } catch (IllegalCodeException e) {
+        } catch (Exception e) {
     		session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
     		return "redirect:/selecao/" + codSelecao;
@@ -455,7 +459,8 @@ public class EditarEtapaController {
 	            session.setAttribute("status", "success");
 	            return "redirect:/selecao/" + selecao.getCodSelecao();
             } else {return "error/404";}
-        } catch (IllegalAccessException e) {
+        } 
+    	catch (IllegalAccessException e) {
         	session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
             return "redirect:/selecao/" + codSelecao;
@@ -463,7 +468,11 @@ public class EditarEtapaController {
         	session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
     		return "redirect:/selecao/" + codSelecao;
-    	}
+    	} catch (Exception e) {
+    		session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "danger");
+            return "redirect:/selecao/" + codSelecao;
+        }
     }
 
 }

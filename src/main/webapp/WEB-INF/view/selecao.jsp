@@ -354,12 +354,12 @@
                                         </a>   
                                     </c:if>
                                     <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and (dateAgora < Inicio)  }">
-                                        <a href="/Darwin/removerEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#removerEtapa" style="height: 30px;">
-                                            Remover etapa
+                                        <a href="/Darwin/removerEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#removerEtapa-${etapa.codEtapa}" style="height: 30px;">
+                                           <i class="fas fa-trash-alt"></i> Remover etapa
                                         </a>
                                     </c:if>
                                        <!-- remover etapa -->
-					                    <div class="modal fade" id="removerEtapa" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+					                    <div class="modal fade" id="removerEtapa-${etapa.codEtapa}" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
 					                        <div class="modal-dialog" role="document">
 					                            <div class="modal-content">
 					                                <div class="modal-header">
@@ -384,7 +384,7 @@
                                             <i class="fas fa-clipboard-check"></i> Avaliação
                                         </a>
                                     </c:if>
-                                    <c:if test="${(estado == 3) and (!etapa.divulgadoResultado) and (not empty etapa.avaliacoes) and ((fn:contains(permissoes, 'ADMINISTRADOR')) or (isResponsavel))}">
+                                    <c:if test="${(estado == 3) and (!etapa.divulgadoResultado) and ((fn:contains(permissoes, 'ADMINISTRADOR')) or (isResponsavel))}">
 											<c:set var="pendente" value="false"></c:set>
 											<c:forEach var="avaliacao" items="${etapa.avaliacoes}">
 												<c:if test="${avaliacao.estado eq 'PENDENTE'}">
@@ -398,7 +398,7 @@
 											</c:if>
 											<c:if test="${not pendente}">
 												<a href="/Darwin/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-													Divulgar Resultado
+													<i class="fas fa-bullhorn"></i> Divulgar Resultado
 												</a>
 											</c:if>
 											

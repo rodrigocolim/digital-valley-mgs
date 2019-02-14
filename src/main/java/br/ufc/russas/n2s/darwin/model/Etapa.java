@@ -71,7 +71,7 @@ public class Etapa implements Serializable {
 	private boolean criterioDesempate;
 	private int posiscaoCriterioDesempate;
 	
-	@ManyToMany(targetEntity = Avaliacao.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(targetEntity = Avaliacao.class, fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@Fetch(FetchMode.SUBSELECT)
 	@JoinTable(name = "avaliacoes", joinColumns = {
 			@JoinColumn(name = "etapa", referencedColumnName = "codEtapa") }, inverseJoinColumns = {

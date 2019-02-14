@@ -7,6 +7,7 @@ package br.ufc.russas.n2s.darwin.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -32,7 +33,7 @@ public class Avaliacao implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codAvaliacao")
     private long codAvaliacao;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH, CascadeType.REMOVE, CascadeType.REFRESH})
     @JoinColumn(name = "participante", referencedColumnName = "codParticipante")
     private Participante participante;
     private float nota;

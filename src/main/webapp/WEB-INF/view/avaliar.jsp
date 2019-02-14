@@ -119,12 +119,12 @@
                                                 <div class="form-group">
                                                     <label for="message-text" class="form-control-label">Avaliação:</label>
                                                     <c:if test="${(etapa.criterioDeAvaliacao.criterio == 1)}">
-                                                        <input type="number" name="nota" step="0.01" class="form-control col-sm-2 disabled" id="notaInput" value="${(avaliado and (not empty avaliacaoParticipante)) ? avaliacaoParticipante.nota : '0'}" min="0" max="10" ${avaliado ? "disabled='disabled'" : ""}>
+                                                        <input type="number" name="nota" step="0.01" class="form-control col-sm-2 disabled" id="notaInput" required value="${(avaliado and (not empty avaliacaoParticipante)) ? avaliacaoParticipante.nota : '0'}" min="0" max="10" ${avaliado ? "disabled='disabled'" : ""}>
                                                     </c:if>
                                                     <c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
                                                         <div class="form-check form-check-inline">
                                                             <label class="form-check-label">
-                                                                <input class="form-check-input" type="radio" name="aprovacao" id="aprovadoOpcao" value="1" > Aprovado
+                                                                <input class="form-check-input" type="radio" name="aprovacao" id="aprovadoOpcao" value="1"  required> Aprovado
                                                             </label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
@@ -136,7 +136,7 @@
                                                     <c:if test="${(etapa.criterioDeAvaliacao.criterio == 3)}">
                                                         <div class="form-check form-check-inline">
                                                             <label class="form-check-label">
-                                                                <input class="form-check-input" type="radio" name="deferimento" id="deferidoOpcao" value="1" ${(avaliado and (not empty avaliacaoParticipante) and avaliacaoParticipante.aprovado) ? "checked='checked'" : ""} ${avaliado ? "disabled='disabled'" : ""}> Deferido
+                                                                <input class="form-check-input" type="radio" name="deferimento" id="deferidoOpcao" required value="1" ${(avaliado and (not empty avaliacaoParticipante) and avaliacaoParticipante.aprovado) ? "checked='checked'" : ""} ${avaliado ? "disabled='disabled'" : ""}> Deferido
                                                             </label>
                                                         </div>
                                                         <div class="form-check form-check-inline">

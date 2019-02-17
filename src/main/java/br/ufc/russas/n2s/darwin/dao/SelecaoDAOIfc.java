@@ -53,6 +53,8 @@ public interface SelecaoDAOIfc {
     
     void divulgaResutadoSelecao(Selecao selecao);
     
+    void atualizaExibirNotas(Selecao selecao);
+    
     List<Selecao> BuscaSelecoesPorNome(String titulo);
 
 }

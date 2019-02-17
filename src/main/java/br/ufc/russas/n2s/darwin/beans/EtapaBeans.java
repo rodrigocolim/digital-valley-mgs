@@ -34,6 +34,7 @@ public class EtapaBeans implements Beans, Serializable {
     private String descricao;
     private List<UsuarioBeans> avaliadores;
     private List<String> documentacaoExigida;
+    private List<String> documentacaoOpcional;
     private EnumCriterioDeAvaliacao criterioDeAvaliacao;
     private List<AvaliacaoBeans> avaliacoes;
     private List<DocumentacaoBeans> documentacoes;
@@ -97,6 +98,14 @@ public class EtapaBeans implements Beans, Serializable {
 
     public void setDocumentacaoExigida(List<String> documentacao) {
         this.documentacaoExigida = documentacao;
+    }
+    
+    public List<String> getDocumentacaoOpcional() {
+        return documentacaoOpcional;
+    }
+
+    public void setDocumentacaoOpcional(List<String> documentacao) {
+        this.documentacaoOpcional = documentacao;
     }
 
     public EnumCriterioDeAvaliacao getCriterioDeAvaliacao() {
@@ -212,6 +221,7 @@ public class EtapaBeans implements Beans, Serializable {
         etapa.setTitulo(this.getTitulo());
         etapa.setDescricao(this.getDescricao());
         etapa.setDocumentacaoExigida(this.getDocumentacaoExigida());
+        etapa.setDocumentacaoOpcional(this.getDocumentacaoOpcional());
         etapa.setCriterioDeAvaliacao(this.getCriterioDeAvaliacao());
         etapa.setEstado(this.getEstado());
         etapa.setPeriodo((Periodo) this.getPeriodo().toBusiness());
@@ -272,6 +282,7 @@ public class EtapaBeans implements Beans, Serializable {
                 this.setTitulo(etapa.getTitulo());
                 this.setDescricao(etapa.getDescricao());
                 this.setDocumentacaoExigida(etapa.getDocumentacaoExigida());
+                this.setDocumentacaoOpcional(etapa.getDocumentacaoOpcional());
                 this.setEstado(etapa.getEstado());
 
                 PeriodoBeans pb = null;

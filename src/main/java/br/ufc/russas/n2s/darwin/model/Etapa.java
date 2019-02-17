@@ -64,6 +64,13 @@ public class Etapa implements Serializable {
 	@Column(name = "documentacao_exigida")
 	private List<String> documentacaoExigida;
 	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
+	@CollectionTable(name = "documentacoes_opcionais", joinColumns = @JoinColumn(name = "codEtapa"))
+	@Column(name = "documentacao_opcional")
+	private List<String> documentacaoOpcional;
+	
+	
 	@Column(name = "criterio_de_avaliacao")
 	@Enumerated(EnumType.ORDINAL)
 	private EnumCriterioDeAvaliacao criterioDeAvaliacao;
@@ -173,6 +180,14 @@ public class Etapa implements Serializable {
 
 	public void setDocumentacaoExigida(List<String> documentacao) {
 		this.documentacaoExigida = documentacao;
+	}
+	
+	public List<String> getDocumentacaoOpcional() {
+		return documentacaoOpcional;
+	}
+
+	public void setDocumentacaoOpcional(List<String> documentacao) {
+		this.documentacaoOpcional = documentacao;
 	}
 
 	public EnumCriterioDeAvaliacao getCriterioDeAvaliacao() {
@@ -312,6 +327,12 @@ public class Etapa implements Serializable {
 	public void adicionaDocumentacaoExigida(List<String> maisDocumentacao) {
 		if (maisDocumentacao != null && !maisDocumentacao.isEmpty()) {
 			this.documentacaoExigida.addAll(maisDocumentacao);
+		}
+	}
+	
+	public void adicionaDocumentacaoOpcional(List<String> maisDocumentacao) {
+		if (maisDocumentacao != null && !maisDocumentacao.isEmpty()) {
+			this.documentacaoOpcional.addAll(maisDocumentacao);
 		}
 	}
 

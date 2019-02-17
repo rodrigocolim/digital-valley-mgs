@@ -80,9 +80,15 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     public void removeSelecao(SelecaoBeans selecao) {
         this.getSelecaoDAOIfc().removeSelecao((Selecao) selecao.toBusiness());
     }
+    
     @Override
     public void divulgaResultadoSelecao(SelecaoBeans selecao) {
     	this.getSelecaoDAOIfc().divulgaResutadoSelecao((Selecao) selecao.toBusiness());
+    }
+    
+    @Override
+    public void atualizaExibirNotas(SelecaoBeans selecao) {
+    	this.getSelecaoDAOIfc().atualizaExibirNotas((Selecao) selecao.toBusiness());
     }
 
     @Override

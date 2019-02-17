@@ -47,26 +47,41 @@
                 </c:if>               
                 <h1>Enviar documentação</h1>
                 
+                <br>
                 <c:if test="${empty etapa.documentacaoExigida}">
                 <p>Atenção: esta seleção não solicita nenhuma documentação para ser enviada! Por favor, apenas confirme sua inscrição.</p>
                 <br>
                 </c:if>
                 <c:if test="${not empty etapa.documentacaoExigida}">
+                <h2> Documentação Obrigatória</h2>
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 </c:if>
-                <br>
                 <div class="form-group">
                     <form method="POST" action="" enctype="multipart/form-data">
                         <c:set var = "i" value = "${0}"/>
                     <c:forEach var="documento" items="${etapa.documentacaoExigida}">
                         <input type="hidden" value="${etapa.codEtapa}" name="etapa">
                         <label for="${documento}Input">${documento}</label>
-                        <input type="file" name="arquivos" class="form-control" id="arquivoInput" aria-describedby="${documento}Help" accept="application/pdf">
+                        <input type="file" name="arquivos" class="form-control" id="arquivoInput" aria-describedby="${documento}Help" accept="application/pdf" required>
                         <input type="hidden" name="nomeDocumento" value="${documento}" class="form-control">
                         <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
                         <br>
                         <c:set var = "i" value = "${i + 1}"/>
                     </c:forEach>
+                    
+                    <c:if test="${not empty etapa.documentacaoExigida}">
+		                <h2> Documentação Opcional</h2>
+		                <p>Atenção: Os campos abaixo (*) NÃO são de preenchimento obrigatório</p>
+	                </c:if>
+	                 <c:forEach var="documentoOp" items="${etapa.documentacaoOpcional}">
+                        <input type="hidden" value="${etapa.codEtapa}" name="etapa">
+                        <label for="${documentoOp}Input">${documentoOp}</label>
+                        <input type="file" name="arquivos" class="form-control" id="arquivoInput" aria-describedby="${documentoOp}Help" accept="application/pdf">
+                        <input type="hidden" name="nomeDocumentoOp" value="${documentoOp}" class="form-control">
+                        <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
+                        <br>
+                    </c:forEach>
+                    
                     
                         <a href="/Darwin/selecao/${selecao.codSelecao}" class="btn btn-secondary btn-sm">
                             Cancelar

@@ -110,5 +110,7 @@ public interface SelecaoServiceIfc extends ServiceIfc{
     
     void divulgaResultadoSelecao(SelecaoBeans selecao);
     
+    void atualizaExibirNotas(SelecaoBeans selecao);
+    
     List<SelecaoBeans> BuscaSelecoesPorNome(String titulo);
 }

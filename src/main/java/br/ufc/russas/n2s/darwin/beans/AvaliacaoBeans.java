@@ -24,7 +24,7 @@ public class AvaliacaoBeans implements Beans, Serializable {
 	private static final long serialVersionUID = -484502680222142796L;
 	
 	private long codAvaliacao;
-    private ParticipanteBeans participante;
+    private ParticipanteBeans avaliado;
     private float nota;
     private boolean aprovado;
     private EnumEstadoAvaliacao estado;
@@ -40,11 +40,11 @@ public class AvaliacaoBeans implements Beans, Serializable {
     }
 
     public ParticipanteBeans getParticipante() {
-        return participante;
+        return avaliado;
     }
 
     public void setParticipante(ParticipanteBeans participante) {
-        this.participante = participante;
+        this.avaliado = participante;
     }
 
     public float getNota() {

@@ -22,4 +22,5 @@ public interface AvaliacaoServiceIfc extends ServiceIfc{
     List<AvaliacaoBeans> listaTodasAvaliacoes();
     AvaliacaoBeans getAvaliacao(long codAvaliacao);
     AvaliacaoBeans atualizarAvaliacao(AvaliacaoBeans avaliacao);
+	AvaliacaoBeans adicionaAvaliacao(AvaliacaoBeans avaliacao);
 }

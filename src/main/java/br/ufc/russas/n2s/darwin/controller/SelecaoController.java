@@ -29,6 +29,7 @@ import br.ufc.russas.n2s.darwin.model.Avaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.Log;
+import br.ufc.russas.n2s.darwin.model.ResultadoSelecaoForm;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.AvaliacaoServiceIfc;
@@ -215,9 +216,32 @@ public class SelecaoController {
     		}
     		
     	} else { return "error/404";}
-    	
-    	
-  
     }
+    
+    @RequestMapping(value = "/{codSelecao}/resultado", method = RequestMethod.POST)
+    public String atualizaExibirNotas(@PathVariable long codSelecao, Model model, HttpServletRequest request){
+    	HttpSession session = request.getSession();
+		UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+		selecaoServiceIfc.setUsuario(usuario);
+        SelecaoBeans selecao  = selecaoServiceIfc.getSelecao(codSelecao);
+        try {
+	        if (!selecao.getResponsaveis().contains(usuario) && !usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+	        	System.out.println("Aqui entrou");
+	        	return "error/404";
+	        }
+	        selecaoServiceIfc.atualizaExibirNotas(selecao);
+	        session.setAttribute("mensagem", "Exibição de notas atualizada com sucesso");
+			session.setAttribute("status", "success");
+	        return "redirect:/selecao/"+codSelecao+"/resultado";
+        } catch(Exception e) {
+        	e.printStackTrace();
+        	session.setAttribute("mensagem", "Não foi possível atualizar esta seleção!");
+ 			session.setAttribute("status", "danger");
+ 	        return "redirect:/selecao/"+codSelecao+"/resultado";
+        }
+    }
+	
+	
+    
     
 }

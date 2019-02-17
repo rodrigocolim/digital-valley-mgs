@@ -49,6 +49,7 @@ import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.Log;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
+import br.ufc.russas.n2s.darwin.service.DocumentacaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -65,6 +66,7 @@ public class EditarSelecaoController {
     private SelecaoServiceIfc selecaoServiceIfc;
     private UsuarioServiceIfc usuarioServiceIfc;
     private LogServiceIfc logServiceIfc;
+    private DocumentacaoServiceIfc documentacaoServiceIfc;
     
     public SelecaoServiceIfc getSelecaoServiceIfc() {
         return selecaoServiceIfc;
@@ -193,10 +195,8 @@ public class EditarSelecaoController {
                     }
                     aditivo.setArquivo(temp);
                     aditivo.setData(LocalDateTime.now());
-                    //aditivos.add(aditivo);
                     selecaoBeans.getAditivos().add(aditivo);
                 }
-                //selecaoBeans.setAditivos(aditivos);
             }
 
             String[] codResponsaveis = request.getParameterValues("codResponsaveis");
@@ -227,6 +227,11 @@ public class EditarSelecaoController {
         	session.setAttribute("mensagem", e.getMessage());
         	session.setAttribute("status", "warning");
             return ("redirect:/editarSelecao/"+codSelecao);
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	session.setAttribute("mensagem", e.getMessage());
+        	session.setAttribute("status", "warning");
+            return ("redirect:/editarSelecao/"+codSelecao);
         }
     }
     
@@ -242,6 +247,13 @@ public class EditarSelecaoController {
 	                session.setAttribute("status", "warning");
 	        		return "redirect:/selecao/" + selecao.getCodSelecao();
 	        	} else {
+	        		
+	        		for (EtapaBeans eb : selecao.getEtapas()) {
+	        			if (eb.getAvaliadores() == null) {
+	        				throw new Exception("Não foi possível divulgar a seleção, verfique se todas as etapas possuem avaliadores.");
+	        			}
+	        		}
+	        		
 		            selecaoServiceIfc.setUsuario(usuario);
 		            selecao.setDivulgada(true);
 		            selecao = selecaoServiceIfc.atualizaSelecao(selecao);
@@ -271,10 +283,12 @@ public class EditarSelecaoController {
 		            return "redirect:/selecao/" + selecao.getCodSelecao();
 	        	}
 	        } catch(IllegalAccessException e) {
-	            e.printStackTrace();
+	            session.setAttribute("mensagem", e.getMessage());
+                session.setAttribute("status", "warning");
 	            return "redirect:/selecao/" + selecao.getCodSelecao();
 	        } catch(Exception e) {
-	            e.printStackTrace();
+	            session.setAttribute("mensagem", e.getMessage());
+                session.setAttribute("status", "warning");
 	             return "redirect:/selecao/" + selecao.getCodSelecao();
 	        }
         } else {return "error/404";}

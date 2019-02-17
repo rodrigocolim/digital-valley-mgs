@@ -140,7 +140,12 @@ public class Facade {
             f.setSize(15);
             t.addCell(cell1);
             f.setSize(10);
-            PdfPTable table = new PdfPTable(5);
+            PdfPTable table;
+            if (selecao.isExibirNotas()) {	
+            	table = new PdfPTable(5);
+            } else {
+            	table = new PdfPTable(4);
+            }
             
             PdfPCell posicao = new PdfPCell(new Paragraph("#", f)); 
             posicao.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -162,11 +167,17 @@ public class Facade {
             situacao.setBackgroundColor(BaseColor.LIGHT_GRAY);
             situacao.setHorizontalAlignment(Element.ALIGN_CENTER);
             
-            table.setWidths(new int[]{50,130,260,100,150});
+            if (selecao.isExibirNotas()) {
+            	table.setWidths(new int[]{50,130,260,100,150});
+            } else {
+            	table.setWidths(new int[]{60,150,310,150});
+            }
             table.addCell(posicao);
             table.addCell(cpf);
             table.addCell(nome);
-            table.addCell(mediaGeral);
+            if (selecao.isExibirNotas()) {	
+            	table.addCell(mediaGeral);
+            }
             table.addCell(situacao);
             f.setSize(8);
             
@@ -192,11 +203,13 @@ public class Facade {
 					}
 				}
 				PdfPCell cpfCelu = new PdfPCell(new Paragraph(nova,f));
+				cpfCelu.setHorizontalAlignment(Element.ALIGN_CENTER);
 				table.addCell(cpfCelu);
 				
 				PdfPCell nomeCelu = new PdfPCell(new Paragraph(rps.getParticipante().getCandidato().getNome().toUpperCase(),f));
         		table.addCell(nomeCelu);
 				
+        	if (selecao.isExibirNotas()) {	
 				if (rps.getMediaGeral() >= 0) {
 					PdfPCell mg  = new PdfPCell(new Paragraph(rps.getMediaGeral()+"",f));
 					mg.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -206,7 +219,7 @@ public class Facade {
 					mg.setHorizontalAlignment(Element.ALIGN_CENTER);
 					table.addCell(mg);
 				}
-				
+        	}
 				if (rps.isAprovado() && rps.getColocacao() <=  (sele.getVagasRemuneradas()+sele.getVagasVoluntarias())) {
 					s = "CLASSIFICADO";
 				} else if (rps.isAprovado() && rps.getColocacao() >  (sele.getVagasRemuneradas()+sele.getVagasVoluntarias())) {

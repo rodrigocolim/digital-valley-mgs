@@ -91,6 +91,7 @@ public class Selecao {
     private boolean divulgada;
     private boolean divulgadoResultado;
     private boolean deletada;
+    private boolean exibirNotas;
     
 
 	public Selecao() {
@@ -291,6 +292,15 @@ public class Selecao {
 	public void setDeletada(boolean deletada) {
 		this.deletada = deletada;
 	}
+	
+	 public boolean isEixbirNotas() {
+		return exibirNotas;
+	}
+
+	public void setExibirNotas(boolean exibirNotas) {
+		this.exibirNotas = exibirNotas;
+	}
+	
     
     public Selecao adicionaSelecao() {
         return this;

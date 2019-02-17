@@ -121,23 +121,28 @@ public class ParticiparEtapaController {
             List<Arquivo> arquivos = new ArrayList<Arquivo>();
             String[] nomeDocumento = request.getParameterValues("nomeDocumento");            
             for (int i = 0; i < documentos.size();i++) {
-                String nome = nomeDocumento[i];
-                MultipartFile file = documentos.get(i);
-                if (file != null) {
-                    Arquivo documento = new Arquivo();
-                    String aux = file.getOriginalFilename();
-                    String expressao = aux.substring(aux.lastIndexOf("."), aux.length());
-                    if (!expressao.equals(".pdf")) {throw new IllegalArgumentException("Formato de arquivo enviado não é .pdf");}
-                    java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(), ".pdf", dir);
-                    FileOutputStream fos = new FileOutputStream(convFile); 
-                    fos.write(file.getBytes());
-                    fos.close(); 
-                    documento.setTitulo(nome);
-                    documento.setData(LocalDateTime.now());
-                    documento.setArquivo(convFile);
-                    arquivos.add(documento);
+            	if (nomeDocumento[i] != null || i < inscricao.getDocumentacaoExigida().size()) {
+            		System.out.println(i + " : " + nomeDocumento[i]);
+	                String nome = nomeDocumento[i];
+	                MultipartFile file = documentos.get(i);
+	                if (file != null) {
+	                    Arquivo documento = new Arquivo();
+	                    String aux = file.getOriginalFilename();
+	                    if (aux.length() < 4) {throw new IllegalArgumentException("Não foram selecionados os arquivos corretamente para serem enviados!");}
+	                    String expressao = aux.substring(aux.lastIndexOf("."), aux.length());
+	                    if (!expressao.equals(".pdf")) {throw new IllegalArgumentException("Formato de arquivo enviado não é .pdf");}
+	                    java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(), ".pdf", dir);
+	                    FileOutputStream fos = new FileOutputStream(convFile); 
+	                    fos.write(file.getBytes());
+	                    fos.close(); 
+	                    documento.setTitulo(nome);
+	                    documento.setData(LocalDateTime.now());
+	                    documento.setArquivo(convFile);
+	                    arquivos.add(documento);
+	                }
                 }        
             }
+            
             Documentacao documentacao = new  Documentacao();
             Participante participante = new Participante();
             participante.setCandidato((UsuarioDarwin) usuario.toBusiness());
@@ -168,7 +173,7 @@ public class ParticiparEtapaController {
             return "redirect:/participarEtapa/inscricao/"+inscricao.getCodEtapa();
         } catch (IllegalArgumentException | NullPointerException | IllegalAccessException e) {
             session.setAttribute("mensagem", e.getMessage());
-            session.setAttribute("status", "danger");
+            session.setAttribute("status", "warning");
             return "redirect:/participarEtapa/inscricao/"+inscricao.getCodEtapa();
         } catch (Exception e) {
             e.printStackTrace();

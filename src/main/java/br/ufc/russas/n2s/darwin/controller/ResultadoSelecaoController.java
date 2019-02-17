@@ -78,6 +78,8 @@ public class ResultadoSelecaoController {
         return "calculo-resultado-selecao";
     }
 	
+	
+	
 	@RequestMapping(value = "/salvar/{codSelecao}", method = RequestMethod.POST)
     public String calculaResultadoDaselecao(@PathVariable long codSelecao, Model model, HttpServletRequest request, @ModelAttribute("resultadoSelecaoForm") ResultadoSelecaoForm resultadoForm) {
         SelecaoBeans selecao  = selecaoServiceIfc.getSelecao(codSelecao);

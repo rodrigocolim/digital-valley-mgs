@@ -108,7 +108,7 @@ public class CadastrarEtapaController {
 	            model.addAttribute("selecao", selecao);
 	            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
 	            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
-	           // String[] documentosOpcionais = request.getParameterValues("documentosOpcionais");
+	            String[] documentosOpcionais = request.getParameterValues("documentosOpcionais");
 	            int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
 	            if (criterio == 1) {
 	                etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
@@ -150,12 +150,21 @@ public class CadastrarEtapaController {
             	EtapaBeans pre = etapaServiceIfc.getEtapa(codPrerequisito);
 	            etapa.setPrerequisito(pre);
 	            etapa.setAvaliadores(avaliadores);
+	            //Documentos
 	            if (documentosExigidos != null) {
-	                ArrayList<String> docs = new ArrayList<>();
+	                ArrayList<String> docsE = new ArrayList<>();
 	                for(String documento : documentosExigidos){
-	                    docs.add(documento);
+	                    docsE.add(documento);
 	                }
-	                etapa.setDocumentacaoExigida(docs);
+	                etapa.setDocumentacaoExigida(docsE);
+	            }
+	            
+	            if (documentosOpcionais != null) {
+	                ArrayList<String> docsO = new ArrayList<>();
+	                for(String documento : documentosOpcionais){
+	                    docsO.add(documento);
+	                }
+	                etapa.setDocumentacaoOpcional(docsO);
 	            }
 	            
 	            selecao.getEtapas().add(etapa);
@@ -205,6 +214,7 @@ public class CadastrarEtapaController {
             model.addAttribute("selecao", selecao);
             String[] codAvaliadores = request.getParameterValues("codAvaliadores");
             String[] documentosExigidos = request.getParameterValues("documentosExigidos");
+            String[] documentosOpcionais = request.getParameterValues("documentosOpcionais");
             int criterio = Integer.parseInt(request.getParameter("criterioDeAvaliacao"));
             if (criterio == 1) {
                 etapa.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
@@ -241,12 +251,6 @@ public class CadastrarEtapaController {
                 etapa.setPrerequisito(this.getEtapaServiceIfc().getEtapa(codPrerequisito));
             }
             etapa.setAvaliadores(avaliadores);
-            if (selecao.getInscricao() != null) {
-                EtapaBeans e = (EtapaBeans) etapa;
-                selecao.getEtapas().add(e);
-            } else {
-                selecao.setInscricao(etapa);
-            }
            
             if (documentosExigidos != null) {
                 ArrayList<String> docs = new ArrayList<>();
@@ -255,7 +259,20 @@ public class CadastrarEtapaController {
                 }
                 etapa.setDocumentacaoExigida(docs);
             }
+            if (documentosOpcionais != null) {
+                ArrayList<String> docsO = new ArrayList<>();
+                for(String documento : documentosOpcionais){
+                    docsO.add(documento);
+                }
+                etapa.setDocumentacaoOpcional(docsO);
+            }
             
+            if (selecao.getInscricao() != null) {
+                EtapaBeans e = (EtapaBeans) etapa;
+                selecao.getEtapas().add(e);
+            } else {
+                selecao.setInscricao(etapa);
+            }
             this.selecaoServiceIfc.setUsuario(usuario);
             this.selecaoServiceIfc.atualizaSelecao(selecao);
             

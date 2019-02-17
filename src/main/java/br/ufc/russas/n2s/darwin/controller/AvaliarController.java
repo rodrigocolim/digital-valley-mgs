@@ -210,6 +210,8 @@ public class AvaliarController {
             avaliacao.setParticipante(participante);
             avaliacao.setAvaliador(avaliador);
             avaliacao.setEstado(EnumEstadoAvaliacao.AVALIADO);
+            //avaliacaoServiceIfc.setUsuario(avaliador);
+            avaliacao = avaliacaoServiceIfc.adicionaAvaliacao(avaliacao);
             etapaServiceIfc.setUsuario(avaliador);
             etapaServiceIfc.avalia(etapa, avaliacao);
             session.setAttribute("mensagem", "Participante avaliado com sucesso!");

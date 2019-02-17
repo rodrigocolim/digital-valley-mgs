@@ -209,6 +209,15 @@
                                                 </c:forEach>
                                             </ul>
                                         </c:if>
+                                        <c:if test="${not empty selecao.inscricao.documentacaoOpcional}">
+                                         <br>
+                                            <b>DOCUMENTAÇÃO OPCIONAL: </b> 
+                                            <ul>
+                                                <c:forEach var="documentoOp" items="${selecao.inscricao.documentacaoOpcional}">
+                                                    <li>${documentoOp}</b></li>
+                                                </c:forEach>
+                                            </ul>
+                                        </c:if>
                                         <c:if test="${not empty selecao.inscricao.recurso}">
                                             <b>PERÍODO PARA RECURSO: </b> 
                                            		<fmt:parseDate value="${selecao.inscricao.recurso.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicioR" type="date" />
@@ -331,6 +340,15 @@
                                         </c:forEach>
                                     </ul>
                                     </c:if>
+                                    <c:if test="${not empty etapa.documentacaoOpcional}">
+                                         <br>
+                                            <b>DOCUMENTAÇÃO OPCIONAL: </b> 
+                                            <ul>
+                                                <c:forEach var="documentoOp" items="${etapa.documentacaoOpcional}">
+                                                    <li>${documentoOp}</b></li>
+                                                </c:forEach>
+                                            </ul>
+                                        </c:if>
                                         <c:if test="${not empty etapa.recurso}">
                                             <b>PERÍODO PARA RECURSO: </b> 
                                            		<fmt:parseDate value="${etapa.recurso.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicio" type="date" />

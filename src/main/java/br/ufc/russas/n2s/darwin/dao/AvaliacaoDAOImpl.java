@@ -7,10 +7,12 @@ package br.ufc.russas.n2s.darwin.dao;
 
 import br.ufc.russas.n2s.darwin.model.Avaliacao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
+import br.ufc.russas.n2s.darwin.model.Selecao;
 
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
@@ -58,5 +60,6 @@ public class AvaliacaoDAOImpl implements AvaliacaoDAOIfc{
     public Avaliacao getAvaliacao(Avaliacao avaliacao) {
         return this.daoImpl.getObject(avaliacao, avaliacao.getCodAvaliacao());
     }
+    
         
 }

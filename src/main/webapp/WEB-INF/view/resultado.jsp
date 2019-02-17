@@ -45,15 +45,26 @@
                 </c:if>  
                     <h1>Resultado da Seleção</h1>
                     <br>
+                    <c:if test="${(isResponsavel)}">
+	                    <div class="form-check" style="float: right;" title="Ao selecionar este campo, os participantes poderão visualizar suas notas.">
+		                    <form method="POST" id="showNote" action="/Darwin/selecao/${selecao.codSelecao}/resultado">
+							  <input class="form-check-input" type="checkbox" name="exibirNotas" onclick="atualizaExibirNotas('showNote')" value="" id="defaultCheck1" ${(selecao.exibirNotas) ? 'checked': ''} >
+							    Exibir notas ao divulgar o resultado   
+							</form>
+						</div>
+					</c:if>
                     <table class="table table-responsive">
                         <thead>
                             <tr>
                             	<th scope="col">Colocação</th>
                                 <th scope="col">Candidato</th>
-                                <c:forEach var="etapa" items="${etapasComNota}">                              	
-                                	<th scope="col"> ${etapa.titulo} - ${etapa.pesoNota}</th>
-                                </c:forEach>
-                                <th scope="col">Média Geral</th>
+                                
+                                <c:if test="${selecao.exibirNotas || (isResponsavel)}">
+	                                <c:forEach var="etapa" items="${etapasComNota}">                              	
+	                                	<th scope="col"> ${etapa.titulo} - ${etapa.pesoNota}</th>
+	                                </c:forEach>
+	                                <th scope="col">Média Geral</th>
+                                </c:if>
                                 <th scope="col">Situação</th>
                             </tr>
                         </thead>
@@ -67,16 +78,17 @@
                                	 	<td>${resultado.colocacao}</td>
                                	 </c:if>
                                 <td>${resultado.participante.candidato.nome}</td>
-                               	<c:forEach var="nota" items="${resultado.notasEtapas}">
-                               		<th class="text-center" scope="col">${nota}</th>
-                               	</c:forEach>
-                                <c:if test="${not empty resultado.notasEtapas}">
-                                	<td>${resultado.mediaGeral}</td>
+                                <c:if test="${selecao.exibirNotas || (isResponsavel)}">
+	                               	<c:forEach var="nota" items="${resultado.notasEtapas}">
+	                               		<th class="text-center" scope="col">${nota}</th>
+	                               	</c:forEach>
+	                                <c:if test="${not empty resultado.notasEtapas}">
+	                                	<td>${resultado.mediaGeral}</td>
+	                                </c:if>
+	                                <c:if test="${empty resultado.notasEtapas}">
+	                                	<td> - </td>
+	                                </c:if>
                                 </c:if>
-                                <c:if test="${empty resultado.notasEtapas}">
-                                	<td> - </td>
-                                </c:if>
-                                
                                  <c:if test="${(resultado.aprovado) and ((resultado.colocacao) <= (selecao.vagasRemuneradas + selecao.vagasVoluntarias))}">
                                 	<td> CLASSIFICADO </td>
                                 </c:if>
@@ -137,9 +149,16 @@
             </div>
         </div>
         <c:import url="elements/rodape.jsp" charEncoding="UTF-8"></c:import>  
+        <script>
+        function atualizaExibirNotas(formSelecionado){
+            document.getElementById(formSelecionado).submit();
+        }
+        </script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
         <script src="${pageContext.request.contextPath}/resources/js/script.js" ></script>
+        
+        
     </body>
 </html>

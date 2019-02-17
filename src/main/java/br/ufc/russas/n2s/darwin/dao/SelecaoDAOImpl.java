@@ -103,6 +103,28 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     }
     
     @Override
+    public void atualizaExibirNotas(Selecao selecao) {
+    	Session session;
+    	session = this.daoImpl.getSessionFactory().openSession();
+	    Transaction t = session.beginTransaction();    
+	    
+	    try {
+	    	  String hql = "UPDATE darwin.selecao SET exibirnotas=:exibe WHERE codselecao=:codS";
+	    	  
+	    	  SQLQuery query = session.createSQLQuery(hql);// createSqlQuery(hql);
+	    	  query.setParameter("exibe", !selecao.isEixbirNotas());
+	    	  query.setParameter("codS", selecao.getCodSelecao());
+	    	
+	    	  query.executeUpdate();
+	    	  t.commit();
+	    	} catch (Throwable tb) {
+	    	  t.rollback();
+	    	  throw tb;
+	    	}
+    }
+    
+    
+    @Override
     public List<Selecao> BuscaSelecoesPorNome(String titulo) {
     	Session session = this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();

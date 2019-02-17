@@ -52,6 +52,7 @@ public class SelecaoBeans implements Beans, Serializable {
     private boolean divulgada;
     private boolean divulgadoResultado;
     private boolean deletada;
+    private boolean exibirNotas;
     
     public SelecaoBeans(){}
 
@@ -198,7 +199,14 @@ public class SelecaoBeans implements Beans, Serializable {
 	public void setDeletada(boolean deletada) {
 		this.deletada = deletada;
 	}
-    
+	
+	public boolean isExibirNotas() {
+		return exibirNotas;
+	}
+
+	public void setExibirNotas(boolean exibirNotas) {
+		this.exibirNotas = exibirNotas;
+	}
     
     @Override
     public Object toBusiness() { //Esse método transforma uma Beans em um objeto seleção
@@ -221,6 +229,7 @@ public class SelecaoBeans implements Beans, Serializable {
         selecao.setDivulgadoResultado(this.isDivulgadoResultado());
         selecao.setDivulgada(this.isDivulgada());
         selecao.setDeletada(this.isDeletada());
+        selecao.setExibirNotas(this.isExibirNotas());
         if (this.getEdital() != null) {
             selecao.setEdital((Arquivo) this.getEdital().toBusiness());
         }
@@ -278,6 +287,7 @@ public class SelecaoBeans implements Beans, Serializable {
                 this.setDivulgada(selecao.isDivulgada());
                 this.setDivulgadoResultado(selecao.isDivulgadoResultado());
                 this.setDeletada(selecao.isDeletada());
+                this.setExibirNotas(selecao.isEixbirNotas());
                 EtapaBeans eb = null;
                 if(selecao.getInscricao()!=null){
                    eb = (EtapaBeans) (new EtapaBeans().toBeans(selecao.getInscricao()));

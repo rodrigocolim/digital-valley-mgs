@@ -54,10 +54,6 @@ public class SelecaoProxy extends Selecao{
     }
     
     public Selecao atualizaSelecao(Selecao selecao) throws IllegalAccessException {
-    	
-    	for (EnumPermissao e : this.getUsuario().getPermissoes() ) {
-    		System.out.println("permissao2: "+e.toString());
-    	}
         if (this.getUsuario().getPermissoes().contains(EnumPermissao.RESPONSAVEL) || selecao.isResponsavel(getUsuario()) || this.getUsuario().getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
             return selecao.atualizaSelecao();
         } else {

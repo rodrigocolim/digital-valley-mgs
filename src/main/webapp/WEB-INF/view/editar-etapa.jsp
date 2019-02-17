@@ -156,6 +156,28 @@
                                 </ul>
                             </div>
                         </div>
+                        <br>
+                        <!--  -->
+                        
+                        <div class="card">
+                            <div class="card-header col-auto">
+                                <label for="documentoOpInput"><input type="checkbox" onclick="habilitaEdicao('documentoOpInput')"> Documentação Opcional</label>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <input type="text" class="form-control col-md-8" id="documentoOpInput" placeholder="Digite o nome do documento opcional para esta etapa" readonly="true">&nbsp;&nbsp;
+                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaDocumentoOp()" value="Adicionar">                            
+                                </div>
+                                <br>
+                                <ul class="list-group col-md-8 " id="listaDocumentosOp">
+                                    <c:forEach var="documentoOp" items="${etapa.documentacaoOpcional}">
+                                     <li class="list-group-item" >
+                                            <input type="hidden" name="documentosOpcionais" value="${documentoOp}" style="display: none;">${documentoOp}<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumentoOp(${documentoOp})">clear</button>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                            </div>
+                        </div>
                         
                         <br>
                         <div class="card">
@@ -281,6 +303,52 @@
     }
     </script>
     <script>
+
+    var listaDocumentosOp = ${listaDocumentosOp};
+    var numDocumentosOp = ${listaNumeroDocumentosOp};
+    
+   
+    var nomeDocumentosOp = [];
+    var numeroDocumentosOp = 0;
+    
+    $(document).ready(function() { 
+    	for (i=0;i < listaDocumentosOp.length;i++) {
+    		nomeDocumentosOp[i] = listaDocumentosOp[i];
+    		numeroDocumentosOp++;
+    	}
+    });
+    
+    function adicionaDocumentoOp(){
+      var nomeDocumentoOp = document.getElementById("documentoOpInput").value;
+      if(nomeDocumentoOp !== ""){
+    	  nomeDocumentosOp[numeroDocumentosOp] = nomeDocumentoOp;
+    	  numeroDocumentosOp++;
+      }
+      document.getElementById("documentoOpInput").value = "";
+      atualizaDocumentosOp();
+      
+    }
+    function atualizaDocumentosOp(){
+        var list = document.getElementById("listaDocumentosOp");
+        list.innerHTML = "";
+        for(i = 0;i < nomeDocumentosOp.length;i++){
+          if(nomeDocumentosOp[i] !== ""){
+              list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="documentosOpcionais" value="'+nomeDocumentosOp[i]+'" style="display: none;"> '+ nomeDocumentosOp[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumentoOp(\''+nomeDocumentosOp[i]+'\')">clear</button></li>';
+          }
+        }
+    }
+    function removeDocumentoOp(nome){
+        for(i = 0;i < nomeDocumentosOp.length;i++){
+            if(nomeDocumentosOp[i] === nome){
+            	nomeDocumentosOp[i] = "";
+            }
+        }
+        atualizaDocumentosOp();
+    }
+    
+    </script>
+    
+    <script>
     var listaCodAvaliadores = ${codAvaliadores};
     var listaNomeAvaliadores = ${nomeAvaliadores};
     var codAvaliadores = [];
@@ -333,11 +401,22 @@
     
     var listaDocumentos = ${listaDocumentos};
     var numDocumentos = ${listaNumeroDocumentos};
+    
+    var nomeDocumentos = [];
+    var numeroDocumentos = 0;
+    
+    $(document).ready(function() { 
+    	for (i=0;i < listaDocumentos.length;i++) {
+    		nomeDocumentos[i] = listaDocumentos[i];
+    		numeroDocumentos++;
+    	}
+    });
+    
     function adicionaDocumento(){
       var nomeDocumento = document.getElementById("documentoInput").value;
       if(nomeDocumento !== ""){
-          listaDocumentos[numDocumentos] = nomeDocumento;
-          numDocumentos++;
+    	  nomeDocumentos[numeroDocumentos] = nomeDocumento;
+    	  numeroDocumentos++;
       }
       document.getElementById("documentoInput").value = "";
       atualizaDocumentos();
@@ -346,20 +425,21 @@
     function atualizaDocumentos(){
         var list = document.getElementById("listaDocumentos");
         list.innerHTML = "";
-        for(i = 0;i < listaDocumentos.length;i++){
-          if(listaDocumentos[i] !== ""){
-              list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="documentosExigidos" value="'+listaDocumentos[i]+'" style="display: none;"> '+ listaDocumentos[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumento(\''+listaDocumentos[i]+'\')">clear</button></li>';
+        for(i = 0;i < nomeDocumentos.length;i++){
+          if(nomeDocumentos[i] !== ""){
+              list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="documentosExigidos" value="'+nomeDocumentos[i]+'" style="display: none;"> '+ nomeDocumentos[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumento(\''+nomeDocumentos[i]+'\')">clear</button></li>';
           }
         }
     }
     function removeDocumento(nome){
-        for(i = 0;i < listaDocumentos.length;i++){
-            if(listaDocumentos[i] === nome){
-                listaDocumentos[i] = "";
+        for(i = 0;i < nomeDocumentos.length;i++){
+            if(nomeDocumentos[i] === nome){
+            	nomeDocumentos[i] = "";
             }
         }
         atualizaDocumentos();
     }
+    
     function  atualizaCampoNotaMinima(){
   	  if (document.getElementById("criterioInput").value === '1' || document.getElementById("criterioInput").value === '2' || document.getElementById("criterioInput").value === '3') {
        	 document.getElementById('avaliadorInput').disabled = false;

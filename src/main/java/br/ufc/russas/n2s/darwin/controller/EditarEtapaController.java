@@ -120,6 +120,8 @@ public class EditarEtapaController {
 	        model.addAttribute("nomeAvaliadores", json);
 	        model.addAttribute("listaDocumentos", new Gson().toJson(etapaBeans.getDocumentacaoExigida()));
 	        model.addAttribute("listaNumeroDocumentos", etapaBeans.getDocumentacaoExigida().size());
+	        model.addAttribute("listaDocumentosOp", new Gson().toJson(etapaBeans.getDocumentacaoOpcional()));
+	        model.addAttribute("listaNumeroDocumentosOp", etapaBeans.getDocumentacaoOpcional().size());
 	        model.addAttribute("usuarios", usuarios);
 	        return "editar-etapa";
         } else { return "error/404";}
@@ -135,7 +137,7 @@ public class EditarEtapaController {
             
             if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || selecao.getResponsaveis().contains(usuario)) {
             	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            	if (LocalDate.parse(request.getParameter("dataInicio"), formatter).isAfter(LocalDate.now()) && selecao.isDivulgada() && !etapaBeans.getEstado().equals(EnumEstadoEtapa.ESPERA)) {
+            	if (LocalDate.parse(request.getParameter("dataInicio"), formatter).isBefore(LocalDate.now()) && selecao.isDivulgada() && !etapaBeans.getEstado().equals(EnumEstadoEtapa.ESPERA)) {
             		throw new Exception("Após iniciada a etapa, apenas a data de término pode ser prorrogada.");
             	}
             	etapaBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
@@ -153,6 +155,7 @@ public class EditarEtapaController {
             	if (etapaBeans.getPeriodo().getInicio().isAfter(LocalDate.now()) || !selecao.isDivulgada()) {
 		            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
 		            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
+		            String[] documentosOpcionais = request.getParameterValues("documentosOpcionais");
 		            int criterio = Integer.parseInt(request.getParameter("criterio"));
 		            if (criterio == 1) {
 		                etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
@@ -178,12 +181,24 @@ public class EditarEtapaController {
 		                    }
 		                }
 		            }
+		            
 		            if (documentosExigidos != null) {
-		                ArrayList<String> docs = new ArrayList<>();
+		            	ArrayList<String> docs = new ArrayList<>();
 		                for(String documento : documentosExigidos){
 		                    docs.add(documento);
 		                }
 		                etapaBeans.setDocumentacaoExigida(docs);
+		            } else {
+		            	etapaBeans.setDocumentacaoExigida(new ArrayList<>());
+		            }
+		            if (documentosOpcionais != null) {
+		            	ArrayList<String> docsOp = new ArrayList<>();
+		                for(String documento : documentosOpcionais){
+		                    docsOp.add(documento);
+		                }
+		                etapaBeans.setDocumentacaoOpcional(docsOp);
+		            } else {
+		            	etapaBeans.setDocumentacaoExigida(new ArrayList<>());
 		            }
 		            etapaBeans.setAvaliadores(avaliadores);
 		            this.getSelecaoServiceIfc().setUsuario(usuario);
@@ -286,9 +301,10 @@ public class EditarEtapaController {
 	            	inscricaoBeans.setRecurso(null);
 	            }
 	            
-	            if (inscricaoBeans.getPeriodo().getInicio().isAfter(LocalDate.now()) || !selecao.isDivulgada()) {
+	            if (inscricaoBeans.getPeriodo().getInicio().isAfter(LocalDate.now()) || !selecao.isDivulgada() || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
 		            String[] codAvaliadores = request.getParameterValues("codAvaliadores");
 		            String[] documentosExigidos = request.getParameterValues("documentosExigidos");
+		            String[] documentosOpcionais = request.getParameterValues("documentosOpcionais");
 		            inscricaoBeans.setTitulo(inscricao.getTitulo());
 		            inscricaoBeans.setDescricao(inscricao.getDescricao());
 		            
@@ -316,6 +332,18 @@ public class EditarEtapaController {
 		                    docs.add(documento);
 		                }
 		                inscricaoBeans.setDocumentacaoExigida(docs);
+		            } else {
+		            	inscricaoBeans.setDocumentacaoExigida(new ArrayList<>());
+		            }
+		            
+		            if (documentosOpcionais != null) {
+		            	ArrayList<String> docsOp = new ArrayList<>();
+		                for(String documento : documentosOpcionais){
+		                    docsOp.add(documento);
+		                }
+		                inscricaoBeans.setDocumentacaoOpcional(docsOp);
+		            } else {
+		            	inscricaoBeans.setDocumentacaoOpcional(new ArrayList<>());
 		            }
 		            inscricaoBeans.setAvaliadores(avaliadores);
 		            this.getSelecaoServiceIfc().setUsuario(usuario);
@@ -352,7 +380,7 @@ public class EditarEtapaController {
 	            selecao.setInscricao(inscricaoBeans);
 	            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
 	            session.setAttribute("selecao", selecao);
-	            session.setAttribute("mensagem", "Data da Etapa "+inscricaoBeans.getTitulo()+" atualizada com sucesso!");
+	            session.setAttribute("mensagem", "Etapa "+inscricaoBeans.getTitulo()+" atualizada com sucesso!");
 	            session.setAttribute("status", "success");
 	            return "redirect:/selecao/" + selecao.getCodSelecao();
 	        } else {

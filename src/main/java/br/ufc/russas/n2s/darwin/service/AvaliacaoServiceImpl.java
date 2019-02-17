@@ -51,6 +51,11 @@ public class AvaliacaoServiceImpl implements AvaliacaoServiceIfc {
     public void setUsuario(UsuarioBeans usuario) {
     }
     
+    @Override
+	public AvaliacaoBeans adicionaAvaliacao(AvaliacaoBeans avaliacao) {
+		Avaliacao a = (Avaliacao) avaliacao.toBusiness();
+		return (AvaliacaoBeans) new AvaliacaoBeans().toBeans(avaliacaoDAOIfc.adicionaAvaliacao(a));
+	}
 
     @Override
     public void removeAvaliacao(AvaliacaoBeans avaliacao) {

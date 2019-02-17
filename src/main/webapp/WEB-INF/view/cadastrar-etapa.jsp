@@ -66,6 +66,7 @@
                         <br>
                         
                         <c:if test="${not empty selecao.inscricao}">
+                        <br>
                         <fmt:parseDate value="${selecao.inscricao.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTerminoIncricao" type="date" />
                         <fmt:formatDate value="${parseDataTerminoIncricao}"  pattern="dd/MM/yyyy" var="dataTerminoIncricao" type="date"/>
                         <label for="etapaAnteriorInput">Etapa anterior*</label>
@@ -80,7 +81,6 @@
                         </select>
                         <div class="invalid-feedback">
                         </div>
-                        <br>
                         </c:if>
                         <c:if test="${empty selecao.etapas}">
                             <input type="hidden" value="0" name="prerequisito">
@@ -134,6 +134,25 @@
 
                                 <br>
                                 <ul class="list-group col-md-8 " id="listaDocumentos">
+                                </ul>
+                            </div>
+                        </div>
+                        <br>
+                        
+                        <!--  -->
+                        <div class="card">
+                            <div class="card-header col-auto">
+                                <label for="documentoInput">Documentação Opcional</label>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <input type="text" name="documentoOp" class="form-control col-md-8" id="documentoOpInput" placeholder="Digite o nome do documento opcional para esta etapa">&nbsp;&nbsp;
+                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaDocumentoOp()" value="Adicionar">                            
+                                </div>
+
+                                <br>
+                                <ul class="list-group col-md-8 " id="listaDocumentosOp">
                                 </ul>
                             </div>
                         </div>
@@ -328,6 +347,37 @@
               }
           }
           atualizaDocumentos();
+      }
+      
+      //opcionais
+      var listaDocumentosOp = [];
+      var numDocumentosOp = 0;
+      function adicionaDocumentoOp(){
+        var nomeDocumentoOp = document.getElementById("documentoOpInput").value;
+        if(nomeDocumentoOp !== ""){
+            listaDocumentosOp[numDocumentosOp] = nomeDocumentoOp;
+            numDocumentosOp++;
+        }
+        document.getElementById("documentoOpInput").value = "";
+        atualizaDocumentosOp();
+        
+      }
+      function atualizaDocumentosOp(){
+          var list = document.getElementById("listaDocumentosOp");
+          list.innerHTML = "";
+          for(i = 0;i < listaDocumentosOp.length;i++){
+            if(listaDocumentosOp[i] !== ""){
+                list.innerHTML += '<li class="list-group-item" ><input type="hidden" name="documentosOpcionais" value="'+listaDocumentosOp[i]+'" style="display: none;"> '+ listaDocumentosOp[i] +'<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumentoOp(\''+listaDocumentosOp[i]+'\')">clear</button></li>';
+            }
+          }
+      }
+      function removeDocumentoOp(nome){
+          for(i = 0;i < listaDocumentosOp.length;i++){
+              if(listaDocumentosOp[i] === nome){
+                  listaDocumentosOp[i] = "";
+              }
+          }
+          atualizaDocumentosOp();
       }
       
       

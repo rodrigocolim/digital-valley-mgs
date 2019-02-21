@@ -69,7 +69,8 @@
                         <c:set var = "i" value = "${i + 1}"/>
                     </c:forEach>
                     
-                    <c:if test="${not empty etapa.documentacaoExigida}">
+                    <c:if test="${not empty etapa.documentacaoOpcional}">
+                    	<hr>
 		                <h2> Documentação Opcional</h2>
 		                <p>Atenção: Os campos abaixo (*) NÃO são de preenchimento obrigatório</p>
 	                </c:if>
@@ -77,7 +78,7 @@
                         <input type="hidden" value="${etapa.codEtapa}" name="etapa">
                         <label for="${documentoOp}Input">${documentoOp}</label>
                         <input type="file" name="arquivos" class="form-control" id="arquivoInput" aria-describedby="${documentoOp}Help" accept="application/pdf">
-                        <input type="hidden" name="nomeDocumentoOp" value="${documentoOp}" class="form-control">
+                        <input type="hidden" name="nomeDocumento" value="${documentoOp}" class="form-control">
                         <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
                         <br>
                     </c:forEach>

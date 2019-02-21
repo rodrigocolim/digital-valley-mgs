@@ -33,7 +33,7 @@ public class Avaliacao implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codAvaliacao")
     private long codAvaliacao;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "participante", referencedColumnName = "codParticipante")
     private Participante participante;
     private float nota;

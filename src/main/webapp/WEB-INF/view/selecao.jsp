@@ -253,10 +253,10 @@
                                             </a>
                                         </c:if>
                                        
-										<c:if test="${(estadoInscricao == 3) and (!selecao.inscricao.divulgadoResultado) and ((fn:contains(permissoes, 'ADMINISTRADOR')) or (isResponsavel))}">
+										<c:if test="${(!selecao.inscricao.divulgadoResultado) and ((fn:contains(permissoes, 'ADMINISTRADOR')) or (isResponsavel))}">
 											<c:set var="pendente" value="false"></c:set>
 											<c:forEach var="avaliacao" items="${selecao.inscricao.avaliacoes}">
-												<c:if test="${avaliacao.estado eq 'PENDENTE'}">
+												<c:if test="${avaliacao.estado == 'PENDENTE'}">
 													<c:set var="pendente" value="true"></c:set>
 												</c:if>
 											</c:forEach>

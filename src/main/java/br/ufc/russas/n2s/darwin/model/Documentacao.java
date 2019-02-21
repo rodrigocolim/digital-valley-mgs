@@ -42,7 +42,7 @@ public class Documentacao implements Serializable {
     @Column(name = "codDocumentacao")
     private long codDocumentacao;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "candidato", referencedColumnName = "codParticipante")
     private Participante candidato;
 

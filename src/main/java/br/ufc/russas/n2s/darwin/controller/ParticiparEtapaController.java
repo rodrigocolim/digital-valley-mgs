@@ -17,6 +17,7 @@ import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
+import br.ufc.russas.n2s.darwin.service.ParticipanteServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
 import util.Constantes;
@@ -55,6 +56,8 @@ public class ParticiparEtapaController {
     private EtapaServiceIfc etapaServiceIfc;
     private SelecaoServiceIfc selecaoServiceIfc;
     private UsuarioServiceIfc usuarioServiceIfc;
+    private ParticipanteServiceIfc participanteServiceIfc;
+    
     public EtapaServiceIfc getEtapaServiceIfc() {
         return etapaServiceIfc;
     }
@@ -78,6 +81,14 @@ public class ParticiparEtapaController {
     @Autowired(required = true)
     public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc") SelecaoServiceIfc selecaoServiceIfc) {
         this.selecaoServiceIfc = selecaoServiceIfc;
+    }
+    
+    public ParticipanteServiceIfc getParticipanteServiceIfc() {
+        return participanteServiceIfc;
+    }
+    @Autowired(required = true)
+    public void setParticipanteServiceIfc(@Qualifier("participanteServiceIfc")ParticipanteServiceIfc participanteServiceIfc) {
+        this.participanteServiceIfc = participanteServiceIfc;
     }
     
     
@@ -120,28 +131,34 @@ public class ParticiparEtapaController {
             this.etapaServiceIfc.setUsuario(usuario);
             List<Arquivo> arquivos = new ArrayList<Arquivo>();
             String[] nomeDocumento = request.getParameterValues("nomeDocumento");            
+            //for (int i = 0; i < documentos.size();i++) {
             for (int i = 0; i < documentos.size();i++) {
-            	if (nomeDocumento[i] != null || i < inscricao.getDocumentacaoExigida().size()) {
+            	//if ((nomeDocumento[i] != null && nomeDocumento[i] != "") || i < inscricao.getDocumentacaoExigida().size()) {
+            	if (i < nomeDocumento.length) {
             		System.out.println(i + " : " + nomeDocumento[i]);
 	                String nome = nomeDocumento[i];
 	                MultipartFile file = documentos.get(i);
 	                if (file != null) {
 	                    Arquivo documento = new Arquivo();
 	                    String aux = file.getOriginalFilename();
-	                    if (aux.length() < 4) {throw new IllegalArgumentException("Não foram selecionados os arquivos corretamente para serem enviados!");}
-	                    String expressao = aux.substring(aux.lastIndexOf("."), aux.length());
-	                    if (!expressao.equals(".pdf")) {throw new IllegalArgumentException("Formato de arquivo enviado não é .pdf");}
-	                    java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(), ".pdf", dir);
-	                    FileOutputStream fos = new FileOutputStream(convFile); 
-	                    fos.write(file.getBytes());
-	                    fos.close(); 
-	                    documento.setTitulo(nome);
-	                    documento.setData(LocalDateTime.now());
-	                    documento.setArquivo(convFile);
-	                    arquivos.add(documento);
+	                    if (aux.length() > 4) {//throw new IllegalArgumentException("Não foram selecionados os arquivos corretamente para serem enviados!");}
+	                    	String expressao = aux.substring(aux.lastIndexOf("."), aux.length());
+		                    if (!expressao.equals(".pdf")) {throw new IllegalArgumentException("Formato de arquivo enviado não é .pdf");}
+		                    java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(), ".pdf", dir);
+		                    FileOutputStream fos = new FileOutputStream(convFile); 
+		                    fos.write(file.getBytes());
+		                    fos.close(); 
+		                    documento.setTitulo(nome);
+		                    documento.setData(LocalDateTime.now());
+		                    documento.setArquivo(convFile);
+		                    arquivos.add(documento);
+	                    }
 	                }
                 }        
             }
+           
+            
+            
             
             Documentacao documentacao = new  Documentacao();
             Participante participante = new Participante();
@@ -149,6 +166,9 @@ public class ParticiparEtapaController {
             participante.setData(LocalDateTime.now());
             documentacao.setCandidato(participante);
             documentacao.setDocumentos(arquivos);
+            
+          //  participanteServiceIfc.adicionaParticipante((ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
+            
             if (arquivos.size()>0) {
             	etapaServiceIfc.participa(inscricao, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante), (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
                 
@@ -168,10 +188,12 @@ public class ParticiparEtapaController {
             session.setAttribute("status", "success");
             return "redirect:/minhas_Selecoes";
         } catch (NumberFormatException e) {
+        	e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
             return "redirect:/participarEtapa/inscricao/"+inscricao.getCodEtapa();
         } catch (IllegalArgumentException | NullPointerException | IllegalAccessException e) {
+        	e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "warning");
             return "redirect:/participarEtapa/inscricao/"+inscricao.getCodEtapa();

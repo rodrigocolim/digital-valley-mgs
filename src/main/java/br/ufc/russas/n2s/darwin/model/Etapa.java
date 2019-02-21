@@ -102,7 +102,7 @@ public class Etapa implements Serializable {
 	private int limiteClassificados;
 	private boolean divulgadoResultado;
 	
-	@ManyToMany(targetEntity = Participante.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(targetEntity = Participante.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL) //tava CascadeType.ALL
 	@Fetch(FetchMode.SUBSELECT)
 	@JoinTable(name = "participantes_etapa", joinColumns = {
 			@JoinColumn(name = "etapa", referencedColumnName = "codEtapa") }, inverseJoinColumns = {

@@ -247,13 +247,15 @@ public class EditarSelecaoController {
 	                session.setAttribute("status", "warning");
 	        		return "redirect:/selecao/" + selecao.getCodSelecao();
 	        	} else {
-	        		
-	        		for (EtapaBeans eb : selecao.getEtapas()) {
-	        			if (eb.getAvaliadores() == null) {
-	        				throw new Exception("Não foi possível divulgar a seleção, verfique se todas as etapas possuem avaliadores.");
-	        			}
+	        		if (selecao.getInscricao().getAvaliadores().size() > 0) {
+		        		for (EtapaBeans eb : selecao.getEtapas()) {
+		        			if (eb.getAvaliadores().size() <= 0) {
+		        				throw new Exception("Não foi possível divulgar a seleção, verfique se todas as etapas possuem avaliadores.");
+		        			} 	
+		        		}
+	        		} else {
+        				throw new Exception("Não foi possível divulgar a seleção, verfique se todas as etapas possuem avaliadores.");
 	        		}
-	        		
 		            selecaoServiceIfc.setUsuario(usuario);
 		            selecao.setDivulgada(true);
 		            selecao = selecaoServiceIfc.atualizaSelecao(selecao);

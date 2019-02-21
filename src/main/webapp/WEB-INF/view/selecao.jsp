@@ -292,7 +292,7 @@
 						                        </div>
 						                    </div>
 										</c:if>
-                                        <c:if test="${(estadoInscricao == 3) and (selecao.inscricao.divulgadoResultado) and (not empty selecao.inscricao.avaliacoes)}">
+                                        <c:if test="${(selecao.inscricao.divulgadoResultado) and (not empty selecao.inscricao.avaliacoes)}">
 	                                        <a href="/Darwin/resultadoEtapa/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
 	                                            <i class="fas fa-eye"></i> Ver Resultado
 	                                        </a>

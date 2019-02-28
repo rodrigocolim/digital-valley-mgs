@@ -147,29 +147,28 @@ public class SelecaoController {
     	SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
     	UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
     	if (selecao.isDivulgadoResultado() || (selecao.getResponsaveis().contains(usuario)) || (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR))) {
-	    	try {
+    		if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+            	model.addAttribute("isResponsavel", true);
+            } else {
+            	model.addAttribute("isResponsavel", false);
+            }
+    		try {
 	    		List<ResultadoParticipanteSelecaoBeans> resultado = selecaoServiceIfc.getResultado(selecao);
 	    		List<EtapaBeans> etapasComNota = selecaoServiceIfc.getEtapasNota(selecao);
 	    		model.addAttribute("resultadosSelecao", resultado);
 	    		if (!resultado.isEmpty()) {
 	    			etapasComNota = resultado.get(0).getEtapas();
 	    		}
-	    		if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
-	            	model.addAttribute("isResponsavel", true);
-	            } else {
-	            	model.addAttribute("isResponsavel", false);
-	            }
+	    		
 		        model.addAttribute("etapasComNota", etapasComNota);
 		        model.addAttribute("selecao", selecao);
 		        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));
 		        return "resultado";
 	    	} catch (NullPointerException e) {
-	    		e.printStackTrace();
 				model.addAttribute("mensagem", "Não foram encontrados resultados disponíveis!");
 	            model.addAttribute("status", "warning");
 	            return "resultado";
 			} catch (Exception e) {
-				e.printStackTrace();
 	 	        model.addAttribute("quantidadeEtapasPorNota", selecaoServiceIfc.getEtapasNota(selecao).size());
 	 	        model.addAttribute("selecao", selecao);
 	 	        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));
@@ -240,8 +239,5 @@ public class SelecaoController {
  	        return "redirect:/selecao/"+codSelecao+"/resultado";
         }
     }
-	
-	
-    
     
 }

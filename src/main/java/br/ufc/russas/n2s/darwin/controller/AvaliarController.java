@@ -15,12 +15,14 @@ import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoAvaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.Log;
+import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.AvaliacaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.ParticipanteServiceIfc;
+import br.ufc.russas.n2s.darwin.util.Facade;
 
 import java.time.LocalDate;
 
@@ -264,6 +266,26 @@ public class AvaliarController {
 	         session.setAttribute("status", "danger");
     	}
     	return "redirect: /Darwin/recursoEtapa/"+etapa.getCodEtapa()+"/"+avaliacao.getParticipante().getCodParticipante();
+    }
+    
+    @RequestMapping(value = "/download/{codEtapa}/{codParticipante}", method = RequestMethod.GET)
+    public String getParticipantesInscricao(@PathVariable long codEtapa, @PathVariable long codParticipante, Model model, HttpServletRequest request,HttpServletResponse response) {
+    	HttpSession session = request.getSession();
+    	EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
+    	try {
+	    	UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+	    	ParticipanteBeans p = this.participanteServiceIfc.getParticipante(codParticipante);
+	        if ((etapa.getAvaliadores().contains(usuario)) || (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR))) {
+		        Facade.compactarParaZip(etapa, p, response);
+	        	//model.addAttribute("selecao", selecao);
+		        //model.addAttribute("participantesEtapa", selecao.getInscricao().getParticipantes());
+		        return "redirect: /Darwin/avaliar/"+etapa.getCodEtapa();
+	        } else {return "error/404";}
+    	} catch (Exception e) {
+    		session.setAttribute("mensagem", "Erro ao buscar documentação!");
+	         session.setAttribute("status", "danger");
+    		 return "redirect: /Darwin/avaliar/"+etapa.getCodEtapa();
+		}
     }
 
 }

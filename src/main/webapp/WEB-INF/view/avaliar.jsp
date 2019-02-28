@@ -107,7 +107,7 @@
 
                                                 <input type="hidden" name="participante" value="${participante.codParticipante}">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="form-control-label">Documentação:</label>
+                                                    <label for="recipient-name" class="form-control-label">Documentação:</label><c:if test="${not empty etapa.documentacoes}"> <a href="/Darwin/avaliar/download/${etapa.codEtapa}/${participante.codParticipante}"> Download completo da documentação (.zip)</a></c:if>
                                                     <c:forEach var="documentacao" items="${etapa.documentacoes}">
                                                         <c:if test="${documentacao.candidato.codParticipante == participante.codParticipante}">
                                                             <c:forEach var="documento" items="${documentacao.documentos}">

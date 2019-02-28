@@ -39,6 +39,7 @@ public enum EnumEstadoEtapa implements EstadoEtapa{
         @Override
         public EnumEstadoEtapa execute(Etapa etapa){
             if(etapa.getPeriodo().getTermino().isBefore(LocalDate.now())){
+            	etapa.listParticipantes();
                 return this;
             }else{
                 return ESPERA.execute(etapa);

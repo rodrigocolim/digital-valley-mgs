@@ -331,7 +331,9 @@
                                 	<input name = "etapa_atual" type = "hidden" value = "${etapa.codEtapa}">
                                     <p class="text-justify">${etapa.descricao}</p><br>
                                     <b>ETAPA DE PRÉ-REQUISITO: </b> ${etapa.prerequisito.titulo}<br>
-                                    <b>CRITÉRIO DE AVALIAÇÃO: </b> ${etapa.criterioDeAvaliacao}<br>
+                                    <c:if test="${selecao.exibirNotas || (isResponsavel)}">
+                                    	<b>CRITÉRIO DE AVALIAÇÃO: </b> ${etapa.criterioDeAvaliacao}<br>
+                                    </c:if>
                                     <c:if test="${not empty etapa.documentacaoExigida}">
                                     <b>DOCUMENTAÇÃO EXIGIDA: </b> 
                                     <ul>

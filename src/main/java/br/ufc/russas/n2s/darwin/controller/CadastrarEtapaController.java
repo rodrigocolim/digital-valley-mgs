@@ -167,9 +167,13 @@ public class CadastrarEtapaController {
 	                etapa.setDocumentacaoOpcional(docsO);
 	            }
 	            
-	            selecao.getEtapas().add(etapa);
+	            this.etapaServiceIfc.setUsuario(usuario);
+	            etapa = this.getEtapaServiceIfc().adicionaEtapa(selecao, etapa);
+	            
+	            
+	         //   selecao.getEtapas().add(etapa);
 	            this.selecaoServiceIfc.setUsuario(usuario);
-	            this.selecaoServiceIfc.atualizaSelecao(selecao);
+	          //  this.selecaoServiceIfc.atualizaSelecao(selecao);
 	            selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
 	           
 	            for (EtapaBeans et : selecao.getEtapas()) {
@@ -266,6 +270,11 @@ public class CadastrarEtapaController {
                 }
                 etapa.setDocumentacaoOpcional(docsO);
             }
+            //mudei aqui
+          //  System.out.println("antes");
+          //  this.etapaServiceIfc.setUsuario(usuario);
+          // etapa = this.getEtapaServiceIfc().adicionaEtapa(selecao, etapa);
+           // System.out.println("aqui");
             
             if (selecao.getInscricao() != null) {
                 EtapaBeans e = (EtapaBeans) etapa;

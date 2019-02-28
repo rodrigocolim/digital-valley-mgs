@@ -62,7 +62,8 @@ public class Selecao {
     @ManyToOne(targetEntity = Etapa.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "etapa_inscricao", referencedColumnName = "codEtapa")
     private Etapa inscricao;
-    @ManyToMany(targetEntity = Etapa.class,  cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //@ManyToMany(targetEntity = Etapa.class,  cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = Etapa.class,  cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "etapas_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "etapa", referencedColumnName = "codEtapa")})
@@ -507,7 +508,7 @@ public class Selecao {
 	    			if ((float) r1.getMediaGeral() == (float) r2.getMediaGeral()) {  
 	    				if (r1.getEtapas().size() > 1) {
 			    			for (int j = 0;j < r1.getEtapas().size();j++) {
-			    				if (r1.getEtapas().get(i).isCriterioDesempate() && (float) r1.getNotasEtapas().get(j) < (float) r2.getNotasEtapas().get(j)) {
+			    				if (r1.getEtapas().get(j).isCriterioDesempate() && (float) r1.getNotasEtapas().get(j) < (float) r2.getNotasEtapas().get(j)) {
 			    					resultadoSelecao.set(i, r2);
 			    					resultadoSelecao.set(i+1, r1);
 			    					break;

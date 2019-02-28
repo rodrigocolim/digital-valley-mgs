@@ -14,9 +14,12 @@ import br.ufc.russas.n2s.darwin.model.Arquivo;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.Email;
 import br.ufc.russas.n2s.darwin.model.FileManipulation;
+import br.ufc.russas.n2s.darwin.model.Log;
 import br.ufc.russas.n2s.darwin.model.Participante;
+import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
+import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.ParticipanteServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -25,6 +28,7 @@ import util.Constantes;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,6 +46,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -57,6 +62,7 @@ public class ParticiparEtapaController {
     private SelecaoServiceIfc selecaoServiceIfc;
     private UsuarioServiceIfc usuarioServiceIfc;
     private ParticipanteServiceIfc participanteServiceIfc;
+    private LogServiceIfc logServiceIfc;
     
     public EtapaServiceIfc getEtapaServiceIfc() {
         return etapaServiceIfc;
@@ -91,6 +97,14 @@ public class ParticiparEtapaController {
         this.participanteServiceIfc = participanteServiceIfc;
     }
     
+    public LogServiceIfc getLogServiceIfc() {
+    	return logServiceIfc;
+    }
+    @Autowired
+    public void setLogServiceIfc(@Qualifier("logServiceIfc")LogServiceIfc logServiceIfc) {
+    	this.logServiceIfc = logServiceIfc;
+    }
+    
     
     @RequestMapping(value="/{codEtapa}", method = RequestMethod.GET)
     public String getIndex(@PathVariable long codEtapa, Model model, HttpServletRequest request) {
@@ -121,72 +135,71 @@ public class ParticiparEtapaController {
         HttpSession session = request.getSession();
         EtapaBeans inscricao = null;
         try {
-            inscricao = this.etapaServiceIfc.getEtapa(codEtapa);
-            SelecaoBeans selecao = this.etapaServiceIfc.getSelecao(inscricao);
-            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator+"Etapa_"+inscricao.getCodEtapa()+File.separator+"Candidato_"+usuario.getCodUsuario()+File.separator);
-            if(!dir.exists()) {
-            	dir.mkdir();
-            }
-            this.etapaServiceIfc.setUsuario(usuario);
-            List<Arquivo> arquivos = new ArrayList<Arquivo>();
-            String[] nomeDocumento = request.getParameterValues("nomeDocumento");            
-            //for (int i = 0; i < documentos.size();i++) {
-            for (int i = 0; i < documentos.size();i++) {
-            	//if ((nomeDocumento[i] != null && nomeDocumento[i] != "") || i < inscricao.getDocumentacaoExigida().size()) {
-            	if (i < nomeDocumento.length) {
-            		System.out.println(i + " : " + nomeDocumento[i]);
-	                String nome = nomeDocumento[i];
-	                MultipartFile file = documentos.get(i);
-	                if (file != null) {
-	                    Arquivo documento = new Arquivo();
-	                    String aux = file.getOriginalFilename();
-	                    if (aux.length() > 4) {//throw new IllegalArgumentException("Não foram selecionados os arquivos corretamente para serem enviados!");}
-	                    	String expressao = aux.substring(aux.lastIndexOf("."), aux.length());
-		                    if (!expressao.equals(".pdf")) {throw new IllegalArgumentException("Formato de arquivo enviado não é .pdf");}
-		                    java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(), ".pdf", dir);
-		                    FileOutputStream fos = new FileOutputStream(convFile); 
-		                    fos.write(file.getBytes());
-		                    fos.close(); 
-		                    documento.setTitulo(nome);
-		                    documento.setData(LocalDateTime.now());
-		                    documento.setArquivo(convFile);
-		                    arquivos.add(documento);
-	                    }
-	                }
-                }        
-            }
-           
+        	
+        	int chave[] = new int[0];
+        	synchronized(chave) {
+	            inscricao = this.etapaServiceIfc.getEtapa(codEtapa);
+	            SelecaoBeans selecao = this.etapaServiceIfc.getSelecao(inscricao);
+	            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+	            if (this.etapaServiceIfc.isParticipante(inscricao, usuario)) throw new Exception("Você já está inscrito nessa seleção.");
+	            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator+"Etapa_"+inscricao.getCodEtapa()+File.separator+"Candidato_"+usuario.getCodUsuario()+File.separator);
+	            if(!dir.exists()) {
+	            	dir.mkdir();
+	            }
+	            this.etapaServiceIfc.setUsuario(usuario);
+	            List<Arquivo> arquivos = new ArrayList<Arquivo>();
+	            String[] nomeDocumento = request.getParameterValues("nomeDocumento");            
+	            for (int i = 0; i < documentos.size();i++) {
+	            	if (i < nomeDocumento.length) {
+		                String nome = nomeDocumento[i];
+		                MultipartFile file = documentos.get(i);
+		                if (file != null) {
+		                    Arquivo documento = new Arquivo();
+		                    String aux = file.getOriginalFilename();
+		                    if (aux.length() > 4) {//throw new IllegalArgumentException("Não foram selecionados os arquivos corretamente para serem enviados!");}
+		                    	String expressao = aux.substring(aux.lastIndexOf("."), aux.length());
+			                    if (!expressao.equals(".pdf")) {throw new IllegalArgumentException("Formato de arquivo enviado não é .pdf");}
+			                    java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(), ".pdf", dir);
+			                    FileOutputStream fos = new FileOutputStream(convFile); 
+			                    fos.write(file.getBytes());
+			                    fos.close(); 
+			                    documento.setTitulo(nome);
+			                    documento.setData(LocalDateTime.now());
+			                    documento.setArquivo(convFile);
+			                    arquivos.add(documento);
+		                    }
+		                }
+	                }        
+	            }
             
+	            Documentacao documentacao = new  Documentacao();
+	            Participante participante = new Participante();
+	            participante.setCandidato((UsuarioDarwin) usuario.toBusiness());
+	            participante.setData(LocalDateTime.now());
+	            documentacao.setCandidato(participante);
+	            documentacao.setDocumentos(arquivos);
+	            
+	            if (arquivos.size()>0) {
+	            	etapaServiceIfc.participa(inscricao, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante), (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
+	                
+	            } else {
+	            	etapaServiceIfc.participa(inscricao, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
+	            }  
+	            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" portador do CPF "+usuario.getCPF()+" realizou a inscrição na seleção ("+selecao.getCodSelecao()+") "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
+	            session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(inscricao.getTitulo()));
+	            List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
+	            Thread sendEmail = new Thread(new Email(usuario, "Inscrição em seleção!", "Inscrição em seleção", "Sua inscrição na <b>Seleção "+selecao.getTitulo()+"</b> foi realizada com sucesso!"));
+	            sendEmail.start();
+	            HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
+	            for (SelecaoBeans s : selecoes) {
+	                etapasAtuais.put(s, this.getSelecaoServiceIfc().getEtapaAtual(s));
+	            }
             
-            
-            Documentacao documentacao = new  Documentacao();
-            Participante participante = new Participante();
-            participante.setCandidato((UsuarioDarwin) usuario.toBusiness());
-            participante.setData(LocalDateTime.now());
-            documentacao.setCandidato(participante);
-            documentacao.setDocumentos(arquivos);
-            
-          //  participanteServiceIfc.adicionaParticipante((ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
-            
-            if (arquivos.size()>0) {
-            	etapaServiceIfc.participa(inscricao, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante), (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
-                
-            } else {
-            	etapaServiceIfc.participa(inscricao, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
-            }            
-            session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(inscricao.getTitulo()));
-            List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
-            Thread sendEmail = new Thread(new Email(usuario, "Inscrição em seleção!", "Inscrição em seleção", "Sua inscrição na <b>Seleção "+selecao.getTitulo()+"</b> foi realizada com sucesso!"));
-            sendEmail.start();
-            HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
-            for (SelecaoBeans s : selecoes) {
-                etapasAtuais.put(s, this.getSelecaoServiceIfc().getEtapaAtual(s));
-            }
-            model.addAttribute("selecoes", selecoes);
-            model.addAttribute("etapasAtuais", etapasAtuais);
-            session.setAttribute("status", "success");
-            return "redirect:/minhas_Selecoes";
+	            model.addAttribute("selecoes", selecoes);
+	            model.addAttribute("etapasAtuais", etapasAtuais);
+	            session.setAttribute("status", "success");
+	            return "redirect:/minhas_Selecoes";
+        	}
         } catch (NumberFormatException e) {
         	e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
@@ -247,7 +260,12 @@ public class ParticiparEtapaController {
             session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(etapa.getTitulo()));
             session.setAttribute("status", "success");
             response.sendRedirect("/Darwin/minhas_Selecoes");
-        } catch (NumberFormatException e) {
+        } catch (MultipartException e ) {
+        	session.setAttribute("mensagem", "O tamanho dos arquivos ultrapassa a capacidade de upload.");
+            session.setAttribute("status", "danger");
+            response.sendRedirect("/Darwin/participarEtapa/"+etapa.getCodEtapa());
+        }        
+        catch (NumberFormatException e) {
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
             response.sendRedirect("/Darwin/participarEtapa/"+etapa.getCodEtapa());

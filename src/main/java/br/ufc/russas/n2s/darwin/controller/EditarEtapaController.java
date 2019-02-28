@@ -134,6 +134,7 @@ public class EditarEtapaController {
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
             EtapaBeans etapaBeans= this.etapaServiceIfc.getEtapa(codEtapa);
+            if (etapaBeans.getEstado().equals(EnumEstadoEtapa.ANDAMENTO) && selecao.isDivulgada()) {throw new Exception("Etapa em andamento no pode ser editada.");}
             
             if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || selecao.getResponsaveis().contains(usuario)) {
             	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -184,7 +185,7 @@ public class EditarEtapaController {
 		            
 		            if (documentosExigidos != null) {
 		            	ArrayList<String> docs = new ArrayList<>();
-		                for(String documento : documentosExigidos){
+		                for(String documento : documentosExigidos) {
 		                    docs.add(documento);
 		                }
 		                etapaBeans.setDocumentacaoExigida(docs);
@@ -201,7 +202,7 @@ public class EditarEtapaController {
 		            	etapaBeans.setDocumentacaoExigida(new ArrayList<>());
 		            }
 		            etapaBeans.setAvaliadores(avaliadores);
-		            this.getSelecaoServiceIfc().setUsuario(usuario);
+		          /*  this.getSelecaoServiceIfc().setUsuario(usuario);
 		            
 		            int index=0;
 		            List<EtapaBeans> etapas = selecao.getEtapas();
@@ -214,6 +215,9 @@ public class EditarEtapaController {
 		            	index++;
 		            }
 		            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
+		            */
+		            this.getEtapaServiceIfc().atualizaEtapa(etapaBeans);
+		            selecao = this.getSelecaoServiceIfc().getSelecao(selecao.getCodSelecao());
 		            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" modificou a etapa "+etapa.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
 		            session.setAttribute("status", "success");
 		            session.setAttribute("mensagem", "Etapa atualizada com sucesso!");

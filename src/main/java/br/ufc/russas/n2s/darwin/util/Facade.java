@@ -1,12 +1,21 @@
 package br.ufc.russas.n2s.darwin.util;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -20,10 +29,13 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import br.ufc.russas.n2s.darwin.beans.ArquivoBeans;
+import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteSelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
+import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import util.Constantes;
 
@@ -124,7 +136,7 @@ public class Facade {
 			document.add(image);
 			Paragraph cabecalho = new Paragraph(
 					"UNIVERSIDADE FEDERAL DO CEARÁ\nCAMPUS DA UFC DE RUSSAS" + "\n\n"
-							+ "Resultado da seleção do edital "+selecao.getTitulo()+"\n\n\n");
+							+ "RESULTADO DA SELEÇÃO "+selecao.getTitulo()+"\n\n\n");
 			cabecalho.setAlignment(Paragraph.ALIGN_CENTER);
 			document.add(cabecalho);
 			com.itextpdf.text.Font f = FontFactory.getFont("SANS_SERIF", 10, Font.BOLD, new BaseColor(0, 0, 255));
@@ -246,5 +258,48 @@ public class Facade {
 		
 	}
 	
+	//método para compactar arquivo
+	  public static void compactarParaZip(EtapaBeans etapa, ParticipanteBeans participante, HttpServletResponse response) throws IOException{
+		   ArrayList<ArquivoBeans> documentos = new ArrayList<>();
+		   for (DocumentacaoBeans d : etapa.getDocumentacoes()) {
+			   if (d.getCandidato().getCodParticipante() == participante.getCodParticipante()) {
+				   documentos.addAll(d.getDocumentos());
+				   
+			   }
+		   }
+		   String zipFile = "Documentos_"+participante.getCandidato().getNome().replace(" ", "_")+"("+participante.getCandidato().getCPF()+").zip";
+		   
+	        try {
+	        	response.setHeader("Content-Disposition", "attachment;filename="+zipFile);
+	        	response.setContentType("application/zip");
+	        	response.setHeader("Expires", "0");
+	        	response.setHeader("Cache-Control", "must-revalidate, postcheck=0, pre-check=0");
+	        	response.setHeader("Pragma", "public");
+	            // create byte buffer
+	            byte[] buffer = new byte[1024];
+	            ServletOutputStream out = response.getOutputStream();
+	           // FileOutputStream fos = new FileOutputStream(zipFile);
+	            ZipOutputStream zos = new ZipOutputStream(out);
+	             for (ArquivoBeans d : documentos) {
+	                File srcFile = d.getArquivo();
+	                FileInputStream fis = new FileInputStream(srcFile);
+	                // begin writing a new ZIP entry, positions the stream to the start of the entry data
+	                zos.putNextEntry(new ZipEntry(srcFile.getName()));
+	                int length;
+	                while ((length = fis.read(buffer)) > 0) {
+	                    zos.write(buffer, 0, length);
+	                }
+	                zos.closeEntry();
+	                // close the InputStream
+	                fis.close();
+	            }
+	            // close the ZipOutputStream
+	            zos.close();
+	        }
+	        catch (IOException ioe) {
+	            System.out.println("Error creating zip file: " + ioe);
+	        }
+	    
+	   }	
 
 }

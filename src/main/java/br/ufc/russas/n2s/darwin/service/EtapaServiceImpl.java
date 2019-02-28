@@ -72,7 +72,9 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
         SelecaoProxy sp = new SelecaoProxy(u);
         Selecao s = (Selecao) selecao.toBusiness();
         Etapa e = (Etapa) etapa.toBusiness();
+        e = this.etapaDAOIfc.adicionaEtapa(e);
         sp.adicionaEtapa(s, e);
+        
         this.selecaoServiceIfc.setUsuario(usuario);
         this.selecaoServiceIfc.atualizaSelecao((SelecaoBeans) selecao.toBeans(s));
         return etapa;
@@ -127,8 +129,13 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
     }
 
     @Override
-    public boolean isParticipante(UsuarioBeans participante) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean isParticipante(EtapaBeans etapa, UsuarioBeans participante) {
+    	for (ParticipanteBeans p : etapa.getParticipantes()) {
+    		if (p.getCandidato().getCodUsuario() == participante.getCodUsuario()) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
     @Override

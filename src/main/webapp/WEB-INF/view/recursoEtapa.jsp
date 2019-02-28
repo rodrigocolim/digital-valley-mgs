@@ -70,7 +70,7 @@
 	                                <c:forEach var="avaliacao" items="${avaliacoes}">
 	                                	<form method="POST" action="/Darwin/avaliar/recurso/etapa/${etapa.codEtapa}/avaliacao/${avaliacao.codAvaliacao}" accept-charset="UTF-8">                              	
 		                                	<td scope="col" style="text-align:center">${avaliacao.avaliador.nome}</td>
-		                                	<td class="text-center" scope="col"><input class="form-control" style="width: 150px"type="number" value="${avaliacao.nota}" name="nota"/> </td>
+		                                	<td class="text-center" scope="col"><input class="form-control" style="width: 150px"type="number" step="0.01" value="${avaliacao.nota}" name="nota"/> </td>
 	                                		<td scope="col" ><input type="submit" class="btn btn-primary btn-sm" value="Salvar"/> </td>
 	                                	</form>
 	                                </c:forEach>

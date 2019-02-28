@@ -154,8 +154,6 @@ public class EditarSelecaoController {
                 
                 selecaoBeans.getEdital().setArquivo(temp);
                 selecaoBeans.getEdital().setData(LocalDateTime.now());
-                //selecaoBeans.setEdital(edital);
-                //output.close();
             }
             
             if (nomeAnexos != null && linkAnexos != null) {
@@ -175,13 +173,9 @@ public class EditarSelecaoController {
                     anexo.setData(LocalDateTime.now());
                     selecaoBeans.getAnexos().add(anexo);
                 }
-                //selecaoBeans.setAnexos(anexos);
-                
-            	
             }
             
             if (nomeAditivos != null && linkAditivos != null) {
-            	//ArrayList<ArquivoBeans> aditivos = new ArrayList<>();
                 for (int i=0; i < nomeAditivos.length; i++) {
                     ArquivoBeans aditivo = new ArquivoBeans();
                     aditivo.setTitulo(nomeAditivos[i]);
@@ -217,13 +211,15 @@ public class EditarSelecaoController {
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             this.getSelecaoServiceIfc().setUsuario(usuario);
             selecaoBeans = this.getSelecaoServiceIfc().atualizaSelecao(selecaoBeans);
-            EtapaBeans etapaAtual = this.getSelecaoServiceIfc().getEtapaAtual(selecaoBeans);
+           // EtapaBeans etapaAtual = this.getSelecaoServiceIfc().getEtapaAtual(selecaoBeans);
             session.setAttribute("selecao", selecaoBeans);
             this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecaoBeans.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" editou a seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
             session.setAttribute("mensagem", "Seleção atualizada com sucesso!");
             session.setAttribute("status", "success");
             return "redirect:/selecao/" + selecaoBeans.getCodSelecao();
         } catch (IOException | IllegalAccessException e) {
+        	e.printStackTrace();
+        	
         	session.setAttribute("mensagem", e.getMessage());
         	session.setAttribute("status", "warning");
             return ("redirect:/editarSelecao/"+codSelecao);

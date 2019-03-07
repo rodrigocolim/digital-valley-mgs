@@ -19,4 +19,5 @@ public interface ParticipanteServiceIfc {
      void removeParticipante(ParticipanteBeans participante);
      List<ParticipanteBeans> listaTodosParticipantes();
      ParticipanteBeans getParticipante(long codParticipante);
+     List<ParticipanteBeans> ordenarPorNome(List<ParticipanteBeans> participantes);
 }

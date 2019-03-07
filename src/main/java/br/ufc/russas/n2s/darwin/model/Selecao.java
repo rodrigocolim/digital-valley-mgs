@@ -294,7 +294,7 @@ public class Selecao {
 		this.deletada = deletada;
 	}
 	
-	 public boolean isEixbirNotas() {
+	 public boolean isExibirNotas() {
 		return exibirNotas;
 	}
 
@@ -462,9 +462,6 @@ public class Selecao {
 	    		for (int i = 0;i < resultadoEtapaFinal.size();i++) {
 	    			Object[] r = resultadoEtapaFinal.get(i);
 	    			Participante p = (Participante) r[0];
-	    			
-	    		//	System.out.println(p.getCandidato().getNome());
-	    			
 	    			
 	    			float sumGeral = 0;
 	    			float contadorGeral = 0;

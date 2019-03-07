@@ -56,5 +56,10 @@ public interface SelecaoDAOIfc {
     void atualizaExibirNotas(Selecao selecao);
     
     List<Selecao> BuscaSelecoesPorNome(String titulo);
+    
+    List<Selecao> listaSelecoesIgnorandoNotas(Selecao selecao);
+    List<Selecao> buscaTodasPorCriteria(boolean divulgada);
+    List<Selecao> buscaTodasPorCriteria();
+    List<Selecao> listaSelecoesIgnorandoBooleanos();
 
 }

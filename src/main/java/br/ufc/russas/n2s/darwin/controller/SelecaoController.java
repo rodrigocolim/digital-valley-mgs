@@ -24,15 +24,12 @@ import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteSelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.dao.AvaliacaoDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Avaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.Log;
-import br.ufc.russas.n2s.darwin.model.ResultadoSelecaoForm;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
-import br.ufc.russas.n2s.darwin.service.AvaliacaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
@@ -164,11 +161,7 @@ public class SelecaoController {
 		        model.addAttribute("selecao", selecao);
 		        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));
 		        return "resultado";
-	    	} catch (NullPointerException e) {
-				model.addAttribute("mensagem", "Não foram encontrados resultados disponíveis!");
-	            model.addAttribute("status", "warning");
-	            return "resultado";
-			} catch (Exception e) {
+	    	}  catch (Exception e) {
 	 	        model.addAttribute("quantidadeEtapasPorNota", selecaoServiceIfc.getEtapasNota(selecao).size());
 	 	        model.addAttribute("selecao", selecao);
 	 	        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));
@@ -182,7 +175,6 @@ public class SelecaoController {
     	HttpSession session = request.getSession();
     	SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
     	UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-     
         if ((selecao.getResponsaveis().contains(usuario)) || (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR))) {
 	        model.addAttribute("selecao", selecao);
 	        model.addAttribute("participantesEtapa", selecao.getInscricao().getParticipantes());

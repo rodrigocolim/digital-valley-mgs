@@ -67,5 +67,34 @@ public class ParticipanteServiceImpl implements ParticipanteServiceIfc {
         participante.setCodParticipante(codParticipante);
         return (ParticipanteBeans) new ParticipanteBeans().toBeans(this.participanteDAOIfc.getParticipante(participante));
     }
+    
+    //EM producao ainda
+    @Override
+    public  List<ParticipanteBeans> ordenarPorNome(List<ParticipanteBeans> participantes) {
+    	if (participantes != null) {
+    		
+    		if (participantes.size() == 1) return participantes;
+	    	List<ParticipanteBeans> p = new ArrayList<>();
+	    	ParticipanteBeans menor = participantes.get(0);
+	    	int tam, remove = 0;
+	    	tam = participantes.size();
+	    	
+	    	for (int j=0;j<tam;j++) {
+		    	for (int i=1;i < tam; i++) {
+		    		if ((participantes.get(i).getCandidato().getNome().compareToIgnoreCase(menor.getCandidato().getNome())) <= -1) {
+		    			menor = participantes.get(i);
+		    			remove = i;
+		    			
+		    		}
+		    	}
+		    	p.add(menor);
+		    	//participantes.remove(remove);
+		    	//tam = participantes.size();
+	    	}
+	    	return p;
+    	
+    	} else {return null;}
+    	
+    }
 
 }

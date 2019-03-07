@@ -69,7 +69,7 @@ public class IndexController {
     public String getIndex(Model model, @PathVariable String categoria) {
         Selecao selecao = new Selecao();
         selecao.setCategoria(categoria.replace("_", " "));
-        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
+        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesIgnorandoNotas(selecao);
         HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
             etapasAtuais.put(s.getCodSelecao(), this.getSelecaoServiceIfc().getEtapaAtual(s));
@@ -85,6 +85,7 @@ public class IndexController {
     public String getPorTitulo(Model model, HttpServletRequest request) {
       // Selecao selecao = new Selecao();
       String titulo = (String) request.getParameter("campoBuscaSelecao");
+      this.getSelecaoServiceIfc().setUsuario((UsuarioBeans)request.getSession().getAttribute("usuarioDarwin"));
         List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().BuscaSelecoesPorNome(titulo) ;
         HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
@@ -102,6 +103,7 @@ public class IndexController {
     public String getEstados(Model model, @PathVariable String estado){
         Selecao selecao = new Selecao();
         EnumEstadoSelecao e = null;
+        System.out.println(estado);
         if (estado.equals("aberta")){
             e = EnumEstadoSelecao.ABERTA;
             model.addAttribute("categoria", "Seleções abertas");
@@ -112,12 +114,12 @@ public class IndexController {
             e = EnumEstadoSelecao.FINALIZADA;
             model.addAttribute("categoria", "Seleções finalizadas");
         } else {
-        	System.out.println("espera");
         	 e = EnumEstadoSelecao.ESPERA;
              model.addAttribute("categoria", "Seleções em espera");
         }
         selecao.setEstado(e);
-        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
+       // List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao);
+        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesIgnorandoNotas(selecao);
         HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
             etapasAtuais.put(s.getCodSelecao(), this.getSelecaoServiceIfc().getEtapaAtual(s));

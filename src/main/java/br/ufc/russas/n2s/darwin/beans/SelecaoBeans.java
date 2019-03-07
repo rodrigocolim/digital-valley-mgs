@@ -287,7 +287,7 @@ public class SelecaoBeans implements Beans, Serializable {
                 this.setDivulgada(selecao.isDivulgada());
                 this.setDivulgadoResultado(selecao.isDivulgadoResultado());
                 this.setDeletada(selecao.isDeletada());
-                this.setExibirNotas(selecao.isEixbirNotas());
+                this.setExibirNotas(selecao.isExibirNotas());
                 EtapaBeans eb = null;
                 if(selecao.getInscricao()!=null){
                    eb = (EtapaBeans) (new EtapaBeans().toBeans(selecao.getInscricao()));

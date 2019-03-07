@@ -13,8 +13,10 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
+import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.EtapaPredicates;
+import br.ufc.russas.n2s.darwin.model.Participante;
 import br.ufc.russas.n2s.darwin.model.ResultadoParticipanteSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
@@ -23,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -131,6 +135,25 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         }
         return selecoes;
     }
+    
+    @Override
+    @Transactional
+    public List<SelecaoBeans> listaSelecoesIgnorandoNotas(Selecao selecao) {
+        selecao.setDivulgada(true);
+       // selecao.setDivulgadoResultado(false);
+        selecao.setDeletada(false);
+        List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
+        List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoesIgnorandoNotas(selecao);
+        System.out.println(resultado.size());
+        for (Selecao s : resultado) {
+        	
+            selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+        }
+        return selecoes;
+    }
+    
+    
+    
 
     @Override
     @Transactional(readOnly = true)
@@ -149,16 +172,22 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     public List<SelecaoBeans> listaSelecoesAssociada(UsuarioBeans usuario) {
         Selecao selecao = new Selecao();
         selecao.setDeletada(false);
+        selecao.setExibirNotas(true);
+        //selecao.setDivulgada(false);
         UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
-        List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().listaSelecoes(selecao);
-        List<SelecaoBeans> resultadoDivulgadas = this.listaTodasSelecoes();
+       // List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().listaSelecoes(selecao);
+        List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().buscaTodasPorCriteria(false);
+       // selecao.setDivulgada(true);
+        List<Selecao> resultadoDivulgadas = this.getSelecaoDAOIfc().buscaTodasPorCriteria(true);
+       // List<SelecaoBeans> resultadoDivulgadas = this.listaTodasSelecoes();
+        
         for (Selecao s : resultadoNaoDivulgadas) {
             if (s.getResponsaveis().contains(user)) {
                 selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
             } 
         }
-        for (SelecaoBeans s : resultadoDivulgadas) {
+        /*for (SelecaoBeans s : resultadoDivulgadas) {
         	boolean isParticipante = false;
         	for (ParticipanteBeans p : s.getInscricao().getParticipantes()) {
         		if (p.getCandidato().getCodUsuario() == usuario.getCodUsuario()) {
@@ -169,6 +198,20 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
             if (s.getResponsaveis().contains(usuario) || isParticipante) {
                 selecoes.add(s);
             }
+        }*/
+        
+        UsuarioDarwin u = (UsuarioDarwin) usuario.toBusiness();
+        for (Selecao s : resultadoDivulgadas) {
+        	boolean isParticipante = false;
+        	for (Participante p : s.getInscricao().getParticipantes()) {
+        		if (p.getCandidato().getCodUsuario() == usuario.getCodUsuario()) {
+        			isParticipante = true;
+        			break;
+        		}
+        	}
+            if (s.getResponsaveis().contains(u) || isParticipante) {
+            	selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+            }
         }
        
         return this.ordenaSelecoesPorData(selecoes);
@@ -178,16 +221,29 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     public List<SelecaoBeans> listaTodasSelecoesDoBanco() {
         Selecao selecao = new Selecao();
         selecao.setDeletada(false);
+        selecao.setDivulgada(false);
        // UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
-        List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().listaSelecoes(selecao);
-        List<SelecaoBeans> resultadoDivulgadas = this.listaTodasSelecoes();
-        for (Selecao s : resultadoNaoDivulgadas) {
+       // List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().listaSelecoesIgnorandoNotas(selecao);//erro
+        selecao.setDivulgada(true);
+      //  List<SelecaoBeans> resultadoDivulgadas = this.listaSelecoesIgnorandoNotas(selecao);
+       // List<Selecao> resultadoTodas =  this.getSelecaoDAOIfc().listaSelecoesIgnorandoBooleanos();
+        List<Selecao> resultadoTodas =  this.getSelecaoDAOIfc().buscaTodasPorCriteria();
+        
+        
+        for (int i=0;i<resultadoTodas.size();i++) {
+            selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(resultadoTodas.get(i)));
+        }
+        
+      //  List<SelecaoBeans> resultadoDivulgadas = this.listaTodasSelecoes();
+     /*   for (Selecao s : resultadoNaoDivulgadas) {
                 selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
+        
         for (SelecaoBeans s : resultadoDivulgadas) {
         	selecoes.add(s);
         }
+        */
         return this.ordenaSelecoesPorData(selecoes);
     }
     
@@ -308,9 +364,11 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	public List<SelecaoBeans> BuscaSelecoesPorNome(String titulo) {
 	    List<Selecao> result = this.getSelecaoDAOIfc().BuscaSelecoesPorNome(titulo);
 	    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
-	    for(Selecao s : result){
-	    	selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+	    for (Selecao s : result) {
+	    	if (s.isDivulgada() || this.usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || s.getResponsaveis().contains((UsuarioDarwin) this.usuario.toBusiness()) ) {
+		    	selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+	    	}
 	    }
 	    return selecoes;
-}
+	}
 }

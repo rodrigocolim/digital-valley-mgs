@@ -57,7 +57,7 @@
                 <p>Atenção: Os campos abaixo (*) são de preenchimento obrigatório</p>
                 </c:if>
                 <div class="form-group">
-                    <form method="POST" action="" enctype="multipart/form-data">
+                    <form method="POST" action="" enctype="multipart/form-data" id="formID">
                         <c:set var = "i" value = "${0}"/>
                     <c:forEach var="documento" items="${etapa.documentacaoExigida}">
                         <input type="hidden" value="${etapa.codEtapa}" name="etapa">
@@ -114,7 +114,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary btn-sm" onclick="$('#needs-validation').submit()">Confirmar</button>
+                                        <button type="submit" class="btn btn-primary btn-sm" id="send" onclick="$('#needs-validation').submit()">Confirmar</button>
                                     </div>
                                 </div>
                             </div>
@@ -132,6 +132,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.js" ></script>
-
+	<script>
+		var formID = document.getElementById("formID");
+		var send = $("#send");
+	
+		$(formID).submit(function(event){
+		  if (formID.checkValidity()) {
+		    send.attr('disabled', 'disabled');
+		  }
+		});
+	</script>
 </body>
 </html>

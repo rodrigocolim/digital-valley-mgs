@@ -58,13 +58,15 @@ public class ResultadoEtapaController {
 		HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         EtapaBeans etapa  = etapaServiceIfc.getEtapa(codEtapa);
-        model.addAttribute("participantesEtapa", etapaServiceIfc.getResultado(etapa));
-        model.addAttribute("etapa", etapa);
         SelecaoBeans selecao = etapaServiceIfc.getSelecao(etapa);
-        if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
-        	model.addAttribute("isResponsavel", true);
-        }
+        if (etapa.isDivulgadoResultado() || etapa.getAvaliadores().contains(usuario) || selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+	        model.addAttribute("participantesEtapa", etapaServiceIfc.getResultado(etapa));
+	        model.addAttribute("etapa", etapa);
+	        if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+	        	model.addAttribute("isResponsavel", true);
+	        }
         return "/resultadoEtapa";
+        } else {return "error/404";}
     }
 	@RequestMapping(value = "/{codEtapa}/imprimir", method = RequestMethod.GET)
     public String imprimiresultadoDaEtapa(@PathVariable long codEtapa, Model model, HttpServletRequest request, HttpServletResponse response) {

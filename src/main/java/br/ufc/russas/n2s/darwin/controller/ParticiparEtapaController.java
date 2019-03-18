@@ -125,6 +125,9 @@ public class ParticiparEtapaController {
         		isParticipante = true; break;
         	}
         }
+        SelecaoBeans selecao = (SelecaoBeans) session.getAttribute("selecao");
+        System.out.println(selecao.getTitulo());
+        this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" portador do CPF "+usuario.getCPF()+" entrou na pagina de inscrição na seleção ("+selecao.getCodSelecao()+") "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
         model.addAttribute("isParticipante", isParticipante);
         model.addAttribute("etapa", etapaBeans);
         return "participar-etapa";

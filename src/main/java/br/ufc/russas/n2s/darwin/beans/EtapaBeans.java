@@ -45,7 +45,7 @@ public class EtapaBeans implements Beans, Serializable {
     private boolean divulgadoResultado;
     private float pesoNota = 1;
 	private boolean criterioDesempate;
-	private int posicaoCriterioDesempate;
+	private int posicaoCriterioDesempate = 1;
     private List<ParticipanteBeans> participantes;
     private Recurso recurso;
     

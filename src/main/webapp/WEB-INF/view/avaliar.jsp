@@ -166,7 +166,7 @@
 
                     </table>
                     <a href="/Darwin/selecao/${selecao.codSelecao}" class="btn btn-secondary btn-sm">
-                        Cancelar
+                        Voltar
                     </a>
                 </div>
             </div>

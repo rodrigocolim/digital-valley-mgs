@@ -1,4 +1,5 @@
 <%@page import="br.ufc.russas.n2s.darwin.beans.SelecaoBeans"%>
+<%@page import="br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao" %>
 <%@page import="java.time.LocalDate"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="util.Constantes"%>
@@ -333,6 +334,9 @@
                                     <b>ETAPA DE PRÉ-REQUISITO: </b> ${etapa.prerequisito.titulo}<br>
                                     <c:if test="${selecao.exibirNotas || (isResponsavel)}">
                                     	<b>CRITÉRIO DE AVALIAÇÃO: </b> ${etapa.criterioDeAvaliacao}<br>
+                                    	<c:if test="${etapa.criterioDeAvaliacao == EnumCriterioDeAvaliacao.NOTA}">
+                                    		<b>NOTA MÍNIMA: </b> ${etapa.notaMinima}<br>
+                                    	</c:if>
                                     </c:if>
                                     <c:if test="${not empty etapa.documentacaoExigida}">
                                     <b>DOCUMENTAÇÃO EXIGIDA: </b> 

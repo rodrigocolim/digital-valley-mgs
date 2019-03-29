@@ -168,7 +168,9 @@
 			                            <select id="responsavelInput" class="form-control col-md-8" style="margin-left: 3px">
 			                                <option selected="selected" disabled="disabled">Selecione os responsáveis por esta seleção</option>
 			                                <c:forEach items="${usuarios}" var="usuario">
-			                                     <option id="responsavelOption-${usuario.codUsuario}" value="${usuario.codUsuario}">${usuario.nome}</option>
+			                                	<c:if test="${usuario.codUsuario != usuarioDarwin.codUsuario}">
+				                            		<option id="responsavelOption-${usuario.codUsuario}" value="${usuario.codUsuario}-${usuario.nome}">${usuario.nome}</option>
+				                            	</c:if>
 			                                 </c:forEach>
 			                            </select>
 			                            &nbsp;&nbsp;

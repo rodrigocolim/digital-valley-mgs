@@ -223,7 +223,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary btn-sm">Confirmar</button>
+                                        <button type="submit" class="btn btn-primary btn-sm" onclick="verificarDescricao()">Confirmar</button>
                                     </div>
                                 </div>
                             </div>
@@ -438,11 +438,35 @@
           document.getElementById("campoNotaMinima").innerHTML = "";
       }
       
+      function verificarDescricao(){
+    	  let descricao_div = document.getElementsByClassName('cazary')[0];
+    	  
+    	  if(descricao_div != undefined){
+    		  let frame = descricao_div.getElementsByTagName('iframe')[0];
+    		  
+    		  if(frame.contentDocument.getElementsByClassName('empty').length == 1 || frame.contentDocument.getElementsByTagName('body')[0].textContent.length === 0){
+    			  descricao_div.setAttribute('style', 'border-color: red');
+    		  }
+    		  else{
+    			  descricao_div.setAttribute('style', '');
+    		  }
+    		  
+    	  }
+      }
+      
+      function limparTextAreaDescricao(){
+ 	  	let descricao_div = document.getElementsByClassName('cazary')[0];
+		let frame = descricao_div.getElementsByTagName('iframe')[0];
+		frame.contentDocument.getElementsByTagName('body')[0].className = 'empty';
+      }
+      
     </script>
     <script src="${pageContext.request.contextPath}/resources/js/cazary.min.js" ></script>
 	<script type="text/javascript">
+	
 		(function($, window)
 		{
+			
 			$(function($)
 			{
 				$("textarea#descricaoInput").cazary({

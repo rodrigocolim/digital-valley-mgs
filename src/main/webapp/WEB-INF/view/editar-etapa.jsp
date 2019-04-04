@@ -56,12 +56,12 @@
                     <form method="POST" action="/Darwin/editarEtapa/${selecao.codSelecao}/inscricao/${etapa.codEtapa}" accept-charset="UTF-8"  id="needs-validation" novalidate>
                     </c:if>    
                     
-                        <label for="tituloInput"><input type="checkbox" onclick="habilitaEdicao('tituloInput')"> Titulo*</label>
-                        <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" readonly="true" required>
+                        <label for="tituloInput">Titulo*</label>
+                        <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
                         
                         <br>
                         <label for="descricaoInput"> Descrição*</label>
-                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" readonly="true" required>${etapa.descricao}</textarea>
+                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" required>${etapa.descricao}</textarea>
                        
                         <c:if test="${tipo eq 'etapa'}">
                             <c:if test="${not empty selecao.inscricao}"> <br>
@@ -83,16 +83,16 @@
                         </c:if>
                         </c:if>
                         <br> <br>
-                        <label for="periodoInput"><input type="checkbox" onclick="habilitaEdicao('periodoInput1');habilitaEdicao('periodoInput2')"> Período*</label>
+                        <label for="periodoInput"> Período*</label>
                         <div id="sandbox-container">
                             <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
                                 <fmt:parseDate value="${etapa.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicio" type="date" />
                                 <fmt:formatDate value="${parseDataInicio}"  pattern="dd/MM/yyyy" var="dataInicio" type="date"/>
                                 <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
                                 <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
-                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" id="periodoInput1" name="dataInicio" value="${dataInicio}" readonly="true" required/>
+                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" id="periodoInput1" name="dataInicio" value="${dataInicio}" required/>
                                 <span class="input-group-addon">até</span>
-                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" id="periodoInput2" name="dataTermino" value="${dataTermino}" readonly="true" required/>
+                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" id="periodoInput2" name="dataTermino" value="${dataTermino}" required/>
                             </div>
                         </div>
                         <br>
@@ -139,11 +139,11 @@
                         
                         <div class="card">
                             <div class="card-header col-auto">
-                                <label for="documentoInput"><input type="checkbox" onclick="habilitaEdicao('documentoInput')"> Documentação Exigida</label>
+                                <label for="documentoInput">Documentação Exigida</label>
                             </div>
                             <div class="card-body">
                                 <div class="form-row">
-                                    <input type="text" class="form-control col-md-8" id="documentoInput" placeholder="Digite o nome do documento exigido para esta etapa" readonly="true">&nbsp;&nbsp;
+                                    <input type="text" class="form-control col-md-8" id="documentoInput" placeholder="Digite o nome do documento exigido para esta etapa">&nbsp;&nbsp;
                                     <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaDocumento()" value="Adicionar">                            
                                 </div>
                                 <br>
@@ -161,11 +161,11 @@
                         
                         <div class="card">
                             <div class="card-header col-auto">
-                                <label for="documentoOpInput"><input type="checkbox" onclick="habilitaEdicao('documentoOpInput')"> Documentação Opcional</label>
+                                <label for="documentoOpInput">Documentação Opcional</label>
                             </div>
                             <div class="card-body">
                                 <div class="form-row">
-                                    <input type="text" class="form-control col-md-8" id="documentoOpInput" placeholder="Digite o nome do documento opcional para esta etapa" readonly="true">&nbsp;&nbsp;
+                                    <input type="text" class="form-control col-md-8" id="documentoOpInput" placeholder="Digite o nome do documento opcional para esta etapa">&nbsp;&nbsp;
                                     <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaDocumentoOp()" value="Adicionar">                            
                                 </div>
                                 <br>
@@ -204,9 +204,9 @@
                                 </div>
                                 
                                 <br>
-                                <label for="AvaliadoresInput"><input type="checkbox" onclick="habilitaEdicao('avaliadorInput')"> Avaliadores*</label>                           
+                                <label for="AvaliadoresInput">Avaliadores*</label>                           
                                 <div class="form-row">
-                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px" readonly="true">
+                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px">
                                         <option selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
                                         <c:forEach items="${usuarios}" var="usuario">
                                             <option id="avaliadorOption-${usuario.codUsuario}" value="${usuario.codUsuario}">${usuario.nome}</option>
@@ -251,7 +251,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary btn-sm">Confirmar</button>
+                                        <button type="submit" class="btn btn-primary btn-sm" onclick="verificarDescricao()">Confirmar</button>
                                     </div>
                                 </div>
                             </div>
@@ -457,6 +457,22 @@
   }
     function removeCampoNotaMinima(){
         document.getElementById("campoNotaMinima").innerHTML = "";
+    }
+    function verificarDescricao(){
+  	  let descricao_div = document.getElementsByClassName('cazary')[0];
+  	  
+  	  if(descricao_div != undefined){
+  		  let frame = descricao_div.getElementsByTagName('iframe')[0];
+  		  
+  		  if(frame.contentDocument.getElementsByClassName('empty').length == 1 || frame.contentDocument.getElementsByTagName('body')[0].textContent.length === 0){
+  			  descricao_div.setAttribute('style', 'border-color: red');
+  			 frame.contentDocument.getElementsByTagName('body')[0].className = 'empty';
+  		  }
+  		  else{
+  			  descricao_div.setAttribute('style', '');
+  		  }
+  		  
+  	  }
     }
     </script>
     <script src="${pageContext.request.contextPath}/resources/js/cazary.min.js" ></script>

@@ -51,16 +51,16 @@
                 
                 <div class="form-group">
                     <form method="POST" action="" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate> 
-                        <label for="tituloInput"> <input type="checkbox" onclick="habilitaEdicao('tituloInput')"> Titulo*</label>
-                        <input type="text" name="titulo" value="${selecao.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" readonly="true" required>
+                        <label for="tituloInput">Titulo*</label>
+                        <input type="text" name="titulo" value="${selecao.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>
                         <div class="invalid-feedback">
                             
                         </div>
                         <br>
 
-                        <label for="descricaoInput"> Descrição*</label>
-                        <textarea class="form-control" rows="6" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" readonly="true" required>${selecao.descricao}</textarea>
+                        <label for="descricaoInput">Descrição*</label>
+                        <textarea class="form-control" rows="6" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a seleção" required>${selecao.descricao}</textarea>
                         <div class="invalid-feedback">
                             
                         </div>
@@ -70,8 +70,8 @@
                         <textarea name="descricaoPreRequisitos" class="form-control" id="preRequisitosInput" placeholder="Digite uma breve descrição sobre os pré requisitos para participar da seleção" readonly="true">${selecao.descricaoPreRequisitos}</textarea>
                         <br>
 
-                        <label for="categoriaInput"> <input type="checkbox" onclick="habilitaEdicao('categoriaInput')"> Categoria*</label>
-                        <select type="text" name="categoria" class="form-control custom-select" id="categoriaInput" readonly="true" required>
+                        <label for="categoriaInput">Categoria*</label>
+                        <select type="text" name="categoria" class="form-control custom-select" id="categoriaInput" required>
                             <option ${selecao.categoria eq 'Assistência Estudantil' ? 'selected="selected"' : ''}>Assistência Estudantil</option>
                             <option ${selecao.categoria eq 'Seleção para Discentes' ? 'selected="selected"' : ''}>Seleção para Discentes</option>
                             <option ${selecao.categoria eq 'Cargos de Docente' ? 'selected="selected"' : ''}>Cargos de Docente</option>
@@ -81,8 +81,8 @@
                         <br>
 
                         <br>
-                        <label for="areaDeConcentracaoInput"> <input type="checkbox" onclick="habilitaEdicao('areaDeConcentracaoInput')">  Área de Concentração</label>
-                        <input type="text" name="areaDeConcentracao" value="${selecao.areaDeConcentracao}" class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração" readonly="true">
+                        <label for="areaDeConcentracaoInput">Área de Concentração</label>
+                        <input type="text" name="areaDeConcentracao" value="${selecao.areaDeConcentracao}" class="form-control" id="areaDeConcentracaoInput" aria-describedby="tituloHelp" placeholder="Digite o nome da área de concentração">
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Computação, Engenharia Mecânica, LINCE</small>
                         <div class="invalid-feedback">
                             
@@ -194,7 +194,7 @@
                         <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" id="enviar" class="btn btn-secondary">
                             Cancelar
                         </a>
-                        <input type="button"  class="btn btn-primary" value="Salvar" data-toggle="modal" data-target="#confirmarSelecao" >
+                        <input type="button"  class="btn btn-primary" value="Salvar" data-toggle="modal" data-target="#confirmarSelecao">
                         
                         <!-- Modal -->
                         <div class="modal fade" id="confirmarSelecao" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
@@ -211,7 +211,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary btn-sm">Confirmar</button>
+                                        <button type="submit" class="btn btn-primary btn-sm" onclick="verificarDescricao()">Confirmar</button>
                                     </div>
                                 </div>
                             </div>
@@ -365,6 +365,7 @@
 	        }
 	    	atualizaResponsaveis();
 	    }
+	    
 	</script> 
       <script src="${pageContext.request.contextPath}/resources/js/cazary.min.js" ></script>
 	<script type="text/javascript">
@@ -381,6 +382,23 @@
 				});
 			});
 		})(jQuery, window);
+		
+		function verificarDescricao(){
+	    	  let descricao_div = document.getElementsByClassName('cazary')[0];
+	    	  
+	    	  if(descricao_div != undefined){
+	    		  let frame = descricao_div.getElementsByTagName('iframe')[0];
+	    		  
+	    		  if(frame.contentDocument.getElementsByClassName('empty').length == 1 || frame.contentDocument.getElementsByTagName('body')[0].textContent.length === 0){
+	    			  descricao_div.setAttribute('style', 'border-color: red');
+	    			 frame.contentDocument.getElementsByTagName('body')[0].className = 'empty';
+	    		  }
+	    		  else{
+	    			  descricao_div.setAttribute('style', '');
+	    		  }
+	    		  
+	    	  }
+	      }
 		</script>
 </body>
 </html>

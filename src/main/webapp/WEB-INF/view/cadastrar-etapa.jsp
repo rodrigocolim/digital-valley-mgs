@@ -250,13 +250,7 @@
        
     }
     
-    var datas = [];
-    <c:forEach var="etapa" items="${selecao.etapas}">
-        <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
-        <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
-        datas[${etapa.codEtapa}]  = '${dataTermino}';
-    </c:forEach>
-        
+    var datas = [];      
     $(function(){
       $("#sandbox-container .input-daterange").datepicker({
       format: "dd/mm/yyyy",

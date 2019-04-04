@@ -169,7 +169,7 @@
 			                                <option selected="selected" disabled="disabled">Selecione os responsáveis por esta seleção</option>
 			                                <c:forEach items="${usuarios}" var="usuario">
 			                                	<c:if test="${usuario.codUsuario != usuarioDarwin.codUsuario}">
-				                            		<option id="responsavelOption-${usuario.codUsuario}" value="${usuario.codUsuario}-${usuario.nome}">${usuario.nome}</option>
+				                            		<option id="responsavelOption-${usuario.codUsuario}" value="${usuario.codUsuario}">${usuario.nome}</option>
 				                            	</c:if>
 			                                 </c:forEach>
 			                            </select>
@@ -319,7 +319,11 @@
       }
       </script>
       <script>
+      
+      	
 	    var listaCodResponsaveis = ${codResponsaveis};
+	    var codigoResponsavelSelecao = listaCodResponsaveis
+	    
 	    var listaNomeResponsaveis = ${nomeResponsaveis};
 	    var nomeResponsaveis = [];//${responsaveis};
 	    var codResponsaveis = [];
@@ -328,18 +332,21 @@
 	    $(document).ready(function() { 
 	    	for (i=0;i < listaCodResponsaveis.length;i++) {
 	    		document.getElementById("responsavelOption-"+listaCodResponsaveis[i]+"").disabled = "disabled";
-	    		codResponsaveis[i] = listaCodResponsaveis[i];
-	    		nomeResponsaveis[i] = listaNomeResponsaveis[i];
+	    		codResponsaveis.push(listaCodResponsaveis[i]);
+	    		nomeResponsaveis.push(listaNomeResponsaveis[i]);
 	    		numResponsaveis++;
 	    	}
 	    });
 	    function adicionaResponsavel(){
 	      var codResponsavel = document.getElementById("responsavelInput").value;
-	      var nomeResponsavel = $("#responsavelOption-"+codResponsavel+"").text();
+	      //var nomeResponsavel = $("#responsavelOption-"+codResponsavel+"").text();
+	      var temp = document.getElementById("responsavelInput");
+	      var nomeResponsavel = temp.options[temp.selectedIndex].text;
+	      
 	      if(nomeResponsavel !== ""){
-	    	  codResponsaveis[numResponsaveis] = Number(codResponsavel);
-	            nomeResponsaveis[numResponsaveis] = nomeResponsavel;
-	            document.getElementById("responsavelOption-"+codResponsavel+"").disabled = "disabled";
+	    	  codResponsaveis.push(Number(codResponsavel));
+	            nomeResponsaveis.push(nomeResponsavel);
+	            document.getElementById("responsavelOption-"+codResponsavel).disabled = "disabled";
 	            numResponsaveis++;
 	      }
 	      document.getElementById("responsavelInput").value = "";

@@ -193,7 +193,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary btn-sm">Confirmar</button>
+                                        <button type="submit" class="btn btn-primary btn-sm" onclick="verificarDescricao()">Confirmar</button>
                                     </div>
                                 </div>
                             </div>
@@ -219,7 +219,7 @@
 	<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/js/froala_editor.min.js'></script>
 	<script src="${pageContext.request.contextPath}/resources/js/cazary.min.js" ></script>
 	<script type="text/javascript">
-		(function($, window)
+	(function($, window)
 		{
 			$(function($)
 			{
@@ -232,6 +232,24 @@
 				});
 			});
 		})(jQuery, window);
+	
+	function verificarDescricao(){
+		let descricao_div = document.getElementsByClassName('cazary')[0];
+  	  
+  	  	if(descricao_div != undefined){
+  		  	let frame = descricao_div.getElementsByTagName('iframe')[0];
+  		  
+  		if(frame.contentDocument.getElementsByClassName('empty').length == 1 || frame.contentDocument.getElementsByTagName('body')[0].textContent.length === 0){
+  				frame.contentDocument.getElementsByTagName('body')[0].className = 'empty';
+  			  
+  			  	descricao_div.setAttribute('style', 'border-color: red');
+  		}
+  		  	else{
+  			  	descricao_div.setAttribute('style', '');
+  		  	}
+  		  
+  	  	}
+    }	
 		</script>
 </body>
 </html>

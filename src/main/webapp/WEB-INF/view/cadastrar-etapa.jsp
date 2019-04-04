@@ -76,7 +76,7 @@
                             <c:forEach var="etapa" items="${selecao.etapas}">
                                 <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
                                 <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
-                                <option value="${etapa.codEtapa}" onclick="">${etapa.titulo}</option>
+                                <option value="${etapa.codEtapa}">${etapa.titulo}</option>
                             </c:forEach>
                         </select>
                         <div class="invalid-feedback">
@@ -250,13 +250,7 @@
        
     }
     
-    var datas = [];
-    <c:forEach var="etapa" items="${selecao.etapas}">
-        <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
-        <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
-        datas[${etapa.codEtapa}]  = '${dataTermino}';
-    </c:forEach>
-        
+    var datas = [];      
     $(function(){
       $("#sandbox-container .input-daterange").datepicker({
       format: "dd/mm/yyyy",
@@ -445,6 +439,13 @@
     		  let frame = descricao_div.getElementsByTagName('iframe')[0];
     		  
     		  if(frame.contentDocument.getElementsByClassName('empty').length == 1 || frame.contentDocument.getElementsByTagName('body')[0].textContent.length === 0){
+    			  frame.contentDocument.getElementsByTagName('body')[0].className = 'empty';
+    			  
+    			  let selectEtapa = document.getElementById('etapaPreRequisito');
+    			  if(selectEtapa.selectedIndex === 0){
+    				  selectEtapa.setAttribute('style', 'border-color: red');//a borda do select nao esta de acordo com a cor setada
+    			  }
+    			  
     			  descricao_div.setAttribute('style', 'border-color: red');
     		  }
     		  else{
@@ -466,7 +467,6 @@
 	
 		(function($, window)
 		{
-			
 			$(function($)
 			{
 				$("textarea#descricaoInput").cazary({

@@ -89,6 +89,9 @@
                                 <h2 class="card-title text-uppercase font-weight-bold">
                                 ${selecao.titulo}
                                 </h2>
+                                <c:if test="${selecao.estado.estado == 0}">
+                                    <span class="badge badge-pill badge-danger" style="right: 20px; font-size: 10px;position: absolute;">Em edição</span>
+                                </c:if>       
                                 <c:if test="${selecao.estado.estado == 1}">
                                     <span class="badge badge-pill badge-warning" style="right: 20px; font-size: 10px;position: absolute;">Em espera</span>
                                 </c:if>
@@ -100,7 +103,8 @@
                                 </c:if>
                                 <c:if test="${selecao.estado.estado == 4}">
                                     <span class="badge badge-pill badge-dark" style="right: 20px; font-size: 10px;position: absolute;">Finalizada</span>
-                                </c:if>                                
+                                </c:if>
+                                                                
                                 
                             </div>
                             <h3 class="card-subtitle mb-2 text-muted">

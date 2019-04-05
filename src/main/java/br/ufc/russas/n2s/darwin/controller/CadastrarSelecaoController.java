@@ -116,7 +116,7 @@ public class CadastrarSelecaoController {
                 }
             }
         }
-        selecao.setEstado(EnumEstadoSelecao.ESPERA);
+        selecao.setEstado(EnumEstadoSelecao.EMEDICAO);
         selecao = this.getSelecaoServiceIfc().adicionaSelecao(selecao);
         try {
         	File dir = new File(Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator);

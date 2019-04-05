@@ -81,6 +81,7 @@
                     <p class="text-muted">Nenhuma seleção cadastrada!</p>
                 </c:if>
                 <c:set var="pagina" value="${(((not empty param.pag) and (param.pag >= 1)) ? param.pag : 1)}"></c:set>
+                <>
                 <c:forEach var="selecao" begin="${((pagina - 1) * 5)}" end="${((pagina - 1) * 5) + 4}" items="${selecoes}">
                     <div class="card">
                         <div class="card-body">
@@ -126,13 +127,13 @@
                 <c:if test="${titulo eq 'Minhas seleções'}"><c:set value="minhas_Selecoes" var="categoria"></c:set></c:if>
                 
                     <ul class="pagination justify-content-center">
-                        <li class="page-item "${(pagina <= 1 ? "disabled" : "")}">
+                        <li class="page-item ${pagina <= 1 ? "disabled" : ""}">
                             <a class="page-link" href="/Darwin/${categoria}?pag=${pagina - 1}" tabindex="-1">Anterior</a>
                         </li>
                     <c:forEach var="i" begin="1" end="${(fn:length(selecoes)/5) + (fn:length(selecoes)%5 == 0 ? 0 : 1)}">
                         <li class="page-item ${pagina == i ? "active": ""}"><a class="page-link" href="/Darwin/${categoria}?pag=${i}">${i}</a></li>
                     </c:forEach>
-                        <li class="page-item  "${(pagina >= ((fn:length(selecoes))/5) ? "disabled" : "")}">
+                        <li class="page-item ${pagina >= fn:length(selecoes)/5 ? "disabled" : ""}">
                             <a class="page-link" href="/Darwin/${categoria}?pag=${pagina + 1}">Próximo</a>
                         </li>
                     </ul>

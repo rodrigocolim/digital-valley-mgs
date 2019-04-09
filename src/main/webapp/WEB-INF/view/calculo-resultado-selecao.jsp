@@ -85,7 +85,7 @@
 							</c:if>
 							<c:if test="${not empty resultadoSelecaoForm.etapas}">	
 								<a href="/Darwin/selecao/${selecao.codSelecao}" type="button" id="enviar" class="btn btn-secondary">
-	                            Cancelar
+	                            Voltar
 	                        	</a>
 								<input class="btn btn-primary" type="submit" value="Salvar" />
 	                        </c:if>

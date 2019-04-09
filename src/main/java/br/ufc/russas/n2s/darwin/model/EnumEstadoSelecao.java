@@ -14,16 +14,16 @@ import java.time.LocalDate;
 public enum EnumEstadoSelecao implements EstadoSelecao{
 	EMEDICAO(0){
         @Override
-        public EnumEstadoSelecao execute(Selecao selecao){
+        public EnumEstadoSelecao execute(Selecao selecao){ //novo estado implementado
             boolean divulgada = selecao.isDivulgada();
-        	Etapa etapa = selecao.getInscricao();
-            if (etapa != null && !divulgada){
-                if(etapa.getPeriodo().getInicio().isAfter(LocalDate.now())){
+        	//Etapa etapa = selecao.getInscricao();
+            if (!divulgada){
+                //if(etapa.getPeriodo().getInicio().isAfter(LocalDate.now())){
                 	return this;
-                }else {
-                	return ESPERA.execute(selecao);
-                }
-            } else {
+                //}else {
+                	//return ESPERA.execute(selecao);
+                //}
+            }else{
                 return ESPERA.execute(selecao);
             }
         }

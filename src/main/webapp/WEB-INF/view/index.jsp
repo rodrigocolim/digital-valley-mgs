@@ -56,7 +56,7 @@
                             <span>Filtrar</span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="/Darwin/">Todas as seleções</a>
+                        	<a class="dropdown-item" href="/Darwin/">Todas as seleções</a>
                             <a class="dropdown-item" href="/Darwin/estado/aberta">Seleções abertas</a>
                             <a class="dropdown-item" href="/Darwin/estado/andamento">Seleções em andamento</a>
                             <a class="dropdown-item" href="/Darwin/estado/finalizada">Seleções finalizadas</a>
@@ -81,7 +81,7 @@
                     <p class="text-muted">Nenhuma seleção cadastrada!</p>
                 </c:if>
                 <c:set var="pagina" value="${(((not empty param.pag) and (param.pag >= 1)) ? param.pag : 1)}"></c:set>
-                <>
+
                 <c:forEach var="selecao" begin="${((pagina - 1) * 5)}" end="${((pagina - 1) * 5) + 4}" items="${selecoes}">
                     <div class="card">
                         <div class="card-body">

@@ -262,25 +262,25 @@ public class ParticiparEtapaController {
             sendEmail.start();
             session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(etapa.getTitulo()));
             session.setAttribute("status", "success");
-            response.sendRedirect("/Darwin/minhas_Selecoes");
+            response.sendRedirect(Constantes.getAppUrl()+"/minhas_Selecoes");
         } catch (MultipartException e ) {
         	session.setAttribute("mensagem", "O tamanho dos arquivos ultrapassa a capacidade de upload.");
             session.setAttribute("status", "danger");
-            response.sendRedirect("/Darwin/participarEtapa/"+etapa.getCodEtapa());
+            response.sendRedirect(Constantes.getAppUrl()+"/participarEtapa/"+etapa.getCodEtapa());
         }        
         catch (NumberFormatException e) {
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
-            response.sendRedirect("/Darwin/participarEtapa/"+etapa.getCodEtapa());
+            response.sendRedirect(Constantes.getAppUrl()+"/participarEtapa/"+etapa.getCodEtapa());
         } catch (IllegalArgumentException | NullPointerException | IllegalAccessException e) {
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
-            response.sendRedirect("/Darwin/participarEtapa/"+etapa.getCodEtapa());
+            response.sendRedirect(Constantes.getAppUrl()+"/participarEtapa/"+etapa.getCodEtapa());
         } catch (Exception e) {
             e.printStackTrace();
             session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
-            response.sendRedirect("/Darwin/participarEtapa/"+etapa.getCodEtapa());
+            response.sendRedirect(Constantes.getAppUrl()+"/participarEtapa/"+etapa.getCodEtapa());
         }
     }
 

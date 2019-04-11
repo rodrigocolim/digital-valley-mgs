@@ -23,6 +23,7 @@ import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.ParticipanteServiceIfc;
 import br.ufc.russas.n2s.darwin.util.Facade;
+import util.Constantes;
 
 import java.time.LocalDate;
 
@@ -218,7 +219,7 @@ public class AvaliarController {
             etapaServiceIfc.avalia(etapa, avaliacao);
             session.setAttribute("mensagem", "Participante avaliado com sucesso!");
             session.setAttribute("status", "success");
-            return "redirect: /Darwin/avaliar/"+etapa.getCodEtapa();
+            return "redirect: "+Constantes.getAppUrl()+"/avaliar/"+etapa.getCodEtapa();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
             model.addAttribute("mensagem", e.getMessage());
@@ -265,7 +266,7 @@ public class AvaliarController {
     		 session.setAttribute("mensagem", "Erro ao atualizar avaliação!");
 	         session.setAttribute("status", "danger");
     	}
-    	return "redirect: /Darwin/recursoEtapa/"+etapa.getCodEtapa()+"/"+avaliacao.getParticipante().getCodParticipante();
+    	return "redirect: "+Constantes.getAppUrl()+"/recursoEtapa/"+etapa.getCodEtapa()+"/"+avaliacao.getParticipante().getCodParticipante();
     }
     
     @RequestMapping(value = "/download/{codEtapa}/{codParticipante}", method = RequestMethod.GET)
@@ -279,12 +280,12 @@ public class AvaliarController {
 		        Facade.compactarParaZip(etapa, p, response);
 	        	//model.addAttribute("selecao", selecao);
 		        //model.addAttribute("participantesEtapa", selecao.getInscricao().getParticipantes());
-		        return "redirect: /Darwin/avaliar/"+etapa.getCodEtapa();
+		        return "redirect: "+Constantes.getAppUrl()+"/avaliar/"+etapa.getCodEtapa();
 	        } else {return "error/404";}
     	} catch (Exception e) {
     		session.setAttribute("mensagem", "Erro ao buscar documentação!");
 	         session.setAttribute("status", "danger");
-    		 return "redirect: /Darwin/avaliar/"+etapa.getCodEtapa();
+    		 return "redirect: "+Constantes.getAppUrl()+"/avaliar/"+etapa.getCodEtapa();
 		}
     }
 

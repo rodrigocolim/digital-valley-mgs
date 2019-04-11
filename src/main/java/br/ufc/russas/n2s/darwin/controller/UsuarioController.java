@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
+import util.Constantes;
 
 @Controller("usuarioController")
 @RequestMapping(value = "/usuario")
@@ -43,15 +44,15 @@ public class UsuarioController {
 				 session.setAttribute("mensagem", "Agora você não receberá atualizações por e-mail!");
 			 }
 			 session.setAttribute("status", "success");
-			 response.sendRedirect("/Darwin/");
+			 response.sendRedirect(Constantes.getAppUrl()+"/");
 		 } catch (NullPointerException e) {
 			 session.setAttribute("mensagem", e.getMessage());
 			 session.setAttribute("status", "danger");
-			 response.sendRedirect("/Darwin/");
+			 response.sendRedirect(Constantes.getAppUrl()+"/");
 		 } catch (Exception e) {
 			 session.setAttribute("mensagem", e.getMessage());
 			 session.setAttribute("status", "danger");
-			 response.sendRedirect("/Darwin/");
+			 response.sendRedirect(Constantes.getAppUrl()+"/");
 		 }
 	 }
 }

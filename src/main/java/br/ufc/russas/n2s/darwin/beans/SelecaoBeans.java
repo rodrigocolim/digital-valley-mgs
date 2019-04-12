@@ -11,6 +11,8 @@ import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
+import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
+import br.ufc.russas.n2s.darwin.service.EtapaServiceImpl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -101,7 +103,8 @@ public class SelecaoBeans implements Beans, Serializable {
     }
 
     public void setEtapas(List<EtapaBeans> etapas) {
-        this.etapas = etapas;
+    	EtapaServiceIfc etapaServ = new EtapaServiceImpl();
+        this.etapas = etapaServ.ordenaEtapasPorData(etapas);
     }
 
     public int getVagasRemuneradas() {

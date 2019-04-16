@@ -299,7 +299,7 @@ public class EditarEtapaController {
             		throw new Exception("Após iniciada a etapa, apenas a data de término pode ser prorrogada.");
             	}
             	
-            	if(selecao.getEtapas().size() > 0 && selecao.getEtapas().get(0)!=null && inscricaoBeans.getPeriodo().getTermino().isBefore(selecao.getEtapas().get(0).getPeriodo().getInicio())){
+            	if((selecao.getEtapas().size() > 0 && (LocalDate.parse(request.getParameter("dataTermino"), formatter).isAfter(selecao.getEtapas().get(0).getPeriodo().getInicio())) || (selecao.getEtapas().size() > 0 && (LocalDate.parse(request.getParameter("dataTermino"), formatter).isEqual(selecao.getEtapas().get(0).getPeriodo().getInicio()))))){
             		session.setAttribute("selecao", selecao);
     	            session.setAttribute("mensagem", "Etapa "+inscricaoBeans.getTitulo()+" não pode ter data de início igual ou após a data da "+selecao.getEtapas().get(0).getTitulo());
     	            session.setAttribute("status", "warning");

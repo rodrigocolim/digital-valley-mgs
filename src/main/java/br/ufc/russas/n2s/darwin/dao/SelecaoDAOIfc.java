@@ -7,6 +7,8 @@ package br.ufc.russas.n2s.darwin.dao;
 
 import java.util.List;
 
+import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
+import br.ufc.russas.n2s.darwin.model.EstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 
 /**
@@ -61,5 +63,8 @@ public interface SelecaoDAOIfc {
     List<Selecao> buscaTodasPorCriteria(boolean divulgada);
     List<Selecao> buscaTodasPorCriteria();
     List<Selecao> listaSelecoesIgnorandoBooleanos();
-
+    
+    //Novos
+    List<Selecao> listaSelecoes(EnumEstadoSelecao estado, int inico, int qtd);
+    Long getQuantidade(EnumEstadoSelecao estado);
 }

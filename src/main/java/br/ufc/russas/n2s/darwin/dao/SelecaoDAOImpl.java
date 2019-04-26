@@ -5,6 +5,7 @@
  */
 package br.ufc.russas.n2s.darwin.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
+import br.ufc.russas.n2s.darwin.model.EstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 
 /**
@@ -92,13 +94,14 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
 	        List<Selecao> selecoes = (List<Selecao> ) session.createCriteria(selecao.getClass()).add(example).list();
 	        System.out.println("tam: "+selecoes.size());
 	        t.commit();
-		   // session.close();
-		    
+	        
 		    return selecoes;
         } catch (RuntimeException e) {
             t.rollback();
             throw e;
-        } 
+        } finally{
+        	session.close();
+        }
     }
     
     @Override
@@ -114,7 +117,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
 		    //example.excludeProperty("estado");
 	        List<Selecao> selecoes = (List<Selecao> ) session.createCriteria(selecao.getClass()).add(example).list();
 	        t.commit();
-		    session.close();
+		    
 		    
 		    for (Selecao s: selecoes) {
 		    	System.out.println(s.getCodSelecao());
@@ -124,7 +127,9 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
         } catch (RuntimeException e) {
             t.rollback();
             throw e;
-        } 
+        } finally{
+        	session.close();
+        }
     }
     
     @Override
@@ -230,6 +235,73 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
             session.close();
         }
     }
+
+	@Override
+	public List<Selecao> listaSelecoes(EnumEstadoSelecao estado, int inico, int qtd) {
+		Session session =  this.daoImpl.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        List<Selecao> lis = new ArrayList<>();
+
+        try {
+        	
+    		Criteria cb = session.createCriteria(Selecao.class);
+    		cb.add(Restrictions.eq("divulgada", true));
+    		cb.add(Restrictions.eq("deletada",false));
+            cb.addOrder(Order.asc("periodo.codPeriodo"));
+            
+            if(estado != null){
+            	cb.add(Restrictions.eq("estado", estado));
+            }
+            
+            cb.setFirstResult(inico);
+            cb.setMaxResults(qtd);
+                        
+            lis = cb.list();
+            
+            t.commit();
+            
+        } catch (RuntimeException ex) {
+            t.rollback();
+            throw ex;
+        } finally {
+            session.close();
+        }
+        
+        return lis;
+	}
+
+	@Override
+	public Long getQuantidade(EnumEstadoSelecao estado) {
+		Session session =  this.daoImpl.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        long qtd = 0;
+        
+        try {
+        	Query qry;
+        	if(estado != null){
+        		qry = session.createQuery("select count(s) from Selecao s where s.estado = :estado and s.divulgada = 'true' and s.deletada = 'false'");
+        		qry.setParameter("estado", estado.getEstado());
+        	} else {
+        		qry = session.createQuery("select count(s) from Selecao s where s.divulgada = 'true' and s.deletada = 'false'");
+        	}
+        	            
+        	try{
+        		qtd = (Long) qry.uniqueResult();
+        	} catch(Exception e){
+        		System.err.println("Sem resultados");
+        	}
+        	
+            t.commit();
+            
+        } catch (RuntimeException ex) {
+            t.rollback();
+            throw ex;
+        } finally {
+            session.close();
+        }
+        
+        return qtd;
+	}
     
 
 }

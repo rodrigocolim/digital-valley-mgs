@@ -14,6 +14,7 @@ import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
+import br.ufc.russas.n2s.darwin.model.EstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.EtapaPredicates;
 import br.ufc.russas.n2s.darwin.model.Participante;
@@ -370,5 +371,22 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	    	}
 	    }
 	    return selecoes;
+	}
+	
+	@Override
+	public List<SelecaoBeans> listaSelecoes(EnumEstadoSelecao estado, int inico, int qtd){
+		List<Selecao> result = this.getSelecaoDAOIfc().listaSelecoes(estado, inico, qtd);
+	    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
+	    for (Selecao s : result) {
+	    	if (s.isDivulgada() || this.usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || s.getResponsaveis().contains((UsuarioDarwin) this.usuario.toBusiness()) ) {
+		    	selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+	    	}
+	    }
+	    return selecoes;
+	}
+	
+	@Override
+    public Long getQuantidade(EnumEstadoSelecao estado){
+		return this.getSelecaoDAOIfc().getQuantidade(estado);
 	}
 }

@@ -9,6 +9,8 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteSelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
+import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
+import br.ufc.russas.n2s.darwin.model.EstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.ResultadoParticipanteSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import java.util.List;
@@ -113,4 +115,8 @@ public interface SelecaoServiceIfc extends ServiceIfc{
     
     List<SelecaoBeans> BuscaSelecoesPorNome(String titulo);
     List<SelecaoBeans> listaSelecoesIgnorandoNotas(Selecao selecao);
+    
+    //Novos
+    public List<SelecaoBeans> listaSelecoes(EnumEstadoSelecao estado, int inico, int qtd);
+    public Long getQuantidade(EnumEstadoSelecao estado);
 }

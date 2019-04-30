@@ -117,6 +117,6 @@ public interface SelecaoServiceIfc extends ServiceIfc{
     List<SelecaoBeans> listaSelecoesIgnorandoNotas(Selecao selecao);
     
     //Novos
-    public List<SelecaoBeans> listaSelecoes(EnumEstadoSelecao estado, int inico, int qtd);
+    public List<SelecaoBeans> listaSelecoes(EnumEstadoSelecao estado, int inicio, int qtd);
     public Long getQuantidade(EnumEstadoSelecao estado);
 }

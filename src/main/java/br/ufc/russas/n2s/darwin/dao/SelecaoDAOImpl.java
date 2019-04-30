@@ -237,7 +237,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     }
 
 	@Override
-	public List<Selecao> listaSelecoes(EnumEstadoSelecao estado, int inico, int qtd) {
+	public List<Selecao> listaSelecoes(EnumEstadoSelecao estado, int inicio, int qtd) {
 		Session session =  this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         List<Selecao> lis = new ArrayList<>();
@@ -247,13 +247,13 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     		Criteria cb = session.createCriteria(Selecao.class);
     		cb.add(Restrictions.eq("divulgada", true));
     		cb.add(Restrictions.eq("deletada",false));
-            cb.addOrder(Order.asc("periodo.codPeriodo"));
+            cb.addOrder(Order.desc("codSelecao"));
             
             if(estado != null){
             	cb.add(Restrictions.eq("estado", estado));
             }
             
-            cb.setFirstResult(inico);
+            cb.setFirstResult(inicio);
             cb.setMaxResults(qtd);
                         
             lis = cb.list();

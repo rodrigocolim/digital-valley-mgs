@@ -69,7 +69,7 @@ public class SelecaoController {
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        
+
         HashMap<Long, List<UsuarioBeans>> classificados = new HashMap<>();
         for(EtapaBeans et : selecao.getEtapas()) {
         	List<UsuarioBeans> usuarios = Collections.synchronizedList(new ArrayList<UsuarioBeans>());

@@ -374,8 +374,8 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	}
 	
 	@Override
-	public List<SelecaoBeans> listaSelecoes(EnumEstadoSelecao estado, int inico, int qtd){
-		List<Selecao> result = this.getSelecaoDAOIfc().listaSelecoes(estado, inico, qtd);
+	public List<SelecaoBeans> listaSelecoes(EnumEstadoSelecao estado, int inicio, int qtd){
+		List<Selecao> result = this.getSelecaoDAOIfc().listaSelecoes(estado, inicio, qtd);
 	    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
 	    for (Selecao s : result) {
 	    	if (s.isDivulgada() || this.usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || s.getResponsaveis().contains((UsuarioDarwin) this.usuario.toBusiness()) ) {

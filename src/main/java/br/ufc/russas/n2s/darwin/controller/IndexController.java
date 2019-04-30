@@ -30,6 +30,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -51,8 +52,10 @@ public class IndexController {
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public String getIndex(Model model) {
-        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaTodasSelecoes();
+    public String getIndex(@RequestParam(required=false, defaultValue = "0") int pag, Model model) {
+        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(null, ((pag - 1) * 5), 5);
+        Long qtdSelecoes = this.getSelecaoServiceIfc().getQuantidade(null);
+        
         HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
             etapasAtuais.put(s.getCodSelecao(), this.getSelecaoServiceIfc().getEtapaAtual(s));
@@ -61,7 +64,8 @@ public class IndexController {
         model.addAttribute("estado", "início");
         model.addAttribute("selecoes", selecoes); 
         model.addAttribute("agora", LocalDate.now());
-        model.addAttribute("etapasAtuais", etapasAtuais); 
+        model.addAttribute("etapasAtuais", etapasAtuais);
+        model.addAttribute("qtdSelecoes", qtdSelecoes);
         return "index";
     }
     

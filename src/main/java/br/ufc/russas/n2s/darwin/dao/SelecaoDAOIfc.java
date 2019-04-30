@@ -65,6 +65,6 @@ public interface SelecaoDAOIfc {
     List<Selecao> listaSelecoesIgnorandoBooleanos();
     
     //Novos
-    List<Selecao> listaSelecoes(EnumEstadoSelecao estado, int inico, int qtd);
+    List<Selecao> listaSelecoes(EnumEstadoSelecao estado, int inicio, int qtd);
     Long getQuantidade(EnumEstadoSelecao estado);
 }

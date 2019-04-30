@@ -80,9 +80,9 @@
                 <c:if test="${empty selecoes}">
                     <p class="text-muted">Nenhuma seleção cadastrada!</p>
                 </c:if>
-                <c:set var="pagina" value="${(((not empty param.pag) and (param.pag >= 1)) ? param.pag : 1)}"></c:set>
-
-                <c:forEach var="selecao" begin="${((pagina - 1) * 5)}" end="${((pagina - 1) * 5) + 4}" items="${selecoes}">
+				<c:set var="pagina" value="${(((not empty param.pag) and (param.pag >= 1)) ? param.pag : 1)}"></c:set>
+				
+                <c:forEach var="selecao" items="${selecoes}">
                     <div class="card">
                         <div class="card-body">
                             <div class="row" style="padding-left: 13px;">
@@ -137,7 +137,7 @@
                     <c:forEach var="i" begin="1" end="${(fn:length(selecoes)/5) + (fn:length(selecoes)%5 == 0 ? 0 : 1)}">
                         <li class="page-item ${pagina == i ? "active": ""}"><a class="page-link" href="/Darwin/${categoria}?pag=${i}">${i}</a></li>
                     </c:forEach>
-                        <li class="page-item ${pagina >= fn:length(selecoes)/5 ? "disabled" : ""}">
+                        <li class="page-item ${pagina >= qtdSelecoes/5 ? "disabled" : ""}">
                             <a class="page-link" href="/Darwin/${categoria}?pag=${pagina + 1}">Próximo</a>
                         </li>
                     </ul>

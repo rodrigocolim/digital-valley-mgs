@@ -360,10 +360,9 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 		return rb;
 	}
 	
-	
 	@Override
-	public List<SelecaoBeans> BuscaSelecoesPorNome(String titulo) {
-	    List<Selecao> result = this.getSelecaoDAOIfc().BuscaSelecoesPorNome(titulo);
+	public List<SelecaoBeans> listaSelecoes(String categoria, EnumEstadoSelecao estado, int inicio, int qtd){
+		List<Selecao> result = this.getSelecaoDAOIfc().listaSelecoes(categoria, estado, inicio, qtd);
 	    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
 	    for (Selecao s : result) {
 	    	if (s.isDivulgada() || this.usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || s.getResponsaveis().contains((UsuarioDarwin) this.usuario.toBusiness()) ) {
@@ -374,8 +373,13 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	}
 	
 	@Override
-	public List<SelecaoBeans> listaSelecoes(EnumEstadoSelecao estado, int inicio, int qtd){
-		List<Selecao> result = this.getSelecaoDAOIfc().listaSelecoes(estado, inicio, qtd);
+    public Long getQuantidade(String categoria, EnumEstadoSelecao estado){
+		return this.getSelecaoDAOIfc().getQuantidade(categoria, estado);
+	}
+	
+	@Override
+    public List<SelecaoBeans> buscaSelecoesPorNome(String titulo, int inicio, int qtd){
+    	List<Selecao> result = this.getSelecaoDAOIfc().buscaSelecoesPorNome(titulo, inicio, qtd);
 	    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
 	    for (Selecao s : result) {
 	    	if (s.isDivulgada() || this.usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || s.getResponsaveis().contains((UsuarioDarwin) this.usuario.toBusiness()) ) {
@@ -383,10 +387,10 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	    	}
 	    }
 	    return selecoes;
-	}
+    }
 	
 	@Override
-    public Long getQuantidade(EnumEstadoSelecao estado){
-		return this.getSelecaoDAOIfc().getQuantidade(estado);
+	public Long getQuantidadePorNome(String titulo){
+		return this.getSelecaoDAOIfc().getQuantidadePorNome(titulo);
 	}
 }

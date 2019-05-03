@@ -57,14 +57,14 @@ public interface SelecaoDAOIfc {
     
     void atualizaExibirNotas(Selecao selecao);
     
-    List<Selecao> BuscaSelecoesPorNome(String titulo);
-    
     List<Selecao> listaSelecoesIgnorandoNotas(Selecao selecao);
     List<Selecao> buscaTodasPorCriteria(boolean divulgada);
     List<Selecao> buscaTodasPorCriteria();
     List<Selecao> listaSelecoesIgnorandoBooleanos();
     
     //Novos
-    List<Selecao> listaSelecoes(EnumEstadoSelecao estado, int inicio, int qtd);
-    Long getQuantidade(EnumEstadoSelecao estado);
+    public List<Selecao> listaSelecoes(String categoria, EnumEstadoSelecao estado, int inicio, int qtd);
+    public Long getQuantidade(String categoria, EnumEstadoSelecao estado);
+    public List<Selecao> buscaSelecoesPorNome(String titulo, int inicio, int qtd);
+    public Long getQuantidadePorNome(String titulo);
 }

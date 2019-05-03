@@ -25,7 +25,26 @@
         <div class="container-fluid">
             <div class="row row-offcanvas row-offcanvas-right">
                 <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
-                <c:set var="titulo" value="${fn:replace(categoria, '_', ' ')}"></c:set>
+                
+                
+                <c:if test="${fn:contains(categoria, 'estado')}">
+                	<c:set var="titulo" value="${fn:replace(categoria, '/', ' ')}"></c:set>
+                	<c:set var="titulo" value="${fn:substringAfter(titulo, 'estado')}"></c:set>
+                	<c:set var="titulo" value="${fn:substringAfter(titulo, ' ')}"></c:set>
+                </c:if>
+                
+                <c:if test="${fn:contains(categoria, 'categoria')}">
+                	<c:set var="titulo" value="${fn:replace(categoria, '_', ' ')}"></c:set>
+                	<c:set var="titulo" value="${fn:replace(titulo, '/', ' ')}"></c:set>
+                	<c:set var="titulo" value="${fn:substringAfter(titulo, 'categoria')}"></c:set>
+                	<c:set var="titulo" value="${fn:substringAfter(titulo, ' ')}"></c:set>
+                </c:if>
+                
+                <c:if test="${fn:contains(categoria, 'Início')}">
+                	<c:set var="titulo" value="Início"></c:set>
+                	<c:set var="categoria" value=""></c:set>
+                </c:if>
+                
                 <c:set var="titulo" value="${fn:replace(titulo, 'Selecoes', 'Seleções')}"></c:set>
                 <div class="col-sm-8">
                 <nav class="breadcrumb">
@@ -33,7 +52,7 @@
                     
                     <a class="breadcrumb-item ${titulo eq 'Início' ? 'active': ''}" href="/Darwin/">Início</a>
                     <c:if test="${not (titulo eq 'Início')}"> 
-                    <a class="breadcrumb-item text-capitalize active" href="#">${categoria}</a>
+                    	<a class="breadcrumb-item text-capitalize active" href="#">${titulo}</a>
                     </c:if>
                 </nav>
                 <c:set var="mensagem" value="${sessionScope.mensagem}"></c:set>
@@ -64,11 +83,11 @@
                     </div>
                     </c:if>
                 </div>
-                <form method="POST" action="/Darwin/">
+                <form method="get" action="/Darwin/pesquisa">
                 <div class="center">
 				  <div class="input-group mb-3" style="padding-top: 5px;">
 				  
-					  <input type="text" style="text-align: center;" class="form-control" placeholder="Pesquisar seleções por nome" name="campoBuscaSelecao" aria-describedby="basic-addon2">
+					  <input type="text" style="text-align: center;" class="form-control" placeholder="Pesquisar seleções por nome" name="titulo" aria-describedby="basic-addon2">
 					  <div class="input-group-append">
 					    <button type="submit" class="btn btn-outline-primary" ><i class="fas fa-search"></i> Pesquisar</button>
 					  </div>
@@ -129,18 +148,21 @@
                 <nav aria-label="">
                 <c:if test="${titulo eq 'Início'}"><c:set value="" var="categoria"></c:set></c:if>
                 <c:if test="${titulo eq 'Minhas seleções'}"><c:set value="minhas_Selecoes" var="categoria"></c:set></c:if>
-                
-                    <ul class="pagination justify-content-center">
+                	
+                	<c:set var="pag" value="${(fn:contains(categoria, '?') ? '': '?')}pag="></c:set>
+                	
+                     <ul class="pagination justify-content-center">
                         <li class="page-item ${pagina <= 1 ? "disabled" : ""}">
-                            <a class="page-link" href="/Darwin/${categoria}?pag=${pagina - 1}" tabindex="-1">Anterior</a>
+                            <a class="page-link" href="/Darwin/${categoria}${pag}${pagina - 1}" tabindex="-1">Anterior</a>
                         </li>
-                    <c:forEach var="i" begin="1" end="${(fn:length(selecoes)/5) + (fn:length(selecoes)%5 == 0 ? 0 : 1)}">
-                        <li class="page-item ${pagina == i ? "active": ""}"><a class="page-link" href="/Darwin/${categoria}?pag=${i}">${i}</a></li>
-                    </c:forEach>
+	                    <c:forEach var="i" begin="1" end="${(qtdSelecoes/5) + (qtdSelecoes%5 == 0 ? 0 : 1)}">
+	                        <li class="page-item ${pagina == i ? "active": ""}"><a class="page-link" href="/Darwin/${categoria}${pag}${i}">${i}</a></li>
+	                    </c:forEach>
                         <li class="page-item ${pagina >= qtdSelecoes/5 ? "disabled" : ""}">
-                            <a class="page-link" href="/Darwin/${categoria}?pag=${pagina + 1}">Próximo</a>
+                            <a class="page-link" href="/Darwin/${categoria}${pag}${pagina + 1}">Próximo</a>
                         </li>
                     </ul>
+                    
                 </nav>
                 
                 </div>

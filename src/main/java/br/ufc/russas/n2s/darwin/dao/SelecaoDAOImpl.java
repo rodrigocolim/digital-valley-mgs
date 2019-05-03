@@ -215,29 +215,8 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
 	    	}
     }
     
-    
-    @Override
-    public List<Selecao> BuscaSelecoesPorNome(String titulo) {
-    	Session session = this.daoImpl.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
-        try {
-            List<Selecao> selecoes;
-            Criteria c = session.createCriteria(Selecao.class);
-        	c.add(Restrictions.ilike("titulo", "%"+titulo+"%"));
-        	c.add(Restrictions.eq("deletada", false));
-        	c.addOrder(Order.asc("titulo"));
-        	selecoes = (List<Selecao>) c.list();
-            return selecoes;
-        } catch(RuntimeException e) {
-            t.rollback();
-            throw e;
-        } finally {
-            session.close();
-        }
-    }
-
 	@Override
-	public List<Selecao> listaSelecoes(EnumEstadoSelecao estado, int inicio, int qtd) {
+	public List<Selecao> listaSelecoes(String categoria, EnumEstadoSelecao estado, int inicio, int qtd) {
 		Session session =  this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         List<Selecao> lis = new ArrayList<>();
@@ -251,6 +230,9 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
             
             if(estado != null){
             	cb.add(Restrictions.eq("estado", estado));
+            }
+            if(categoria != null){
+            	cb.add(Restrictions.eq("categoria", categoria));
             }
             
             cb.setFirstResult(inicio);
@@ -271,18 +253,30 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
 	}
 
 	@Override
-	public Long getQuantidade(EnumEstadoSelecao estado) {
+	public Long getQuantidade(String categoria, EnumEstadoSelecao estado) {
 		Session session =  this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         long qtd = 0;
-        
+
         try {
         	Query qry;
         	if(estado != null){
-        		qry = session.createQuery("select count(s) from Selecao s where s.estado = :estado and s.divulgada = 'true' and s.deletada = 'false'");
+        		String hql = "select count(s) from Selecao s where s.estado = :estado and s.divulgada = 'true' and s.deletada = 'false'";
+        		
+        		if(categoria != null){
+        			hql += " and categoria = " + categoria;
+                }
+        		
+        		qry = session.createQuery(hql);
         		qry.setParameter("estado", estado.getEstado());
+        		
         	} else {
-        		qry = session.createQuery("select count(s) from Selecao s where s.divulgada = 'true' and s.deletada = 'false'");
+        		String hql = "select count(s) from Selecao s where s.divulgada = 'true' and s.deletada = 'false'";
+        		
+        		if(categoria != null){
+                	hql +=  " and categoria = '" + categoria +"'";
+                }
+        		qry = session.createQuery(hql);
         	}
         	            
         	try{
@@ -303,5 +297,58 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
         return qtd;
 	}
     
+	@Override
+    public List<Selecao> buscaSelecoesPorNome(String titulo, int inicio, int qtd) {
+    	Session session = this.daoImpl.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        List<Selecao> selecoes = new ArrayList<>();
+        try {
+            
+            Criteria c = session.createCriteria(Selecao.class);
+        	c.add(Restrictions.ilike("titulo", "%"+titulo+"%"));
+        	c.add(Restrictions.eq("divulgada", true));
+        	c.add(Restrictions.eq("deletada", false));
+        	c.addOrder(Order.desc("codSelecao"));
+        	
+        	c.setFirstResult(inicio);
+            c.setMaxResults(qtd);
+            
+        	selecoes = c.list();
+        	t.commit();
+            
+        } catch(RuntimeException e) {
+            t.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+        return selecoes;
+    }
+	
+	@Override
+	public Long getQuantidadePorNome(String titulo){
+		Session session =  this.daoImpl.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        long qtd = 0;
 
+        try {
+        	Query qry = session.createQuery("select count(s) from Selecao s where s.titulo ilike '%" + titulo +"%' and s.divulgada = 'true' and s.deletada = 'false'");
+        	            
+        	try{
+        		qtd = (Long) qry.uniqueResult();
+        	} catch(Exception e){
+        		System.err.println("Sem resultados");
+        	}
+        	
+            t.commit();
+            
+        } catch (RuntimeException ex) {
+            t.rollback();
+            throw ex;
+        } finally {
+            session.close();
+        }
+        
+        return qtd;
+	}
 }

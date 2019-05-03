@@ -101,25 +101,28 @@
                     </div>
                 </c:if>
                 <div class="row" style="padding-left: 15px;">
+					<c:if test="${selecao.estado.estado == 0}">
+					    <span class="badge badge-pill badge-danger" style="right: 20px; font-size: 10px;">Em edição</span>
+					</c:if>       
+					<c:if test="${selecao.estado.estado == 1}">
+					    <span class="badge badge-pill badge-warning" style="right: 20px; font-size: 10px;">Em espera</span>
+					</c:if>
+					<c:if test="${selecao.estado.estado == 2}">
+					    <span class="badge badge-pill badge-primary" style="right: 20px; font-size: 10px;">Aberta</span>
+					</c:if>
+					<c:if test="${selecao.estado.estado == 3}">
+					    <span class="badge badge-pill badge-info" style="right: 20px; font-size: 10px;">Em andamento</span>
+					</c:if>
+					<c:if test="${selecao.estado.estado == 4}">
+					    <span class="badge badge-pill badge-dark" style="right: 20px; font-size: 10px;">Finalizada</span>
+					</c:if>
+                </div>
+                <br/>
+                <div class="row" style="padding-left: 15px;">
                     <h1 class="text-uppercase" style="font-size: 20px;">${selecao.titulo}</h1>
                     <a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=edital" target="_blank" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;" >
                         <i class="fas fa-file-pdf"></i><span> Visualizar Edital</span>
                     </a>
-                    <c:if test="${selecao.estado.estado == 0}">
-                                    <span class="badge badge-pill badge-danger" style="right: 20px; font-size: 10px;position: absolute;">Em edição</span>
-                                </c:if>       
-                                <c:if test="${selecao.estado.estado == 1}">
-                                    <span class="badge badge-pill badge-warning" style="right: 20px; font-size: 10px;position: absolute;">Em espera</span>
-                                </c:if>
-                                <c:if test="${selecao.estado.estado == 2}">
-                                    <span class="badge badge-pill badge-primary" style="right: 20px; font-size: 10px;position: absolute;">Aberta</span>
-                                </c:if>
-                                <c:if test="${selecao.estado.estado == 3}">
-                                    <span class="badge badge-pill badge-info" style="right: 20px; font-size: 10px;position: absolute;">Em andamento</span>
-                                </c:if>
-                                <c:if test="${selecao.estado.estado == 4}">
-                                    <span class="badge badge-pill badge-dark" style="right: 20px; font-size: 10px;position: absolute;">Finalizada</span>
-                                </c:if>
                 <c:if test="${((isResponsavel) or (fn:contains(permissoes, 'ADMINISTRADOR'))) or (selecao.divulgadoResultado)}">
                     <a href="/Darwin/selecao/${selecao.codSelecao}/resultado" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
                         <i class="fas fa-eye"></i> Resultado

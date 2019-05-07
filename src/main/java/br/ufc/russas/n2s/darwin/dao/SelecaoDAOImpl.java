@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufc.russas.n2s.darwin.dao;
 
 import java.util.ArrayList;
@@ -16,14 +11,12 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
-import br.ufc.russas.n2s.darwin.model.EstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 
 /**
@@ -70,29 +63,39 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     
     
     @Override
+    @SuppressWarnings("unchecked")
     public List<Selecao> getSelecoesDivulgadas(){
 	    Session session;
 	    session = this.daoImpl.getSessionFactory().openSession();
 	    Transaction t = session.beginTransaction();
-	    Criteria cr = session.createCriteria(Selecao.class);
-	    cr.add(Restrictions.eq("divulgada", true)).add(Restrictions.eq("deletada",false));
-	    List<Selecao> selecoes = cr.list();
-	    t.commit();
-	    session.close();
+	    List<Selecao> selecoes = new ArrayList<>();
+	    
+	    try{
+	    	Criteria cr = session.createCriteria(Selecao.class);
+		    cr.add(Restrictions.eq("divulgada", true)).add(Restrictions.eq("deletada",false));
+		    selecoes = cr.list();
+		    t.commit();
+	    } catch (RuntimeException e) {
+            t.rollback();
+            throw e;
+        } finally{
+        	session.close();
+        }
 	    return selecoes;
     }
     
     @Override
+    @SuppressWarnings("unchecked")
     public List<Selecao> listaSelecoesIgnorandoNotas(Selecao selecao) {
 	    Session session;
 	    session = this.daoImpl.getSessionFactory().openSession();
 	    Transaction t = session.beginTransaction();
+	    
 	    try {
 		    Example example = Example.create(selecao).excludeZeroes().ignoreCase();
 		    example.excludeProperty("exibirNotas");
 		    		example.excludeProperty("divulgadoResultado");
 	        List<Selecao> selecoes = (List<Selecao> ) session.createCriteria(selecao.getClass()).add(example).list();
-	        System.out.println("tam: "+selecoes.size());
 	        t.commit();
 	        
 		    return selecoes;
@@ -105,6 +108,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     }
     
     @Override
+    @SuppressWarnings("unchecked")
     public List<Selecao> listaSelecoesIgnorandoBooleanos() {
 	    Session session;
 	    session = this.daoImpl.getSessionFactory().openSession();
@@ -114,7 +118,6 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
 		    Example example = Example.create(selecao).excludeZeroes().ignoreCase().excludeProperty("exibirnotas")
 		    		.excludeProperty("divulgadoresultado");
 		    example.excludeProperty("divulgada");
-		    //example.excludeProperty("estado");
 	        List<Selecao> selecoes = (List<Selecao> ) session.createCriteria(selecao.getClass()).add(example).list();
 	        t.commit();
 		    
@@ -133,6 +136,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     }
     
     @Override
+    @SuppressWarnings("unchecked")
     public List<Selecao> buscaTodasPorCriteria(boolean divulgada) {
     	Session session = this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
@@ -153,6 +157,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     }
     
     @Override
+    @SuppressWarnings("unchecked")
     public List<Selecao> buscaTodasPorCriteria() {
     	Session session = this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
@@ -177,21 +182,23 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     	session = this.daoImpl.getSessionFactory().openSession();
 	    Transaction t = session.beginTransaction();    
 	    
-	    try {
-	    	 // String hql = "delete from Selecao where codSelecao= :sid";
-	    	  String hql = "UPDATE darwin.selecao SET divulgadoresultado=:verdade WHERE codselecao=:codS";
-	    	  
-	    	  SQLQuery query = session.createSQLQuery(hql);// createSqlQuery(hql);
-	    	  query.setParameter("verdade", true);
-	    	  query.setParameter("codS", selecao.getCodSelecao());
-	    	  
-	    	
-	    	  query.executeUpdate();
-	    	  t.commit();
-	    	} catch (Throwable tb) {
-	    	  t.rollback();
-	    	  throw tb;
-	    	}
+		try {
+			 
+			String hql = "UPDATE darwin.selecao SET divulgadoresultado=:verdade WHERE codselecao=:codS";
+		  
+			SQLQuery query = session.createSQLQuery(hql);
+			query.setParameter("verdade", true);
+			query.setParameter("codS", selecao.getCodSelecao());
+		  
+		
+			query.executeUpdate();
+			t.commit();
+		} catch (Throwable tb) {
+			t.rollback();
+			throw tb;
+		} finally {
+			session.close();
+		}
     }
     
     @Override
@@ -201,21 +208,24 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
 	    Transaction t = session.beginTransaction();    
 	    
 	    try {
-	    	  String hql = "UPDATE darwin.selecao SET exibirnotas=:exibe WHERE codselecao=:codS";
-	    	  
-	    	  SQLQuery query = session.createSQLQuery(hql);// createSqlQuery(hql);
-	    	  query.setParameter("exibe", !selecao.isExibirNotas());
-	    	  query.setParameter("codS", selecao.getCodSelecao());
-	    	
-	    	  query.executeUpdate();
-	    	  t.commit();
-	    	} catch (Throwable tb) {
-	    	  t.rollback();
-	    	  throw tb;
-	    	}
+			String hql = "UPDATE darwin.selecao SET exibirnotas=:exibe WHERE codselecao=:codS";
+			  
+			SQLQuery query = session.createSQLQuery(hql);
+			query.setParameter("exibe", !selecao.isExibirNotas());
+			query.setParameter("codS", selecao.getCodSelecao());
+			
+			query.executeUpdate();
+	    	t.commit();
+    	} catch (Throwable tb) {
+    	  t.rollback();
+    	  throw tb;
+    	} finally {
+    		session.close();
+    	}
     }
     
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Selecao> listaSelecoes(String categoria, EnumEstadoSelecao estado, int inicio, int qtd) {
 		Session session =  this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
@@ -223,7 +233,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
 
         try {
         	
-    		Criteria cb = session.createCriteria(Selecao.class);
+        	Criteria cb = session.createCriteria(Selecao.class);
     		cb.add(Restrictions.eq("divulgada", true));
     		cb.add(Restrictions.eq("deletada",false));
             cb.addOrder(Order.desc("codSelecao"));
@@ -298,6 +308,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
 	}
     
 	@Override
+	@SuppressWarnings("unchecked")
     public List<Selecao> buscaSelecoesPorNome(String titulo, int inicio, int qtd) {
     	Session session = this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();

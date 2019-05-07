@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufc.russas.n2s.darwin.dao;
 
 import java.util.List;
 
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
-import br.ufc.russas.n2s.darwin.model.EstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 
 /**
@@ -22,26 +16,26 @@ public interface SelecaoDAOIfc {
      * @param selecao
      * @return Selecao
      */
-    Selecao adicionaSelecao(Selecao selecao);
+    public Selecao adicionaSelecao(Selecao selecao);
 
     /**
      * Método resposável por fazer a atualização de uma seleção.
      * @param selecao
      * @return Selecao
      */
-    Selecao atualizaSelecao(Selecao selecao);
+    public Selecao atualizaSelecao(Selecao selecao);
 
     /**
      * Método resposável por fazer a remoção de uma seleção.
      * @param selecao
      */
-    void removeSelecao(Selecao selecao);
+    public void removeSelecao(Selecao selecao);
 
     /**
      * Método resposável por fazer a listagem de todos as as seleções.
      * @return List<Selecao>
      */
-    List<Selecao> listaSelecoes(Selecao selecao);
+    public List<Selecao> listaSelecoes(Selecao selecao);
 
     /**
      * Método resposável por pegar do banco de dados uma
@@ -49,18 +43,18 @@ public interface SelecaoDAOIfc {
      * @param codigo
      * @return
      */
-    Selecao getSelecao(Selecao selecao);
+    public Selecao getSelecao(Selecao selecao);
     
-    List<Selecao> getSelecoesDivulgadas();
+    public List<Selecao> getSelecoesDivulgadas();
     
-    void divulgaResutadoSelecao(Selecao selecao);
+    public void divulgaResutadoSelecao(Selecao selecao);
     
-    void atualizaExibirNotas(Selecao selecao);
+    public void atualizaExibirNotas(Selecao selecao);
     
-    List<Selecao> listaSelecoesIgnorandoNotas(Selecao selecao);
-    List<Selecao> buscaTodasPorCriteria(boolean divulgada);
-    List<Selecao> buscaTodasPorCriteria();
-    List<Selecao> listaSelecoesIgnorandoBooleanos();
+    public List<Selecao> listaSelecoesIgnorandoNotas(Selecao selecao);
+    public List<Selecao> buscaTodasPorCriteria(boolean divulgada);
+    public List<Selecao> buscaTodasPorCriteria();
+    public List<Selecao> listaSelecoesIgnorandoBooleanos();
     
     //Novos
     public List<Selecao> listaSelecoes(String categoria, EnumEstadoSelecao estado, int inicio, int qtd);

@@ -10,14 +10,14 @@ import java.util.List;
  */
 public interface AvaliacaoDAOIfc {
 
-	Avaliacao adicionaAvaliacao(Avaliacao avaliacao);
+	public Avaliacao adicionaAvaliacao(Avaliacao avaliacao);
 
-    Avaliacao atualizaAvaliacao(Avaliacao avaliacao);
+	public Avaliacao atualizaAvaliacao(Avaliacao avaliacao);
 
-    void removeAvaliacao(Avaliacao avaliacao);
+	public void removeAvaliacao(Avaliacao avaliacao);
 
-    List<Avaliacao> listaAvaliacoes(Avaliacao avaliacao);
+	public List<Avaliacao> listaAvaliacoes(Avaliacao avaliacao);
 
-    Avaliacao getAvaliacao(Avaliacao avaliacao);
+	public Avaliacao getAvaliacao(Avaliacao avaliacao);
 
 }

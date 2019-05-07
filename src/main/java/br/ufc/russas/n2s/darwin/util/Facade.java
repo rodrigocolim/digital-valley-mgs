@@ -1,7 +1,5 @@
 package br.ufc.russas.n2s.darwin.util;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -35,7 +33,6 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteSelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
-import br.ufc.russas.n2s.darwin.model.Documentacao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import util.Constantes;
 
@@ -44,10 +41,8 @@ import util.Constantes;
 public class Facade {
 
 	public static String gerarPDFDosResultados(EtapaBeans etapa, List<Object[]> resultado, SelecaoBeans selecao) throws DocumentException, MalformedURLException, IOException, Exception {
-
 			Document document = new Document();
-			String name = Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator+
-					"RESULTADO_"+selecao.getCodSelecao()+"_ETAPA"+"_"+etapa.getCodEtapa()+"_"+LocalDateTime.now().format(DateTimeFormatter.ofPattern("ddMMyyyyhhmmss")) +".pdf";
+			String name = Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator+"RESULTADO_"+selecao.getCodSelecao()+"_ETAPA"+"_"+etapa.getCodEtapa()+"_"+LocalDateTime.now().format(DateTimeFormatter.ofPattern("ddMMyyyyhhmmss")) +".pdf";
 			PdfWriter.getInstance(document, new FileOutputStream(name));
 			document.open();
 			Image image = Image.getInstance(Constantes.getLOGO_UFC());
@@ -56,8 +51,7 @@ public class Facade {
 			image.scaleAbsoluteHeight(70);
 			document.add(image);
 			Paragraph cabecalho = new Paragraph(
-					"UNIVERSIDADE FEDERAL DO CEARÁ\nCAMPUS DA UFC DE RUSSAS" + "\n\n"
-							+ "Resultado da etapa de "+ etapa.getTitulo()+" do edital "+selecao.getTitulo()+"\n\n\n");
+					"UNIVERSIDADE FEDERAL DO CEARÁ\nCAMPUS DA UFC DE RUSSAS" + "\n\n" + "Resultado da etapa de "+ etapa.getTitulo()+" do edital "+selecao.getTitulo()+"\n\n\n");
 			cabecalho.setAlignment(Paragraph.ALIGN_CENTER);
 			document.add(cabecalho);
 			
@@ -104,17 +98,13 @@ public class Facade {
 				}
 				PdfPCell cpfCelu = new PdfPCell(new Paragraph(nova,f));
 				table.addCell(cpfCelu);
-        		
-			//	Object[] participante = resultado.get(i);
-				table.addCell(((ParticipanteBeans) participante[0]).getCandidato().getNome().toUpperCase());
-				
+				table.addCell(((ParticipanteBeans) participante[0]).getCandidato().getNome().toUpperCase());		
 				PdfPCell resu  = new PdfPCell(new Paragraph(participante[2].toString().toUpperCase()));
 				resu.setHorizontalAlignment(Element.ALIGN_CENTER);
 				table.addCell(resu);
 			}
             document.add(table);
-            Paragraph assAluno = new Paragraph(
-            		"\n\n(Assinatura(s) do(s) Responsável(is))");
+            Paragraph assAluno = new Paragraph("\n\n(Assinatura(s) do(s) Responsável(is))");
 			assAluno.setAlignment(Paragraph.ALIGN_CENTER);
 			document.add(assAluno);
 			document.close();				
@@ -124,9 +114,7 @@ public class Facade {
 	public static String gerarPDFResultadoSelecao(SelecaoBeans selecao, List<ResultadoParticipanteSelecaoBeans> resultado) throws DocumentException, MalformedURLException, IOException {
 
 			Document document = new Document();
-			String name = Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator+
-					"RESULTADO_FINAL_"+selecao.getCodSelecao()+".pdf";
-
+			String name = Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator + "RESULTADO_FINAL_"+selecao.getCodSelecao()+".pdf";
 			PdfWriter.getInstance(document, new FileOutputStream(name));
 			document.open();
 			Image image = Image.getInstance(Constantes.getLOGO_UFC());
@@ -134,9 +122,7 @@ public class Facade {
 			image.scaleAbsoluteWidth(50);
 			image.scaleAbsoluteHeight(70);
 			document.add(image);
-			Paragraph cabecalho = new Paragraph(
-					"UNIVERSIDADE FEDERAL DO CEARÁ\nCAMPUS DA UFC DE RUSSAS" + "\n\n"
-							+ "RESULTADO DA SELEÇÃO "+selecao.getTitulo()+"\n\n\n");
+			Paragraph cabecalho = new Paragraph("UNIVERSIDADE FEDERAL DO CEARÁ\nCAMPUS DA UFC DE RUSSAS" + "\n\n" + "RESULTADO DA SELEÇÃO "+selecao.getTitulo()+"\n\n\n");
 			cabecalho.setAlignment(Paragraph.ALIGN_CENTER);
 			document.add(cabecalho);
 			com.itextpdf.text.Font f = FontFactory.getFont("SANS_SERIF", 10, Font.BOLD, new BaseColor(0, 0, 255));
@@ -239,21 +225,15 @@ public class Facade {
 				} else {
 					s = "DESCLASSIFICADO";
 				}
-				//sele.getUltimaEtapa().getLimiteClassificados()) {}
-				//if (rps.isAprovado()) s = "CLASSIFICADO"; else 
-
 				PdfPCell situ  = new PdfPCell(new Paragraph(s,f));
 				situ.setHorizontalAlignment(Element.ALIGN_CENTER);
-				table.addCell(situ);
-				
+				table.addCell(situ);				
            }
             document.add(table);
-            Paragraph assAluno = new Paragraph(
-            		"\n\n(Assinatura(s) do(s) Responsável(is))");
+            Paragraph assAluno = new Paragraph("\n\n(Assinatura(s) do(s) Responsável(is))");
 			assAluno.setAlignment(Paragraph.ALIGN_CENTER);
 			document.add(assAluno);
-			document.close();				
-
+			document.close();
 			return name;
 		
 	}
@@ -278,7 +258,6 @@ public class Facade {
 	            // create byte buffer
 	            byte[] buffer = new byte[1024];
 	            ServletOutputStream out = response.getOutputStream();
-	           // FileOutputStream fos = new FileOutputStream(zipFile);
 	            ZipOutputStream zos = new ZipOutputStream(out);
 	             for (ArquivoBeans d : documentos) {
 	                File srcFile = d.getArquivo();

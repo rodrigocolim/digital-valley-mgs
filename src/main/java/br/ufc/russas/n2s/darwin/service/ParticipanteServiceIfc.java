@@ -6,7 +6,6 @@
 package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
-import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
 import java.util.List;
 
 /**

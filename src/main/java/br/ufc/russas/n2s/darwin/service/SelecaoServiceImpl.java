@@ -6,7 +6,6 @@
 package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
-import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.ResultadoParticipanteSelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
@@ -14,7 +13,6 @@ import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
-import br.ufc.russas.n2s.darwin.model.EstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.EtapaPredicates;
 import br.ufc.russas.n2s.darwin.model.Participante;
@@ -26,9 +24,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -141,20 +136,15 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Transactional
     public List<SelecaoBeans> listaSelecoesIgnorandoNotas(Selecao selecao) {
         selecao.setDivulgada(true);
-       // selecao.setDivulgadoResultado(false);
         selecao.setDeletada(false);
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
         List<Selecao> resultado = this.getSelecaoDAOIfc().listaSelecoesIgnorandoNotas(selecao);
         System.out.println(resultado.size());
         for (Selecao s : resultado) {
-        	
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
         }
         return selecoes;
     }
-    
-    
-    
 
     @Override
     @Transactional(readOnly = true)
@@ -174,32 +164,16 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         Selecao selecao = new Selecao();
         selecao.setDeletada(false);
         selecao.setExibirNotas(true);
-        //selecao.setDivulgada(false);
         UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
-       // List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().listaSelecoes(selecao);
         List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().buscaTodasPorCriteria(false);
-       // selecao.setDivulgada(true);
         List<Selecao> resultadoDivulgadas = this.getSelecaoDAOIfc().buscaTodasPorCriteria(true);
-       // List<SelecaoBeans> resultadoDivulgadas = this.listaTodasSelecoes();
-        
+
         for (Selecao s : resultadoNaoDivulgadas) {
             if (s.getResponsaveis().contains(user)) {
                 selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
             } 
         }
-        /*for (SelecaoBeans s : resultadoDivulgadas) {
-        	boolean isParticipante = false;
-        	for (ParticipanteBeans p : s.getInscricao().getParticipantes()) {
-        		if (p.getCandidato().getCodUsuario() == usuario.getCodUsuario()) {
-        			isParticipante = true;
-        			break;
-        		}
-        	}
-            if (s.getResponsaveis().contains(usuario) || isParticipante) {
-                selecoes.add(s);
-            }
-        }*/
         
         UsuarioDarwin u = (UsuarioDarwin) usuario.toBusiness();
         for (Selecao s : resultadoDivulgadas) {
@@ -214,7 +188,6 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
             	selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
             }
         }
-       
         return this.ordenaSelecoesPorData(selecoes);
     }
     
@@ -223,28 +196,14 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
         Selecao selecao = new Selecao();
         selecao.setDeletada(false);
         selecao.setDivulgada(false);
-       // UsuarioDarwin user = (UsuarioDarwin) usuario.toBusiness();
         List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
-       // List<Selecao> resultadoNaoDivulgadas = this.getSelecaoDAOIfc().listaSelecoesIgnorandoNotas(selecao);//erro
         selecao.setDivulgada(true);
-      //  List<SelecaoBeans> resultadoDivulgadas = this.listaSelecoesIgnorandoNotas(selecao);
-       // List<Selecao> resultadoTodas =  this.getSelecaoDAOIfc().listaSelecoesIgnorandoBooleanos();
         List<Selecao> resultadoTodas =  this.getSelecaoDAOIfc().buscaTodasPorCriteria();
         
         
         for (int i=0;i<resultadoTodas.size();i++) {
             selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(resultadoTodas.get(i)));
         }
-        
-      //  List<SelecaoBeans> resultadoDivulgadas = this.listaTodasSelecoes();
-     /*   for (Selecao s : resultadoNaoDivulgadas) {
-                selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
-        }
-        
-        for (SelecaoBeans s : resultadoDivulgadas) {
-        	selecoes.add(s);
-        }
-        */
         return this.ordenaSelecoesPorData(selecoes);
     }
     
@@ -326,9 +285,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	@Override
 	public List<EtapaBeans> getEtapasNota(SelecaoBeans selecao) {
 		Selecao s = (Selecao) selecao.toBusiness();
-		List<Etapa> porNotas = s.getEtapas().stream()
-                .filter( EtapaPredicates.isNota())
-                .collect(Collectors.<Etapa>toList());
+		List<Etapa> porNotas = s.getEtapas().stream().filter( EtapaPredicates.isNota()).collect(Collectors.<Etapa>toList());
 		List<EtapaBeans> etapas = Collections.synchronizedList(new ArrayList<EtapaBeans>());
 		for (int i = 0;i < porNotas.size();i++) {
 			etapas.add((EtapaBeans) new EtapaBeans().toBeans(porNotas.get(i)));
@@ -345,7 +302,6 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 				etapas.set(i+1, aux);
 			}
 		}
-		
 		return etapas;
 	}
 	

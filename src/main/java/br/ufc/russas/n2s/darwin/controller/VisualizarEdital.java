@@ -32,7 +32,11 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 @WebServlet(name = "VisualizarEdital", urlPatterns = {"/visualizarArquivo"})
 public class VisualizarEdital extends HttpServlet {
     
-    private SelecaoServiceIfc selecaoServiceIfc;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private SelecaoServiceIfc selecaoServiceIfc;
     
     @Autowired(required = true)
     public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc")SelecaoServiceIfc selecaoServiceIfc){

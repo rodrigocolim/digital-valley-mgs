@@ -57,7 +57,7 @@ public class CadastrarSelecaoController {
     private UsuarioServiceIfc usuarioServiceIfc;
     private LogServiceIfc logServiceIfc;
     
-    List<UsuarioBeans> responsaveis = new ArrayList	();
+    List<UsuarioBeans> responsaveis = new ArrayList<UsuarioBeans>();
     
     public SelecaoServiceIfc getSelecaoServiceIfc() {
         return selecaoServiceIfc;
@@ -135,6 +135,7 @@ public class CadastrarSelecaoController {
                 edital.setArquivo(temp);
                 edital.setData(LocalDateTime.now());
                 selecao.setEdital(edital);
+                output.close();
             }
             if (nomeAnexos != null && linkAnexos != null) { // para anexos
                 ArrayList<ArquivoBeans> anexos = new ArrayList<>();
@@ -152,6 +153,7 @@ public class CadastrarSelecaoController {
                     anexo.setArquivo(temp);
                     anexo.setData(LocalDateTime.now());
                     anexos.add(anexo);
+                    output.close();
                 }
                 selecao.setAnexos(anexos);
             }
@@ -171,6 +173,7 @@ public class CadastrarSelecaoController {
                     aditivo.setArquivo(temp);
                     aditivo.setData(LocalDateTime.now());
                     aditivos.add(aditivo);
+                    output.close();
                 }
                 selecao.setAditivos(aditivos);
             }

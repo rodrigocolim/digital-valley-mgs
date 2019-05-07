@@ -149,7 +149,7 @@
                 <c:if test="${titulo eq 'Início'}"><c:set value="" var="categoria"></c:set></c:if>
                 <c:if test="${titulo eq 'Minhas seleções'}"><c:set value="minhas_Selecoes" var="categoria"></c:set></c:if>
                 	
-                	<c:set var="pag" value="${(fn:contains(categoria, '?') ? '': '?')}pag="></c:set>
+                	<c:set var="pag" value="${(fn:contains(categoria, '?') ? '': '?')}pag=" />
                 	
                      <ul class="pagination justify-content-center">
                         <li class="page-item ${pagina <= 1 ? "disabled" : ""}">

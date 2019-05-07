@@ -450,7 +450,6 @@ public class EditarEtapaController {
 	            }
 	            etapa.setDivulgaResultado(true);
 	            etapa = etapaServiceIfc.atualizaEtapa(etapa);
-	            Email email = new Email();
 	            List<Thread> threadsEmail = Collections.synchronizedList(new ArrayList<Thread>());
 	            for (int i =0;i < etapa.getParticipantes().size();i++) {
 	            	ParticipanteBeans p = etapa.getParticipantes().get(i);

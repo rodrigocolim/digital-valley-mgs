@@ -49,7 +49,6 @@ import br.ufc.russas.n2s.darwin.model.FileManipulation;
 import br.ufc.russas.n2s.darwin.model.Log;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
-import br.ufc.russas.n2s.darwin.service.DocumentacaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -66,7 +65,6 @@ public class EditarSelecaoController {
     private SelecaoServiceIfc selecaoServiceIfc;
     private UsuarioServiceIfc usuarioServiceIfc;
     private LogServiceIfc logServiceIfc;
-    private DocumentacaoServiceIfc documentacaoServiceIfc;
     
     public SelecaoServiceIfc getSelecaoServiceIfc() {
         return selecaoServiceIfc;
@@ -154,10 +152,10 @@ public class EditarSelecaoController {
                 
                 selecaoBeans.getEdital().setArquivo(temp);
                 selecaoBeans.getEdital().setData(LocalDateTime.now());
+                output.close();
             }
             
             if (nomeAnexos != null && linkAnexos != null) {
-            	ArrayList<ArquivoBeans> anexos = new ArrayList<>();
                 for (int i=0; i < nomeAnexos.length; i++) {
                     ArquivoBeans anexo = new ArquivoBeans();
                     anexo.setTitulo(nomeAnexos[i]);
@@ -172,6 +170,7 @@ public class EditarSelecaoController {
                     anexo.setArquivo(temp);
                     anexo.setData(LocalDateTime.now());
                     selecaoBeans.getAnexos().add(anexo);
+                    output.close();
                 }
             }
             
@@ -190,6 +189,7 @@ public class EditarSelecaoController {
                     aditivo.setArquivo(temp);
                     aditivo.setData(LocalDateTime.now());
                     selecaoBeans.getAditivos().add(aditivo);
+                    output.close();
                 }
             }
 
@@ -291,29 +291,5 @@ public class EditarSelecaoController {
 	        }
         } else {return "error/404";}
     }
-    
-    /*
-    @RequestMapping(value = "/remove/{codSelecao}", method = RequestMethod.GET)
-    public String removeSelecao(@PathVariable long codSelecao, Model model, HttpServletRequest request) {
-    	 HttpSession session = request.getSession();
-    	 UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-    	 try {
-	    	 if (usuario != null) {
-	    		 SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
-	    		 selecaoServiceIfc.setUsuario(usuario);
-	    		 selecaoServiceIfc.removeSelecao(selecao);
-	    		 session.setAttribute("mensagem", "Seleção removida com sucesso!");
-	             session.setAttribute("status", "success");
-	    	 }
-    	 } catch (Exception e) {
-    		 e.printStackTrace();
-    		 session.setAttribute("mensagem", e.getMessage());
-             session.setAttribute("status", "danger");
-             return "minhas-selecoes";
-		}
-    	return "minhas-selecoes";
-    }
-    */
 
-    
 }

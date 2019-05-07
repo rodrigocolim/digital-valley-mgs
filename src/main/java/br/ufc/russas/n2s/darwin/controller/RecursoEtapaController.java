@@ -55,7 +55,6 @@ public class RecursoEtapaController {
     public String getRecursoDaEtapa(@PathVariable long codEtapa, @PathVariable long codParticipante, Model model, HttpServletRequest request){
 		HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-        //UsuarioBeans usuario = (UsuarioBeans) request.getSession().getAttribute("usuarioDarwin");
     	if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || usuario.getPermissoes().contains(EnumPermissao.RESPONSAVEL)) {
 	        ParticipanteBeans participante = participanteServiceIfc.getParticipante(codParticipante);
 	        EtapaBeans etapa  = etapaServiceIfc.getEtapa(codEtapa);

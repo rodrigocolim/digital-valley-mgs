@@ -125,7 +125,6 @@ public class SelecaoController {
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
             session.setAttribute("selecao", selecao);
-           // model.addAttribute("isResponsavel", isResponsavel);
             return "selecao";
         } else {
             return "elements/error404";

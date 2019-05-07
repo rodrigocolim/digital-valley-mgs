@@ -206,7 +206,6 @@ public class EditarSelecaoController {
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             this.getSelecaoServiceIfc().setUsuario(usuario);
             selecaoBeans = this.getSelecaoServiceIfc().atualizaSelecao(selecaoBeans);
-           // EtapaBeans etapaAtual = this.getSelecaoServiceIfc().getEtapaAtual(selecaoBeans);
             session.setAttribute("selecao", selecaoBeans);
             this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecaoBeans.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" editou a seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
             session.setAttribute("mensagem", "Seleção atualizada com sucesso!");

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufc.russas.n2s.darwin.controller;
 
 import br.ufc.russas.n2s.darwin.beans.DocumentacaoBeans;
@@ -158,7 +153,7 @@ public class ParticiparEtapaController {
 		                if (file != null) {
 		                    Arquivo documento = new Arquivo();
 		                    String aux = file.getOriginalFilename();
-		                    if (aux.length() > 4) {//throw new IllegalArgumentException("Não foram selecionados os arquivos corretamente para serem enviados!");}
+		                    if (aux.length() > 4) {
 		                    	String expressao = aux.substring(aux.lastIndexOf("."), aux.length());
 			                    if (!expressao.equals(".pdf")) {throw new IllegalArgumentException("Formato de arquivo enviado não é .pdf");}
 			                    java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(), ".pdf", dir);

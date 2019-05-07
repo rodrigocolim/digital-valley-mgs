@@ -66,7 +66,6 @@ public class InscricaoSelecaoController extends HttpServlet {
                 String valorCampo = "Documento";
                 for(int i=0;i<itens.size();i++){
                      FileItem item = (FileItem) itens.get(i);
-
                      //Escolhe o que vai fazer com os campos files
                      if(item.get().length>0){
                         File temp = File.createTempFile("temp", ".pdf");
@@ -77,7 +76,6 @@ public class InscricaoSelecaoController extends HttpServlet {
                         while ((read = input.read(bytes)) != -1) {
                             output.write(bytes, 0, read);
                         }
-
                         ArquivoBeans documento = new ArquivoBeans();
                         documento.setTitulo(valorCampo);
                         documento.setData(LocalDateTime.now());

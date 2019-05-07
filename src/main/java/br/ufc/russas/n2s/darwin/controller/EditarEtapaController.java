@@ -196,20 +196,6 @@ public class EditarEtapaController {
 		            	etapaBeans.setDocumentacaoExigida(new ArrayList<>());
 		            }
 		            etapaBeans.setAvaliadores(avaliadores);
-		          /*  this.getSelecaoServiceIfc().setUsuario(usuario);
-		            
-		            int index=0;
-		            List<EtapaBeans> etapas = selecao.getEtapas();
-		            for(EtapaBeans etapaIterator : etapas) {
-		            	if(etapaIterator.getCodEtapa()==etapaBeans.getCodEtapa()) {
-		            		selecao.getEtapas().remove(etapaIterator);
-		            		selecao.getEtapas().add(index, etapaBeans);
-		            		break;
-		            	}
-		            	index++;
-		            }
-		            selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
-		            */
 		            this.getEtapaServiceIfc().atualizaEtapa(etapaBeans);
 		            selecao = this.getSelecaoServiceIfc().getSelecao(selecao.getCodSelecao());
 		            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" modificou a etapa "+etapa.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));

@@ -50,8 +50,7 @@ public class Facade {
 			image.scaleAbsoluteWidth(50);
 			image.scaleAbsoluteHeight(70);
 			document.add(image);
-			Paragraph cabecalho = new Paragraph(
-					"UNIVERSIDADE FEDERAL DO CEARÁ\nCAMPUS DA UFC DE RUSSAS" + "\n\n" + "Resultado da etapa de "+ etapa.getTitulo()+" do edital "+selecao.getTitulo()+"\n\n\n");
+			Paragraph cabecalho = new Paragraph("UNIVERSIDADE FEDERAL DO CEARÁ\nCAMPUS DA UFC DE RUSSAS" + "\n\n" + "Resultado da etapa de "+ etapa.getTitulo()+" do edital "+selecao.getTitulo()+"\n\n\n");
 			cabecalho.setAlignment(Paragraph.ALIGN_CENTER);
 			document.add(cabecalho);
 			

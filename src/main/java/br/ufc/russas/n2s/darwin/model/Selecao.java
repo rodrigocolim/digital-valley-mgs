@@ -438,8 +438,6 @@ public class Selecao {
     public List<ResultadoParticipanteSelecao> resultado () throws IllegalAccessException {
     	Etapa ultima = this.getUltimaEtapa();
     	if (ultima.getPeriodo().getTermino().isBefore(LocalDate.now())) {
-    		//{participante, situacao, status, avaliacao}
-    		//{participante, situacao, status, media}
     		List<Object[]> resultadoEtapaFinal = ultima.getResultado();
     		List<ResultadoParticipanteSelecao> resultadoSelecao = Collections.synchronizedList(new ArrayList<ResultadoParticipanteSelecao>());
     		List<Etapa> porNotas = this.getEtapas().stream()
@@ -536,7 +534,6 @@ public class Selecao {
 	    		for (int i = 0; i< resultadoSelecao.size();i++) {
 	    			
 	    			ResultadoParticipanteSelecao r = resultadoSelecao.get(i);
-	    			//if ((int) r.getColocacao() <= (getVagasRemuneradas()+getVagasVoluntarias()) || (getVagasRemuneradas()+getVagasVoluntarias())==0) {
 	    			if ((float)r.getMediaGeral() >= this.getUltimaEtapa().getNotaMinima()) {
 	    				resultadoSelecao.get(i).setAprovado(true);
 	    			} else  {
@@ -548,13 +545,10 @@ public class Selecao {
 	    			
 				}
     		} else {
-    			//Etapa uEtapa = getUltimaEtapa();
-    			
     			for (int i = 0;i < resultadoEtapaFinal.size();i++) {
 	    			Object[] r = resultadoEtapaFinal.get(i);
 	    			Participante p = (Participante) r[0];
 	    			String status = (String) r[2];
-	    			//System.out.println(status);
 	   
 	    			ResultadoParticipanteSelecao resultadoParticipanteFinal = new ResultadoParticipanteSelecao();
 	    			resultadoParticipanteFinal.setParticipante(p);
@@ -563,7 +557,6 @@ public class Selecao {
 	    			} else {
 	    				resultadoParticipanteFinal.setAprovado(false);
 	    			}
-	    			//resultadoParticipanteFinal.setColocacao(i+1);
 	    			resultadoSelecao.add(resultadoParticipanteFinal);
 	    		}
     			

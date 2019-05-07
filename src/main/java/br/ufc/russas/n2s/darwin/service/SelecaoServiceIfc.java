@@ -25,7 +25,7 @@ public interface SelecaoServiceIfc extends ServiceIfc{
      * selecao - uma nova SelecaoBeans a ser armazenada
      * @return SelecaoBeans
      */
-    SelecaoBeans adicionaSelecao(SelecaoBeans selecao) throws IllegalAccessException;
+    public SelecaoBeans adicionaSelecao(SelecaoBeans selecao) throws IllegalAccessException;
     
     /**
      *
@@ -33,26 +33,26 @@ public interface SelecaoServiceIfc extends ServiceIfc{
      * selecao - uma SelecaoBeans para ser atualizada
      * @return SelecaoBeans
      */
-    SelecaoBeans atualizaSelecao(SelecaoBeans selecao) throws IllegalAccessException;
+    public SelecaoBeans atualizaSelecao(SelecaoBeans selecao) throws IllegalAccessException;
 
     /**
      * @param selecao
      * selecao - Uma SelecaoBeans a ser removida
      */
-    void removeSelecao(SelecaoBeans selecao);
+    public void removeSelecao(SelecaoBeans selecao);
 
 
     /**
      * 
      * @return List
      */
-    List<SelecaoBeans> listaTodasSelecoes();
+    public List<SelecaoBeans> listaTodasSelecoes();
     
     /**
      * @param selecao
      * @return List
      */
-    List<SelecaoBeans> listaSelecoes(Selecao selecao);
+    public List<SelecaoBeans> listaSelecoes(Selecao selecao);
     
     /**
      * 
@@ -67,35 +67,35 @@ public interface SelecaoServiceIfc extends ServiceIfc{
      * codSelecao - Identificador único da seleção que queira buscar
      * @return SelecaoBeans
      */
-    SelecaoBeans getSelecao(long codSelecao);
+    public SelecaoBeans getSelecao(long codSelecao);
     
      /**
      *
      * @param selecao
      * 
      */
-    EtapaBeans getEtapaAtual(SelecaoBeans selecao);
+    public EtapaBeans getEtapaAtual(SelecaoBeans selecao);
     
      /**
      *
      * @param selecao
      * 
      */
-    EtapaBeans getUltimaEtapa(SelecaoBeans selecao);
+    public EtapaBeans getUltimaEtapa(SelecaoBeans selecao);
     
     /**
     *
     * @param selecao
     * 
     */
-   List<EtapaBeans> getEtapasNota(SelecaoBeans selecao);
+   public List<EtapaBeans> getEtapasNota(SelecaoBeans selecao);
     
     /**
      * 
      * @param selecoes
      * @return List
      */
-    List<SelecaoBeans> ordenaSelecoesPorData(List<SelecaoBeans> selecoes);
+    public List<SelecaoBeans> ordenaSelecoesPorData(List<SelecaoBeans> selecoes);
     
     /**
      * 
@@ -103,15 +103,15 @@ public interface SelecaoServiceIfc extends ServiceIfc{
      * @return List
      */
 
-    List<ResultadoParticipanteSelecaoBeans> getResultado(SelecaoBeans selecoes)  throws IllegalAccessException;
+    public List<ResultadoParticipanteSelecaoBeans> getResultado(SelecaoBeans selecoes)  throws IllegalAccessException;
 
-    List<SelecaoBeans> listaTodasSelecoesDoBanco();
+    public List<SelecaoBeans> listaTodasSelecoesDoBanco();
     
-    void divulgaResultadoSelecao(SelecaoBeans selecao);
+    public void divulgaResultadoSelecao(SelecaoBeans selecao);
     
-    void atualizaExibirNotas(SelecaoBeans selecao);
+    public void atualizaExibirNotas(SelecaoBeans selecao);
     
-    List<SelecaoBeans> listaSelecoesIgnorandoNotas(Selecao selecao);
+    public List<SelecaoBeans> listaSelecoesIgnorandoNotas(Selecao selecao);
     
     //Novos
     public List<SelecaoBeans> listaSelecoes(String categoria, EnumEstadoSelecao estado, int inicio, int qtd);

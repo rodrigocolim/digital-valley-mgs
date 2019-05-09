@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.LongType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -309,7 +310,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     
 	@Override
 	@SuppressWarnings("unchecked")
-    public List<Selecao> buscaSelecoesPorNome(String titulo, int inicio, int qtd) {
+    public List<Selecao> buscarSelecoesPorNome(String titulo, int inicio, int qtd) {
     	Session session = this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         List<Selecao> selecoes = new ArrayList<>();
@@ -350,6 +351,111 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
         	} catch(Exception e){
         		System.err.println("Sem resultados");
         	}
+        	
+            t.commit();
+            
+        } catch (RuntimeException ex) {
+            t.rollback();
+            throw ex;
+        } finally {
+            session.close();
+        }
+        
+        return qtd;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Selecao> buscarSelecoesAssociada(Long idUsuario, int inicio, int qtd) {
+		Session session = this.daoImpl.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        List<Selecao> selecoes = new ArrayList<>();
+        try {
+            
+            Criteria c = session.createCriteria(Selecao.class);
+            
+        	c.add(Restrictions.ilike("titulo", "%"+titulo+"%"));
+        	c.add(Restrictions.eq("divulgada", true));
+        	c.add(Restrictions.eq("deletada", false));
+        	c.addOrder(Order.desc("codSelecao"));
+        	
+        	c.setFirstResult(inicio);
+            c.setMaxResults(qtd);
+            
+        	selecoes = c.list();
+        	t.commit();
+            
+        } catch(RuntimeException e) {
+            t.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+        return selecoes;
+	}
+
+	@Override
+	public Long getQuantidadeAssociada(Long idUsuario) {
+		Session session =  this.daoImpl.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        long qtd = 0;
+
+        try {
+        	Query qry;
+        	
+        	long qtdParticipando = 0;
+        	String sqlResponsavelSelecao = "select count(distinct s) " +
+											"from darwin.selecao as s " +
+											"inner join darwin.responsaveis_selecao as rs on (s.codselecao = rs.selecao) " +
+											"inner join darwin.usuario as u on (u.codusuario = rs.usuario) " +
+											"where u.codusuario = ? and s.divulgada = 'true' and s.deletada = 'false';";
+        	
+        	qry = session.createSQLQuery(sqlResponsavelSelecao).addScalar("count", LongType.INSTANCE)
+        														.setLong(0, idUsuario);
+        													
+        	
+        	try{
+        		qtdParticipando = (Long) qry.uniqueResult();
+        	} catch(Exception e){
+        		System.err.println("Sem resultados");
+        	}
+        	
+        	long qtdResponsavel = 0;
+        	String sqlParticipandoSelecao = "select count(distinct s) " +
+											"from darwin.participante as p " +
+											"inner join darwin.participantes_etapa as pe on (pe.participante = p.codparticipante) " +
+											"inner join darwin.etapas_selecao as es on (es.etapa = pe.etapa) " +
+											"inner join darwin.selecao as s on (s.codselecao = es.selecao) " +
+											"where p.candidato = ? and s.divulgada = 'true' and s.deletada = 'false';";
+        	
+        	
+        	qry = session.createSQLQuery(sqlParticipandoSelecao).addScalar("count", LongType.INSTANCE)
+															   .setLong(0, idUsuario);
+        	
+        	try{
+        		qtdResponsavel = (Long) qry.uniqueResult();
+        	} catch(Exception e){
+        		System.err.println("Sem resultados");
+        	}
+        	
+        	long qtdAvalidor = 0;
+        	String sqlAvaliadorSelecao = 	"select count(distinct s) " +
+											"from darwin.selecao as s " +
+											"inner join darwin.etapas_selecao as es on (es.selecao = s.codselecao) " + 
+											"inner join darwin.avaliadores as ava on (es.etapa = ava.etapa) " +
+											"where ava.avaliador = 207 and s.divulgada = 'true' and s.deletada = 'false';";
+        	
+        	
+        	qry = session.createSQLQuery(sqlAvaliadorSelecao).addScalar("count", LongType.INSTANCE)
+															   .setLong(0, idUsuario);
+        	
+        	try{
+        		qtdAvalidor = (Long) qry.uniqueResult();
+        	} catch(Exception e){
+        		System.err.println("Sem resultados");
+        	}
+        	            
+        	qtd = qtdParticipando + qtdResponsavel + qtdAvalidor;
         	
             t.commit();
             

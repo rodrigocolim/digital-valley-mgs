@@ -140,19 +140,26 @@ public class IndexController {
     }
     
     @RequestMapping(value="/minhas_Selecoes", method = RequestMethod.GET)
-    public String getMinhasSelecoes(Model model, HttpServletRequest request) {
+    public String getMinhasSelecoes(@RequestParam(required=false, defaultValue = "0") int pag, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        
+        Long qtdSelecoes = 0l;
+        
         List<SelecaoBeans> selecoes;
         if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
-        	selecoes = this.getSelecaoServiceIfc().listaTodasSelecoesDoBanco();
+        	selecoes = this.getSelecaoServiceIfc().listaSelecoes(null, null, ((pag - 1) * 5), 5);
+        	qtdSelecoes = this.getSelecaoServiceIfc().getQuantidade(null, null);
         } else {
-        	selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
+        	selecoes = this.getSelecaoServiceIfc().buscarSelecoesAssociada(usuario, ((pag - 1) * 5), 5);
+        	qtdSelecoes = this.getSelecaoServiceIfc().getQuantidadeAssociada(usuario);
         }
         HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
             etapasAtuais.put(s.getCodSelecao(), this.getSelecaoServiceIfc().getEtapaAtual(s));
         }
+        
+        model.addAttribute("qtdSelecoes", qtdSelecoes);
         model.addAttribute("categoria", "Minhas seleções");
         model.addAttribute("selecoes", selecoes);
         model.addAttribute("agora", LocalDate.now());

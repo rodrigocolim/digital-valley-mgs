@@ -116,6 +116,10 @@ public interface SelecaoServiceIfc extends ServiceIfc{
     //Novos
     public List<SelecaoBeans> listaSelecoes(String categoria, EnumEstadoSelecao estado, int inicio, int qtd);
     public Long getQuantidade(String categoria, EnumEstadoSelecao estado);
-    public List<SelecaoBeans> buscaSelecoesPorNome(String titulo, int inicio, int qtd);
+    
+    public List<SelecaoBeans> buscarSelecoesPorNome(String titulo, int inicio, int qtd);
     public Long getQuantidadePorNome(String titulo);
+    
+    public List<SelecaoBeans> buscarSelecoesAssociada(UsuarioBeans usuario, int inicio, int qtd);
+    public Long getQuantidadeAssociada(UsuarioBeans usuario);
 }

@@ -334,7 +334,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	}
 	
 	@Override
-    public List<SelecaoBeans> buscaSelecoesPorNome(String titulo, int inicio, int qtd){
+    public List<SelecaoBeans> buscarSelecoesPorNome(String titulo, int inicio, int qtd){
     	List<Selecao> result = this.getSelecaoDAOIfc().buscaSelecoesPorNome(titulo, inicio, qtd);
 	    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
 	    for (Selecao s : result) {
@@ -348,5 +348,22 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	@Override
 	public Long getQuantidadePorNome(String titulo){
 		return this.getSelecaoDAOIfc().getQuantidadePorNome(titulo);
+	}
+
+	@Override
+	public List<SelecaoBeans> buscarSelecoesAssociada(UsuarioBeans usuario, int inicio, int qtd) {
+		List<Selecao> result = this.getSelecaoDAOIfc().buscarSelecoesAssociada(usuario.getCodUsuario(), inicio, qtd); 
+	    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
+	    for (Selecao s : result) {
+	    	if (s.isDivulgada() || this.usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || s.getResponsaveis().contains((UsuarioDarwin) this.usuario.toBusiness()) ) {
+		    	selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+	    	}
+	    }
+	    return selecoes;
+	}
+
+	@Override
+	public Long getQuantidadeAssociada(UsuarioBeans usuario) {
+		return this.getSelecaoDAOIfc().getQuantidadeAssociada(usuario.getCodUsuario());
 	}
 }

@@ -335,7 +335,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	
 	@Override
     public List<SelecaoBeans> buscarSelecoesPorNome(String titulo, int inicio, int qtd){
-    	List<Selecao> result = this.getSelecaoDAOIfc().buscaSelecoesPorNome(titulo, inicio, qtd);
+    	List<Selecao> result = this.getSelecaoDAOIfc().buscarSelecoesPorNome(titulo, inicio, qtd);
 	    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
 	    for (Selecao s : result) {
 	    	if (s.isDivulgada() || this.usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || s.getResponsaveis().contains((UsuarioDarwin) this.usuario.toBusiness()) ) {

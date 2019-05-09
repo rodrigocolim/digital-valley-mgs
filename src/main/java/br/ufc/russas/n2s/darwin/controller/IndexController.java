@@ -90,7 +90,7 @@ public class IndexController {
     	
     	this.getSelecaoServiceIfc().setUsuario((UsuarioBeans)request.getSession().getAttribute("usuarioDarwin"));
     	
-        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().buscaSelecoesPorNome(titulo, ((pag - 1) * 5), 5) ;
+        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().buscarSelecoesPorNome(titulo, ((pag - 1) * 5), 5) ;
         Long qtdSelecoes = this.getSelecaoServiceIfc().getQuantidadePorNome(titulo);
         
         HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();

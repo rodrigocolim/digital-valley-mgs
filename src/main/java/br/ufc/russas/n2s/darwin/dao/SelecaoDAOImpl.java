@@ -374,7 +374,6 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
             
             Criteria c = session.createCriteria(Selecao.class);
             
-        	c.add(Restrictions.ilike("titulo", "%"+titulo+"%"));
         	c.add(Restrictions.eq("divulgada", true));
         	c.add(Restrictions.eq("deletada", false));
         	c.addOrder(Order.desc("codSelecao"));

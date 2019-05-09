@@ -2,8 +2,6 @@ package br.ufc.russas.n2s.darwin.dao;
 
 import java.util.List;
 
-import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
-import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 
@@ -59,12 +57,12 @@ public interface SelecaoDAOIfc {
     public List<Selecao> listaSelecoesIgnorandoBooleanos();
     
     //Novos
-    public List<SelecaoBeans> listaSelecoes(String categoria, EnumEstadoSelecao estado, int inicio, int qtd);
+    public List<Selecao> listaSelecoes(String categoria, EnumEstadoSelecao estado, int inicio, int qtd);
     public Long getQuantidade(String categoria, EnumEstadoSelecao estado);
     
-    public List<SelecaoBeans> buscarSelecoesPorNome(String titulo, int inicio, int qtd);
+    public List<Selecao> buscarSelecoesPorNome(String titulo, int inicio, int qtd);
     public Long getQuantidadePorNome(String titulo);
     
-    public List<SelecaoBeans> buscarSelecoesAssociada(UsuarioBeans usuario, int inicio, int qtd);
-    public Long getQuantidadeAssociada(UsuarioBeans usuario);
+    public List<Selecao> buscarSelecoesAssociada(Long usuario, int inicio, int qtd);
+    public Long getQuantidadeAssociada(Long usuario);
 }

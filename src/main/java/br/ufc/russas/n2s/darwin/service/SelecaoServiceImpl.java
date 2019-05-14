@@ -11,8 +11,8 @@ import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
 import br.ufc.russas.n2s.darwin.dao.SelecaoDAOIfc;
+import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
-import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.Etapa;
 import br.ufc.russas.n2s.darwin.model.EtapaPredicates;
 import br.ufc.russas.n2s.darwin.model.Participante;
@@ -321,9 +321,30 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 		List<Selecao> result = this.getSelecaoDAOIfc().listaSelecoes(categoria, estado, inicio, qtd);
 	    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
 	    for (Selecao s : result) {
-	    	if (s.isDivulgada() || this.usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || s.getResponsaveis().contains((UsuarioDarwin) this.usuario.toBusiness()) ) {
-		    	selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+	    	boolean mudou = false;
+	    	EnumEstadoSelecao novoEstado = s.getEstado().execute(s);
+	    	EnumEstadoEtapa estadoEtapaIns = s.getInscricao().getEstado().execute(s.getInscricao());
+	    	
+	    	if(novoEstado != s.getEstado() || estadoEtapaIns != s.getInscricao().getEstado()){
+	    		s.setEstado(s.getEstado().execute(s));
+	    		s.getInscricao().setEstado(estadoEtapaIns);
+	    		
+	    		mudou = true;
 	    	}
+	    	
+	    	List<Etapa> etapas = s.getEtapas();
+	    	for(Etapa e : etapas){
+	    		EnumEstadoEtapa estadoEtapa = s.getInscricao().getEstado().execute(s.getInscricao());
+	    		if(e.getEstado() != estadoEtapa){
+	    			e.setEstado(estadoEtapa);
+	    			mudou = true;
+	    		}
+	    	}
+	    	
+	    	if(mudou){
+	    		this.getSelecaoDAOIfc().atualizaSelecao(s);
+	    	}
+	    	selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
 	    }
 	    return selecoes;
 	}
@@ -338,9 +359,30 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     	List<Selecao> result = this.getSelecaoDAOIfc().buscarSelecoesPorNome(titulo, inicio, qtd);
 	    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
 	    for (Selecao s : result) {
-	    	if (s.isDivulgada() || this.usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || s.getResponsaveis().contains((UsuarioDarwin) this.usuario.toBusiness()) ) {
-		    	selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+	    	boolean mudou = false;
+	    	EnumEstadoSelecao novoEstado = s.getEstado().execute(s);
+	    	EnumEstadoEtapa estadoEtapaIns = s.getInscricao().getEstado().execute(s.getInscricao());
+	    	
+	    	if(novoEstado != s.getEstado() || estadoEtapaIns != s.getInscricao().getEstado()){
+	    		s.setEstado(s.getEstado().execute(s));
+	    		s.getInscricao().setEstado(estadoEtapaIns);
+	    		
+	    		mudou = true;
 	    	}
+	    	
+	    	List<Etapa> etapas = s.getEtapas();
+	    	for(Etapa e : etapas){
+	    		EnumEstadoEtapa estadoEtapa = s.getInscricao().getEstado().execute(s.getInscricao());
+	    		if(e.getEstado() != estadoEtapa){
+	    			e.setEstado(estadoEtapa);
+	    			mudou = true;
+	    		}
+	    	}
+	    	
+	    	if(mudou){
+	    		this.getSelecaoDAOIfc().atualizaSelecao(s);
+	    	}
+	    	selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
 	    }
 	    return selecoes;
     }
@@ -355,9 +397,30 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 		List<Selecao> result = this.getSelecaoDAOIfc().buscarSelecoesAssociada(usuario.getCodUsuario(), inicio, qtd); 
 	    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
 	    for (Selecao s : result) {
-	    	if (s.isDivulgada() || this.usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || s.getResponsaveis().contains((UsuarioDarwin) this.usuario.toBusiness()) ) {
-		    	selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
+	    	boolean mudou = false;
+	    	EnumEstadoSelecao novoEstado = s.getEstado().execute(s);
+	    	EnumEstadoEtapa estadoEtapaIns = s.getInscricao().getEstado().execute(s.getInscricao());
+	    	
+	    	if(novoEstado != s.getEstado() || estadoEtapaIns != s.getInscricao().getEstado()){
+	    		s.setEstado(s.getEstado().execute(s));
+	    		s.getInscricao().setEstado(estadoEtapaIns);
+	    		
+	    		mudou = true;
 	    	}
+	    	
+	    	List<Etapa> etapas = s.getEtapas();
+	    	for(Etapa e : etapas){
+	    		EnumEstadoEtapa estadoEtapa = s.getInscricao().getEstado().execute(s.getInscricao());
+	    		if(e.getEstado() != estadoEtapa){
+	    			e.setEstado(estadoEtapa);
+	    			mudou = true;
+	    		}
+	    	}
+	    	
+	    	if(mudou){
+	    		this.getSelecaoDAOIfc().atualizaSelecao(s);
+	    	}
+	    	selecoes.add((SelecaoBeans) new SelecaoBeans().toBeans(s));
 	    }
 	    return selecoes;
 	}

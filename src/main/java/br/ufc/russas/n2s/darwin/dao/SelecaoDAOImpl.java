@@ -412,10 +412,10 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
         	
         	List<Long> selecoesParticipando = new ArrayList<>();
         	String sqlParticipandoSelecao = "select distinct s.codselecao " +
-											"from darwin.participante as p " +
-											"inner join darwin.participantes_etapa as pe on (pe.participante = p.codparticipante) " +
-											"inner join darwin.etapas_selecao as es on (es.etapa = pe.etapa) " +
-											"inner join darwin.selecao as s on (s.codselecao = es.selecao) " +
+											"from darwin.selecao as s " +
+											"inner join darwin.etapa as e on (s.etapa_inscricao = e.codetapa) " + 
+											"inner join darwin.participantes_etapa as pe on (e.codetapa = pe.etapa) " + 
+											"inner join darwin.participante as p on (p.codparticipante = pe.participante) " +
 											"where p.candidato = ? and s.divulgada = 'true' and s.deletada = 'false';";
         	
         	

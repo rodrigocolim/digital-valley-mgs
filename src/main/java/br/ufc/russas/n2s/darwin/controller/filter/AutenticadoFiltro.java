@@ -1,12 +1,5 @@
 package br.ufc.russas.n2s.darwin.controller.filter;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.service.UsuarioServiceIfc;
@@ -37,17 +30,16 @@ import util.Facade;
  */
 public class AutenticadoFiltro implements Filter {
         
-        private UsuarioServiceIfc usuarioServiceIfc;
+    private UsuarioServiceIfc usuarioServiceIfc;
 
-        public UsuarioServiceIfc getUsuarioServiceIfc() {
-            return usuarioServiceIfc;
-        }
+    public UsuarioServiceIfc getUsuarioServiceIfc() {
+        return usuarioServiceIfc;
+    }
 
-        @Autowired(required = true)
-        public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc){
-            this.usuarioServiceIfc = usuarioServiceIfc;
-        }
-        
+    @Autowired(required = true)
+    public void setUsuarioServiceIfc(@Qualifier("usuarioServiceIfc")UsuarioServiceIfc usuarioServiceIfc){
+        this.usuarioServiceIfc = usuarioServiceIfc;
+    }
     
 	@Override
 	public void destroy() {

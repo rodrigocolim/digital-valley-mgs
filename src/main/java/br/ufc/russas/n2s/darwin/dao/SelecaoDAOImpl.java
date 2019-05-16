@@ -369,10 +369,12 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
         List<Selecao> selecoes = new ArrayList<>();
         try {
             List<Long> ids = getListaSelecoesAssociada(idUsuario);
-            for(int i = inicio; i < qtd && i < ids.size(); i++){
+            int qtdPorPagina = 0;
+            for(int i = inicio; qtdPorPagina < qtd && i < ids.size(); i++){
             	Selecao s = new Selecao();
             	s.setCodSelecao(ids.get(i));
             	selecoes.add(getSelecao(s));
+            	qtdPorPagina++;
             }
             
         } catch(RuntimeException e) {

@@ -48,20 +48,26 @@ public class Selecao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "codSelecao")
     private long codSelecao;
+    
     private String titulo;
+    
     @Column(columnDefinition = "TEXT")
     private String descricao;
+    
     @ManyToMany(targetEntity = UsuarioDarwin.class, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "responsaveis_selecao", joinColumns = {@JoinColumn(name = "selecao", referencedColumnName = "codSelecao")},
     inverseJoinColumns = {@JoinColumn(name = "usuario", referencedColumnName = "codUsuario")})
     private List<UsuarioDarwin> responsaveis;
+    
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "periodo", referencedColumnName = "codPeriodo")
     private Periodo periodo;
+    
     @ManyToOne(targetEntity = Etapa.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "etapa_inscricao", referencedColumnName = "codEtapa")
     private Etapa inscricao;
+    
     //@ManyToMany(targetEntity = Etapa.class,  cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @ManyToMany(targetEntity = Etapa.class,  cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)

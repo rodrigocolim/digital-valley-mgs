@@ -140,7 +140,7 @@ public class IndexController {
     }
     
     @RequestMapping(value="/minhas_Selecoes", method = RequestMethod.GET)
-    public String getMinhasSelecoes(@RequestParam(required=false, defaultValue = "0") int pag, Model model, HttpServletRequest request) {
+    public String getMinhasSelecoes(@RequestParam(required=false, defaultValue = "1") int pag, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         
@@ -151,6 +151,7 @@ public class IndexController {
         	selecoes = this.getSelecaoServiceIfc().listaSelecoes(null, null, ((pag - 1) * 5), 5);
         	qtdSelecoes = this.getSelecaoServiceIfc().getQuantidade(null, null);
         } else {
+        	if(pag <= 0){pag = 1;}
         	selecoes = this.getSelecaoServiceIfc().buscarSelecoesAssociada(usuario, ((pag - 1) * 5), 5);
         	qtdSelecoes = this.getSelecaoServiceIfc().getQuantidadeAssociada(usuario);
         }
@@ -160,7 +161,7 @@ public class IndexController {
         }
         
         model.addAttribute("qtdSelecoes", qtdSelecoes);
-        model.addAttribute("categoria", "Minhas seleções");
+        model.addAttribute("categoria", "minhas_Selecoes");
         model.addAttribute("selecoes", selecoes);
         model.addAttribute("agora", LocalDate.now());
         LocalDate.now().toEpochDay();

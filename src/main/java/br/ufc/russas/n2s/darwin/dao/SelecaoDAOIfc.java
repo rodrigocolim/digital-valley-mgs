@@ -64,5 +64,5 @@ public interface SelecaoDAOIfc {
     public Long getQuantidadePorNome(String titulo);
     
     public List<Selecao> buscarSelecoesAssociada(Long usuario, int inicio, int qtd);
-    public Long getQuantidadeAssociada(Long usuario);
+    public List<Long> getListaSelecoesAssociada(Long usuario);
 }

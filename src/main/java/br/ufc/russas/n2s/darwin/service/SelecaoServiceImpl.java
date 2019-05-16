@@ -20,6 +20,7 @@ import br.ufc.russas.n2s.darwin.model.ResultadoParticipanteSelecao;
 import br.ufc.russas.n2s.darwin.model.Selecao;
 import br.ufc.russas.n2s.darwin.model.SelecaoProxy;
 import br.ufc.russas.n2s.darwin.model.UsuarioDarwin;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -427,6 +428,7 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 
 	@Override
 	public Long getQuantidadeAssociada(UsuarioBeans usuario) {
-		return this.getSelecaoDAOIfc().getQuantidadeAssociada(usuario.getCodUsuario());
+		Integer qtd = this.getSelecaoDAOIfc().getListaSelecoesAssociada(usuario.getCodUsuario()).size();
+		return qtd.longValue();
 	}
 }

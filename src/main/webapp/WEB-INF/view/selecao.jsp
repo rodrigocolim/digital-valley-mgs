@@ -485,7 +485,7 @@
                             </div>
                         </li>                        
                     </c:if>
-                    <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">  
+                    <c:if test="${(isResponsavel and ((selecao.estado eq 'ESPERA') or (selecao.estado eq 'EMEDICAO'))) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">  
                         <li>
                             <a href="/Darwin/cadastrarEtapa/${selecao.codSelecao}" class="timeline-badge primary" >
                                 <i class="material-icons">add</i>

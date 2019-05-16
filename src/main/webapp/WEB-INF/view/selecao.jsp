@@ -73,7 +73,7 @@
                     <div class="jumbotron jumbotron-fluid" style="padding-top: 40px; padding-bottom: 30px; ">
                         <div class="container">
                             <h1 style="font-size: 20px; font-weight: bold;">Divulgue sua seleção!</h1><br>
-                            <p style="font-size: 15px;">Para permitir que os outros usuários tenham acesso a sua seleção, você precisa divulga-lá. Antes disso, verifique se as configurações da sua seleção estão de acordo com o edital. Você deseja divulgar a seleção?
+                            <p style="font-size: 15px;">Para permitir que os outros usuários tenham acesso à sua seleção, você precisa divulgá-la. Antes disso, verifique se as configurações da sua seleção estão de acordo com o edital. Você deseja divulgar a seleção?
                                 <input type="button" style="font-size: 15px;" class="btn btn-link" value="Divulgar a seleção" data-toggle="modal" data-target="#divulgar" >
                                 
                             </p>
@@ -137,7 +137,7 @@
 					      <a class="dropdown-item" href="/Darwin/editarSelecao/${selecao.codSelecao}"> <i class="fas fa-edit"></i> Editar seleção                   </a>
 					      <a class="dropdown-item" href="/Darwin/selecao/${selecao.codSelecao}/participantes"><i class="fas fa-users"></i> Participantes</a>
 					      <a class="dropdown-item" href="/Darwin/resultadoSelecao/${selecao.codSelecao}"><i class="fas fa-cog"></i> Cálculo Resultado</a>
-					      <a class="dropdown-item" href="" data-toggle="modal" data-target="#remover"><i class="fas fa-trash-alt"></i> Excluir Selecao</a>
+					      <a class="dropdown-item" href="" data-toggle="modal" data-target="#remover"><i class="fas fa-trash-alt"></i> Excluir Seleção</a>
 					      
 					    </div>
 					  </div>

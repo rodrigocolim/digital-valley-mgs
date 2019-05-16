@@ -52,7 +52,7 @@
                     <c:if test="${empty selecao.inscricao}">
                     <form id="form" method="POST" action="/Darwin/cadastrarEtapa/inscricao/${selecao.codSelecao}" accept-charset="UTF-8"  id="needs-validation" novalidate>
                     </c:if>    
-                        <label for="tituloInput">Titulo*</label>
+                        <label for="tituloInput">Título*</label>
                         <input type="text" name="titulo" value="${empty selecao.inscricao ? 'Inscrição': ''}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" ${empty selecao.inscricao ? 'readonly': ''} required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Inscrição</small>
                         <div class="invalid-feedback">
@@ -102,7 +102,7 @@
                         <!--  -->
                         <div class="card">
                             <div class="card-header col-auto">
-                                <label for="periodoRecursoInput">Período Destinado Para Recurso (caso tenha)</label>
+                                <label for="periodoRecursoInput">Período Destinado para Recurso (caso tenha)</label>
                             </div>
 		                    <div class="card-body">
                              <div class="form-row">
@@ -114,7 +114,7 @@
 		                                <div class="invalid-feedback">
 		                                </div>
 		                            </div>
-		                            <small id="periodoHelp" class="form-text text-muted">Caso esta etapa tenha a possibilidade de recurso, seleciona o período destinado para isso.</small>
+		                            <small id="periodoHelp" class="form-text text-muted">Caso esta etapa tenha a possibilidade de recurso, selecione o período destinado para isso.</small>
 		                        </div>
 	                        </div>
 	                        </div>
@@ -185,14 +185,14 @@
                                 <br>
                                 <label for="AvaliadoresInput">Avaliadores*</label>                           
                                 <div class="form-row">
-                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px" disabled>
+                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px" disabled onclick="adicionaAvaliador()">
                                         <option value="" selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
                                         <c:forEach items="${avaliadores}" var="avaliador">
                                             <option id="avaliadorOption-${avaliador.nome}" value="${avaliador.codUsuario}-${avaliador.nome}">${avaliador.nome}</option>
                                         </c:forEach>
                                     </select>
                                     &nbsp;&nbsp;
-                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar">                            
+                                    <!-- <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar">-->                            
                                 </div>
                                 <br>
                                 <ul class="list-group col-md-8 " id="listaAvaliadores">

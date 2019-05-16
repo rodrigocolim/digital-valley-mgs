@@ -51,14 +51,14 @@
 	                    </div>
 	                </c:if>              
                     <h1>Cálculo do Resultado</h1>
-                    <p>*A seguir são apresentadas apenas as etapas que foram definidas com nota no metodo de avaliação no momento do cadastro.</p>           
+                    <p>*A seguir são apresentadas apenas as etapas que foram definidas com nota no método de avaliação no momento do cadastro.</p>           
                    <br>
                     <div>
                          <form method="POST" action="/Darwin/resultadoSelecao/salvar/${selecao.codSelecao}" modelAttribute="resultadoSelecaoForm">
 	                        <table class="table table-bordered">
 								<tr>
 									<th>No. </th>
-									<th>Titulo da Etapa</th>
+									<th>Título da Etapa</th>
 									<th>Peso (0-10)</th>
 									<th>Prioridade (ordem)</th>
 									<th>Utilização Para Desempate</th>

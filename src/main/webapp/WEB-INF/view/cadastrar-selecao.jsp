@@ -46,8 +46,8 @@
                 <br>
                 <div class="form-group">
                     <form method="POST" action="cadastrarSelecao" accept-charset="UTF-8" enctype="multipart/form-data" id="needs-validation" novalidate> 
-                        <label for="tituloInput">Titulo*</label>
-                        <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um titulo para a seleção" value="${not (novaSelecao.titulo eq '') ? novaSelecao.titulo : ''}" required>
+                        <label for="tituloInput">Título*</label>
+                        <input type="text" name="titulo" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a seleção" value="${not (novaSelecao.titulo eq '') ? novaSelecao.titulo : ''}" required>
                         <small id="tituloHelp" class="form-text text-muted">Exemplo: Iniciação à Docência - 2018.1</small>
                         <div class="invalid-feedback">
                             
@@ -156,8 +156,8 @@
                         <hr/>                        
                         <label for="responsavelInput">Responsáveis</label>                           
                         <div class="form-row">
-                            <select id="responsavelInput" class="form-control col-md-8" style="margin-left: 3px">
-                                <option value="" selected="selected" disabled="disabled">Selecione os responsáveis por esta seleção</option>
+                            <select id="responsavelInput" class="form-control col-md-8" style="margin-left: 3px" onclick="adicionaResponsavel()">
+                                <option value="" selected="selected" disabled="disabled" >Selecione os responsáveis por esta seleção</option>
                             <c:forEach items="${responsaveis}" var="responsavel">
                             	<c:if test="${responsavel.codUsuario != usuarioDarwin.codUsuario}">
                             		<option id="responsavelOption-${responsavel.codUsuario}" value="${responsavel.codUsuario}-${responsavel.nome}">${responsavel.nome}</option>
@@ -166,7 +166,7 @@
                             </select>
                             
                             &nbsp;&nbsp;
-                            <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaResponsavel()" value="Adicionar">                            
+                           <!-- <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaResponsavel()" value="Adicionar"> -->                           
                         </div>
                         <br>
                         <ul class="list-group col-md-8" id="listaResponsaveis">

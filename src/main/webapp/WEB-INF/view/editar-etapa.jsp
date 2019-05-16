@@ -56,7 +56,7 @@
                     <form method="POST" action="/Darwin/editarEtapa/${selecao.codSelecao}/inscricao/${etapa.codEtapa}" accept-charset="UTF-8"  id="needs-validation" novalidate>
                     </c:if>    
                     
-                        <label for="tituloInput">Titulo*</label>
+                        <label for="tituloInput">Título*</label>
                         <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
                         
                         <br>
@@ -99,7 +99,7 @@
                          <!--  -->
                         <div class="card">
                             <div class="card-header col-auto">
-                                <label for="periodoRecursoInput">Período Destinado Para Recurso (caso tenha)</label>
+                                <label for="periodoRecursoInput">Período Destinado para Recurso (caso tenha)</label>
                             </div>
 		                    <div class="card-body">
                              <div class="form-row">
@@ -129,7 +129,7 @@
 		                        
 		                        </c:if>
 		                            
-		                            <small id="periodoHelp" class="form-text text-muted">Caso esta etapa tenha a possibilidade de recurso, seleciona o período destinado para isso.</small>
+		                            <small id="periodoHelp" class="form-text text-muted">Caso esta etapa tenha a possibilidade de recurso, selecione o período destinado para isso.</small>
 		                        </div>
 	                        </div>
 	                        </div>
@@ -150,7 +150,7 @@
                                 <ul class="list-group col-md-8 " id="listaDocumentos">
                                     <c:forEach var="documento" items="${etapa.documentacaoExigida}">
                                      <li class="list-group-item" >
-                                            <input type="hidden" name="documentosExigidos" value="${documento}" style="display: none;">${documento}<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumento(${documento})">clear</button>
+                                            <input type="hidden" name="documentosExigidos" value="${documento}" style="display: none;">${documento}<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumento('${documento}')">clear</button>
                                         </li>
                                     </c:forEach>
                                 </ul>
@@ -172,7 +172,7 @@
                                 <ul class="list-group col-md-8 " id="listaDocumentosOp">
                                     <c:forEach var="documentoOp" items="${etapa.documentacaoOpcional}">
                                      <li class="list-group-item" >
-                                            <input type="hidden" name="documentosOpcionais" value="${documentoOp}" style="display: none;">${documentoOp}<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumentoOp(${documentoOp})">clear</button>
+                                            <input type="hidden" name="documentosOpcionais" value="${documentoOp}" style="display: none;">${documentoOp}<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumentoOp('${documentoOp}')">clear</button>
                                         </li>
                                     </c:forEach>
                                 </ul>
@@ -206,14 +206,14 @@
                                 <br>
                                 <label for="AvaliadoresInput">Avaliadores*</label>                           
                                 <div class="form-row">
-                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px">
+                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px" onclick="adicionaAvaliador()">
                                         <option selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
                                         <c:forEach items="${usuarios}" var="usuario">
                                             <option id="avaliadorOption-${usuario.codUsuario}" value="${usuario.codUsuario}">${usuario.nome}</option>
                                         </c:forEach>
                                     </select>
                                     &nbsp;&nbsp;
-                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar"/>                            
+                                    <!--<input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar"/>-->                            
                                 </div>
                                 <br>
                                  <ul class="list-group col-md-8" id="listaAvaliadores"> 
@@ -343,6 +343,7 @@
             	nomeDocumentosOp[i] = "";
             }
         }
+        console.log(nomeDocumentosOp[i]);
         atualizaDocumentosOp();
     }
     

@@ -490,9 +490,10 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     					"from darwin.selecao as s " +
     					"inner join darwin.etapa as et on (s.etapa_inscricao = et.codetapa) " +
     					"inner join darwin.etapas_selecao as es on (s.codselecao = es.selecao) " +
-    					"where et.codetapa = ?;";
+    					"where et.codetapa = ? or es.etapa = ?;";
         	
-        	Query qry = session.createSQLQuery(sql).setLong(0, codEtapa);
+        	Query qry = session.createSQLQuery(sql).setLong(0, codEtapa)
+        											.setLong(1, codEtapa);
         	
         	try{
         		Object resultado = qry.uniqueResult();

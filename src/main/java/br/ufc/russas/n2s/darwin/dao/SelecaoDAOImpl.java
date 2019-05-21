@@ -489,7 +489,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
         	String sql=	"select distinct s.codselecao " +
     					"from darwin.selecao as s " +
     					"inner join darwin.etapa as et on (s.etapa_inscricao = et.codetapa) " +
-    					"inner join darwin.etapas_selecao as es on (s.codselecao = es.selecao) " +
+    					"left join darwin.etapas_selecao as es on (s.codselecao = es.selecao) " +
     					"where et.codetapa = ? or es.etapa = ?;";
         	
         	Query qry = session.createSQLQuery(sql).setLong(0, codEtapa)

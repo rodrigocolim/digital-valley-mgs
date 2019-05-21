@@ -43,11 +43,13 @@ public class Etapa implements Serializable {
 	@Column(name = "codEtapa")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long codEtapa;
+	
 	private String titulo;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "periodo", referencedColumnName = "codPeriodo")
 	private Periodo periodo;
+	
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	
@@ -74,8 +76,11 @@ public class Etapa implements Serializable {
 	@Column(name = "criterio_de_avaliacao")
 	@Enumerated(EnumType.ORDINAL)
 	private EnumCriterioDeAvaliacao criterioDeAvaliacao;
+	
 	private float pesoNota = 1;
+	
 	private boolean criterioDesempate;
+	
 	private int posiscaoCriterioDesempate;
 	
 	@ManyToMany(targetEntity = Avaliacao.class, fetch = FetchType.EAGER,cascade = CascadeType.ALL)
@@ -98,8 +103,11 @@ public class Etapa implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "prerequisito", referencedColumnName = "codEtapa")
 	private Etapa prerequisito;
+	
 	private float notaMinima;
+	
 	private int limiteClassificados;
+	
 	private boolean divulgadoResultado;
 	
 	@ManyToMany(targetEntity = Participante.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL) //tava CascadeType.ALL

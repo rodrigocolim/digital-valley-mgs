@@ -58,8 +58,10 @@ public class ResultadoEtapaController {
 	        if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
 	        	model.addAttribute("isResponsavel", true);
 	        }
-        return "/resultadoEtapa";
-        } else {return "error/404";}
+	        return "/resultadoEtapa";
+        } else {
+        	return "error/404";
+        }
     }
 	@RequestMapping(value = "/{codEtapa}/imprimir", method = RequestMethod.GET)
     public String imprimiresultadoDaEtapa(@PathVariable long codEtapa, Model model, HttpServletRequest request, HttpServletResponse response) {

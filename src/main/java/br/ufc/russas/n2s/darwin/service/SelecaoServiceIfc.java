@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
@@ -20,90 +15,28 @@ import java.util.List;
  */
 public interface SelecaoServiceIfc extends ServiceIfc{
 
-    /**
-     *
-     * @param selecao
-     * selecao - uma nova SelecaoBeans a ser armazenada
-     * @return SelecaoBeans
-     */
     public SelecaoBeans adicionaSelecao(SelecaoBeans selecao) throws IllegalAccessException;
     
-    /**
-     *
-     * @param selecao
-     * selecao - uma SelecaoBeans para ser atualizada
-     * @return SelecaoBeans
-     */
     public SelecaoBeans atualizaSelecao(SelecaoBeans selecao) throws IllegalAccessException;
 
-    /**
-     * @param selecao
-     * selecao - Uma SelecaoBeans a ser removida
-     */
     public void removeSelecao(SelecaoBeans selecao);
 
-
-    /**
-     * 
-     * @return List
-     */
     public List<SelecaoBeans> listaTodasSelecoes();
     
-    /**
-     * @param selecao
-     * @return List
-     */
     public List<SelecaoBeans> listaSelecoes(Selecao selecao);
     
-    /**
-     * 
-     * @param usuario
-     * @return List
-     */
     public List<SelecaoBeans> listaSelecoesAssociada(UsuarioBeans usuario);
     
-    /**
-     *
-     * @param codSelecao
-     * codSelecao - Identificador único da seleção que queira buscar
-     * @return SelecaoBeans
-     */
     public SelecaoBeans getSelecao(long codSelecao);
     
-     /**
-     *
-     * @param selecao
-     * 
-     */
     public EtapaBeans getEtapaAtual(SelecaoBeans selecao);
     
-     /**
-     *
-     * @param selecao
-     * 
-     */
     public EtapaBeans getUltimaEtapa(SelecaoBeans selecao);
+
+    public List<EtapaBeans> getEtapasNota(SelecaoBeans selecao);
     
-    /**
-    *
-    * @param selecao
-    * 
-    */
-   public List<EtapaBeans> getEtapasNota(SelecaoBeans selecao);
-    
-    /**
-     * 
-     * @param selecoes
-     * @return List
-     */
     public List<SelecaoBeans> ordenaSelecoesPorData(List<SelecaoBeans> selecoes);
     
-    /**
-     * 
-     * @param selecoes
-     * @return List
-     */
-
     public List<ResultadoParticipanteSelecaoBeans> getResultado(SelecaoBeans selecoes)  throws IllegalAccessException;
 
     public List<SelecaoBeans> listaTodasSelecoesDoBanco();
@@ -123,4 +56,7 @@ public interface SelecaoServiceIfc extends ServiceIfc{
     
     public List<SelecaoBeans> buscarSelecoesAssociada(UsuarioBeans usuario, int inicio, int qtd);
     public Long getQuantidadeAssociada(UsuarioBeans usuario);
+    
+    public SelecaoBeans getSelecaoDaEtapa(Long codEtapa);
+    
 }

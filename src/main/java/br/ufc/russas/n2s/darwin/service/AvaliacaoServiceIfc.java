@@ -13,9 +13,11 @@ import java.util.List;
  * @author Wallison Carlos
  */
 public interface AvaliacaoServiceIfc extends ServiceIfc{
+	
     public void removeAvaliacao(AvaliacaoBeans etapa);
     public List<AvaliacaoBeans> listaTodasAvaliacoes();
     public AvaliacaoBeans getAvaliacao(long codAvaliacao);
     public AvaliacaoBeans atualizarAvaliacao(AvaliacaoBeans avaliacao);
 	public AvaliacaoBeans adicionaAvaliacao(AvaliacaoBeans avaliacao);
+	
 }

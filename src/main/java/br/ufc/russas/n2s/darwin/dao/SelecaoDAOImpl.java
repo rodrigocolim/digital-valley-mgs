@@ -479,4 +479,42 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
         
         return selecoesTotal;
 	}
+
+	@Override
+	public Selecao getSelecao(Long codEtapa) {
+		Session session =  this.daoImpl.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        Selecao selecao = null;
+        try {
+        	String sql=	"select distinct s.codselecao " +
+    					"from darwin.selecao as s " +
+    					"inner join darwin.etapa as et on (s.etapa_inscricao = et.codetapa) " +
+    					"inner join darwin.etapas_selecao as es on (s.codselecao = es.selecao) " +
+    					"where et.codetapa = ?;";
+        	
+        	Query qry = session.createSQLQuery(sql).setLong(0, codEtapa);
+        	
+        	try{
+        		Object resultado = qry.uniqueResult();
+        		Long codSelecao = new BigInteger(resultado.toString()).longValue();
+        		
+        		Selecao temp = new Selecao();
+        		temp.setCodSelecao(codSelecao);
+        		
+        		selecao = getSelecao(temp);
+        	} catch(Exception e){
+        		System.err.println("Sem resultados");
+        	}
+        	
+            t.commit();
+            
+        } catch (RuntimeException ex) {
+            t.rollback();
+            throw ex;
+        } finally {
+            session.close();
+        }
+        
+        return selecao;
+	}
 }

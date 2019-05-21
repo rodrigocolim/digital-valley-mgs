@@ -65,4 +65,6 @@ public interface SelecaoDAOIfc {
     
     public List<Selecao> buscarSelecoesAssociada(Long usuario, int inicio, int qtd);
     public List<Long> getListaSelecoesAssociada(Long usuario);
+    
+    public Selecao getSelecao(Long codEtapa);
 }

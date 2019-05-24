@@ -78,7 +78,7 @@
 	                 <c:forEach var="documentoOp" items="${etapa.documentacaoOpcional}">
                         <input type="hidden" value="${etapa.codEtapa}" name="etapa">
                         <label for="${documentoOp}Input">${documentoOp}</label>
-                        <input type="file" name="arquivos" class="form-control" id="arquivoInput" aria-describedby="${documentoOp}Help" accept="application/pdf">
+                        <input type="file" onchange="tamanho(this)" name="arquivos" class="form-control" id="arquivoInput" aria-describedby="${documentoOp}Help" accept="application/pdf">
                         <input type="hidden" name="nomeDocumento" value="${documentoOp}" class="form-control">
                         <small id="tituloHelp" class="form-text text-muted">Tipo de arquivo .PDF</small>
                         <br>
@@ -146,7 +146,7 @@
 		function tamanho(elemento){
 	        var tamanhoArquivo = elemento.files[0].size;
 	        if(tamanhoArquivo > ${Constantes.getSizeFile()} ){
-	      		alert("TAMANHO DO ARQUIVO EXCEDE O PERMITIDO (" + ${Math.floor((Constantes.getSizeFile())/(1024*1024))} +"MB)!");
+	      		alert("Tamanho do arquivo excede o permitido (" + ${Math.floor((Constantes.getSizeFile())/(1024*1024))} +"MB)!");
 	      		elemento.value = '';
 	        }
 	    };

@@ -398,7 +398,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
 											"from darwin.selecao as s " +
 											"inner join darwin.responsaveis_selecao as rs on (s.codselecao = rs.selecao) " +
 											"inner join darwin.usuario as u on (u.codusuario = rs.usuario) " +
-											"where u.codusuario = ? and s.divulgada = 'true' and s.deletada = 'false';";
+											"where u.codusuario = ? and s.deletada = 'false';";
         	
         	qry = session.createSQLQuery(sqlResponsavelSelecao).setLong(0, idUsuario);
         													

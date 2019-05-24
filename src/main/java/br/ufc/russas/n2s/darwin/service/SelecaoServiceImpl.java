@@ -400,11 +400,14 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	    		this.atualizaEstado(s, novoEstado);
 	    	}
 	    	
-	    	EnumEstadoEtapa estadoEtapaIns = s.getInscricao().getEstado().execute(s.getInscricao());
-	    	if(estadoEtapaIns != s.getInscricao().getEstado()){
-	    		s.getInscricao().setEstado(estadoEtapaIns);
-	    		etapaDAOIfc.atualizaEtapa(s.getInscricao());
+	    	if(s.getInscricao() != null){
+	    		EnumEstadoEtapa estadoEtapaIns = s.getInscricao().getEstado().execute(s.getInscricao());
+		    	if(estadoEtapaIns != s.getInscricao().getEstado()){
+		    		s.getInscricao().setEstado(estadoEtapaIns);
+		    		etapaDAOIfc.atualizaEtapa(s.getInscricao());
+		    	}
 	    	}
+	    	
 	    	
 	    	List<Etapa> etapas = s.getEtapas();
 	    	for(Etapa e : etapas){

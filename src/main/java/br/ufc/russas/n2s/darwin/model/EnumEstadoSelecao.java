@@ -16,13 +16,8 @@ public enum EnumEstadoSelecao implements EstadoSelecao{
         @Override
         public EnumEstadoSelecao execute(Selecao selecao){
             boolean divulgada = selecao.isDivulgada();
-        	Etapa etapa = selecao.getInscricao();
-            if (etapa != null && !divulgada){
-                if(etapa.getPeriodo().getInicio().isAfter(LocalDate.now())){
-                	return this;
-                }else {
-                	return ESPERA.execute(selecao);
-                }
+            if (!divulgada){
+                return this;
             } else {
                 return ESPERA.execute(selecao);
             }

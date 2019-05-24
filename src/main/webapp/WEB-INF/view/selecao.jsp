@@ -260,7 +260,7 @@
                                         	<jsp:useBean id="now" class="java.util.Date" />
 											<fmt:formatDate var="dateAgora" value="${now}" pattern="ddMMyyyy" />
 											<fmt:formatDate value="${parseDataInicio}"  pattern="ddMMyyyy" var="Inicio"/>											                                      
-                                            <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA') and ((dateAgora < Inicio) or (not selecao.divulgada))) or (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) }">
+                                            <c:if test="${(isResponsavel and ((etapa.estado eq 'ESPERA') or (etapa.estado eq 'ANDAMENTO'))) or (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) }">
 	                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
 	                                               <i class="fas fa-edit"></i> Editar etapa
 	                                            </a>   
@@ -389,8 +389,8 @@
                                             Enviar documentação
                                         </a>
                                     </c:if>
-                                 
-                                    <c:if test="${((isResponsavel) and ((dateAgora < Inicio) or (not selecao.divulgada))) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
+                   
+                                    <c:if test="${((isResponsavel) and ((etapa.estado eq 'ESPERA') or (etapa.estado eq 'ANDAMENTO'))) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
                                         <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
                                            <i class="fas fa-edit"></i> Editar etapa
                                         </a>   

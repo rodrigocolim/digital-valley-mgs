@@ -133,8 +133,7 @@ public class ParticiparEtapaController {
         EtapaBeans inscricao = null;
         try {
         	
-        	int chave[] = new int[0];
-        	synchronized(chave) {
+        	synchronized(getClass()) {
 	            inscricao = this.etapaServiceIfc.getEtapa(codEtapa);
 	            SelecaoBeans selecao = this.etapaServiceIfc.getSelecao(inscricao);
 	            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");

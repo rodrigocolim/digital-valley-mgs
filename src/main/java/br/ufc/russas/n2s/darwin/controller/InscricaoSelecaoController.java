@@ -6,6 +6,8 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
+import util.Constantes;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -65,26 +67,31 @@ public class InscricaoSelecaoController extends HttpServlet {
                 List<ArquivoBeans> arquivos = Collections.synchronizedList(new ArrayList<ArquivoBeans>());
                 String valorCampo = "Documento";
                 for(int i=0;i<itens.size();i++){
-                     FileItem item = (FileItem) itens.get(i);
-                     //Escolhe o que vai fazer com os campos files
-                     if(item.get().length>0){
-                        File temp = File.createTempFile("temp", ".pdf");
-                        InputStream input = item.getInputStream();
-                        OutputStream output = new FileOutputStream(temp);
-                        int read = 0;
-                        byte[] bytes = new byte[10240];
-                        while ((read = input.read(bytes)) != -1) {
-                            output.write(bytes, 0, read);
-                        }
-                        ArquivoBeans documento = new ArquivoBeans();
-                        documento.setTitulo(valorCampo);
-                        documento.setData(LocalDateTime.now());
-                        documento.setArquivo(temp);
-                        arquivos.add(documento);
-                        output.flush();
-                        output.close();
-                        input.close();
-                     }
+					FileItem item = (FileItem) itens.get(i);
+					//Escolhe o que vai fazer com os campos files
+					if(item.getSize() <= Long.parseLong(Constantes.getSizeFile())){
+						if(item.get().length > 0){
+	                        File temp = File.createTempFile("temp", ".pdf");
+	                        InputStream input = item.getInputStream();
+	                        OutputStream output = new FileOutputStream(temp);
+	                        int read = 0;
+	                        byte[] bytes = new byte[10240];
+	                        while ((read = input.read(bytes)) != -1) {
+	                            output.write(bytes, 0, read);
+	                        }
+	                        ArquivoBeans documento = new ArquivoBeans();
+	                        documento.setTitulo(valorCampo);
+	                        documento.setData(LocalDateTime.now());
+	                        documento.setArquivo(temp);
+	                        arquivos.add(documento);
+	                        output.flush();
+	                        output.close();
+	                        input.close();
+	                     }
+					}
+					else{
+						throw new Exception("Tamanho do arquivo excede!");
+					}
                 }
                 
                 DocumentacaoBeans documentacao = new  DocumentacaoBeans();

@@ -176,7 +176,7 @@ public class SelecaoController {
     	UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
         if ((selecao.getResponsaveis().contains(usuario)) || (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR))) {
 	        model.addAttribute("selecao", selecao);
-	        model.addAttribute("participantesEtapa", selecao.getInscricao().getParticipantes());
+	        model.addAttribute("participantesEtapa", (selecao.getInscricao() != null ? selecao.getInscricao().getParticipantes() : new ArrayList<>()));
 	        return "participantes";
         } else {return "error/404";}
     }

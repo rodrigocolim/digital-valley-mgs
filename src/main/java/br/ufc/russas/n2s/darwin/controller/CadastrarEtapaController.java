@@ -114,6 +114,13 @@ public class CadastrarEtapaController {
 	            }
 	            etapa.setEstado(EnumEstadoEtapa.ESPERA);
 	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	            if((request.getParameter("dataInicio").equals(""))){
+	            	session.setAttribute("mensagem", "A data de início da etapa não foi informada");
+	                session.setAttribute("status", "danger");
+	                System.out.println("passou");
+	                return ("redirect:/cadastrarEtapa/"+codSelecao);
+	            }
+	            else {
 	            etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
 	            
 	            if (request.getParameter("dataInicioRecurso")!= null && (request.getParameter("dataInicioRecurso").length() >= 8 ) && request.getParameter("dataTerminoRecurso")!= null && (request.getParameter("dataTerminoRecurso").length() >= 8)) {
@@ -181,7 +188,7 @@ public class CadastrarEtapaController {
 	            session.setAttribute("mensagem", "Etapa cadastrada com sucesso!");
 	            session.setAttribute("status", "success");
 	            return ("redirect:/selecao/" + selecao.getCodSelecao());
-        	} else {
+        	}} else {
             	session.setAttribute("mensagem", "Selecione uma etapa para pré-requisito!");
                 session.setAttribute("status", "danger");
                 return ("redirect:/cadastrarEtapa/"+codSelecao);
@@ -226,7 +233,14 @@ public class CadastrarEtapaController {
             etapa.setEstado(EnumEstadoEtapa.ESPERA);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             
-            etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+            if((request.getParameter("dataInicio").equals(""))){
+            	session.setAttribute("mensagem", "A data de início da etapa não foi informada");
+                session.setAttribute("status", "danger");
+                System.out.println("passou");
+                return ("redirect:/cadastrarEtapa/"+codSelecao);
+            }else {
+            	etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
+            	
             if (request.getParameter("dataInicioRecurso")!= null && (request.getParameter("dataInicioRecurso").length() >= 8 ) && request.getParameter("dataTerminoRecurso")!= null && (request.getParameter("dataTerminoRecurso").length() >= 8)) {
             	Recurso recurso = new Recurso();
             	DateTimeFormatter formatte = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -290,7 +304,7 @@ public class CadastrarEtapaController {
             session.setAttribute("mensagem", "Etapa cadastrada com sucesso!");
             session.setAttribute("status", "success");
             return ("redirect:/selecao/" + selecao.getCodSelecao());
-        } catch (NullPointerException | NumberFormatException e) {
+            }} catch (NullPointerException | NumberFormatException e) {
         	session.setAttribute("mensagem", e.getMessage());
         	session.setAttribute("status", "danger");
             return "redirect:/cadastrarEtapa/"+codSelecao;

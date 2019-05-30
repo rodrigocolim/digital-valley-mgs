@@ -166,13 +166,18 @@
                             <div class="card-body">
                                 <br>
                                 <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
-                                <select name="criterioDeAvaliacao"   class="form-control col-md-8"  id="criterioInput" onchange="atualizaCampoNotaMinima()" required>
-                                    <option value="" selected="selected" disabled="disabled">Selecione o critério de avaliação dessa etapa</option>
-                                    <c:if test="${not empty selecao.inscricao}"> 
-                                    <option value="1">Nota</option>
-                                    <option value="2">Aprovação</option>
+                                <select name="criterioDeAvaliacao" class="form-control col-md-8"  id="criterioInput" onchange="atualizaCampoNotaMinima()" required>
+                                    
+                                    <c:if test="${not empty selecao.inscricao}">
+                                    	<option value="" selected="selected" disabled="disabled">Selecione o critério de avaliação dessa etapa</option> 
+	                                    <option value="1">Nota</option>
+	                                    <option value="2">Aprovação</option>
+	                                    <option value="3">Deferimento</option>
                                     </c:if>
-                                    <option value="3">Deferimento</option>
+                                    
+                                    <c:if test="${empty selecao.inscricao}">
+                                    	<option value="3" selected="selected">Deferimento</option>
+                                    </c:if>
                                 </select>
                                 <br>
                                 <span id="campoNotaMinima">

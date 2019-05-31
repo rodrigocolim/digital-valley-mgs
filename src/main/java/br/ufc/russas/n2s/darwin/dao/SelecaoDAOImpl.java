@@ -433,10 +433,11 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
         	}
         	
         	List<Long> selecoesAvaliadores = new ArrayList<>();
-        	String sqlAvaliadorSelecaoEtapas = 	"select distinct s.codselecao " +
+        	String sqlAvaliadorSelecaoEtapas = 	"select distinct s.codselecao " + 
 												"from darwin.selecao as s " +
-												"inner join darwin.etapas_selecao as es on (es.selecao = s.codselecao) " +
-												"inner join darwin.avaliadores as ava on (s.etapa_inscricao = ava.etapa or es.etapa = ava.etapa) " +
+												"inner join darwin.etapa as et on (s.etapa_inscricao = et.codetapa) " +
+												"left join darwin.etapas_selecao as es on (es.selecao = s.codselecao) " +
+												"inner join darwin.avaliadores as ava on (et.codetapa = ava.etapa or es.etapa = ava.etapa) " +
 												"where ava.avaliador = ? and s.divulgada = 'true' and s.deletada = 'false';";
         	
         	qry = session.createSQLQuery(sqlAvaliadorSelecaoEtapas).setLong(0, idUsuario);

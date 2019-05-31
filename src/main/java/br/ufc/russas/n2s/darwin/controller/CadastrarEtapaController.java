@@ -120,7 +120,12 @@ public class CadastrarEtapaController {
 	                System.out.println("passou");
 	                return ("redirect:/cadastrarEtapa/"+codSelecao);
 	            }
-	            else {
+	            else if((request.getParameter("dataTermino").equals(""))){
+	            	session.setAttribute("mensagem", "A data final da etapa não foi informada");
+	                session.setAttribute("status", "danger");
+	                System.out.println("passou");
+	                return ("redirect:/cadastrarEtapa/"+codSelecao);
+	            }else{
 	            etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
 	            
 	            if (request.getParameter("dataInicioRecurso")!= null && (request.getParameter("dataInicioRecurso").length() >= 8 ) && request.getParameter("dataTerminoRecurso")!= null && (request.getParameter("dataTerminoRecurso").length() >= 8)) {
@@ -238,7 +243,12 @@ public class CadastrarEtapaController {
                 session.setAttribute("status", "danger");
                 System.out.println("passou");
                 return ("redirect:/cadastrarEtapa/"+codSelecao);
-            }else {
+            }else if((request.getParameter("dataTermino").equals(""))){
+            	session.setAttribute("mensagem", "A data final da etapa não foi informada");
+                session.setAttribute("status", "danger");
+                System.out.println("passou");
+                return ("redirect:/cadastrarEtapa/"+codSelecao);
+            }else{
             	etapa.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
             	
             if (request.getParameter("dataInicioRecurso")!= null && (request.getParameter("dataInicioRecurso").length() >= 8 ) && request.getParameter("dataTerminoRecurso")!= null && (request.getParameter("dataTerminoRecurso").length() >= 8)) {

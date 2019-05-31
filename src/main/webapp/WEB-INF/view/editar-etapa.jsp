@@ -187,8 +187,8 @@
                             <div class="card-body">
                                 <c:if test="${tipo eq 'etapa'}">
                                     <br>
-                                    <label for="criterioDeAvaliacaoInput"><input type="checkbox" onclick="habilitaEdicao('criterioInput')"> Critério de Avaliação*</label>
-                                    <select name="criterio" class="form-control col-md-8"  class="criterioInput" id="criterioInput" onchange="atualizaCampoNotaMinima()" readonly="true" required>
+                                    <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
+                                    <select name="criterio" class="form-control col-md-8"  class="criterioInput" id="criterioInput" onchange="atualizaCampoNotaMinima()" required>
                                         <option ${(etapa.criterioDeAvaliacao.criterio == 1 ? "selected" : "")} value="1">Nota</option>
                                         <option ${(etapa.criterioDeAvaliacao.criterio == 2 ? "selected" : "")} value="2" >Aprovação</option>
                                         <option ${(etapa.criterioDeAvaliacao.criterio == 3 ? "selected" : "")} value="3" >Deferimento</option>
@@ -196,7 +196,7 @@
                                 </c:if>
                                 <span id="campoNotaMinima">
 									<c:if test="${etapa.criterioDeAvaliacao.criterio == 1}">
-										Nota mínima: <input type='text' name='notaMinima' value="${etapa.notaMinima}"style='width: 150px' class='form-control criterioInput' id="nota_minima" placeholder='Nota miníma requerida' readonly required>
+										Nota mínima: <input type='text' name='notaMinima' value="${etapa.notaMinima}" style='width: 150px' class='form-control criterioInput' id="nota_minima" placeholder='Nota miníma requerida' required>
 									</c:if>
                                 </span>
                                     
@@ -374,7 +374,8 @@
           document.getElementById("avaliadorOption-"+codAvaliador+"").disabled = "disabled";
           numAvaliadores++;
       }
-      document.getElementById("avaliadorInput").value = "";
+      document.getElementById("avaliadorInput").value = "Selecione os avaliadores desta etapa";
+      document.getElementById("avaliadorInput").disable = "";
       atualizaAvaliadores();
       
     }
@@ -453,7 +454,7 @@
     }
     function adicionaCampoNotaMinima(){
        if(document.getElementById("criterioInput").value === '1'){
-           document.getElementById("campoNotaMinima").innerHTML = "Nota mínima: <input type='text' name='notaMinima' style='width: 150px' class='form-control' placeholder='Nota miníma requerida' required>";
+           document.getElementById("campoNotaMinima").innerHTML = "Nota mínima: <input type='text' name='notaMinima' value='" + ${etapa.notaMinima} + "' style='width: 150px' class='form-control' placeholder='Nota miníma requerida' required>";
        }
   }
     function removeCampoNotaMinima(){

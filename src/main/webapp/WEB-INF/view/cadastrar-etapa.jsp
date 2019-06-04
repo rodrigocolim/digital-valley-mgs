@@ -50,7 +50,7 @@
                     <form method="POST" action="/Darwin/cadastrarEtapa/${selecao.codSelecao}" accept-charset="UTF-8" id="needs-validation" novalidate>
                     </c:if>
                     <c:if test="${empty selecao.inscricao}">
-                    <form id="form" method="POST" action="/Darwin/cadastrarEtapa/inscricao/${selecao.codSelecao}" accept-charset="UTF-8"  id="needs-validation" novalidate>
+                    <form method="POST" action="/Darwin/cadastrarEtapa/inscricao/${selecao.codSelecao}" accept-charset="UTF-8"  id="needs-validation" novalidate>
                     </c:if>    
                         <label for="tituloInput">Título*</label>
                         <input type="text" name="titulo" value="${empty selecao.inscricao ? 'Inscrição': ''}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" ${empty selecao.inscricao ? 'readonly': ''} required>
@@ -438,27 +438,22 @@
       }
       
       function verificarDescricao(){
-    	  let descricao_div = document.getElementsByClassName('cazary')[0];
+  		let descricao_div = document.getElementsByClassName('cazary')[0];
     	  
-    	  if(descricao_div != undefined){
-    		  let frame = descricao_div.getElementsByTagName('iframe')[0];
+    	  	if(descricao_div != undefined){
+    		  	let frame = descricao_div.getElementsByTagName('iframe')[0];
     		  
-    		  if(frame.contentDocument.getElementsByClassName('empty').length == 1 || frame.contentDocument.getElementsByTagName('body')[0].textContent.length === 0){
-    			  frame.contentDocument.getElementsByTagName('body')[0].className = 'empty';
+    		if(frame.contentDocument.getElementsByClassName('empty').length == 1 || frame.contentDocument.getElementsByTagName('body')[0].textContent.length === 0){
+    				frame.contentDocument.getElementsByTagName('body')[0].className = 'empty';
     			  
-    			  let selectEtapa = document.getElementById('etapaPreRequisito');
-    			  if(selectEtapa.selectedIndex === 0){
-    				  selectEtapa.setAttribute('style', 'border-color: red');//a borda do select nao esta de acordo com a cor setada
-    			  }
-    			  
-    			  descricao_div.setAttribute('style', 'border-color: red');
-    		  }
-    		  else{
-    			  descricao_div.setAttribute('style', '');
-    		  }
+    			  	descricao_div.setAttribute('style', 'border-color: red');
+    		}
+    		  	else{
+    			  	descricao_div.setAttribute('style', '');
+    		  	}
     		  
-    	  }
-      }
+    	  	}
+      }	
       
       function limparTextAreaDescricao(){
  	  	let descricao_div = document.getElementsByClassName('cazary')[0];

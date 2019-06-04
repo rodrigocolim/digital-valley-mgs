@@ -188,7 +188,7 @@
                                 </div>
 
                                 <br>
-                                <label for="AvaliadoresInput">Avaliadores*</label>                           
+                                <label for="AvaliadoresInput">Avaliadores</label>                           
                                 <div class="form-row">
                                     <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px" <c:if test="${not empty selecao.inscricao}"> disabled </c:if> onclick="adicionaAvaliador()">
                                         <option value="" selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>

@@ -139,7 +139,7 @@
                                 <br>
                                 
                                 <label for="aditivosInput">Aditivos</label>
-                                <div class="form-row">
+                                <div class="form-row" style="margin-left: 2px;">
                                     <input type="text" class="form-control col-md-4" id="nomeAditivoInput" placeholder=" Digite o titulo do aditivo da seleção">&nbsp; &nbsp;
                                     <input type="text" class="form-control col-md-6" id="linkAditivoInput" placeholder=" Adicione aqui o link para acesso deste aditivo">&nbsp;
                                     &nbsp;

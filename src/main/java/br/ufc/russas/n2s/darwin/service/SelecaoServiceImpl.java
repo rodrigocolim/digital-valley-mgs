@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufc.russas.n2s.darwin.service;
 
 import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
@@ -150,9 +145,34 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     @Override
     @Transactional(readOnly = true)
     public SelecaoBeans getSelecao(long codSelecao) {
-       Selecao selecao = new Selecao();
-       selecao.setCodSelecao(codSelecao);
-       return (SelecaoBeans) new SelecaoBeans().toBeans(this.getSelecaoDAOIfc().getSelecao(selecao));
+    	Selecao selecao = new Selecao();
+    	selecao.setCodSelecao(codSelecao);
+    	
+    	selecao = this.getSelecaoDAOIfc().getSelecao(selecao);
+   
+       	EnumEstadoSelecao novoEstado = selecao.getEstado().execute(selecao);
+		if(novoEstado != selecao.getEstado()){
+			this.atualizaEstado(selecao, novoEstado);
+		}
+		
+		if(selecao.getInscricao() != null){
+			EnumEstadoEtapa estadoEtapaIns = selecao.getInscricao().getEstado().execute(selecao.getInscricao());
+			if(estadoEtapaIns != selecao.getInscricao().getEstado()){
+				selecao.getInscricao().setEstado(estadoEtapaIns);
+				etapaDAOIfc.atualizaEtapa(selecao.getInscricao());
+			}
+		}
+		
+		List<Etapa> etapas = selecao.getEtapas();
+		for(Etapa e : etapas){
+			EnumEstadoEtapa estadoEtapa = e.getEstado().execute(e);
+			if(e.getEstado() != estadoEtapa){
+				e.setEstado(estadoEtapa);
+				etapaDAOIfc.atualizaEtapa(e);
+			}
+		}
+		
+		return (SelecaoBeans) new SelecaoBeans().toBeans(selecao);
     }
 
     @Override

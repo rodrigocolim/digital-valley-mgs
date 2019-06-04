@@ -56,9 +56,6 @@ public class SelecaoController {
     	this.etapaServiceIfc = etapaServiceIfc;
     }
     
-    public LogServiceIfc getLogServiceIfc() {
-    	return logServiceIfc;
-    }
     @Autowired
     public void setLogServiceIfc(@Qualifier("logServiceIfc")LogServiceIfc logServiceIfc) {
     	this.logServiceIfc = logServiceIfc;
@@ -88,6 +85,7 @@ public class SelecaoController {
     			}
     		}
         }
+        
         if (selecao.getResponsaveis().contains(usuario) || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
         	isResponsavel = true;
         }
@@ -95,6 +93,7 @@ public class SelecaoController {
         selecao.setEtapas(this.etapaServiceIfc.ordenaEtapasPorData(selecao.getEtapas()));
         model.addAttribute("isParticipante", isParticipante);
         model.addAttribute("isResponsavel", isResponsavel);
+        
         if (!selecao.isDivulgada()) {
             model.addAttribute("selecao", selecao);        
             model.addAttribute("etapaAtual", this.selecaoServiceIfc.getEtapaAtual(selecao));
@@ -166,7 +165,9 @@ public class SelecaoController {
 	 	        model.addAttribute("etapa", selecaoServiceIfc.getUltimaEtapa(selecao));
 	 	        return "resultado";
 	     	}
-    	} else { return "error/404";}
+    	} else { 
+    		return "error/404";
+    	}
     }
     
     @RequestMapping(value = "/{codSelecao}/participantes", method = RequestMethod.GET)
@@ -178,7 +179,9 @@ public class SelecaoController {
 	        model.addAttribute("selecao", selecao);
 	        model.addAttribute("participantesEtapa", (selecao.getInscricao() != null ? selecao.getInscricao().getParticipantes() : new ArrayList<>()));
 	        return "participantes";
-        } else {return "error/404";}
+        } else {
+        	return "error/404";
+        }
     }
     
         
@@ -195,7 +198,7 @@ public class SelecaoController {
     		
     			selecao.setDeletada(true);
     			selecaoServiceIfc.atualizaSelecao(selecao);
-    			this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" excluiu a seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
+    			logServiceIfc.adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" excluiu a seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
     			session.setAttribute("mensagem", "Seleção excluida com sucesso");
     			session.setAttribute("status", "success");
     			return ("redirect:/");
@@ -205,7 +208,9 @@ public class SelecaoController {
 	            return "selecao";
     		}
     		
-    	} else { return "error/404";}
+    	} else { 
+    		return "error/404";
+    	}
     }
     
     @RequestMapping(value = "/{codSelecao}/resultado", method = RequestMethod.POST)

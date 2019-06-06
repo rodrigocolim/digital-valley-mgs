@@ -84,16 +84,33 @@
                         </c:if>
                         <br> <br>
                         <label for="periodoInput"> Período*</label>
-                        <div id="sandbox-container">
-                            <div class="input-daterange input-group col-lg-6 align-left" style="padding-left: 0px;" id="datepicker">
-                                <fmt:parseDate value="${etapa.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicio" type="date" />
-                                <fmt:formatDate value="${parseDataInicio}"  pattern="dd/MM/yyyy" var="dataInicio" type="date"/>
-                                <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
-                                <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
-                                <input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" id="periodoInput1" name="dataInicio" value="${dataInicio}" required/>
-                                <span class="input-group-addon">até</span>
-                                <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" id="periodoInput2" name="dataTermino" value="${dataTermino}" required/>
-                            </div>
+                        <div id="sandbox-container" class="input-group col-lg-6 align-left" style="padding-left: 0px;">
+                        	<div 
+                        		<c:if test="${not empty selecao.inscricao and etapa.codEtapa != selecao.inscricao.codEtapa}">
+			                      class="input-daterange"
+			                    </c:if>
+                        	>
+                        		<fmt:parseDate value="${etapa.periodo.inicio}" pattern="yyyy-MM-dd" var="parseDataInicio" type="date" />
+			            		<fmt:formatDate value="${parseDataInicio}"  pattern="dd/MM/yyyy" var="dataInicio" type="date"/>
+                        		<input type="text" class="form-control text-left" placeholder="Digite a data de início desta etapa" id="periodoInput1"
+			                    <c:if test="${not empty selecao.inscricao and etapa.codEtapa == selecao.inscricao.codEtapa}">
+			                     readonly 
+			                    </c:if>  
+			                    <c:if test="${not empty selecao.inscricao and etapa.codEtapa != selecao.inscricao.codEtapa}">
+			                     name="dataInicio" required 
+			                    </c:if> 
+			                    value="${dataInicio}" style="width:271.05px;height:38px"/>
+                        	</div>
+                        	<div>
+                        	<span class="input-group-addon">até</span>
+                        	</div>
+			                <div class="input-daterange">
+			                    
+			                    <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
+			                    <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
+			                      
+			                    <input type="text" class="form-control text-left " placeholder="Digite a data de término desta etapa" id="periodoInput2" name="dataTermino" value="${dataTermino}" required style="width:271.05px;height:38px"/>
+			                </div>
                         </div>
                         <br>
                          <!--  -->

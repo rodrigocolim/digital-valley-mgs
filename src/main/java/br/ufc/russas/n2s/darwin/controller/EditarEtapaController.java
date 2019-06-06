@@ -8,7 +8,6 @@ import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
 import br.ufc.russas.n2s.darwin.model.Email;
 import br.ufc.russas.n2s.darwin.model.EnumCriterioDeAvaliacao;
 import br.ufc.russas.n2s.darwin.model.EnumEstadoEtapa;
-import br.ufc.russas.n2s.darwin.model.EnumEstadoSelecao;
 import br.ufc.russas.n2s.darwin.model.EnumPermissao;
 import br.ufc.russas.n2s.darwin.model.Log;
 import br.ufc.russas.n2s.darwin.model.Periodo;
@@ -128,11 +127,14 @@ public class EditarEtapaController {
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
             EtapaBeans etapaBeans= this.etapaServiceIfc.getEtapa(codEtapa);
-            if (etapaBeans.getEstado().equals(EnumEstadoEtapa.ANDAMENTO) && selecao.isDivulgada()) {throw new Exception("Etapa em andamento no pode ser editada.");}
+            
+            if (etapaBeans.getEstado().equals(EnumEstadoEtapa.ANDAMENTO)) {
+            	throw new Exception("Etapa em andamento no pode ser editada.");
+            }
             
             if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || selecao.getResponsaveis().contains(usuario)) {
             	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            	if (LocalDate.parse(request.getParameter("dataInicio"), formatter).isBefore(LocalDate.now()) && selecao.isDivulgada() && !etapaBeans.getEstado().equals(EnumEstadoEtapa.ESPERA)) {
+            	if (LocalDate.parse(request.getParameter("dataInicio"), formatter).isBefore(LocalDate.now()) && !etapaBeans.getEstado().equals(EnumEstadoEtapa.ESPERA)) {
             		throw new Exception("Após iniciada a etapa, apenas a data de término pode ser prorrogada.");
             	}
             	etapaBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
@@ -266,6 +268,7 @@ public class EditarEtapaController {
     public String atualizaInscricao(@PathVariable long codSelecao, @PathVariable long codInscricao, EtapaBeans inscricao, BindingResult result, Model model, HttpServletRequest request) {
     	HttpSession session = request.getSession();
     	try{
+    		
             UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
             SelecaoBeans selecao = this.getSelecaoServiceIfc().getSelecao(codSelecao);
             
@@ -273,24 +276,28 @@ public class EditarEtapaController {
             if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR) || selecao.getResponsaveis().contains(usuario)) {
             	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             	
-            	if(selecao.getEstado() != EnumEstadoSelecao.EMEDICAO){
-            		throw new Exception("A etapa " + inscricaoBeans.getTitulo() + " não pode ser editada pois a seleção não está em edição.");
-            	}
-            	if (LocalDate.parse(request.getParameter("dataInicio"), formatter).isBefore(LocalDate.now()) && selecao.isDivulgada()) {
-            		throw new Exception("Após iniciada a etapa, apenas a data de término pode ser prorrogada.");
-            	}
-            	
-            	if(selecao.getEtapas().size() > 0 && selecao.getEtapas().get(0)!=null && inscricaoBeans.getPeriodo().getTermino().isBefore(selecao.getEtapas().get(0).getPeriodo().getInicio())){
-            		session.setAttribute("selecao", selecao);
-    	            session.setAttribute("mensagem", "Etapa "+inscricaoBeans.getTitulo()+" não pode ter data de início igual ou após a data da "+selecao.getEtapas().get(0).getTitulo());
+        		PeriodoBeans periodoJaCadastrado =  inscricaoBeans.getPeriodo();
+        		PeriodoBeans novoPeriodo = new PeriodoBeans();
+        		
+        		novoPeriodo.setCodPeriodo(periodoJaCadastrado.getCodPeriodo());
+        		novoPeriodo.setInicio(periodoJaCadastrado.getInicio());
+        		novoPeriodo.setTermino(LocalDate.parse(request.getParameter("dataTermino"), formatter));
+        		
+        		
+        		if(selecao.getEtapas().size() > 0 && selecao.getEtapas().get(0) != null && (novoPeriodo.getTermino().isAfter(selecao.getEtapas().get(0).getPeriodo().getInicio()) || novoPeriodo.getTermino().isEqual(selecao.getEtapas().get(0).getPeriodo().getInicio()))){
+        			session.setAttribute("selecao", selecao);
+    	            session.setAttribute("mensagem", "Etapa " + inscricaoBeans.getTitulo() + " não pode ter data de termino igual ou após a data de início da " + selecao.getEtapas().get(0).getTitulo() + ".");
     	            session.setAttribute("status", "warning");
     	            return "redirect:/selecao/" + selecao.getCodSelecao();
-            	} else {
-            		inscricaoBeans.setPeriodo(new PeriodoBeans(0, LocalDate.parse(request.getParameter("dataInicio"), formatter), LocalDate.parse(request.getParameter("dataTermino"), formatter)));
-    	            if (request.getParameter("dataInicioRecurso")!= null && (request.getParameter("dataInicioRecurso").length() >= 8 ) && request.getParameter("dataTerminoRecurso")!= null && (request.getParameter("dataTerminoRecurso").length() >= 8)) {
+        		} else {
+
+            		inscricaoBeans.setPeriodo(novoPeriodo);
+            		
+    	            if (request.getParameter("dataInicioRecurso") != null && (request.getParameter("dataInicioRecurso").length() >= 8 ) && request.getParameter("dataTerminoRecurso") != null && (request.getParameter("dataTerminoRecurso").length() >= 8)) {
     	            	Recurso recurso = new Recurso();
-    	            	DateTimeFormatter formatte = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    	            	PeriodoBeans pb =new PeriodoBeans(0,LocalDate.parse(request.getParameter("dataInicioRecurso"), formatte), LocalDate.parse(request.getParameter("dataTerminoRecurso"), formatte));
+    	            	
+    	            	PeriodoBeans pb = new PeriodoBeans(0,LocalDate.parse(request.getParameter("dataInicioRecurso"), formatter), LocalDate.parse(request.getParameter("dataTerminoRecurso"), formatter));
+    	            	
     	            	recurso.setPeriodo((Periodo) pb.toBusiness());
     	            	inscricaoBeans.setRecurso(recurso);
     	            } else { 
@@ -369,9 +376,9 @@ public class EditarEtapaController {
     	            session.setAttribute("mensagem", "Etapa "+inscricaoBeans.getTitulo()+" atualizada com sucesso!");
     	            session.setAttribute("status", "success");
     	            return "redirect:/selecao/" + selecao.getCodSelecao();
-            	}
-	            
-	        } else {
+        		}
+
+            } else {
             	session.setAttribute("selecao", selecao);
             	session.setAttribute("mensagem", "Etapa já foi iniciada, não é mais possível realizar edições!");
 	            session.setAttribute("status", "warning");

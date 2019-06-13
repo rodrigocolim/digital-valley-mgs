@@ -341,7 +341,12 @@ public class EditarEtapaController {
         		PeriodoBeans novoPeriodo = new PeriodoBeans();
         		
         		novoPeriodo.setCodPeriodo(periodoJaCadastrado.getCodPeriodo());
-        		novoPeriodo.setInicio(periodoJaCadastrado.getInicio());
+        		if(selecao.isDivulgada()){
+        			novoPeriodo.setInicio(periodoJaCadastrado.getInicio());
+        		} else {
+        			novoPeriodo.setInicio(LocalDate.parse(request.getParameter("dataInicio"), formatter));
+        		}
+        		
         		novoPeriodo.setTermino(LocalDate.parse(request.getParameter("dataTermino"), formatter));
         		
         		

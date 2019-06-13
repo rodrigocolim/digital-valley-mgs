@@ -175,6 +175,7 @@ public class SelecaoController {
     	HttpSession session = request.getSession();
     	SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
     	UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+    	Collections.sort(selecao.getInscricao().getParticipantes());
         if ((selecao.getResponsaveis().contains(usuario)) || (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR))) {
 	        model.addAttribute("selecao", selecao);
 	        model.addAttribute("participantesEtapa", (selecao.getInscricao() != null ? selecao.getInscricao().getParticipantes() : new ArrayList<>()));

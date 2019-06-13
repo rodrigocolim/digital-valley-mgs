@@ -33,8 +33,8 @@
             <div class="col-sm-8">
                 <nav class="breadcrumb">
                     <span class="breadcrumb-item">Você está em:</span> 
-                    <a class="breadcrumb-item" href="/Darwin/">Início</a>
-                    <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
+                    <a class="breadcrumb-item" href="${pageContext.request.contextPath}/">Início</a>
+                    <a class="breadcrumb-item" href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
                     <a class="breadcrumb-item active" href="">Editar Etapa</a>
                 </nav>
             <c:if test="${not empty mensagem}">
@@ -50,10 +50,10 @@
                 <br>
                 <div class="form-group">
                     <c:if test="${tipo eq 'etapa'}">
-                    <form method="POST" action="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" accept-charset="UTF-8" id="needs-validation" novalidate>
+                    <form method="POST" action="${pageContext.request.contextPath}/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" accept-charset="UTF-8" id="needs-validation" novalidate>
                     </c:if>
                     <c:if test="${tipo eq 'inscricao'}">
-                    <form method="POST" action="/Darwin/editarEtapa/${selecao.codSelecao}/inscricao/${etapa.codEtapa}" accept-charset="UTF-8"  id="needs-validation" novalidate>
+                    <form method="POST" action="${pageContext.request.contextPath}/editarEtapa/${selecao.codSelecao}/inscricao/${etapa.codEtapa}" accept-charset="UTF-8"  id="needs-validation" novalidate>
                     </c:if>    
                     
                         <label for="tituloInput">Título*</label>
@@ -263,7 +263,7 @@
                         
 
                         <br>
-                        <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
+                        <a href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
                             Cancelar
                         </a>
                         <input type="button" value="Salvar" class="btn btn-primary" data-toggle="modal" data-target="#confirmarEtapa">

@@ -50,7 +50,7 @@
                 <nav class="breadcrumb">
                     <span class="breadcrumb-item">Você está em:</span> 
                     
-                    <a class="breadcrumb-item ${titulo eq 'Início' ? 'active': ''}" href="/Darwin/">Início</a>
+                    <a class="breadcrumb-item ${titulo eq 'Início' ? 'active': ''}" href="${pageContext.request.contextPath}/">Início</a>
                     <c:if test="${not (titulo eq 'Início')}"> 
                     	<a class="breadcrumb-item text-capitalize active" href="#">${titulo}</a>
                     </c:if>
@@ -75,15 +75,15 @@
                             <span>Filtrar</span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                        	<a class="dropdown-item" href="/Darwin/">Todas as seleções</a>
-                            <a class="dropdown-item" href="/Darwin/estado/aberta">Seleções abertas</a>
-                            <a class="dropdown-item" href="/Darwin/estado/andamento">Seleções em andamento</a>
-                            <a class="dropdown-item" href="/Darwin/estado/finalizada">Seleções finalizadas</a>
+                        	<a class="dropdown-item" href="${pageContext.request.contextPath}/">Todas as seleções</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/estado/aberta">Seleções abertas</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/estado/andamento">Seleções em andamento</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/estado/finalizada">Seleções finalizadas</a>
                         </div>
                     </div>
                     </c:if>
                 </div>
-                <form method="get" action="/Darwin/pesquisa">
+                <form method="get" action="${pageContext.request.contextPath}/pesquisa">
                 <div class="center">
 				  <div class="input-group mb-3" style="padding-top: 5px;">
 				  
@@ -140,7 +140,7 @@
                                 </c:if>
                             </p>
                             <c:set var = "nomeUrl" value = "${selecao.titulo}"/>
-                            <a href="/Darwin/selecao/${selecao.codSelecao}" class="card-link">Mais informações</a>
+                            <a href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}" class="card-link">Mais informações</a>
                         </div>
                     </div>
                 </c:forEach>
@@ -153,13 +153,13 @@
                 	
                      <ul class="pagination justify-content-center">
                         <li class="page-item ${pagina <= 1 ? "disabled" : ""}">
-                            <a class="page-link" href="/Darwin/${categoria}${pag}${pagina - 1}" tabindex="-1">Anterior</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/${categoria}${pag}${pagina - 1}" tabindex="-1">Anterior</a>
                         </li>
 	                    <c:forEach var="i" begin="1" end="${(qtdSelecoes/5) + (qtdSelecoes%5 == 0 ? 0 : 1)}">
-	                        <li class="page-item ${pagina == i ? "active": ""}"><a class="page-link" href="/Darwin/${categoria}${pag}${i}">${i}</a></li>
+	                        <li class="page-item ${pagina == i ? "active": ""}"><a class="page-link" href="${pageContext.request.contextPath}/${categoria}${pag}${i}">${i}</a></li>
 	                    </c:forEach>
                         <li class="page-item ${pagina >= qtdSelecoes/5 ? "disabled" : ""}">
-                            <a class="page-link" href="/Darwin/${categoria}${pag}${pagina + 1}">Próximo</a>
+                            <a class="page-link" href="${pageContext.request.contextPath}/${categoria}${pag}${pagina + 1}">Próximo</a>
                         </li>
                     </ul>
                     

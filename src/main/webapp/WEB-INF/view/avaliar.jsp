@@ -33,8 +33,8 @@
                 <div class="col-sm-8">
                     <nav class="breadcrumb">
                         <span class="breadcrumb-item">Você está em:</span> 
-                        <a class="breadcrumb-item" href="/Darwin/">Início</a>
-                        <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
+                        <a class="breadcrumb-item" href="${pageContext.request.contextPath}/">Início</a>
+                        <a class="breadcrumb-item" href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
                         <a class="breadcrumb-item active" href="#">Avaliar participantes</a>
                     </nav>
                 <c:if test="${not empty mensagem}">
@@ -107,11 +107,11 @@
 
                                                 <input type="hidden" name="participante" value="${participante.codParticipante}">
                                                 <div class="form-group">
-                                                    <label for="recipient-name" class="form-control-label">Documentação:</label><c:if test="${not empty etapa.documentacoes}"> <a href="/Darwin/avaliar/download/${etapa.codEtapa}/${participante.codParticipante}"> Download completo da documentação (.zip)</a></c:if>
+                                                    <label for="recipient-name" class="form-control-label">Documentação:</label><c:if test="${not empty etapa.documentacoes}"> <a href="${pageContext.request.contextPath}/avaliar/download/${etapa.codEtapa}/${participante.codParticipante}"> Download completo da documentação (.zip)</a></c:if>
                                                     <c:forEach var="documentacao" items="${etapa.documentacoes}">
                                                         <c:if test="${documentacao.candidato.codParticipante == participante.codParticipante}">
                                                             <c:forEach var="documento" items="${documentacao.documentos}">
-                                                    <p><b>${documento.titulo}:</b><a href="/Darwin/visualizarDocumentacao?selecao=${selecao.codSelecao}&etapa=${etapa.codEtapa}&documento=${documento.codArquivo}">Ver</a></p>
+                                                    <p><b>${documento.titulo}:</b><a href="${pageContext.request.contextPath}/visualizarDocumentacao?selecao=${selecao.codSelecao}&etapa=${etapa.codEtapa}&documento=${documento.codArquivo}">Ver</a></p>
                                                             </c:forEach>
                                                         </c:if>
                                                     </c:forEach>
@@ -165,7 +165,7 @@
                         </tbody>
 
                     </table>
-                    <a href="/Darwin/selecao/${selecao.codSelecao}" class="btn btn-secondary btn-sm">
+                    <a href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}" class="btn btn-secondary btn-sm">
                         Voltar
                     </a>
                 </div>

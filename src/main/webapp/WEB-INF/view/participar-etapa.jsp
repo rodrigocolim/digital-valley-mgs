@@ -31,9 +31,9 @@
             <div class="col-sm-8">
                 <nav class="breadcrumb">
                     <span class="breadcrumb-item">Você está em:</span> 
-                    <a class="breadcrumb-item" href="/Darwin/">Início</a>
-                    <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
-                	<a class="breadcrumb-item active" href="/Darwin/selecao/${selecao.codSelecao}">${etapa.titulo}</a>
+                    <a class="breadcrumb-item" href="${pageContext.request.contextPath}/">Início</a>
+                    <a class="breadcrumb-item" href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
+                	<a class="breadcrumb-item active" href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}">${etapa.titulo}</a>
                 </nav>
                 <c:set var="mensagem" value="${sessionScope.mensagem}"></c:set>
                 <c:if test="${not empty mensagem}">
@@ -85,7 +85,7 @@
                     </c:forEach>
                     
                     
-                        <a href="/Darwin/selecao/${selecao.codSelecao}" class="btn btn-secondary btn-sm">
+                        <a href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}" class="btn btn-secondary btn-sm">
                             Cancelar
                         </a>
                         <c:if test="${not isParticipante}">

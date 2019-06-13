@@ -31,8 +31,8 @@
                 <div class="col-sm-8">
                     <nav class="breadcrumb">
                         <span class="breadcrumb-item">Você está em:</span> 
-                        <a class="breadcrumb-item" href="/Darwin/">Início</a>
-                        <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
+                        <a class="breadcrumb-item" href="${pageContext.request.contextPath}/">Início</a>
+                        <a class="breadcrumb-item" href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
                         <a class="breadcrumb-item active" href="#">Resultado</a>
                     </nav>
                 <c:if test="${not empty mensagem}">
@@ -47,7 +47,7 @@
                     <br>
                     <c:if test="${(isResponsavel)}">
 	                    <div class="form-check" style="float: right;" title="Ao selecionar este campo, os participantes poderão visualizar suas notas.">
-		                    <form method="POST" id="showNote" action="/Darwin/selecao/${selecao.codSelecao}/resultado">
+		                    <form method="POST" id="showNote" action="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}/resultado">
 							  <input class="form-check-input" type="checkbox" name="exibirNotas" onclick="atualizaExibirNotas('showNote')" value="" id="defaultCheck1" ${(selecao.exibirNotas) ? 'checked': ''} >
 							    Exibir notas ao divulgar o resultado   
 							</form>
@@ -106,14 +106,14 @@
                     <c:set var="estado" value="${selecao.estado.estado}"></c:set>
                     <c:if test="${estado == 4}">
 	                    <c:if test="${(not selecao.divulgadoResultado) and ((fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)))}">
-	                    	<a href="/Darwin/resultadoSelecao/${selecao.codSelecao}/divulgaResultado" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultados">
+	                    	<a href="${pageContext.request.contextPath}/resultadoSelecao/${selecao.codSelecao}/divulgaResultado" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultados">
 								<i class="fas fa-bullhorn"></i> Divulgar Resultado
 							</a>
 	                    </c:if>
 	                    <c:if test="${(selecao.divulgadoResultado) and ((fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)))}">
 	                    	<button disabled class="btn btn-secondary btn-sm" role="button" aria-pressed="true"><i class="fas fa-user-check"></i> Divulgado</button>
 	                    </c:if>
-						<a href="/Darwin/resultadoSelecao/${selecao.codSelecao}/imprimir" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" >
+						<a href="${pageContext.request.contextPath}/resultadoSelecao/${selecao.codSelecao}/imprimir" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" >
 							<i class="fas fa-file-pdf"></i> Gerar PDF
 						</a>
 						<!-- divulgação de resultados -->
@@ -131,7 +131,7 @@
 	                                </div>
 	                                <div class="modal-footer">
 	                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-	                                    <a class="btn btn-sm btn-primary" href="/Darwin/resultadoSelecao/${selecao.codSelecao}/divulgaResultado"> Continuar</a>
+	                                    <a class="btn btn-sm btn-primary" href="${pageContext.request.contextPath}/resultadoSelecao/${selecao.codSelecao}/divulgaResultado"> Continuar</a>
 	                                </div>
 	                            </div>
 	                        </div>
@@ -140,7 +140,7 @@
 					<c:if test="${estado != 4}">
 						<div class="text-center">
 							<p >Os resultados aparecerão após a finalização da última etapa</p>
-							<a href="/Darwin/selecao/${selecao.codSelecao}" type="button" id="enviar" class="btn btn-secondary">
+							<a href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}" type="button" id="enviar" class="btn btn-secondary">
 	                           	<i class="fas fa-arrow-left"></i> Voltar
 	                       	</a>
                        	</div>

@@ -43,7 +43,7 @@
                 <div class="col-sm-8">
                     <nav class="breadcrumb">
                         <span class="breadcrumb-item">Você está em:</span> 
-                        <a class="breadcrumb-item" href="/Darwin/">Início</a>
+                        <a class="breadcrumb-item" href="${pageContext.request.contextPath}/">Início</a>
                         <a class="breadcrumb-item active" href="${selecao.codSelecao}">${selecao.titulo}</a>
                     </nav>
                 <c:set var="mensagem" value="${sessionScope.mensagem}"></c:set>
@@ -63,7 +63,7 @@
                         <div class="container">
                             <h1 style="font-size: 20px; font-weight: bold;">Cadastre a primeira etapa da sua seleção!</h1><br>
                             <p style="font-size: 15px;">Para iniciar sua seleção é necessário o cadastro da etapa de inscrição. Você deseja cadastrar a etapa de inscrição? &nbsp;
-                                <a href="/Darwin/cadastrarEtapa/${selecao.codSelecao}"> Cadastrar etapa de inscrição </a>
+                                <a href="${pageContext.request.contextPath}/cadastrarEtapa/${selecao.codSelecao}"> Cadastrar etapa de inscrição </a>
                             </p>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-                                    <a class="btn btn-sm btn-primary" href="/Darwin/editarSelecao/divulga/${selecao.codSelecao}"> Divulgar a seleção</a>
+                                    <a class="btn btn-sm btn-primary" href="${pageContext.request.contextPath}/editarSelecao/divulga/${selecao.codSelecao}"> Divulgar a seleção</a>
                                 </div>
                             </div>
                         </div>
@@ -120,11 +120,11 @@
                 <br/>
                 <div class="row" style="padding-left: 15px;">
                     <h1 class="text-uppercase" style="font-size: 20px;">${selecao.titulo}</h1>
-                    <a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=edital" target="_blank" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;" >
+                    <a href="${pageContext.request.contextPath}/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=edital" target="_blank" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;" >
                         <i class="fas fa-file-pdf"></i><span> Visualizar Edital</span>
                     </a>
                 <c:if test="${((isResponsavel) or (fn:contains(permissoes, 'ADMINISTRADOR'))) or (selecao.divulgadoResultado)}">
-                    <a href="/Darwin/selecao/${selecao.codSelecao}/resultado" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
+                    <a href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}/resultado" class="btn btn-primary btn-sm" style="height: 33px;margin-left: 30px;margin-top: -4px;">
                         <i class="fas fa-eye"></i> Resultado
                     </a>                    
                 </c:if>
@@ -134,9 +134,9 @@
 					    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="
    						 height: 33px; margin-left: 30px; margin-top: -4px;"><i class="fas fa-list-ul"></i> Mais opções </button>
 					    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
-					      <a class="dropdown-item" href="/Darwin/editarSelecao/${selecao.codSelecao}"> <i class="fas fa-edit"></i> Editar seleção                   </a>
-					      <a class="dropdown-item" href="/Darwin/selecao/${selecao.codSelecao}/participantes"><i class="fas fa-users"></i> Participantes</a>
-					      <a class="dropdown-item" href="/Darwin/resultadoSelecao/${selecao.codSelecao}"><i class="fas fa-cog"></i> Cálculo Resultado</a>
+					      <a class="dropdown-item" href="${pageContext.request.contextPath}/editarSelecao/${selecao.codSelecao}"> <i class="fas fa-edit"></i> Editar seleção                   </a>
+					      <a class="dropdown-item" href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}/participantes"><i class="fas fa-users"></i> Participantes</a>
+					      <a class="dropdown-item" href="${pageContext.request.contextPath}/resultadoSelecao/${selecao.codSelecao}"><i class="fas fa-cog"></i> Cálculo Resultado</a>
 					      <a class="dropdown-item" href="" data-toggle="modal" data-target="#remover"><i class="fas fa-trash-alt"></i> Excluir Seleção</a>
 					      
 					    </div>
@@ -158,7 +158,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-                                    <a class="btn btn-sm btn-primary" href="/Darwin/selecao/${selecao.codSelecao}/remover"> Remover seleção</a>
+                                    <a class="btn btn-sm btn-primary" href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}/remover"> Remover seleção</a>
                                 </div>
                             </div>
                         </div>
@@ -251,7 +251,7 @@
                                         <hr>
                                         <c:if test="${not (isParticipante)}">
 	                                        <c:if test="${(estadoInscricao == 2) and (not isResponsavel) and (not fn:contains(permissoes, 'ADMINISTRADOR')) and (not fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
-	                                            <a href="/Darwin/participarEtapa/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" role="button" aria-pressed="true"><i class="fas fa-user-edit"></i> Inscrever-se</a>
+	                                            <a href="${pageContext.request.contextPath}/participarEtapa/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" role="button" aria-pressed="true"><i class="fas fa-user-edit"></i> Inscrever-se</a>
 	                                        </c:if>
                                         </c:if>
                                         <c:if test="${(isParticipante)}">
@@ -261,13 +261,13 @@
 											<fmt:formatDate var="dateAgora" value="${now}" pattern="ddMMyyyy" />
 											<fmt:formatDate value="${parseDataInicio}"  pattern="ddMMyyyy" var="Inicio"/>											                                      
                                             <c:if test="${(isResponsavel and ((etapa.estado eq 'ESPERA') or (etapa.estado eq 'ANDAMENTO'))) or (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) }">
-	                                            <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
+	                                            <a href="${pageContext.request.contextPath}/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
 	                                               <i class="fas fa-edit"></i> Editar etapa
 	                                            </a>   
 	                                        </c:if>
                                        	
                                         <c:if test="${((estadoInscricao == 2) or (estadoInscricao == 3)) and (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
-                                            <a href="/Darwin/avaliar/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+                                            <a href="${pageContext.request.contextPath}/avaliar/inscricao/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                                 <i class="fas fa-clipboard-check"></i> Avaliação
                                             </a>
                                         </c:if>
@@ -286,7 +286,7 @@
 												</a>
 											</c:if>
 											<c:if test="${not pendente}">
-											<a href="/Darwin/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+											<a href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
 												Divulgar Resultado
 											</a>
 											</c:if>
@@ -305,14 +305,14 @@
 						                                </div>
 						                                <div class="modal-footer">
 						                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-						                                    <a class="btn btn-sm btn-primary" href="/Darwin/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}"> Continuar</a>
+						                                    <a class="btn btn-sm btn-primary" href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}"> Continuar</a>
 						                                </div>
 						                            </div>
 						                        </div>
 						                    </div>
 										</c:if>
                                         <c:if test="${(selecao.inscricao.divulgadoResultado) and (not empty selecao.inscricao.avaliacoes)}">
-	                                        <a href="/Darwin/resultadoEtapa/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+	                                        <a href="${pageContext.request.contextPath}/resultadoEtapa/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
 	                                            <i class="fas fa-eye"></i> Ver Resultado
 	                                        </a>
                                         </c:if> 
@@ -385,18 +385,18 @@
                                         </c:if>
                                     <hr>
                                     <c:if test="${(not empty etapa.documentacaoExigida) and (estado == 2) and (fn:contains(classificados[etapa.codEtapa], sessionScope.usuarioDarwin)) }">
-                                        <a href="/Darwin/participarEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+                                        <a href="${pageContext.request.contextPath}/participarEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                             Enviar documentação
                                         </a>
                                     </c:if>
                    
                                     <c:if test="${((isResponsavel) and ((etapa.estado eq 'ESPERA') or (etapa.estado eq 'ANDAMENTO'))) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
-                                        <a href="/Darwin/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
+                                        <a href="${pageContext.request.contextPath}/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm" style="height: 30px;">
                                            <i class="fas fa-edit"></i> Editar etapa
                                         </a>   
                                     </c:if>
                                     <c:if test="${(isResponsavel and (selecao.estado eq 'ESPERA')) or (fn:contains(permissoes, 'ADMINISTRADOR')) and (dateAgora < Inicio)  }">
-                                        <a href="/Darwin/removerEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#removerEtapa-${etapa.codEtapa}" style="height: 30px;">
+                                        <a href="${pageContext.request.contextPath}/removerEtapa/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#removerEtapa-${etapa.codEtapa}" style="height: 30px;">
                                            <i class="fas fa-trash-alt"></i> Remover etapa
                                         </a>
                                     </c:if>
@@ -415,14 +415,14 @@
 					                                </div>
 					                                <div class="modal-footer">
 					                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-					                                    <a class="btn btn-sm btn-primary" href="/Darwin/editarEtapa/removerEtapa/${selecao.codSelecao}/${etapa.codEtapa}"> Continuar</a>
+					                                    <a class="btn btn-sm btn-primary" href="${pageContext.request.contextPath}/editarEtapa/removerEtapa/${selecao.codSelecao}/${etapa.codEtapa}"> Continuar</a>
 					                                </div>
 					                            </div>
 					                        </div>
 					                    </div>
 					                   <!-- remover etapa -->
                                     <c:if test="${((estado == 2) or (estado == 3)) and (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
-                                        <a href="/Darwin/avaliar/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+                                        <a href="${pageContext.request.contextPath}/avaliar/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                             <i class="fas fa-clipboard-check"></i> Avaliação
                                         </a>
                                     </c:if>
@@ -439,7 +439,7 @@
 												</a>
 											</c:if>
 											<c:if test="${not pendente}">
-												<a href="/Darwin/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+												<a href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
 													<i class="fas fa-bullhorn"></i> Divulgar Resultado
 												</a>
 											</c:if>
@@ -459,14 +459,14 @@
 						                                </div>
 						                                <div class="modal-footer">
 						                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-						                                    <a class="btn btn-sm btn-primary" href="/Darwin/editarEtapa/divulgarResultado/${selecao.codSelecao}/${etapa.codEtapa}"> Continuar</a>
+						                                    <a class="btn btn-sm btn-primary" href="${pageContext.request.contextPath}/editarEtapa/divulgarResultado/${selecao.codSelecao}/${etapa.codEtapa}"> Continuar</a>
 						                                </div>
 						                            </div>
 						                        </div>
 						                    </div>
 									</c:if>
                                     <c:if test="${(etapa.divulgadoResultado) and ((isResponsavel and (estado == 3)) or (fn:contains(permissoes, 'ADMINISTRADOR') and (estado == 3)) or (fn:contains(permissoes, 'PARTICIPANTE') and (estado == 3)))}">
-                                     	<a href="/Darwin/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+                                     	<a href="${pageContext.request.contextPath}/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
                                            <i class="fas fa-eye"></i> Ver Resultado
                                         </a>
                                     </c:if>
@@ -487,7 +487,7 @@
                     </c:if>
                     <c:if test="${(isResponsavel and ((selecao.estado eq 'ESPERA') or (selecao.estado eq 'EMEDICAO'))) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">  
                         <li>
-                            <a href="/Darwin/cadastrarEtapa/${selecao.codSelecao}" class="timeline-badge primary" >
+                            <a href="${pageContext.request.contextPath}/cadastrarEtapa/${selecao.codSelecao}" class="timeline-badge primary" >
                                 <i class="material-icons">add</i>
                             </a>
                         </li>                        
@@ -507,7 +507,7 @@
 	                            <li class="list-group-item disabled">
 	                                <fmt:parseDate value="${aditivo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
 	                                <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
-	                                <a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=aditivo&aditivo=${aditivo.codArquivo}" target="_blank">(${dataAditivo}) ${aditivo.titulo}</a>
+	                                <a href="${pageContext.request.contextPath}/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=aditivo&aditivo=${aditivo.codArquivo}" target="_blank">(${dataAditivo}) ${aditivo.titulo}</a>
 	                            </li>
 	                        </c:forEach>
 	                    </ul>
@@ -524,7 +524,7 @@
 	                            <li class="list-group-item disabled">
 	                                <fmt:parseDate value="${anexo.data}" pattern="yyyy-MM-dd" var="parseData" type="date" />
 	                                <fmt:formatDate value="${parseData}"  pattern="dd/MM/yyyy" var="dataAditivo" type="date"/>
-	                                <a href="/Darwin/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=anexo&anexo=${anexo.codArquivo}" target="_blank">(${dataAditivo}) ${anexo.titulo}</a>
+	                                <a href="${pageContext.request.contextPath}/visualizarArquivo?selecao=${selecao.codSelecao}&tipo=anexo&anexo=${anexo.codArquivo}" target="_blank">(${dataAditivo}) ${anexo.titulo}</a>
 	                            </li>
 	                        </c:forEach>
 	                    </ul>

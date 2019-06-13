@@ -29,7 +29,7 @@
                 <nav aria-label="breadcrumb" role="navigation">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">Você está em: </li>
-                        <li class="breadcrumb-item" aria-current="page"><a href="/Darwin/">Início</a></li>
+                        <li class="breadcrumb-item" aria-current="page"><a href="${pageContext.request.contextPath}/">Início</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Cadastrar Seleção</li>
                     </ol>
                 </nav>
@@ -173,7 +173,7 @@
                         </ul>
 
                         <br>
-                        <a href="/Darwin" type="button" id="enviar" class="btn btn-secondary">
+                        <a href="${pageContext.request.contextPath}" type="button" id="enviar" class="btn btn-secondary">
                             Cancelar
                         </a>
                         <input type="button"  class="btn btn-primary" value="Salvar e Continuar" data-toggle="modal" data-target="#confirmarSelecao" >

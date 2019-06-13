@@ -38,8 +38,8 @@
                 <div class="col-sm-8">
                     <nav class="breadcrumb">
                         <span class="breadcrumb-item">Você está em:</span> 
-                        <a class="breadcrumb-item" href="/Darwin/">Início</a>
-                        <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
+                        <a class="breadcrumb-item" href="${pageContext.request.contextPath}/">Início</a>
+                        <a class="breadcrumb-item" href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
                         <a class="breadcrumb-item active" href="#">Resultado</a>
                     </nav>
 	                <c:if test="${not empty mensagem}">
@@ -54,7 +54,7 @@
                     <p>*A seguir são apresentadas apenas as etapas que foram definidas com nota no método de avaliação no momento do cadastro.</p>           
                    <br>
                     <div>
-                         <form method="POST" action="/Darwin/resultadoSelecao/salvar/${selecao.codSelecao}" modelAttribute="resultadoSelecaoForm">
+                         <form method="POST" action="${pageContext.request.contextPath}/resultadoSelecao/salvar/${selecao.codSelecao}" modelAttribute="resultadoSelecaoForm">
 	                        <table class="table table-bordered">
 								<tr>
 									<th>No. </th>
@@ -78,13 +78,13 @@
 							<c:if test="${empty resultadoSelecaoForm.etapas}">
 								<div class="text-center">
 									<p >Esta seleção não possui etapas com o critério de aprovação por notas definido.</p>
-									<a href="/Darwin/selecao/${selecao.codSelecao}" type="button" id="enviar" class="btn btn-secondary">
+									<a href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}" type="button" id="enviar" class="btn btn-secondary">
 		                            	<i class="fas fa-arrow-left"></i> Voltar
 		                        	</a>
 	                        	</div>
 							</c:if>
 							<c:if test="${not empty resultadoSelecaoForm.etapas}">	
-								<a href="/Darwin/selecao/${selecao.codSelecao}" type="button" id="enviar" class="btn btn-secondary">
+								<a href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}" type="button" id="enviar" class="btn btn-secondary">
 	                            Voltar
 	                        	</a>
 								<input class="btn btn-primary" type="submit" value="Salvar" />

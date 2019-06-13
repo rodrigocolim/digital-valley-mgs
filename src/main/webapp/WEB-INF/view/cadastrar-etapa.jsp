@@ -30,8 +30,8 @@
             <div class="col-sm-8">
                 <nav class="breadcrumb">
                     <span class="breadcrumb-item">Você está em:</span> 
-                    <a class="breadcrumb-item" href="/Darwin/">Início</a>
-                    <a class="breadcrumb-item" href="/Darwin/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
+                    <a class="breadcrumb-item" href="${pageContext.request.contextPath}/">Início</a>
+                    <a class="breadcrumb-item" href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}">${selecao.titulo}</a>
                     <a class="breadcrumb-item active" href="cadastrarEtapas">Cadastrar Etapa</a>
                 </nav>
             <c:if test="${not empty mensagem}">
@@ -47,10 +47,10 @@
                 <br>
                 <div class="form-group">
                     <c:if test="${not empty selecao.inscricao}">
-                    <form method="POST" action="/Darwin/cadastrarEtapa/${selecao.codSelecao}" accept-charset="UTF-8" id="needs-validation" novalidate>
+                    <form method="POST" action="${pageContext.request.contextPath}/cadastrarEtapa/${selecao.codSelecao}" accept-charset="UTF-8" id="needs-validation" novalidate>
                     </c:if>
                     <c:if test="${empty selecao.inscricao}">
-                    <form method="POST" action="/Darwin/cadastrarEtapa/inscricao/${selecao.codSelecao}" accept-charset="UTF-8"  id="needs-validation" novalidate>
+                    <form method="POST" action="${pageContext.request.contextPath}/cadastrarEtapa/inscricao/${selecao.codSelecao}" accept-charset="UTF-8"  id="needs-validation" novalidate>
                     </c:if>    
                         <label for="tituloInput">Título*</label>
                         <input type="text" name="titulo" value="${empty selecao.inscricao ? 'Inscrição': ''}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" ${empty selecao.inscricao ? 'readonly': ''} required>
@@ -208,7 +208,7 @@
                         <br>
                         
                         
-                        <a href="/Darwin/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
+                        <a href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}" type="button" class="btn btn-secondary">
                             Cancelar
                         </a>
                        <input type="button" class="btn btn-primary" value="Salvar" data-toggle="modal" data-target="#confirmarEtapa" >

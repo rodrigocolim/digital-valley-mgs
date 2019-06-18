@@ -227,7 +227,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Selecao> listaSelecoes(String categoria, EnumEstadoSelecao estado, int inicio, int qtd) {
+	public List<Selecao> listaSelecoes(boolean isAdm, String categoria, EnumEstadoSelecao estado, int inicio, int qtd) {
 		Session session =  this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         List<Selecao> lis = new ArrayList<>();
@@ -235,7 +235,9 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
         try {
         	
         	Criteria cb = session.createCriteria(Selecao.class);
-    		cb.add(Restrictions.eq("divulgada", true));
+        	if(!isAdm) {
+        		cb.add(Restrictions.eq("divulgada", true));	
+        	}
     		cb.add(Restrictions.eq("deletada",false));
             cb.addOrder(Order.desc("codSelecao"));
             
@@ -264,7 +266,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
 	}
 
 	@Override
-	public Long getQuantidade(String categoria, EnumEstadoSelecao estado) {
+	public Long getQuantidade(boolean isAdm, String categoria, EnumEstadoSelecao estado) {
 		Session session =  this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         long qtd = 0;
@@ -272,7 +274,11 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
         try {
         	Query qry;
         	if(estado != null){
-        		String hql = "select count(s) from Selecao s where s.estado = :estado and s.divulgada = 'true' and s.deletada = 'false'";
+        		String hql = "select count(s) from Selecao s where s.estado = :estado and "; 
+        		if(!isAdm) {
+        			hql += " s.divulgada = 'true' and ";
+        		}
+        		hql += " s.deletada = 'false'";
         		
         		if(categoria != null){
         			hql += " and categoria = " + categoria;
@@ -282,7 +288,11 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
         		qry.setParameter("estado", estado.getEstado());
         		
         	} else {
-        		String hql = "select count(s) from Selecao s where s.divulgada = 'true' and s.deletada = 'false'";
+        		String hql = "select count(s) from Selecao s where ";
+        		if(!isAdm) {
+        			hql += " s.divulgada = 'true' and ";
+        		}
+        		hql += " s.deletada = 'false' ";
         		
         		if(categoria != null){
                 	hql +=  " and categoria = '" + categoria +"'";
@@ -310,7 +320,7 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     
 	@Override
 	@SuppressWarnings("unchecked")
-    public List<Selecao> buscarSelecoesPorNome(String titulo, int inicio, int qtd) {
+    public List<Selecao> buscarSelecoesPorNome(boolean isAdm, String titulo, int inicio, int qtd) {
     	Session session = this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         List<Selecao> selecoes = new ArrayList<>();
@@ -318,7 +328,9 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
             
             Criteria c = session.createCriteria(Selecao.class);
         	c.add(Restrictions.ilike("titulo", "%"+titulo+"%"));
-        	c.add(Restrictions.eq("divulgada", true));
+        	if(!isAdm) {
+        		c.add(Restrictions.eq("divulgada", true));	
+        	}
         	c.add(Restrictions.eq("deletada", false));
         	c.addOrder(Order.desc("codSelecao"));
         	
@@ -338,13 +350,18 @@ public class SelecaoDAOImpl implements SelecaoDAOIfc {
     }
 	
 	@Override
-	public Long getQuantidadePorNome(String titulo){
+	public Long getQuantidadePorNome(boolean isAdm, String titulo){
 		Session session =  this.daoImpl.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         long qtd = 0;
 
         try {
-        	Query qry = session.createQuery("select count(s) from Selecao s where s.titulo ilike '%" + titulo +"%' and s.divulgada = 'true' and s.deletada = 'false'");
+        	String sql = "select count(s) from Selecao s where s.titulo ilike '%" + titulo +"%' and ";
+        	if(!isAdm) {
+        		sql += " s.divulgada = 'true' and ";
+        	}
+        	sql += " s.deletada = 'false' ";
+        	Query qry = session.createQuery(sql);
         	            
         	try{
         		qtd = (Long) qry.uniqueResult();

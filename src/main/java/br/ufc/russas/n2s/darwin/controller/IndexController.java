@@ -46,9 +46,18 @@ public class IndexController {
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public String getIndex(@RequestParam(required=false, defaultValue = "0") int pag, Model model) {
-        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(null, null, ((pag - 1) * 5), 5);
-        Long qtdSelecoes = this.getSelecaoServiceIfc().getQuantidade(null, null);
+    public String getIndex(@RequestParam(required=false, defaultValue = "0") int pag, Model model, HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        List<SelecaoBeans> selecoes = null;
+        Long qtdSelecoes;
+        if(usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+        	selecoes = this.getSelecaoServiceIfc().listaSelecoes(true, null, null, ((pag - 1) * 5), 5);
+        	qtdSelecoes = this.getSelecaoServiceIfc().getQuantidade(true, null, null);
+        }else {
+        	selecoes = this.getSelecaoServiceIfc().listaSelecoes(false, null, null, ((pag - 1) * 5), 5);
+        	qtdSelecoes = this.getSelecaoServiceIfc().getQuantidade(false, null, null);
+        }
         
         HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
@@ -64,11 +73,20 @@ public class IndexController {
     }
     
     @RequestMapping(value="/categoria/{categoria}", method = RequestMethod.GET)
-    public String getIndex(@RequestParam(required=false, defaultValue = "0") int pag, Model model, @PathVariable String categoria) {
+    public String getIndex(@RequestParam(required=false, defaultValue = "0") int pag, Model model, @PathVariable String categoria, HttpServletRequest request) {
         Selecao selecao = new Selecao();
         selecao.setCategoria(categoria.replace("_", " "));
-        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(selecao.getCategoria(), null, ((pag - 1) * 5), 5);
-        Long qtdSelecoes = this.getSelecaoServiceIfc().getQuantidade(selecao.getCategoria(), null);
+        HttpSession session = request.getSession();
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        List<SelecaoBeans> selecoes = null;
+        Long qtdSelecoes;
+        if(usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+        	selecoes = this.getSelecaoServiceIfc().listaSelecoes(true, selecao.getCategoria(), null, ((pag - 1) * 5), 5);
+        	qtdSelecoes = this.getSelecaoServiceIfc().getQuantidade(true, selecao.getCategoria(), null);
+        }else {
+        	selecoes = this.getSelecaoServiceIfc().listaSelecoes(false, selecao.getCategoria(), null, ((pag - 1) * 5), 5);
+        	qtdSelecoes = this.getSelecaoServiceIfc().getQuantidade(false, selecao.getCategoria(), null);
+        }
         
         HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
@@ -89,9 +107,17 @@ public class IndexController {
     							Model model, HttpServletRequest request) {
     	
     	this.getSelecaoServiceIfc().setUsuario((UsuarioBeans)request.getSession().getAttribute("usuarioDarwin"));
-    	
-        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().buscarSelecoesPorNome(titulo, ((pag - 1) * 5), 5) ;
-        Long qtdSelecoes = this.getSelecaoServiceIfc().getQuantidadePorNome(titulo);
+    	HttpSession session = request.getSession();
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        List<SelecaoBeans> selecoes = null;
+        Long qtdSelecoes;
+        if(usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+        	selecoes = this.getSelecaoServiceIfc().buscarSelecoesPorNome(true, titulo, ((pag - 1) * 5), 5) ;
+        	qtdSelecoes = this.getSelecaoServiceIfc().getQuantidadePorNome(true, titulo);
+        }else {
+        	selecoes = this.getSelecaoServiceIfc().buscarSelecoesPorNome(false, titulo, ((pag - 1) * 5), 5) ;
+        	qtdSelecoes = this.getSelecaoServiceIfc().getQuantidadePorNome(false, titulo);
+        }
         
         HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
@@ -107,7 +133,7 @@ public class IndexController {
     
     
     @RequestMapping(value = "/estado/{estado}", method = RequestMethod.GET)
-    public String getEstados(@RequestParam(required=false, defaultValue = "0") int pag, Model model, @PathVariable String estado){
+    public String getEstados(@RequestParam(required=false, defaultValue = "0") int pag, Model model, @PathVariable String estado, HttpServletRequest request){
         EnumEstadoSelecao e = null;
 
         if (estado.equals("aberta")){
@@ -123,9 +149,17 @@ public class IndexController {
         	 e = EnumEstadoSelecao.ESPERA;
              model.addAttribute("categoria", "estado/espera");
         }
-
-        List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoes(null, e, ((pag - 1) * 5), 5);
-        Long qtdSelecoes = this.getSelecaoServiceIfc().getQuantidade(null, e);
+        HttpSession session = request.getSession();
+        UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        List<SelecaoBeans> selecoes = null;
+        Long qtdSelecoes;
+        if(usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
+        	selecoes = this.getSelecaoServiceIfc().listaSelecoes(true, null, e, ((pag - 1) * 5), 5);
+        	qtdSelecoes = this.getSelecaoServiceIfc().getQuantidade(true, null, e);
+        }else {
+        	selecoes = this.getSelecaoServiceIfc().listaSelecoes(false, null, e, ((pag - 1) * 5), 5);
+        	qtdSelecoes = this.getSelecaoServiceIfc().getQuantidade(false, null, e);
+        }
         
         HashMap<Long, EtapaBeans> etapasAtuais = new  HashMap<>();
         for (SelecaoBeans s : selecoes) {
@@ -148,8 +182,8 @@ public class IndexController {
         
         List<SelecaoBeans> selecoes;
         if (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
-        	selecoes = this.getSelecaoServiceIfc().listaSelecoes(null, null, ((pag - 1) * 5), 5);
-        	qtdSelecoes = this.getSelecaoServiceIfc().getQuantidade(null, null);
+        	selecoes = this.getSelecaoServiceIfc().listaSelecoes(true, null, null, ((pag - 1) * 5), 5);
+        	qtdSelecoes = this.getSelecaoServiceIfc().getQuantidade(true, null, null);
         } else {
         	if(pag <= 0){pag = 1;}
         	selecoes = this.getSelecaoServiceIfc().buscarSelecoesAssociada(usuario, ((pag - 1) * 5), 5);

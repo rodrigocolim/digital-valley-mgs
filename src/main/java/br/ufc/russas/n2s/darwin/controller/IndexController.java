@@ -136,7 +136,10 @@ public class IndexController {
     public String getEstados(@RequestParam(required=false, defaultValue = "0") int pag, Model model, @PathVariable String estado, HttpServletRequest request){
         EnumEstadoSelecao e = null;
 
-        if (estado.equals("aberta")){
+        if(estado.equals("emedicao")){
+        	e = EnumEstadoSelecao.EMEDICAO;
+        	model.addAttribute("categoria", "estado/" + estado);
+        } else if (estado.equals("aberta")){
             e = EnumEstadoSelecao.ABERTA;
             model.addAttribute("categoria", "estado/" + estado);
         } else if( estado.equals("andamento")) {

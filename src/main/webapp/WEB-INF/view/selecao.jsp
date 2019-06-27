@@ -286,8 +286,9 @@
 												</a>
 											</c:if>
 											<c:if test="${not pendente}">
-											<a href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
-												Divulgar Resultado
+
+											<a href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultado">
+														<i class="fas fa-bullhorn"></i> Divulgar Resultado
 											</a>
 											</c:if>
 											<!-- divulgação de resultados -->
@@ -310,6 +311,27 @@
 						                            </div>
 						                        </div>
 						                    </div>
+						                    <div class="modal fade" id="divulgaresultado" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+	                        						<div class="modal-dialog" role="document">
+	                            						<div class="modal-content">
+	                                					<div class="modal-header">
+	                                    			<h5 class="modal-title" id="modalLabel">Divulgar resultados</h5>
+	                                    		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                                        <span aria-hidden="true">&times;</span>
+	                                    </button>
+	                               			 </div>
+	                                		<div class="modal-body">
+	                                    	<p>Ao divulgar o resultado da etapa, todos poderão ver. Deseja continuar? </p>
+	                                		</div>
+	                                		<div class="modal-footer">
+	                                    	<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+	                                    		<a href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+														<i class="fas fa-bullhorn"></i> Continuar
+											</a>
+	                                		</div>
+	                            			</div>
+	                        			</div>
+	                    				</div>
 										</c:if>
                                         <c:if test="${(selecao.inscricao.divulgadoResultado) and (not empty selecao.inscricao.avaliacoes)}">
 	                                        <a href="${pageContext.request.contextPath}/resultadoEtapa/${selecao.inscricao.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
@@ -439,7 +461,7 @@
 												</a>
 											</c:if>
 											<c:if test="${not pendente}">
-												<a href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+												<a href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;" data-toggle="modal" data-target="#divulgaresultadoetapa2">
 													<i class="fas fa-bullhorn"></i> Divulgar Resultado
 												</a>
 											</c:if>
@@ -464,6 +486,27 @@
 						                            </div>
 						                        </div>
 						                    </div>
+						                    <div class="modal fade" id="divulgaresultadoetapa2" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+	                        				<div class="modal-dialog" role="document">
+	                            				<div class="modal-content">
+	                                				<div class="modal-header">
+	                                   					 <h5 class="modal-title" id="modalLabel">Divulgar resultados</h5>
+	                                  						  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                                    				    <span aria-hidden="true">&times;</span>
+	                              					      </button>
+	                            						    </div>
+	                               								 <div class="modal-body">
+	                             					       <p>Ao divulgar o resultado da etapa, todos poderão ver. Deseja continuar? </p>
+	                               							 </div>
+	                           									     <div class="modal-footer">
+	                           						         <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+	                               							     <a href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">
+																<i class="fas fa-bullhorn"></i> Continuar
+																	</a>
+	                        					        </div>
+	                    								        </div>
+	                    									    </div>
+	                 								   </div>
 									</c:if>
                                     <c:if test="${(etapa.divulgadoResultado) and ((isResponsavel and (estado == 3)) or (fn:contains(permissoes, 'ADMINISTRADOR') and (estado == 3)) or (fn:contains(permissoes, 'PARTICIPANTE') and (estado == 3)))}">
                                      	<a href="${pageContext.request.contextPath}/resultadoEtapa/${etapa.codEtapa}" class="btn btn-primary btn-sm active" class="btn btn-primary btn-sm" style="height: 30px;">

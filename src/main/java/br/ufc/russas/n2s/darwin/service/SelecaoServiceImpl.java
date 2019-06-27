@@ -338,8 +338,8 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	}
 	
 	@Override
-	public List<SelecaoBeans> listaSelecoes(String categoria, EnumEstadoSelecao estado, int inicio, int qtd){
-		List<Selecao> result = this.getSelecaoDAOIfc().listaSelecoes(categoria, estado, inicio, qtd);
+	public List<SelecaoBeans> listaSelecoes(boolean isAdm, String categoria, EnumEstadoSelecao estado, int inicio, int qtd){
+		List<Selecao> result = this.getSelecaoDAOIfc().listaSelecoes(isAdm, categoria, estado, inicio, qtd);
 	    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
 	    for (Selecao s : result) {
 	    	
@@ -347,13 +347,14 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	    	if(novoEstado != s.getEstado()){
 	    		this.atualizaEstado(s, novoEstado);
 	    	}
-	    	
-	    	EnumEstadoEtapa estadoEtapaIns = s.getInscricao().getEstado().execute(s.getInscricao());
-	    	if(estadoEtapaIns != s.getInscricao().getEstado()){
-	    		s.getInscricao().setEstado(estadoEtapaIns);
-	    		etapaDAOIfc.atualizaEtapa(s.getInscricao());
+	    	Etapa etapa = s.getInscricao();
+	    	if(etapa != null) {
+	    		EnumEstadoEtapa estadoEtapaIns = s.getInscricao().getEstado().execute(s.getInscricao());	
+		    	if(estadoEtapaIns != s.getInscricao().getEstado()){
+		    		s.getInscricao().setEstado(estadoEtapaIns);
+		    		etapaDAOIfc.atualizaEtapa(s.getInscricao());
+		    	}
 	    	}
-	    	
 	    	List<Etapa> etapas = s.getEtapas();
 	    	for(Etapa e : etapas){
 	    		EnumEstadoEtapa estadoEtapa = e.getEstado().execute(e);
@@ -369,13 +370,13 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	}
 	
 	@Override
-    public Long getQuantidade(String categoria, EnumEstadoSelecao estado){
-		return this.getSelecaoDAOIfc().getQuantidade(categoria, estado);
+    public Long getQuantidade(boolean isAdm, String categoria, EnumEstadoSelecao estado){
+		return this.getSelecaoDAOIfc().getQuantidade(isAdm, categoria, estado);
 	}
 	
 	@Override
-    public List<SelecaoBeans> buscarSelecoesPorNome(String titulo, int inicio, int qtd){
-    	List<Selecao> result = this.getSelecaoDAOIfc().buscarSelecoesPorNome(titulo, inicio, qtd);
+    public List<SelecaoBeans> buscarSelecoesPorNome(boolean isAdm, String titulo, int inicio, int qtd){
+    	List<Selecao> result = this.getSelecaoDAOIfc().buscarSelecoesPorNome(isAdm, titulo, inicio, qtd);
 	    List<SelecaoBeans> selecoes = Collections.synchronizedList(new ArrayList<SelecaoBeans>());
 	    for (Selecao s : result) {
 	    	
@@ -384,12 +385,14 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
 	    		this.atualizaEstado(s, novoEstado);
 	    	}
 	    	
-	    	EnumEstadoEtapa estadoEtapaIns = s.getInscricao().getEstado().execute(s.getInscricao());
-	    	if(estadoEtapaIns != s.getInscricao().getEstado()){
-	    		s.getInscricao().setEstado(estadoEtapaIns);
-	    		etapaDAOIfc.atualizaEtapa(s.getInscricao());
+	    	Etapa etapa = s.getInscricao();
+	    	if(etapa != null) {
+	    		EnumEstadoEtapa estadoEtapaIns = s.getInscricao().getEstado().execute(s.getInscricao());	
+		    	if(estadoEtapaIns != s.getInscricao().getEstado()){
+		    		s.getInscricao().setEstado(estadoEtapaIns);
+		    		etapaDAOIfc.atualizaEtapa(s.getInscricao());
+		    	}
 	    	}
-	    	
 	    	List<Etapa> etapas = s.getEtapas();
 	    	for(Etapa e : etapas){
 	    		EnumEstadoEtapa estadoEtapa = e.getEstado().execute(e);
@@ -405,8 +408,8 @@ public class SelecaoServiceImpl implements SelecaoServiceIfc {
     }
 	
 	@Override
-	public Long getQuantidadePorNome(String titulo){
-		return this.getSelecaoDAOIfc().getQuantidadePorNome(titulo);
+	public Long getQuantidadePorNome(boolean isAdm, String titulo){
+		return this.getSelecaoDAOIfc().getQuantidadePorNome(isAdm, titulo);
 	}
 
 	@Override

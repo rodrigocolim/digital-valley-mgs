@@ -57,11 +57,11 @@ public interface SelecaoDAOIfc {
     public List<Selecao> listaSelecoesIgnorandoBooleanos();
     
     //Novos
-    public List<Selecao> listaSelecoes(String categoria, EnumEstadoSelecao estado, int inicio, int qtd);
-    public Long getQuantidade(String categoria, EnumEstadoSelecao estado);
+    public List<Selecao> listaSelecoes(boolean isAdm, String categoria, EnumEstadoSelecao estado, int inicio, int qtd);
+    public Long getQuantidade(boolean isAdm, String categoria, EnumEstadoSelecao estado);
     
-    public List<Selecao> buscarSelecoesPorNome(String titulo, int inicio, int qtd);
-    public Long getQuantidadePorNome(String titulo);
+    public List<Selecao> buscarSelecoesPorNome(boolean isAdm, String titulo, int inicio, int qtd);
+    public Long getQuantidadePorNome(boolean isAdm, String titulo);
     
     public List<Selecao> buscarSelecoesAssociada(Long usuario, int inicio, int qtd);
     public List<Long> getListaSelecoesAssociada(Long usuario);

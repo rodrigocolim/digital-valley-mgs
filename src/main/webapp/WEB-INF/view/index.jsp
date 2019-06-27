@@ -76,7 +76,9 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                         	<a class="dropdown-item" href="${pageContext.request.contextPath}/">Todas as seleções</a>
-                        	<a class="dropdown-item" href="${pageContext.request.contextPath}/estado/emedicao">Seleções em edição</a>
+                        	<c:if test="${fn:contains(sessionScope.usuarioDarwin.permissoes, 'ADMINISTRADOR')}">
+                        		<a class="dropdown-item" href="${pageContext.request.contextPath}/estado/emedicao">Seleções em edição</a>
+                        	</c:if>
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/estado/aberta">Seleções abertas</a>
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/estado/andamento">Seleções em andamento</a>
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/estado/finalizada">Seleções finalizadas</a>

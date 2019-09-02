@@ -794,21 +794,18 @@ public class Email implements Runnable{
 			try {
 				this.sendHtmlEmail();
 			} catch (MalformedURLException | EmailException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else if (TYPE_EMAIL == 2) {
 			try {
 				this.sendHtmlEmailSet();
 			} catch (MalformedURLException | EmailException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
 			try {
 				this.sendHtmlEmailUsuario();
 			} catch (MalformedURLException | EmailException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

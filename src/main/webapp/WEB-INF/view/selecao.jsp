@@ -190,6 +190,12 @@
                         <li>VOLUNTÁRIAS:  <b>${selecao.vagasVoluntarias}</b></li>
                     </ul>
                     </c:if>
+                    <c:if test="${selecao.inscricao == null}">
+                    <b>NÚMERO DE PARTICIPANTES: </b> 0<br/><br/>
+                    </c:if>
+                    <c:if test="${selecao.inscricao != null}">
+                    <b>NÚMERO DE PARTICIPANTES: </b> ${selecao.inscricao.participantes.size()}<br/><br/>
+                    </c:if>
                     <hr/>
                 </p>
                 <br/>

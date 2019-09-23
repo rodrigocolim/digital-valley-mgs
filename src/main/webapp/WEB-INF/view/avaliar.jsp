@@ -117,7 +117,7 @@
 											data-toggle="modal"
 											data-target="#avaliar${participante.candidato.codUsuario}">Avaliar</button></td>
 								</c:if>
-
+				
 							</tr>
 							<div class="modal fade"
 								id="avaliar${participante.candidato.codUsuario}" tabindex="-1"
@@ -135,11 +135,14 @@
 													<span aria-hidden="true">&times;</span>
 												</button>
 											</div>
-
 											<div class="modal-body">
 
 												<input type="hidden" name="participante"
 													value="${participante.codParticipante}">
+												<div class="form-group">
+													<label for="recipient-name" class="form-control-label">Participante:</label>
+													<p>${participante.candidato.nome}</p>
+												</div>
 												<div class="form-group">
 													<label for="recipient-name" class="form-control-label">Documentação:</label>
 													<c:if test="${not empty etapa.documentacoes}">
@@ -174,7 +177,7 @@
 														<div class="form-check form-check-inline">
 															<label class="form-check-label"> <input
 																class="form-check-input" type="radio" name="aprovacao"
-																id="aprovadoOpcao" value="1" > Aprovado
+																id="aprovadoOpcao" value="1"> Aprovado
 															</label>
 														</div>
 														<div class="form-check form-check-inline">

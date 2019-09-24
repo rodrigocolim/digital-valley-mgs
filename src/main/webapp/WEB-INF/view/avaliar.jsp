@@ -107,6 +107,9 @@
 
                                                 <input type="hidden" name="participante" value="${participante.codParticipante}">
                                                 <div class="form-group">
+                                                    <label for="recipient-name" class="form-control-label">Participante:</label><p>${participante.candidato.nome}</p>
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="recipient-name" class="form-control-label">Documentação:</label><c:if test="${not empty etapa.documentacoes}"> <a href="${pageContext.request.contextPath}/avaliar/download/${etapa.codEtapa}/${participante.codParticipante}"> Download completo da documentação (.zip)</a></c:if>
                                                     <c:forEach var="documentacao" items="${etapa.documentacoes}">
                                                         <c:if test="${documentacao.candidato.codParticipante == participante.codParticipante}">

@@ -67,11 +67,12 @@
 						cadastrados!</p>
 				</c:if>
 				<br>
-				<table class="table table-responsive">
+				<table class="table table-responsive" text-align="center">
 					<thead>
 						<tr>
 							<th scope="col">Participante</th>
 							<th scope="col">Status</th>
+							<th scope="col">Nota</th>
 							<th scope="col">Opção</th>
 						</tr>
 					</thead>
@@ -86,8 +87,9 @@
 										<c:if
 											test="${(avaliacao.participante.codParticipante == participante.codParticipante) and (avaliacao.avaliador.codUsuario == avaliador.codUsuario)}">
 											<c:set var="avaliacaoParticipante" value="${avaliacao}" />
-											<td>${avaliacao.estado}</td>
-											<c:if test="${avaliacao.estado == 'PENDENTE'}">
+											<c:if test="${avaliacaoParticipante.estado == PENDENTE}">
+												<td>${avaliacao.estado}</td>
+												<td>  -</td>
 												<td><button type="button"
 														class="btn btn-primary btn-sm" data-toggle="modal"
 														data-target="#avaliar${participante.candidato.codUsuario}">Avaliar</button></td>
@@ -95,10 +97,18 @@
 											</c:if>
 											<c:if test="${avaliacao.estado != 'PENDENTE'}">
 												<c:set var="avaliado" value="${true}" />
+												<td>
+												<c:if test="${etapa.criterioDeAvaliacao == 'APROVACAO'}" >${avaliacaoParticipante.aprovado ? "Aprovado" : "Reprovado"}</c:if>
+												<c:if test="${etapa.criterioDeAvaliacao == 'DEFERIMENTO'}" >${avaliacaoParticipante.aprovado ? "Deferido" : "Indeferido"}</c:if>
+												<c:if test="${etapa.criterioDeAvaliacao == 'NOTA'}" >${avaliacaoParticipante.aprovado ? "Aprovado" : "Reprovado"}</c:if>
+												</td>
+												<td>
+												<c:if test="${etapa.criterioDeAvaliacao == 'NOTA'}" >${avaliacaoParticipante.nota}</c:if>
+												<c:if test="${etapa.criterioDeAvaliacao != 'NOTA'}" >-</c:if>
+												</td>
 												<td><button type="button"
 														class="btn btn-primary btn-sm" data-toggle="modal"
-														data-target="#avaliar${participante.candidato.codUsuario}">Ver
-														Avaliação</button></td>
+														data-target="#avaliar${participante.candidato.codUsuario}">Editar Avaliação</button></td>
 											</c:if>
 										</c:if>
 									</c:forEach>
@@ -106,12 +116,14 @@
 								<c:if test="${empty etapa.avaliacoes}">
 									<c:set var="avaliado" value="${false}" />
 									<td>Pendente</td>
+									<td>  -</td>
 									<td><button type="button" class="btn btn-primary btn-sm"
 											data-toggle="modal"
 											data-target="#avaliar${participante.candidato.codUsuario}">Avaliar</button></td>
 								</c:if>
 								<c:if test="${not empty etapa.avaliacoes and avaliado == false}">
 									<c:set var="avaliado" value="${false}" />
+									<td>-</td>
 									<td>Pendente</td>
 									<td><button type="button" class="btn btn-primary btn-sm"
 											data-toggle="modal"
@@ -129,7 +141,7 @@
 											<c:if test="${not avaliado}">action=""</c:if> method="post"
 											accept-charset="UTF-8">
 											<div class="modal-header">
-												<h5 class="modal-title" id="modalLabel">${avaliado ? "Avaliação Participante" : "Avaliar Participante"}</h5>
+												<h5 class="modal-title" id="modalLabel">${avaliado ? "Editar Avaliação" : "Avaliar Participante"}</h5>
 												<button type="button" class="close" data-dismiss="modal"
 													aria-label="Close">
 													<span aria-hidden="true">&times;</span>
@@ -170,26 +182,34 @@
 														<input type="number" name="nota" step="0.01"
 															class="form-control col-sm-2 disabled" id="notaInput"
 															required
+															${etapa.estado == "FINALIZADA" ? "readonly" : ""}
 															value="${(avaliado and (not empty avaliacaoParticipante)) ? avaliacaoParticipante.nota : '0'}"
 															min="0" max="10">
 													</c:if>
 													<c:if test="${(etapa.criterioDeAvaliacao.criterio == 2)}">
 														<div class="form-check form-check-inline">
 															<label class="form-check-label"> <input
+																${etapa.estado == "FINALIZADA" ? "disabled" : ""}
 																class="form-check-input" type="radio" name="aprovacao"
-																id="aprovadoOpcao" value="1"> Aprovado
+																id="aprovadoOpcao" value="1"
+																${(avaliado and (not empty avaliacaoParticipante) and avaliacaoParticipante.aprovado) ? "checked='checked'" : ""}>
+																Aprovado
 															</label>
 														</div>
 														<div class="form-check form-check-inline">
 															<label class="form-check-label"> <input
+																${etapa.estado == "FINALIZADA" ? "disabled" : ""}	
 																class="form-check-input" type="radio" name="aprovacao"
-																id="reprovadoOpcao" value="0"> Reprovado
+																id="reprovadoOpcao" value="0"
+																${(avaliado and (not empty avaliacaoParticipante) and (not avaliacaoParticipante.aprovado)) ? "checked='checked'" : ""}>
+																Reprovado
 															</label>
 														</div>
 													</c:if>
 													<c:if test="${(etapa.criterioDeAvaliacao.criterio == 3)}">
 														<div class="form-check form-check-inline">
 															<label class="form-check-label"> <input
+																${etapa.estado == "FINALIZADA" ? "disabled" : ""}
 																class="form-check-input" type="radio" name="deferimento"
 																id="deferidoOpcao" required value="1"
 																${(avaliado and (not empty avaliacaoParticipante) and avaliacaoParticipante.aprovado) ? "checked='checked'" : ""}>
@@ -198,6 +218,7 @@
 														</div>
 														<div class="form-check form-check-inline">
 															<label class="form-check-label"> <input
+																${etapa.estado == "FINALIZADA" ? "disabled" : ""}
 																class="form-check-input" type="radio" name="deferimento"
 																id="indeferidoOpcao" value="0"
 																${(avaliado and (not empty avaliacaoParticipante) and (not avaliacaoParticipante.aprovado)) ? "checked='checked'" : ""}>
@@ -210,12 +231,16 @@
 													<label for="message-text" class="form-control-label">Observações:</label>
 													<textarea class="form-control" id="message-text"
 														name="observacoes"
+														${etapa.estado == "FINALIZADA" ? "readonly" : ""}
 														value="${(avaliado and (not empty avaliacaoParticipante) and not empty avaliacaoParticipante.observacao) ? avaliacaoParticipante.observacao : ''}">${(avaliado and (not empty avaliacaoParticipante) and not empty avaliacaoParticipante.observacao) ? avaliacaoParticipante.observacao : ''}</textarea>
 												</div>
 
 											</div>
 											<div class="modal-footer">
-												<button type="submit" class="btn btn-primary">Salvar</button>
+												<c:if test="${(etapa.estado) != FINALIZADA}">
+													<button type="submit" class="btn btn-primary">Salvar</button>
+												</c:if>
+												
 												<button type="button" class="btn btn-secondary"
 													data-dismiss="modal">Cancelar</button>
 											</div>

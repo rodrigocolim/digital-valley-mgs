@@ -313,6 +313,7 @@ ul {
 									<div class="timeline-body">
 										<p>${selecao.inscricao.descricao}</p>
 										<br>
+										<b>CRITÉRIO DE AVALIAÇÃO: </b> ${selecao.inscricao.criterioDeAvaliacao}<br>
 										<c:if
 											test="${not empty selecao.inscricao.documentacaoExigida}">
 											<b>DOCUMENTAÇÃO EXIGIDA: </b>
@@ -528,12 +529,10 @@ ul {
 										<p class="text-justify">${etapa.descricao}</p>
 										<br> <b>ETAPA DE PRÉ-REQUISITO: </b>
 										${etapa.prerequisito.titulo}<br>
-										<c:if test="${selecao.exibirNotas || (isResponsavel)}">
-											<b>CRITÉRIO DE AVALIAÇÃO: </b> ${etapa.criterioDeAvaliacao}<br>
-											<c:if
-												test="${etapa.criterioDeAvaliacao == EnumCriterioDeAvaliacao.NOTA}">
-												<b>NOTA MÍNIMA: </b> ${etapa.notaMinima}<br>
-											</c:if>
+										<b>CRITÉRIO DE AVALIAÇÃO: </b> ${etapa.criterioDeAvaliacao}<br>
+										<c:if
+											test="${etapa.criterioDeAvaliacao == EnumCriterioDeAvaliacao.NOTA}">
+											<b>NOTA MÍNIMA: </b> ${etapa.notaMinima}<br>
 										</c:if>
 										<c:if test="${not empty etapa.documentacaoExigida}">
 											<b>DOCUMENTAÇÃO EXIGIDA: </b>
@@ -624,7 +623,7 @@ ul {
 										</div>
 										<!-- remover etapa -->
 										<c:if
-											test="${((estado == 2) or (estado == 3)) and (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
+											test="${((etapa.estado == 'ANDAMENTO') or (etapa.estado == 'FINALIZADA')) and ((fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin)))}">
 											<a
 												href="${pageContext.request.contextPath}/avaliar/${etapa.codEtapa}"
 												class="btn btn-primary btn-sm active"

@@ -181,7 +181,7 @@ public class EditarEtapaController {
 			}
 			etapaBeans.setDocumentacaoOpcional(docsOp);
 		} else {
-			etapaBeans.setDocumentacaoExigida(new ArrayList<>());
+			etapaBeans.setDocumentacaoOpcional(new ArrayList<>());
 		}
 		    
 		List <EtapaBeans> subsequentes = selecao.getEtapas();
@@ -292,6 +292,7 @@ public class EditarEtapaController {
                    
                     selecao = this.getSelecaoServiceIfc().atualizaSelecao(selecao);
                     this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" modificou a etapa "+etapa.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
+                    return "redirect:/selecao/" + selecao.getCodSelecao();
         		}        		
                 
                 return "redirect:/editarEtapa/" + codSelecao + "/" + codEtapa;

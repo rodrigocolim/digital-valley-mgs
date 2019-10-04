@@ -15,6 +15,7 @@ import br.ufc.russas.n2s.darwin.service.AvaliacaoServiceIfc;
 import br.ufc.russas.n2s.darwin.service.EtapaServiceIfc;
 import br.ufc.russas.n2s.darwin.service.LogServiceIfc;
 import br.ufc.russas.n2s.darwin.service.ParticipanteServiceIfc;
+import br.ufc.russas.n2s.darwin.service.SelecaoServiceIfc;
 import br.ufc.russas.n2s.darwin.util.Facade;
 import util.Constantes;
 
@@ -44,10 +45,16 @@ public class AvaliarController {
 	private AvaliacaoServiceIfc avaliacaoServiceIfc;
 	private ParticipanteServiceIfc participanteServiceIfc;
 	private LogServiceIfc logServiceIfc;
+	private SelecaoServiceIfc selecaoServiceIfc;
 
 	@Autowired(required = true)
 	public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc") EtapaServiceIfc etapaServiceIfc) {
 		this.etapaServiceIfc = etapaServiceIfc;
+	}
+	
+	@Autowired(required = true)
+	public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc") SelecaoServiceIfc selecaoServiceIfc) {
+		this.selecaoServiceIfc = selecaoServiceIfc;
 	}
 
 	@Autowired(required = true)
@@ -280,20 +287,18 @@ public class AvaliarController {
 				+ avaliacao.getParticipante().getCodParticipante();
 	}
 
-	@RequestMapping(value = "/download/{codEtapa}/{codParticipante}", method = RequestMethod.GET)
-	public String getParticipantesInscricao(@PathVariable long codEtapa, @PathVariable long codParticipante,
+	@RequestMapping(value = "/download/{codSelecao}/{codEtapa}/{codParticipante}", method = RequestMethod.GET)
+	public String getParticipantesInscricao(@PathVariable long codSelecao, @PathVariable long codEtapa, @PathVariable long codParticipante,
 			Model model, HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
+		SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
 		try {
 			UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
 			ParticipanteBeans p = this.participanteServiceIfc.getParticipante(codParticipante);
 			if ((etapa.getAvaliadores().contains(usuario))
 					|| (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR))) {
-				Facade.compactarParaZip(etapa, p, response);
-				// model.addAttribute("selecao", selecao);
-				// model.addAttribute("participantesEtapa",
-				// selecao.getInscricao().getParticipantes());
+				Facade.compactarParaZip(selecao, etapa, p, response);
 				return "redirect: " + Constantes.getAppUrl() + "/avaliar/" + etapa.getCodEtapa();
 			} else {
 				return "error/404";

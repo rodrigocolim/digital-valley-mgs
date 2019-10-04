@@ -159,7 +159,7 @@
 													<label for="recipient-name" class="form-control-label">Documentação:</label>
 													<c:if test="${not empty etapa.documentacoes}">
 														<a
-															href="${pageContext.request.contextPath}/avaliar/download/${etapa.codEtapa}/${participante.codParticipante}">
+															href="${pageContext.request.contextPath}/avaliar/download/${selecao.codSelecao}/${etapa.codEtapa}/${participante.codParticipante}">
 															Download completo da documentação (.zip)</a>
 													</c:if>
 													<c:forEach var="documentacao"

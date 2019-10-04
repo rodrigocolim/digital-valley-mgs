@@ -238,7 +238,7 @@ public class Facade {
 	}
 	
 	//método para compactar arquivo
-	  public static void compactarParaZip(EtapaBeans etapa, ParticipanteBeans participante, HttpServletResponse response) throws IOException{
+	  public static void compactarParaZip(SelecaoBeans selecao, EtapaBeans etapa, ParticipanteBeans participante, HttpServletResponse response) throws IOException{
 		   ArrayList<ArquivoBeans> documentos = new ArrayList<>();
 		   for (DocumentacaoBeans d : etapa.getDocumentacoes()) {
 			   if (d.getCandidato().getCodParticipante() == participante.getCodParticipante()) {
@@ -246,8 +246,11 @@ public class Facade {
 				   
 			   }
 		   }
-		   String zipFile = "Documentos_"+participante.getCandidato().getNome().replace(" ", "_")+"("+participante.getCandidato().getCPF()+").zip";
+		   //String zipFile = "Documentos_"+participante.getCandidato().getNome().replace(" ", "_")+"("+participante.getCandidato().getCPF()+").zip";
 		   
+		   String pnome[] = participante.getCandidato().getNome().split(" ");
+		   String zipFile = selecao.getCodSelecao()+ "_" + pnome[0] + "_" + participante.getCandidato().getCPF() + ".zip";
+		   System.out.println(zipFile);
 	        try {
 	        	response.setHeader("Content-Disposition", "attachment;filename="+zipFile);
 	        	response.setContentType("application/zip");
@@ -276,6 +279,7 @@ public class Facade {
 	        }
 	        catch (IOException ioe) {
 	            System.out.println("Error creating zip file: " + ioe);
+	            throw ioe;
 	        }
 	    
 	   }	

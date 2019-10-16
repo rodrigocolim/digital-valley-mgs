@@ -292,7 +292,11 @@ ul {
 									class="timeline-badge ${estadoInscricao == 1 ? 'insert_invitation': estadoInscricao == 2 ? 'warning': estadoInscricao == 3  ? 'success': 'danger'}">
 									<i class="material-icons">${estadoInscricao == 1 ? 'insert_invitation': estadoInscricao == 2 ? 'timelapse': estadoInscricao == 3  ? 'done_all': 'warning'}</i>
 								</div>
-								<div class="timeline-panel">
+								<div class="timeline-panel" 
+									<c:if test="${fn:contains(sessionScope.etapasComErro, selecao.inscricao.codEtapa)}">
+										style="box-shadow: 0 1px 6px rgb(255, 0, 0)"
+									</c:if>
+								>
 									<div class="timeline-heading">
 										<h2 class="timeline-title text-uppercase">${selecao.inscricao.titulo}</h2>
 										<p>
@@ -310,7 +314,7 @@ ul {
 											</small>
 										</p>
 									</div>
-									<div class="timeline-body">
+									<div class="timeline-body" >
 										<p>${selecao.inscricao.descricao}</p>
 										<br>
 										<b>CRITÉRIO DE AVALIAÇÃO: </b> ${selecao.inscricao.criterioDeAvaliacao}<br>
@@ -505,7 +509,11 @@ ul {
 									class="timeline-badge ${estado == 1 ? 'insert_invitation': estado == 2 ? 'warning': estado == 3  ? 'success': 'danger'}">
 									<i class="material-icons">${estado == 1 ? 'insert_invitation': estado == 2 ? 'timelapse': estado == 3  ? 'done_all': 'warning'}</i>
 								</div>
-								<div class="timeline-panel">
+								<div class="timeline-panel"
+									<c:if test="${fn:contains(sessionScope.etapasComErro, etapa.codEtapa)}">
+										style="box-shadow: 0 1px 6px rgb(255, 0, 0)"
+									</c:if>
+								>
 									<div class="timeline-heading">
 										<h2 class="timeline-title text-uppercase">${etapa.titulo}</h2>
 										<p>
@@ -826,4 +834,5 @@ ul {
 		});
 	</script>
 </body>
+<% session.removeAttribute("etapasComErro"); %>
 </html>

@@ -142,6 +142,7 @@ public class CadastrarEtapaController {
 	            if (etapa.getPeriodo().getInicio().isBefore(LocalDate.now())) {
 	            	throw new IllegalArgumentException("A data selecionada para o inicio da atividade já passou!");
 	            }
+	            
 	            ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
 	            if (codAvaliadores != null) {
 	                for (String cod : codAvaliadores) {
@@ -150,6 +151,10 @@ public class CadastrarEtapaController {
 	                        avaliadores.add(u);	                        
 	                    }
 	                }
+	            }
+	            
+	            if(avaliadores.size() > 1 && (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO || etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO)) {
+	            	throw new IllegalArgumentException("Esta etapa só pode ter um avaliador devido ao critério de avaliação escolhido.");
 	            }
 	           
 	            this.etapaServiceIfc.setUsuario(usuario);
@@ -270,6 +275,11 @@ public class CadastrarEtapaController {
                     }
                 }
             }
+            
+            if(avaliadores.size() > 1 && (etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO || etapa.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO)) {
+            	throw new IllegalArgumentException("Esta etapa só pode ter um avaliador devido ao critério de avaliação escolhido.");
+            }
+            
             if (codPrerequisito > 0) {
                 etapa.setPrerequisito(this.getEtapaServiceIfc().getEtapa(codPrerequisito));
             }

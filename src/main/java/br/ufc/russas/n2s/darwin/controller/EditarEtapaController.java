@@ -26,6 +26,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -163,6 +164,10 @@ public class EditarEtapaController {
 		    	}
 		    }
 		}
+		
+		if(avaliadores.size() > 1 && (etapaBeans.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO || etapaBeans.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO)) {
+        	throw new IllegalArgumentException("Esta etapa só pode ter um avaliador devido ao critério de avaliação escolhido.");
+        }
    
 		if (documentosExigidos != null) {
 		    ArrayList<String> docs = new ArrayList<>();
@@ -315,7 +320,7 @@ public class EditarEtapaController {
     		return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
     	} catch (IllegalArgumentException e) {
         	session.setAttribute("mensagem", e.getMessage());
-            session.setAttribute("status", "warning");
+            session.setAttribute("status", "danger");
     		return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
     	} catch (Exception e) {
     		e.printStackTrace();
@@ -389,6 +394,11 @@ public class EditarEtapaController {
     			                    if (u != null) {
     			                        avaliadores.add(u);
     			                    }
+    			                }
+    			                if(avaliadores.size() > 1 && (inscricaoBeans.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO || inscricaoBeans.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO)) {
+    			                	session.setAttribute("mensagem", "Esta etapa só pode ter um avaliador devido ao critério de avaliação escolhido.");
+    			                    session.setAttribute("status", "danger");
+    			            		return "redirect:/editarEtapa/" +codSelecao+"/"+codInscricao;
     			                }
     			            }
     		            } catch (NumberFormatException e) {

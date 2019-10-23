@@ -124,6 +124,64 @@ public class EditarEtapaController {
     private boolean editarEtapa(UsuarioBeans usuario, HttpSession session, Long codEtapa, long codSelecao, SelecaoBeans selecao, EtapaBeans etapa, EtapaBeans etapaBeans, PeriodoBeans novoPeriodo, HttpServletRequest request){
     	
     	etapaBeans.setPeriodo(novoPeriodo);
+    	
+    	if(etapaBeans.getEstado() == EnumEstadoEtapa.ESPERA){
+    		String[] codAvaliadores = request.getParameterValues("codAvaliadores");
+    		String[] documentosExigidos = request.getParameterValues("documentosExigidos");
+    		String[] documentosOpcionais = request.getParameterValues("documentosOpcionais");
+    		int criterio = Integer.parseInt(request.getParameter("criterio"));
+    		
+    		if (criterio == 1) {
+    			etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
+    		    etapaBeans.setNotaMinima(etapa.getNotaMinima());
+    		} else if(criterio == 2) {
+    		  	etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
+    		} else if(criterio == 3) {
+    			etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
+    		}
+    		
+    		etapaBeans.setTitulo(etapa.getTitulo());
+    		etapaBeans.setDescricao(etapa.getDescricao());
+    		long codPrerequisito = Long.parseLong(request.getParameter("prereq"));
+    		EtapaBeans pre = this.etapaServiceIfc.getEtapa(codPrerequisito);
+    		etapaBeans.setPrerequisito(pre);
+    		
+    		ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
+    		if (codAvaliadores != null) {
+    			for (String cod : codAvaliadores) {
+    		    	UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
+    		    	if (u != null) {
+    		    		avaliadores.add(u);
+    		    	}
+    		    }
+    		}
+    		
+    		if(avaliadores.size() > 1 && (etapaBeans.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO || etapaBeans.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO)) {
+            	throw new IllegalArgumentException("Esta etapa só pode ter um avaliador devido ao critério de avaliação escolhido.");
+            }
+       
+    		if (documentosExigidos != null) {
+    		    ArrayList<String> docs = new ArrayList<>();
+    		    for(String documento : documentosExigidos) {
+    		    	docs.add(documento);
+    		    }
+    		    etapaBeans.setDocumentacaoExigida(docs);
+    		} else {
+    		    etapaBeans.setDocumentacaoExigida(new ArrayList<>());
+    		}
+    		    
+    		if (documentosOpcionais != null) {
+    			ArrayList<String> docsOp = new ArrayList<>();
+    			for(String documento : documentosOpcionais){
+    				docsOp.add(documento);
+    			}
+    			etapaBeans.setDocumentacaoOpcional(docsOp);
+    		} else {
+    			etapaBeans.setDocumentacaoOpcional(new ArrayList<>());
+    		}
+    		
+    		etapaBeans.setAvaliadores(avaliadores);
+    	}
     
 		if (request.getParameter("dataInicioRecurso") != null && (request.getParameter("dataInicioRecurso").length() >= 8 ) && request.getParameter("dataTerminoRecurso")!= null && (request.getParameter("dataTerminoRecurso").length() >= 8)) {
 			Recurso recurso = new Recurso();
@@ -133,60 +191,6 @@ public class EditarEtapaController {
 		    etapaBeans.setRecurso(recurso);
 		} else { 
 			etapaBeans.setRecurso(null);
-		}
- 
-		String[] codAvaliadores = request.getParameterValues("codAvaliadores");
-		String[] documentosExigidos = request.getParameterValues("documentosExigidos");
-		String[] documentosOpcionais = request.getParameterValues("documentosOpcionais");
-		int criterio = Integer.parseInt(request.getParameter("criterio"));
-		
-		if (criterio == 1) {
-			etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.NOTA);
-		    etapaBeans.setNotaMinima(etapa.getNotaMinima());
-		} else if(criterio == 2) {
-		  	etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.APROVACAO);
-		} else if(criterio == 3) {
-			etapaBeans.setCriterioDeAvaliacao(EnumCriterioDeAvaliacao.DEFERIMENTO);
-		}
-   
-		etapaBeans.setTitulo(etapa.getTitulo());
-		etapaBeans.setDescricao(etapa.getDescricao());
-		long codPrerequisito = Long.parseLong(request.getParameter("prereq"));
-		EtapaBeans pre = this.etapaServiceIfc.getEtapa(codPrerequisito);
-		etapaBeans.setPrerequisito(pre);
-  
-		ArrayList<UsuarioBeans> avaliadores = new ArrayList<>();
-		if (codAvaliadores != null) {
-			for (String cod : codAvaliadores) {
-		    	UsuarioBeans u = this.getUsuarioServiceIfc().getUsuario(Long.parseLong(cod),0);
-		    	if (u != null) {
-		    		avaliadores.add(u);
-		    	}
-		    }
-		}
-		
-		if(avaliadores.size() > 1 && (etapaBeans.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.APROVACAO || etapaBeans.getCriterioDeAvaliacao() == EnumCriterioDeAvaliacao.DEFERIMENTO)) {
-        	throw new IllegalArgumentException("Esta etapa só pode ter um avaliador devido ao critério de avaliação escolhido.");
-        }
-   
-		if (documentosExigidos != null) {
-		    ArrayList<String> docs = new ArrayList<>();
-		    for(String documento : documentosExigidos) {
-		    	docs.add(documento);
-		    }
-		    etapaBeans.setDocumentacaoExigida(docs);
-		} else {
-		    etapaBeans.setDocumentacaoExigida(new ArrayList<>());
-		}
-		    
-		if (documentosOpcionais != null) {
-			ArrayList<String> docsOp = new ArrayList<>();
-			for(String documento : documentosOpcionais){
-				docsOp.add(documento);
-			}
-			etapaBeans.setDocumentacaoOpcional(docsOp);
-		} else {
-			etapaBeans.setDocumentacaoOpcional(new ArrayList<>());
 		}
 		    
 		List <EtapaBeans> subsequentes = selecao.getEtapas();
@@ -203,7 +207,6 @@ public class EditarEtapaController {
 			}
 		}
 		
-		etapaBeans.setAvaliadores(avaliadores);
 	    this.getEtapaServiceIfc().atualizaEtapa(etapaBeans);
 	    selecao = this.getSelecaoServiceIfc().getSelecao(selecao.getCodSelecao());
 	    this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" modificou a etapa "+etapa.getTitulo()+" na seleção "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
@@ -314,13 +317,19 @@ public class EditarEtapaController {
         	model.addAttribute("mensagem", e.getMessage());
         	model.addAttribute("status", "danger");
             return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
-        }catch (IllegalCodeException e) {
+        } catch (IllegalCodeException e) {
         	session.setAttribute("mensagem", "Etapa não pode ser atualizada! Verifique o conflito entre periodos com outras etapas!");
             session.setAttribute("status", "warning");
     		return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
     	} catch (IllegalArgumentException e) {
+    		e.printStackTrace();
         	session.setAttribute("mensagem", e.getMessage());
             session.setAttribute("status", "danger");
+    		return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
+    	} catch (NullPointerException e) {
+    		e.printStackTrace();
+        	session.setAttribute("mensagem", e.getMessage());
+            session.setAttribute("status", "warning");
     		return "redirect:/editarEtapa/" + codSelecao+"/"+codEtapa;
     	} catch (Exception e) {
     		e.printStackTrace();

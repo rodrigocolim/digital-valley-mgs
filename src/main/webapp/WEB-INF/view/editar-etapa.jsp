@@ -57,32 +57,41 @@
                     </c:if>    
                     
                         <label for="tituloInput">Título*</label>
-                        <input type="text" name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
+                        <input type="text" ${etapa.estado ne 'ESPERA' ? 'disabled' : ''} name="titulo" value="${etapa.titulo}" class="form-control" id="tituloInput" aria-describedby="tituloHelp" placeholder="Digite um título para a etapa" required>
                         
                         <br>
                         <label for="descricaoInput"> Descrição*</label>
-                        <textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" required>${etapa.descricao}</textarea>
-                       
+                        <c:if test="${etapa.estado ne 'ESPERA'}">
+                        	<textarea class="form-control" name="descricao" rows="15" placeholder="Digite uma breve descrição sobre a etapa" required disabled>${etapa.descricao}</textarea>
+                        </c:if>
+                        <c:if test="${etapa.estado eq 'ESPERA'}">
+                        	<textarea class="form-control" name="descricao" id="descricaoInput" placeholder="Digite uma breve descrição sobre a etapa" required>${etapa.descricao}</textarea>	
+                        </c:if>
+                        
                         <c:if test="${tipo eq 'etapa'}">
                             <c:if test="${not empty selecao.inscricao}"> <br>
                         <label for="etapaAnteriorInput">Etapa anterior*</label>
-                        <select name="prereq" class="form-control col-md-8"  id="etapaAnteriorInput" required>
-                            <option value="0" selected="selected" disabled="disabled">Selecione a etapa anterior a esta</option>
-                            <fmt:parseDate value="${selecao.inscricao.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTerminoIncricao" type="date" />
-                            <fmt:formatDate value="${parseDataTerminoIncricao}"  pattern="dd/MM/yyyy" var="dataTerminoIncricao" type="date"/>
-                            <option value="${selecao.inscricao.codEtapa}" onclick="atualizaDataMinimaPermitida('${dataTerminoIncricao}')" ${(etapa.prerequisito.codEtapa == selecao.inscricao.codEtapa) ? "selected='selected'" : ""} >${selecao.inscricao.titulo}</option>
-                            <c:forEach var="e" items="${selecao.etapas}">
-                            <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
-                            <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
-                            <option value="${e.codEtapa}" onclick="atualizaDataMinimaPermitida('${dataTermino}')" ${(etapa.prerequisito.codEtapa == e.codEtapa) ? "selected='selected'" : ""} >${e.titulo}</option>
-                            </c:forEach>
-                        </select>
+                        <c:if test="${etapa.estado eq 'ESPERA'}">
+                        	<select name="prereq" class="form-control col-md-8"  id="etapaAnteriorInput" required>
+	                            <option value="0" selected="selected" disabled="disabled">Selecione a etapa anterior a esta</option>
+	                            <fmt:parseDate value="${selecao.inscricao.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTerminoIncricao" type="date" />
+	                            <fmt:formatDate value="${parseDataTerminoIncricao}"  pattern="dd/MM/yyyy" var="dataTerminoIncricao" type="date"/>
+	                            <option value="${selecao.inscricao.codEtapa}" onclick="atualizaDataMinimaPermitida('${dataTerminoIncricao}')" ${(etapa.prerequisito.codEtapa == selecao.inscricao.codEtapa) ? "selected='selected'" : ""} >${selecao.inscricao.titulo}</option>
+	                            <c:forEach var="e" items="${selecao.etapas}">
+	                            <fmt:parseDate value="${etapa.periodo.termino}" pattern="yyyy-MM-dd" var="parseDataTermino" type="date" />
+	                            <fmt:formatDate value="${parseDataTermino}"  pattern="dd/MM/yyyy" var="dataTermino" type="date"/>
+	                            <option value="${e.codEtapa}" onclick="atualizaDataMinimaPermitida('${dataTermino}')" ${(etapa.prerequisito.codEtapa == e.codEtapa) ? "selected='selected'" : ""} >${e.titulo}</option>
+	                            </c:forEach>
+	                        </select>
+                        </c:if>
+                        <c:if test="${etapa.estado ne 'ESPERA'}">
+                        	<input name="prereq" class="form-control col-md-8" disabled value="${etapa.prerequisito.titulo}">
+                        </c:if>
                         <div class="invalid-feedback">
                         </div>
                         <br>
                         </c:if>
                         </c:if>
-                        <br> <br>
                         <label for="periodoInput"> Período*</label>
                         <div id="sandbox-container" class="input-group col-lg-6 align-left" style="padding-left: 0px;">
                         	
@@ -174,15 +183,22 @@
                                 <label for="documentoInput">Documentação Exigida</label>
                             </div>
                             <div class="card-body">
-                                <div class="form-row">
-                                    <input type="text" class="form-control col-md-8" id="documentoInput" placeholder="Digite o nome do documento exigido para esta etapa">&nbsp;&nbsp;
-                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaDocumento()" value="Adicionar">                            
-                                </div>
-                                <br>
+                            	<c:if test="${etapa.estado eq 'ESPERA'}">
+                            		<div class="form-row">
+	                                    <input type="text" class="form-control col-md-8" id="documentoInput" placeholder="Digite o nome do documento exigido para esta etapa">&nbsp;&nbsp;
+	                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaDocumento()" value="Adicionar">                            
+                                	</div>
+                                	<br>
+                            	</c:if>
+                                
                                 <ul class="list-group col-md-8 " id="listaDocumentos">
+                                	<c:if test="${empty etapa.documentacaoExigida  and (etapa.estado ne 'ESPERA')}">Não possui documentação exigida</c:if>
                                     <c:forEach var="documento" items="${etapa.documentacaoExigida}">
                                      <li class="list-group-item" >
-                                            <input type="hidden" name="documentosExigidos" value="${documento}" style="display: none;">${documento}<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumento('${documento}')">clear</button>
+                                            <input type="hidden" name="documentosExigidos" value="${documento}" style="display: none;">${documento}
+                                            <c:if test="${(etapa.estado eq 'ESPERA')}">
+                                            	<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumento('${documento}')">clear</button>
+                                            </c:if>
                                         </li>
                                     </c:forEach>
                                 </ul>
@@ -196,15 +212,22 @@
                                 <label for="documentoOpInput">Documentação Opcional</label>
                             </div>
                             <div class="card-body">
-                                <div class="form-row">
-                                    <input type="text" class="form-control col-md-8" id="documentoOpInput" placeholder="Digite o nome do documento opcional para esta etapa">&nbsp;&nbsp;
-                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaDocumentoOp()" value="Adicionar">                            
-                                </div>
-                                <br>
+                            	<c:if test="${etapa.estado eq 'ESPERA'}">
+	                                <div class="form-row">
+	                                    <input type="text" class="form-control col-md-8" id="documentoOpInput" placeholder="Digite o nome do documento opcional para esta etapa">&nbsp;&nbsp;
+	                                    <input type="button" class="btn btn-secondary btn-sm " onclick="adicionaDocumentoOp()" value="Adicionar">                            
+	                                </div>
+	                                <br>
+                                </c:if>
+                                
                                 <ul class="list-group col-md-8 " id="listaDocumentosOp">
+                                	<c:if test="${(empty etapa.documentacaoOpcional) and (etapa.estado ne 'ESPERA')}">Não possui documentação opcional</c:if>
                                     <c:forEach var="documentoOp" items="${etapa.documentacaoOpcional}">
                                      <li class="list-group-item" >
-                                            <input type="hidden" name="documentosOpcionais" value="${documentoOp}" style="display: none;">${documentoOp}<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumentoOp('${documentoOp}')">clear</button>
+                                            <input type="hidden" name="documentosOpcionais" value="${documentoOp}" style="display: none;">${documentoOp}
+                                            <c:if test="${(etapa.estado eq 'ESPERA')}">
+                                            	<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeDocumento('${documento}')">clear</button>
+                                            </c:if>
                                         </li>
                                     </c:forEach>
                                 </ul>
@@ -220,7 +243,8 @@
                                 <c:if test="${tipo eq 'etapa'}">
                                     <br>
                                     <label for="criterioDeAvaliacaoInput">Critério de Avaliação*</label>
-                                    <select name="criterio" class="form-control col-md-8"  class="criterioInput" id="criterioInput" onchange="atualizaCampoNotaMinima()" required>
+                                    
+                                    <select ${etapa.estado ne 'ESPERA'? 'disabled' : ''} name="criterio" class="form-control col-md-8"  class="criterioInput" id="criterioInput" onchange="atualizaCampoNotaMinima()" required>
                                         <option ${(etapa.criterioDeAvaliacao.criterio == 1 ? "selected" : "")} value="1">Nota</option>
                                         <option ${(etapa.criterioDeAvaliacao.criterio == 2 ? "selected" : "")} value="2" >Aprovação</option>
                                         <option ${(etapa.criterioDeAvaliacao.criterio == 3 ? "selected" : "")} value="3" >Deferimento</option>
@@ -228,7 +252,9 @@
                                 </c:if>
                                 <span id="campoNotaMinima">
 									<c:if test="${etapa.criterioDeAvaliacao.criterio == 1}">
-										Nota mínima: <input type='text' name='notaMinima' value="${etapa.notaMinima}" style='width: 150px' class='form-control criterioInput' id="nota_minima" placeholder='Nota miníma requerida' required>
+										<br>
+										<label>Nota mínima*</label> 
+										<input type='text' ${estado.etapa ne 'ESPERA' ? 'disabled' : ''} name='notaMinima' value="${etapa.notaMinima}" style='width: 150px' class='form-control criterioInput' id="nota_minima" placeholder='Nota miníma requerida' required>
 									</c:if>
                                 </span>
                                     
@@ -238,22 +264,24 @@
                                 <br>
                                 <label for="AvaliadoresInput">Avaliadores*</label>                           
                                 <div class="form-row">
-                                    <select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px" onclick="adicionaAvaliador()">
-                                        <option selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
-                                        <c:forEach items="${usuarios}" var="usuario">
-                                            <option id="avaliadorOption-${usuario.codUsuario}" value="${usuario.codUsuario}">${usuario.nome}</option>
-                                        </c:forEach>
-                                    </select>
-                                    &nbsp;&nbsp;
-                                    <!--<input type="button" class="btn btn-secondary btn-sm " onclick="adicionaAvaliador()" value="Adicionar"/>-->                            
+                                	<c:if test="${etapa.estado eq 'ESPERA' }">
+                                		<select id="avaliadorInput" class="form-control col-md-8" style="margin-left: 3px" onclick="adicionaAvaliador()">
+	                                        <option selected="selected" disabled="disabled">Selecione os avaliadores desta etapa</option>
+	                                        <c:forEach items="${usuarios}" var="usuario">
+	                                            <option id="avaliadorOption-${usuario.codUsuario}" value="${usuario.codUsuario}">${usuario.nome}</option>
+	                                        </c:forEach>
+	                                    </select>
+                                	</c:if>
                                 </div>
-                                <br>
-                                 <ul class="list-group col-md-8" id="listaAvaliadores"> 
+                                
+                                 <ul class="list-group col-md-8" id="listaAvaliadores">
+                                 	<c:if test="${(empty etapa.avaliadores) and (etapa.estado ne 'ESPERA')}">Não possui avaliadores</c:if>
                                     <c:forEach var="avaliador" items="${etapa.avaliadores}">
                                        	<li class="list-group-item">
-                                            <input type="hidden" name="codAvaliadores" value="${avaliador.codUsuario}" style="display: none;"/>
-                                            ${avaliador.nome}
-                                            <button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador('${avaliador.nome}')">clear</button>
+                                            <input type="hidden" name="codAvaliadores" value="${avaliador.codUsuario}" style="display: none;"/>${avaliador.nome}
+                                            <c:if test="${(etapa.estado eq 'ESPERA')}">
+                                            	<button type="button" class="btn btn-light btn-sm material-icons float-right" style="font-size: 15px;" onclick="removeAvaliador('${avaliador.nome}')">clear</button>
+                                            </c:if>
                                         </li>    
                                     </c:forEach>
                                  </ul> 

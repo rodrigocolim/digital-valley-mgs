@@ -391,9 +391,17 @@ ul {
 											test="${((estadoInscricao == 2) or (estadoInscricao == 3)) and (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
 											<a
 												href="${pageContext.request.contextPath}/avaliar/inscricao/${selecao.inscricao.codEtapa}"
-												class="btn btn-primary btn-sm active"
 												class="btn btn-primary btn-sm" style="height: 30px;"> <i
 												class="fas fa-clipboard-check"></i> Avaliação
+											</a>
+										</c:if>
+										
+										<c:if
+											test="${(isResponsavel or fn:contains(permissoes, 'ADMINISTRADOR') ) and (etapa.estado ne 'ESPERA')}">
+											<a
+												href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}/pendencias"
+												class="btn btn-primary btn-sm" style="height: 30px;"> <i
+												class="fas fa-edit"></i> Pendências de Avaliacão
 											</a>
 										</c:if>
 
@@ -418,7 +426,6 @@ ul {
 
 												<a
 													href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}"
-													class="btn btn-primary btn-sm active"
 													class="btn btn-primary btn-sm" style="height: 30px;"
 													data-toggle="modal" data-target="#divulgaresultado"> <i
 													class="fas fa-bullhorn"></i> Divulgar Resultado
@@ -634,7 +641,6 @@ ul {
 											test="${((etapa.estado == 'ANDAMENTO') or (etapa.estado == 'FINALIZADA')) and ((fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin)))}">
 											<a
 												href="${pageContext.request.contextPath}/avaliar/${etapa.codEtapa}"
-												class="btn btn-primary btn-sm active"
 												class="btn btn-primary btn-sm" style="height: 30px;"> <i
 												class="fas fa-clipboard-check"></i> Avaliação
 											</a>

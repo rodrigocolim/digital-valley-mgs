@@ -26,7 +26,6 @@
             <div class="row row-offcanvas row-offcanvas-right">
                 <c:import url="elements/menu-lateral-esquerdo.jsp" charEncoding="UTF-8"></c:import>
                 
-                
                 <c:if test="${fn:contains(categoria, 'estado')}">
                 	<c:set var="titulo" value="${fn:replace(categoria, '/', ' ')}"></c:set>
                 	<c:set var="titulo" value="${fn:substringAfter(titulo, 'estado')}"></c:set>

@@ -237,4 +237,15 @@ public class SelecaoController {
         }
     }
     
+    @RequestMapping(value = "/{codSelecao}/{codEtapa}/pendencias", method = RequestMethod.GET)
+	public String pendencias(@PathVariable Long codSelecao, @PathVariable Long codEtapa, Model model){
+    	SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
+    	EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
+    	
+    	model.addAttribute("selecao", selecao);
+    	model.addAttribute("etapa", etapa);
+    	
+		return "pendencias";
+	}
+    
 }

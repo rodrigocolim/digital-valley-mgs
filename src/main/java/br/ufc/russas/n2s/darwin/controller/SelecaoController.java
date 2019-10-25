@@ -66,6 +66,10 @@ public class SelecaoController {
         SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
         HttpSession session = request.getSession();
         UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
+        
+        if(!selecao.getResponsaveis().contains(usuario) && !selecao.isDivulgada() && !usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)){
+    		return "elements/error404";
+    	}
 
         HashMap<Long, List<UsuarioBeans>> classificados = new HashMap<>();
         for(EtapaBeans et : selecao.getEtapas()) {

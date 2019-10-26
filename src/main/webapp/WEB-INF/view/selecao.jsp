@@ -646,6 +646,14 @@ ul {
 											</a>
 										</c:if>
 										<c:if
+											test="${(isResponsavel or fn:contains(permissoes, 'ADMINISTRADOR') ) and (etapa.estado ne 'ESPERA')}">
+											<a
+												href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}/${etapa.codEtapa}/pendencias"
+												class="btn btn-primary btn-sm" style="height: 30px;"> <i
+												class="fas fa-edit"></i> Pendências de Avaliacão
+											</a>
+										</c:if>
+										<c:if
 											test="${(estado == 3) and (!etapa.divulgadoResultado) and ((fn:contains(permissoes, 'ADMINISTRADOR')) or (isResponsavel))}">
 											<c:set var="pendente" value="false"></c:set>
 											<c:forEach var="avaliacao" items="${etapa.avaliacoes}">
@@ -663,7 +671,6 @@ ul {
 											<c:if test="${not pendente}">
 												<a
 													href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${etapa.codEtapa}"
-													class="btn btn-primary btn-sm active"
 													class="btn btn-primary btn-sm" style="height: 30px;"
 													data-toggle="modal" data-target="#divulgaresultadoetapa2">
 													<i class="fas fa-bullhorn"></i> Divulgar Resultado

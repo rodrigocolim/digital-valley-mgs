@@ -81,12 +81,13 @@
 								    ${avaliador.nome}
 								    <span class="badge badge-primary badge-pill">
 								    	<c:set var="pendente" value="0"></c:set>
+								    	
 								    	<c:forEach var="avaliacao" items="${etapa.avaliacoes}">
-								    		<c:if test="${avaliacao.avaliador.codUsuario} eq ${avaliador.codUsuario}">
+								    		<c:if test="${avaliacao.avaliador.codUsuario eq avaliador.codUsuario}">
 								    			<c:set var="pendente" value="${pendente + 1}"></c:set>
 								    		</c:if>
 								    	</c:forEach>
-								    	${pendente}
+								    	${fn:length(etapa.participantes) - pendente}
 								    </span>
 							 	 </li>
 							</c:forEach>

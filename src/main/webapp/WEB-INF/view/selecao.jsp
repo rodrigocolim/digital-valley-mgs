@@ -382,7 +382,7 @@ ul {
 											test="${(isResponsavel and ((etapa.estado eq 'ESPERA') or (etapa.estado eq 'ANDAMENTO'))) or (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) }">
 											<a
 												href="${pageContext.request.contextPath}/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}"
-												class="btn btn-primary btn-sm" style="height: 30px;"> <i
+												class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"> <i
 												class="fas fa-edit"></i> Editar etapa
 											</a>
 										</c:if>
@@ -391,7 +391,7 @@ ul {
 											test="${((estadoInscricao == 2) or (estadoInscricao == 3)) and (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
 											<a
 												href="${pageContext.request.contextPath}/avaliar/inscricao/${selecao.inscricao.codEtapa}"
-												class="btn btn-primary btn-sm" style="height: 30px;"> <i
+												class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"> <i
 												class="fas fa-clipboard-check"></i> Avaliação
 											</a>
 										</c:if>
@@ -400,8 +400,8 @@ ul {
 											test="${(isResponsavel or fn:contains(permissoes, 'ADMINISTRADOR') ) and (etapa.estado ne 'ESPERA')}">
 											<a
 												href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}/pendencias"
-												class="btn btn-primary btn-sm" style="height: 30px;"> <i
-												class="fas fa-edit"></i> Pendências de Avaliacão
+												class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"> <i
+												class="fas fa-exclamation"></i> Pendências de Avaliacão
 											</a>
 										</c:if>
 
@@ -417,7 +417,7 @@ ul {
 
 											<c:if test="${pendente}">
 												<a href="" class="btn btn-primary btn-sm active"
-													class="btn btn-primary btn-sm" style="height: 30px;"
+													class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"
 													data-toggle="modal" data-target="#divulgaresultados">
 													Divulgar Resultado </a>
 											</c:if>
@@ -426,7 +426,7 @@ ul {
 
 												<a
 													href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}"
-													class="btn btn-primary btn-sm" style="height: 30px;"
+													class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"
 													data-toggle="modal" data-target="#divulgaresultado"> <i
 													class="fas fa-bullhorn"></i> Divulgar Resultado
 												</a>
@@ -596,7 +596,7 @@ ul {
 											test="${((isResponsavel) and ((etapa.estado eq 'ESPERA') or (etapa.estado eq 'ANDAMENTO'))) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
 											<a
 												href="${pageContext.request.contextPath}/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}"
-												class="btn btn-primary btn-sm" style="height: 30px;"> <i
+												class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"> <i
 												class="fas fa-edit"></i> Editar etapa
 											</a>
 										</c:if>
@@ -641,7 +641,7 @@ ul {
 											test="${((etapa.estado == 'ANDAMENTO') or (etapa.estado == 'FINALIZADA')) and ((fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin)))}">
 											<a
 												href="${pageContext.request.contextPath}/avaliar/${etapa.codEtapa}"
-												class="btn btn-primary btn-sm" style="height: 30px;"> <i
+												class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"> <i
 												class="fas fa-clipboard-check"></i> Avaliação
 											</a>
 										</c:if>
@@ -649,8 +649,8 @@ ul {
 											test="${(isResponsavel or fn:contains(permissoes, 'ADMINISTRADOR') ) and (etapa.estado ne 'ESPERA')}">
 											<a
 												href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}/${etapa.codEtapa}/pendencias"
-												class="btn btn-primary btn-sm" style="height: 30px;"> <i
-												class="fas fa-edit"></i> Pendências de Avaliacão
+												class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"> <i
+												class="fas fa-exclamation"></i> Pendências de Avaliacão
 											</a>
 										</c:if>
 										<c:if
@@ -663,7 +663,7 @@ ul {
 											</c:forEach>
 											<c:if test="${pendente}">
 												<a href="" class="btn btn-primary btn-sm active"
-													class="btn btn-primary btn-sm" style="height: 30px;"
+													class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"
 													data-toggle="modal" data-target="#divulgaresultadoetapa">
 													<i class="fas fa-bullhorn"></i> Divulgar Resultado
 												</a>
@@ -671,7 +671,7 @@ ul {
 											<c:if test="${not pendente}">
 												<a
 													href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${etapa.codEtapa}"
-													class="btn btn-primary btn-sm" style="height: 30px;"
+													class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"
 													data-toggle="modal" data-target="#divulgaresultadoetapa2">
 													<i class="fas fa-bullhorn"></i> Divulgar Resultado
 												</a>

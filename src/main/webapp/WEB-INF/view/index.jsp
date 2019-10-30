@@ -157,9 +157,29 @@
                         <li class="page-item ${pagina <= 1 ? "disabled" : ""}">
                             <a class="page-link" href="${pageContext.request.contextPath}/${categoria}${pag}${pagina - 1}" tabindex="-1">Anterior</a>
                         </li>
-	                    <c:forEach var="i" begin="1" end="${(qtdSelecoes/5) + (qtdSelecoes%5 == 0 ? 0 : 1)}">
-	                        <li class="page-item ${pagina == i ? "active": ""}"><a class="page-link" href="${pageContext.request.contextPath}/${categoria}${pag}${i}">${i}</a></li>
+                        
+                        <c:set var="qtdPaginas" value="${(qtdSelecoes/5) + (qtdSelecoes%5 == 0 ? 0 : 1)}"></c:set>
+                        <c:set var="aux" value="0"></c:set>
+                        
+                        <c:forEach var="i" begin="${(pagina - 8) > 0 ? pagina - 8 : 1}" end="${(pagina + 8) <= qtdPaginas ? pagina + 8 : qtdPaginas }">
+                        	<c:if test="${i < pagina}">
+                        		<c:if test="${(pagina == qtdPaginas - aux) or (i >= pagina - 4)}">
+                        			<c:set var="aux" value="${aux+1}"></c:set>
+                        			<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/${categoria}${pag}${i}">${i}</a></li>
+                        		</c:if>
+                        	</c:if>
+                        	<c:if test="${pagina eq i}">
+                        		<li class="page-item ${pagina == i ? "active": ""}"><a class="page-link" href="${pageContext.request.contextPath}/${categoria}${pag}${i}">${i}</a></li>
+                        		<c:set var="aux" value="${8}"></c:set>
+                        	</c:if>
+							<c:if test="${i > pagina}">
+                        		<c:if test="${(i <= pagina + 4) or (pagina <= aux)}">
+                        			<c:set var="aux" value="${aux-1}"></c:set>
+                        			<li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/${categoria}${pag}${i}">${i}</a></li>
+                        		</c:if>
+                        	</c:if>
 	                    </c:forEach>
+
                         <li class="page-item ${pagina >= qtdSelecoes/5 ? "disabled" : ""}">
                             <a class="page-link" href="${pageContext.request.contextPath}/${categoria}${pag}${pagina + 1}">Próximo</a>
                         </li>

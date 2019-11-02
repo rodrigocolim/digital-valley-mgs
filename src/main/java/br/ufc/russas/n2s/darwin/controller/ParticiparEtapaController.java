@@ -120,7 +120,6 @@ public class ParticiparEtapaController {
         	}
         }
         SelecaoBeans selecao = (SelecaoBeans) session.getAttribute("selecao");
-        System.out.println(selecao.getTitulo());
         this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" portador do CPF "+usuario.getCPF()+" entrou na pagina de inscrição na seleção ("+selecao.getCodSelecao()+") "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
         model.addAttribute("isParticipante", isParticipante);
         model.addAttribute("etapa", etapaBeans);
@@ -137,64 +136,82 @@ public class ParticiparEtapaController {
 	            inscricao = this.etapaServiceIfc.getEtapa(codEtapa);
 	            SelecaoBeans selecao = this.etapaServiceIfc.getSelecao(inscricao);
 	            UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-	            if (this.etapaServiceIfc.isParticipante(inscricao, usuario)) throw new Exception("Você já está inscrito nessa seleção.");
-	            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator+"Etapa_"+inscricao.getCodEtapa()+File.separator+"Candidato_"+usuario.getCodUsuario()+File.separator);
-	            if(!dir.exists()) {
-	            	dir.mkdir();
-	            }
-	            this.etapaServiceIfc.setUsuario(usuario);
-	            List<Arquivo> arquivos = new ArrayList<Arquivo>();
-	            String[] nomeDocumento = request.getParameterValues("nomeDocumento");            
-	            for (int i = 0; i < documentos.size();i++) {
-	            	if (i < nomeDocumento.length) {
-		                String nome = nomeDocumento[i];
-		                MultipartFile file = documentos.get(i);
-		                if (file != null) {
-		                    Arquivo documento = new Arquivo();
-		                    String aux = file.getOriginalFilename();
-		                    if (aux.length() > 4) {
-		                    	String expressao = aux.substring(aux.lastIndexOf("."), aux.length());
-			                    if (!expressao.equals(".pdf")) {throw new IllegalArgumentException("Formato de arquivo enviado não é .pdf");}
-			                    java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(), ".pdf", dir);
-			                    FileOutputStream fos = new FileOutputStream(convFile); 
-			                    fos.write(file.getBytes());
-			                    fos.close(); 
-			                    documento.setTitulo(nome);
-			                    documento.setData(LocalDateTime.now());
-			                    documento.setArquivo(convFile);
-			                    arquivos.add(documento);
-		                    }
-		                }
-	                }        
-	            }
-            
-	            Documentacao documentacao = new  Documentacao();
-	            Participante participante = new Participante();
-	            participante.setCandidato((UsuarioDarwin) usuario.toBusiness());
-	            participante.setData(LocalDateTime.now());
-	            documentacao.setCandidato(participante);
-	            documentacao.setDocumentos(arquivos);
 	            
-	            if (arquivos.size()>0) {
-	            	etapaServiceIfc.participa(inscricao, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante), (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
-	                
-	            } else {
-	            	etapaServiceIfc.participa(inscricao, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
-	            }  
-	            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" portador do CPF "+usuario.getCPF()+" realizou a inscrição na seleção ("+selecao.getCodSelecao()+") "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
-	            session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(inscricao.getTitulo()));
-	            List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
-	            Thread sendEmail = new Thread(new Email(usuario, "Inscrição em seleção!", "Inscrição em seleção", "Sua inscrição na <b>Seleção "+selecao.getTitulo()+"</b> foi realizada com sucesso!"));
-	            sendEmail.start();
-	            HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
-	            for (SelecaoBeans s : selecoes) {
-	                etapasAtuais.put(s, this.getSelecaoServiceIfc().getEtapaAtual(s));
-	            }
-            
-	            model.addAttribute("selecoes", selecoes);
-	            model.addAttribute("etapasAtuais", etapasAtuais);
-	            session.setAttribute("status", "success");
-	            return "redirect:/minhas_Selecoes";
+	            boolean isAvaliador = false;
+        		for (EtapaBeans etapa : selecao.getEtapas()) {
+        			for(UsuarioBeans avaliador : etapa.getAvaliadores()) {
+        				if(avaliador.getCodUsuario() == usuario.getCodUsuario()){
+        					isAvaliador = true;
+        					break;
+        				}
+        			}
+        			if(isAvaliador)
+        				break;
+				}
+        		if(!isAvaliador){
+        			if (this.etapaServiceIfc.isParticipante(inscricao, usuario)) throw new Exception("Você já está inscrito nessa seleção.");
+    	            File dir = new File(Constantes.getDocumentsDir()+File.separator+"Selecao_"+selecao.getCodSelecao()+File.separator+"Etapa_"+inscricao.getCodEtapa()+File.separator+"Candidato_"+usuario.getCodUsuario()+File.separator);
+    	            if(!dir.exists()) {
+    	            	dir.mkdir();
+    	            }
+    	            this.etapaServiceIfc.setUsuario(usuario);
+    	            List<Arquivo> arquivos = new ArrayList<Arquivo>();
+    	            String[] nomeDocumento = request.getParameterValues("nomeDocumento");            
+    	            for (int i = 0; i < documentos.size();i++) {
+    	            	if (i < nomeDocumento.length) {
+    		                String nome = nomeDocumento[i];
+    		                MultipartFile file = documentos.get(i);
+    		                if (file != null) {
+    		                    Arquivo documento = new Arquivo();
+    		                    String aux = file.getOriginalFilename();
+    		                    if (aux.length() > 4) {
+    		                    	String expressao = aux.substring(aux.lastIndexOf("."), aux.length());
+    			                    if (!expressao.equals(".pdf")) {throw new IllegalArgumentException("Formato de arquivo enviado não é .pdf");}
+    			                    java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(), ".pdf", dir);
+    			                    FileOutputStream fos = new FileOutputStream(convFile); 
+    			                    fos.write(file.getBytes());
+    			                    fos.close(); 
+    			                    documento.setTitulo(nome);
+    			                    documento.setData(LocalDateTime.now());
+    			                    documento.setArquivo(convFile);
+    			                    arquivos.add(documento);
+    		                    }
+    		                }
+    	                }        
+    	            }
+                
+    	            Documentacao documentacao = new  Documentacao();
+    	            Participante participante = new Participante();
+    	            participante.setCandidato((UsuarioDarwin) usuario.toBusiness());
+    	            participante.setData(LocalDateTime.now());
+    	            documentacao.setCandidato(participante);
+    	            documentacao.setDocumentos(arquivos);
+    	            
+    	            if (arquivos.size()>0) {
+    	            	etapaServiceIfc.participa(inscricao, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante), (DocumentacaoBeans) new DocumentacaoBeans().toBeans(documentacao));
+    	                
+    	            } else {
+    	            	etapaServiceIfc.participa(inscricao, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
+    	            }  
+    	            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" portador do CPF "+usuario.getCPF()+" realizou a inscrição na seleção ("+selecao.getCodSelecao()+") "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
+    	            session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(inscricao.getTitulo()));
+    	            List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
+    	            Thread sendEmail = new Thread(new Email(usuario, "Inscrição em seleção!", "Inscrição em seleção", "Sua inscrição na <b>Seleção "+selecao.getTitulo()+"</b> foi realizada com sucesso!"));
+    	            sendEmail.start();
+    	            HashMap<SelecaoBeans, EtapaBeans> etapasAtuais = new  HashMap<>();
+    	            for (SelecaoBeans s : selecoes) {
+    	                etapasAtuais.put(s, this.getSelecaoServiceIfc().getEtapaAtual(s));
+    	            }
+                
+    	            model.addAttribute("selecoes", selecoes);
+    	            model.addAttribute("etapasAtuais", etapasAtuais);
+    	            session.setAttribute("status", "success");
+    	            return "redirect:/minhas_Selecoes";
+        		}
+        		else {
+        			throw new Exception("Você é avaliador de alguma das etapas desta seleção, por isso não é possível se inscrever!");
+        		}
+	            
         	}
         } catch (NumberFormatException e) {
         	e.printStackTrace();

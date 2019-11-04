@@ -357,7 +357,16 @@ ul {
 										</c:if>
 
 										<hr>
-										<c:if test="${not (isParticipante)}">
+										<c:set var="isAvaliador" value="false"></c:set>
+										<c:forEach var="etapa" items="${selecao.etapas}">
+											<c:forEach var="avaliador" items="${etapa.avaliadores}">
+												<c:if test="${avaliador.codUsuario eq sessionScope.usuarioDarwin.codUsuario}">
+													<c:set var="isAvaliador" value="true"></c:set>
+												</c:if>
+											</c:forEach>
+										</c:forEach>
+										
+										<c:if test="${not (isParticipante) and not isAvaliador}">
 											<c:if
 												test="${(estadoInscricao == 2) and (not isResponsavel) and (not fn:contains(permissoes, 'ADMINISTRADOR')) and (not fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
 												<a

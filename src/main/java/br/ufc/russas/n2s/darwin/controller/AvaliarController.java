@@ -51,7 +51,7 @@ public class AvaliarController {
 	public void setEtapaServiceIfc(@Qualifier("etapaServiceIfc") EtapaServiceIfc etapaServiceIfc) {
 		this.etapaServiceIfc = etapaServiceIfc;
 	}
-	
+
 	@Autowired(required = true)
 	public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc") SelecaoServiceIfc selecaoServiceIfc) {
 		this.selecaoServiceIfc = selecaoServiceIfc;
@@ -288,8 +288,8 @@ public class AvaliarController {
 	}
 
 	@RequestMapping(value = "/download/{codSelecao}/{codEtapa}/{codParticipante}", method = RequestMethod.GET)
-	public String getParticipantesInscricao(@PathVariable long codSelecao, @PathVariable long codEtapa, @PathVariable long codParticipante,
-			Model model, HttpServletRequest request, HttpServletResponse response) {
+	public String getParticipantesInscricao(@PathVariable long codSelecao, @PathVariable long codEtapa,
+			@PathVariable long codParticipante, Model model, HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		EtapaBeans etapa = etapaServiceIfc.getEtapa(codEtapa);
 		SelecaoBeans selecao = selecaoServiceIfc.getSelecao(codSelecao);
@@ -297,9 +297,10 @@ public class AvaliarController {
 			UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
 			ParticipanteBeans p = this.participanteServiceIfc.getParticipante(codParticipante);
 			if ((etapa.getAvaliadores().contains(usuario))
-					|| (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR))) {
+					|| (usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)
+							|| (usuario.getCodUsuario() == p.getCandidato().getCodUsuario()))) {
 				Facade.compactarParaZip(selecao, etapa, p, response);
-				return "redirect: " + Constantes.getAppUrl() + "/avaliar/" + etapa.getCodEtapa();
+				return (String) request.getAttribute("javax.servlet.forward.request_uri");
 			} else {
 				return "error/404";
 			}

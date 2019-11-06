@@ -292,11 +292,10 @@ ul {
 									class="timeline-badge ${estadoInscricao == 1 ? 'insert_invitation': estadoInscricao == 2 ? 'warning': estadoInscricao == 3  ? 'success': 'danger'}">
 									<i class="material-icons">${estadoInscricao == 1 ? 'insert_invitation': estadoInscricao == 2 ? 'timelapse': estadoInscricao == 3  ? 'done_all': 'warning'}</i>
 								</div>
-								<div class="timeline-panel" 
+								<div class="timeline-panel"
 									<c:if test="${fn:contains(sessionScope.etapasComErro, selecao.inscricao.codEtapa)}">
 										style="box-shadow: 0 1px 6px rgb(255, 0, 0)"
-									</c:if>
-								>
+									</c:if>>
 									<div class="timeline-heading">
 										<h2 class="timeline-title text-uppercase">${selecao.inscricao.titulo}</h2>
 										<p>
@@ -314,10 +313,10 @@ ul {
 											</small>
 										</p>
 									</div>
-									<div class="timeline-body" >
+									<div class="timeline-body">
 										<p>${selecao.inscricao.descricao}</p>
-										<br>
-										<b>CRITÉRIO DE AVALIAÇÃO: </b> ${selecao.inscricao.criterioDeAvaliacao}<br>
+										<br> <b>CRITÉRIO DE AVALIAÇÃO: </b>
+										${selecao.inscricao.criterioDeAvaliacao}<br>
 										<c:if
 											test="${not empty selecao.inscricao.documentacaoExigida}">
 											<b>DOCUMENTAÇÃO EXIGIDA: </b>
@@ -360,12 +359,13 @@ ul {
 										<c:set var="isAvaliador" value="false"></c:set>
 										<c:forEach var="etapa" items="${selecao.etapas}">
 											<c:forEach var="avaliador" items="${etapa.avaliadores}">
-												<c:if test="${avaliador.codUsuario eq sessionScope.usuarioDarwin.codUsuario}">
+												<c:if
+													test="${avaliador.codUsuario eq sessionScope.usuarioDarwin.codUsuario}">
 													<c:set var="isAvaliador" value="true"></c:set>
 												</c:if>
 											</c:forEach>
 										</c:forEach>
-										
+
 										<c:if test="${not (isParticipante) and not isAvaliador}">
 											<c:if
 												test="${(estadoInscricao == 2) and (not isResponsavel) and (not fn:contains(permissoes, 'ADMINISTRADOR')) and (not fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
@@ -381,6 +381,14 @@ ul {
 												role="button" aria-pressed="true">
 												<i class="fas fa-user-check"></i> Inscrito
 											</button>
+											<c:if test="${not empty selecao.inscricao.documentacoes}">
+												<a
+													href="${pageContext.request.contextPath}/avaliar/download/${selecao.codSelecao}/${selecao.inscricao.codEtapa}/${participante.codParticipante}"
+													class="btn btn-primary btn-sm" role="button"
+													aria-pressed="true"><i class="fa fa-download"></i>
+													Documentação Enviada
+												</a>
+											</c:if>
 										</c:if>
 										<jsp:useBean id="now" class="java.util.Date" />
 										<fmt:formatDate var="dateAgora" value="${now}"
@@ -391,7 +399,8 @@ ul {
 											test="${(isResponsavel and ((etapa.estado eq 'ESPERA') or (etapa.estado eq 'ANDAMENTO'))) or (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) }">
 											<a
 												href="${pageContext.request.contextPath}/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}"
-												class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"> <i
+												class="btn btn-primary btn-sm"
+												style="height: 30px; margin-top: 5px;"> <i
 												class="fas fa-edit"></i> Editar etapa
 											</a>
 										</c:if>
@@ -400,16 +409,18 @@ ul {
 											test="${((estadoInscricao == 2) or (estadoInscricao == 3)) and (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
 											<a
 												href="${pageContext.request.contextPath}/avaliar/inscricao/${selecao.inscricao.codEtapa}"
-												class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"> <i
+												class="btn btn-primary btn-sm"
+												style="height: 30px; margin-top: 5px;"> <i
 												class="fas fa-clipboard-check"></i> Avaliação
 											</a>
 										</c:if>
-										
+
 										<c:if
 											test="${(isResponsavel or fn:contains(permissoes, 'ADMINISTRADOR') ) and (etapa.estado ne 'ESPERA')}">
 											<a
 												href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}/pendencias"
-												class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"> <i
+												class="btn btn-primary btn-sm"
+												style="height: 30px; margin-top: 5px;"> <i
 												class="fas fa-exclamation"></i> Pendências de Avaliacão
 											</a>
 										</c:if>
@@ -426,21 +437,22 @@ ul {
 
 											<c:if test="${pendente}">
 												<a href="" class="btn btn-primary btn-sm active"
-													class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"
-													data-toggle="modal" data-target="#divulgaresultados">
-													Divulgar Resultado </a>
+													class="btn btn-primary btn-sm"
+													style="height: 30px; margin-top: 5px;" data-toggle="modal"
+													data-target="#divulgaresultados"> Divulgar Resultado </a>
 											</c:if>
-											
+
 											<c:if test="${not pendente}">
 
 												<a
 													href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}"
-													class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"
-													data-toggle="modal" data-target="#divulgaresultado"> <i
+													class="btn btn-primary btn-sm"
+													style="height: 30px; margin-top: 5px;" data-toggle="modal"
+													data-target="#divulgaresultado"> <i
 													class="fas fa-bullhorn"></i> Divulgar Resultado
 												</a>
 											</c:if>
-											
+
 											<!-- divulgação de resultados -->
 											<div class="modal fade" id="divulgaresultados" tabindex="-1"
 												role="dialog" aria-labelledby="modalLabel"
@@ -528,8 +540,7 @@ ul {
 								<div class="timeline-panel"
 									<c:if test="${fn:contains(sessionScope.etapasComErro, etapa.codEtapa)}">
 										style="box-shadow: 0 1px 6px rgb(255, 0, 0)"
-									</c:if>
-								>
+									</c:if>>
 									<div class="timeline-heading">
 										<h2 class="timeline-title text-uppercase">${etapa.titulo}</h2>
 										<p>
@@ -552,8 +563,8 @@ ul {
 											value="${etapa.codEtapa}">
 										<p class="text-justify">${etapa.descricao}</p>
 										<br> <b>ETAPA DE PRÉ-REQUISITO: </b>
-										${etapa.prerequisito.titulo}<br>
-										<b>CRITÉRIO DE AVALIAÇÃO: </b> ${etapa.criterioDeAvaliacao}<br>
+										${etapa.prerequisito.titulo}<br> <b>CRITÉRIO DE
+											AVALIAÇÃO: </b> ${etapa.criterioDeAvaliacao}<br>
 										<c:if
 											test="${etapa.criterioDeAvaliacao == EnumCriterioDeAvaliacao.NOTA}">
 											<b>NOTA MÍNIMA: </b> ${etapa.notaMinima}<br>
@@ -605,7 +616,8 @@ ul {
 											test="${((isResponsavel) and ((etapa.estado eq 'ESPERA') or (etapa.estado eq 'ANDAMENTO'))) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
 											<a
 												href="${pageContext.request.contextPath}/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}"
-												class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"> <i
+												class="btn btn-primary btn-sm"
+												style="height: 30px; margin-top: 5px;"> <i
 												class="fas fa-edit"></i> Editar etapa
 											</a>
 										</c:if>
@@ -650,7 +662,8 @@ ul {
 											test="${((etapa.estado == 'ANDAMENTO') or (etapa.estado == 'FINALIZADA')) and ((fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin)))}">
 											<a
 												href="${pageContext.request.contextPath}/avaliar/${etapa.codEtapa}"
-												class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"> <i
+												class="btn btn-primary btn-sm"
+												style="height: 30px; margin-top: 5px;"> <i
 												class="fas fa-clipboard-check"></i> Avaliação
 											</a>
 										</c:if>
@@ -658,7 +671,8 @@ ul {
 											test="${(isResponsavel or fn:contains(permissoes, 'ADMINISTRADOR') ) and (etapa.estado ne 'ESPERA')}">
 											<a
 												href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}/${etapa.codEtapa}/pendencias"
-												class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"> <i
+												class="btn btn-primary btn-sm"
+												style="height: 30px; margin-top: 5px;"> <i
 												class="fas fa-exclamation"></i> Pendências de Avaliacão
 											</a>
 										</c:if>
@@ -672,17 +686,19 @@ ul {
 											</c:forEach>
 											<c:if test="${pendente}">
 												<a href="" class="btn btn-primary btn-sm active"
-													class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"
-													data-toggle="modal" data-target="#divulgaresultadoetapa">
-													<i class="fas fa-bullhorn"></i> Divulgar Resultado
+													class="btn btn-primary btn-sm"
+													style="height: 30px; margin-top: 5px;" data-toggle="modal"
+													data-target="#divulgaresultadoetapa"> <i
+													class="fas fa-bullhorn"></i> Divulgar Resultado
 												</a>
 											</c:if>
 											<c:if test="${not pendente}">
 												<a
 													href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${etapa.codEtapa}"
-													class="btn btn-primary btn-sm" style="height: 30px; margin-top:5px;"
-													data-toggle="modal" data-target="#divulgaresultadoetapa2">
-													<i class="fas fa-bullhorn"></i> Divulgar Resultado
+													class="btn btn-primary btn-sm"
+													style="height: 30px; margin-top: 5px;" data-toggle="modal"
+													data-target="#divulgaresultadoetapa2"> <i
+													class="fas fa-bullhorn"></i> Divulgar Resultado
 												</a>
 											</c:if>
 
@@ -856,5 +872,7 @@ ul {
 		});
 	</script>
 </body>
-<% session.removeAttribute("etapasComErro"); %>
+<%
+	session.removeAttribute("etapasComErro");
+%>
 </html>

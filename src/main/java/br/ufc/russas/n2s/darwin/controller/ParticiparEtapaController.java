@@ -194,7 +194,7 @@ public class ParticiparEtapaController {
     	            	etapaServiceIfc.participa(inscricao, (ParticipanteBeans) new ParticipanteBeans().toBeans(participante));
     	            }  
     	            this.getLogServiceIfc().adicionaLog(new Log(LocalDate.now(),(UsuarioDarwin)usuario.toBusiness(), (Selecao) selecao.toBusiness(), "O(A) usuario(a) "+ usuario.getNome()+" portador do CPF "+usuario.getCPF()+" realizou a inscrição na seleção ("+selecao.getCodSelecao()+") "+selecao.getTitulo()+" em "+LocalDate.now()+"."));
-    	            session.setAttribute("mensagem", "Agora você está inscrito na etapa ".concat(inscricao.getTitulo()));
+    	            session.setAttribute("mensagem", "Agora você está inscrito na seleção ".concat(selecao.getTitulo()));
     	            List<SelecaoBeans> selecoes = this.getSelecaoServiceIfc().listaSelecoesAssociada(usuario);
     	            Thread sendEmail = new Thread(new Email(usuario, "Inscrição em seleção!", "Inscrição em seleção", "Sua inscrição na <b>Seleção "+selecao.getTitulo()+"</b> foi realizada com sucesso!"));
     	            sendEmail.start();

@@ -67,14 +67,17 @@ public class SelecaoController {
 		SelecaoBeans selecao = this.selecaoServiceIfc.getSelecao(codSelecao);
 		HttpSession session = request.getSession();
 		UsuarioBeans usuario = (UsuarioBeans) session.getAttribute("usuarioDarwin");
-		List<ParticipanteBeans> partis = selecao.getInscricao().getParticipantes().stream()
-				.filter(partic -> partic.getCandidato().getCodUsuario() == usuario.getCodUsuario())
-				.collect(Collectors.toList());
+		
+		if(selecao.getInscricao() != null) {
+			List<ParticipanteBeans> partis = selecao.getInscricao().getParticipantes().stream()
+					.filter(partic -> partic.getCandidato().getCodUsuario() == usuario.getCodUsuario())
+					.collect(Collectors.toList());
 
-		if (partis.size() != 0) {
-			model.addAttribute("participante", partis.get(0));
-		}
-
+			if (partis.size() != 0) {
+				model.addAttribute("participante", partis.get(0));
+			}
+		}	
+		
 		if (!selecao.getResponsaveis().contains(usuario) && !selecao.isDivulgada()
 				&& !usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
 			return "elements/error404";

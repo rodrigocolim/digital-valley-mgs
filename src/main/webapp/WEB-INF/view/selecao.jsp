@@ -611,7 +611,16 @@ ul {
 												class="btn btn-primary btn-sm" style="height: 30px;">
 												Enviar documentação </a>
 										</c:if>
-
+										<c:if test="${(isParticipante)}">
+											<c:if test="${not empty etapa.documentacoes}">
+												<a
+													href="${pageContext.request.contextPath}/avaliar/download/${selecao.codSelecao}/${etapa.codEtapa}/${participante.codParticipante}"
+													class="btn btn-primary btn-sm" role="button"
+													aria-pressed="true"><i class="fa fa-download"></i>
+													Documentação Enviada
+												</a>
+											</c:if>
+										</c:if>
 										<c:if
 											test="${((isResponsavel) and ((etapa.estado eq 'ESPERA') or (etapa.estado eq 'ANDAMENTO'))) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
 											<a

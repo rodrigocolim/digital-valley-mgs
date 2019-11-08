@@ -88,7 +88,7 @@
 											test="${(avaliacao.participante.codParticipante == participante.codParticipante) and (avaliacao.avaliador.codUsuario == avaliador.codUsuario)}">
 											<c:set var="avaliacaoParticipante" value="${avaliacao}" />
 											<c:if test="${avaliacaoParticipante.estado == PENDENTE}">
-												<td>${avaliacao.estado}</td>
+												<td><span class="badge badge-danger">${avaliacao.estado}</span></td>
 												<td>  -</td>
 												<td><button type="button"
 														class="btn btn-primary btn-sm" data-toggle="modal"
@@ -115,7 +115,7 @@
 								</c:if>
 								<c:if test="${empty etapa.avaliacoes}">
 									<c:set var="avaliado" value="${false}" />
-									<td>Pendente</td>
+									<td><span class="badge badge-danger">Pendente</span></td>
 									<td>  -</td>
 									<td><button type="button" class="btn btn-primary btn-sm"
 											data-toggle="modal"
@@ -123,8 +123,8 @@
 								</c:if>
 								<c:if test="${not empty etapa.avaliacoes and avaliado == false}">
 									<c:set var="avaliado" value="${false}" />
+									<td><span class="badge badge-danger">Pendente</span></td>
 									<td>-</td>
-									<td>Pendente</td>
 									<td><button type="button" class="btn btn-primary btn-sm"
 											data-toggle="modal"
 											data-target="#avaliar${participante.candidato.codUsuario}">Avaliar</button></td>

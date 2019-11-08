@@ -79,16 +79,22 @@
 							<c:forEach var="avaliador" items="${etapa.avaliadores}">
 								<li class="list-group-item d-flex justify-content-between align-items-center">
 								    ${avaliador.nome}
-								    <span class="badge badge-primary badge-pill">
-								    	<c:set var="pendente" value="0"></c:set>
-								    	
-								    	<c:forEach var="avaliacao" items="${etapa.avaliacoes}">
+								    <c:set var="pendente" value="0"></c:set>
+								    <c:forEach var="avaliacao" items="${etapa.avaliacoes}">
 								    		<c:if test="${avaliacao.avaliador.codUsuario eq avaliador.codUsuario}">
 								    			<c:set var="pendente" value="${pendente + 1}"></c:set>
 								    		</c:if>
-								    	</c:forEach>
-								    	${fn:length(etapa.participantes) - pendente}
-								    </span>
+								    </c:forEach>
+								    <c:if test="${fn:length(etapa.participantes) - pendente eq 0}">
+								     	<span class= "badge badge-pill badge-success">
+								    		${fn:length(etapa.participantes) - pendente}
+								    	</span>
+								    </c:if>
+								    <c:if test="${fn:length(etapa.participantes) - pendente ne 0}">
+								     	<span class= "badge badge-pill badge-danger">
+								    		${fn:length(etapa.participantes) - pendente}
+								    	</span>
+								    </c:if>
 							 	 </li>
 							</c:forEach>
 						</ul>

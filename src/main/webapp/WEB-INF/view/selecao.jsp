@@ -396,7 +396,7 @@ ul {
 										<fmt:formatDate value="${parseDataInicio}" pattern="ddMMyyyy"
 											var="Inicio" />
 										<c:if
-											test="${(isResponsavel and ((etapa.estado eq 'ESPERA') or (etapa.estado eq 'ANDAMENTO'))) or (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) }">
+											test="${((isResponsavel) and ((etapa.estado eq 'ESPERA') or (etapa.estado eq 'ANDAMENTO'))) or (fn:contains(permissoes, 'ADMINISTRADOR') or !selecao.divulgada)}">
 											<a
 												href="${pageContext.request.contextPath}/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}"
 												class="btn btn-primary btn-sm"
@@ -607,7 +607,6 @@ ul {
 											test="${(not empty etapa.documentacaoExigida) and (estado == 2) and (fn:contains(classificados[etapa.codEtapa], sessionScope.usuarioDarwin)) }">
 											<a
 												href="${pageContext.request.contextPath}/participarEtapa/${etapa.codEtapa}"
-												class="btn btn-primary btn-sm active"
 												class="btn btn-primary btn-sm" style="height: 30px;">
 												Enviar documentação </a>
 										</c:if>
@@ -622,7 +621,7 @@ ul {
 											</c:if>
 										</c:if>
 										<c:if
-											test="${((isResponsavel) and ((etapa.estado eq 'ESPERA') or (etapa.estado eq 'ANDAMENTO'))) or (fn:contains(permissoes, 'ADMINISTRADOR'))}">
+											test="${((isResponsavel) and ((etapa.estado eq 'ESPERA') or (etapa.estado eq 'ANDAMENTO'))) or (fn:contains(permissoes, 'ADMINISTRADOR') or !selecao.divulgada)}">
 											<a
 												href="${pageContext.request.contextPath}/editarEtapa/${selecao.codSelecao}/${etapa.codEtapa}"
 												class="btn btn-primary btn-sm"

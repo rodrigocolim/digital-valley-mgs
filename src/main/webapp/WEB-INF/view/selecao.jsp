@@ -386,8 +386,7 @@ ul {
 													href="${pageContext.request.contextPath}/avaliar/download/${selecao.codSelecao}/${selecao.inscricao.codEtapa}/${participante.codParticipante}"
 													class="btn btn-primary btn-sm" role="button"
 													aria-pressed="true"><i class="fa fa-download"></i>
-													Documentação Enviada
-												</a>
+													Documentação Enviada </a>
 											</c:if>
 										</c:if>
 										<jsp:useBean id="now" class="java.util.Date" />
@@ -406,7 +405,7 @@ ul {
 										</c:if>
 
 										<c:if
-											test="${((estadoInscricao == 2) or (estadoInscricao == 3)) and (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))}">
+											test="${(selecao.divulgada and ((estadoInscricao == 2) or (estadoInscricao == 3)) and (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))))}">
 											<a
 												href="${pageContext.request.contextPath}/avaliar/inscricao/${selecao.inscricao.codEtapa}"
 												class="btn btn-primary btn-sm"
@@ -416,7 +415,7 @@ ul {
 										</c:if>
 
 										<c:if
-											test="${(isResponsavel or fn:contains(permissoes, 'ADMINISTRADOR') ) and (etapa.estado ne 'ESPERA')}">
+											test="${selecao.divulgada and (isResponsavel or fn:contains(permissoes, 'ADMINISTRADOR')) and (etapa.estado ne 'ESPERA')}">
 											<a
 												href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}/pendencias"
 												class="btn btn-primary btn-sm"
@@ -435,14 +434,14 @@ ul {
 												</c:if>
 											</c:forEach>
 
-											<c:if test="${pendente}">
+											<c:if test="${pendente and selecao.divulgada}">
 												<a href="" class="btn btn-primary btn-sm active"
 													class="btn btn-primary btn-sm"
 													style="height: 30px; margin-top: 5px;" data-toggle="modal"
 													data-target="#divulgaresultados"> Divulgar Resultado </a>
 											</c:if>
 
-											<c:if test="${not pendente}">
+											<c:if test="${not pendente and selecao.divulgada}">
 
 												<a
 													href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${selecao.inscricao.codEtapa}"
@@ -616,8 +615,7 @@ ul {
 													href="${pageContext.request.contextPath}/avaliar/download/${selecao.codSelecao}/${etapa.codEtapa}/${participante.codParticipante}"
 													class="btn btn-primary btn-sm" role="button"
 													aria-pressed="true"><i class="fa fa-download"></i>
-													Documentação Enviada
-												</a>
+													Documentação Enviada </a>
 											</c:if>
 										</c:if>
 										<c:if
@@ -667,7 +665,7 @@ ul {
 										</div>
 										<!-- remover etapa -->
 										<c:if
-											test="${((etapa.estado == 'ANDAMENTO') or (etapa.estado == 'FINALIZADA')) and ((fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel)) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin)))}">
+											test="${(selecao.divulgada and ((etapa.estado == 'ANDAMENTO') or (etapa.estado == 'FINALIZADA')) and (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))))}">
 											<a
 												href="${pageContext.request.contextPath}/avaliar/${etapa.codEtapa}"
 												class="btn btn-primary btn-sm"
@@ -676,7 +674,7 @@ ul {
 											</a>
 										</c:if>
 										<c:if
-											test="${(isResponsavel or fn:contains(permissoes, 'ADMINISTRADOR') ) and (etapa.estado ne 'ESPERA')}">
+											test="${selecao.divulgada and (isResponsavel or fn:contains(permissoes, 'ADMINISTRADOR')) and (etapa.estado ne 'ESPERA')}">
 											<a
 												href="${pageContext.request.contextPath}/selecao/${selecao.codSelecao}/${etapa.codEtapa}/pendencias"
 												class="btn btn-primary btn-sm"
@@ -692,7 +690,7 @@ ul {
 													<c:set var="pendente" value="true"></c:set>
 												</c:if>
 											</c:forEach>
-											<c:if test="${pendente}">
+											<c:if test="${pendente and selecao.divulgada}">
 												<a href="" class="btn btn-primary btn-sm active"
 													class="btn btn-primary btn-sm"
 													style="height: 30px; margin-top: 5px;" data-toggle="modal"
@@ -700,7 +698,7 @@ ul {
 													class="fas fa-bullhorn"></i> Divulgar Resultado
 												</a>
 											</c:if>
-											<c:if test="${not pendente}">
+											<c:if test="${not pendente and selecao.divulgada}">
 												<a
 													href="${pageContext.request.contextPath}/editarEtapa/divulgarResultadoInscricao/${selecao.codSelecao}/${etapa.codEtapa}"
 													class="btn btn-primary btn-sm"
@@ -774,7 +772,6 @@ ul {
 											test="${(etapa.divulgadoResultado) and ((isResponsavel and (estado == 3)) or (fn:contains(permissoes, 'ADMINISTRADOR') and (estado == 3)) or (fn:contains(permissoes, 'PARTICIPANTE') and (estado == 3)))}">
 											<a
 												href="${pageContext.request.contextPath}/resultadoEtapa/${etapa.codEtapa}"
-												class="btn btn-primary btn-sm active"
 												class="btn btn-primary btn-sm" style="height: 30px;"> <i
 												class="fas fa-eye"></i> Ver Resultado
 											</a>

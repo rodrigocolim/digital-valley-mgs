@@ -406,7 +406,7 @@ ul {
 										</c:if>
 
 										<c:if
-											test="${(selecao.divulgada and ((estadoInscricao == 2) or (estadoInscricao == 3)) and (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))))}">
+											test="${(selecao.divulgada and ((estadoInscricao == 2) or (estadoInscricao == 3)) and (fn:contains(permissoes, 'ADMINISTRADOR') or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))))}">
 											<a
 												href="${pageContext.request.contextPath}/avaliar/inscricao/${selecao.inscricao.codEtapa}"
 												class="btn btn-primary btn-sm"
@@ -667,7 +667,7 @@ ul {
 										</div>
 										<!-- remover etapa -->
 										<c:if
-											test="${(selecao.divulgada and ((etapa.estado == 'ANDAMENTO') or (etapa.estado == 'FINALIZADA')) and (fn:contains(permissoes, 'ADMINISTRADOR') or (isResponsavel) or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))))}">
+											test="${(selecao.divulgada and ((etapa.estado == 'ANDAMENTO') or (etapa.estado == 'FINALIZADA')) and (fn:contains(permissoes, 'ADMINISTRADOR') or (fn:contains(selecao.inscricao.avaliadores, sessionScope.usuarioDarwin))))}">
 											<a
 												href="${pageContext.request.contextPath}/avaliar/${etapa.codEtapa}"
 												class="btn btn-primary btn-sm"

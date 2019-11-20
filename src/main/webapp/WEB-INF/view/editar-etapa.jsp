@@ -96,7 +96,7 @@
 
 					<c:if test="${tipo eq 'etapa'}">
 						<c:if test="${not empty selecao.inscricao}">
-							<br>
+							<br><br>
 							<label for="etapaAnteriorInput">Etapa anterior*</label>
 							<c:if test="${etapa.estado eq 'ESPERA'}">
 								<select name="prereq" class="form-control col-md-8"
@@ -360,7 +360,7 @@
 									<br>
 									<label>Nota mínima*</label>
 									<input type='text'
-										${estado.etapa ne 'ESPERA' ? 'disabled' : ''}
+										${etapa.estado ne 'ESPERA' ? 'disabled' : ''}
 										name='notaMinima' value="${etapa.notaMinima}"
 										style='width: 150px' class='form-control criterioInput'
 										id="nota_minima" placeholder='Nota miníma requerida' required>

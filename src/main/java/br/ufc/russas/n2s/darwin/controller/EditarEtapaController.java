@@ -218,7 +218,7 @@ public class EditarEtapaController {
 		List<EtapaBeans> subsequentes = selecao.getEtapas();
 		Periodo novoP = (Periodo) etapaBeans.getPeriodo().toBusiness();
 		for (EtapaBeans sub : subsequentes) {
-			if (sub.getCodEtapa() != codEtapa) {
+			if (sub.getPrerequisito() != null && sub.getPrerequisito().getCodEtapa() == codEtapa) {
 				Periodo periodo = (Periodo) sub.getPeriodo().toBusiness();
 
 				if (!etapaBeans.getRecurso().getPeriodo().getTermino().isBefore(sub.getPeriodo().getInicio())) {
@@ -270,7 +270,8 @@ public class EditarEtapaController {
 				boolean editadaComSucesso = false;
 
 				if (etapaBeans.getEstado().equals(EnumEstadoEtapa.ANDAMENTO)) {
-					if (!novoPeriodo.getInicio().isEqual(etapaBeans.getPeriodo().getInicio()) && selecao.isDivulgada()) {
+					if (!novoPeriodo.getInicio().isEqual(etapaBeans.getPeriodo().getInicio())
+							&& selecao.isDivulgada()) {
 						session.setAttribute("status", "warning");
 						session.setAttribute("mensagem", "A data de início da etapa " + etapaBeans.getTitulo()
 								+ " não pode ser atualizada pois ela já está em andamento!");

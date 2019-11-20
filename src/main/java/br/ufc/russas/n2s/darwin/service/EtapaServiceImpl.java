@@ -6,7 +6,6 @@ import br.ufc.russas.n2s.darwin.beans.EtapaBeans;
 import br.ufc.russas.n2s.darwin.beans.ParticipanteBeans;
 import br.ufc.russas.n2s.darwin.beans.SelecaoBeans;
 import br.ufc.russas.n2s.darwin.beans.UsuarioBeans;
-import br.ufc.russas.n2s.darwin.dao.DocumentacaoDAOIfc;
 import br.ufc.russas.n2s.darwin.dao.EtapaDAOIfc;
 import br.ufc.russas.n2s.darwin.model.Avaliacao;
 import br.ufc.russas.n2s.darwin.model.Documentacao;
@@ -47,11 +46,6 @@ public class EtapaServiceImpl implements EtapaServiceIfc {
 	@Autowired(required = true)
 	public void setSelecaoServiceIfc(@Qualifier("selecaoServiceIfc") SelecaoServiceIfc selecaoServiceIfc) {
 		this.selecaoServiceIfc = selecaoServiceIfc;
-	}
-
-	@Autowired(required = true)
-	public void setDocumentacaoServiceIfc(@Qualifier("documentacaoDAOIfc") DocumentacaoDAOIfc documentacaoDAOIfc) {
-		this.documentacaoDAOIfc = documentacaoDAOIfc;
 	}
 
 	@Override

@@ -612,7 +612,13 @@ ul {
 												documentação </a>
 										</c:if>
 										<c:if test="${(isParticipante)}">
-											<c:if test="${not empty etapa.documentacoes}">
+											<c:set var="enviouDoc" value="false"></c:set>
+											<c:forEach items="${etapa.documentacoes}" var="doc">
+												<c:if test="${doc.candidato.candidato.codUsuario eq usuarioDarwin.codUsuario}">
+													<c:set var="enviouDoc" value="true"></c:set>
+												</c:if>
+											</c:forEach>
+											<c:if test="${enviouDoc}">
 												<a
 													href="${pageContext.request.contextPath}/avaliar/download/${selecao.codSelecao}/${etapa.codEtapa}/${participante.codParticipante}"
 													class="btn btn-primary btn-sm" role="button"

@@ -94,6 +94,7 @@ public class SelecaoController {
 
 		boolean isParticipante = false;
 		boolean isResponsavel = false;
+		
 		if (selecao.getInscricao() != null && selecao.getInscricao().getParticipantes() != null) {
 			for (ParticipanteBeans participante : selecao.getInscricao().getParticipantes()) {
 				if (participante.getCandidato().getCodUsuario() == usuario.getCodUsuario()) {

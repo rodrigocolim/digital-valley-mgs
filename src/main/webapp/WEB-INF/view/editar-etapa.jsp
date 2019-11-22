@@ -96,7 +96,8 @@
 
 					<c:if test="${tipo eq 'etapa'}">
 						<c:if test="${not empty selecao.inscricao}">
-							<br><br>
+							<br>
+							<br>
 							<label for="etapaAnteriorInput">Etapa anterior*</label>
 							<c:if test="${etapa.estado eq 'ESPERA'}">
 								<select name="prereq" class="form-control col-md-8"
@@ -130,7 +131,8 @@
 							<br>
 						</c:if>
 					</c:if>
-					<label for="periodoInput"> Período*</label>
+
+					<br /> <br /> <label for="periodoInput"> Período*</label> <br />
 					<div id="sandbox-container" class="input-group col-lg-6 align-left"
 						style="padding-left: 0px;">
 
@@ -383,7 +385,7 @@
 									</select>
 								</c:if>
 							</div>
-
+							<br/>
 							<ul class="list-group col-md-8" id="listaAvaliadores">
 								<c:if
 									test="${(empty etapa.avaliadores) and (etapa.estado ne 'ESPERA')}">Não possui avaliadores</c:if>
@@ -491,16 +493,9 @@
 				input.attr('readonly', true);
 			}
 		}
-	</script>
-	<script>
-		var listaDocumentosOp = $
-		{
-			listaDocumentosOp
-		};
-		var numDocumentosOp = $
-		{
-			listaNumeroDocumentosOp
-		};
+
+		var listaDocumentosOp = ${listaDocumentosOp}
+		var numDocumentosOp = ${listaNumeroDocumentosOp}
 
 		var nomeDocumentosOp = [];
 		var numeroDocumentosOp = 0;
@@ -543,46 +538,54 @@
 			console.log(nomeDocumentosOp[i]);
 			atualizaDocumentosOp();
 		}
-	</script>
 
-	<script>
-		var listaCodAvaliadores = $
-		{
-			codAvaliadores
-		};
-		var listaNomeAvaliadores = $
-		{
-			nomeAvaliadores
-		};
+		var listaCodAvaliadores = ${codAvaliadores}
+		var listaNomeAvaliadores = ${nomeAvaliadores}
+
 		var codAvaliadores = [];
 		var nomeAvaliadores = [];
 		var numAvaliadores = 0;
+
+		var listaDocumentos = ${listaDocumentos}
+		var numDocumentos = ${listaNumeroDocumentos}
+
+		var nomeDocumentos = [];
+		var numeroDocumentos = 0;
 
 		$(document)
 				.ready(
 						function() {
 							for (i = 0; i < listaCodAvaliadores.length; i++) {
 								document.getElementById("avaliadorOption-"
-										+ listaCodAvaliadores[i] + "").disabled = "disabled";
+										+ listaCodAvaliadores[i]).disabled = "disabled";
 								codAvaliadores[i] = listaCodAvaliadores[i];
 								nomeAvaliadores[i] = listaNomeAvaliadores[i];
 								numAvaliadores++;
 							}
+							for (i = 0; i < listaDocumentos.length; i++) {
+								nomeDocumentos[i] = listaDocumentos[i];
+								numeroDocumentos++;
+							}
 						});
 
 		function adicionaAvaliador() {
-			var codAvaliador = document.getElementById("avaliadorInput").value;
-			var nomeAvaliador = document.getElementById("avaliadorOption-"
-					+ codAvaliador + "").textContent;
-			if (nomeAvaliador !== "") {
-				codAvaliadores[numAvaliadores] = Number(codAvaliador);
-				nomeAvaliadores[numAvaliadores] = nomeAvaliador;
-				document.getElementById("avaliadorOption-" + codAvaliador + "").disabled = "disabled";
-				numAvaliadores++;
+			if (parseInt(document.getElementById("avaliadorInput").value) !== NaN) {
+				var codAvaliador = parseInt(document.getElementById("avaliadorInput").value)
+				
+				var nomeAvaliador = document.getElementById("avaliadorOption-"
+						+ codAvaliador).textContent;
+			
+				if (nomeAvaliador !== "") {
+					codAvaliadores[numAvaliadores] = Number(codAvaliador);
+					nomeAvaliadores[numAvaliadores] = nomeAvaliador;
+					document.getElementById("avaliadorOption-" + codAvaliador + "").disabled = "disabled";
+					numAvaliadores++;
+				}
+				
+				document.getElementById("avaliadorInput").value = "Selecione os avaliadores desta etapa";
+				document.getElementById("avaliadorInput").disable = "";
+				atualizaAvaliadores();
 			}
-			document.getElementById("avaliadorInput").value = "Selecione os avaliadores desta etapa";
-			document.getElementById("avaliadorInput").disable = "";
-			atualizaAvaliadores();
 
 		}
 		function atualizaAvaliadores() {
@@ -604,30 +607,10 @@
 					document.getElementById("avaliadorOption-" + codAvaliador
 							+ "").disabled = "";
 					codAvaliadores[i] = "";
-
 				}
 			}
 			atualizaAvaliadores();
 		}
-
-		var listaDocumentos = $
-		{
-			listaDocumentos
-		};
-		var numDocumentos = $
-		{
-			listaNumeroDocumentos
-		};
-
-		var nomeDocumentos = [];
-		var numeroDocumentos = 0;
-
-		$(document).ready(function() {
-			for (i = 0; i < listaDocumentos.length; i++) {
-				nomeDocumentos[i] = listaDocumentos[i];
-				numeroDocumentos++;
-			}
-		});
 
 		function adicionaDocumento() {
 			var nomeDocumento = document.getElementById("documentoInput").value;

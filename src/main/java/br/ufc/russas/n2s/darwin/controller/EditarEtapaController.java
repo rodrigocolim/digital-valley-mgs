@@ -219,13 +219,13 @@ public class EditarEtapaController {
 		Periodo novoP = (Periodo) etapaBeans.getPeriodo().toBusiness();
 		for (EtapaBeans sub : subsequentes) {
 			if (sub.getPrerequisito() != null && sub.getPrerequisito().getCodEtapa() == codEtapa) {
-				Periodo periodo = (Periodo) sub.getPeriodo().toBusiness();
-
 				if (!etapaBeans.getRecurso().getPeriodo().getTermino().isBefore(sub.getPeriodo().getInicio())) {
 					throw new Exception(
 							"O termino do período de recurso não pode ser depois do início da próxima etapa!");
 				}
-
+			}
+			if (sub.getCodEtapa() != etapa.getCodEtapa()) {
+				Periodo periodo = (Periodo) sub.getPeriodo().toBusiness();
 				if (periodo.isColide(novoP)) {
 					session.setAttribute("status", "warning");
 					session.setAttribute("mensagem", "As datas da etapa " + etapaBeans.getTitulo()
@@ -435,13 +435,35 @@ public class EditarEtapaController {
 						PeriodoBeans pb = new PeriodoBeans(0,
 								LocalDate.parse(request.getParameter("dataInicioRecurso"), formatter),
 								LocalDate.parse(request.getParameter("dataTerminoRecurso"), formatter));
-
+						
+						if (!pb.getInicio().isAfter(inscricaoBeans.getPeriodo().getTermino())) {
+							throw new Exception("O início do período de recurso não pode ser antes do termino da própria etapa!");
+						}
+						
 						recurso.setPeriodo((Periodo) pb.toBusiness());
 						inscricaoBeans.setRecurso(recurso);
 					} else {
 						inscricaoBeans.setRecurso(null);
 					}
-
+					
+					List<EtapaBeans> subsequentes = selecao.getEtapas();
+					Periodo novoP = (Periodo) inscricaoBeans.getPeriodo().toBusiness();
+					for (EtapaBeans sub : subsequentes) {
+						if (sub.getPrerequisito() != null && sub.getPrerequisito().getCodEtapa() == codInscricao){
+							if (!inscricaoBeans.getRecurso().getPeriodo().getTermino().isBefore(sub.getPeriodo().getInicio())) {
+								throw new Exception(
+										"O termino do período de recurso não pode ser depois do início da próxima etapa!");
+							}
+						}
+						if (sub.getCodEtapa() != inscricao.getCodEtapa()) {
+							Periodo periodo = (Periodo) sub.getPeriodo().toBusiness();
+							
+							if (periodo.isColide(novoP)) {
+								throw new IllegalArgumentException("Periodo Inválido!");
+							}
+						}
+					}
+					
 					if (!selecao.isDivulgada() || usuario.getPermissoes().contains(EnumPermissao.ADMINISTRADOR)) {
 
 						if (inscricaoBeans.getEstado() == EnumEstadoEtapa.ESPERA) {
@@ -515,16 +537,6 @@ public class EditarEtapaController {
 						session.setAttribute("status", "success");
 						return "redirect:/selecao/" + selecao.getCodSelecao();
 					}
-					List<EtapaBeans> subsequentes = selecao.getEtapas();
-					Periodo novoP = (Periodo) inscricaoBeans.getPeriodo().toBusiness();
-					for (EtapaBeans sub : subsequentes) {
-						if (sub.getCodEtapa() != inscricao.getCodEtapa()) {
-							Periodo periodo = (Periodo) sub.getPeriodo().toBusiness();
-							if (periodo.isColide(novoP)) {
-								throw new IllegalArgumentException("Periodo Inválido!");
-							}
-						}
-					}
 
 					this.getSelecaoServiceIfc().setUsuario(usuario);
 					selecao.setInscricao(inscricaoBeans);
@@ -548,7 +560,6 @@ public class EditarEtapaController {
 			session.setAttribute("status", "warning");
 			return "redirect:/editarEtapa/" + codSelecao + "/" + codInscricao;
 		} catch (Exception e) {
-			e.printStackTrace();
 			session.setAttribute("mensagem", e.getMessage());
 			session.setAttribute("status", "danger");
 			return "redirect:/editarEtapa/" + codSelecao + "/" + codInscricao;

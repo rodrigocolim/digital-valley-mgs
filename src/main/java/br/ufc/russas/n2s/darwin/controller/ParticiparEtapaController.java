@@ -178,22 +178,26 @@ public class ParticiparEtapaController {
 							String nome = nomeDocumento[i];
 							MultipartFile file = documentos.get(i);
 							if (file != null) {
-								Arquivo documento = new Arquivo();
-								String aux = file.getOriginalFilename();
-								if (aux.length() > 4) {
-									String expressao = aux.substring(aux.lastIndexOf("."), aux.length());
-									if (!expressao.equals(".pdf")) {
-										throw new IllegalArgumentException("Formato de arquivo enviado não é .pdf");
+								if(file.getSize() <= Long.parseLong(Constantes.getSizeFile())) {
+									Arquivo documento = new Arquivo();
+									String aux = file.getOriginalFilename();
+									if (aux.length() > 4) {
+										String expressao = aux.substring(aux.lastIndexOf("."), aux.length());
+										if (!expressao.equals(".pdf")) {
+											throw new IllegalArgumentException("Formato de arquivo enviado não é .pdf");
+										}
+										java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(),
+												".pdf", dir);
+										FileOutputStream fos = new FileOutputStream(convFile);
+										fos.write(file.getBytes());
+										fos.close();
+										documento.setTitulo(nome);
+										documento.setData(LocalDateTime.now());
+										documento.setArquivo(convFile);
+										arquivos.add(documento);
 									}
-									java.io.File convFile = java.io.File.createTempFile(file.getOriginalFilename(),
-											".pdf", dir);
-									FileOutputStream fos = new FileOutputStream(convFile);
-									fos.write(file.getBytes());
-									fos.close();
-									documento.setTitulo(nome);
-									documento.setData(LocalDateTime.now());
-									documento.setArquivo(convFile);
-									arquivos.add(documento);
+								} else {
+									throw new Exception("O tamanho do arquivo "+ file.getOriginalFilename()+" excede o permitido de "+ Math.floor(Long.parseLong(Constantes.getSizeFile())/(1024*1024)) +"MB.");
 								}
 							}
 						}

@@ -146,7 +146,7 @@
 		function tamanho(elemento){
 	        var tamanhoArquivo = elemento.files[0].size;
 	        if(tamanhoArquivo > ${Constantes.getSizeFile()} ){
-	      		alert("Tamanho do arquivo excede o permitido (" + ${Math.floor((Constantes.getSizeFile())/(1024*1024))} +"MB)!");
+	      		alert("Tamanho do arquivo excede o permitido (" + ${Math.floor(Constantes.getSizeFile()/(1024*1024))} +"MB)!");
 	      		elemento.value = '';
 	        }
 	    };

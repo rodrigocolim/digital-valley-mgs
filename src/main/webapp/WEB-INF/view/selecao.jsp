@@ -396,7 +396,7 @@ ul {
 										<fmt:formatDate value="${parseDataInicio}" pattern="ddMMyyyy"
 											var="Inicio" />
 										<c:if
-											test="${((isResponsavel) and ((etapa.estado eq 'ESPERA') or (etapa.estado eq 'ANDAMENTO'))) or (fn:contains(permissoes, 'ADMINISTRADOR') or !selecao.divulgada)}">
+											test="${((isResponsavel) and ((selecao.inscricao.estado eq 'ESPERA') or (selecao.inscricao.estado eq 'ANDAMENTO'))) or (fn:contains(permissoes, 'ADMINISTRADOR') or !selecao.divulgada)}">
 											<a
 												href="${pageContext.request.contextPath}/editarEtapa/${selecao.codSelecao}/${selecao.inscricao.codEtapa}"
 												class="btn btn-primary btn-sm"

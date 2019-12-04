@@ -323,7 +323,7 @@
 											<button type="button"
 												class="btn btn-light btn-sm material-icons float-right"
 												style="font-size: 15px;"
-												onclick="removeDocumento('${documento}')">clear</button>
+												onclick="removeDocumentoOp('${documentoOp}')">clear</button>
 										</c:if></li>
 								</c:forEach>
 							</ul>
